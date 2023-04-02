@@ -6,6 +6,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Puzzle.Pinwheel
 {
 	public class PinwheelPuzzle : MonoBehaviour, IPuzzle
@@ -20,7 +24,7 @@ namespace Puzzle.Pinwheel
 		[SerializeField] Transform pinwheelPrefab = null;
 		[AssetsOnly]
 		[SerializeField] Transform rotateOffsetPrefab = null;
-		[SceneObjectsOnly]
+		[ChildGameObjectsOnly]
 		[SerializeField] TextMeshProUGUI turnRemainTMP = null;
 
 		[Space]
@@ -46,6 +50,8 @@ namespace Puzzle.Pinwheel
 		public List<Pinwheel> PinwheelList { get => pinwheelList; }
 
 		int defaultTurnRemain;
+		List<Quaternion> defaultRotationList = new();
+
 		CoroutineRun slideCR = new CoroutineRun();
 
 		void Start()
@@ -274,17 +280,20 @@ namespace Puzzle.Pinwheel
 			}
 		}
 
+#if UNITY_EDITOR
 		void OnValidate()
 		{
+			if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+
 			InitializeEndColor();
 
+			// Swap the rotation type.
 			centerPinwheel.SetRotationType(centerTurnType);
-
 			foreach (var pinwheel in pinwheelList)
 			{
-				pinwheel.SetPinwheel(this, pinwheel.PinwheelTrans, false);
 				pinwheel.SetRotationType(centerTurnType == 0 ? PositiveNegative.Negative : PositiveNegative.Positive);
 			}
 		}
+#endif
 	}
 }

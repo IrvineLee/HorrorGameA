@@ -71,6 +71,9 @@ namespace Puzzle.Pinwheel
 		public void SetRotationType(PositiveNegative rotationType) { this.rotationType = rotationType; }
 		public void SetEndColor(BasicColor endColor) { EndColor = endColor; }
 
+		/// <summary>
+		/// After spawning, call this to rotate it to the correct direction.
+		/// </summary>
 		public void Setup()
 		{
 			for (int i = 0; i < FaceCenterIndex; i++)
@@ -80,22 +83,31 @@ namespace Puzzle.Pinwheel
 
 			activeIndex = faceCenterIndex;
 			colorListCount = basicColorList.Count - 1;
-
-			initialRotation = pinwheelTrans.rotation;
 		}
 
+		/// <summary>
+		/// Initialization.
+		/// </summary>
 		public void Initialize()
 		{
-			if (!pinwheelTrans) return;
 			initialRotation = pinwheelTrans.rotation;
 		}
 
+		/// <summary>
+		/// Reset to default.
+		/// </summary>
 		public void Reset()
 		{
 			activeIndex = faceCenterIndex;
 			pinwheelTrans.rotation = initialRotation;
 		}
 
+		/// <summary>
+		/// Turn the pinwheel.
+		/// </summary>
+		/// <param name="duration"></param>
+		/// <param name="isSetup"></param>
+		/// <returns></returns>
 		public CoroutineRun Turn(float duration = 0, bool isSetup = false)
 		{
 			activeIndex = rotationType == PositiveNegative.Positive ? activeIndex + 1 : activeIndex - 1;
@@ -121,12 +133,21 @@ namespace Puzzle.Pinwheel
 			}
 		}
 
+		/// <summary>
+		/// Is the active and end color matching?
+		/// </summary>
+		/// <returns></returns>
 		public bool IsMatchingColor()
 		{
 			if (ActiveColor == EndColor) return true;
 			return false;
 		}
 
+		/// <summary>
+		/// Make all the pinwheel colors the same amount.
+		/// </summary>
+		/// <param name="info"></param>
+		/// <param name="value"></param>
 		void ListCountChanged(CollectionChangeInfo info, object value)
 		{
 			var changedBasicColorList = ((List<BasicColor>)value);
@@ -144,6 +165,11 @@ namespace Puzzle.Pinwheel
 			colorListCount = count - 1;
 		}
 
+		/// <summary>
+		/// Update colors to same count.
+		/// </summary>
+		/// <param name="basicColorList"></param>
+		/// <param name="count"></param>
 		void MakeToSameCount(List<BasicColor> basicColorList, int count)
 		{
 			while (basicColorList.Count < count)
