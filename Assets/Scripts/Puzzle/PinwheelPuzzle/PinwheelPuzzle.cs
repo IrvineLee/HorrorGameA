@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using QuickOutline;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -50,14 +52,13 @@ namespace Puzzle.Pinwheel
 		public List<Pinwheel> PinwheelList { get => pinwheelList; }
 
 		int defaultTurnRemain;
-		List<Quaternion> defaultRotationList = new();
-
 		CoroutineRun slideCR = new CoroutineRun();
 
 		void Start()
 		{
 			defaultTurnRemain = turnRemain;
 
+			Initialize();
 			InitializeEndColor();
 			SetTurnRemainTMP(turnRemain);
 		}
@@ -81,6 +82,18 @@ namespace Puzzle.Pinwheel
 		}
 
 		/// <summary>
+		/// Initialize the pinwheels.
+		/// </summary>
+		void Initialize()
+		{
+			centerPinwheel.Initialize();
+			foreach (var pinwheel in pinwheelList)
+			{
+				pinwheel.Initialize();
+			}
+		}
+
+		/// <summary>
 		/// Set the end color for pinwheel.
 		/// </summary>
 		void InitializeEndColor()
@@ -90,13 +103,11 @@ namespace Puzzle.Pinwheel
 			int count = centerTurnType == PositiveNegative.Positive ? pinwheelList.Count - turnRemain : pinwheelList.Count + turnRemain;
 			int index = count.WithinCount(pinwheelList.Count, false);
 
-			centerPinwheel.Initialize();
 			for (int i = 0; i < centerPinwheel.BasicColorList.Count; i++)
 			{
 				int outerIndex = (index + i).WithinCount(pinwheelList.Count, false);
 				Pinwheel pinwheel = pinwheelList[outerIndex];
 
-				pinwheel.Initialize();
 				pinwheel.SetEndColor(centerPinwheel.BasicColorList[i]);
 				//Debug.Log("Pinwheel " + pinwheel.PinwheelTrans.name + " color : " + centerPinwheel.BasicColorList[i]);
 			}
@@ -213,6 +224,16 @@ namespace Puzzle.Pinwheel
 			// Set instantiated transform.
 			pinwheel.SetPinwheel(this, instance, isCenterPinwheel);
 			pinwheel.SetRotationType(turnRotation);
+
+			// Remove the outline for the center piece.
+			if (isCenterPinwheel)
+			{
+				var eventTrigger = instance.GetComponentInChildren<EventTrigger>();
+				DestroyImmediate(eventTrigger);
+
+				var outline = instance.GetComponentInChildren<Outline>();
+				DestroyImmediate(outline);
+			}
 
 			SpawnColors(pinwheel);
 			return instance;
