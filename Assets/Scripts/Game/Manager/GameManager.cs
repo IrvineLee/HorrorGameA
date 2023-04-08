@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 using Helper;
+using Personal.CameraView;
 
 namespace Personal.Manager
 {
@@ -17,8 +18,10 @@ namespace Personal.Manager
 
 		bool IsInitialized()
 		{
-			if (MasterDataManager.Instance == null)
-				return false;
+			if (SceneManager.Instance == null) return false;
+			if (DebugManager.Instance == null) return false;
+
+			if (MasterDataManager.Instance == null) return false;
 
 			return true;
 		}
