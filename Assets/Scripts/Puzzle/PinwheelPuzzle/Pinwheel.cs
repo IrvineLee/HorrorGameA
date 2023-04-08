@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Helper;
+
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
+#endif
 
 namespace Puzzle.Pinwheel
 {
@@ -143,6 +146,7 @@ namespace Puzzle.Pinwheel
 			return false;
 		}
 
+#if UNITY_EDITOR
 		/// <summary>
 		/// Make all the pinwheel colors the same amount.
 		/// </summary>
@@ -164,6 +168,7 @@ namespace Puzzle.Pinwheel
 			MakeToSameCount(pinwheelPuzzle.CenterPinwheel.basicColorList, count);
 			colorListCount = count - 1;
 		}
+#endif
 
 		/// <summary>
 		/// Update colors to same count.

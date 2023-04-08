@@ -7,15 +7,15 @@ using Helper;
 [ExcelAsset(AssetPath = "MasterData/Data")]
 public class MasterItem : ScriptableObject, ISerializationCallbackReceiver
 {
-	public List<EntityItem> EntityList;
+	public List<ItemEntity> ItemList;
 
-	public IReadOnlyDictionary<int, EntityItem> Dictionary { get; private set; }
+	public IReadOnlyDictionary<int, ItemEntity> Dictionary { get; private set; }
 
 	public void OnBeforeSerialize() { }
 
 	public void OnAfterDeserialize()
 	{
-		Dictionary = EntityList.ToDictionary(i => i.id);
+		Dictionary = ItemList.ToDictionary(i => i.id);
 	}
 
 	/// <summary>
@@ -23,7 +23,7 @@ public class MasterItem : ScriptableObject, ISerializationCallbackReceiver
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns></returns>
-	public EntityItem Get(int id)
+	public ItemEntity Get(int id)
 	{
 		var result = Dictionary.GetOrDefault(id);
 		return result;

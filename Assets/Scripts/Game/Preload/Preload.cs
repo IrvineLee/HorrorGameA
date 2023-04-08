@@ -11,7 +11,7 @@ namespace Personal.Preload
 		{
 			var pathGO = Resources.Load<GameObject>(PATH);
 			GameObject go = Instantiate(pathGO);
-			go.name = pathGO.name;
+			go.name = pathGO.name + "_Preload";
 		}
 	}
 }

@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class EntityItem
+public class ItemEntity
 {
 	public int id;
 	public string name;
