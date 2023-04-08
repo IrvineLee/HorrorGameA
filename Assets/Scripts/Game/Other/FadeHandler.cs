@@ -10,8 +10,6 @@ namespace Personal.System.Handler
 	{
 		public Animator Animator { get; private set; }
 
-		public event Action OnFadeOutComplete;
-
 		void Awake()
 		{
 			Animator = GetComponentInChildren<Animator>();
@@ -24,7 +22,7 @@ namespace Personal.System.Handler
 		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
 		/// <returns></returns>
-		public async UniTask FadeOutInDelay(float delay, Action inBetweenAction = null)
+		public async UniTask FadeOutIn_Delay(float delay, Action inBetweenAction = null)
 		{
 			Action action = async () =>
 			{
@@ -41,7 +39,7 @@ namespace Personal.System.Handler
 		/// </summary>
 		/// <param name="inBetweenTaskList"></param>
 		/// <returns></returns>
-		public async UniTask FadeOutINAllComplete(List<UniTask> inBetweenTaskList)
+		public async UniTask FadeOutIN_TaskComplete(List<UniTask> inBetweenTaskList)
 		{
 			await FadeSequence(null, inBetweenTaskList);
 		}
@@ -53,7 +51,7 @@ namespace Personal.System.Handler
 		/// <param name="inBetweenTaskList"></param>
 		/// <param name="animatorUpdateMode"></param>
 		/// <returns></returns>
-		public async UniTask FadeOutLoadScene(int levelIndex, List<UniTask> inBetweenTaskList = null, AnimatorUpdateMode animatorUpdateMode = AnimatorUpdateMode.Normal)
+		public async UniTask FadeOutIn_LoadScene(int levelIndex, List<UniTask> inBetweenTaskList = null, AnimatorUpdateMode animatorUpdateMode = AnimatorUpdateMode.Normal)
 		{
 			await FadeSequence(() => SceneManager.LoadScene(levelIndex), inBetweenTaskList);
 		}

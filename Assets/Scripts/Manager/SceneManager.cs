@@ -13,7 +13,7 @@ namespace Personal.Manager
 
 		public void ChangeLevel(int index)
 		{
-			fadeHandler.FadeOutLoadScene(index).Forget();
+			fadeHandler.FadeOutIn_LoadScene(index).Forget();
 		}
 	}
 }
