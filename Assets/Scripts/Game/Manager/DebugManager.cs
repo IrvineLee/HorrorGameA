@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Helper;
+using Personal.Pool;
 
 namespace Personal.Manager
 {
@@ -11,6 +12,7 @@ namespace Personal.Manager
 			if (Input.GetKeyDown(KeyCode.Tab))
 			{
 				SceneManager.Instance.ChangeLevel(1);
+				//FindObjectOfType<SpawnablePoolBase>().Get();
 			}
 		}
 	}

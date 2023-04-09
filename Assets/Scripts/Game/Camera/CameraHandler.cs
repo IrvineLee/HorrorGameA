@@ -1,11 +1,10 @@
 using UnityEngine;
 
-using Helper;
 using Cinemachine;
 
 namespace Personal.CameraView
 {
-	public class CameraHandler : MonoBehaviourSingleton<CameraHandler>
+	public class CameraHandler : MonoBehaviour
 	{
 		[SerializeField] float fov;
 

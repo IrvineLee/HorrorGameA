@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 
 using Helper;
-using Personal.CameraView;
 
 namespace Personal.Manager
 {
@@ -14,11 +13,14 @@ namespace Personal.Manager
 		{
 			MasterDataManager.CreateInstance();
 			yield return new WaitUntil(() => IsInitialized());
+
+			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully activated!! ----------</color>");
 		}
 
 		bool IsInitialized()
 		{
 			if (SceneManager.Instance == null) return false;
+			if (PoolManager.Instance == null) return false;
 			if (DebugManager.Instance == null) return false;
 
 			if (MasterDataManager.Instance == null) return false;

@@ -6,6 +6,12 @@ namespace Helper
 	{
 		static TSelfType m_Instance = null;
 
+		void Awake()
+		{
+			if (Application.isPlaying)
+				DontDestroyOnLoad(Instance.gameObject);
+		}
+
 		public static TSelfType Instance
 		{
 			get
@@ -16,9 +22,6 @@ namespace Helper
 
 					if (m_Instance == null)
 						m_Instance = (new GameObject(typeof(TSelfType).Name)).AddComponent<TSelfType>();
-
-					if (Application.isPlaying)
-						DontDestroyOnLoad(m_Instance.gameObject);
 				}
 				return m_Instance;
 			}
