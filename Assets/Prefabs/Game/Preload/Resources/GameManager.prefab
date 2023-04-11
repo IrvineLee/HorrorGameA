@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8905157857083554521}
   - component: {fileID: 8905157857083554534}
+  - component: {fileID: 3053779042807033787}
   - component: {fileID: 8905157857083554535}
+  - component: {fileID: 1618192352446928081}
   - component: {fileID: 439479437362174453}
   m_Layer: 0
   m_Name: GameManager
@@ -47,6 +49,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd8fa851a231e445896280c97e9a133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3053779042807033787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905157857083554520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703fd8ff464a1c542a2b524042a310af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8905157857083554535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +74,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeHandler: {fileID: 7331124414519658456}
+--- !u!114 &1618192352446928081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905157857083554520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afacd79c0c778fb4ea6d77f8c2a02b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &439479437362174453
 MonoBehaviour:
   m_ObjectHideFlags: 0

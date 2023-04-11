@@ -35,8 +35,8 @@ namespace Helper
 		/// <summary>
 		/// Add 'symbol' of 'length' in front of 'value'.
 		/// If the 'symbol' 'length' is 3 while the 'value' length is 1, the symbol length will be reduced to 2.
-		/// Ex. 'symbol' = 0, 'length' = 3, = 000 |and| 'value' = 5, length = 1, it will become 005.
-		/// Ex. 'symbol' = A, 'length' = 5, = AAAAA |and| 'value' = 123, length = 3, it will become AA123.
+		/// Ex. 'symbol' = 0, 'length' = 3, = 000 |and| 'value' = 5, it will become 005.
+		/// Ex. 'symbol' = A, 'length' = 5, = AAAAA |and| 'value' = 123, it will become AA123.
 		/// </summary>
 		public static string AddSymbolInFront(char symbol, int length, string value)
 		{
@@ -156,10 +156,41 @@ namespace Helper
 		/// Remove all characters including and after 'c'
 		/// Ex: s = '100 <sprite=0>', c = '<', will return '100'.
 		/// </summary>
-		public static string RemoveAllIncludingAndAfter(string s, char c)
+		public static string RemoveAllWhenReachCharFromFront(string s, char c, bool isRemoveChar = false)
 		{
-			int index = s.IndexOf(c);
+			int index = isRemoveChar ? s.IndexOf(c) : s.IndexOf(c) + 1;
 			return index >= 0 ? s.Substring(0, index) : s;
+		}
+
+		/// <summary>
+		/// Kill all characters after encountering char 'c'. Check behind to front.
+		/// 'IsRemoveBack' either kills character at front or back.
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="c"></param>
+		/// <param name="isRemoveChar"></param>
+		/// <returns></returns>
+		public static string RemoveAllWhenReachCharFromBehind(string s, char c, bool isRemoveChar = false, bool isRemoveBack = true)
+		{
+			for (int i = s.Length - 1; i >= 0; i--)
+			{
+				if (s[i] != c) continue;
+
+				int index = i;
+
+				if (isRemoveBack)
+				{
+					if (!isRemoveChar) index--;
+					s = s.Substring(0, index);
+				}
+				else
+				{
+					if (isRemoveChar) index++;
+					s = s.Substring(index);
+				}
+				break;
+			}
+			return s;
 		}
 
 		/// <summary>
