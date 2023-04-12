@@ -9,8 +9,12 @@ namespace Personal.Manager
 	{
 		public static MasterDataManager Instance { get; private set; }
 
+		[SerializeField] MasterBGM bgm = null;
+		[SerializeField] MasterSFX sfx = null;
 		[SerializeField] MasterItem item = null;
 
+		public MasterBGM Bgm { get => bgm; }
+		public MasterSFX Sfx { get => sfx; }
 		public MasterItem Item { get => item; }
 
 		static AsyncOperationHandle<MasterDataManager> handle;

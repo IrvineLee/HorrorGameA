@@ -9,8 +9,8 @@ namespace Personal.Save
 	[Serializable]
 	public class SaveProfile : GenericSave
 	{
-		[SerializeField] SettingSavedData settingSavedData = new SettingSavedData();
+		[SerializeField] OptionSavedData optionSavedData = new OptionSavedData();
 
-		public SettingSavedData SettingSavedData { get => settingSavedData; }
+		public OptionSavedData OptionSavedData { get => optionSavedData; }
 	}
 }
