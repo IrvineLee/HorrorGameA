@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Personal.Definition
 {
+	[Serializable]
 	public class GenericAudioDefinition<T> : ScriptableObject where T : Enum
 	{
 		[Serializable]

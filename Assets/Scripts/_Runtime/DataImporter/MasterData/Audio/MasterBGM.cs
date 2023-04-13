@@ -38,6 +38,9 @@ public class MasterBGM : MasterGeneric<BGMEntity>
 		Selection.activeObject = definition;
 		EditorGUIUtility.PingObject(Selection.activeObject);
 
+		// Make sure the data is saved correctly.
+		EditorUtility.SetDirty(definition);
+
 		Debug.Log("Created " + definitionName + " successfully!");
 	}
 #endif
