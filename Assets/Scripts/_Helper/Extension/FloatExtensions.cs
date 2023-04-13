@@ -4,10 +4,34 @@ namespace Helper
 {
 	public static class FloatExtensions
 	{
-		// Fix -1.025547E-07 kinda value.
+		/// <summary>
+		/// Fix -1.025547E-07 kinda value.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
 		public static float FloatPointFix(this float original)
 		{
 			return Mathf.Round(original * 10) / 10;
+		}
+
+		/// <summary>
+		/// Convert value from 0~100 to 0~1. 
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static float ConvertRatio0To1(this float original)
+		{
+			return original / 100;
+		}
+
+		/// <summary>
+		/// Convert value from 0~1 to 0~100.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static float ConvertRatio0To100(this float original)
+		{
+			return original * 100;
 		}
 	}
 }

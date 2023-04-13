@@ -9,6 +9,7 @@ namespace Personal.Manager
 	public class GameManager : MonoBehaviourSingleton<GameManager>
 	{
 		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
+		public bool IsLoadingOver { get; private set; }
 
 		IEnumerator Start()
 		{
@@ -18,6 +19,8 @@ namespace Personal.Manager
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully activated!! ----------</color>");
 
 			yield return HandleProfileLoading();
+
+			IsLoadingOver = true;
 		}
 
 		bool IsInitialized()
