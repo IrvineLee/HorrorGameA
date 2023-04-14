@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using System.Text;
 
 [RequireComponent(typeof(Slider))]
-public class SliderExtension : MonoBehaviour
+public class SliderTextUI : MonoBehaviour
 {
 	[Tooltip("This is used to update the value for slider")]
 	[SerializeField] TextMeshProUGUI valueTMP = null;

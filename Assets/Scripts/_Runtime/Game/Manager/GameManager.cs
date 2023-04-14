@@ -27,6 +27,7 @@ namespace Personal.Manager
 		{
 			if (GameStateBehaviour.Instance == null) return false;
 			if (SceneManager.Instance == null) return false;
+			if (UIManager.Instance == null) return false;
 			if (PoolManager.Instance == null) return false;
 			if (DebugManager.Instance == null) return false;
 			if (SaveManager.Instance == null) return false;

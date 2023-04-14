@@ -34,10 +34,6 @@ namespace Personal.Manager
 		public void SaveProfileData()
 		{
 			SavePath(profileDirectory + profileFileName, saveProfile);
-
-			// Initialize the default data.
-			GameStateBehaviour.Instance.InitializeProfile(saveProfile);
-			GameStateBehaviour.Instance.InitializeData(saveObject);
 		}
 
 		/// <summary>
@@ -46,6 +42,8 @@ namespace Personal.Manager
 		public void LoadProfileData()
 		{
 			saveProfile = LoadPath<SaveProfile>(profileDirectory + profileFileName);
+
+			GameStateBehaviour.Instance.InitializeProfile(saveProfile);
 		}
 
 		/// <summary>
@@ -73,6 +71,8 @@ namespace Personal.Manager
 
 			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), onCompleteAction);
 			saveObject.PlayerSavedData.SlotID = slotID;
+
+			GameStateBehaviour.Instance.InitializeData(saveObject);
 		}
 
 		/// <summary>
@@ -95,7 +95,10 @@ namespace Personal.Manager
 			if (dataService.SaveData(path, data, isEncryptionEnabled))
 			{
 				long saveTime = DateTime.Now.Ticks - startTime;
-				Debug.Log($"Save Time: {(saveTime / TimeSpan.TicksPerMillisecond):N4}ms");
+				string s = $"Save Time: {(saveTime / TimeSpan.TicksPerMillisecond):N4}ms " +
+						   "Save file:\r\n" + JsonConvert.SerializeObject(data, Formatting.Indented);
+
+				Debug.Log(s);
 			}
 			else
 			{

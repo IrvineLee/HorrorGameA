@@ -1,48 +1,161 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Linq;
+using TMPro;
 
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Audio;
 using Helper;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
-	public class AudioUI : MonoBehaviour
+	public class AudioUI : GenericMenuUI
 	{
 		[SerializeField] Slider masterSlider = null;
 		[SerializeField] Slider bgmSlider = null;
 		[SerializeField] Slider sfxSlider = null;
 
+		[SerializeField] TMP_Dropdown speakerModeDropdown = null;
+
 		AudioData audioData;
 
-		IEnumerator Start()
+		float currentMaster01;
+		float currentBgm01;
+		float currentSfx01;
+
+		AudioSpeakerMode currentSpeakerMode;
+
+		// You need to make sure this configuration is the same with the dropdown menu.
+		static AudioSpeakerMode[] validSpeakerModes =
 		{
-			yield return new WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			AudioSpeakerMode.Stereo,
+			AudioSpeakerMode.Mono,
+		};
 
-			// Set data volume to game volume.
+		/// <summary>
+		/// Initialize.
+		/// </summary>
+		/// <returns></returns>
+		public override async UniTask Initialize()
+		{
+			await base.Initialize();
+
+			HandleLoadDataToUI();
+			RegisterEventsForSlider();
+		}
+
+		/// <summary>
+		/// OK. Save the value.
+		/// </summary>
+		public override void Save_Inspector()
+		{
+			// Set data volume and save data.
+			audioData.SetVolume(currentMaster01, currentBgm01, currentSfx01);
+			audioData.SetAudioSpeakerMode(currentSpeakerMode);
+
+			SaveManager.Instance.SaveProfileData();
+		}
+
+		/// <summary>
+		/// Cancel. Close the screen.
+		/// </summary>
+		public override void Cancel_Inspector()
+		{
+			ResetUIValue();
+			ResetRealValue();
+		}
+
+		/// <summary>
+		/// Display the correct UI from save data.
+		/// </summary>
+		void HandleLoadDataToUI()
+		{
 			audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
-			SetGameVolume(audioData.MasterVolume, audioData.BgmVolume, audioData.SfxVolume);
 
+			// Put data value to game.
+			ResetUIValue();
+			ResetRealValue();
+
+			// To get current value.
+			currentMaster01 = masterSlider.value;
+			currentBgm01 = bgmSlider.value;
+			currentSfx01 = sfxSlider.value;
+
+			currentSpeakerMode = audioData.AudioSpeakerMode;
+		}
+
+		/// <summary>
+		/// Register events for real-time update.
+		/// </summary>
+		void RegisterEventsForSlider()
+		{
+			masterSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
+			bgmSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
+			sfxSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
+
+			speakerModeDropdown.onValueChanged.AddListener(SpeakerModeUpdateRealtime);
+		}
+
+		/// <summary>
+		/// Update the audio in real-time. Float value is not being used.
+		/// </summary>
+		/// <param name="value"></param>
+		void VolumeUpdateRealtime(float value)
+		{
+			currentMaster01 = masterSlider.value.ConvertRatio0To1();
+			currentBgm01 = bgmSlider.value.ConvertRatio0To1();
+			currentSfx01 = sfxSlider.value.ConvertRatio0To1();
+
+			// Set slider volume to game volume.
+			SetGameVolume(currentMaster01, currentBgm01, currentSfx01);
+		}
+
+		/// <summary>
+		/// Update the audio in real-time. Int value is not being used.
+		/// </summary>
+		/// <param name="index"></param>
+		void SpeakerModeUpdateRealtime(int index)
+		{
+			AudioConfiguration config = AudioSettings.GetConfiguration();
+			config.speakerMode = validSpeakerModes[speakerModeDropdown.value];
+			AudioSettings.Reset(config);
+
+			currentSpeakerMode = config.speakerMode;
+		}
+
+		/// <summary>
+		/// Reset the ui display to data.
+		/// </summary>
+		void ResetUIValue()
+		{
 			// Set data volume to slider.
 			masterSlider.value = audioData.MasterVolume.ConvertRatio0To100();
 			bgmSlider.value = audioData.BgmVolume.ConvertRatio0To100();
 			sfxSlider.value = audioData.SfxVolume.ConvertRatio0To100();
+
+			// Set speaker mode to dropdown.
+			var list = validSpeakerModes.Select((value, index) => new { index, value })
+										.Where((obj) => obj.value == audioData.AudioSpeakerMode)
+										.Select((obj) => obj.index);
+
+			speakerModeDropdown.value = list.ElementAtOrDefault(0);
 		}
 
-		public void Save()
+		/// <summary>
+		/// Reset the audio to data.
+		/// </summary>
+		void ResetRealValue()
 		{
-			float master01 = masterSlider.value.ConvertRatio0To1();
-			float bgm01 = bgmSlider.value.ConvertRatio0To1();
-			float sfx01 = sfxSlider.value.ConvertRatio0To1();
+			SetGameVolume(audioData.MasterVolume, audioData.BgmVolume, audioData.SfxVolume);
 
-			// Set slider volume to game volume.
-			SetGameVolume(master01, bgm01, sfx01);
+			if (validSpeakerModes[speakerModeDropdown.value] == audioData.AudioSpeakerMode) return;
 
-			// Set data volume and save data.
-			audioData.SetVolume(master01, bgm01, sfx01);
-			SaveManager.Instance.SaveProfileData();
+			// Reset the speaker mode.
+			AudioConfiguration config = AudioSettings.GetConfiguration();
+			config.speakerMode = audioData.AudioSpeakerMode;
+			AudioSettings.Reset(config);
 		}
 
 		/// <summary>
