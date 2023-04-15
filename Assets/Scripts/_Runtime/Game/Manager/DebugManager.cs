@@ -21,7 +21,8 @@ namespace Personal.Manager
 			{
 				//SceneManager.Instance.ChangeLevel(1);
 
-				SaveManager.Instance.LoadSlotData();
+				//SaveManager.Instance.LoadSlotData();
+				UIManager.Instance.OptionUI.OpenMenuTab(UI.Option.OptionHandlerUI.MenuTab.Graphic);
 			}
 			else if (Input.GetKeyDown(KeyCode.Space))
 			{

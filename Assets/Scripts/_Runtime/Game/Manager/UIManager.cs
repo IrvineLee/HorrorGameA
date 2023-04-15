@@ -8,7 +8,9 @@ namespace Personal.Manager
 {
 	public class UIManager : MonoBehaviourSingleton<UIManager>
 	{
-		[SerializeField] OptionUI optionUI = null;
+		[SerializeField] OptionHandlerUI optionUI = null;
+
+		public OptionHandlerUI OptionUI { get => optionUI; }
 
 		// TODO : Should handle all the other UI here as well.
 
@@ -22,7 +24,7 @@ namespace Personal.Manager
 		void Initalize()
 		{
 			// Option UI initialize.
-			optionUI.Initialize();
+			OptionUI.Initialize();
 		}
 	}
 }

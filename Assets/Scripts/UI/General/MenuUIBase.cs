@@ -1,12 +1,10 @@
 using UnityEngine;
-using System.Collections;
-
 using Personal.Manager;
 using Cysharp.Threading.Tasks;
 
 namespace Personal.UI
 {
-	public abstract class GenericMenuUI : MonoBehaviour
+	public abstract class MenuUIBase : MonoBehaviour
 	{
 		/// <summary>
 		/// Initialize the value before displaying the menu to user.

@@ -11,7 +11,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
-	public class AudioUI : GenericMenuUI
+	public class OptionAudioUI : OptionMenuUI
 	{
 		[SerializeField] Slider masterSlider = null;
 		[SerializeField] Slider bgmSlider = null;

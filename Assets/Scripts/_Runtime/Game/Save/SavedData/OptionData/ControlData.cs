@@ -10,10 +10,13 @@ namespace Personal.Setting.Control
 	{
 		// Map ui
 
-		// Controls
+		// Mouse and Keyboard controls
+		[SerializeField] float mouseSensitivity = 1;
+
+		// Gamepad controls
 		[SerializeField] bool isVibration = true;
 
-
+		public float MouseSensitivity { get => mouseSensitivity; set => mouseSensitivity = value; }
 		public bool IsVibration { get => isVibration; set => isVibration = value; }
 	}
 }
