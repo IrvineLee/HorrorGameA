@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
+using UnityEngine.Rendering;
 using TMPro;
 
 using Personal.GameState;
@@ -27,6 +28,18 @@ namespace Personal.UI.Option
 		[SerializeField] Toggle isAmbientOcclusion = null;
 
 		GraphicData graphicData;
+		VolumeProfile volumeProfile;
+
+		Resolution[] resolutions;
+
+		Resolution currentResolution;
+		FullScreenMode currentFullScreenMode;
+
+		//UnityEngine.Rendering.Universal.ColorAdjustments colorAdjustments;
+		UnityEngine.Rendering.Universal.Vignette vignette;
+		UnityEngine.Rendering.Universal.DepthOfField depthOfField;
+		UnityEngine.Rendering.Universal.MotionBlur motionBlur;
+		UnityEngine.Rendering.Universal.Bloom bloom;
 
 		/// <summary>
 		/// Initialize.
@@ -36,7 +49,9 @@ namespace Personal.UI.Option
 		{
 			await base.Initialize();
 
-			HandleLoadDataToUI();
+			//InitializeVolumeProfile();
+			//HandleLoadDataToUI();
+			//RegisterEventsForUI();
 		}
 
 		/// <summary>
@@ -49,21 +64,67 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
-		/// Cancel. Close the screen.
+		/// Register events for real-time update.
 		/// </summary>
-		public override void Cancel_Inspector()
+		void RegisterEventsForUI()
 		{
-			//ResetUIValue();
-			//ResetRealValue();
+			screenResolutionDropdown.onValueChanged.AddListener(ScreenResolutionUpdateRealtime);
+		}
+
+		void ScreenResolutionUpdateRealtime(int index)
+		{
+			Debug.Log("ASDS");
+			currentResolution = resolutions[index];
+			Screen.SetResolution(currentResolution.width, currentResolution.height, currentFullScreenMode);
+		}
+
+		protected override void ResetDataToUI()
+		{
+			//screenResolutionDropdown
+			//displayTypeDropdown
+
+			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
+			//antiAliasingDropdown
+
+			isVsync.isOn = graphicData.IsVsync;
+			isVignette.isOn = graphicData.IsVignette;
+			isDepthOfField.isOn = graphicData.IsDepthOfField;
+			isMotionBlur.isOn = graphicData.IsMotionBlur;
+			isBloom.isOn = graphicData.IsBloom;
+			isAmbientOcclusion.isOn = graphicData.IsAmbientOcclusion;
+		}
+
+		protected override void ResetDataToTarget()
+		{
+
+
+			vignette.active = graphicData.IsVsync;
+			depthOfField.active = graphicData.IsDepthOfField;
+			motionBlur.active = graphicData.IsMotionBlur;
+			bloom.active = graphicData.IsBloom;
+			//isAmbientOcclusion.active = graphicData.IsAmbientOcclusion;
+
+		}
+
+		void InitializeVolumeProfile()
+		{
+			volumeProfile = FindObjectOfType<Volume>().profile;
+			//volumeProfile.TryGet(out colorAdjustments);
+			volumeProfile.TryGet(out vignette);
+			volumeProfile.TryGet(out depthOfField);
+			volumeProfile.TryGet(out motionBlur);
+			volumeProfile.TryGet(out bloom);
 		}
 
 		/// <summary>
 		/// Display the correct UI from save data.
 		/// </summary>
-		void HandleLoadDataToUI()
+		protected override void HandleLoadDataToUI()
 		{
 			graphicData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GraphicData;
-			Debug.Log(graphicData);
+
+			HandleScreenResolution(graphicData);
+			currentFullScreenMode = graphicData.ScreenMode;
 
 			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
 			displayTypeDropdown.value = (int)graphicData.ScreenMode;
@@ -74,6 +135,24 @@ namespace Personal.UI.Option
 			isMotionBlur.isOn = graphicData.IsMotionBlur;
 			isBloom.isOn = graphicData.IsBloom;
 			isAmbientOcclusion.isOn = graphicData.IsAmbientOcclusion;
+		}
+
+		void HandleScreenResolution(GraphicData graphicData)
+		{
+			int resolutionIndex = -1;
+			resolutions = Screen.resolutions;
+
+			foreach (var resolution in resolutions)
+			{
+				screenResolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.ToString()));
+
+				if (resolution.width == graphicData.ScreenResolution.width &&
+					resolution.height == graphicData.ScreenResolution.height &&
+					resolution.refreshRate == graphicData.ScreenResolution.refreshRate)
+					resolutionIndex = screenResolutionDropdown.options.Count - 1;
+			}
+
+			screenResolutionDropdown.value = resolutionIndex;
 		}
 	}
 }

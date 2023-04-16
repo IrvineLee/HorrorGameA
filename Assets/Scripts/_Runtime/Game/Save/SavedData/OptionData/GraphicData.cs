@@ -8,9 +8,9 @@ namespace Personal.Setting.Graphic
 	[Serializable]
 	public class GraphicData
 	{
-		[SerializeField] float brightness = 1;
+		[SerializeField] int brightness = 1;
 
-		//[SerializeField] TMP_Dropdown screenResolutionDropdown = null;
+		[SerializeField] Resolution screenResolution = default;
 		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
 
 		//[SerializeField] TMP_Dropdown antiAliasingDropdown = null;
@@ -22,7 +22,8 @@ namespace Personal.Setting.Graphic
 		[SerializeField] bool isBloom = true;
 		[SerializeField] bool isAmbientOcclusion = true;
 
-		public float Brightness { get => brightness; set => brightness = value; }
+		public int Brightness { get => brightness; set => brightness = value; }
+		public Resolution ScreenResolution { get => screenResolution; set => screenResolution = value; }
 		public FullScreenMode ScreenMode { get => screenMode; set => screenMode = value; }
 		public bool IsVsync { get => isVsync; set => isVsync = value; }
 		public bool IsVignette { get => isVignette; set => isVignette = value; }

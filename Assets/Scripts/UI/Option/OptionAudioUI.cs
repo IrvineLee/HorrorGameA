@@ -43,7 +43,7 @@ namespace Personal.UI.Option
 			await base.Initialize();
 
 			HandleLoadDataToUI();
-			RegisterEventsForSlider();
+			RegisterEventsForUI();
 		}
 
 		/// <summary>
@@ -59,24 +59,28 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
-		/// Cancel. Close the screen.
+		/// Reset data back to default.
 		/// </summary>
-		public override void Cancel_Inspector()
+		public override void Default_Inspector()
 		{
-			ResetUIValue();
-			ResetRealValue();
+			// Reset data.
+			audioData = new AudioData();
+			SaveManager.Instance.SaveProfileData();
+
+			ResetDataToUI();
+			ResetDataToTarget();
 		}
 
 		/// <summary>
 		/// Display the correct UI from save data.
 		/// </summary>
-		void HandleLoadDataToUI()
+		protected override void HandleLoadDataToUI()
 		{
 			audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
 
 			// Put data value to game.
-			ResetUIValue();
-			ResetRealValue();
+			ResetDataToUI();
+			ResetDataToTarget();
 
 			// To get current value.
 			currentMaster01 = masterSlider.value;
@@ -89,7 +93,7 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Register events for real-time update.
 		/// </summary>
-		void RegisterEventsForSlider()
+		void RegisterEventsForUI()
 		{
 			masterSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
 			bgmSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
@@ -126,9 +130,9 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
-		/// Reset the ui display to data.
+		/// Reset data to ui display.
 		/// </summary>
-		void ResetUIValue()
+		protected override void ResetDataToUI()
 		{
 			// Set data volume to slider.
 			masterSlider.value = audioData.MasterVolume.ConvertRatio0To100();
@@ -144,9 +148,9 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
-		/// Reset the audio to data.
+		/// Reset data to real audio.
 		/// </summary>
-		void ResetRealValue()
+		protected override void ResetDataToTarget()
 		{
 			SetGameVolume(audioData.MasterVolume, audioData.BgmVolume, audioData.SfxVolume);
 

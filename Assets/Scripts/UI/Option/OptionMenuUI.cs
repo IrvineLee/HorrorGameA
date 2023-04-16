@@ -27,6 +27,32 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Closing the menu.
 		/// </summary>
-		public override void Cancel_Inspector() { }
+		public override void Cancel_Inspector()
+		{
+			ResetDataToUI();
+			ResetDataToTarget();
+
+			gameObject.SetActive(false);
+		}
+
+		/// <summary>
+		/// Pressing the Default button.
+		/// </summary>
+		public virtual void Default_Inspector() { }
+
+		/// <summary>
+		/// Display the correct UI from save data.
+		/// </summary>
+		protected virtual void HandleLoadDataToUI() { }
+
+		/// <summary>
+		/// Reset the data value back to the UI.
+		/// </summary>
+		protected virtual void ResetDataToUI() { }
+
+		/// <summary>
+		/// Reset the data value back to the real target. Ex: Audio, Graphic etc...
+		/// </summary>
+		protected virtual void ResetDataToTarget() { }
 	}
 }

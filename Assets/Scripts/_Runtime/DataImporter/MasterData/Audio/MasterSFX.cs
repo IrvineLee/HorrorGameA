@@ -1,12 +1,17 @@
+using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using Personal.Constant;
 using Personal.Data;
 using Personal.Definition;
-using UnityEditor;
-using UnityEngine;
 
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
 public class MasterSFX : MasterGeneric<SFXEntity>
 {
+#if UNITY_EDITOR
 	/// <summary>
 	/// Find the audio and set it to the definition.
 	/// </summary>
@@ -37,4 +42,5 @@ public class MasterSFX : MasterGeneric<SFXEntity>
 
 		Debug.Log("Created " + definitionName + " successfully!");
 	}
+#endif
 }

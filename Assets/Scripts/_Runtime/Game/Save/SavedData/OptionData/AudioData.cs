@@ -38,7 +38,6 @@ namespace Personal.Setting.Audio
 		public void SetAudioSpeakerMode(AudioSpeakerMode audioSpeakerMode)
 		{
 			this.audioSpeakerMode = audioSpeakerMode;
-			Debug.Log("Saved as " + this.audioSpeakerMode);
 		}
 	}
 }

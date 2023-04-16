@@ -8,8 +8,8 @@ namespace Personal.Preload
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
 		static void RuntimeInit()
 		{
-			// Scene index 0 should always be the preload scene.
-			SceneManager.LoadScene(0, LoadSceneMode.Additive);
+			// Make sure to change the name when scene's name changed.
+			SceneManager.LoadScene("PreloadScene", LoadSceneMode.Additive);
 		}
 	}
 }

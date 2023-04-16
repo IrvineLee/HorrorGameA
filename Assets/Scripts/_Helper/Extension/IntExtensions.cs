@@ -27,5 +27,25 @@ namespace Helper
 
 			return index;
 		}
+
+		/// <summary>
+		/// Convert value from 0~100 to 0~1. 
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static int ConvertRatio0To1(this int original)
+		{
+			return original / 100;
+		}
+
+		/// <summary>
+		/// Convert value from 0~1 to 0~100.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static int ConvertRatio0To100(this int original)
+		{
+			return original * 100;
+		}
 	}
 }
