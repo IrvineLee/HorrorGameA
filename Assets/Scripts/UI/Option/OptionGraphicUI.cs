@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
@@ -30,12 +31,16 @@ namespace Personal.UI.Option
 		GraphicData graphicData;
 		VolumeProfile volumeProfile;
 
-		Resolution[] resolutions;
-		FullScreenMode[] fullscreenModes;
+		List<Resolution> resolutionList = new List<Resolution>();
+		FullScreenMode[] fullscreenModes = GameManager.IsWindow ?
+										   new[] { FullScreenMode.ExclusiveFullScreen, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed } :
+										   new[] { FullScreenMode.MaximizedWindow, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed };
 
 		float currentBrightness01;
 		Resolution currentResolution;
 		FullScreenMode currentFullScreenMode;
+
+		Resolution defaultResolution;
 
 		ColorAdjustments colorAdjustments;
 		Vignette vignette;
@@ -50,6 +55,8 @@ namespace Personal.UI.Option
 		public override async UniTask Initialize()
 		{
 			await base.Initialize();
+
+			defaultResolution = Screen.currentResolution;
 
 			InitializeVolumeProfile();
 			HandleLoadDataToUI();
@@ -72,44 +79,30 @@ namespace Personal.UI.Option
 		/// </summary>
 		void RegisterEventsForUI()
 		{
-			brightnessSlider.onValueChanged.AddListener(BrightnessUpdateRealtime);
+			brightnessSlider.onValueChanged.AddListener((value) =>
+			{
+				currentBrightness01 = value.ConvertRatio0To1();
+				colorAdjustments.postExposure.value = currentBrightness01;
+			});
 
-			screenResolutionDropdown.onValueChanged.AddListener(ScreenResolutionUpdateRealtime);
-			screenModeDropdown.onValueChanged.AddListener(ScreenModeUpdateRealtime);
+			screenResolutionDropdown.onValueChanged.AddListener((index) =>
+			{
+				currentResolution = resolutionList[index];
+				Screen.SetResolution(currentResolution.width, currentResolution.height, currentFullScreenMode);
+			});
+			screenModeDropdown.onValueChanged.AddListener((index) =>
+			{
+				currentFullScreenMode = fullscreenModes[index];
+				Screen.fullScreenMode = currentFullScreenMode;
+
+				HandleFullScreenMode(currentFullScreenMode);
+			});
 
 			isVignette.onValueChanged.AddListener((flag) => vignette.active = flag);
 			isDepthOfField.onValueChanged.AddListener((flag) => depthOfField.active = flag);
 			isMotionBlur.onValueChanged.AddListener((flag) => motionBlur.active = flag);
 			isBloom.onValueChanged.AddListener((flag) => bloom.active = flag);
 			//isAmbientOcclusion.onValueChanged.AddListener((flag) => ambi.active = flag);
-		}
-
-		/// <summary>
-		/// Update screen resolution realtime.
-		/// </summary>
-		/// <param name="index"></param>
-		void ScreenResolutionUpdateRealtime(int index)
-		{
-			currentResolution = resolutions[index];
-			Screen.SetResolution(currentResolution.width, currentResolution.height, currentFullScreenMode);
-
-		}
-
-		void ScreenModeUpdateRealtime(int index)
-		{
-			currentFullScreenMode = fullscreenModes[index];
-			Screen.fullScreenMode = currentFullScreenMode;
-		}
-
-		void BrightnessUpdateRealtime(float value)
-		{
-			currentBrightness01 = value.ConvertRatio0To1();
-			colorAdjustments.postExposure.value = currentBrightness01;
-		}
-
-		void BoolValueUpdateRealtime(bool flag)
-		{
-
 		}
 
 		/// <summary>
@@ -121,6 +114,7 @@ namespace Personal.UI.Option
 			graphicData = new GraphicData();
 			SaveManager.Instance.SaveProfileData();
 
+			graphicData.ScreenResolution = defaultResolution;
 			base.Default_Inspector();
 		}
 
@@ -132,9 +126,15 @@ namespace Personal.UI.Option
 			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
 			//antiAliasingDropdown
 
-			for (int i = 0; i < resolutions.Length; i++)
+			// Set current resolution on the first time.
+			if (graphicData.ScreenResolution.width == 0 && graphicData.ScreenResolution.height == 0)
 			{
-				Resolution resolution = resolutions[i];
+				graphicData.ScreenResolution = Screen.currentResolution;
+			}
+
+			for (int i = 0; i < resolutionList.Count; i++)
+			{
+				Resolution resolution = resolutionList[i];
 				if (IsSameResolution(resolution, graphicData.ScreenResolution))
 				{
 					screenResolutionDropdown.value = i;
@@ -154,12 +154,12 @@ namespace Personal.UI.Option
 				}
 			}
 
-			isVsync.graphic.enabled = graphicData.IsVsync;
-			isVignette.graphic.enabled = graphicData.IsVignette;
-			isDepthOfField.graphic.enabled = graphicData.IsDepthOfField;
-			isMotionBlur.graphic.enabled = graphicData.IsMotionBlur;
-			isBloom.graphic.enabled = graphicData.IsBloom;
-			isAmbientOcclusion.graphic.enabled = graphicData.IsAmbientOcclusion;
+			isVsync.isOn = graphicData.IsVsync;
+			isVignette.isOn = graphicData.IsVignette;
+			isDepthOfField.isOn = graphicData.IsDepthOfField;
+			isMotionBlur.isOn = graphicData.IsMotionBlur;
+			isBloom.isOn = graphicData.IsBloom;
+			isAmbientOcclusion.isOn = graphicData.IsAmbientOcclusion;
 		}
 
 		/// <summary>
@@ -172,6 +172,8 @@ namespace Personal.UI.Option
 			Resolution resolution = graphicData.ScreenResolution;
 			Screen.SetResolution(resolution.width, resolution.height, graphicData.ScreenMode);
 			Screen.fullScreenMode = graphicData.ScreenMode;
+
+			HandleFullScreenMode(graphicData.ScreenMode);
 
 			vignette.active = graphicData.IsVsync;
 			depthOfField.active = graphicData.IsDepthOfField;
@@ -200,30 +202,27 @@ namespace Personal.UI.Option
 		{
 			graphicData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GraphicData;
 
-			HandleScreenResolution();
-			HandleFullScreenMode();
+			InitializeScreenResolution();
+			InitializeFullScreenMode();
 
-			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
-			screenModeDropdown.value = (int)graphicData.ScreenMode;
-
-			isVsync.isOn = graphicData.IsVsync;
-			isVignette.isOn = graphicData.IsVignette;
-			isDepthOfField.isOn = graphicData.IsDepthOfField;
-			isMotionBlur.isOn = graphicData.IsMotionBlur;
-			isBloom.isOn = graphicData.IsBloom;
-			isAmbientOcclusion.isOn = graphicData.IsAmbientOcclusion;
+			ResetDataToUI();
+			ResetDataToTarget();
 		}
 
 		/// <summary>
 		/// Fill up all the resolutions to dropdown.
 		/// </summary>
-		void HandleScreenResolution()
+		void InitializeScreenResolution()
 		{
-			resolutions = Screen.resolutions;
+			var allResolutions = Screen.resolutions;
+			int refreshRate = Screen.currentResolution.refreshRate;
 
-			foreach (var resolution in resolutions)
+			foreach (var resolution in allResolutions)
 			{
-				screenResolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.ToString()));
+				if (resolution.refreshRate != refreshRate) continue;
+
+				screenResolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.width + " x " + resolution.height));
+				resolutionList.Add(resolution);
 
 				if (IsSameResolution(resolution, graphicData.ScreenResolution))
 				{
@@ -237,24 +236,21 @@ namespace Personal.UI.Option
 		/// Fill up screen mode to dropdown according to OS.
 		/// Only handles Windows/MAC as of now.
 		/// </summary>
-		void HandleFullScreenMode()
+		void InitializeFullScreenMode()
 		{
-			if (UIManager.Instance.IsWindow)
-			{
-				fullscreenModes = new[] { FullScreenMode.ExclusiveFullScreen, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed };
-			}
-			else if (UIManager.Instance.IsMAC)
-			{
-				fullscreenModes = new[] { FullScreenMode.MaximizedWindow, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed };
-
-				// Reset the Window data to Mac data.
-				if (graphicData.ScreenMode == FullScreenMode.ExclusiveFullScreen)
-					graphicData.ScreenMode = FullScreenMode.MaximizedWindow;
-			}
+			// Reset the Window data to Mac data.
+			if (graphicData.ScreenMode == FullScreenMode.ExclusiveFullScreen)
+				graphicData.ScreenMode = FullScreenMode.MaximizedWindow;
 
 			foreach (var screenMode in fullscreenModes)
 			{
-				screenModeDropdown.options.Add(new TMP_Dropdown.OptionData(screenMode.ToString()));
+				string s = "Windowed";
+				if (screenMode == FullScreenMode.ExclusiveFullScreen || screenMode == FullScreenMode.MaximizedWindow)
+					s = "Fullscreen";
+				else if (screenMode == FullScreenMode.FullScreenWindow)
+					s = "Borderless Fullscreen";
+
+				screenModeDropdown.options.Add(new TMP_Dropdown.OptionData(s));
 
 				if (screenMode == graphicData.ScreenMode)
 				{
@@ -281,10 +277,32 @@ namespace Personal.UI.Option
 			return false;
 		}
 
+		/// <summary>
+		/// Handle whether the cursor is confined.
+		/// </summary>
+		/// <param name="fullScreenMode"></param>
+		void HandleFullScreenMode(FullScreenMode fullScreenMode)
+		{
+			Cursor.lockState = CursorLockMode.None;
+
+			if (fullScreenMode == FullScreenMode.ExclusiveFullScreen ||
+				fullScreenMode == FullScreenMode.MaximizedWindow)
+			{
+				Cursor.lockState = CursorLockMode.Confined;
+			}
+		}
+
 		void OnDestroy()
 		{
+			brightnessSlider.onValueChanged.RemoveAllListeners();
+
 			screenResolutionDropdown.onValueChanged.RemoveAllListeners();
 			screenModeDropdown.onValueChanged.RemoveAllListeners();
+
+			isVignette.onValueChanged.RemoveAllListeners();
+			isDepthOfField.onValueChanged.RemoveAllListeners();
+			isMotionBlur.onValueChanged.RemoveAllListeners();
+			isBloom.onValueChanged.RemoveAllListeners();
 		}
 	}
 }
