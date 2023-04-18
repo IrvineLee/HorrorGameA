@@ -64,9 +64,10 @@ namespace Personal.UI.Option
 		public override void Default_Inspector()
 		{
 			// Reset data.
-			audioData = new AudioData();
+			GameStateBehaviour.Instance.SaveProfile.OptionSavedData.ResetAudioData();
 			SaveManager.Instance.SaveProfileData();
 
+			audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
 			base.Default_Inspector();
 		}
 
@@ -76,10 +77,7 @@ namespace Personal.UI.Option
 		protected override void HandleLoadDataToUI()
 		{
 			audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
-
-			// Put data value to game.
-			ResetDataToUI();
-			ResetDataToTarget();
+			base.HandleLoadDataToUI();
 		}
 
 		/// <summary>

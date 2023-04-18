@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Personal.Setting.Graphic
@@ -13,19 +11,23 @@ namespace Personal.Setting.Graphic
 		[SerializeField] Resolution screenResolution = default;
 		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
 
-		//[SerializeField] TMP_Dropdown antiAliasingDropdown = null;
+		[SerializeField] int antiAliasing = 0;
 		[SerializeField] bool isVsync = true;
 
-		[SerializeField] bool isVignette = true;
-		[SerializeField] bool isDepthOfField = true;
-		[SerializeField] bool isMotionBlur = true;
-		[SerializeField] bool isBloom = true;
-		[SerializeField] bool isAmbientOcclusion = true;
+		[SerializeField] bool isVignette = false;
+		[SerializeField] bool isDepthOfField = false;
+		[SerializeField] bool isMotionBlur = false;
+		[SerializeField] bool isBloom = false;
+		[SerializeField] bool isAmbientOcclusion = false;
 
 		public float Brightness { get => brightness; set => brightness = value; }
+
 		public Resolution ScreenResolution { get => screenResolution; set => screenResolution = value; }
 		public FullScreenMode ScreenMode { get => screenMode; set => screenMode = value; }
+
+		public int AntiAliasing { get => antiAliasing; set => antiAliasing = value; }
 		public bool IsVsync { get => isVsync; set => isVsync = value; }
+
 		public bool IsVignette { get => isVignette; set => isVignette = value; }
 		public bool IsDepthOfField { get => isDepthOfField; set => isDepthOfField = value; }
 		public bool IsMotionBlur { get => isMotionBlur; set => isMotionBlur = value; }
@@ -37,6 +39,21 @@ namespace Personal.Setting.Graphic
 		// texture quality
 		// anisotropic mode
 		// anisotropic level
+
+		/// <summary>
+		/// Set current resolution on the first time. 
+		/// </summary>
+		public void HandleFirstTimeUser()
+		{
+			if (screenResolution.width == 0 && screenResolution.height == 0)
+			{
+				screenResolution = Screen.currentResolution;
+			}
+			if (antiAliasing == -1)
+			{
+				antiAliasing = QualitySettings.antiAliasing;
+			}
+		}
 
 		public void SetResolutionAndScreenMode(Resolution screenResolution, FullScreenMode screenMode)
 		{

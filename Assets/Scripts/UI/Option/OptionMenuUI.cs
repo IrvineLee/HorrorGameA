@@ -47,7 +47,11 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Display the correct UI from save data.
 		/// </summary>
-		protected virtual void HandleLoadDataToUI() { }
+		protected virtual void HandleLoadDataToUI()
+		{
+			ResetDataToUI();
+			ResetDataToTarget();
+		}
 
 		/// <summary>
 		/// Reset the data value back to the UI.

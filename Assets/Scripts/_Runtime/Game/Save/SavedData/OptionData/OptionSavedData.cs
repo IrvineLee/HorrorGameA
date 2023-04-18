@@ -20,5 +20,10 @@ namespace Personal.Save
 		public AudioData AudioData { get => audioData; set => audioData = value; }
 		public ControlData ControlData { get => controlData; set => controlData = value; }
 		public LanguageData LanguageData { get => languageData; set => languageData = value; }
+
+		public void ResetGraphicData() { graphicData = new GraphicData(); }
+		public void ResetAudioData() { audioData = new AudioData(); }
+		public void ResetControlData() { controlData = new ControlData(); }
+		public void ResetLanguageData() { languageData = new LanguageData(); }
 	}
 }

@@ -36,9 +36,12 @@ namespace Personal.UI.Option
 										   new[] { FullScreenMode.ExclusiveFullScreen, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed } :
 										   new[] { FullScreenMode.MaximizedWindow, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed };
 
+		UniversalAdditionalCameraData universalCameraData;
+
 		float currentBrightness01;
 		Resolution currentResolution;
 		FullScreenMode currentFullScreenMode;
+		int currentAntiAliasIndex;
 
 		Resolution defaultResolution;
 
@@ -56,6 +59,7 @@ namespace Personal.UI.Option
 		{
 			await base.Initialize();
 
+			universalCameraData = GameManager.Instance.MainCamera.GetComponent<UniversalAdditionalCameraData>();
 			defaultResolution = Screen.currentResolution;
 
 			InitializeVolumeProfile();
@@ -69,6 +73,8 @@ namespace Personal.UI.Option
 		public override void Save_Inspector()
 		{
 			graphicData.Brightness = currentBrightness01;
+			graphicData.AntiAliasing = currentAntiAliasIndex;
+
 			graphicData.SetResolutionAndScreenMode(currentResolution, currentFullScreenMode);
 			graphicData.SetBoolValue(isVsync.isOn, isVignette.isOn, isDepthOfField.isOn, isMotionBlur.isOn, isBloom.isOn, isAmbientOcclusion.isOn);
 			SaveManager.Instance.SaveProfileData();
@@ -98,6 +104,9 @@ namespace Personal.UI.Option
 				HandleFullScreenMode(currentFullScreenMode);
 			});
 
+			antiAliasingDropdown.onValueChanged.AddListener(HandleAntiAlias);
+
+			isVsync.onValueChanged.AddListener((flag) => QualitySettings.vSyncCount = flag ? 1 : 0);
 			isVignette.onValueChanged.AddListener((flag) => vignette.active = flag);
 			isDepthOfField.onValueChanged.AddListener((flag) => depthOfField.active = flag);
 			isMotionBlur.onValueChanged.AddListener((flag) => motionBlur.active = flag);
@@ -106,15 +115,39 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
+		/// Handle anti=alias.
+		/// </summary>
+		/// <param name="index"></param>
+		void HandleAntiAlias(int index)
+		{
+			// 1 means disabled in URP.
+			UniversalRenderPipeline.asset.msaaSampleCount = 1;
+
+			if (index == 3) UniversalRenderPipeline.asset.msaaSampleCount = 2;
+			else if (index == 4) UniversalRenderPipeline.asset.msaaSampleCount = 4;
+			else if (index == 5) UniversalRenderPipeline.asset.msaaSampleCount = 8;
+
+			universalCameraData.antialiasing = AntialiasingMode.None;
+
+			if (index == 1) universalCameraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
+			else if (index == 2) universalCameraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
+
+			antiAliasingDropdown.value = index;
+			currentAntiAliasIndex = index;
+		}
+
+		/// <summary>
 		/// Reset data back to default.
 		/// </summary>
 		public override void Default_Inspector()
 		{
 			// Reset data.
-			graphicData = new GraphicData();
+			GameStateBehaviour.Instance.SaveProfile.OptionSavedData.ResetGraphicData();
 			SaveManager.Instance.SaveProfileData();
 
+			graphicData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GraphicData;
 			graphicData.ScreenResolution = defaultResolution;
+
 			base.Default_Inspector();
 		}
 
@@ -123,14 +156,9 @@ namespace Personal.UI.Option
 		/// </summary>
 		protected override void ResetDataToUI()
 		{
-			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
-			//antiAliasingDropdown
+			graphicData.HandleFirstTimeUser();
 
-			// Set current resolution on the first time.
-			if (graphicData.ScreenResolution.width == 0 && graphicData.ScreenResolution.height == 0)
-			{
-				graphicData.ScreenResolution = Screen.currentResolution;
-			}
+			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
 
 			for (int i = 0; i < resolutionList.Count; i++)
 			{
@@ -154,6 +182,16 @@ namespace Personal.UI.Option
 				}
 			}
 
+			for (int i = 0; i < antiAliasingDropdown.options.Count; i++)
+			{
+				if (i == graphicData.AntiAliasing)
+				{
+					antiAliasingDropdown.value = i;
+					currentAntiAliasIndex = i;
+					break;
+				}
+			}
+
 			isVsync.isOn = graphicData.IsVsync;
 			isVignette.isOn = graphicData.IsVignette;
 			isDepthOfField.isOn = graphicData.IsDepthOfField;
@@ -171,9 +209,11 @@ namespace Personal.UI.Option
 
 			Resolution resolution = graphicData.ScreenResolution;
 			Screen.SetResolution(resolution.width, resolution.height, graphicData.ScreenMode);
-			Screen.fullScreenMode = graphicData.ScreenMode;
 
+			Screen.fullScreenMode = graphicData.ScreenMode;
 			HandleFullScreenMode(graphicData.ScreenMode);
+
+			HandleAntiAlias(graphicData.AntiAliasing);
 
 			vignette.active = graphicData.IsVsync;
 			depthOfField.active = graphicData.IsDepthOfField;
@@ -205,8 +245,7 @@ namespace Personal.UI.Option
 			InitializeScreenResolution();
 			InitializeFullScreenMode();
 
-			ResetDataToUI();
-			ResetDataToTarget();
+			base.HandleLoadDataToUI();
 		}
 
 		/// <summary>
