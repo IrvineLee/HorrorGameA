@@ -21,6 +21,8 @@ public class SliderTextUI : MonoBehaviour
 		UnityAction<float> unityAction = default;
 		unityAction += UpdateText;
 		slider.onValueChanged.AddListener(unityAction);
+
+		UpdateText(slider.value);
 	}
 
 	void UpdateText(float value)

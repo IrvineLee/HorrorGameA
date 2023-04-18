@@ -45,7 +45,7 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Display the correct UI from save data.
 		/// </summary>
-		void HandleLoadDataToUI()
+		protected override void HandleLoadDataToUI()
 		{
 			//audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
 		}

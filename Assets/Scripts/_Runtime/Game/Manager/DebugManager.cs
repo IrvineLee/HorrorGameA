@@ -24,16 +24,16 @@ namespace Personal.Manager
 				//SaveManager.Instance.LoadSlotData();
 				UIManager.Instance.OptionUI.OpenMenuTab(UI.Option.OptionHandlerUI.MenuTab.Graphic);
 			}
-			else if (Input.GetKeyDown(KeyCode.Space))
+			else if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
-				GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary = new SerializableDictionary<int, string>();
-				GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary.Add(0, "zero");
-				GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary.Add(1, "one");
+				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary = new SerializableDictionary<int, string>();
+				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary.Add(0, "zero");
+				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary.Add(1, "one");
 
-				GameStateBehaviour.Instance.SaveObject.PlayerSavedData.CharacterID = 999;
+				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.CharacterID = 999;
 				SaveManager.Instance.SaveSlotData();
 			}
-			else if (Input.GetKeyDown(KeyCode.Return))
+			else if (Input.GetKeyDown(KeyCode.Alpha0))
 			{
 				SaveManager.Instance.LoadSlotData();
 			}

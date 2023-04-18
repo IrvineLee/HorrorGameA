@@ -8,7 +8,7 @@ namespace Personal.Setting.Graphic
 	[Serializable]
 	public class GraphicData
 	{
-		[SerializeField] int brightness = 1;
+		[SerializeField] float brightness = 0;
 
 		[SerializeField] Resolution screenResolution = default;
 		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
@@ -22,7 +22,7 @@ namespace Personal.Setting.Graphic
 		[SerializeField] bool isBloom = true;
 		[SerializeField] bool isAmbientOcclusion = true;
 
-		public int Brightness { get => brightness; set => brightness = value; }
+		public float Brightness { get => brightness; set => brightness = value; }
 		public Resolution ScreenResolution { get => screenResolution; set => screenResolution = value; }
 		public FullScreenMode ScreenMode { get => screenMode; set => screenMode = value; }
 		public bool IsVsync { get => isVsync; set => isVsync = value; }
@@ -38,6 +38,12 @@ namespace Personal.Setting.Graphic
 		// anisotropic mode
 		// anisotropic level
 
+		public void SetResolutionAndScreenMode(Resolution screenResolution, FullScreenMode screenMode)
+		{
+			this.screenResolution = screenResolution;
+			this.screenMode = screenMode;
+		}
+
 		public void SetBoolValue(bool isVsync, bool isVignette, bool isDepthOfField, bool isMotionBlur, bool isBloom, bool isAmbientOcclusion)
 		{
 			this.isVsync = isVsync;
@@ -47,9 +53,5 @@ namespace Personal.Setting.Graphic
 			this.isBloom = isBloom;
 			this.isAmbientOcclusion = isAmbientOcclusion;
 		}
-		//Screen.resolutions
-		//// Graphic
-		//[SerializeField] Resolution resolution = Screen.currentResolution;
 	}
-
 }

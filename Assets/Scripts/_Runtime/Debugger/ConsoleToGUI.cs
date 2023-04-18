@@ -6,9 +6,10 @@ namespace Personal.Debugger
 {
 	public class ConsoleToGUI : MonoBehaviour
 	{
+		[SerializeField] bool doShow = false;
+
 		string myLog = "*begin log";
 		string filename = "";
-		bool doShow = true;
 		int kChars = 700;
 
 		void OnEnable() { Application.logMessageReceived += Log; }

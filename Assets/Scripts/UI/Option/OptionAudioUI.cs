@@ -67,8 +67,7 @@ namespace Personal.UI.Option
 			audioData = new AudioData();
 			SaveManager.Instance.SaveProfileData();
 
-			ResetDataToUI();
-			ResetDataToTarget();
+			base.Default_Inspector();
 		}
 
 		/// <summary>
@@ -81,13 +80,6 @@ namespace Personal.UI.Option
 			// Put data value to game.
 			ResetDataToUI();
 			ResetDataToTarget();
-
-			// To get current value.
-			currentMaster01 = masterSlider.value;
-			currentBgm01 = bgmSlider.value;
-			currentSfx01 = sfxSlider.value;
-
-			currentSpeakerMode = audioData.AudioSpeakerMode;
 		}
 
 		/// <summary>
@@ -145,6 +137,13 @@ namespace Personal.UI.Option
 										.Select((obj) => obj.index);
 
 			speakerModeDropdown.value = list.ElementAtOrDefault(0);
+
+			// Update current value.
+			currentMaster01 = masterSlider.value;
+			currentBgm01 = bgmSlider.value;
+			currentSfx01 = sfxSlider.value;
+
+			currentSpeakerMode = audioData.AudioSpeakerMode;
 		}
 
 		/// <summary>
@@ -173,6 +172,15 @@ namespace Personal.UI.Option
 			// Set game volume.
 			AudioManager.Instance.Bgm.volume = bgm01 * master01;
 			AudioManager.Instance.Sfx.volume = sfx01 * master01;
+		}
+
+		void OnDestroy()
+		{
+			masterSlider.onValueChanged.RemoveAllListeners();
+			bgmSlider.onValueChanged.RemoveAllListeners();
+			sfxSlider.onValueChanged.RemoveAllListeners();
+
+			speakerModeDropdown.onValueChanged.RemoveAllListeners();
 		}
 	}
 }

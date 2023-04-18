@@ -38,7 +38,11 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Pressing the Default button.
 		/// </summary>
-		public virtual void Default_Inspector() { }
+		public virtual void Default_Inspector()
+		{
+			ResetDataToUI();
+			ResetDataToTarget();
+		}
 
 		/// <summary>
 		/// Display the correct UI from save data.
