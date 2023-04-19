@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Personal.FSM;
 using Cysharp.Threading.Tasks;
 
-namespace Personal.GameFlow.CashierSystem
+
+namespace Personal.FSM.Cashier
 {
-	public class BeginCashierState : State
+	public class CashierCollectMoneyState : CashierStateBase
 	{
+		public CashierCollectMoneyState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
+
 		public override async UniTask OnEnter()
 		{
 			Debug.Log("Begin cashier state");
 			await UniTask.DelayFrame(0);
+
+			//stateMachine.SetState(new )
 			return;
 		}
 
