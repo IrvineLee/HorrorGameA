@@ -14,11 +14,11 @@ namespace Personal.Setting.Graphic
 		[SerializeField] int antiAliasing = 0;
 		[SerializeField] bool isVsync = true;
 
-		[SerializeField] bool isVignette = false;
-		[SerializeField] bool isDepthOfField = false;
-		[SerializeField] bool isMotionBlur = false;
-		[SerializeField] bool isBloom = false;
-		[SerializeField] bool isAmbientOcclusion = false;
+		[SerializeField] bool isVignette = true;
+		[SerializeField] bool isDepthOfField = true;
+		[SerializeField] bool isMotionBlur = true;
+		[SerializeField] bool isBloom = true;
+		[SerializeField] bool isAmbientOcclusion = true;
 
 		public float Brightness { get => brightness; set => brightness = value; }
 

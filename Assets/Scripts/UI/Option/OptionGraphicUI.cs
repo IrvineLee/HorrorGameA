@@ -111,29 +111,7 @@ namespace Personal.UI.Option
 			isDepthOfField.onValueChanged.AddListener((flag) => depthOfField.active = flag);
 			isMotionBlur.onValueChanged.AddListener((flag) => motionBlur.active = flag);
 			isBloom.onValueChanged.AddListener((flag) => bloom.active = flag);
-			//isAmbientOcclusion.onValueChanged.AddListener((flag) => ambi.active = flag);
-		}
-
-		/// <summary>
-		/// Handle anti=alias.
-		/// </summary>
-		/// <param name="index"></param>
-		void HandleAntiAlias(int index)
-		{
-			// 1 means disabled in URP.
-			UniversalRenderPipeline.asset.msaaSampleCount = 1;
-
-			if (index == 3) UniversalRenderPipeline.asset.msaaSampleCount = 2;
-			else if (index == 4) UniversalRenderPipeline.asset.msaaSampleCount = 4;
-			else if (index == 5) UniversalRenderPipeline.asset.msaaSampleCount = 8;
-
-			universalCameraData.antialiasing = AntialiasingMode.None;
-
-			if (index == 1) universalCameraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
-			else if (index == 2) universalCameraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-
-			antiAliasingDropdown.value = index;
-			currentAntiAliasIndex = index;
+			isAmbientOcclusion.onValueChanged.AddListener((flag) => HandleAmbientOcclusion(flag));
 		}
 
 		/// <summary>
@@ -215,11 +193,12 @@ namespace Personal.UI.Option
 
 			HandleAntiAlias(graphicData.AntiAliasing);
 
-			vignette.active = graphicData.IsVsync;
+			vignette.active = graphicData.IsVignette;
 			depthOfField.active = graphicData.IsDepthOfField;
 			motionBlur.active = graphicData.IsMotionBlur;
 			bloom.active = graphicData.IsBloom;
-			//isAmbientOcclusion.active = graphicData.IsAmbientOcclusion;
+
+			HandleAmbientOcclusion(graphicData.IsAmbientOcclusion);
 		}
 
 		/// <summary>
@@ -317,6 +296,28 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
+		/// Handle anti=alias.
+		/// </summary>
+		/// <param name="index"></param>
+		void HandleAntiAlias(int index)
+		{
+			// 1 means disabled in URP.
+			UniversalRenderPipeline.asset.msaaSampleCount = 1;
+
+			if (index == 3) UniversalRenderPipeline.asset.msaaSampleCount = 2;
+			else if (index == 4) UniversalRenderPipeline.asset.msaaSampleCount = 4;
+			else if (index == 5) UniversalRenderPipeline.asset.msaaSampleCount = 8;
+
+			universalCameraData.antialiasing = AntialiasingMode.None;
+
+			if (index == 1) universalCameraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
+			else if (index == 2) universalCameraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
+
+			antiAliasingDropdown.value = index;
+			currentAntiAliasIndex = index;
+		}
+
+		/// <summary>
 		/// Handle whether the cursor is confined.
 		/// </summary>
 		/// <param name="fullScreenMode"></param>
@@ -329,6 +330,14 @@ namespace Personal.UI.Option
 			{
 				Cursor.lockState = CursorLockMode.Confined;
 			}
+		}
+
+		void HandleAmbientOcclusion(bool flag)
+		{
+			universalCameraData.SetRenderer(0);
+
+			if (flag)
+				universalCameraData.SetRenderer(1);
 		}
 
 		void OnDestroy()
