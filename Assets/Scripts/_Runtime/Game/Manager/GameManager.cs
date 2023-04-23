@@ -9,7 +9,6 @@ namespace Personal.Manager
 	public class GameManager : MonoBehaviourSingleton<GameManager>
 	{
 		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
-		public Camera MainCamera { get; private set; }
 		public bool IsLoadingOver { get; private set; }
 
 		public static bool IsWindow { get => Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor; }
@@ -24,7 +23,6 @@ namespace Personal.Manager
 
 			yield return HandleProfileLoading();
 
-			MainCamera = Camera.main;
 			IsLoadingOver = true;
 		}
 
@@ -34,6 +32,7 @@ namespace Personal.Manager
 			if (SceneManager.Instance == null) return false;
 			if (UIManager.Instance == null) return false;
 			if (PoolManager.Instance == null) return false;
+			if (StageManager.Instance == null) return false;
 			if (DebugManager.Instance == null) return false;
 			if (SaveManager.Instance == null) return false;
 

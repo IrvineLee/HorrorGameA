@@ -3,6 +3,8 @@
 using Helper;
 using Personal.GameState;
 using Personal.Save;
+using Personal.FSM;
+using Personal.FSM.Cashier;
 
 namespace Personal.Manager
 {
@@ -36,6 +38,10 @@ namespace Personal.Manager
 			else if (Input.GetKeyDown(KeyCode.Alpha0))
 			{
 				SaveManager.Instance.LoadSlotData();
+			}
+			else if (Input.GetKeyDown(KeyCode.LeftControl))
+			{
+				StageManager.Instance.SpawnCashierActor();
 			}
 		}
 	}

@@ -59,7 +59,7 @@ namespace Personal.UI.Option
 		{
 			await base.Initialize();
 
-			universalCameraData = GameManager.Instance.MainCamera.GetComponent<UniversalAdditionalCameraData>();
+			universalCameraData = StageManager.Instance.MainCamera.GetComponent<UniversalAdditionalCameraData>();
 			defaultResolution = Screen.currentResolution;
 
 			InitializeVolumeProfile();

@@ -69,10 +69,10 @@ namespace Personal.Pool
 
 		async UniTask<bool> LoadAddressable()
 		{
-			AsyncOperationHandle<GameObject> loadOp = Addressables.LoadAssetAsync<GameObject>(key);
-			await UniTask.WaitUntil(() => loadOp.Status != AsyncOperationStatus.None);
+			AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(key);
+			await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
 
-			return loadOp.Status == AsyncOperationStatus.Succeeded ? true : false;
+			return handle.Status == AsyncOperationStatus.Succeeded;
 		}
 
 		void InitalSpawn()

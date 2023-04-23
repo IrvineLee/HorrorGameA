@@ -2,11 +2,12 @@
 using Personal.Constant;
 using Personal.Data;
 using Personal.Definition;
-using UnityEditor;
 using UnityEngine;
 
+using UnityEditor;
+
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
-public class MasterBGM : MasterGeneric<BGMEntity>
+public class MasterBGM : MasterGeneric<BGMEntity, int>
 {
 #if UNITY_EDITOR
 

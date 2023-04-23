@@ -9,7 +9,7 @@ using Personal.Data;
 using Personal.Definition;
 
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
-public class MasterSFX : MasterGeneric<SFXEntity>
+public class MasterSFX : MasterGeneric<SFXEntity, int>
 {
 #if UNITY_EDITOR
 	/// <summary>
