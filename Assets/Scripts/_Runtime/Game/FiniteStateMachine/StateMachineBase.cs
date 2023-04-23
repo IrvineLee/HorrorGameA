@@ -18,7 +18,6 @@ namespace Personal.FSM
 
 		public async UniTask SetState(StateBase state)
 		{
-			Debug.Log("Set state " + state);
 			this.state = state;
 			await state.OnEnter();
 		}

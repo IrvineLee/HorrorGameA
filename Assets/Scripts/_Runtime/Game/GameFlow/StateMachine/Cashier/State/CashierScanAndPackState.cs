@@ -14,7 +14,7 @@ namespace Personal.FSM.Cashier
 		public override async UniTask OnEnter()
 		{
 			Debug.Log("Begin cashier state");
-			await UniTask.DelayFrame(0);
+			await UniTask.Delay(3000);
 
 			//stateMachine.SetState(new )
 			return;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Helper;
 using Personal.GameState;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -14,14 +15,14 @@ namespace Personal.Manager
 		public static bool IsWindow { get => Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor; }
 		public static bool IsMAC { get => Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor; }
 
-		IEnumerator Start()
+		async void Start()
 		{
 			MasterDataManager.CreateInstance();
-			yield return new WaitUntil(() => IsInitialized());
+			await UniTask.WaitUntil(() => IsInitialized());
 
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully activated!! ----------</color>");
 
-			yield return HandleProfileLoading();
+			await HandleProfileLoading();
 
 			IsLoadingOver = true;
 		}
@@ -41,10 +42,10 @@ namespace Personal.Manager
 			return true;
 		}
 
-		IEnumerator HandleProfileLoading()
+		async UniTask HandleProfileLoading()
 		{
 			SaveManager.Instance.LoadProfileData();
-			yield return null;
+			await UniTask.DelayFrame(10);
 
 			// To make sure the profile gets created the 1st time around.
 			SaveManager.Instance.SaveProfileData();

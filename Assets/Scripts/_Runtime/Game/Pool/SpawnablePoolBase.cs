@@ -118,5 +118,4 @@ namespace Personal.Pool
 			transform.name = "Pool_" + key;
 		}
 	}
-
 }

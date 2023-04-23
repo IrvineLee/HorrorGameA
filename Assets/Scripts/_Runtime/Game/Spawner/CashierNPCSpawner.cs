@@ -19,7 +19,7 @@ namespace Personal.Spawner
 			AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
 			await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
 
-			return handle.Result;
+			return Addressables.InstantiateAsync(path).Result;
 		}
 	}
 }

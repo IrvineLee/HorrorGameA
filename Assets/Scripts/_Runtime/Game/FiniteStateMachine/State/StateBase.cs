@@ -11,7 +11,11 @@ namespace Personal.FSM
 
 		public StateBase(StateMachineBase stateMachine)
 		{
-			Debug.Log(stateMachine);
+			SetFSM(stateMachine);
+		}
+
+		public void SetFSM(StateMachineBase stateMachine)
+		{
 			this.stateMachine = stateMachine;
 		}
 

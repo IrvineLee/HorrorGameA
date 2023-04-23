@@ -3,6 +3,7 @@ using System.Collections;
 
 using Helper;
 using Personal.UI.Option;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -14,9 +15,9 @@ namespace Personal.Manager
 
 		// TODO : Should handle all the other UI here as well.
 
-		IEnumerator Start()
+		async void Start()
 		{
-			yield return new WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 
 			Initalize();
 		}

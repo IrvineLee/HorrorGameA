@@ -6,6 +6,7 @@ using Helper;
 using Personal.Definition;
 using Personal.Spawner;
 using Personal.FSM.Cashier;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -19,9 +20,9 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 
-		IEnumerator Start()
+		async void Start()
 		{
-			yield return new WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 
 			MainCamera = Camera.main;
 		}

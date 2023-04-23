@@ -12,6 +12,8 @@ namespace Personal.FSM.Cashier
 		{
 			foreach (var state in orderedStateList)
 			{
+				state.SetFSM(this);
+
 				await SetState(state);
 				await state.OnExit();
 			}

@@ -14,16 +14,13 @@ namespace Personal.FSM.Cashier
 
 		//[SerializeField] Dialogue dialogue = null;
 
-		public TalkState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { Debug.Log("ASDSAd"); }
+		public TalkState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
 
 		public override async UniTask OnEnter()
 		{
-			Debug.Log(stateMachine.gameObject.name);
-
 			Debug.Log("Begin talking state...Press mouse 0 to continue");
 			await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
 
-			Debug.Log("Talking ended...");
 			return;
 		}
 
@@ -34,6 +31,7 @@ namespace Personal.FSM.Cashier
 
 		public override async UniTask OnExit()
 		{
+			Debug.Log("Talking ended...");
 			await UniTask.DelayFrame(0);
 		}
 	}
