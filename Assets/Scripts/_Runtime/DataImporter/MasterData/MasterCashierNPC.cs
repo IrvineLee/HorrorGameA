@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,27 +10,28 @@ using static MasterCashierNPC;
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
 public class MasterCashierNPC : MasterGeneric<CashierNPCEntity, DayInteraction>
 {
+	[Serializable]
 	public class DayInteraction
 	{
-		public int DayIndex { get; private set; }
-		public int InteractionIndex { get; private set; }
+		public int DayID { get; private set; }
+		public int InteractionID { get; private set; }
 
-		public DayInteraction(int dayIndex, int interactionIndex)
+		public DayInteraction(int dayID, int interactionID)
 		{
-			DayIndex = dayIndex;
-			InteractionIndex = interactionIndex;
+			DayID = dayID;
+			InteractionID = interactionID;
 		}
 
 		public class EqualityComparer : IEqualityComparer<DayInteraction>
 		{
 			public bool Equals(DayInteraction x, DayInteraction y)
 			{
-				return x.DayIndex == y.DayIndex && x.InteractionIndex == y.InteractionIndex;
+				return x.DayID == y.DayID && x.InteractionID == y.InteractionID;
 			}
 
 			public int GetHashCode(DayInteraction x)
 			{
-				return x.DayIndex ^ x.InteractionIndex;
+				return x.DayID ^ x.InteractionID;
 			}
 		}
 	}

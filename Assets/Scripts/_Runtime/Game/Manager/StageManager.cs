@@ -12,7 +12,7 @@ namespace Personal.Manager
 {
 	public class StageManager : MonoBehaviourSingleton<StageManager>
 	{
-		[SerializeField] List<CashierInteractionDefinition> cashierInteractionDefinitionList = new List<CashierInteractionDefinition>();
+		[SerializeField] CashierInteractionDefinition cashierInteractionDefinition = null;
 
 		public Camera MainCamera { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
@@ -25,6 +25,7 @@ namespace Personal.Manager
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 
 			MainCamera = Camera.main;
+			cashierInteractionDefinition.Initalize();
 		}
 
 		public void RegisterCashierNPCSpawner(CashierNPCSpawner cashierNPCSpawner)
@@ -35,12 +36,12 @@ namespace Personal.Manager
 		public async void SpawnCashierActor()
 		{
 			var key = new MasterCashierNPC.DayInteraction(DayIndex + 1, CashierInteractionIndex + 1);
-			string path = MasterDataManager.Instance.CashierNPC.Get(key).characterPath;
+			var entity = MasterDataManager.Instance.CashierNPC.Get(key);
 
-			GameObject instance = await CashierNPCSpawner.Spawn(path);
+			GameObject instance = await CashierNPCSpawner.Spawn(entity.characterPath);
 			CashierStateMachine instanceFSM = instance.GetComponentInChildren<CashierStateMachine>();
 
-			CashierInteraction cashierInteraction = cashierInteractionDefinitionList[DayIndex].StateList[CashierInteractionIndex];
+			CashierInteraction cashierInteraction = cashierInteractionDefinition.GetInteraction(entity.interactionPath);
 			instanceFSM.SetAndPlayOrderedStateList(cashierInteraction.OrderedStateList);
 		}
 

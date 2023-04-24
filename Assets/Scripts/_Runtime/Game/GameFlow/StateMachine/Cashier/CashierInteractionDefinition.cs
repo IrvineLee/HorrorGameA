@@ -10,8 +10,22 @@ namespace Personal.Definition
 	[Serializable]
 	public class CashierInteractionDefinition : ScriptableObject
 	{
-		[SerializeReference] List<CashierInteraction> customerInterctionList = new List<CashierInteraction>();
+		[SerializeField] List<CashierInteraction> customerInterctionList = new List<CashierInteraction>();
 
-		public List<CashierInteraction> StateList { get => customerInterctionList; }
+		Dictionary<string, CashierInteraction> customerInteractionDictionary = new Dictionary<string, CashierInteraction>();
+
+		public void Initalize()
+		{
+			customerInteractionDictionary.Clear();
+			foreach (var interaction in customerInterctionList)
+			{
+				customerInteractionDictionary.Add(interaction.name, interaction);
+			}
+		}
+
+		public CashierInteraction GetInteraction(string interactionStr)
+		{
+			return customerInteractionDictionary.GetValueOrDefault(interactionStr);
+		}
 	}
 }

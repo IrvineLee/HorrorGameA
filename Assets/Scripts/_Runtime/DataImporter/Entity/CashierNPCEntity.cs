@@ -8,4 +8,5 @@ public class CashierNPCEntity : GenericEntity
 	public int dayID;
 	public int interactionID;
 	public string characterPath;
+	public string interactionPath;
 }
