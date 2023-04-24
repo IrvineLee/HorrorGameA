@@ -10,5 +10,7 @@ namespace Personal.Character
 		{
 			Actor = actor;
 		}
+
+		protected virtual void HandleMovement() { }
 	}
 }

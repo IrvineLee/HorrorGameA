@@ -14,6 +14,9 @@ namespace Personal.Definition
 
 		Dictionary<string, CashierInteraction> customerInteractionDictionary = new Dictionary<string, CashierInteraction>();
 
+		/// <summary>
+		/// Initialize data into dictionary.
+		/// </summary>
 		public void Initalize()
 		{
 			customerInteractionDictionary.Clear();
@@ -23,6 +26,11 @@ namespace Personal.Definition
 			}
 		}
 
+		/// <summary>
+		/// Get interaction by name.
+		/// </summary>
+		/// <param name="interactionStr"></param>
+		/// <returns></returns>
 		public CashierInteraction GetInteraction(string interactionStr)
 		{
 			return customerInteractionDictionary.GetValueOrDefault(interactionStr);

@@ -41,7 +41,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
-				StageManager.Instance.SpawnCashierActor();
+				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor();
 			}
 		}
 	}

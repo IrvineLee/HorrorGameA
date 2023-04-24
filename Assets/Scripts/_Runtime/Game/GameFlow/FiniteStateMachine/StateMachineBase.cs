@@ -9,7 +9,7 @@ namespace Personal.FSM
 	{
 		protected StateBase state;
 
-		protected virtual async void Awake()
+		protected virtual async UniTask Awake()
 		{
 			enabled = false;
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);

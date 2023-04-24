@@ -8,13 +8,13 @@ using System;
 namespace Personal.FSM.Cashier
 {
 	[Serializable]
-	public class TalkState : StateBase
+	public class ActorTalkState : StateBase
 	{
 		[SerializeField] int test = 1;
 
 		//[SerializeField] Dialogue dialogue = null;
 
-		public TalkState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
+		public ActorTalkState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
 
 		public override async UniTask OnEnter()
 		{

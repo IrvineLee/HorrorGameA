@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Personal.GameState;
+using UnityEngine.AI;
+
 namespace Personal.FSM.Cashier
 {
-	public class CashierStateMachine : StateMachineBase
+	public class CashierStateMachine : ActorStateMachine
 	{
 		List<StateBase> orderedStateList = new List<StateBase>();
 
@@ -27,11 +30,14 @@ namespace Personal.FSM.Cashier
 		}
 
 		/// <summary>
-		/// Set the ordered state depending on current scenario.
+		/// Set the target info and ordered state depending on current scenario.
 		/// </summary>
 		/// <param name="orderedStateList"></param>
-		public void SetAndPlayOrderedStateList(List<StateBase> orderedStateList)
+		public void Initialize(TargetInfo targetInfo, List<StateBase> orderedStateList)
 		{
+			NavMeshAgent.enabled = true;
+			TargetInfo = targetInfo;
+
 			this.orderedStateList = orderedStateList;
 			PlayOrderedState();
 		}
