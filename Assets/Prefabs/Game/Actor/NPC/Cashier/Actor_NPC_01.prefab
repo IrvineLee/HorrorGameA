@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 421768941547504016}
   - component: {fileID: -8599894918339549832}
-  - component: {fileID: -4274297897598993679}
   - component: {fileID: 3728935029343484157}
+  - component: {fileID: -4274297897598993679}
+  - component: {fileID: 8559843627278985538}
   m_Layer: 0
   m_Name: Actor_NPC_01
   m_TagString: Untagged
@@ -48,6 +49,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1378e92eda073f54194ce15e3ede4d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3728935029343484157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421768941547504015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a8223c7c984c0e41af19c555677a160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &-4274297897598993679
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -70,18 +83,79 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3728935029343484157
+--- !u!114 &8559843627278985538
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421768941547504015}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a8223c7c984c0e41af19c555677a160, type: 3}
+  m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trigger: 64
+  condition:
+    luaConditions: []
+    questConditions: []
+    acceptedTags: []
+    acceptedGameObjects: []
+    luaWizardIndex: -1
+    lastEvaluationValue: 0
+  setQuestState: 1
+  questName: 
+  questState: 0
+  setQuestEntryState: 0
+  questEntryNumber: 1
+  questEntryState: 0
+  setAnotherQuestEntryState: 0
+  anotherQuestEntryNumber: 1
+  anotherQuestEntryState: 0
+  luaCode: 
+  sequence: 
+  sequenceSpeaker: {fileID: 0}
+  sequenceListener: {fileID: 0}
+  waitOneFrameOnStartOrEnable: 1
+  alertMessage: 
+  textTable: {fileID: 0}
+  alertDuration: 0
+  sendMessages: []
+  barkSource: 0
+  barkConversation: 
+  barkText: 
+  barkTextSequence: 
+  barker: {fileID: 0}
+  barkTarget: {fileID: 0}
+  barkOrder: 0
+  allowBarksDuringConversations: 0
+  skipBarkIfNoValidEntries: 0
+  cacheBarkLines: 0
+  conversation: Private Hart
+  conversationConversant: {fileID: 421768941547504016}
+  conversationActor: {fileID: 1402863442298916790, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
+  startConversationEntryID: -1
+  startConversationEntryTitle: 
+  exclusive: 0
+  replace: 0
+  skipIfNoValidEntries: 0
+  preventRestartOnSameFrameEnded: 0
+  stopConversationOnTriggerExit: 0
+  stopConversationIfTooFar: 0
+  maxConversationDistance: 5
+  monitorConversationDistanceFrequency: 1
+  showCursorDuringConversation: 0
+  pauseGameDuringConversation: 0
+  setActiveActions: []
+  setEnabledActions: []
+  setAnimatorStateActions: []
+  onExecute:
+    m_PersistentCalls:
+      m_Calls: []
+  useConversationTitlePicker: 1
+  useBarkTitlePicker: 1
+  useQuestNamePicker: 1
+  selectedDatabase: {fileID: 11400000, guid: c1cc03cd82f6cdb40afbc0575be25564, type: 2}
 --- !u!1 &421768942348354756
 GameObject:
   m_ObjectHideFlags: 0
