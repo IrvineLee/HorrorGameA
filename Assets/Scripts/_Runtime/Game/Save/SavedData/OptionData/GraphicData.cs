@@ -11,7 +11,7 @@ namespace Personal.Setting.Graphic
 		[SerializeField] Resolution screenResolution = default;
 		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
 
-		[SerializeField] int antiAliasing = 0;
+		[SerializeField] int antiAliasing = 5;
 		[SerializeField] bool isVsync = true;
 
 		[SerializeField] bool isVignette = true;
