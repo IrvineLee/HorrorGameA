@@ -4,22 +4,25 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using System;
+using PixelCrushers.DialogueSystem;
 
 namespace Personal.FSM.Cashier
 {
 	[Serializable]
 	public class ActorTalkState : StateBase
 	{
-		[SerializeField] int test = 1;
+		public ActorTalkState(StateMachineBase stateMachine) : base(stateMachine) { }
 
-		//[SerializeField] Dialogue dialogue = null;
-
-		public ActorTalkState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
+		ActorStateMachine actorStateMachine;
 
 		public override async UniTask OnEnter()
 		{
-			Debug.Log("Begin talking state...Press mouse 0 to continue");
-			await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
+			Debug.Log("Begin talking state...");
+
+			actorStateMachine = (ActorStateMachine)stateMachine;
+			actorStateMachine.DialogueSystemTrigger.enabled = true;
+
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
 
 			return;
 		}
@@ -32,6 +35,8 @@ namespace Personal.FSM.Cashier
 		public override async UniTask OnExit()
 		{
 			Debug.Log("Talking ended...");
+
+			actorStateMachine.DialogueSystemTrigger.enabled = false;
 			await UniTask.DelayFrame(0);
 		}
 	}
