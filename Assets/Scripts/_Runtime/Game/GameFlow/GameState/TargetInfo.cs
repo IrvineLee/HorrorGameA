@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Personal.GameState
@@ -10,15 +11,18 @@ namespace Personal.GameState
 		{
 			SpawnAt = 0,
 			MoveTo,
-			LeaveMoveTo,
+			Leave,
 		}
 
-		[SerializeField] Transform spawnAt = null;
-		[SerializeField] Transform moveTo = null;
-		[SerializeField] Transform leaveMoveTo = null;
+		[SerializeField] List<Transform> spawnAtList = null;
+		[SerializeField] List<Transform> moveToList = null;
 
-		public Transform SpawnAt { get => spawnAt; }
-		public Transform MoveTo { get => moveTo; }
-		public Transform LeaveMoveTo { get => leaveMoveTo; }
+		public Transform SpawnAtFirst { get => spawnAtList[0]; }
+		public Transform MoveToFirst { get => moveToList[0]; }
+		public Transform SpawnAtLast { get => spawnAtList[spawnAtList.Count - 1]; }
+		public Transform MoveToLast { get => moveToList[moveToList.Count - 1]; }
+
+		public List<Transform> SpawnAtList { get => spawnAtList; }
+		public List<Transform> MoveToList { get => moveToList; }
 	}
 }

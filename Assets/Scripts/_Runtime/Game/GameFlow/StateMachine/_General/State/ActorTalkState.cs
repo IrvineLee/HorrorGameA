@@ -11,8 +11,6 @@ namespace Personal.FSM.Cashier
 	[Serializable]
 	public class ActorTalkState : StateBase
 	{
-		public ActorTalkState(StateMachineBase stateMachine) : base(stateMachine) { }
-
 		ActorStateMachine actorStateMachine;
 
 		public override async UniTask OnEnter()

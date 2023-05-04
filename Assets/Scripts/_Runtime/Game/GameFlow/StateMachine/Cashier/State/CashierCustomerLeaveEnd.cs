@@ -6,8 +6,6 @@ namespace Personal.FSM.Cashier
 {
 	public class CashierCustomerLeaveEnd : StateBase
 	{
-		public CashierCustomerLeaveEnd(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
-
 		public override async UniTask OnEnter()
 		{
 			Debug.Log("Customer leave END!!");

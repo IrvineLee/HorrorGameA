@@ -378,6 +378,8 @@ namespace Helper
 				if (breakMethod != null && breakMethod()) yield break;
 				yield return null;
 			}
+
+			instance.rotation = endValue;
 		}
 
 		protected static IEnumerator IERunActionUntilBreak(CoroutineRun cr, float runEvery, Action action, Func<bool> breakMethod,

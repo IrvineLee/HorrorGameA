@@ -9,8 +9,6 @@ namespace Personal.FSM.Cashier
 {
 	public class CashierGetMoneyState : StateBase
 	{
-		public CashierGetMoneyState(CashierStateMachine cashierStateMachine) : base(cashierStateMachine) { }
-
 		public override async UniTask OnEnter()
 		{
 			Debug.Log("Begin cashier state");

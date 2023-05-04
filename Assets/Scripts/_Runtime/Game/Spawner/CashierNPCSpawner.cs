@@ -48,7 +48,7 @@ namespace Personal.Spawner
 			sb.Replace("**", interactionStr);
 
 			// Spawn the actor.
-			GameObject instance = await Spawn(entity.characterPath, targetInfo.SpawnAt.position);
+			GameObject instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
 
 			// Set the interaction.
 			CashierInteraction cashierInteraction = cashierInteractionDefinition.GetInteraction(sb.ToString());

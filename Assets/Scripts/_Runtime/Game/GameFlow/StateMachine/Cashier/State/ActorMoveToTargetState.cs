@@ -8,19 +8,17 @@ namespace Personal.FSM
 	{
 		[SerializeField] TargetInfo.TargetType targetType = TargetInfo.TargetType.MoveTo;
 
-		public ActorMoveToTargetState(StateMachineBase stateMachine) : base(stateMachine) { }
-
 		protected override Vector3 GetDestination()
 		{
-			Transform target = actorStateMachine.TargetInfo.SpawnAt;
+			Transform target = actorStateMachine.TargetInfo.SpawnAtFirst;
 
 			if (targetType == TargetInfo.TargetType.MoveTo)
 			{
-				target = actorStateMachine.TargetInfo.MoveTo;
+				target = actorStateMachine.TargetInfo.MoveToFirst;
 			}
-			else if (targetType == TargetInfo.TargetType.LeaveMoveTo)
+			else if (targetType == TargetInfo.TargetType.Leave)
 			{
-				target = actorStateMachine.TargetInfo.LeaveMoveTo;
+				target = actorStateMachine.TargetInfo.MoveToLast;
 			}
 
 			return target.position;

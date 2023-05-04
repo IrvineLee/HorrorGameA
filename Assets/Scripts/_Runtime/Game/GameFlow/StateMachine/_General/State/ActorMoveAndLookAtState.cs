@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 using Cysharp.Threading.Tasks;
-using System;
-using UnityEngine.AI;
 using Personal.Manager;
 using Helper;
 
@@ -11,7 +11,8 @@ namespace Personal.FSM
 	[Serializable]
 	public class ActorMoveAndLookAtState : StateBase
 	{
-		public ActorMoveAndLookAtState(StateMachineBase stateMachine) : base(stateMachine) { }
+		[Tooltip("OnExit, body turn duration towards target")]
+		[SerializeField] float exitBodyRotateDuration = 0.25f;
 
 		protected ActorStateMachine actorStateMachine;
 		protected NavMeshAgent navMeshAgent;
@@ -50,10 +51,11 @@ namespace Personal.FSM
 			Vector3 direction = (target.position - navMeshAgent.transform.position).normalized;
 			Quaternion endRotation = Quaternion.LookRotation(direction);
 
-			CoroutineRun cr = CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, 0.25f);
+			CoroutineRun cr = CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);
 			while (!cr.IsDone)
 			{
-				await UniTask.DelayFrame(0);
+				Debug.Log("Rotate done");
+				await UniTask.DelayFrame(1);
 			}
 		}
 

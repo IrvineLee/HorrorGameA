@@ -1,18 +1,12 @@
-using System;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 
 namespace Personal.FSM
 {
-	public abstract class StateBase : MonoBehaviour
+	public class StateBase : MonoBehaviour
 	{
 		protected StateMachineBase stateMachine;
-
-		public StateBase(StateMachineBase stateMachine)
-		{
-			SetFSM(stateMachine);
-		}
 
 		public void SetFSM(StateMachineBase stateMachine)
 		{
