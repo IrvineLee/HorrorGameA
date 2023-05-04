@@ -9,9 +9,9 @@ using Helper;
 namespace Personal.FSM
 {
 	[Serializable]
-	public class ActorMoveState : StateBase
+	public class ActorMoveAndLookAtState : StateBase
 	{
-		public ActorMoveState(StateMachineBase stateMachine) : base(stateMachine) { }
+		public ActorMoveAndLookAtState(StateMachineBase stateMachine) : base(stateMachine) { }
 
 		protected ActorStateMachine actorStateMachine;
 		protected NavMeshAgent navMeshAgent;
@@ -35,12 +35,12 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public override async UniTask OnUpdate()
 		{
-			navMeshAgent.destination = GetDestination();
+			// The navmesh agent head animation should be looking at the target.
 			await UniTask.DelayFrame(0);
 		}
 
 		/// <summary>
-		/// Rotate the actor so it's looking at the player.
+		/// Rotate the actor so it's facing the player.
 		/// </summary>
 		/// <returns></returns>
 		public override async UniTask OnExit()
@@ -53,7 +53,7 @@ namespace Personal.FSM
 			CoroutineRun cr = CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, 0.25f);
 			while (!cr.IsDone)
 			{
-				await UniTask.DelayFrame(1);
+				await UniTask.DelayFrame(0);
 			}
 		}
 

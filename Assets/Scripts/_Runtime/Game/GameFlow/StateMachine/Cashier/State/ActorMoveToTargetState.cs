@@ -4,7 +4,7 @@ using Personal.GameState;
 
 namespace Personal.FSM
 {
-	public class ActorMoveToTargetState : ActorMoveState
+	public class ActorMoveToTargetState : ActorMoveAndLookAtState
 	{
 		[SerializeField] TargetInfo.TargetType targetType = TargetInfo.TargetType.MoveTo;
 
