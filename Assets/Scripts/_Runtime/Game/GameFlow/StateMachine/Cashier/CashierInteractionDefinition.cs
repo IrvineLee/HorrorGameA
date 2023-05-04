@@ -13,21 +13,21 @@ namespace Personal.Definition
 	public class CashierInteractionDefinition : ScriptableObject
 	{
 		[FolderPath(ParentFolder = "Assets/Prefabs/Resources/")]
-		[SerializeField] string cashierInteractionResourcePath = "";
+		[SerializeField] string interactionResourcePath = "";
 
-		Dictionary<string, CashierInteraction> customerInteractionDictionary = new Dictionary<string, CashierInteraction>();
+		Dictionary<string, CashierInteraction> interactionDictionary = new Dictionary<string, CashierInteraction>();
 
 		/// <summary>
 		/// Initialize data into dictionary.
 		/// </summary>
 		public void Initalize()
 		{
-			List<CashierInteraction> interactionList = Resources.LoadAll(cashierInteractionResourcePath, typeof(CashierInteraction)).Cast<CashierInteraction>().ToList();
+			List<CashierInteraction> interactionList = Resources.LoadAll(interactionResourcePath, typeof(CashierInteraction)).Cast<CashierInteraction>().ToList();
 
-			customerInteractionDictionary.Clear();
+			interactionDictionary.Clear();
 			foreach (var interaction in interactionList)
 			{
-				customerInteractionDictionary.Add(interaction.name, interaction);
+				interactionDictionary.Add(interaction.name, interaction);
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace Personal.Definition
 		/// <returns></returns>
 		public CashierInteraction GetInteraction(string interactionStr)
 		{
-			return customerInteractionDictionary.GetValueOrDefault(interactionStr);
+			return interactionDictionary.GetValueOrDefault(interactionStr);
 		}
 	}
 }

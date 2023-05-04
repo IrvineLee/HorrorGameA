@@ -101,7 +101,7 @@ namespace Personal.UI.Option
 				currentFullScreenMode = fullscreenModes[index];
 				Screen.fullScreenMode = currentFullScreenMode;
 
-				HandleFullScreenMode(currentFullScreenMode);
+				Cursor.lockState = CursorLockMode.Confined;
 			});
 
 			antiAliasingDropdown.onValueChanged.AddListener(HandleAntiAlias);
@@ -189,7 +189,7 @@ namespace Personal.UI.Option
 			Screen.SetResolution(resolution.width, resolution.height, graphicData.ScreenMode);
 
 			Screen.fullScreenMode = graphicData.ScreenMode;
-			HandleFullScreenMode(graphicData.ScreenMode);
+			Cursor.lockState = CursorLockMode.Confined;
 
 			HandleAntiAlias(graphicData.AntiAliasing);
 
@@ -315,21 +315,6 @@ namespace Personal.UI.Option
 
 			antiAliasingDropdown.value = index;
 			currentAntiAliasIndex = index;
-		}
-
-		/// <summary>
-		/// Handle whether the cursor is confined.
-		/// </summary>
-		/// <param name="fullScreenMode"></param>
-		void HandleFullScreenMode(FullScreenMode fullScreenMode)
-		{
-			Cursor.lockState = CursorLockMode.None;
-
-			if (fullScreenMode == FullScreenMode.ExclusiveFullScreen ||
-				fullScreenMode == FullScreenMode.MaximizedWindow)
-			{
-				Cursor.lockState = CursorLockMode.Confined;
-			}
 		}
 
 		void HandleAmbientOcclusion(bool flag)

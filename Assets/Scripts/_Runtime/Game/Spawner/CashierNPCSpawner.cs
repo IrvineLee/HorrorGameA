@@ -14,8 +14,8 @@ namespace Personal.Spawner
 {
 	public class CashierNPCSpawner : SpawnerBase
 	{
-		[SerializeField] TargetInfo targetInfo = null;
 		[SerializeField] CashierInteractionDefinition cashierInteractionDefinition = null;
+		[SerializeField] TargetInfo targetInfo = null;
 
 		StringBuilder sb = new StringBuilder(30, 50);
 

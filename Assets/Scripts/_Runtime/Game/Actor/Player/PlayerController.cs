@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
+using PixelCrushers;
+
 namespace Personal.Character.Player
 {
 	public class PlayerController : ActorBase
 	{
+		void Start()
+		{
+			InputDeviceManager.instance.ForceCursor(false);
+		}
+
 		void Update()
 		{
 			//RaycastHit hit;

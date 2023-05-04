@@ -17,6 +17,8 @@ namespace Personal.GameState
 		[SerializeField] List<Transform> spawnAtList = null;
 		[SerializeField] List<Transform> moveToList = null;
 
+		[SerializeField] Transform placeToPutItem = null;
+
 		public Transform SpawnAtFirst { get => spawnAtList[0]; }
 		public Transform MoveToFirst { get => moveToList[0]; }
 		public Transform SpawnAtLast { get => spawnAtList[spawnAtList.Count - 1]; }
@@ -24,5 +26,7 @@ namespace Personal.GameState
 
 		public List<Transform> SpawnAtList { get => spawnAtList; }
 		public List<Transform> MoveToList { get => moveToList; }
+
+		public Transform PlaceToPutItem { get => placeToPutItem; }
 	}
 }

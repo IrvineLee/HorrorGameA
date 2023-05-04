@@ -9,17 +9,21 @@ namespace Personal.FSM.Cashier
 {
 	public class CashierScanAndPackState : StateBase
 	{
+		int currentCount, maxCount;
+
 		public override async UniTask OnEnter()
 		{
-			Debug.Log("Begin cashier state");
-			await UniTask.Delay(3000);
+			Debug.Log("CashierScanAndPackState");
 
-			//stateMachine.SetState(new )
+			maxCount = transform.childCount;
+			await UniTask.WaitUntil(() => currentCount == maxCount);
 			return;
 		}
 
 		public override async UniTask OnUpdate()
 		{
+
+
 			await UniTask.DelayFrame(0);
 		}
 
