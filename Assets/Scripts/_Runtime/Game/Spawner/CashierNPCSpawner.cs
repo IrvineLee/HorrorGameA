@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Cysharp.Threading.Tasks;
+using System.Text;
 
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.FSM.Cashier;
 using Personal.Definition;
 using Personal.GameState;
 using Helper;
-using System.Text;
 
 namespace Personal.Spawner
 {
@@ -48,7 +48,8 @@ namespace Personal.Spawner
 			sb.Replace("**", interactionStr);
 
 			// Spawn the actor.
-			GameObject instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
+			GameObject instance = PoolManager.Instance.GetSpawnedActor(entity.characterPath);
+			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
 
 			// Set the interaction.
 			CashierInteraction cashierInteraction = cashierInteractionDefinition.GetInteraction(sb.ToString());
@@ -66,7 +67,10 @@ namespace Personal.Spawner
 			AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
 			await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
 
-			return Addressables.InstantiateAsync(path, position, Quaternion.identity).Result;
+			GameObject go = Addressables.InstantiateAsync(path, position, Quaternion.identity).Result;
+			go.name = path;
+
+			return go;
 		}
 	}
 }

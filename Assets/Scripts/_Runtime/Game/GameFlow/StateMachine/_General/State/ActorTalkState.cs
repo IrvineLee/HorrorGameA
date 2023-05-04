@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using PixelCrushers.DialogueSystem;
 
-namespace Personal.FSM.Cashier
+namespace Personal.FSM.General
 {
 	[Serializable]
 	public class ActorTalkState : StateBase
@@ -15,8 +15,6 @@ namespace Personal.FSM.Cashier
 
 		public override async UniTask OnEnter()
 		{
-			Debug.Log("Begin talking state...");
-
 			actorStateMachine = (ActorStateMachine)stateMachine;
 			actorStateMachine.DialogueSystemTrigger.enabled = true;
 
@@ -32,8 +30,6 @@ namespace Personal.FSM.Cashier
 
 		public override async UniTask OnExit()
 		{
-			Debug.Log("Talking ended...");
-
 			actorStateMachine.DialogueSystemTrigger.enabled = false;
 			await UniTask.DelayFrame(0);
 		}

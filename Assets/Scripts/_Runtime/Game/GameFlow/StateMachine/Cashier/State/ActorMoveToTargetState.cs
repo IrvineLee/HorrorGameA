@@ -1,8 +1,9 @@
 using UnityEngine;
 
 using Personal.GameState;
+using Personal.FSM.General;
 
-namespace Personal.FSM
+namespace Personal.FSM.Cashier
 {
 	public class ActorMoveToTargetState : ActorMoveAndLookAtState
 	{

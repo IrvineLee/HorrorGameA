@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Helper;
 
-namespace Personal.FSM
+namespace Personal.FSM.General
 {
 	[Serializable]
 	public class ActorMoveAndLookAtState : StateBase
@@ -19,8 +19,6 @@ namespace Personal.FSM
 
 		public override async UniTask OnEnter()
 		{
-			Debug.Log("CustomerComeCounter");
-
 			actorStateMachine = ((ActorStateMachine)stateMachine);
 			navMeshAgent = actorStateMachine.NavMeshAgent;
 
@@ -54,8 +52,7 @@ namespace Personal.FSM
 			CoroutineRun cr = CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);
 			while (!cr.IsDone)
 			{
-				Debug.Log("Rotate done");
-				await UniTask.DelayFrame(1);
+				await UniTask.DelayFrame(0);
 			}
 		}
 
