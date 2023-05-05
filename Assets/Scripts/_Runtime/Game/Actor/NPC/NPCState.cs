@@ -2,18 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
-using PixelCrushers;
+using Personal.FSM;
 
-namespace Personal.Character.Player
+namespace Personal.FSM.Character
 {
-	public class PlayerController : ActorBase
+	public class NPCState : ActorBase
 	{
-		void Start()
-		{
-			InputDeviceManager.instance.ForceCursor(false);
-		}
-
 		void Update()
 		{
 			//RaycastHit hit;

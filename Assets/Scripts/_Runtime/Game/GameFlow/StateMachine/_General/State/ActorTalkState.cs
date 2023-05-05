@@ -15,6 +15,8 @@ namespace Personal.FSM.General
 
 		public override async UniTask OnEnter()
 		{
+			await base.OnEnter();
+
 			actorStateMachine = (ActorStateMachine)stateMachine;
 			actorStateMachine.DialogueSystemTrigger.enabled = true;
 
@@ -25,11 +27,13 @@ namespace Personal.FSM.General
 
 		public override async UniTask OnUpdate()
 		{
+			await base.OnUpdate();
 			await UniTask.DelayFrame(0);
 		}
 
 		public override async UniTask OnExit()
 		{
+			await base.OnExit();
 			actorStateMachine.DialogueSystemTrigger.enabled = false;
 			await UniTask.DelayFrame(0);
 		}

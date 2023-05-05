@@ -25,7 +25,7 @@ namespace Personal.FSM
 
 		void OnDisable()
 		{
-			NavMeshAgent.enabled = false;
+			if (NavMeshAgent) NavMeshAgent.enabled = false;
 		}
 	}
 }

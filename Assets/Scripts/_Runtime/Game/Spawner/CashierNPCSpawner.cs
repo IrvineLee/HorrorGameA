@@ -23,7 +23,7 @@ namespace Personal.Spawner
 		{
 			await base.Start();
 
-			StageManager.Instance.RegisterCashierNPCSpawner(this);
+			//StageManager.Instance.RegisterCashierNPCSpawner(this);
 			cashierInteractionDefinition.Initalize();
 		}
 

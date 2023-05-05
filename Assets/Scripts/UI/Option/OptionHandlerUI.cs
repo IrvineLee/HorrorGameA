@@ -1,3 +1,5 @@
+using Personal.Manager;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +19,8 @@ namespace Personal.UI.Option
 
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
 
+		public static event Action<bool> OnMenuOpened;
+
 		public void Initialize()
 		{
 			foreach (var option in optionMenuUIList)
@@ -28,6 +32,8 @@ namespace Personal.UI.Option
 
 		public void OpenMenuTab(MenuTab menuTab)
 		{
+			OnMenuOpened?.Invoke(true);
+
 			// Close all tabs.
 			foreach (var option in optionMenuUIList)
 			{
@@ -39,6 +45,11 @@ namespace Personal.UI.Option
 			{
 				optionMenuUI.gameObject.SetActive(true);
 			}
+		}
+
+		public void CloseMenuTab()
+		{
+			OnMenuOpened?.Invoke(false);
 		}
 	}
 }

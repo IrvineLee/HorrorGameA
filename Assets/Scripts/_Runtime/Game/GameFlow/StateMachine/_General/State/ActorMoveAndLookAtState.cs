@@ -19,6 +19,8 @@ namespace Personal.FSM.General
 
 		public override async UniTask OnEnter()
 		{
+			await base.OnEnter();
+
 			actorStateMachine = ((ActorStateMachine)stateMachine);
 			navMeshAgent = actorStateMachine.NavMeshAgent;
 
@@ -34,6 +36,8 @@ namespace Personal.FSM.General
 		/// <returns></returns>
 		public override async UniTask OnUpdate()
 		{
+			await base.OnUpdate();
+
 			// The navmesh agent head animation should be looking at the target.
 			await UniTask.DelayFrame(0);
 		}
@@ -44,6 +48,8 @@ namespace Personal.FSM.General
 		/// <returns></returns>
 		public override async UniTask OnExit()
 		{
+			await base.OnExit();
+
 			Transform target = GetLookAtTarget();
 
 			Vector3 direction = (target.position - navMeshAgent.transform.position).normalized;
@@ -57,6 +63,6 @@ namespace Personal.FSM.General
 		}
 
 		protected virtual Vector3 GetDestination() { return Vector3.zero; }
-		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerController.transform; }
+		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerStateMachine.transform; }
 	}
 }

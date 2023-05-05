@@ -2,12 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Personal.Character.Player
+using Cysharp.Threading.Tasks;
+using PixelCrushers;
+
+namespace Personal.FSM.Character
 {
-	public class NPCController : ActorBase
+	public class PlayerFPSState : ActorBase
 	{
-		void Update()
+		public override async UniTask OnEnter()
 		{
+			await base.OnEnter();
+		}
+
+		public override async UniTask OnUpdate()
+		{
+			await base.OnUpdate();
+
 			//RaycastHit hit;
 
 			//Vector3 p1 = transform.position + charCtrl.center;
@@ -19,6 +29,11 @@ namespace Personal.Character.Player
 			//{
 			//    distanceToObstacle = hit.distance;
 			//}
+		}
+
+		public override async UniTask OnExit()
+		{
+			await base.OnExit();
 		}
 	}
 }
