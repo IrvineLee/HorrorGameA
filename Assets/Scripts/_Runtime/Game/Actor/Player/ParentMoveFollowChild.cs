@@ -1,29 +1,21 @@
+using System;
 using UnityEngine;
 
 namespace Personal.Character.Player
 {
-	public class ParentMoveFollowChild : MonoBehaviour
+	[Serializable]
+	public class ParentMoveFollowChild
 	{
+		[SerializeField] Transform parentTarget = null;
 		[SerializeField] Transform childTarget = null;
 		[SerializeField] bool isFollowPosition = true;
 		[SerializeField] bool isFollowRotation = true;
 		[SerializeField] Vector3 positionOffset = Vector3.zero;
 
-		void Update()
-		{
-			if (!childTarget) return;
-
-			if (isFollowPosition)
-			{
-				transform.position = childTarget.position + positionOffset;
-				childTarget.localPosition = Vector3.zero;
-			}
-
-			if (isFollowRotation)
-			{
-				transform.rotation = childTarget.rotation;
-				childTarget.localRotation = Quaternion.identity;
-			}
-		}
+		public Transform ParentTarget { get => parentTarget; }
+		public Transform ChildTarget { get => childTarget; }
+		public bool IsFollowPosition { get => isFollowPosition; }
+		public bool IsFollowRotation { get => isFollowRotation; }
+		public Vector3 PositionOffset { get => positionOffset; }
 	}
 }

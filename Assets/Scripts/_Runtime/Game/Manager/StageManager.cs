@@ -47,7 +47,9 @@ namespace Personal.Manager
 		void Pause(bool isFlag)
 		{
 			Time.timeScale = isFlag ? 0 : 1;
+
 			InputDeviceManager.instance.ForceCursor(isFlag);
+			PlayerStateMachine.FirstPersonController.SetCursorInputForLook(!isFlag);
 		}
 
 		void OnDestroy()
