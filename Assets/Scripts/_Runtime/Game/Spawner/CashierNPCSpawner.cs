@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Text;
 
 using Cysharp.Threading.Tasks;
@@ -55,22 +53,6 @@ namespace Personal.Spawner
 			CashierInteraction cashierInteraction = cashierInteractionDefinition.GetInteraction(sb.ToString());
 			CashierStateMachine instanceFSM = instance.GetComponentInChildren<CashierStateMachine>();
 			instanceFSM.Initialize(targetInfo, cashierInteraction.OrderedStateList);
-		}
-
-		/// <summary>
-		/// Handle the spawning of objects.
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		protected override async UniTask<GameObject> Spawn(string path, Vector3 position = default)
-		{
-			AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
-			await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
-
-			GameObject go = Addressables.InstantiateAsync(path, position, Quaternion.identity).Result;
-			go.name = path;
-
-			return go;
 		}
 	}
 }

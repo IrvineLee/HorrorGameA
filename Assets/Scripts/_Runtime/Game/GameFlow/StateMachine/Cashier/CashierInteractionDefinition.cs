@@ -12,7 +12,7 @@ namespace Personal.Definition
 	[Serializable]
 	public class CashierInteractionDefinition : ScriptableObject
 	{
-		[FolderPath(ParentFolder = "Assets/Prefabs/Resources/")]
+		[FolderPath(ParentFolder = "Assets/Prefabs/Cashier/Resources")]
 		[SerializeField] string interactionResourcePath = "";
 
 		Dictionary<string, CashierInteraction> interactionDictionary = new Dictionary<string, CashierInteraction>();

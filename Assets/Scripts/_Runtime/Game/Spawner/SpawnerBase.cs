@@ -12,6 +12,14 @@ namespace Personal.Spawner
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 		}
 
-		protected abstract UniTask<GameObject> Spawn(string path, Vector3 position = default);
+		/// <summary>
+		/// Handle the spawning of objects.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		protected virtual async UniTask<GameObject> Spawn(string path, Vector3 position = default)
+		{
+			return await AddressableHelper.Spawn(path, position);
+		}
 	}
 }

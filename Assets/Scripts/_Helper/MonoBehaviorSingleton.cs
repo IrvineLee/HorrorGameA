@@ -19,9 +19,6 @@ namespace Helper
 				if (m_Instance == null)
 				{
 					m_Instance = (TSelfType)FindObjectOfType(typeof(TSelfType));
-
-					if (m_Instance == null)
-						m_Instance = (new GameObject(typeof(TSelfType).Name)).AddComponent<TSelfType>();
 				}
 				return m_Instance;
 			}

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 using StarterAssets;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.FSM.Character
 {
@@ -15,8 +16,10 @@ namespace Personal.FSM.Character
 		public FirstPersonController FirstPersonController { get; private set; }
 		public IReadOnlyDictionary<Type, StateBase> StateDictionary { get; private set; }
 
-		async void Start()
+		protected override async UniTask Awake()
 		{
+			await base.Awake();
+
 			FirstPersonController = GetComponentInChildren<FirstPersonController>();
 
 			List<StateBase> stateList = new();
@@ -27,7 +30,7 @@ namespace Personal.FSM.Character
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
 
-			StateDictionary.TryGetValue(typeof(PlayerFPSState), out StateBase currentState);
+			StateDictionary.TryGetValue(typeof(PlayerDefaultState), out StateBase currentState);
 			await SetState(currentState);
 			await currentState.OnExit();
 		}

@@ -36,6 +36,7 @@ namespace Personal.Manager
 			if (StageManager.Instance == null) return false;
 			if (DebugManager.Instance == null) return false;
 			if (SaveManager.Instance == null) return false;
+			if (HelperObj.Instance == null) return false;
 
 			if (MasterDataManager.Instance == null) return false;
 

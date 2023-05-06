@@ -5,7 +5,9 @@ namespace Personal
 {
 	public static class AssetAddress
 	{
-        public const string Effects_Effect_01_prefab = "Effects/Effect_01.prefab";
-        public const string MasterDataManager        = "MasterDataManager";
+        public const string Actor_NPC_01        = "Actor_NPC_01";
+        public const string Effects_Effect_01   = "Effects/Effect_01";
+        public const string ItemParent_Day01_01 = "ItemParent_Day01_01";
+        public const string MasterDataManager   = "MasterDataManager";
     }
 }

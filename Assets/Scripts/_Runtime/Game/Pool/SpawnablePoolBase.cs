@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Helper;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,7 +12,6 @@ namespace Personal.Pool
 	{
 		[SerializeField] PoolType poolType = PoolType.Effect3D_Effect01;
 		[SerializeField] AssetReference assetReference = null;
-		[SerializeField] string key = "";
 
 		[Space]
 		[SerializeField] int initialSpawn = 5;
@@ -21,9 +21,11 @@ namespace Personal.Pool
 		public PoolType PoolType { get => poolType; }
 
 		ObjectPool<GameObject> pool;
+		string key = "";
 
 		void Start()
 		{
+			key = StringHelper.RemoveAllWhenReachCharFromFront(poolType.GetStringValue(), '.', true);
 			Initialize();
 		}
 
@@ -115,7 +117,7 @@ namespace Personal.Pool
 
 		void OnValidate()
 		{
-			transform.name = "Pool_" + key;
+			transform.name = "Pool_" + poolType;
 		}
 	}
 }

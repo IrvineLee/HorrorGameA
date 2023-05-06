@@ -63,6 +63,6 @@ namespace Personal.FSM.General
 		}
 
 		protected virtual Vector3 GetDestination() { return Vector3.zero; }
-		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerStateMachine.transform; }
+		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerFSM.transform; }
 	}
 }

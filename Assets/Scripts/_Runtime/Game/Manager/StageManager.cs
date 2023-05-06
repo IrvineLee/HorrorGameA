@@ -16,7 +16,7 @@ namespace Personal.Manager
 		public bool IsPaused { get; private set; }
 
 		public Camera MainCamera { get; private set; }
-		public PlayerStateMachine PlayerStateMachine { get; private set; }
+		public PlayerStateMachine PlayerFSM { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
 
 		public int DayIndex { get; private set; }
@@ -27,7 +27,7 @@ namespace Personal.Manager
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 
 			MainCamera = Camera.main;
-			PlayerStateMachine = FindObjectOfType<PlayerStateMachine>();
+			PlayerFSM = FindObjectOfType<PlayerStateMachine>();
 
 			InputDeviceManager.instance.ForceCursor(false);
 			OptionHandlerUI.OnMenuOpened += Pause;
@@ -49,7 +49,7 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			InputDeviceManager.instance.ForceCursor(isFlag);
-			PlayerStateMachine.FirstPersonController.SetCursorInputForLook(!isFlag);
+			PlayerFSM.FirstPersonController.SetCursorInputForLook(!isFlag);
 		}
 
 		void OnDestroy()
