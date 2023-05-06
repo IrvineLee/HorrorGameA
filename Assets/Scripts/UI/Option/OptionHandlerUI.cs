@@ -15,6 +15,7 @@ namespace Personal.UI.Option
 			Language,
 		}
 
+		[SerializeField] Transform background = null;
 		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
 
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
@@ -32,6 +33,7 @@ namespace Personal.UI.Option
 
 		public void OpenMenuTab(MenuTab menuTab)
 		{
+			background.gameObject.SetActive(true);
 			OnMenuOpened?.Invoke(true);
 
 			// Close all tabs.
@@ -49,6 +51,7 @@ namespace Personal.UI.Option
 
 		public void CloseMenuTab()
 		{
+			background.gameObject.SetActive(false);
 			OnMenuOpened?.Invoke(false);
 		}
 	}
