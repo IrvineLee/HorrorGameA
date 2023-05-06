@@ -49,7 +49,7 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			InputDeviceManager.instance.ForceCursor(isFlag);
-			PlayerFSM.FirstPersonController.SetCursorInputForLook(!isFlag);
+			PlayerFSM.FirstPersonController.StopMovement(isFlag);
 		}
 
 		void OnDestroy()

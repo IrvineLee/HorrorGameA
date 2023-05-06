@@ -122,9 +122,9 @@ namespace StarterAssets
 			CameraRotation();
 		}
 
-		public void SetCursorInputForLook(bool isFlag)
+		public void StopMovement(bool isFlag)
 		{
-			_input.cursorInputForLook = isFlag;
+			_input.StopInput(isFlag);
 		}
 
 		private void GroundedCheck()
