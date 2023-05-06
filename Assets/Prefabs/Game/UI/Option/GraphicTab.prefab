@@ -570,7 +570,7 @@ RectTransform:
   m_GameObject: {fileID: 3127767462262455737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3689103027828527667}
@@ -599,7 +599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuTab: 0
-  urpRenderer: {fileID: 11400000, guid: 85d40c265154e674bbf864b31bec7ef5, type: 2}
   screenResolutionDropdown: {fileID: 6559387737421018952}
   screenModeDropdown: {fileID: 879342353673133589}
   brightnessSlider: {fileID: 2886815060819268050}
@@ -2088,7 +2087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3967261105511679517, guid: 6be08968bc6a4894a8390ea767267e04, type: 3}
       propertyPath: m_text
-      value: 
+      value: None
       objectReference: {fileID: 0}
     - target: {fileID: 4216894412072875943, guid: 6be08968bc6a4894a8390ea767267e04, type: 3}
       propertyPath: m_AnchorMax.y
