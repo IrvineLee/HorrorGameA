@@ -19,7 +19,6 @@ namespace Personal.FSM.Cashier
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
-			Debug.Log("CashierScanAndPackState");
 
 			cashierStateMachine = (CashierStateMachine)stateMachine;
 

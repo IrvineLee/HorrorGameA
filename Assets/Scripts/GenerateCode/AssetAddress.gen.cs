@@ -6,6 +6,7 @@ namespace Personal
 	public static class AssetAddress
 	{
         public const string Actor_NPC_01        = "Actor_NPC_01";
+        public const string CashParent          = "CashParent";
         public const string Effects_Effect_01   = "Effects/Effect_01";
         public const string ItemParent_Day01_01 = "ItemParent_Day01_01";
         public const string MasterDataManager   = "MasterDataManager";

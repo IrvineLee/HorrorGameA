@@ -11,7 +11,6 @@ namespace Personal.FSM.General
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
-			Debug.Log("Actor end state");
 
 			actorStateMachine = (ActorStateMachine)stateMachine;
 			PoolManager.Instance.ReturnSpawnedActor(actorStateMachine.NavMeshAgent.gameObject);
