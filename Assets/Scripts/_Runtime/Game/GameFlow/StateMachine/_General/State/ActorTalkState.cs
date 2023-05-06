@@ -18,7 +18,7 @@ namespace Personal.FSM.General
 			await base.OnEnter();
 
 			actorStateMachine = (ActorStateMachine)stateMachine;
-			actorStateMachine.DialogueSystemTrigger.enabled = true;
+			actorStateMachine.DialogueSystemTrigger.OnUse(actorStateMachine.transform);
 
 			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
 
@@ -34,7 +34,6 @@ namespace Personal.FSM.General
 		public override async UniTask OnExit()
 		{
 			await base.OnExit();
-			actorStateMachine.DialogueSystemTrigger.enabled = false;
 			await UniTask.DelayFrame(0);
 		}
 	}
