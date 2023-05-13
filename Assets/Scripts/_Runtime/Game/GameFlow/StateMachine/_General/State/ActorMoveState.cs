@@ -4,26 +4,30 @@ using UnityEngine.AI;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using Personal.GameState;
+using Personal.Character.Animation;
 using Helper;
 
-namespace Personal.FSM.General
+namespace Personal.FSM.Character
 {
 	[Serializable]
-	public class ActorMoveAndLookAtState : StateBase
+	public class ActorMoveState : ActorStateBase
 	{
 		[Tooltip("OnExit, body turn duration towards target")]
 		[SerializeField] float exitBodyRotateDuration = 0.25f;
 
-		protected ActorStateMachine actorStateMachine;
+		[SerializeField] TargetInfo.TargetType targetType = TargetInfo.TargetType.MoveTo;
+		[SerializeField] ActorAnimationType animationType = ActorAnimationType.Idle_01;
+
 		protected NavMeshAgent navMeshAgent;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			actorStateMachine = ((ActorStateMachine)stateMachine);
 			navMeshAgent = actorStateMachine.NavMeshAgent;
 
+			RunActorAnimation();
 			navMeshAgent.destination = GetDestination();
 			await UniTask.WaitUntil(() => navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && navMeshAgent.remainingDistance == 0);
 
@@ -62,7 +66,21 @@ namespace Personal.FSM.General
 			}
 		}
 
-		protected virtual Vector3 GetDestination() { return Vector3.zero; }
+		protected virtual Vector3 GetDestination()
+		{
+			Transform target = actorStateMachine.TargetInfo.SpawnAtFirst;
+
+			if (targetType == TargetInfo.TargetType.MoveTo)
+			{
+				target = actorStateMachine.TargetInfo.MoveToFirst;
+			}
+			else if (targetType == TargetInfo.TargetType.Leave)
+			{
+				target = actorStateMachine.TargetInfo.MoveToLast;
+			}
+
+			return target.position;
+		}
 		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerFSM.transform; }
 	}
 }

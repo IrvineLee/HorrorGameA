@@ -6,7 +6,7 @@ using Personal.FSM;
 
 namespace Personal.FSM.Character
 {
-	public class NPCState : ActorBase
+	public class NPCState : ActorStateBase
 	{
 		void Update()
 		{

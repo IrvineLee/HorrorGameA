@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace Personal.FSM.Cashier
 {
-	public class CashierStateMachine : ActorStateMachine
+	public class NPCCashierStateMachine : ActorStateMachine
 	{
 		List<StateBase> orderedStateList = new List<StateBase>();
 

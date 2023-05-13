@@ -11,7 +11,7 @@ namespace Personal.FSM.Cashier
 {
 	public class CashierScanAndPackState : PlayerDefaultState
 	{
-		CashierStateMachine cashierStateMachine;
+		NPCCashierStateMachine cashierStateMachine;
 		GameObject spawnedObject;
 
 		int currentCount, maxCount;
@@ -20,7 +20,7 @@ namespace Personal.FSM.Cashier
 		{
 			await base.OnEnter();
 
-			cashierStateMachine = (CashierStateMachine)stateMachine;
+			cashierStateMachine = (NPCCashierStateMachine)stateMachine;
 
 			// There will always be only 1 child within this transform.
 			Transform itemSelectionParent = transform.GetChild(0);

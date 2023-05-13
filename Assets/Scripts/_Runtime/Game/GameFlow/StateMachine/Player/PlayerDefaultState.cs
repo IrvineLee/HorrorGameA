@@ -9,7 +9,7 @@ using Personal.Constant;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerDefaultState : ActorBase
+	public class PlayerDefaultState : ActorStateBase
 	{
 		protected Camera cam;
 

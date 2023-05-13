@@ -1,20 +1,11 @@
-using UnityEngine;
-
 using Cysharp.Threading.Tasks;
-using Personal.Manager;
+using Personal.GameState;
 
 namespace Personal.FSM
 {
-	public abstract class StateMachineBase : MonoBehaviour
+	public abstract class StateMachineBase : GameInitialize
 	{
 		protected StateBase state;
-
-		protected virtual async UniTask Awake()
-		{
-			enabled = false;
-			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
-			enabled = true;
-		}
 
 		public async UniTask SetState(StateBase state)
 		{

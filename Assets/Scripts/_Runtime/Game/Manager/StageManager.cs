@@ -22,7 +22,7 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 
-		async void Start()
+		async void Awake()
 		{
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 

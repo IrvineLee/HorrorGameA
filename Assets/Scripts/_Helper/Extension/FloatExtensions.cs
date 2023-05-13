@@ -33,5 +33,15 @@ namespace Helper
 		{
 			return original * 100;
 		}
+
+		/// <summary>
+		/// Change from seconds to milliseconds.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static float SecondsToMilliseconds(this float original)
+		{
+			return original * 1000;
+		}
 	}
 }

@@ -2,16 +2,12 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 using Personal.Manager;
+using Personal.GameState;
 
 namespace Personal.Spawner
 {
-	public abstract class SpawnerBase : MonoBehaviour
+	public abstract class SpawnerBase : GameInitialize
 	{
-		protected virtual async UniTask Start()
-		{
-			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
-		}
-
 		/// <summary>
 		/// Handle the spawning of objects.
 		/// </summary>

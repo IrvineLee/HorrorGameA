@@ -1,16 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using System;
-using PixelCrushers.DialogueSystem;
+using Helper;
 
 namespace Personal.FSM.Character
 {
 	[Serializable]
-	public class ActorTalkState : ActorStateBase
+	public class ActorWaitState : ActorStateBase
 	{
+		[SerializeField] float waitDuration = 1f;
+
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
@@ -18,8 +18,7 @@ namespace Personal.FSM.Character
 			actorStateMachine.DialogueSystemTrigger.OnUse(actorStateMachine.transform);
 
 			RunActorAnimation();
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
-
+			//await UniTask.Delay((int)waitDuration.SecondsToMilliseconds());
 			return;
 		}
 	}

@@ -15,7 +15,7 @@ namespace Personal.Manager
 		public static bool IsWindow { get => Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor; }
 		public static bool IsMAC { get => Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor; }
 
-		async void Start()
+		async void Awake()
 		{
 			MasterDataManager.CreateInstance();
 			await UniTask.WaitUntil(() => IsInitialized());

@@ -17,10 +17,8 @@ namespace Personal.Spawner
 
 		StringBuilder sb = new StringBuilder(30, 50);
 
-		protected override async UniTask Start()
+		void Start()
 		{
-			await base.Start();
-
 			StageManager.Instance.RegisterCashierNPCSpawner(this);
 			cashierInteractionDefinition.Initalize();
 		}
@@ -51,7 +49,7 @@ namespace Personal.Spawner
 
 			// Set the interaction.
 			CashierInteraction cashierInteraction = cashierInteractionDefinition.GetInteraction(sb.ToString());
-			CashierStateMachine instanceFSM = instance.GetComponentInChildren<CashierStateMachine>();
+			NPCCashierStateMachine instanceFSM = instance.GetComponentInChildren<NPCCashierStateMachine>();
 			instanceFSM.Initialize(targetInfo, cashierInteraction.OrderedStateList);
 		}
 	}

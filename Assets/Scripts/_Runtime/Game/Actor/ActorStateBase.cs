@@ -1,19 +1,15 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.FSM;
-using Personal.Manager;
+using Personal.Character.Animation;
 
 namespace Personal.FSM.Character
 {
-	public class ActorBase : StateBase
+	public class ActorStateBase : StateBase
 	{
-		protected Transform Actor { get; private set; }
+		[SerializeField] ActorAnimationType actorAnimationType = ActorAnimationType.None;
 
-		public void SetActor(Transform actor)
-		{
-			Actor = actor;
-		}
+		protected ActorStateMachine actorStateMachine;
 
 		/// <summary>
 		/// Called when the state begins
@@ -22,6 +18,7 @@ namespace Personal.FSM.Character
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
+			actorStateMachine = (ActorStateMachine)stateMachine;
 		}
 
 		/// <summary>
@@ -43,5 +40,10 @@ namespace Personal.FSM.Character
 		}
 
 		protected virtual void HandleMovement() { }
+
+		protected virtual void RunActorAnimation()
+		{
+			actorStateMachine.AnimatorController?.PlayAnimation(actorAnimationType);
+		}
 	}
 }
