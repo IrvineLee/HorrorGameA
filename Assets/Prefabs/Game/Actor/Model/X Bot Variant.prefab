@@ -29,15 +29,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 772c11fefdd47b847905989447066b4d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 772c11fefdd47b847905989447066b4d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 772c11fefdd47b847905989447066b4d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 772c11fefdd47b847905989447066b4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -69,3 +69,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 772c11fefdd47b847905989447066b4d, type: 3}
+--- !u!1 &7538047062700442309 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 772c11fefdd47b847905989447066b4d, type: 3}
+  m_PrefabInstance: {fileID: 7232196114594856852}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3488639909035038726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7538047062700442309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bca56993160c3f458e180b26a9c4232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  realAnimatorStateList:
+  - actorAnimationType: 1
+    realAnimationType: 1
+  - actorAnimationType: 1000
+    realAnimationType: 1000

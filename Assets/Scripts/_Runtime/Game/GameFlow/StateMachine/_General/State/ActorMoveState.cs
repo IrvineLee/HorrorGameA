@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.GameState;
-using Personal.Character.Animation;
 using Helper;
 
 namespace Personal.FSM.Character
@@ -17,7 +16,6 @@ namespace Personal.FSM.Character
 		[SerializeField] float exitBodyRotateDuration = 0.25f;
 
 		[SerializeField] TargetInfo.TargetType targetType = TargetInfo.TargetType.MoveTo;
-		[SerializeField] ActorAnimationType animationType = ActorAnimationType.Idle_01;
 
 		protected NavMeshAgent navMeshAgent;
 
