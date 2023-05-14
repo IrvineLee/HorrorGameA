@@ -7,23 +7,23 @@ namespace Personal.Character.Animation
 {
 	public class NPCAnimatorController : AnimatorController
 	{
-		[SerializeField] List<RealAnimatorState<XBotAnimationType>> realAnimatorStateList = new();
+		[SerializeField] List<AnimatorState<XBotAnimationType>> realAnimatorStateList = new();
 
-		Dictionary<ActorAnimationType, XBotAnimationType> realAnimatorStateDictionary = new();
+		Dictionary<ActorAnimationType, RealAnimatorState<XBotAnimationType>> realAnimatorStateDictionary = new();
 
 		public override void Initialize()
 		{
 			foreach (var state in realAnimatorStateList)
 			{
-				realAnimatorStateDictionary.Add(state.ActorAnimationType, state.RealAnimationType);
+				realAnimatorStateDictionary.Add(state.ActorAnimationType, state.RealAnimatorState);
 			}
 		}
 
 		public override void PlayAnimation(ActorAnimationType actorAnimationType)
 		{
-			if (realAnimatorStateDictionary.TryGetValue(actorAnimationType, out XBotAnimationType xBotAnimationType))
+			if (realAnimatorStateDictionary.TryGetValue(actorAnimationType, out RealAnimatorState<XBotAnimationType> realState))
 			{
-				animator.CrossFade(xBotAnimationType.GetStringValue(), 0);
+				animator.CrossFade(realState.RealAnimationType.GetStringValue(), realState.NormalizedTime);
 			}
 		}
 	}

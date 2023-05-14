@@ -88,6 +88,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   realAnimatorStateList:
   - actorAnimationType: 1
-    realAnimationType: 1
+    realAnimatorState:
+      realAnimationType: 1
+      normalizedTime: 0.2
   - actorAnimationType: 1000
-    realAnimationType: 1000
+    realAnimatorState:
+      realAnimationType: 1000
+      normalizedTime: 0.2

@@ -10,27 +10,34 @@ namespace Personal.Character.Animation
 	public class AnimatorController : GameInitialize
 	{
 		[Serializable]
-		public class RealAnimatorState<T> where T : Enum
+		public class AnimatorState<T> where T : Enum
 		{
-			[HorizontalGroup("Split")]
-			[VerticalGroup("Split/Left")]
-			[LabelWidth(40f)]
+			[HorizontalGroup(LabelWidth = 40, MinWidth = 190f)]
 			[LabelText("Anim")]
 			[SerializeField] ActorAnimationType actorAnimationType;
 
-			[VerticalGroup("Split/Right")]
+			[HorizontalGroup(LabelWidth = 40, MinWidth = 190f)]
 			[HideLabel()]
-
-			[SerializeField] T realAnimationType;
+			[SerializeField] RealAnimatorState<T> realAnimatorState;
 
 			public ActorAnimationType ActorAnimationType { get => actorAnimationType; }
-			public T RealAnimationType { get => realAnimationType; }
+			public RealAnimatorState<T> RealAnimatorState { get => realAnimatorState; }
+		}
 
-			public RealAnimatorState(ActorAnimationType actorAnimationType, T realAnimationType)
-			{
-				this.actorAnimationType = actorAnimationType;
-				this.realAnimationType = realAnimationType;
-			}
+		[Serializable]
+		public class RealAnimatorState<T> where T : Enum
+		{
+			[HorizontalGroup()]
+			[HideLabel()]
+			[SerializeField] T realAnimationType;
+
+			[HorizontalGroup(MinWidth = 100f)]
+			[HideLabel()]
+			[Range(0, 1)]
+			[SerializeField] float normalizedTime;
+
+			public T RealAnimationType { get => realAnimationType; }
+			public float NormalizedTime { get => normalizedTime; }
 		}
 
 		protected Animator animator;
