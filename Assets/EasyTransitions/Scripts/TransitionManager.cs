@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,8 @@ namespace EasyTransition
 		CanvasGroup canvasGroup;
 		bool isRunningTransition;
 
+		Dictionary<TransitionType, Transition> transitionDictionary = new();
+
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
@@ -35,34 +38,46 @@ namespace EasyTransition
 		/// Loads the new Scene asyncronosly with a transition.
 		/// </summary>
 		/// <param name="transitionType"></param>
-		/// <param name="loadDelay"></param>
+		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
-		public void Transition(TransitionType transitionType, float loadDelay, Action inBetweenAction = default)
+		public void Transition(TransitionType transitionType, float delay, Action inBetweenAction = default)
 		{
 			if (isRunningTransition) return;
 
-			HandleTransition(loadDelay, TransitionManagerSettings.GetTransitionSetting(transitionType)).Forget();
+			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
+			HandleTransition(transitionType, delay, transitionSettings).Forget();
 		}
 
-		async UniTask HandleTransition(float delay, TransitionSettings transitionSettings)
+		async UniTask HandleTransition(TransitionType transitionType, float delay, TransitionSettings transitionSettings)
 		{
 			isRunningTransition = true;
 			await UniTask.Delay((int)delay.SecondsToMilliseconds());
 
-			int transitionDuration = await SpawnTemplate(transitionSettings);
+			int transitionDuration = 0;
+			if (!transitionDictionary.TryGetValue(transitionType, out Transition transition))
+				transitionDuration = await SpawnTemplate(transitionType, transitionSettings);
+			else
+				transitionDuration = TransitionSetup(transition, transitionSettings);
 
 			await UniTask.Delay(transitionDuration);
 			isRunningTransition = false;
 		}
 
-		async UniTask<int> SpawnTemplate(TransitionSettings transitionSettings)
+		async UniTask<int> SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings)
 		{
 			GameObject template = await AddressableHelper.Spawn(AssetAddress.TransitionTemplate);
 
 			Transition transition = template.GetComponent<Transition>();
-			transition.Initialize(transitionSettings, transitionManagerSettings);
+			transitionDictionary.Add(transitionType, transition);
 
-			// Canvas initialize.
+			return TransitionSetup(transition, transitionSettings);
+		}
+
+		int TransitionSetup(Transition transition, TransitionSettings transitionSettings)
+		{
+			transition.Begin(transitionSettings, transitionManagerSettings);
+
+			// Canvas setup.
 			canvasScaler.referenceResolution = transitionSettings.ReferenceResolution;
 			canvasGroup.blocksRaycasts = transitionSettings.BlockRaycasts;
 

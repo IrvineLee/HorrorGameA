@@ -17,7 +17,7 @@ namespace EasyTransition
 		Material multiplyColorMaterial;
 		Material additiveColorMaterial;
 
-		public async void Initialize(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
+		public async void Begin(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
 		{
 			this.transitionSettings = transitionSettings;
 
@@ -52,13 +52,15 @@ namespace EasyTransition
 
 			await HandleTransition(transitionSettings.TransitionOut, transitionPanelOUT);
 
-			//Adjusting the destroy time if needed
-			float destroyTime = transitionSettings.DestroyTime;
-			if (transitionSettings.AutoAdjustTransitionTime)
-				destroyTime = destroyTime / transitionSettings.TransitionSpeed;
+			transitionPanelOUT.gameObject.SetActive(false);
 
-			//Destroying the transition
-			Destroy(gameObject, destroyTime);
+			////Adjusting the destroy time if needed
+			//float destroyTime = transitionSettings.DestroyTime;
+			//if (transitionSettings.AutoAdjustTransitionTime)
+			//	destroyTime = destroyTime / transitionSettings.TransitionSpeed;
+
+			////Destroying the transition
+			//Destroy(gameObject, destroyTime);
 		}
 
 		async UniTask HandleTransition(GameObject go, Transform parent)
