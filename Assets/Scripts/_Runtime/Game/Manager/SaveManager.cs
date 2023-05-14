@@ -8,7 +8,7 @@ using Personal.GameState;
 
 namespace Personal.Manager
 {
-	public class SaveManager : MonoBehaviourSingleton<SaveManager>
+	public class SaveManager : GameInitializeSingleton<SaveManager>
 	{
 		const int ID_COUNT = 5;
 

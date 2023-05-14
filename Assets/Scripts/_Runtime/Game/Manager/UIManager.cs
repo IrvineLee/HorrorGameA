@@ -4,10 +4,11 @@ using System.Collections;
 using Helper;
 using Personal.UI.Option;
 using Cysharp.Threading.Tasks;
+using Personal.GameState;
 
 namespace Personal.Manager
 {
-	public class UIManager : MonoBehaviourSingleton<UIManager>
+	public class UIManager : GameInitializeSingleton<UIManager>
 	{
 		[SerializeField] Transform playerUI = null;
 		[SerializeField] OptionHandlerUI optionUI = null;
@@ -16,9 +17,9 @@ namespace Personal.Manager
 
 		// TODO : Should handle all the other UI here as well.
 
-		async void Start()
+		protected override async UniTask Awake()
 		{
-			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			await base.Awake();
 
 			OptionHandlerUI.OnMenuOpened += OptionUI_OnMenuOpened;
 

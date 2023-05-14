@@ -8,7 +8,7 @@ using Personal.FSM.Cashier;
 
 namespace Personal.Manager
 {
-	public class DebugManager : MonoBehaviourSingleton<DebugManager>
+	public class DebugManager : GameInitializeSingleton<DebugManager>
 	{
 		SaveObject saveObject;
 

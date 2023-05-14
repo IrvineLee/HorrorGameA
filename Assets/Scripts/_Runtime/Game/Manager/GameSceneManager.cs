@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Helper;
 using Personal.System.Handler;
 using Cysharp.Threading.Tasks;
+using Personal.GameState;
 
 namespace Personal.Manager
 {
-	public class SceneManager : MonoBehaviourSingleton<SceneManager>
+	public class GameSceneManager : GameInitializeSingleton<GameSceneManager>
 	{
 		[SerializeField] FadeHandler fadeHandler = null;
 

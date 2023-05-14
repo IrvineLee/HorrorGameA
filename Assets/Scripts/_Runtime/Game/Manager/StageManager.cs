@@ -2,18 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using Helper;
+using Personal.GameState;
 using Personal.Spawner;
 using Personal.FSM.Character;
+using Personal.UI.Option;
 using Cysharp.Threading.Tasks;
 using PixelCrushers;
-using Personal.UI.Option;
 
 namespace Personal.Manager
 {
-	public class StageManager : MonoBehaviourSingleton<StageManager>
+	public class StageManager : GameInitializeSingleton<StageManager>
 	{
 		public bool IsPaused { get; private set; }
+
+		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
 
 		public Camera MainCamera { get; private set; }
 		public PlayerStateMachine PlayerFSM { get; private set; }
@@ -22,9 +24,9 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 
-		async void Awake()
+		protected override async UniTask Awake()
 		{
-			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			await base.Awake();
 
 			MainCamera = Camera.main;
 			PlayerFSM = FindObjectOfType<PlayerStateMachine>();

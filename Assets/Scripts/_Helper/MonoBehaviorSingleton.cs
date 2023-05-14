@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Helper
 {
@@ -6,10 +7,10 @@ namespace Helper
 	{
 		static TSelfType m_Instance = null;
 
-		void Awake()
+		protected virtual async UniTask Awake()
 		{
-			if (Application.isPlaying)
-				DontDestroyOnLoad(Instance.gameObject);
+			DontDestroyOnLoad(Instance.gameObject);
+			await UniTask.Delay(0);
 		}
 
 		public static TSelfType Instance

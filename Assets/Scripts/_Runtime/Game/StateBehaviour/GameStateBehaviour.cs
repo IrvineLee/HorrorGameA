@@ -7,7 +7,7 @@ using Personal.Save;
 namespace Personal.GameState
 {
 	[Serializable]
-	public class GameStateBehaviour : MonoBehaviourSingleton<GameStateBehaviour>
+	public class GameStateBehaviour : GameInitializeSingleton<GameStateBehaviour>
 	{
 		/// <summary>
 		/// The setting for the entire game.

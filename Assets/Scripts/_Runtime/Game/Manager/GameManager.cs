@@ -9,20 +9,20 @@ namespace Personal.Manager
 {
 	public class GameManager : MonoBehaviourSingleton<GameManager>
 	{
-		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
 		public bool IsLoadingOver { get; private set; }
 
 		public static bool IsWindow { get => Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor; }
 		public static bool IsMAC { get => Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor; }
 
-		async void Awake()
+		protected override async UniTask Awake()
 		{
-			MasterDataManager.CreateInstance();
-			await UniTask.WaitUntil(() => IsInitialized());
+			await base.Awake();
 
+			await UniTask.WaitUntil(() => IsInitialized());
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully activated!! ----------</color>");
 
 			await HandleProfileLoading();
+			Debug.Log("<Color=#45FF00> ---------- Profile Loaded!! ----------</color>");
 
 			IsLoadingOver = true;
 		}
@@ -30,7 +30,7 @@ namespace Personal.Manager
 		bool IsInitialized()
 		{
 			if (GameStateBehaviour.Instance == null) return false;
-			if (SceneManager.Instance == null) return false;
+			if (GameSceneManager.Instance == null) return false;
 			if (UIManager.Instance == null) return false;
 			if (PoolManager.Instance == null) return false;
 			if (StageManager.Instance == null) return false;
@@ -38,6 +38,7 @@ namespace Personal.Manager
 			if (SaveManager.Instance == null) return false;
 			if (HelperObj.Instance == null) return false;
 
+			MasterDataManager.CreateInstance();
 			if (MasterDataManager.Instance == null) return false;
 
 			return true;

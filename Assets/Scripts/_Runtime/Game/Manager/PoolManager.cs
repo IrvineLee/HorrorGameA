@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 using Helper;
 using Personal.Pool;
+using Personal.GameState;
 
 namespace Personal.Manager
 {
-	public class PoolManager : MonoBehaviourSingleton<PoolManager>
+	public class PoolManager : GameInitializeSingleton<PoolManager>
 	{
 		Dictionary<PoolType, SpawnablePoolBase> spawnablePoolDictionary = new();
 		Dictionary<string, GameObject> actorDictionary = new();

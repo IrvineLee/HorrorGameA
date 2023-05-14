@@ -3,10 +3,11 @@
 using Helper;
 using Personal.Setting.Audio;
 using Personal.Definition;
+using Personal.GameState;
 
 namespace Personal.Manager
 {
-	public class AudioManager : MonoBehaviourSingleton<AudioManager>
+	public class AudioManager : GameInitializeSingleton<AudioManager>
 	{
 		[SerializeField] AudioSource bgm = null;
 		[SerializeField] AudioSource sfx = null;
