@@ -5,8 +5,19 @@ using Helper;
 
 namespace Personal.Character.Animation
 {
-	public class NPCAnimatorController : AnimatorController
+	public class NPC_XBot_AnimatorController : AnimatorController
 	{
+		public enum XBotAnimationType
+		{
+			None = 0,
+
+			[StringValue("Idle_01")]
+			Idle_01 = 1,
+
+			[StringValue("Walk_01")]
+			Walk_01 = 1000,
+		}
+
 		[SerializeField] List<AnimatorState<XBotAnimationType>> realAnimatorStateList = new();
 
 		Dictionary<ActorAnimationType, RealAnimatorState<XBotAnimationType>> realAnimatorStateDictionary = new();
