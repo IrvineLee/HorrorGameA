@@ -32,6 +32,8 @@ namespace EasyTransition
 
 			canvasGroup = GetComponentInChildren<CanvasGroup>();
 			transitionManagerSettings.Initialize();
+
+			Transition(TransitionType.Fade, TransitionPlayType.Out);
 		}
 
 		/// <summary>
@@ -40,44 +42,44 @@ namespace EasyTransition
 		/// <param name="transitionType"></param>
 		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
-		public void Transition(TransitionType transitionType, float delay = 0, Action inBetweenAction = default)
+		public void Transition(TransitionType transitionType, TransitionPlayType transitionPlayType = TransitionPlayType.All, float delay = 0, Action inBetweenAction = default)
 		{
 			if (isRunningTransition) return;
 
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
-			HandleTransition(transitionType, delay, transitionSettings).Forget();
+			HandleTransition(transitionType, transitionPlayType, delay, transitionSettings, inBetweenAction).Forget();
 		}
 
-		async UniTask HandleTransition(TransitionType transitionType, float delay, TransitionSettings transitionSettings)
+		async UniTask HandleTransition(TransitionType transitionType, TransitionPlayType transitionPlayType, float delay, TransitionSettings transitionSettings, Action inBetweenAction)
 		{
 			isRunningTransition = true;
 			await UniTask.Delay((int)delay.SecondsToMilliseconds());
 
 			if (!transitionDictionary.TryGetValue(transitionType, out Transition transition))
-				await SpawnTemplate(transitionType, transitionSettings);
-			else
-				await TransitionSetup(transition, transitionSettings);
+				transition = await SpawnTemplate(transitionType, transitionSettings, inBetweenAction);
+
+			await TransitionSetup(transition, transitionPlayType, transitionSettings, inBetweenAction);
 
 			isRunningTransition = false;
 		}
 
-		async UniTask SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings)
+		async UniTask<Transition> SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings, Action inBetweenAction)
 		{
 			GameObject template = await AddressableHelper.Spawn(transitionType.GetStringValue(), Vector3.zero, CanvasGroup.transform);
 
 			Transition transition = template.GetComponent<Transition>();
 			transitionDictionary.Add(transitionType, transition);
 
-			await TransitionSetup(transition, transitionSettings);
+			return transition;
 		}
 
-		async UniTask TransitionSetup(Transition transition, TransitionSettings transitionSettings)
+		async UniTask TransitionSetup(Transition transition, TransitionPlayType transitionPlayType, TransitionSettings transitionSettings, Action inBetweenAction)
 		{
 			// Canvas setup.
 			canvasScaler.referenceResolution = transitionSettings.ReferenceResolution;
 			canvasGroup.blocksRaycasts = transitionSettings.BlockRaycasts;
 
-			await transition.Begin(transitionSettings, transitionManagerSettings);
+			await transition.Begin(transitionSettings, transitionPlayType, transitionManagerSettings, inBetweenAction);
 		}
 	}
 }

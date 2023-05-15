@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Personal.GameState;
-using Helper;
 using Cysharp.Threading.Tasks;
+using Helper;
 
 namespace EasyTransition
 {
@@ -29,7 +30,7 @@ namespace EasyTransition
 			animationOut = transitionPanelOUT.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
 		}
 
-		public async UniTask Begin(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
+		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType, TransitionManagerSettings fullSettings, Action inBetweenAction)
 		{
 			this.transitionSettings = transitionSettings;
 
@@ -41,8 +42,9 @@ namespace EasyTransition
 			if (multiplyColorMaterial == null || additiveColorMaterial == null)
 				Debug.LogWarning("There are no color tint materials set for the transition. Changing the color tint will not affect the transition anymore!");
 
-			await TransitionIn();
-			await TransitionOut();
+			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn();
+			inBetweenAction?.Invoke();
+			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut();
 		}
 
 		async UniTask TransitionIn()
@@ -63,14 +65,6 @@ namespace EasyTransition
 			await HandleTransition(transitionSettings.TransitionOut.transform, animationOut);
 
 			transitionPanelOUT.gameObject.SetActive(false);
-
-			////Adjusting the destroy time if needed
-			//float destroyTime = transitionSettings.DestroyTime;
-			//if (transitionSettings.AutoAdjustTransitionTime)
-			//	destroyTime = destroyTime / transitionSettings.TransitionSpeed;
-
-			////Destroying the transition
-			//Destroy(gameObject, destroyTime);
 		}
 
 		async UniTask HandleTransition(Transform transition, AnimationClip animationClip)

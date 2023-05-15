@@ -1,20 +1,32 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-using Helper;
-using Personal.System.Handler;
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
+using EasyTransition;
 
 namespace Personal.Manager
 {
 	public class GameSceneManager : GameInitializeSingleton<GameSceneManager>
 	{
-		[SerializeField] FadeHandler fadeHandler = null;
-
-		public void ChangeLevel(int index)
+		public void ChangeLevel(int index, TransitionType transitionType = TransitionType.Fade, Action inBetweenAction = default, float delay = 0)
 		{
-			fadeHandler.FadeOutIn_LoadScene(index).Forget();
+			Action action = () =>
+			{
+				inBetweenAction?.Invoke();
+				SceneManager.LoadScene(index);
+			};
+			TransitionManager.Instance.Transition(transitionType, TransitionPlayType.All, delay, action);
+		}
+
+		public void ChangeLevel(string sceneName, TransitionType transitionType = TransitionType.Fade, Action inBetweenAction = default, float delay = 0)
+		{
+			Action action = () =>
+			{
+				inBetweenAction?.Invoke();
+				SceneManager.LoadScene(sceneName);
+			};
+			TransitionManager.Instance.Transition(transitionType, TransitionPlayType.All, delay, action);
 		}
 	}
 }

@@ -73,6 +73,14 @@ namespace EasyTransition
 		Noise,
 	}
 
+	[Flags]
+	public enum TransitionPlayType
+	{
+		In = 1 << 0,
+		Out = 1 << 1,
+		All = In | Out,
+	}
+
 	[Serializable]
 	public class TransitionSettings
 	{
