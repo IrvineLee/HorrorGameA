@@ -8,8 +8,6 @@ namespace Personal.FSM
 	{
 		protected StateMachineBase stateMachine;
 
-		UniTask uniTask = new UniTask();
-
 		public void SetFSM(StateMachineBase stateMachine)
 		{
 			this.stateMachine = stateMachine;
@@ -19,18 +17,18 @@ namespace Personal.FSM
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask OnEnter() { return uniTask; }
+		public virtual UniTask OnEnter() { return UniTask.Delay(0); }
 
 		/// <summary>
 		/// Called to request updating
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask OnUpdate() { return uniTask; }
+		public virtual UniTask OnUpdate() { return UniTask.Delay(0); }
 
 		/// <summary>
 		/// Called when the state is ended
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask OnExit() { return uniTask; }
+		public virtual UniTask OnExit() { return UniTask.Delay(0); }
 	}
 }
