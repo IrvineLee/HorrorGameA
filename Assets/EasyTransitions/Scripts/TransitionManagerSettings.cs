@@ -1,3 +1,4 @@
+using Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,17 +36,40 @@ namespace EasyTransition
 
 	public enum TransitionType
 	{
+		[StringValue("TransitionFade")]
 		Fade = 0,
+
+		[StringValue("TransitionCircleWipe")]
 		CircleWipe,
+
+		[StringValue("TransitionLinearWipe")]
 		LinearWipe,
+
+		[StringValue("TransitionRectangleGrid")]
 		RectangleGrid,
+
+		[StringValue("TransitionDoubleWipe")]
 		DoubleWipe,
+
+		[StringValue("TransitionDiagonalRectangleGrid")]
 		DiagonalRectangleGrid,
+
+		[StringValue("TransitionRectangleWipe")]
 		RectangleWipe,
+
+		[StringValue("TransitionVerticalCurtain")]
 		VerticalCurtain,
+
+		[StringValue("TransitionHorizontalCurtain")]
 		HorizontalCurtain,
+
+		[StringValue("TransitionBrush")]
 		Brush,
+
+		[StringValue("TransitionPaintSplash")]
 		PaintSplash,
+
+		[StringValue("TransitionNoise")]
 		Noise,
 	}
 

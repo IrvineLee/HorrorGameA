@@ -5,31 +5,23 @@ namespace Personal
 {
 	public static class AssetAddress
 	{
-        public const string Actor_NPC_01                                            = "Actor_NPC_01";
-        public const string Assets_EasyTransitions_Transitions_Brush_BrushIN_prefab = "Assets/EasyTransitions/Transitions/Brush/BrushIN.prefab";
-        public const string BrushOUT                                                = "BrushOUT";
-        public const string CashParent                                              = "CashParent";
-        public const string CircleIN                                                = "CircleIN";
-        public const string CircleOUT                                               = "CircleOUT";
-        public const string DiagonalRectangleGridIN                                 = "DiagonalRectangleGridIN";
-        public const string DiagonalRectangleGridOUT                                = "DiagonalRectangleGridOUT";
-        public const string DoubleWipeIN                                            = "DoubleWipeIN";
-        public const string DoubleWipeOUT                                           = "DoubleWipeOUT";
-        public const string Effects_Effect_01                                       = "Effects/Effect_01";
-        public const string FadeIN                                                  = "FadeIN";
-        public const string FadeOUT                                                 = "FadeOUT";
-        public const string HorizontalCurtainIN                                     = "HorizontalCurtainIN";
-        public const string HorizontalCurtainOUT                                    = "HorizontalCurtainOUT";
-        public const string ItemParent_Day01_01                                     = "ItemParent_Day01_01";
-        public const string MasterDataManager                                       = "MasterDataManager";
-        public const string NoiseIN                                                 = "NoiseIN";
-        public const string NoiseOUT                                                = "NoiseOUT";
-        public const string PaintSplashIN                                           = "PaintSplashIN";
-        public const string PaintSplashOut                                          = "PaintSplashOut";
-        public const string RectangleGridIN                                         = "RectangleGridIN";
-        public const string RectangleGridOUT                                        = "RectangleGridOUT";
-        public const string TransitionTemplate                                      = "TransitionTemplate";
-        public const string WipeIN                                                  = "WipeIN";
-        public const string WipeOUT                                                 = "WipeOUT";
+        public const string Actor_NPC_01                    = "Actor_NPC_01";
+        public const string CashParent                      = "CashParent";
+        public const string Effects_Effect_01               = "Effects/Effect_01";
+        public const string ItemParent_Day01_01             = "ItemParent_Day01_01";
+        public const string MasterDataManager               = "MasterDataManager";
+        public const string TransitionBrush                 = "TransitionBrush";
+        public const string TransitionCircleWipe            = "TransitionCircleWipe";
+        public const string TransitionDiagonalRectangleGrid = "TransitionDiagonalRectangleGrid";
+        public const string TransitionDoubleWipe            = "TransitionDoubleWipe";
+        public const string TransitionFade                  = "TransitionFade";
+        public const string TransitionHorizontalCurtain     = "TransitionHorizontalCurtain";
+        public const string TransitionLinearWipe            = "TransitionLinearWipe";
+        public const string TransitionNoise                 = "TransitionNoise";
+        public const string TransitionPaintSplash           = "TransitionPaintSplash";
+        public const string TransitionRectangleGrid         = "TransitionRectangleGrid";
+        public const string TransitionRectangleWipe         = "TransitionRectangleWipe";
+        public const string TransitionTemplate              = "TransitionTemplate";
+        public const string TransitionVerticalCurtain       = "TransitionVerticalCurtain";
     }
 }

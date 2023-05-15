@@ -29,8 +29,6 @@ namespace EasyTransition
 			if (multiplyColorMaterial == null || additiveColorMaterial == null)
 				Debug.LogWarning("There are no color tint materials set for the transition. Changing the color tint will not affect the transition anymore!");
 
-			transform.SetParent(TransitionManager.Instance.CanvasGroup.transform);
-
 			await TransitionIn();
 			await TransitionOut();
 		}
@@ -41,7 +39,7 @@ namespace EasyTransition
 			transitionPanelOUT.gameObject.SetActive(false);
 			transitionPanelIN.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionIn, transitionPanelIN);
+			await HandleTransition(transitionSettings.TransitionIn.transform, transitionPanelIN);
 		}
 
 		async UniTask TransitionOut()
@@ -50,7 +48,7 @@ namespace EasyTransition
 			transitionPanelIN.gameObject.SetActive(false);
 			transitionPanelOUT.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionOut, transitionPanelOUT);
+			await HandleTransition(transitionSettings.TransitionOut.transform, transitionPanelOUT);
 
 			transitionPanelOUT.gameObject.SetActive(false);
 
@@ -63,11 +61,8 @@ namespace EasyTransition
 			//Destroy(gameObject, destroyTime);
 		}
 
-		async UniTask HandleTransition(GameObject go, Transform parent)
+		async UniTask HandleTransition(Transform transition, Transform parent)
 		{
-			GameObject transition = Instantiate(go, parent);
-			//GameObject transition = await AddressableHelper.Spawn(go.name, default, parent);
-
 			HandleTransitionColor(transition.transform);
 			HandleFlipping(transition.transform);
 			HandleAnimatorSpeed(transition.transform);

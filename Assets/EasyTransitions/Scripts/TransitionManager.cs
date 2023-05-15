@@ -65,7 +65,7 @@ namespace EasyTransition
 
 		async UniTask<int> SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings)
 		{
-			GameObject template = await AddressableHelper.Spawn(AssetAddress.TransitionTemplate);
+			GameObject template = await AddressableHelper.Spawn(transitionType.GetStringValue(), Vector3.zero, CanvasGroup.transform);
 
 			Transition transition = template.GetComponent<Transition>();
 			transitionDictionary.Add(transitionType, transition);

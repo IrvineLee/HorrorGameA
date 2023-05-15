@@ -11,14 +11,14 @@ public class AddressableHelper : MonoBehaviour
 	/// </summary>
 	/// <param name="path"></param>
 	/// <returns></returns>
-	public static async UniTask<GameObject> Spawn(string path, Vector3 position = default, Transform parent = default)
+	public static async UniTask<GameObject> Spawn(string path, Vector3 position = default, Transform parent = default, bool isWorldPositionStay = false)
 	{
 		AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
 		await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
 
 		GameObject go = Addressables.InstantiateAsync(path, position, Quaternion.identity).Result;
 		go.name = path;
-		go.transform.SetParent(parent);
+		go.transform.SetParent(parent, isWorldPositionStay);
 
 		return go;
 	}
