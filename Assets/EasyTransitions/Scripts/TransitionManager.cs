@@ -40,7 +40,7 @@ namespace EasyTransition
 		/// <param name="transitionType"></param>
 		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
-		public void Transition(TransitionType transitionType, float delay, Action inBetweenAction = default)
+		public void Transition(TransitionType transitionType, float delay = 0, Action inBetweenAction = default)
 		{
 			if (isRunningTransition) return;
 
@@ -53,39 +53,31 @@ namespace EasyTransition
 			isRunningTransition = true;
 			await UniTask.Delay((int)delay.SecondsToMilliseconds());
 
-			int transitionDuration = 0;
 			if (!transitionDictionary.TryGetValue(transitionType, out Transition transition))
-				transitionDuration = await SpawnTemplate(transitionType, transitionSettings);
+				await SpawnTemplate(transitionType, transitionSettings);
 			else
-				transitionDuration = TransitionSetup(transition, transitionSettings);
+				await TransitionSetup(transition, transitionSettings);
 
-			await UniTask.Delay(transitionDuration);
 			isRunningTransition = false;
 		}
 
-		async UniTask<int> SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings)
+		async UniTask SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings)
 		{
 			GameObject template = await AddressableHelper.Spawn(transitionType.GetStringValue(), Vector3.zero, CanvasGroup.transform);
 
 			Transition transition = template.GetComponent<Transition>();
 			transitionDictionary.Add(transitionType, transition);
 
-			return TransitionSetup(transition, transitionSettings);
+			await TransitionSetup(transition, transitionSettings);
 		}
 
-		int TransitionSetup(Transition transition, TransitionSettings transitionSettings)
+		async UniTask TransitionSetup(Transition transition, TransitionSettings transitionSettings)
 		{
-			transition.Begin(transitionSettings, transitionManagerSettings);
-
 			// Canvas setup.
 			canvasScaler.referenceResolution = transitionSettings.ReferenceResolution;
 			canvasGroup.blocksRaycasts = transitionSettings.BlockRaycasts;
 
-			float duration = transitionSettings.TransitionTime;
-			if (transitionSettings.AutoAdjustTransitionTime)
-				duration = duration / transitionSettings.TransitionSpeed;
-
-			return (int)duration.SecondsToMilliseconds();
+			await transition.Begin(transitionSettings, transitionManagerSettings);
 		}
 	}
 }

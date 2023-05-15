@@ -17,7 +17,19 @@ namespace EasyTransition
 		Material multiplyColorMaterial;
 		Material additiveColorMaterial;
 
-		public async void Begin(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
+		AnimationClip animationIn;
+		AnimationClip animationOut;
+
+		protected override async UniTask Awake()
+		{
+			await base.Awake();
+
+			// There will only be 1 clip within the state.
+			animationIn = transitionPanelIN.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
+			animationOut = transitionPanelOUT.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
+		}
+
+		public async UniTask Begin(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
 		{
 			this.transitionSettings = transitionSettings;
 
@@ -39,7 +51,7 @@ namespace EasyTransition
 			transitionPanelOUT.gameObject.SetActive(false);
 			transitionPanelIN.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionIn.transform, transitionPanelIN);
+			await HandleTransition(transitionSettings.TransitionIn.transform, animationIn);
 		}
 
 		async UniTask TransitionOut()
@@ -48,7 +60,7 @@ namespace EasyTransition
 			transitionPanelIN.gameObject.SetActive(false);
 			transitionPanelOUT.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionOut.transform, transitionPanelOUT);
+			await HandleTransition(transitionSettings.TransitionOut.transform, animationOut);
 
 			transitionPanelOUT.gameObject.SetActive(false);
 
@@ -61,13 +73,13 @@ namespace EasyTransition
 			//Destroy(gameObject, destroyTime);
 		}
 
-		async UniTask HandleTransition(Transform transition, Transform parent)
+		async UniTask HandleTransition(Transform transition, AnimationClip animationClip)
 		{
 			HandleTransitionColor(transition.transform);
 			HandleFlipping(transition.transform);
 			HandleAnimatorSpeed(transition.transform);
 
-			await UniTask.Delay((int)transitionSettings.TransitionTime.SecondsToMilliseconds());
+			await UniTask.Delay((int)animationClip.length.SecondsToMilliseconds());
 		}
 
 		// Changing the color of the transition

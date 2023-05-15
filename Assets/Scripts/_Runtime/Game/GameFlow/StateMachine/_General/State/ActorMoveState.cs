@@ -27,7 +27,7 @@ namespace Personal.FSM.Character
 
 			RunActorAnimation();
 			navMeshAgent.destination = GetDestination();
-			await UniTask.WaitUntil(() => navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && navMeshAgent.remainingDistance == 0);
+			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && navMeshAgent.remainingDistance == 0);
 
 			return;
 		}
@@ -41,7 +41,7 @@ namespace Personal.FSM.Character
 			await base.OnUpdate();
 
 			// The navmesh agent head animation should be looking at the target.
-			await UniTask.DelayFrame(0);
+			//await UniTask.DelayFrame(0);
 		}
 
 		/// <summary>

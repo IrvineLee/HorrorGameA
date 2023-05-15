@@ -101,20 +101,11 @@ namespace EasyTransition
 		[Range(0.5f, 2f)]
 		[SerializeField] float transitionSpeed = 1;
 
-		[Tooltip("If you change the transition speed value and set autoAdjustTransitionTime it will automatically change the transition times to fit the new speed.")]
-		[SerializeField] bool autoAdjustTransitionTime;
-
 		[Space(10)]
 		[Tooltip("Sets the size of the transition on the x axis to -1.")]
 		[SerializeField] bool flipX;
 		[Tooltip("Sets the size of the transition on the y axis to -1.")]
 		[SerializeField] bool flipY;
-
-		[Space(10)]
-		[Tooltip("Time between transition start and scene load in seconds.")]
-		[SerializeField] float transitionTime = 1.5f;
-		[Tooltip("Time after scene load within the transition gets destroyed.")]
-		[SerializeField] float destroyTime = 5f;
 
 		[Header("Transition Prefabs")]
 		[Space(10)]
@@ -128,11 +119,8 @@ namespace EasyTransition
 		public Color ColorTint { get => colorTint; }
 		public bool IsCutoutTransition { get => isCutoutTransition; }
 		public float TransitionSpeed { get => transitionSpeed; }
-		public bool AutoAdjustTransitionTime { get => autoAdjustTransitionTime; }
 		public bool FlipX { get => flipX; }
 		public bool FlipY { get => flipY; }
-		public float TransitionTime { get => transitionTime; }
-		public float DestroyTime { get => destroyTime; }
 		public GameObject TransitionIn { get => transitionIn; }
 		public GameObject TransitionOut { get => transitionOut; }
 	}

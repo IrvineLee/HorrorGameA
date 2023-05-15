@@ -7,10 +7,12 @@ namespace Helper
 	{
 		static TSelfType m_Instance = null;
 
-		protected virtual async UniTask Awake()
+		UniTask uniTask = new UniTask();
+
+		protected virtual UniTask Awake()
 		{
 			DontDestroyOnLoad(Instance.gameObject);
-			await UniTask.Delay(0);
+			return uniTask;
 		}
 
 		public static TSelfType Instance

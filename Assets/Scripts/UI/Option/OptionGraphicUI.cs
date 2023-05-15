@@ -45,6 +45,7 @@ namespace Personal.UI.Option
 
 		Resolution defaultResolution;
 
+		Volume volume;
 		ColorAdjustments colorAdjustments;
 		Vignette vignette;
 		DepthOfField depthOfField;
@@ -183,8 +184,6 @@ namespace Personal.UI.Option
 		/// </summary>
 		protected override void ResetDataToTarget()
 		{
-			colorAdjustments.postExposure.value = graphicData.Brightness;
-
 			Resolution resolution = graphicData.ScreenResolution;
 			Screen.SetResolution(resolution.width, resolution.height, graphicData.ScreenMode);
 
@@ -192,13 +191,15 @@ namespace Personal.UI.Option
 			Cursor.lockState = CursorLockMode.Confined;
 
 			HandleAntiAlias(graphicData.AntiAliasing);
+			HandleAmbientOcclusion(graphicData.IsAmbientOcclusion);
 
+			if (!volume) return;
+
+			colorAdjustments.postExposure.value = graphicData.Brightness;
 			vignette.active = graphicData.IsVignette;
 			depthOfField.active = graphicData.IsDepthOfField;
 			motionBlur.active = graphicData.IsMotionBlur;
 			bloom.active = graphicData.IsBloom;
-
-			HandleAmbientOcclusion(graphicData.IsAmbientOcclusion);
 		}
 
 		/// <summary>
@@ -206,7 +207,10 @@ namespace Personal.UI.Option
 		/// </summary>
 		void InitializeVolumeProfile()
 		{
-			volumeProfile = FindObjectOfType<Volume>().sharedProfile;
+			volume = FindObjectOfType<Volume>();
+			if (!volume) return;
+
+			volumeProfile = volume.sharedProfile;
 			volumeProfile.TryGet(out colorAdjustments);
 			volumeProfile.TryGet(out vignette);
 			volumeProfile.TryGet(out depthOfField);

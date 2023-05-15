@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 using Personal.GameState;
-using UnityEngine.AI;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.FSM.Cashier
 {
@@ -33,8 +34,11 @@ namespace Personal.FSM.Cashier
 		/// Set the target info and ordered state depending on current scenario.
 		/// </summary>
 		/// <param name="orderedStateList"></param>
-		public void Initialize(TargetInfo targetInfo, List<StateBase> orderedStateList)
+		public async void Initialize(TargetInfo targetInfo, List<StateBase> orderedStateList)
 		{
+			// Wait for awake before initializing.
+			await UniTask.DelayFrame(1);
+
 			NavMeshAgent.enabled = true;
 			TargetInfo = targetInfo;
 

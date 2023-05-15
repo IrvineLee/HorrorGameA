@@ -18,7 +18,7 @@ namespace Personal.FSM.Character
 			actorStateMachine.DialogueSystemTrigger.OnUse(actorStateMachine.transform);
 
 			RunActorAnimation();
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
+			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
 
 			return;
 		}
