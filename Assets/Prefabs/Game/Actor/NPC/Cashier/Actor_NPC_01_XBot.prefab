@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 421768943009836711}
   - component: {fileID: 3407780444775709194}
   - component: {fileID: 3089085455744573828}
-  - component: {fileID: 421768943009836712}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -90,16 +89,16 @@ NavMeshAgent:
   m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 200
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.06533334
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &3089085455744573828
@@ -175,20 +174,6 @@ MonoBehaviour:
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
   selectedDatabase: {fileID: 11400000, guid: c1cc03cd82f6cdb40afbc0575be25564, type: 2}
---- !u!136 &421768943009836712
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421768943009836710}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1.9
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &4319267957875654545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -251,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 7538047062700442309, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
       propertyPath: m_Name
       value: X Bot Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538047062700442309, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af4fca66c340fe948b564ed252d74a30, type: 3}

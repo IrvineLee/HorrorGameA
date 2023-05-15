@@ -9,7 +9,8 @@ namespace Personal.GameState
 	{
 		protected virtual async UniTask Awake()
 		{
-			await UniTask.WaitUntil(() => GameManager.Instance != null);
+			if (GameManager.Instance == null)
+				await UniTask.WaitUntil(() => GameManager.Instance != null);
 
 			if (GameManager.Instance.IsLoadingOver) return;
 

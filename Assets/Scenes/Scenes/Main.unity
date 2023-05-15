@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 1f96a210646a0244c8a9efcda1b02095, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 73f5b5105142ad043bfff617b1b0c61b, type: 2}
 --- !u!1 &12660254
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,8 +944,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 435499140}
   - {fileID: 1962429528}
+  - {fileID: 435499140}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2877,11 +2877,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &1403266695 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6531132559345554321, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-  m_PrefabInstance: {fileID: 1544654683}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1433017041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3135,26 +3130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 470641115}
     m_Modifications:
-    - target: {fileID: 3503440407496956716, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-      propertyPath: targetInfo.moveToList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3503440407496956716, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-      propertyPath: targetInfo.spawnAtList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3503440407496956716, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-      propertyPath: targetInfo.moveToList.Array.data[0]
-      value: 
-      objectReference: {fileID: 1720227054}
-    - target: {fileID: 3503440407496956716, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-      propertyPath: targetInfo.moveToList.Array.data[1]
-      value: 
-      objectReference: {fileID: 1403266695}
-    - target: {fileID: 3503440407496956716, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-      propertyPath: targetInfo.spawnAtList.Array.data[0]
-      value: 
-      objectReference: {fileID: 1403266695}
     - target: {fileID: 3503440407825620527, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
       propertyPath: m_Name
       value: NPCSpawner
@@ -3373,11 +3348,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709677998}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1720227054 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1772594962, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-  m_PrefabInstance: {fileID: 1544654683}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1733228159
 GameObject:
   m_ObjectHideFlags: 0
@@ -4024,7 +3994,7 @@ RectTransform:
   - {fileID: 1328534023}
   - {fileID: 5074561659759070003}
   m_Father: {fileID: 367768369}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
