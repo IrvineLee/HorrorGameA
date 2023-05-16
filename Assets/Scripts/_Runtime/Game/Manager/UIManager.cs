@@ -10,7 +10,7 @@ namespace Personal.Manager
 {
 	public class UIManager : GameInitializeSingleton<UIManager>
 	{
-		[SerializeField] Transform playerUI = null;
+		[SerializeField] Transform crosshairUI = null;
 		[SerializeField] OptionHandlerUI optionUI = null;
 
 		public OptionHandlerUI OptionUI { get => optionUI; }
@@ -28,7 +28,7 @@ namespace Personal.Manager
 
 		void OptionUI_OnMenuOpened(bool isFlag)
 		{
-			playerUI.gameObject.SetActive(!isFlag);
+			crosshairUI.gameObject.SetActive(!isFlag);
 		}
 
 		void Initalize()
