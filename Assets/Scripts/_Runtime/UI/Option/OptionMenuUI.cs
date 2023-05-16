@@ -25,7 +25,10 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Pressing the OK button.
 		/// </summary>
-		public override void Save_Inspector() { }
+		public override void Save_Inspector()
+		{
+			optionHandlerUI.CloseMenuTab();
+		}
 
 		/// <summary>
 		/// Closing the menu.

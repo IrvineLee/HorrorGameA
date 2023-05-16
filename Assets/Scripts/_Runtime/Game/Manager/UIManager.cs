@@ -10,7 +10,6 @@ namespace Personal.Manager
 {
 	public class UIManager : GameInitializeSingleton<UIManager>
 	{
-		[SerializeField] Transform crosshairUI = null;
 		[SerializeField] OptionHandlerUI optionUI = null;
 
 		public OptionHandlerUI OptionUI { get => optionUI; }
@@ -21,25 +20,13 @@ namespace Personal.Manager
 		{
 			await base.Awake();
 
-			OptionHandlerUI.OnMenuOpened += OptionUI_OnMenuOpened;
-
 			Initalize();
-		}
-
-		void OptionUI_OnMenuOpened(bool isFlag)
-		{
-			crosshairUI.gameObject.SetActive(!isFlag);
 		}
 
 		void Initalize()
 		{
 			// Option UI initialize.
 			OptionUI.Initialize();
-		}
-
-		void OnDestroy()
-		{
-			OptionHandlerUI.OnMenuOpened -= OptionUI_OnMenuOpened;
 		}
 	}
 }

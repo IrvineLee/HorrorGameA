@@ -51,6 +51,8 @@ namespace Personal.UI.Option
 		/// </summary>
 		public override void Save_Inspector()
 		{
+			base.Save_Inspector();
+
 			// Set data volume and save data.
 			audioData.SetVolume(currentMaster01, currentBgm01, currentSfx01);
 			audioData.SetAudioSpeakerMode(currentSpeakerMode);

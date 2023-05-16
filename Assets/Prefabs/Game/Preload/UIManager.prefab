@@ -538,8 +538,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d35c45965ae9ef4a8235eb5b35ba201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCursor: {fileID: 2800000, guid: 5988a2020badc834c96521b52b6a08f5, type: 3}
-  hotspotOffset: {x: 55, y: 40}
+  crosshairUI: {fileID: 1430023290}
+  mouseCursorUI: {fileID: 6486110359290884519}
 --- !u!1 &286673826202535092
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +602,7 @@ GameObject:
   - component: {fileID: 2928923773811202273}
   - component: {fileID: 9166010342352082668}
   m_Layer: 5
-  m_Name: Cursor
+  m_Name: MouseCursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

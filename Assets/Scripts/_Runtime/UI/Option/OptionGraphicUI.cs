@@ -73,6 +73,8 @@ namespace Personal.UI.Option
 		/// </summary>
 		public override void Save_Inspector()
 		{
+			base.Save_Inspector();
+
 			graphicData.Brightness = currentBrightness01;
 			graphicData.AntiAliasing = currentAntiAliasIndex;
 

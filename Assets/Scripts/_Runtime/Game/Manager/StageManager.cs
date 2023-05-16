@@ -31,7 +31,6 @@ namespace Personal.Manager
 			MainCamera = Camera.main;
 			PlayerFSM = FindObjectOfType<PlayerStateMachine>();
 
-			InputDeviceManager.instance.ForceCursor(false);
 			OptionHandlerUI.OnMenuOpened += Pause;
 		}
 
@@ -50,7 +49,7 @@ namespace Personal.Manager
 		{
 			Time.timeScale = isFlag ? 0 : 1;
 
-			InputDeviceManager.instance.ForceCursor(isFlag);
+			CursorManager.Instance.SetToMouseCursor(isFlag);
 			PlayerFSM.FirstPersonController.enabled = !isFlag;
 		}
 

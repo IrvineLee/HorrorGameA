@@ -1,30 +1,37 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Helper;
 using Cysharp.Threading.Tasks;
+using PixelCrushers;
 
 namespace Personal.Manager
 {
 	public class CursorManager : MonoBehaviourSingleton<CursorManager>
 	{
-		[SerializeField] Texture2D defaultCursor = null;
-		[SerializeField] Vector2 hotspotOffset = Vector2.zero;
+		[SerializeField] Transform crosshairUI = null;
+		[SerializeField] Transform mouseCursorUI = null;
 
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
 
-			SetDefault();
+			if (SceneManager.GetActiveScene().name.Equals(SceneName.Title))
+			{
+				SetToMouseCursor(true);
+				return;
+			}
+
+			SetToMouseCursor(false);
 		}
 
-		public void SetDefault()
+		public void SetToMouseCursor(bool isFlag)
 		{
-			SetToTexture(defaultCursor);
-		}
+			Cursor.visible = false;
+			InputDeviceManager.instance.ForceCursorFalse();
 
-		public void SetToTexture(Texture2D texture2D)
-		{
-			Cursor.SetCursor(texture2D, hotspotOffset, CursorMode.Auto);
+			crosshairUI.gameObject.SetActive(!isFlag);
+			mouseCursorUI.gameObject.SetActive(isFlag);
 		}
 	}
 }

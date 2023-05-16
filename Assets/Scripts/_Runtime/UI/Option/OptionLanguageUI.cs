@@ -30,6 +30,8 @@ namespace Personal.UI.Option
 		/// </summary>
 		public override void Save_Inspector()
 		{
+			base.Save_Inspector();
+
 			SaveManager.Instance.SaveProfileData();
 		}
 
