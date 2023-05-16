@@ -31,7 +31,7 @@ namespace EasyTransition
 			canvasGroup = GetComponentInChildren<CanvasGroup>();
 			transitionManagerSettings.Initialize();
 
-			Transition(TransitionType.Fade, TransitionPlayType.Out);
+			Initialize();
 		}
 
 		/// <summary>
@@ -40,12 +40,28 @@ namespace EasyTransition
 		/// <param name="transitionType"></param>
 		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
-		public void Transition(TransitionType transitionType, TransitionPlayType transitionPlayType = TransitionPlayType.All, float delay = 0, Action inBetweenAction = default)
+		public void Transition(TransitionType transitionType, TransitionPlayType? transitionPlayType = TransitionPlayType.All, float? delay = 0, Action? inBetweenAction = default)
 		{
 			if (isRunningTransition) return;
 
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
-			HandleTransition(transitionType, transitionPlayType, delay, transitionSettings, inBetweenAction).Forget();
+			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenAction ?? default).Forget();
+		}
+
+		/// <summary>
+		/// The first fade in will appear when you start the game.
+		/// Rather than using addressable to spawn it, which will take a few frames, the pre-defined prefab is already inside.
+		/// Register it onto the dictionary.
+		/// </summary>
+		void Initialize()
+		{
+			TransitionType transitionType = TransitionType.Fade;
+			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
+
+			Transition transition = GetComponentInChildren<Transition>();
+			transitionDictionary.Add(transitionType, transition);
+
+			TransitionSetup(transition, TransitionPlayType.Out, transitionSettings, default).Forget();
 		}
 
 		async UniTask HandleTransition(TransitionType transitionType, TransitionPlayType transitionPlayType, float delay, TransitionSettings transitionSettings, Action inBetweenAction)
@@ -54,14 +70,14 @@ namespace EasyTransition
 			await UniTask.Delay((int)delay.SecondsToMilliseconds());
 
 			if (!transitionDictionary.TryGetValue(transitionType, out Transition transition))
-				transition = await SpawnTemplate(transitionType, transitionSettings, inBetweenAction);
+				transition = await SpawnTemplate(transitionType);
 
 			await TransitionSetup(transition, transitionPlayType, transitionSettings, inBetweenAction);
 
 			isRunningTransition = false;
 		}
 
-		async UniTask<Transition> SpawnTemplate(TransitionType transitionType, TransitionSettings transitionSettings, Action inBetweenAction)
+		async UniTask<Transition> SpawnTemplate(TransitionType transitionType)
 		{
 			GameObject template = await AddressableHelper.Spawn(transitionType.GetStringValue(), Vector3.zero, CanvasGroup.transform);
 

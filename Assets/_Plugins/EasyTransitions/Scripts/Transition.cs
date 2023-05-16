@@ -39,36 +39,38 @@ namespace EasyTransition
 			if (multiplyColorMaterial == null || additiveColorMaterial == null)
 				Debug.LogWarning("There are no color tint materials set for the transition. Changing the color tint will not affect the transition anymore!");
 
-			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn();
+			float speed = transitionSettings.TransitionSpeed;
+
+			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed);
 			inBetweenAction?.Invoke();
-			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut();
+			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed);
 		}
 
-		async UniTask TransitionIn()
+		async UniTask TransitionIn(float speed)
 		{
 			// Setting up the transition objects
 			transitionPanelOUT.gameObject.SetActive(false);
 			transitionPanelIN.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionIn.transform, animationIn);
+			await HandleTransition(transitionSettings.TransitionIn.transform, animationIn, speed);
 		}
 
-		async UniTask TransitionOut()
+		async UniTask TransitionOut(float speed)
 		{
 			// Setting up the transition
 			transitionPanelIN.gameObject.SetActive(false);
 			transitionPanelOUT.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionOut.transform, animationOut);
+			await HandleTransition(transitionSettings.TransitionOut.transform, animationOut, speed);
 
 			transitionPanelOUT.gameObject.SetActive(false);
 		}
 
-		async UniTask HandleTransition(Transform transition, AnimationClip animationClip)
+		async UniTask HandleTransition(Transform transition, AnimationClip animationClip, float speed)
 		{
 			HandleTransitionColor(transition.transform);
 			HandleFlipping(transition.transform);
-			HandleAnimatorSpeed(transition.transform);
+			HandleAnimatorSpeed(transition.transform, speed);
 
 			await UniTask.Delay((int)animationClip.length.SecondsToMilliseconds());
 		}
@@ -110,18 +112,18 @@ namespace EasyTransition
 		}
 
 		// Changing the animator speed
-		void HandleAnimatorSpeed(Transform trans)
+		void HandleAnimatorSpeed(Transform trans, float speed)
 		{
 			if (trans.TryGetComponent(out Animator parentAnim) && transitionSettings.TransitionSpeed != 0)
 			{
-				parentAnim.speed = transitionSettings.TransitionSpeed;
+				parentAnim.speed = speed;
 				return;
 			}
 
 			for (int i = 0; i < trans.childCount; i++)
 			{
 				if (trans.GetChild(i).TryGetComponent(out Animator childAnim) && transitionSettings.TransitionSpeed != 0)
-					childAnim.speed = transitionSettings.TransitionSpeed;
+					childAnim.speed = speed;
 			}
 		}
 	}

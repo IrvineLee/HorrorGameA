@@ -131,6 +131,12 @@ namespace EasyTransition
 		public bool FlipY { get => flipY; }
 		public GameObject TransitionIn { get => transitionIn; }
 		public GameObject TransitionOut { get => transitionOut; }
+
+		public void SetFlip(bool? flipX, bool? flipY)
+		{
+			this.flipX = flipX ?? this.flipX;
+			this.flipY = flipY ?? this.flipY;
+		}
 	}
 
 	public enum ColorTintMode { Multiply, Add }

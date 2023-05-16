@@ -12,6 +12,9 @@ namespace Personal.GameState
 		{
 			await base.Awake();
 
+			if (GameManager.Instance == null)
+				await UniTask.WaitUntil(() => GameManager.Instance != null);
+
 			enabled = false;
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 			enabled = true;
