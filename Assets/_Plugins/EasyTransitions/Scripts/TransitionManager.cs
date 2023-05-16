@@ -40,6 +40,7 @@ namespace EasyTransition
 		/// <param name="transitionType"></param>
 		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
+#nullable enable
 		public void Transition(TransitionType transitionType, TransitionPlayType? transitionPlayType = TransitionPlayType.All, float? delay = 0, Action? inBetweenAction = default)
 		{
 			if (isRunningTransition) return;
@@ -47,6 +48,7 @@ namespace EasyTransition
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
 			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenAction ?? default).Forget();
 		}
+#nullable disable
 
 		/// <summary>
 		/// The first fade in will appear when you start the game.
