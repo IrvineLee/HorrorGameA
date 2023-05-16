@@ -2,13 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Personal.GameState;
 using Cysharp.Threading.Tasks;
 using Helper;
 
 namespace EasyTransition
 {
-	public class Transition : GameInitialize
+	public class Transition : MonoBehaviour
 	{
 		[SerializeField] Transform transitionPanelIN;
 		[SerializeField] Transform transitionPanelOUT;
@@ -21,10 +20,8 @@ namespace EasyTransition
 		AnimationClip animationIn;
 		AnimationClip animationOut;
 
-		protected override async UniTask Awake()
+		void Awake()
 		{
-			await base.Awake();
-
 			// There will only be 1 clip within the state.
 			animationIn = transitionPanelIN.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
 			animationOut = transitionPanelOUT.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];

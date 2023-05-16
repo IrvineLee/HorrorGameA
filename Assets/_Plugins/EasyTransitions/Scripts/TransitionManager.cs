@@ -4,13 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Cysharp.Threading.Tasks;
-using Personal.GameState;
 using Helper;
-using Personal;
 
 namespace EasyTransition
 {
-	public class TransitionManager : GameInitializeSingleton<TransitionManager>
+	public class TransitionManager : MonoBehaviourSingleton<TransitionManager>
 	{
 		[Tooltip("The Transition Manager Settings store all the premade and your transitions.")]
 		[SerializeField] TransitionManagerSettings transitionManagerSettings;
