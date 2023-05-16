@@ -115,7 +115,7 @@ namespace PixelCrushers
 
 		public static bool deviceUsesCursor
 		{
-			get { return false /*currentInputDevice == InputDevice.Mouse*/; }
+			get { return currentInputDevice == InputDevice.Mouse; }
 		}
 
 		/// <summary>
@@ -409,29 +409,30 @@ namespace PixelCrushers
 
 		public void SetCursor(bool visible)
 		{
-			if (!controlCursorState) return;
+			//if (!controlCursorState) return;
 			//ForceCursor(visible);
 		}
 
 		public void ForceCursor(bool visible)
 		{
-			//Cursor.visible = visible;
-			//Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-			//m_lastMousePosition = GetMousePosition();
-			//StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
-
 			Cursor.visible = visible;
-			Cursor.lockState = CursorLockMode.Confined;
+			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
 			m_lastMousePosition = GetMousePosition();
 			StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
+		}
+
+		public void ForceCursorFalse()
+		{
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Confined;
+			m_lastMousePosition = GetMousePosition();
 		}
 
 		private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)
 		{
 			yield return CoroutineUtility.endOfFrame;
 			Cursor.visible = visible;
-			//Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-			Cursor.lockState = CursorLockMode.Confined;
+			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
 		}
 
 #if USE_NEW_INPUT
@@ -484,6 +485,12 @@ namespace PixelCrushers
 			if (Keyboard.current == null || keyCode == KeyCode.None) return false;
 			if (keyCode == KeyCode.Return) return (Keyboard.current["enter"] as KeyControl).wasPressedThisFrame;
 			var s = keyCode.ToString().ToLower();
+			if (s.StartsWith("mouse"))
+			{
+				if (s == "mouse0") return Mouse.current.leftButton.wasPressedThisFrame;
+				else if (s == "mouse1") return Mouse.current.rightButton.wasPressedThisFrame;
+				else if (s == "mouse2") return Mouse.current.middleButton.wasPressedThisFrame;
+			}
 			if (s.StartsWith("joystick") || s.StartsWith("mouse")) return false;
 			if ((KeyCode.Alpha0 <= keyCode && keyCode <= KeyCode.Alpha9) ||
 				(KeyCode.Keypad0 <= keyCode && keyCode <= KeyCode.Keypad9))

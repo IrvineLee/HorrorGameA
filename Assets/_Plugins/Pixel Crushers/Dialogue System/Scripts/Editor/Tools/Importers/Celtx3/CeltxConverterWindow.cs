@@ -6,7 +6,6 @@ using UnityEditor;
 using System.IO;
 using System.Xml.Serialization;
 using PixelCrushers.DialogueSystem.Celtx;
-using System.Text.RegularExpressions;
 using System.Reflection;
 
 namespace PixelCrushers.DialogueSystem
@@ -20,10 +19,10 @@ namespace PixelCrushers.DialogueSystem
     public class CeltxConverterWindow : EditorWindow
     {
 
-        [MenuItem("Tools/Pixel Crushers/Dialogue System/Import/Celtx Gem 3...", false, 1)]
+        [MenuItem("Tools/Pixel Crushers/Dialogue System/Import/Gem 3...", false, 1)]
         public static void Init()
         {
-            CeltxConverterWindow window = EditorWindow.GetWindow(typeof(CeltxConverterWindow), false, "Celtx") as CeltxConverterWindow;
+            CeltxConverterWindow window = EditorWindow.GetWindow(typeof(CeltxConverterWindow), false, "Gem Import") as CeltxConverterWindow;
             window.minSize = new Vector2(320, 166);
         }
 
@@ -144,14 +143,14 @@ namespace PixelCrushers.DialogueSystem
             prefs.projectFilename = EditorGUILayout.TextField("Filename", prefs.projectFilename);
             if (GUILayout.Button("...", EditorStyles.miniButtonRight, GUILayout.Width(22)))
             {
-                prefs.projectFilename = EditorUtility.OpenFilePanel("Select Celtx Project", EditorWindowTools.GetDirectoryName(prefs.projectFilename), "json");
+                prefs.projectFilename = EditorUtility.OpenFilePanel("Select Gem Project", EditorWindowTools.GetDirectoryName(prefs.projectFilename), "json");
                 GUIUtility.keyboardControl = 0;
             }
             EditorGUILayout.EndHorizontal();
 
             // Portrait Folder:
             EditorGUILayout.BeginHorizontal();
-            prefs.portraitFolder = EditorGUILayout.TextField(new GUIContent("Portrait Folder", "Optional folder containing actor portrait textures. The converter will search this folder for textures matching any actor pictures defined in the Celtx project."), prefs.portraitFolder);
+            prefs.portraitFolder = EditorGUILayout.TextField(new GUIContent("Portrait Folder", "Optional folder containing actor portrait textures. The converter will search this folder for textures matching any actor pictures defined in the Gem project."), prefs.portraitFolder);
             if (GUILayout.Button("...", EditorStyles.miniButtonRight, GUILayout.Width(22)))
             {
                 prefs.portraitFolder = EditorUtility.OpenFolderPanel("Location of Portrait Textures", prefs.portraitFolder, "");
@@ -191,7 +190,7 @@ namespace PixelCrushers.DialogueSystem
             EditorGUILayout.EndHorizontal();
 
             // Project/Database Name:
-            prefs.useCeltxFilename = EditorGUILayout.Toggle(new GUIContent("Use Celtx Filename", "Tick to use Celtx export filename as Dialogue Database name, untick to specify a name."), prefs.useCeltxFilename);
+            prefs.useCeltxFilename = EditorGUILayout.Toggle(new GUIContent("Use Gem Filename", "Tick to use Gem export filename as Dialogue Database name, untick to specify a name."), prefs.useCeltxFilename);
             if (!prefs.useCeltxFilename)
             {
                 prefs.databaseName = EditorGUILayout.TextField(new GUIContent("Dialogue Database Name", "Filename to create in Save To folder."), prefs.databaseName);
@@ -271,7 +270,7 @@ namespace PixelCrushers.DialogueSystem
             }
             catch (System.Exception e)
             {
-                Debug.LogError(string.Format("Celtx Data could not be deserialized : {0}", e.Message));
+                Debug.LogError(string.Format("Gem Data could not be deserialized : {0}", e.Message));
             }
             return celtxGem3;
         }
@@ -291,7 +290,7 @@ namespace PixelCrushers.DialogueSystem
                     // Process Raw Data
                     if (celtxDataObject == null)
                     {
-                        if (DialogueDebug.logWarnings) Debug.LogWarning("Dialogue System: unable to import celtx data.");
+                        if (DialogueDebug.logWarnings) Debug.LogWarning("Dialogue System: Unable to import Gem data.");
                     }
                     else
                     {
@@ -302,6 +301,11 @@ namespace PixelCrushers.DialogueSystem
                         SaveDatabase(database, databaseAssetName);
                         Debug.Log(string.Format("{0}: Created database '{1}' containing {2} actors, {3} conversations, {4} items (quests), {5} variables, and {6} locations.",
                             DialogueDebug.Prefix, databaseAssetName, database.actors.Count, database.conversations.Count, database.items.Count, database.variables.Count, database.locations.Count), database);
+                        if (DialogueEditor.DialogueEditorWindow.instance != null)
+                        {
+                            DialogueEditor.DialogueEditorWindow.instance.Reset();
+                            DialogueEditor.DialogueEditorWindow.instance.Repaint();
+                        }
                     }
                 }
             }

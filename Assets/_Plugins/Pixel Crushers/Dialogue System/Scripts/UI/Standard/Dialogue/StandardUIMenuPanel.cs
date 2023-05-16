@@ -1,5 +1,4 @@
-// Recompile at 25/04/2023 15:37:29
-// Copyright (c) Pixel Crushers. All rights reserved.
+﻿// Copyright (c) Pixel Crushers. All rights reserved.
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -197,7 +196,6 @@ namespace PixelCrushers.DialogueSystem
             Open();
             Focus();
             RefreshSelectablesList();
-            if (InputDeviceManager.autoFocus) SetFocus(firstSelected);
             if (blockInputDuration > 0)
             {
                 DisableInput();
@@ -205,10 +203,11 @@ namespace PixelCrushers.DialogueSystem
             }
             else
             {
+                if (InputDeviceManager.autoFocus) SetFocus(firstSelected);
                 if (s_isInputDisabled) EnableInput();
             }
 #if TMP_PRESENT
-            StartCoroutine(CheckTMProAutoScroll());
+            DialogueManager.instance.StartCoroutine(CheckTMProAutoScroll());
 #endif
         }
 

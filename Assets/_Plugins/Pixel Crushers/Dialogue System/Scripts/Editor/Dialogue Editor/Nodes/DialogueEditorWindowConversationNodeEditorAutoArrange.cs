@@ -128,6 +128,7 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 if (currentConversation == null || currentConversation.dialogueEntries == null || currentConversation.dialogueEntries.Count == 0) return;
                 if (multinodeSelection != null && multinodeSelection.nodes.Count > 1)
                 {
+                    // Use old algorithm for subsections of conversation tree:
                     float treeWidth = GetTreeWidth(tree);
                     float x = AutoStartX;
                     if (orphans.Count > 0) x += canvasRectWidth + AutoWidthBetweenNodes;
@@ -140,12 +141,11 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 }
                 else
                 {
-                    // Using new algorithm provided by digiwombat [Fairmoon Museum]:
-                    currentConversation.dialogueEntries[0].canvasRect = new Rect(2500, 1 * (canvasRectHeight + 24), canvasRectWidth, canvasRectHeight);
-                    HandleChildren(currentConversation.dialogueEntries[0].outgoingLinks, currentConversation.dialogueEntries[0], 2);
-                    MoveNodesToLeftSide();
-                    nodeGridDict.Clear();
-                    arrangedNodes.Clear();
+                    // Use new algorithm provided by digiwombat [Fairmoon Museum]:
+                    CalculatePositions(currentConversation.dialogueEntries[0], 0, 0);
+                    visited.Clear();
+                    subtreeVisited.Clear();
+                    subTreeWidths.Clear();
                 }
             }
             else
@@ -162,115 +162,94 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
             }
         }
 
-        private List<DialogueEntry> arrangedNodes = new List<DialogueEntry>();
-        private Dictionary<int, DialogueEntry> nodeGridDict = new Dictionary<int, DialogueEntry>();
-        private const int MaxNodeGridX = 1000;
-        private int GetNodeGridKey(int x, int y) { return x + (y * MaxNodeGridX); }
-        private int GetNodeGridKey(Vector2Int location) { return GetNodeGridKey(location.x, location.y); }
 
-        private void HandleChildren(List<Link> links, DialogueEntry parent, int layer, int startX = 8, 
-            List<Vector2Int> parentLocations = null)
+        #region digiwombat's contribution (Thank you!)
+
+        private float HorizontalSpacing => canvasRectWidth * 0.3f; // The horizontal spacing between nodes
+        private float VerticalSpacing => canvasRectHeight + 24; // The vertical spacing between nodes
+
+        private HashSet<DialogueEntry> visited = new HashSet<DialogueEntry>();
+        private HashSet<DialogueEntry> subtreeVisited = new HashSet<DialogueEntry>();
+        private Dictionary<DialogueEntry, float> subTreeWidths = new Dictionary<DialogueEntry, float>();
+
+        // Calculate the positions of all nodes recursively
+        private void CalculatePositions(DialogueEntry node, int level, float offset)
         {
-            Rect leftMost = new Rect();
-            Rect rightMost = new Rect();
-            int leftIndex = 0;
-            int rightIndex = 0;
+            if (node == null) return;
 
-            for (int i = 0; i < links.Count; i++)
+            // If the node has been visited before, return
+            if (visited.Contains(node)) return;
+
+            // Mark the node as visited
+            visited.Add(node);
+
+            // Calculate the width of the subtree rooted at this node
+            float subtreeWidth = GetSubtreeWidth(node);
+
+            node.canvasRect = new Rect(0, 0, canvasRectWidth, canvasRectHeight);
+            // Set the X position of this node to be the center of its subtree
+            node.canvasRect.x = offset + subtreeWidth / 2;
+
+            // Set the Y position of this node to be based on its level
+            node.canvasRect.y = level * (canvasRectHeight + VerticalSpacing) + 50;
+            // Recursively calculate the positions of the child nodes
+            float childOffset = offset;
+            foreach (Link childLink in node.outgoingLinks)
             {
-                DialogueEntry child = currentConversation.dialogueEntries.Find(x => x.id == links[i].destinationDialogueID);
-                if (child == null || arrangedNodes.Contains(child))
+                if (childLink.destinationConversationID != currentConversation.id)
                 {
                     continue;
                 }
-
-                while (nodeGridDict.ContainsKey(GetNodeGridKey(i + startX, layer)))
-                {
-                    startX++;
-                }
-
-                int xIndex = i + startX;
-
-                nodeGridDict[GetNodeGridKey(xIndex, layer)] = child;
-                arrangedNodes.Add(child);
-
-                child.canvasRect = new Rect((xIndex * (canvasRectWidth + 10)), layer * (canvasRectHeight + 24), canvasRectWidth, canvasRectHeight);
-
-                if (child.outgoingLinks.Count > 0)
-                {
-                    if (child.outgoingLinks.Count == 1)
-                    {
-                        if (parentLocations == null)
-                        {
-                            parentLocations = new List<Vector2Int>();
-                        }
-                        parentLocations.Add(new Vector2Int(xIndex, layer));
-                        HandleChildren(child.outgoingLinks, child, layer + 1, xIndex, parentLocations);
-                    }
-                    else
-                    {
-                        int childIndexStart = xIndex - (child.outgoingLinks.Count / 2);
-
-                        if (parentLocations != null)
-                        {
-                            //Fill gaps above single stacks with branches below
-                            foreach (var location in parentLocations)
-                            {
-                                // Move parents in line with child, hypothetically
-                                if (nodeGridDict.ContainsKey(GetNodeGridKey(location)))
-                                {
-                                    DialogueEntry value = nodeGridDict[GetNodeGridKey(location)];
-                                    if (value != null)
-                                    {
-                                        value.canvasRect.x = (xIndex * (canvasRectWidth + 10));
-                                    }
-                                    nodeGridDict[GetNodeGridKey(xIndex, location.y)] = value;
-                                    nodeGridDict.Remove(GetNodeGridKey(location));
-                                }
-
-                                for (int j = 0; j < child.outgoingLinks.Count; j++)
-                                {
-                                    nodeGridDict[GetNodeGridKey(childIndexStart + j, location.y)] = null;
-                                }
-                            }
-                        }
-                        HandleChildren(child.outgoingLinks, child, layer + 1, childIndexStart);
-                    }
-                }
-
-                if (i == 0)
-                {
-                    leftMost = child.canvasRect;
-                    leftIndex = xIndex;
-                }
-                rightMost = child.canvasRect;
-                rightIndex = xIndex;
-
-            }
-            if (leftIndex != 0 && rightIndex != 0)
-            {
-                parent.canvasRect.x = ((leftIndex + rightIndex) * 0.5f) * (canvasRectWidth + 10);
+                DialogueEntry child = currentConversation.GetDialogueEntry(childLink.destinationDialogueID);
+                CalculatePositions(child, level + 1, childOffset);
+                childOffset += GetSubtreeWidth(child) + HorizontalSpacing;
             }
         }
 
-        private void MoveNodesToLeftSide()
+        // Calculate the width of the subtree rooted at a node
+        private float GetSubtreeWidth(DialogueEntry node)
         {
-            float minX = CanvasSize;
-            foreach (var entry in currentConversation.dialogueEntries)
+            if (node == null) return 0;
+
+            // If the node has no children, return its own width
+            if (node.outgoingLinks.Count == 0) return canvasRectWidth;
+
+            // Check if we've been to this subtree before so we don't infinite loop
+            if (subtreeVisited.Contains(node))
             {
-                if (orphans.Find(x => x.entry == entry) != null) continue;
-                minX = Mathf.Min(minX, entry.canvasRect.x);
-            }
-            if (minX > 10)
-            {
-                var dx = Mathf.Max(0, minX - (20 + ((orphans.Count > 0) ? canvasRectWidth : 0)));
-                foreach (var entry in currentConversation.dialogueEntries)
+                if (subTreeWidths.ContainsKey(node))
                 {
-                    if (orphans.Find(x => x.entry == entry) != null) continue;
-                    entry.canvasRect.x -= dx;
+                    return subTreeWidths[node];
+                }
+                else
+                {
+                    return canvasRectWidth;
                 }
             }
+
+            subtreeVisited.Add(node);
+            // Otherwise, return the sum of the widths of its children and the spacings between them
+            float width = 0;
+            foreach (Link childLink in node.outgoingLinks)
+            {
+                if (childLink.destinationConversationID != currentConversation.id)
+                {
+                    continue;
+                }
+                DialogueEntry child = currentConversation.GetDialogueEntry(childLink.destinationDialogueID);
+                if (!subtreeVisited.Contains(child))
+                {
+                    width += GetSubtreeWidth(child) + HorizontalSpacing;
+                }
+            }
+            width -= HorizontalSpacing; // Subtract the extra spacing at the end
+
+            // Return the maximum of the node's own width and its children's width
+            subTreeWidths[node] = Mathf.Max(width, canvasRectWidth);
+            return subTreeWidths[node];
         }
+
+        #endregion
 
         private void ArrangeLevel(List<DialogueEntry> nodes, float x, float y, float treeWidth, float treeHeight, bool vertically)
         {

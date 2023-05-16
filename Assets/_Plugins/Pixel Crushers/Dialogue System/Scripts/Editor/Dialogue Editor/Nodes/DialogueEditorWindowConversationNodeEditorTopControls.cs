@@ -158,6 +158,24 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
             {
                 ResetNodeEditorConversationList();
             }
+            // [Contributed by Vladimir Beletsky: Pressing Return jumps to first conversation matching filter.
+            if (Event.current.keyCode == KeyCode.Return &&
+                !string.IsNullOrEmpty(conversationTitleFilter) &&
+                GUI.GetNameOfFocusedControl() == "ConversationFilterTextField" &&
+                database != null)
+            {
+                var filter = conversationTitleFilter.ToLower();
+                foreach (var conversation in database.conversations)
+                {
+                    if (conversation == null) continue;
+                    var title = conversation.Title.ToLower();
+                    if (title.Contains(filter))
+                    {
+                        OpenConversation(conversation);
+                        break;
+                    }
+                }
+            }
         }
 
         private void AddNewConversationToNodeEditor()

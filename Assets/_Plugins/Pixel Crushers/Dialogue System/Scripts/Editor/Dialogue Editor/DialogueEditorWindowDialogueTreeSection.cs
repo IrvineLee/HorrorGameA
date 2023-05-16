@@ -684,13 +684,12 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                 // Sequence (including localized if defined):
                 EditorWindowTools.EditorGUILayoutBeginGroup();
 
-                var sequence = entry.Sequence;
+                var sequenceField = Field.Lookup(entry.fields, "Sequence");
                 EditorGUI.BeginChangeCheck();
-                sequence = SequenceEditorTools.DrawLayout(new GUIContent("Sequence", "Cutscene played when speaking this entry. If set, overrides Dialogue Manager's Default Sequence. Drag audio clips to add AudioWait() commands."), entry.Sequence, ref sequenceRect, ref sequenceSyntaxState);
+                sequenceField.value = SequenceEditorTools.DrawLayout(new GUIContent("Sequence", "Cutscene played when speaking this entry. If set, overrides Dialogue Manager's Default Sequence. Drag audio clips to add AudioWait() commands."), sequenceField.value, ref sequenceRect, ref sequenceSyntaxState, entry, sequenceField);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    entry.Sequence = sequence;
-                    dialogueEntryNodeHasSequence[entry.id] = !string.IsNullOrEmpty(sequence);
+                    dialogueEntryNodeHasSequence[entry.id] = !string.IsNullOrEmpty(sequenceField.value);
                 }
                 DrawLocalizedVersions(entry, entry.fields, "Sequence {0}", false, FieldType.Text, true);
 

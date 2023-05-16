@@ -94,15 +94,13 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
                         indented = true;
                         EditorWindowTools.StartIndentedSection();
                     }
-                    //[TODO] Resolve menu callback issue.
-                    //if (useSequenceEditor)
-                    //{
-                    //    field.value = SequenceEditorTools.DrawLayout(new GUIContent(localizedTitle), field.value, ref sequenceRect, ref sequenceSyntaxState);
-                    //}
-                    //else
                     if (useSequenceEditor)
                     {
+                        EditorGUILayout.BeginHorizontal();
                         EditorGUILayout.LabelField(localizedTitle);
+                        GUILayout.FlexibleSpace();
+                        if (entry != null) DrawAISequence(entry, field);
+                        EditorGUILayout.EndHorizontal();
                         field.value = EditorGUILayout.TextArea(field.value);
                     }
                     else

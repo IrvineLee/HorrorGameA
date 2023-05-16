@@ -34,6 +34,18 @@ namespace PixelCrushers.DialogueSystem.DialogueEditor
         {
         }
 
+        private void DrawAIPortraitSprites(Asset asset)
+        {
+        }
+
+        public void DrawAIVoiceSelection(Actor actor)
+        {
+        }
+
+        public void DrawAISequence(DialogueEntry entry, Field field)
+        {
+        }
+
     }
 }
 #endif
