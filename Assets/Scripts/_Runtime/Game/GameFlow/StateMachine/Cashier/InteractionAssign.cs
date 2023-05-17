@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Personal.FSM.Cashier
+namespace Personal.FSM
 {
-	public class CashierInteraction : MonoBehaviour
+	public class InteractionAssign : MonoBehaviour
 	{
 		public List<StateBase> OrderedStateList
 		{

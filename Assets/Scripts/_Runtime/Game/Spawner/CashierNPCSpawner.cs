@@ -6,6 +6,7 @@ using Personal.Manager;
 using Personal.FSM.Cashier;
 using Personal.Definition;
 using Personal.GameState;
+using Personal.FSM;
 using Helper;
 
 namespace Personal.Spawner
@@ -48,9 +49,9 @@ namespace Personal.Spawner
 			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
 
 			// Set the interaction.
-			CashierInteraction cashierInteraction = cashierInteractionDefinition.GetInteraction(sb.ToString());
-			NPCCashierStateMachine instanceFSM = instance.GetComponentInChildren<NPCCashierStateMachine>();
-			instanceFSM.Initialize(targetInfo, cashierInteraction.OrderedStateList);
+			InteractionAssign interactionAssign = cashierInteractionDefinition.GetInteraction(sb.ToString());
+			OrderedStateMachine instanceFSM = instance.GetComponentInChildren<OrderedStateMachine>();
+			instanceFSM.Initialize(targetInfo, interactionAssign);
 		}
 	}
 }

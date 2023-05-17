@@ -18,5 +18,7 @@ namespace Personal.GameState
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 			enabled = true;
 		}
+
+		protected virtual void Update() { }
 	}
 }

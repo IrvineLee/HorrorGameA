@@ -30,16 +30,8 @@ namespace Personal.FSM.Character
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
 
-			StateDictionary.TryGetValue(typeof(PlayerDefaultState), out StateBase currentState);
+			StateDictionary.TryGetValue(typeof(PlayerStandardState), out StateBase currentState);
 			await SetState(currentState);
-			await currentState.OnExit();
-		}
-
-		async void Update()
-		{
-			if (state == null) return;
-
-			await state.OnUpdate();
 		}
 	}
 }

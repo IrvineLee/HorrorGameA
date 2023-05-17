@@ -9,7 +9,7 @@ using Personal.Constant;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerDefaultState : ActorStateBase
+	public class PlayerStandardState : ActorStateBase
 	{
 		protected Camera cam;
 
@@ -32,23 +32,20 @@ namespace Personal.FSM.Character
 			Vector3 startPos = cam.transform.position;
 			Vector3 endPos = startPos + cam.transform.forward * length;
 
-			if (Physics.SphereCast(startPos, radius, cam.transform.forward, out hit, length, 1 << (int)LayerType._Pickupable))
+			if (!Input.GetMouseButtonDown(0)) return;
+
+			if (Physics.SphereCast(startPos, radius, cam.transform.forward, out hit, length, 1 << (int)LayerType._Interactable))
 			{
-				OnHitPickupable(hit);
+				OnHitInteractable(hit);
 			}
 
 			Debug.DrawLine(startPos, endPos, Color.green);
 		}
 
-		public override async UniTask OnExit()
+		public virtual void OnHitInteractable(RaycastHit hit)
 		{
-			await base.OnExit();
-		}
-
-		public virtual void OnHitPickupable(RaycastHit hit)
-		{
-			// TODO: Item enter into inventory.
-			Debug.Log(hit.transform.name);
+			Debug.Log("Hit interactable");
+			hit.transform.GetComponentInChildren<InteractableObject>()?.HandleInteraction();
 		}
 	}
 }

@@ -9,9 +9,9 @@ using UnityEngine.AddressableAssets;
 
 namespace Personal.FSM.Cashier
 {
-	public class CashierScanAndPackState : PlayerDefaultState
+	public class CashierScanAndPackState : PlayerStandardState
 	{
-		NPCCashierStateMachine cashierStateMachine;
+		OrderedStateMachine cashierStateMachine;
 		GameObject spawnedObject;
 
 		int currentCount, maxCount;
@@ -20,7 +20,7 @@ namespace Personal.FSM.Cashier
 		{
 			await base.OnEnter();
 
-			cashierStateMachine = (NPCCashierStateMachine)stateMachine;
+			cashierStateMachine = (OrderedStateMachine)stateMachine;
 
 			// There will always be only 1 child within this transform.
 			Transform itemSelectionParent = transform.GetChild(0);
@@ -34,7 +34,7 @@ namespace Personal.FSM.Cashier
 			return;
 		}
 
-		public override void OnHitPickupable(RaycastHit hit)
+		public override void OnHitInteractable(RaycastHit hit)
 		{
 			// TODO : Hacking, should use the new input system for this.
 			if (Input.GetMouseButtonDown(0))

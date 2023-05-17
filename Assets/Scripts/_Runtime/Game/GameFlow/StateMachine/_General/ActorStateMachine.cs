@@ -17,6 +17,8 @@ namespace Personal.FSM
 		public DialogueSystemTrigger DialogueSystemTrigger { get; protected set; }
 		public AnimatorController AnimatorController { get; protected set; }
 
+		protected List<StateBase> orderedStateList = new List<StateBase>();
+
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
@@ -24,6 +26,22 @@ namespace Personal.FSM
 			NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
 			DialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			AnimatorController = GetComponentInChildren<AnimatorController>();
+		}
+
+		protected override void Update()
+		{
+			if (state == null) return;
+
+			state.OnUpdate();
+		}
+
+		protected async void PlayOrderedState()
+		{
+			foreach (var state in orderedStateList)
+			{
+				state.SetFSM(this);
+				await SetState(state);
+			}
 		}
 
 		void OnDisable()

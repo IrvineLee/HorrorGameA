@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Personal.FSM.Cashier;
+using Personal.FSM;
 using Sirenix.OdinInspector;
 
 namespace Personal.Definition
@@ -15,14 +15,14 @@ namespace Personal.Definition
 		[FolderPath(ParentFolder = "Assets/Prefabs/Cashier/Resources")]
 		[SerializeField] string interactionResourcePath = "";
 
-		Dictionary<string, CashierInteraction> interactionDictionary = new Dictionary<string, CashierInteraction>();
+		Dictionary<string, InteractionAssign> interactionDictionary = new Dictionary<string, InteractionAssign>();
 
 		/// <summary>
 		/// Initialize data into dictionary.
 		/// </summary>
 		public void Initalize()
 		{
-			List<CashierInteraction> interactionList = Resources.LoadAll(interactionResourcePath, typeof(CashierInteraction)).Cast<CashierInteraction>().ToList();
+			List<InteractionAssign> interactionList = Resources.LoadAll(interactionResourcePath, typeof(InteractionAssign)).Cast<InteractionAssign>().ToList();
 
 			interactionDictionary.Clear();
 			foreach (var interaction in interactionList)
@@ -36,7 +36,7 @@ namespace Personal.Definition
 		/// </summary>
 		/// <param name="interactionStr"></param>
 		/// <returns></returns>
-		public CashierInteraction GetInteraction(string interactionStr)
+		public InteractionAssign GetInteraction(string interactionStr)
 		{
 			return interactionDictionary.GetValueOrDefault(interactionStr);
 		}

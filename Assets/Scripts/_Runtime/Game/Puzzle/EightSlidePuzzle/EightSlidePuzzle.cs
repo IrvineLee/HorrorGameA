@@ -1,14 +1,16 @@
-using Cysharp.Threading.Tasks;
-using Helper;
-using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
+using Helper;
+using Personal.Interface;
+
 namespace Puzzle.EightSlide
 {
-	public class EightSlidePuzzle : MonoBehaviour, IPuzzle
+	public class EightSlidePuzzle : MonoBehaviour, IPuzzle, IProcess
 	{
 		[Serializable]
 		class Tile
@@ -144,6 +146,8 @@ namespace Puzzle.EightSlide
 			}
 
 			await UniTask.WaitUntil(() => slideCR.IsDone);
+
+			enabled = false;
 			Debug.Log("YOU WIN!");
 		}
 
@@ -182,6 +186,11 @@ namespace Puzzle.EightSlide
 			}
 
 			ArrangeTiles();
+		}
+
+		bool IProcess.IsDone()
+		{
+			return !enabled;
 		}
 	}
 }
