@@ -8,6 +8,7 @@ using Personal.FSM.Character;
 using Personal.UI.Option;
 using Cysharp.Threading.Tasks;
 using PixelCrushers;
+using Cinemachine;
 
 namespace Personal.Manager
 {
@@ -18,6 +19,7 @@ namespace Personal.Manager
 		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
 
 		public Camera MainCamera { get; private set; }
+		public CinemachineBrain CinemachineBrain { get; private set; }
 		public PlayerStateMachine PlayerFSM { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
 
@@ -29,6 +31,7 @@ namespace Personal.Manager
 			await base.Awake();
 
 			MainCamera = Camera.main;
+			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 			PlayerFSM = FindObjectOfType<PlayerStateMachine>();
 
 			OptionHandlerUI.OnMenuOpened += Pause;

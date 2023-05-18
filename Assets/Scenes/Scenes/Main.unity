@@ -2177,7 +2177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 754188625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f730efab695af548b5d576af785c1ba, type: 3}
+  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactType: 1
@@ -2234,7 +2234,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794113083}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc764dd9e8927ed4db966c625404e2c6, type: 3}
   m_Name: 
@@ -3389,6 +3389,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 470641115}
     m_Modifications:
+    - target: {fileID: 3242726082678566683, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3503440407825620527, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
       propertyPath: m_Name
       value: NPCSpawner
@@ -3758,6 +3762,10 @@ PrefabInstance:
     - target: {fileID: 1221913015419282837, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
       propertyPath: m_Name
       value: '#1_Puzzle'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6389909631428199676, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 2147484215
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
@@ -4463,7 +4471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90c1fd25dcc8b3498ac06808400f729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actorAnimationType: 0
   iProcessCompleteTrans: {fileID: 630114547}
 --- !u!1 &2029672332
 GameObject:

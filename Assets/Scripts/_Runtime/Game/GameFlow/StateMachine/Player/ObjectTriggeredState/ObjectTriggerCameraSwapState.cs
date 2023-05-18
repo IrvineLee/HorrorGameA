@@ -7,13 +7,13 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class ActorCameraSwapState : ActorStateBase
+	public class ObjectTriggerCameraSwapState : StateBase
 	{
 		[SerializeField] Transform iProcessCompleteTrans = null;
 
-		protected PlayerStateMachine playerStateMachine;
+		protected PlayerStateMachine playerFSM;
 
-		protected CinemachineVirtualCamera cam;
+		protected CinemachineVirtualCamera virtualCam;
 		protected bool isRunning;
 
 		IProcess iProcessComplete;
@@ -22,15 +22,17 @@ namespace Personal.FSM.Character
 		{
 			await base.OnEnter();
 
-			cam = GetComponentInChildren<CinemachineVirtualCamera>(true);
+			virtualCam = GetComponentInChildren<CinemachineVirtualCamera>(true);
 			iProcessComplete = iProcessCompleteTrans?.GetComponentInChildren<IProcess>();
 
-			playerStateMachine = StageManager.Instance.PlayerFSM;
+			playerFSM = StageManager.Instance.PlayerFSM;
 
 			ActivateCamera(true);
+			iProcessComplete.Begin(true);
+
 			await UniTask.WaitUntil(() => !isRunning);
 
-			actorStateMachine.SetState(null).Forget();
+			stateMachine.SetState(null).Forget();
 		}
 
 		public override async UniTask OnUpdate()
@@ -39,7 +41,7 @@ namespace Personal.FSM.Character
 
 			// TODO: Input hacking
 			if (Input.GetKeyDown(KeyCode.Q) ||
-				(iProcessCompleteTrans && iProcessComplete.IsCompleted()))
+				(iProcessCompleteTrans != null && iProcessComplete.IsCompleted()))
 			{
 				isRunning = false;
 			}
@@ -50,12 +52,13 @@ namespace Personal.FSM.Character
 			await base.OnExit();
 
 			ActivateCamera(false);
+			iProcessComplete.Begin(false);
 		}
 
 		void ActivateCamera(bool isFlag)
 		{
-			cam.gameObject.SetActive(isFlag);
-			playerStateMachine.FirstPersonController.enabled = !isFlag;
+			virtualCam.gameObject.SetActive(isFlag);
+			playerFSM.FirstPersonController.enabled = !isFlag;
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;

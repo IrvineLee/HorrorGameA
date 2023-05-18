@@ -10,7 +10,7 @@ using Personal.Interface;
 
 namespace Puzzle.EightSlide
 {
-	public class EightSlidePuzzle : MonoBehaviour, IPuzzle, IProcess
+	public class EightSlidePuzzle : PuzzleController, IPuzzle, IProcess
 	{
 		[Serializable]
 		class Tile
@@ -147,6 +147,7 @@ namespace Puzzle.EightSlide
 
 			await UniTask.WaitUntil(() => slideCR.IsDone);
 
+			isCompleted = true;
 			enabled = false;
 			Debug.Log("YOU WIN!");
 		}
@@ -188,9 +189,22 @@ namespace Puzzle.EightSlide
 			ArrangeTiles();
 		}
 
-		bool IProcess.IsDone()
+		/// <summary>
+		/// Handle whether the puzzle has started.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void IProcess.Begin(bool isFlag)
 		{
-			return !enabled;
+			enabled = isFlag;
+		}
+
+		/// <summary>
+		/// Return if the puzzle has been completed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsCompleted()
+		{
+			return isCompleted;
 		}
 	}
 }

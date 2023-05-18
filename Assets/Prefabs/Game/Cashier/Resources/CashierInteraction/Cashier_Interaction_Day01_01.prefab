@@ -196,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2013280422453419540}
-  - component: {fileID: 1852813963746472094}
+  - component: {fileID: 3917448446998306933}
   m_Layer: 0
   m_Name: ActorMoveToTarget
   m_TagString: Untagged
@@ -219,7 +219,7 @@ Transform:
   m_Father: {fileID: 2598960953469924517}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1852813963746472094
+--- !u!114 &3917448446998306933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,12 +228,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5928648401362917806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8251baa4d1fe6154580e0f6514d8bba7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2981242a5275b164484c2e51da0c93d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actorAnimationType: 1000
   exitBodyRotateDuration: 0.25
-  targetType: 2
+  targetType: 0
 --- !u!1 &6730433187278426513
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8463626237600964043}
-  - component: {fileID: 6605373601330730260}
+  - component: {fileID: 4026857510100342710}
   m_Layer: 0
   m_Name: ActorMoveToTarget
   m_TagString: Untagged
@@ -357,7 +357,7 @@ Transform:
   m_Father: {fileID: 2598960953469924517}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6605373601330730260
+--- !u!114 &4026857510100342710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8847061959259697550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8251baa4d1fe6154580e0f6514d8bba7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2981242a5275b164484c2e51da0c93d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actorAnimationType: 1000

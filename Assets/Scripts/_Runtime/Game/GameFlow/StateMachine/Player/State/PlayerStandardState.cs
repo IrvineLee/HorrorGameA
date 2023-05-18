@@ -13,11 +13,14 @@ namespace Personal.FSM.Character
 	{
 		protected Camera cam;
 
+		PlayerStateMachine playerFSM;
+
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
 			cam = StageManager.Instance.MainCamera;
+			playerFSM = (PlayerStateMachine)actorStateMachine;
 		}
 
 		public override async UniTask OnUpdate()
@@ -45,7 +48,12 @@ namespace Personal.FSM.Character
 		public virtual void OnHitInteractable(RaycastHit hit)
 		{
 			Debug.Log("Hit interactable");
-			hit.transform.GetComponentInChildren<InteractableObject>()?.HandleInteraction();
+
+			var interactable = hit.transform.GetComponentInChildren<InteractableObject>();
+			if (!interactable) return;
+
+			interactable.HandleInteraction(stateMachine, () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget()).Forget();
+			playerFSM.SetState(null).Forget();
 		}
 	}
 }

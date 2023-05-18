@@ -79,6 +79,7 @@ namespace Personal.FSM.Character
 
 			return target.position;
 		}
+
 		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerFSM.transform; }
 	}
 }

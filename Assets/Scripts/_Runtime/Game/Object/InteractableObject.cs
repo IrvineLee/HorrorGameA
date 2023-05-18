@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using Personal.GameState;
 using Personal.FSM;
@@ -14,10 +15,10 @@ namespace Personal.Manager
 			StateChange,
 		}
 
-		[SerializeField] InteractType interactType = InteractType.Pickupable;
+		[SerializeField] protected InteractType interactType = InteractType.Pickupable;
 
-		OrderedStateMachine orderedStateMachine;
-		InteractionAssign interactionAssign;
+		protected OrderedStateMachine orderedStateMachine;
+		protected InteractionAssign interactionAssign;
 
 		protected override async UniTask Awake()
 		{
@@ -27,19 +28,7 @@ namespace Personal.Manager
 			interactionAssign = GetComponentInChildren<InteractionAssign>();
 		}
 
-		public void HandleInteraction()
-		{
-			if (interactType == InteractType.Pickupable)
-			{
-
-			}
-			else if (interactType == InteractType.StateChange)
-			{
-				orderedStateMachine.Initialize(null, interactionAssign);
-			}
-			//// TODO: Item enter into inventory.
-			//Debug.Log(hit.transform.name);
-		}
+		public virtual async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast) { await UniTask.Delay(0); }
 	}
 }
 

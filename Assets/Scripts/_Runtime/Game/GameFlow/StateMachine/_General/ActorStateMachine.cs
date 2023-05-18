@@ -35,7 +35,7 @@ namespace Personal.FSM
 			state.OnUpdate();
 		}
 
-		protected async void PlayOrderedState()
+		protected async UniTask PlayOrderedState()
 		{
 			foreach (var state in orderedStateList)
 			{

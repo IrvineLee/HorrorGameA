@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 using Personal.GameState;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Personal.FSM
 {
@@ -12,16 +13,16 @@ namespace Personal.FSM
 		/// Set the target info and ordered state depending on current scenario.
 		/// </summary>
 		/// <param name="orderedStateList"></param>
-		public async void Initialize(TargetInfo targetInfo, InteractionAssign interactionAssign)
+		public async UniTask Initialize(TargetInfo targetInfo, InteractionAssign interactionAssign)
 		{
 			// Wait for awake before initializing.
 			await UniTask.DelayFrame(1);
 
 			if (NavMeshAgent) NavMeshAgent.enabled = true;
-			if (TargetInfo != null) TargetInfo = targetInfo;
+			if (targetInfo != null) TargetInfo = targetInfo;
 
 			orderedStateList = interactionAssign.OrderedStateList;
-			PlayOrderedState();
+			await PlayOrderedState();
 		}
 	}
 }

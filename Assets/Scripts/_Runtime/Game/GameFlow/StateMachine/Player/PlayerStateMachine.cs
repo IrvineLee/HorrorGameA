@@ -25,12 +25,25 @@ namespace Personal.FSM.Character
 			List<StateBase> stateList = new();
 			foreach (Transform child in stateParent)
 			{
-				stateList.Add(child.GetComponent<StateBase>());
+				var stateBase = child.GetComponent<StateBase>();
+
+				stateList.Add(stateBase);
+				stateBase.SetFSM(this);
 			}
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
+			await SwitchToState(typeof(PlayerStandardState));
+		}
 
-			StateDictionary.TryGetValue(typeof(PlayerStandardState), out StateBase currentState);
+		public async UniTask SwitchToState(Type type)
+		{
+			StateDictionary.TryGetValue(type, out StateBase currentState);
+
+			if (currentState == null)
+			{
+				Debug.Log("Couldn't find state of type " + type.Name);
+				return;
+			}
 			await SetState(currentState);
 		}
 	}

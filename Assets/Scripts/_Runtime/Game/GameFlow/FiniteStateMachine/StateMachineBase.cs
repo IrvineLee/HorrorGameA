@@ -6,17 +6,13 @@ namespace Personal.FSM
 	public abstract class StateMachineBase : GameInitialize
 	{
 		protected StateBase state;
-		protected StateBase prevState;
 
 		public async UniTask SetState(StateBase state)
 		{
-			if (prevState != null)
-				await prevState.OnExit();
-
-			if (state == null) return;
+			this.state?.OnExit().Forget();
 
 			this.state = state;
-			prevState = state;
+			if (state == null) return;
 
 			await state.OnEnter();
 		}

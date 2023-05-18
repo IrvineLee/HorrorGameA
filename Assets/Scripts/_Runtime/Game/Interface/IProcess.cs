@@ -3,6 +3,7 @@ namespace Personal.Interface
 {
 	public interface IProcess
 	{
-		bool IsDone();
+		void Begin(bool isFlag);
+		bool IsCompleted();
 	}
 }
