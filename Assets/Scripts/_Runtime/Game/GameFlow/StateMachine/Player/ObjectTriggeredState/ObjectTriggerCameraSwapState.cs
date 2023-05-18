@@ -22,14 +22,15 @@ namespace Personal.FSM.Character
 		{
 			await base.OnEnter();
 
-			virtualCam = GetComponentInChildren<CinemachineVirtualCamera>(true);
 			iProcessComplete = iProcessCompleteTrans?.GetComponentInChildren<IProcess>();
+			if (iProcessComplete.IsCompleted()) return;
 
+			virtualCam = GetComponentInChildren<CinemachineVirtualCamera>(true);
 			playerFSM = StageManager.Instance.PlayerFSM;
 
-			ActivateCamera(true);
-			iProcessComplete.Begin(true);
+			await ActivateCamera(true);
 
+			iProcessComplete.Begin(true);
 			await UniTask.WaitUntil(() => !isRunning);
 
 			stateMachine.SetState(null).Forget();
@@ -51,17 +52,18 @@ namespace Personal.FSM.Character
 		{
 			await base.OnExit();
 
-			ActivateCamera(false);
 			iProcessComplete.Begin(false);
+			await ActivateCamera(false);
 		}
 
-		void ActivateCamera(bool isFlag)
+		async UniTask ActivateCamera(bool isFlag)
 		{
 			virtualCam.gameObject.SetActive(isFlag);
 			playerFSM.FirstPersonController.enabled = !isFlag;
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;
+			await UniTask.WaitUntil(() => !StageManager.Instance.CinemachineBrain.IsBlending);
 		}
 	}
 }
