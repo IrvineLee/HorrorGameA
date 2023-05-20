@@ -22,8 +22,9 @@ namespace Personal.InputProcessing
 		public event Action<bool> OnInteractEvent;
 		public event Action<bool> OnCancelEvent;
 
-		public event Action<bool> OnInventoryUIOpenEvent;
-		public event Action<bool> OnMenuUIOpenEvent;
+		public event Action OnInventoryUIPressedEvent;
+
+		public event Action OnMenuUIPressedEvent;
 
 		public event Action<Vector2> OnDpadEvent;
 
@@ -86,12 +87,12 @@ namespace Personal.InputProcessing
 
 		void PlayerActionInput.IPlayerActions.OnInventoryMenu(InputAction.CallbackContext context)
 		{
-			OnInventoryUIOpenEvent?.Invoke(context.ReadValue<float>().ConvertToBool());
+			SetButtonEvent(context.started, OnInventoryUIPressedEvent);
 		}
 
 		void PlayerActionInput.IPlayerActions.OnOptionMenu(InputAction.CallbackContext context)
 		{
-			OnMenuUIOpenEvent?.Invoke(context.ReadValue<float>().ConvertToBool());
+			SetButtonEvent(context.started, OnMenuUIPressedEvent);
 		}
 
 		/// ------------------------------------------------------------
@@ -101,6 +102,16 @@ namespace Personal.InputProcessing
 		void PlayerActionInput.IPuzzleActions.OnGamepadSelection(InputAction.CallbackContext context)
 		{
 			OnDpadEvent?.Invoke(context.ReadValue<Vector2>());
+		}
+
+		/// ------------------------------------------------------------
+		/// -----------------------OTHERS-------------------------------
+		/// ------------------------------------------------------------
+
+		void SetButtonEvent(bool isStarted, Action performedEvent)
+		{
+			if (!isStarted) return;
+			performedEvent?.Invoke();
 		}
 	}
 }

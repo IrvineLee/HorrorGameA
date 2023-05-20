@@ -39,8 +39,8 @@ namespace Personal.InputProcessing
 			inputReader.OnInteractEvent += InteractInput;
 			inputReader.OnCancelEvent += CancelInput;
 
-			inputReader.OnInventoryUIOpenEvent += InventoryUIOpenInput;
-			inputReader.OnMenuUIOpenEvent += MenuUIOpenInput;
+			inputReader.OnInventoryUIPressedEvent += InventoryUIOpenInput;
+			inputReader.OnMenuUIPressedEvent += MenuUIOpenInput;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -74,14 +74,14 @@ namespace Personal.InputProcessing
 			IsCancel = isFlag;
 		}
 
-		void InventoryUIOpenInput(bool isFlag)
+		void InventoryUIOpenInput()
 		{
-			IsInventoryUIOpen = isFlag;
+			IsInventoryUIOpen = true;
 		}
 
-		void MenuUIOpenInput(bool isFlag)
+		void MenuUIOpenInput()
 		{
-			IsMenuUIOpen = isFlag;
+			IsMenuUIOpen = true;
 		}
 
 		void OnDestroy()

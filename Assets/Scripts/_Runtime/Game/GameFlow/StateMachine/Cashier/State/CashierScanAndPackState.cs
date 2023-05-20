@@ -31,8 +31,6 @@ namespace Personal.FSM.Cashier
 
 			maxCount = itemSelectionParent.childCount;
 			await UniTask.WaitUntil(() => currentCount == maxCount);
-
-			return;
 		}
 
 		public override void OnHitInteractable(RaycastHit hit)

@@ -32,7 +32,7 @@ namespace Personal.FSM.Character
 			Vector3 startPos = cam.transform.position;
 			Vector3 endPos = startPos + cam.transform.forward * length;
 
-			if (InputManager.Instance && !InputManager.Instance.FPSInputController.IsInteract) return;
+			if (!InputManager.Instance.FPSInputController.IsInteract) return;
 
 			if (Physics.SphereCast(startPos, radius, cam.transform.forward, out hit, length, 1 << (int)LayerType._Interactable))
 			{
@@ -52,7 +52,7 @@ namespace Personal.FSM.Character
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerFSM;
 
 			interactable.HandleInteraction(stateMachine, () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget()).Forget();
-			playerFSM.SetState(null).Forget();
+			playerFSM.SwitchToState(null).Forget();
 		}
 	}
 }

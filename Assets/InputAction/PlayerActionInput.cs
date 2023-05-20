@@ -83,18 +83,18 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""InventoryMenu"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""a7b50b3e-66f3-4003-8ab9-40e2e98534c4"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""OptionMenu"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""b9dcae7d-a062-4457-aaab-a7683abdf15b"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -392,7 +392,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Cancel"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""efb372c6-7f41-44e6-9360-2f16e1a5be41"",
+                    ""id"": ""5264dae8-f1da-460a-afa5-a02b70ce4c0d"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -534,7 +534,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1a2aed7b-b19d-4959-873a-345604db2b23"",
+                    ""id"": ""07a49671-6d10-48c6-a070-a2921f22f373"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -545,7 +545,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""eafb67f4-c4cf-4c53-bfca-d0cd07fe4d49"",
+                    ""id"": ""19f54d35-0e85-404a-a4be-025e4c9a57d2"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",

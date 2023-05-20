@@ -18,6 +18,8 @@ namespace Personal.UI.Option
 		[SerializeField] Transform background = null;
 		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
 
+		public bool IsOpened { get; private set; }
+
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
 
 		public static event Action<bool> OnMenuOpened;
@@ -33,26 +35,35 @@ namespace Personal.UI.Option
 
 		public void OpenMenuTab(MenuTab menuTab)
 		{
-			background.gameObject.SetActive(true);
-			OnMenuOpened?.Invoke(true);
+			SetupMenu(true);
+
+			// Open requested menu tab.
+			if (optionMenuUIDictionary.TryGetValue(menuTab, out OptionMenuUI optionMenuUI))
+			{
+				optionMenuUI.gameObject.SetActive(IsOpened);
+			}
+		}
+
+		public void CloseMenuTab()
+		{
+			SetupMenu(false);
+		}
+
+		/// <summary>
+		/// Setup the menu to be opened/closed.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void SetupMenu(bool isFlag)
+		{
+			IsOpened = isFlag;
+			background.gameObject.SetActive(IsOpened);
+			OnMenuOpened?.Invoke(IsOpened);
 
 			// Close all tabs.
 			foreach (var option in optionMenuUIList)
 			{
 				option.gameObject.SetActive(false);
 			}
-
-			// Open requested menu tab.
-			if (optionMenuUIDictionary.TryGetValue(menuTab, out OptionMenuUI optionMenuUI))
-			{
-				optionMenuUI.gameObject.SetActive(true);
-			}
-		}
-
-		public void CloseMenuTab()
-		{
-			background.gameObject.SetActive(false);
-			OnMenuOpened?.Invoke(false);
 		}
 	}
 }

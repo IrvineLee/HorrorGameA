@@ -36,12 +36,14 @@ namespace Personal.Manager
 			// Disable all action map.
 			foreach (var map in inputReader.InputActionMapDictionary)
 			{
+				//Debug.Log("Disabled " + map.Key + "  " + map.Value);
 				map.Value.Disable();
 			}
 
 			// Enable specified actin map.
 			inputReader.InputActionMapDictionary.TryGetValue(actionMap, out InputActionMap inputActionMap);
 			inputActionMap.Enable();
+			//Debug.Log("Enabled " + actionMap + "  " + inputActionMap);
 		}
 	}
 }
