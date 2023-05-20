@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Helper;
 using Cysharp.Threading.Tasks;
 using PixelCrushers;
+using Personal.GameState;
 
 namespace Personal.Manager
 {
-	public class CursorManager : MonoBehaviourSingleton<CursorManager>
+	public class CursorManager : GameInitializeSingleton<CursorManager>
 	{
 		[SerializeField] Transform crosshairUI = null;
 		[SerializeField] Transform mouseCursorUI = null;
@@ -32,6 +32,11 @@ namespace Personal.Manager
 
 			crosshairUI.gameObject.SetActive(!isFlag);
 			mouseCursorUI.gameObject.SetActive(isFlag);
+		}
+
+		void OnApplicationFocus(bool hasFocus)
+		{
+			SetToMouseCursor(!hasFocus);
 		}
 	}
 }

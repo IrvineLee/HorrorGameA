@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Helper;
 using Personal.Interface;
+using Personal.Manager;
 
 namespace Puzzle.EightSlide
 {
@@ -54,8 +55,10 @@ namespace Puzzle.EightSlide
 		int emptyIndex;
 		CoroutineRun slideCR = new CoroutineRun();
 
-		void Start()
+		protected override async UniTask Awake()
 		{
+			await base.Awake();
+
 			var tempList = new List<int>(new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
 			// Set the current and empty index.
@@ -75,21 +78,21 @@ namespace Puzzle.EightSlide
 			emptyIndex = tempList[0];
 		}
 
-		void Update()
+		protected override void Update()
 		{
+			if (!InputManager.Instance.FPSInputController.IsInteract) return;
+			if (!slideCR.IsDone) return;
+
 			// Check puzzle click.
-			if (Input.GetMouseButtonDown(0) && slideCR.IsDone)
+			RaycastHit hit;
+
+			Vector2 mousePosition = Mouse.current.position.ReadValue();
+			Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
+			if (Physics.Raycast(ray, out hit))
 			{
-				RaycastHit hit;
-
-				Vector2 mousePosition = Mouse.current.position.ReadValue();
-				Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-				if (Physics.Raycast(ray, out hit))
-				{
-					((IPuzzle)this).ClickedInteractable(hit.transform);
-					((IPuzzle)this).CheckPuzzleAnswer();
-				}
+				((IPuzzle)this).ClickedInteractable(hit.transform);
+				((IPuzzle)this).CheckPuzzleAnswer();
 			}
 		}
 

@@ -5,21 +5,25 @@ using Personal.GameState;
 using Personal.Save;
 using Personal.FSM;
 using Personal.FSM.Cashier;
+using Personal.InputProcessing;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
 	public class DebugManager : GameInitializeSingleton<DebugManager>
 	{
-		SaveObject saveObject;
+		FPSInputController FPSInputController;
 
-		public void Initialize()
+		protected override async UniTask Awake()
 		{
-			//saveObject = GameStateBehaviour.Instance.SaveObject;
+			await base.Awake();
+
+			FPSInputController = InputManager.Instance.FPSInputController;
 		}
 
 		void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Tab))
+			if (FPSInputController.IsMenuUIOpen)
 			{
 				//SceneManager.Instance.ChangeLevel(1);
 

@@ -53,7 +53,7 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			CursorManager.Instance.SetToMouseCursor(isFlag);
-			PlayerFSM.FirstPersonController.enabled = !isFlag;
+			PlayerFSM.FPSController.enabled = !isFlag;
 		}
 
 		void OnDestroy()

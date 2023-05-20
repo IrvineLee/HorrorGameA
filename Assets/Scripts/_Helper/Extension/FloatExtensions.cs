@@ -15,6 +15,16 @@ namespace Helper
 		}
 
 		/// <summary>
+		/// Convert float value to bool.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static bool ConvertToBool(this float original)
+		{
+			return original > 0;
+		}
+
+		/// <summary>
 		/// Convert value from 0~100 to 0~1. 
 		/// </summary>
 		/// <param name="original"></param>

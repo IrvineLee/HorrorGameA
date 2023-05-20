@@ -1,12 +1,15 @@
-using Cysharp.Threading.Tasks;
-using Helper;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+
+using Sirenix.OdinInspector;
 using QuickOutline;
+using TMPro;
+
+using Personal.Manager;
+using Helper;
+using Cysharp.Threading.Tasks;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,7 +17,7 @@ using UnityEditor;
 
 namespace Puzzle.Pinwheel
 {
-	public class PinwheelPuzzle : MonoBehaviour, IPuzzle
+	public class PinwheelPuzzle : PuzzleController, IPuzzle
 	{
 		[ChildGameObjectsOnly]
 		[SerializeField] Transform outerPinwheelTrans = null;
@@ -54,8 +57,10 @@ namespace Puzzle.Pinwheel
 		int defaultTurnRemain;
 		CoroutineRun slideCR = new CoroutineRun();
 
-		void Start()
+		protected override async UniTask Awake()
 		{
+			await base.Awake();
+
 			defaultTurnRemain = turnRemain;
 
 			Initialize();
@@ -63,21 +68,21 @@ namespace Puzzle.Pinwheel
 			SetTurnRemainTMP(turnRemain);
 		}
 
-		void Update()
+		protected override void Update()
 		{
+			if (!InputManager.Instance.FPSInputController.IsInteract) return;
+			if (!slideCR.IsDone) return;
+
 			// Check puzzle click.
-			if (Input.GetMouseButtonDown(0) && slideCR.IsDone)
+			RaycastHit hit;
+
+			Vector2 mousePosition = Mouse.current.position.ReadValue();
+			Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
+			if (Physics.Raycast(ray, out hit))
 			{
-				RaycastHit hit;
-
-				Vector2 mousePosition = Mouse.current.position.ReadValue();
-				Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-				if (Physics.Raycast(ray, out hit))
-				{
-					((IPuzzle)this).ClickedInteractable(hit.transform);
-					((IPuzzle)this).CheckPuzzleAnswer();
-				}
+				((IPuzzle)this).ClickedInteractable(hit.transform);
+				((IPuzzle)this).CheckPuzzleAnswer();
 			}
 		}
 

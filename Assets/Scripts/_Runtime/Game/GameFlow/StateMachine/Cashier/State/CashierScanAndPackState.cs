@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Personal.FSM.Character;
 using Helper;
 using UnityEngine.AddressableAssets;
+using Personal.Manager;
 
 namespace Personal.FSM.Cashier
 {
@@ -36,12 +37,10 @@ namespace Personal.FSM.Cashier
 
 		public override void OnHitInteractable(RaycastHit hit)
 		{
-			// TODO : Hacking, should use the new input system for this.
-			if (Input.GetMouseButtonDown(0))
-			{
-				currentCount++;
-				hit.transform.gameObject.SetActive(false);
-			}
+			if (!InputManager.Instance.FPSInputController.IsInteract) return;
+
+			currentCount++;
+			hit.transform.gameObject.SetActive(false);
 		}
 
 		public override async UniTask OnExit()

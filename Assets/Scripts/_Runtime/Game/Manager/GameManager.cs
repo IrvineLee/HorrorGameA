@@ -19,7 +19,7 @@ namespace Personal.Manager
 			await base.Awake();
 
 			await UniTask.WaitUntil(() => IsInitialized());
-			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully activated!! ----------</color>");
+			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully initiated!! ----------</color>");
 
 			await HandleProfileLoading();
 			Debug.Log("<Color=#45FF00> ---------- Profile Loaded!! ----------</color>");
@@ -34,6 +34,7 @@ namespace Personal.Manager
 			if (UIManager.Instance == null) return false;
 			if (PoolManager.Instance == null) return false;
 			if (StageManager.Instance == null) return false;
+			if (InputManager.Instance == null) return false;
 			if (DebugManager.Instance == null) return false;
 			if (SaveManager.Instance == null) return false;
 			if (HelperObj.Instance == null) return false;

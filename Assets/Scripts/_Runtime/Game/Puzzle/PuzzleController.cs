@@ -1,8 +1,10 @@
 using UnityEngine;
 
-namespace Puzzle.EightSlide
+using Personal.GameState;
+
+namespace Puzzle
 {
-	public class PuzzleController : MonoBehaviour
+	public class PuzzleController : GameInitialize
 	{
 		protected bool isCompleted;
 	}

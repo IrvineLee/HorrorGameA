@@ -13,14 +13,11 @@ namespace Personal.FSM.Character
 	{
 		protected Camera cam;
 
-		PlayerStateMachine playerFSM;
-
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
 			cam = StageManager.Instance.MainCamera;
-			playerFSM = (PlayerStateMachine)actorStateMachine;
 		}
 
 		public override async UniTask OnUpdate()
@@ -35,7 +32,7 @@ namespace Personal.FSM.Character
 			Vector3 startPos = cam.transform.position;
 			Vector3 endPos = startPos + cam.transform.forward * length;
 
-			if (!Input.GetMouseButtonDown(0)) return;
+			if (InputManager.Instance && !InputManager.Instance.FPSInputController.IsInteract) return;
 
 			if (Physics.SphereCast(startPos, radius, cam.transform.forward, out hit, length, 1 << (int)LayerType._Interactable))
 			{
@@ -51,6 +48,8 @@ namespace Personal.FSM.Character
 
 			var interactable = hit.transform.GetComponentInChildren<InteractableObject>();
 			if (!interactable) return;
+
+			PlayerStateMachine playerFSM = StageManager.Instance.PlayerFSM;
 
 			interactable.HandleInteraction(stateMachine, () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget()).Forget();
 			playerFSM.SetState(null).Forget();

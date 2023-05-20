@@ -18,6 +18,8 @@ namespace Personal.GameState
 			enabled = false;
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 			enabled = true;
+
+			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
 	}
 }

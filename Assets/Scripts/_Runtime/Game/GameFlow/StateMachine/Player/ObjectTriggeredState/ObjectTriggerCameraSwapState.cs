@@ -40,8 +40,7 @@ namespace Personal.FSM.Character
 		{
 			await base.OnUpdate();
 
-			// TODO: Input hacking
-			if (Input.GetKeyDown(KeyCode.Q) ||
+			if (InputManager.Instance.FPSInputController.IsCancel ||
 				(iProcessCompleteTrans != null && iProcessComplete.IsCompleted()))
 			{
 				isRunning = false;
@@ -59,7 +58,7 @@ namespace Personal.FSM.Character
 		async UniTask ActivateCamera(bool isFlag)
 		{
 			virtualCam.gameObject.SetActive(isFlag);
-			playerFSM.FirstPersonController.enabled = !isFlag;
+			playerFSM.FPSController.enabled = !isFlag;
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;

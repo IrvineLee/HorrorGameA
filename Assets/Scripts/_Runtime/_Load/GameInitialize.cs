@@ -16,6 +16,10 @@ namespace Personal.GameState
 
 			enabled = false;
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
+
+			// Seems like scripts does not get re-enabled the same order as defined in the execution order.
+			// Make sure the singleton scripts get initialized first before this script.
+			await UniTask.Yield(PlayerLoopTiming.LastUpdate);
 			enabled = true;
 		}
 
