@@ -25,10 +25,13 @@ namespace Personal.InputProcessing
 		{
 			await base.Awake();
 
-			PlayerActionInput playerActionInput = InputManager.Instance.PlayerActionInput;
 			InputManager.Instance.EnableActionMap(ActionMapType.Player);
-
 			inputReader = InputManager.Instance.InputReader;
+		}
+
+		protected override async UniTask OnEnable()
+		{
+			await base.OnEnable();
 
 			inputReader.OnMoveEvent += MoveInput;
 			inputReader.OnLookEvent += LookInput;
@@ -39,8 +42,8 @@ namespace Personal.InputProcessing
 			inputReader.OnInteractEvent += InteractInput;
 			inputReader.OnCancelEvent += CancelInput;
 
-			inputReader.OnInventoryUIPressedEvent += InventoryUIOpenInput;
-			inputReader.OnMenuUIPressedEvent += MenuUIOpenInput;
+			//inputReader.OnInventoryUIPressedEvent += InventoryUIOpenInput;
+			//inputReader.OnMenuUIPressedEvent += MenuUIOpenInput;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -74,18 +77,20 @@ namespace Personal.InputProcessing
 			IsCancel = isFlag;
 		}
 
-		void InventoryUIOpenInput()
-		{
-			IsInventoryUIOpen = true;
-		}
+		//void InventoryUIOpenInput()
+		//{
+		//	IsInventoryUIOpen = true;
+		//}
 
-		void MenuUIOpenInput()
-		{
-			IsMenuUIOpen = true;
-		}
+		//void MenuUIOpenInput()
+		//{
+		//	IsMenuUIOpen = true;
+		//}
 
-		void OnDestroy()
+		void OnDisable()
 		{
+			if (!isAwakeCompleted) return;
+
 			inputReader.OnMoveEvent -= MoveInput;
 			inputReader.OnLookEvent -= LookInput;
 
