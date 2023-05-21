@@ -34,6 +34,7 @@ namespace Personal.Manager
 		{
 			inputReader = InputManager.Instance.InputReader;
 			inputReader.OnMenuUIPressedEvent += OpenOptionMenu;
+			inputReader.OnCancelEvent += OpenOptionMenu;
 
 			// Option UI initialize.
 			OptionUI.Initialize();
