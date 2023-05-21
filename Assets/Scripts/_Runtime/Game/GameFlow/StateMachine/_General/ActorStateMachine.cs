@@ -32,7 +32,7 @@ namespace Personal.FSM
 		{
 			if (state == null) return;
 
-			state.OnUpdate();
+			state.OnUpdateRun();
 		}
 
 		protected async UniTask PlayOrderedState()

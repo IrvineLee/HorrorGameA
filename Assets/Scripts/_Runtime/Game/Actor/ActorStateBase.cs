@@ -25,9 +25,8 @@ namespace Personal.FSM.Character
 		/// Called to request updating
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask OnUpdate()
+		public override void OnUpdate()
 		{
-			await base.OnUpdate();
 		}
 
 		/// <summary>

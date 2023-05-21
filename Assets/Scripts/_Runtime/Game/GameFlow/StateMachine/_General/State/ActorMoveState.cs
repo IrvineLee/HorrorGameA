@@ -36,10 +36,8 @@ namespace Personal.FSM.Character
 		/// Move to the target.
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask OnUpdate()
+		public override void OnUpdate()
 		{
-			await base.OnUpdate();
-
 			// The navmesh agent head animation should be looking at the target.
 			//await UniTask.DelayFrame(0);
 		}

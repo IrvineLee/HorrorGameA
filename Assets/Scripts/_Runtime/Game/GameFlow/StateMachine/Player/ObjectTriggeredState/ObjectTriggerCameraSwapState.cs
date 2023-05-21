@@ -36,10 +36,8 @@ namespace Personal.FSM.Character
 			stateMachine.SetState(null).Forget();
 		}
 
-		public override async UniTask OnUpdate()
+		public override void OnUpdate()
 		{
-			await base.OnUpdate();
-
 			if (InputManager.Instance.FPSInputController.IsCancel ||
 				(iProcessCompleteTrans != null && iProcessComplete.IsCompleted()))
 			{

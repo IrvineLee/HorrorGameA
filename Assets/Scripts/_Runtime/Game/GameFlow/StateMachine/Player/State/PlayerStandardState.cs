@@ -20,10 +20,8 @@ namespace Personal.FSM.Character
 			cam = StageManager.Instance.MainCamera;
 		}
 
-		public override async UniTask OnUpdate()
+		public override void OnUpdate()
 		{
-			await base.OnUpdate();
-
 			RaycastHit hit;
 
 			float radius = ConstantFixed.PLAYER_LOOK_SPHERECAST_RADIUS;
