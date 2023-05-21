@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8905157857083554521}
   - component: {fileID: -2029647341675770187}
   - component: {fileID: -4988664174667796546}
+  - component: {fileID: -2043296207419701523}
   - component: {fileID: 2606718911939933483}
   m_Layer: 0
   m_Name: InputManager
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: f871199f19a2e2844b4d73e6dd791660, type: 2}
+  defaultActionMap: 0
 --- !u!114 &-4988664174667796546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,9 +56,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8905157857083554520}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a33bf2f727cae8b40b212ae93e8f94d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2043296207419701523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905157857083554520}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3020cb7d926d9498807efa6b9dda97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2606718911939933483

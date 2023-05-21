@@ -301,6 +301,17 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ed786085-debc-4bc3-acfc-cdab364810dd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""42cd8a22-4eac-44bd-8e6f-ce37d4958a09"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -368,7 +379,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""UI_Option"",
+            ""name"": ""UI"",
             ""id"": ""be26ab57-f034-4dda-9ee0-13d10e5b337a"",
             ""actions"": [
                 {
@@ -547,195 +558,6 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""19f54d35-0e85-404a-a4be-025e4c9a57d2"",
                     ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""UI_Inventory"",
-            ""id"": ""80945d01-470b-4b96-acc4-a56679db3513"",
-            ""actions"": [
-                {
-                    ""name"": ""Move"",
-                    ""type"": ""Value"",
-                    ""id"": ""e64ed230-0bf0-4ac8-ab8f-db2b20c26d04"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Interact"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""c8f0e53d-6916-4398-bd2f-44a5413c7d6f"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""c5091ec2-53f4-44df-a7df-1d0c45c34842"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""b5e091ff-6fab-43a7-a10b-3a06613c38c1"",
-                    ""path"": ""2DVector(mode=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""17f6ff1c-771a-4c54-9dd0-d9b9db984da8"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""a5bdc1b1-6a41-4e50-8505-1885d52f972d"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""b0359c6a-c25f-474c-99cf-2f352a15b2c3"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""991fdefb-53bc-4aec-820c-cd5b6c9439f3"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""a0c8e21f-bb9b-4983-92e3-7361fa65371f"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""07092135-f4e2-4a53-86bf-b4d6df6ff9b7"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""e2b992ab-6d74-43d0-b488-99e17438c1e2"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""7e034fb0-8acf-4a53-a090-47841fe6050c"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d01e7ec2-fcf0-42e8-8ec9-b5e01e0b327c"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6ad32de0-3acb-4812-bb05-e4d486b44166"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""276952a0-a13b-4179-8b11-ce8a59d4d026"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b6493947-952e-435f-8ae5-9f8edd252aa7"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0021e3fa-9d9a-4d6f-88d2-697134e8f2d6"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -1094,16 +916,11 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_InventoryMenu = m_Player.FindAction("InventoryMenu", throwIfNotFound: true);
         m_Player_OptionMenu = m_Player.FindAction("OptionMenu", throwIfNotFound: true);
-        // UI_Option
-        m_UI_Option = asset.FindActionMap("UI_Option", throwIfNotFound: true);
-        m_UI_Option_Move = m_UI_Option.FindAction("Move", throwIfNotFound: true);
-        m_UI_Option_Interact = m_UI_Option.FindAction("Interact", throwIfNotFound: true);
-        m_UI_Option_Cancel = m_UI_Option.FindAction("Cancel", throwIfNotFound: true);
-        // UI_Inventory
-        m_UI_Inventory = asset.FindActionMap("UI_Inventory", throwIfNotFound: true);
-        m_UI_Inventory_Move = m_UI_Inventory.FindAction("Move", throwIfNotFound: true);
-        m_UI_Inventory_Interact = m_UI_Inventory.FindAction("Interact", throwIfNotFound: true);
-        m_UI_Inventory_Cancel = m_UI_Inventory.FindAction("Cancel", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
+        m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
+        m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         // Puzzle
         m_Puzzle = asset.FindActionMap("Puzzle", throwIfNotFound: true);
         m_Puzzle_GamepadSelection = m_Puzzle.FindAction("GamepadSelection", throwIfNotFound: true);
@@ -1254,39 +1071,39 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // UI_Option
-    private readonly InputActionMap m_UI_Option;
-    private IUI_OptionActions m_UI_OptionActionsCallbackInterface;
-    private readonly InputAction m_UI_Option_Move;
-    private readonly InputAction m_UI_Option_Interact;
-    private readonly InputAction m_UI_Option_Cancel;
-    public struct UI_OptionActions
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_Move;
+    private readonly InputAction m_UI_Interact;
+    private readonly InputAction m_UI_Cancel;
+    public struct UIActions
     {
         private @PlayerActionInput m_Wrapper;
-        public UI_OptionActions(@PlayerActionInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_UI_Option_Move;
-        public InputAction @Interact => m_Wrapper.m_UI_Option_Interact;
-        public InputAction @Cancel => m_Wrapper.m_UI_Option_Cancel;
-        public InputActionMap Get() { return m_Wrapper.m_UI_Option; }
+        public UIActions(@PlayerActionInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_UI_Move;
+        public InputAction @Interact => m_Wrapper.m_UI_Interact;
+        public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UI_OptionActions set) { return set.Get(); }
-        public void SetCallbacks(IUI_OptionActions instance)
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
         {
-            if (m_Wrapper.m_UI_OptionActionsCallbackInterface != null)
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnMove;
-                @Interact.started -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnInteract;
-                @Cancel.started -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= m_Wrapper.m_UI_OptionActionsCallbackInterface.OnCancel;
+                @Move.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMove;
+                @Interact.started -= m_Wrapper.m_UIActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnInteract;
+                @Cancel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
             }
-            m_Wrapper.m_UI_OptionActionsCallbackInterface = instance;
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
@@ -1301,56 +1118,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
             }
         }
     }
-    public UI_OptionActions @UI_Option => new UI_OptionActions(this);
-
-    // UI_Inventory
-    private readonly InputActionMap m_UI_Inventory;
-    private IUI_InventoryActions m_UI_InventoryActionsCallbackInterface;
-    private readonly InputAction m_UI_Inventory_Move;
-    private readonly InputAction m_UI_Inventory_Interact;
-    private readonly InputAction m_UI_Inventory_Cancel;
-    public struct UI_InventoryActions
-    {
-        private @PlayerActionInput m_Wrapper;
-        public UI_InventoryActions(@PlayerActionInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_UI_Inventory_Move;
-        public InputAction @Interact => m_Wrapper.m_UI_Inventory_Interact;
-        public InputAction @Cancel => m_Wrapper.m_UI_Inventory_Cancel;
-        public InputActionMap Get() { return m_Wrapper.m_UI_Inventory; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UI_InventoryActions set) { return set.Get(); }
-        public void SetCallbacks(IUI_InventoryActions instance)
-        {
-            if (m_Wrapper.m_UI_InventoryActionsCallbackInterface != null)
-            {
-                @Move.started -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnMove;
-                @Interact.started -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnInteract;
-                @Cancel.started -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= m_Wrapper.m_UI_InventoryActionsCallbackInterface.OnCancel;
-            }
-            m_Wrapper.m_UI_InventoryActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
-                @Cancel.started += instance.OnCancel;
-                @Cancel.performed += instance.OnCancel;
-                @Cancel.canceled += instance.OnCancel;
-            }
-        }
-    }
-    public UI_InventoryActions @UI_Inventory => new UI_InventoryActions(this);
+    public UIActions @UI => new UIActions(this);
 
     // Puzzle
     private readonly InputActionMap m_Puzzle;
@@ -1447,13 +1215,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         void OnInventoryMenu(InputAction.CallbackContext context);
         void OnOptionMenu(InputAction.CallbackContext context);
     }
-    public interface IUI_OptionActions
-    {
-        void OnMove(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
-        void OnCancel(InputAction.CallbackContext context);
-    }
-    public interface IUI_InventoryActions
+    public interface IUIActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);

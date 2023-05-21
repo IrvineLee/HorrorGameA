@@ -6,16 +6,48 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 
 using Personal.InputProcessing;
+using static Personal.InputProcessing.InputReader;
 
 namespace Personal.Manager
 {
 	public class InputManager : GameInitializeSingleton<InputManager>
 	{
 		[SerializeField] InputReader inputReader = null;
+		[SerializeField] ActionMapType defaultActionMap = ActionMapType.Player;
 
 		public InputReader InputReader { get => inputReader; }
 		public PlayerActionInput PlayerActionInput { get; private set; }
+
 		public FPSInputController FPSInputController { get; private set; }
+		public PuzzleInputController PuzzleInputController { get; private set; }
+
+		public ActionMapType CurrentActionMapType { get; private set; }
+
+		public bool IsInteract
+		{
+			get
+			{
+				switch (CurrentActionMapType)
+				{
+					case ActionMapType.UI: return FPSInputController.IsInteract;
+					case ActionMapType.Puzzle: return PuzzleInputController.IsInteract;
+					default: return FPSInputController.IsInteract;
+				}
+			}
+		}
+
+		public bool IsCancel
+		{
+			get
+			{
+				switch (CurrentActionMapType)
+				{
+					case ActionMapType.UI: return FPSInputController.IsCancel;
+					case ActionMapType.Puzzle: return PuzzleInputController.IsCancel;
+					default: return FPSInputController.IsCancel;
+				}
+			}
+		}
 
 		// This is only used to get the current control scheme.
 		// Should be able to remove this by following the link.
@@ -26,24 +58,32 @@ namespace Personal.Manager
 		{
 			await base.Awake();
 
-			inputReader.Initialize();
 			FPSInputController = GetComponentInChildren<FPSInputController>();
+			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();
+
 			PlayerInput = GetComponentInChildren<PlayerInput>();
+
+			inputReader.Initialize();
+			EnableActionMap(defaultActionMap);
 		}
 
 		public void EnableActionMap(ActionMapType actionMap)
 		{
+			if (CurrentActionMapType == actionMap) return;
+
 			// Disable all action map.
 			foreach (var map in inputReader.InputActionMapDictionary)
 			{
-				//Debug.Log("Disabled " + map.Key + "  " + map.Value);
-				map.Value.Disable();
+				map.Value.InputActionMap.Disable();
+				map.Value.InputController.enabled = false;
 			}
 
 			// Enable specified actin map.
-			inputReader.InputActionMapDictionary.TryGetValue(actionMap, out InputActionMap inputActionMap);
-			inputActionMap.Enable();
-			//Debug.Log("Enabled " + actionMap + "  " + inputActionMap);
+			inputReader.InputActionMapDictionary.TryGetValue(actionMap, out InputControllerInfo inputActionMap);
+			inputActionMap.InputActionMap.Enable();
+			inputActionMap.InputController.enabled = true;
+
+			CurrentActionMapType = actionMap;
 		}
 	}
 }

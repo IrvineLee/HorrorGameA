@@ -4,14 +4,28 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Helper;
+using Personal.Manager;
 
 namespace Personal.InputProcessing
 {
 	[CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/InputReader", order = 0)]
 	[Serializable]
-	public class InputReader : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUI_OptionActions,
-		PlayerActionInput.IUI_InventoryActions, PlayerActionInput.IPuzzleActions
+	public class InputReader : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUIActions,
+		PlayerActionInput.IPuzzleActions
 	{
+		[Serializable]
+		public class InputControllerInfo
+		{
+			public InputActionMap InputActionMap { get; private set; }
+			public InputControllerBase InputController { get; private set; }
+
+			public InputControllerInfo(InputActionMap inputActionMap, InputControllerBase inputController)
+			{
+				InputActionMap = inputActionMap;
+				InputController = inputController;
+			}
+		}
+
 		public event Action<Vector2> OnLookEvent;
 		public event Action<Vector2> OnMoveEvent;
 
@@ -28,23 +42,22 @@ namespace Personal.InputProcessing
 
 		public event Action<Vector2> OnDpadEvent;
 
-		public IReadOnlyDictionary<ActionMapType, InputActionMap> InputActionMapDictionary { get => inputActionMapDictionary; }
+		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
-		Dictionary<ActionMapType, InputActionMap> inputActionMapDictionary = new Dictionary<ActionMapType, InputActionMap>();
+		Dictionary<ActionMapType, InputControllerInfo> inputActionMapDictionary = new Dictionary<ActionMapType, InputControllerInfo>();
 
 		public void Initialize()
 		{
 			PlayerActionInput playerActionInput = new PlayerActionInput();
+
 			playerActionInput.Player.SetCallbacks(this);
-			playerActionInput.UI_Option.SetCallbacks(this);
-			playerActionInput.UI_Inventory.SetCallbacks(this);
+			playerActionInput.UI.SetCallbacks(this);
 			playerActionInput.Puzzle.SetCallbacks(this);
 
 			inputActionMapDictionary.Clear();
-			inputActionMapDictionary.Add(ActionMapType.Player, playerActionInput.Player);
-			inputActionMapDictionary.Add(ActionMapType.UI_Option, playerActionInput.UI_Option);
-			inputActionMapDictionary.Add(ActionMapType.UI_Inventory, playerActionInput.UI_Inventory);
-			inputActionMapDictionary.Add(ActionMapType.Puzzle, playerActionInput.Puzzle);
+			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
+			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.FPSInputController));
+			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
 		}
 
 		/// ------------------------------------------------------------

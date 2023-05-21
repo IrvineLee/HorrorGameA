@@ -23,12 +23,15 @@ namespace Personal.Manager
 
 		void Update()
 		{
-			if (FPSInputController.IsMenuUIOpen)
+			if (Input.GetKeyDown(KeyCode.Z))
 			{
 				//SceneManager.Instance.ChangeLevel(1);
 
 				//SaveManager.Instance.LoadSlotData();
 				//UIManager.Instance.OptionUI.OpenMenuTab(UI.Option.OptionHandlerUI.MenuTab.Graphic);
+			}
+			else if (Input.GetKeyDown(KeyCode.Alpha1))
+			{
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha1))
 			{

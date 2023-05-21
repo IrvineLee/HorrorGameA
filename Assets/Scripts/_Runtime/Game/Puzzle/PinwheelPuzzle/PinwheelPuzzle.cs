@@ -70,7 +70,7 @@ namespace Puzzle.Pinwheel
 
 		protected override void Update()
 		{
-			if (!InputManager.Instance.FPSInputController.IsInteract) return;
+			if (!InputManager.Instance.IsInteract) return;
 			if (!slideCR.IsDone) return;
 
 			// Check puzzle click.

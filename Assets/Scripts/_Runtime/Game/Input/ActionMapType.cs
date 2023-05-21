@@ -5,8 +5,7 @@ namespace Personal.InputProcessing
 	{
 		Player = 0,
 
-		UI_Option = 1000,
-		UI_Inventory,
+		UI = 1000,
 
 		Puzzle = 2000,
 	}

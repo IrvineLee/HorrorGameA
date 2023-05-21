@@ -1,32 +1,30 @@
 ﻿using System;
 using UnityEngine;
 
-using Personal.GameState;
 using Personal.FSM;
 using Cysharp.Threading.Tasks;
-using Personal.FSM.Character;
+using Personal.InputProcessing;
 
 namespace Personal.Manager
 {
 	public class InteractableObjectForPlayer : InteractableObject
 	{
-		PlayerStateMachine playerFSM;
-
 		public override async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast = default)
 		{
-			playerFSM = (PlayerStateMachine)stateMachineBase;
-
 			if (interactType == InteractType.Pickupable)
 			{
-
+				//// TODO: Item enter into inventory.
+				//Debug.Log(hit.transform.name);
 			}
 			else if (interactType == InteractType.StateChange)
 			{
+				InputManager.Instance.EnableActionMap(actionMapType);
+
 				await orderedStateMachine.Initialize(null, interactionAssign);
+
 				doLast?.Invoke();
+				InputManager.Instance.EnableActionMap(ActionMapType.Player);
 			}
-			//// TODO: Item enter into inventory.
-			//Debug.Log(hit.transform.name);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Personal.GameState;
 using Personal.FSM;
+using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
@@ -16,6 +17,7 @@ namespace Personal.Manager
 		}
 
 		[SerializeField] protected InteractType interactType = InteractType.Pickupable;
+		[SerializeField] protected ActionMapType actionMapType = ActionMapType.Player;
 
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;

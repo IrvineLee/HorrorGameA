@@ -11,8 +11,6 @@ namespace Personal.FSM.Character
 	{
 		[SerializeField] Transform iProcessCompleteTrans = null;
 
-		protected PlayerStateMachine playerFSM;
-
 		protected CinemachineVirtualCamera virtualCam;
 		protected bool isRunning;
 
@@ -26,7 +24,6 @@ namespace Personal.FSM.Character
 			if (iProcessComplete.IsCompleted()) return;
 
 			virtualCam = GetComponentInChildren<CinemachineVirtualCamera>(true);
-			playerFSM = StageManager.Instance.PlayerFSM;
 
 			await ActivateCamera(true);
 
@@ -38,7 +35,7 @@ namespace Personal.FSM.Character
 
 		public override void OnUpdate()
 		{
-			if (InputManager.Instance.FPSInputController.IsCancel ||
+			if (InputManager.Instance.IsCancel ||
 				(iProcessCompleteTrans != null && iProcessComplete.IsCompleted()))
 			{
 				isRunning = false;
@@ -56,7 +53,6 @@ namespace Personal.FSM.Character
 		async UniTask ActivateCamera(bool isFlag)
 		{
 			virtualCam.gameObject.SetActive(isFlag);
-			playerFSM.FPSController.enabled = !isFlag;
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;
