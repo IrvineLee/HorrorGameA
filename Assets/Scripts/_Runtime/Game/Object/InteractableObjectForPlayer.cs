@@ -23,7 +23,7 @@ namespace Personal.Manager
 				await orderedStateMachine.Initialize(null, interactionAssign);
 
 				doLast?.Invoke();
-				InputManager.Instance.EnableActionMap(ActionMapType.Player);
+				InputManager.Instance.ResetToDefaultActionMap();
 			}
 		}
 	}

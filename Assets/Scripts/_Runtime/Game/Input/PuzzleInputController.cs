@@ -26,17 +26,17 @@ namespace Personal.InputProcessing
 			Move = newMoveDirection;
 		}
 
-		void InteractInput(bool isFlag)
+		void InteractInput()
 		{
-			IsInteract = isFlag;
+			IsInteract = true;
 		}
 
-		void CancelInput(bool isFlag)
+		void CancelInput()
 		{
-			IsCancel = isFlag;
+			IsCancel = true;
 		}
 
-		void OnDisable()
+		protected override void OnDisable()
 		{
 			if (!isAwakeCompleted) return;
 
@@ -44,6 +44,8 @@ namespace Personal.InputProcessing
 
 			inputReader.OnInteractEvent -= InteractInput;
 			inputReader.OnCancelEvent -= CancelInput;
+
+			base.OnDisable();
 		}
 	}
 }

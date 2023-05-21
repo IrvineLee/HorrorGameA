@@ -43,6 +43,7 @@ namespace Personal.Manager
 		{
 			if (!OptionUI.IsOpened)
 			{
+				InputManager.Instance.EnableActionMap(ActionMapType.UI);
 				optionUI.OpenMenuTab(OptionHandlerUI.MenuTab.Graphic);
 				return;
 			}

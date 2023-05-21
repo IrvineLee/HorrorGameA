@@ -23,5 +23,21 @@ namespace Personal.InputProcessing
 			inputReader = InputManager.Instance.InputReader;
 			isAwakeCompleted = true;
 		}
+
+		void LateUpdate()
+		{
+			ResetClicks();
+		}
+
+		protected virtual void ResetClicks()
+		{
+			IsInteract = false;
+			IsCancel = false;
+		}
+
+		protected virtual void OnDisable()
+		{
+			ResetClicks();
+		}
 	}
 }

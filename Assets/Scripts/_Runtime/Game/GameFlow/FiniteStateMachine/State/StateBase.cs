@@ -1,14 +1,14 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Personal.Manager;
 
 namespace Personal.FSM
 {
 	public class StateBase : MonoBehaviour
 	{
 		protected StateMachineBase stateMachine;
-
-		bool isEntered;
+		protected bool isEntered;
 
 		public void SetFSM(StateMachineBase stateMachine)
 		{
@@ -32,6 +32,8 @@ namespace Personal.FSM
 		public void OnUpdateRun()
 		{
 			if (!isEntered) return;
+			if (StageManager.Instance.IsPaused) return;
+
 			OnUpdate();
 		}
 

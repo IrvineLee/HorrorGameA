@@ -33,11 +33,10 @@ namespace Personal.InputProcessing
 
 		public event Action<bool> OnSprintEvent;
 
-		public event Action<bool> OnInteractEvent;
-		public event Action<bool> OnCancelEvent;
+		public event Action OnInteractEvent;
+		public event Action OnCancelEvent;
 
 		public event Action OnInventoryUIPressedEvent;
-
 		public event Action OnMenuUIPressedEvent;
 
 		public event Action<Vector2> OnDpadEvent;
@@ -56,7 +55,7 @@ namespace Personal.InputProcessing
 
 			inputActionMapDictionary.Clear();
 			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
-			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.FPSInputController));
+			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.UIInputController));
 			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
 		}
 
@@ -71,12 +70,12 @@ namespace Personal.InputProcessing
 
 		public void OnInteract(InputAction.CallbackContext context)
 		{
-			OnInteractEvent?.Invoke(context.ReadValue<float>().ConvertToBool());
+			SetButtonEvent(context.started, OnInteractEvent);
 		}
 
 		public void OnCancel(InputAction.CallbackContext context)
 		{
-			OnCancelEvent?.Invoke(context.ReadValue<float>().ConvertToBool());
+			SetButtonEvent(context.started, OnCancelEvent);
 		}
 
 		/// ------------------------------------------------------------
@@ -121,10 +120,10 @@ namespace Personal.InputProcessing
 		/// -----------------------OTHERS-------------------------------
 		/// ------------------------------------------------------------
 
-		void SetButtonEvent(bool isStarted, Action performedEvent)
+		void SetButtonEvent(bool isFlag, Action doEvent)
 		{
-			if (!isStarted) return;
-			performedEvent?.Invoke();
+			if (!isFlag) return;
+			doEvent?.Invoke();
 		}
 	}
 }

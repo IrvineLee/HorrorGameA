@@ -78,7 +78,7 @@ namespace Puzzle.EightSlide
 			emptyIndex = tempList[0];
 		}
 
-		protected override void Update()
+		protected override void OnUpdate()
 		{
 			if (!InputManager.Instance.IsInteract) return;
 			if (!slideCR.IsDone) return;

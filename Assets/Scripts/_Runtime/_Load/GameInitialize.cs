@@ -38,7 +38,14 @@ namespace Personal.GameState
 			await UniTask.WaitUntil(() => isAwakeCompleted);
 		}
 
-		protected virtual void Update() { }
+		void Update()
+		{
+			if (StageManager.Instance.IsPaused) return;
+
+			OnUpdate();
+		}
+
+		protected virtual void OnUpdate() { }
 
 		async UniTask AwakeComplete()
 		{

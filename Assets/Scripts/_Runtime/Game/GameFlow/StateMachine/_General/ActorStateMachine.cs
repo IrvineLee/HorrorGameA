@@ -28,7 +28,7 @@ namespace Personal.FSM
 			AnimatorController = GetComponentInChildren<AnimatorController>();
 		}
 
-		protected override void Update()
+		protected override void OnUpdate()
 		{
 			if (state == null) return;
 

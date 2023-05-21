@@ -23,6 +23,10 @@ namespace Personal.Manager
 
 		void Update()
 		{
+			//if (Input.GetMouseButton(0))
+			//{
+			//	Debug.Log("<color=red> " + InputManager.Instance.IsInteract + " </color>");
+			//}
 			if (Input.GetKeyDown(KeyCode.Z))
 			{
 				//SceneManager.Instance.ChangeLevel(1);

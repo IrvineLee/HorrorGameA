@@ -17,6 +17,7 @@ namespace Personal.Manager
 		public PlayerActionInput PlayerActionInput { get; private set; }
 
 		public FPSInputController FPSInputController { get; private set; }
+		public UIInputController UIInputController { get; private set; }
 		public PuzzleInputController PuzzleInputController { get; private set; }
 
 		public ActionMapType CurrentActionMapType { get; private set; }
@@ -27,7 +28,7 @@ namespace Personal.Manager
 			{
 				switch (CurrentActionMapType)
 				{
-					case ActionMapType.UI: return FPSInputController.IsInteract;
+					case ActionMapType.UI: return UIInputController.IsInteract;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsInteract;
 					default: return FPSInputController.IsInteract;
 				}
@@ -40,7 +41,7 @@ namespace Personal.Manager
 			{
 				switch (CurrentActionMapType)
 				{
-					case ActionMapType.UI: return FPSInputController.IsCancel;
+					case ActionMapType.UI: return UIInputController.IsCancel;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsCancel;
 					default: return FPSInputController.IsCancel;
 				}
@@ -57,6 +58,7 @@ namespace Personal.Manager
 			await base.Awake();
 
 			FPSInputController = GetComponentInChildren<FPSInputController>();
+			UIInputController = GetComponentInChildren<UIInputController>();
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();
 
 			PlayerInput = GetComponentInChildren<PlayerInput>();
@@ -80,6 +82,11 @@ namespace Personal.Manager
 			inputActionMap.InputController.enabled = true;
 
 			CurrentActionMapType = actionMap;
+		}
+
+		public void ResetToDefaultActionMap()
+		{
+			EnableActionMap(defaultActionMap);
 		}
 	}
 }

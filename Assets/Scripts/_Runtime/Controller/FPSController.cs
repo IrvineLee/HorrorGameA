@@ -99,9 +99,9 @@ namespace Personal.Character.Player
 			_fallTimeoutDelta = FallTimeout;
 		}
 
-		protected override void Update()
+		protected override void OnUpdate()
 		{
-			base.Update();
+			base.OnUpdate();
 
 			JumpAndGravity();
 			GroundedCheck();
