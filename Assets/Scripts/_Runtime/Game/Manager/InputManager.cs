@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
-using Personal.GameState;
-using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 
+using Personal.GameState;
 using Personal.InputProcessing;
-using static Personal.InputProcessing.InputReader;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -69,8 +67,6 @@ namespace Personal.Manager
 
 		public void EnableActionMap(ActionMapType actionMap)
 		{
-			if (CurrentActionMapType == actionMap) return;
-
 			// Disable all action map.
 			foreach (var map in inputReader.InputActionMapDictionary)
 			{
@@ -79,7 +75,7 @@ namespace Personal.Manager
 			}
 
 			// Enable specified actin map.
-			inputReader.InputActionMapDictionary.TryGetValue(actionMap, out InputControllerInfo inputActionMap);
+			inputReader.InputActionMapDictionary.TryGetValue(actionMap, out var inputActionMap);
 			inputActionMap.InputActionMap.Enable();
 			inputActionMap.InputController.enabled = true;
 

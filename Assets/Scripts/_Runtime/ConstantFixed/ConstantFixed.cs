@@ -14,6 +14,6 @@ namespace Personal.Constant
 		public const string SFX_PATH = "SFX/";
 
 		public const float PLAYER_LOOK_SPHERECAST_RADIUS = 0.05f;
-		public const float PLAYER_LOOK_SPHERECAST_LENGTH = 3f;
+		public const float PLAYER_LOOK_SPHERECAST_LENGTH = 2f;
 	}
 }

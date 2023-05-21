@@ -30,6 +30,7 @@ namespace Personal.FSM.Character
 			iProcessComplete.Begin(true);
 			await UniTask.WaitUntil(() => !isRunning);
 
+			// Because this is the final state, put it to null to begin the OnExit function.
 			stateMachine.SetState(null).Forget();
 		}
 

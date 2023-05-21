@@ -7,12 +7,12 @@ namespace Personal.FSM
 	{
 		protected StateBase state;
 
-		public async UniTask SetState(StateBase state)
+		public async UniTask SetState(StateBase stateBase)
 		{
-			this.state?.OnExit().Forget();
+			state?.OnExit().Forget();
 
-			this.state = state;
-			if (state == null) return;
+			state = stateBase;
+			if (stateBase == null) return;
 
 			await state.OnEnter();
 		}
