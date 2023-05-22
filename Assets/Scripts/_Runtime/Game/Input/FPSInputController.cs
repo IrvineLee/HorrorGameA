@@ -1,6 +1,8 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Personal.Manager;
+using Personal.UI.Option;
 
 namespace Personal.InputProcessing
 {
@@ -21,6 +23,8 @@ namespace Personal.InputProcessing
 
 			inputReader.OnInteractEvent += InteractInput;
 			inputReader.OnCancelEvent += CancelInput;
+
+			inputReader.OnMenuUIPressedEvent += OpenOptionMenu;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -53,6 +57,15 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
+		void OpenOptionMenu()
+		{
+			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
+			if (optionHandlerUI.IsOpened) return;
+
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
+			optionHandlerUI.OpenMenuTab(OptionHandlerUI.MenuTab.Graphic);
+		}
+
 		protected override void OnDisable()
 		{
 			if (!isAwakeCompleted) return;
@@ -65,6 +78,8 @@ namespace Personal.InputProcessing
 
 			inputReader.OnInteractEvent -= InteractInput;
 			inputReader.OnCancelEvent -= CancelInput;
+
+			inputReader.OnMenuUIPressedEvent -= OpenOptionMenu;
 
 			base.OnDisable();
 		}

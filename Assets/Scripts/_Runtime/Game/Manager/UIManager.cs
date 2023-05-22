@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-using Helper;
 using Personal.UI.Option;
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
-using Personal.InputProcessing;
-using Personal.FSM.Character;
-using Personal.FSM;
-using System;
 
 namespace Personal.Manager
 {
@@ -17,8 +11,6 @@ namespace Personal.Manager
 		[SerializeField] OptionHandlerUI optionUI = null;
 
 		public OptionHandlerUI OptionUI { get => optionUI; }
-
-		InputReader inputReader;
 
 		// TODO : Should handle all the other UI here as well.
 
@@ -32,29 +24,8 @@ namespace Personal.Manager
 
 		void Initalize()
 		{
-			inputReader = InputManager.Instance.InputReader;
-			inputReader.OnMenuUIPressedEvent += OpenOptionMenu;
-			inputReader.OnCancelEvent += OpenOptionMenu;
-
 			// Option UI initialize.
 			OptionUI.Initialize();
-		}
-
-		void OpenOptionMenu()
-		{
-			if (!OptionUI.IsOpened)
-			{
-				InputManager.Instance.EnableActionMap(ActionMapType.UI);
-				optionUI.OpenMenuTab(OptionHandlerUI.MenuTab.Graphic);
-				return;
-			}
-
-			optionUI.CloseMenuTab();
-		}
-
-		void OnDestroy()
-		{
-			inputReader.OnMenuUIPressedEvent -= OpenOptionMenu;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Personal.Manager;
 
 namespace Personal.InputProcessing
 {
@@ -18,7 +19,7 @@ namespace Personal.InputProcessing
 			inputReader.OnMoveEvent += MoveInput;
 
 			inputReader.OnInteractEvent += InteractInput;
-			inputReader.OnCancelEvent += CancelInput;
+			inputReader.OnCancelEvent += CloseOptionMenu;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -36,6 +37,11 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
+		void CloseOptionMenu()
+		{
+			UIManager.Instance.OptionUI.CloseMenuTab();
+		}
+
 		protected override void OnDisable()
 		{
 			if (!isAwakeCompleted) return;
@@ -43,7 +49,7 @@ namespace Personal.InputProcessing
 			inputReader.OnMoveEvent -= MoveInput;
 
 			inputReader.OnInteractEvent -= InteractInput;
-			inputReader.OnCancelEvent -= CancelInput;
+			inputReader.OnCancelEvent -= CloseOptionMenu;
 
 			base.OnDisable();
 		}
