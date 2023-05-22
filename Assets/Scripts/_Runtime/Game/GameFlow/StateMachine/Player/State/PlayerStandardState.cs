@@ -50,7 +50,7 @@ namespace Personal.FSM.Character
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerFSM;
 
 			interactable.HandleInteraction(stateMachine, () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget()).Forget();
-			playerFSM.SwitchToState(null).Forget();
+			playerFSM.SwitchToState(typeof(PlayerIdleState)).Forget();
 		}
 	}
 }

@@ -7,9 +7,10 @@ using Sirenix.OdinInspector;
 using QuickOutline;
 using TMPro;
 
-using Personal.Manager;
-using Helper;
 using Cysharp.Threading.Tasks;
+using Personal.Manager;
+using Personal.Interface;
+using Helper;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,7 +18,7 @@ using UnityEditor;
 
 namespace Puzzle.Pinwheel
 {
-	public class PinwheelPuzzle : PuzzleController, IPuzzle
+	public class PinwheelPuzzle : PuzzleController, IPuzzle, IProcess
 	{
 		[ChildGameObjectsOnly]
 		[SerializeField] Transform outerPinwheelTrans = null;
@@ -157,13 +158,43 @@ namespace Puzzle.Pinwheel
 			{
 				if (!pinwheel.IsMatchingColor())
 				{
-					Debug.Log("You failed! Try again.");
+					isFailed = true;
 					ResetPuzzle();
+
+					Debug.Log("You failed! Try again.");
 					return;
 				}
 			}
 
 			Debug.Log("YOU WIN!");
+		}
+
+		/// <summary>
+		/// Handle whether the puzzle has started.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void IProcess.Begin(bool isFlag)
+		{
+			enabled = isFlag;
+			isFailed = false;
+		}
+
+		/// <summary>
+		/// Return if the puzzle has been completed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsCompleted()
+		{
+			return isCompleted;
+		}
+
+		/// <summary>
+		/// Return when failed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsFailed()
+		{
+			return isFailed;
 		}
 
 		/// <summary>

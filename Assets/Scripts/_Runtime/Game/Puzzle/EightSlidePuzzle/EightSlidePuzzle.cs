@@ -156,6 +156,33 @@ namespace Puzzle.EightSlide
 		}
 
 		/// <summary>
+		/// Handle whether the puzzle has started.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void IProcess.Begin(bool isFlag)
+		{
+			enabled = isFlag;
+		}
+
+		/// <summary>
+		/// Return if the puzzle has been completed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsCompleted()
+		{
+			return isCompleted;
+		}
+
+		/// <summary>
+		/// Return when failed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsFailed()
+		{
+			return isFailed;
+		}
+
+		/// <summary>
 		/// Arrange the tiles based on the index.
 		/// </summary>
 		[Button("Arrange Tiles (Manual)", Icon = SdfIconType.Tools, IconAlignment = IconAlignment.RightEdge, ButtonAlignment = 1f)]
@@ -190,24 +217,6 @@ namespace Puzzle.EightSlide
 			}
 
 			ArrangeTiles();
-		}
-
-		/// <summary>
-		/// Handle whether the puzzle has started.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		void IProcess.Begin(bool isFlag)
-		{
-			enabled = isFlag;
-		}
-
-		/// <summary>
-		/// Return if the puzzle has been completed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsCompleted()
-		{
-			return isCompleted;
 		}
 	}
 }

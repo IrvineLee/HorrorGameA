@@ -7,6 +7,11 @@ namespace Personal.FSM
 {
 	public class StateBase : MonoBehaviour
 	{
+		[Tooltip("Should this state wait till OnExit finishes before proceeding to the next state?")]
+		[SerializeField] bool isWaitForOnExit = false;
+
+		public bool IsWaitForOnExit { get => isWaitForOnExit; }
+
 		protected StateMachineBase stateMachine;
 		protected bool isEntered;
 

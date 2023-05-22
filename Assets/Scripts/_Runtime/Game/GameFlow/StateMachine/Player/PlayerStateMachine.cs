@@ -37,12 +37,6 @@ namespace Personal.FSM.Character
 
 		public async UniTask SwitchToState(Type type)
 		{
-			if (type == null)
-			{
-				SetState(null).Forget();
-				return;
-			}
-
 			StateDictionary.TryGetValue(type, out StateBase currentState);
 
 			if (currentState == null)

@@ -93,18 +93,22 @@ namespace Personal.Manager
 		{
 			if (change != InputActionChange.ActionStarted) return;
 
+			// Get the last input device.
 			var lastControl = ((InputAction)obj).activeControl;
 			currentDevice = lastControl.device;
 
+			// Return if it's the same.
 			if (currentDevice == previousDevice) return;
 			previousDevice = currentDevice;
 
+			// Get the input type.
 			InputDeviceType inputType = InputDeviceType.Gamepad;
 			if (Equals(currentDevice.displayName, "Mouse") || Equals(currentDevice.displayName, "Keyboard"))
 			{
 				inputType = InputDeviceType.KeyboardMouse;
 			}
 
+			// Since mouse and keyboard are treated as different entity, return if it's the same.
 			if (InputDeviceType == inputType) return;
 
 			InputDeviceType = inputType;

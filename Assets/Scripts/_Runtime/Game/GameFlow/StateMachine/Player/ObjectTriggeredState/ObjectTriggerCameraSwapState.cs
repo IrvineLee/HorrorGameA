@@ -9,35 +9,32 @@ namespace Personal.FSM.Character
 {
 	public class ObjectTriggerCameraSwapState : StateBase
 	{
-		[SerializeField] Transform iProcessCompleteTrans = null;
+		[SerializeField] Transform iProcessTrans = null;
 
 		protected CinemachineVirtualCamera virtualCam;
 		protected bool isRunning;
 
-		IProcess iProcessComplete;
+		IProcess iProcess;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			iProcessComplete = iProcessCompleteTrans?.GetComponentInChildren<IProcess>();
-			if (iProcessComplete.IsCompleted()) return;
+			iProcess = iProcessTrans?.GetComponentInChildren<IProcess>();
+			if (iProcess.IsCompleted()) return;
 
 			virtualCam = GetComponentInChildren<CinemachineVirtualCamera>(true);
 
 			await ActivateCamera(true);
 
-			iProcessComplete.Begin(true);
+			iProcess.Begin(true);
 			await UniTask.WaitUntil(() => !isRunning);
-
-			// Because this is the final state, put it to null to begin the OnExit function.
-			stateMachine.SetState(null).Forget();
 		}
 
 		public override void OnUpdate()
 		{
 			if (InputManager.Instance.IsCancel ||
-				(iProcessCompleteTrans != null && iProcessComplete.IsCompleted()))
+				(iProcessTrans != null && (iProcess.IsCompleted() || iProcess.IsFailed())))
 			{
 				isRunning = false;
 			}
@@ -47,7 +44,7 @@ namespace Personal.FSM.Character
 		{
 			await base.OnExit();
 
-			iProcessComplete.Begin(false);
+			iProcess.Begin(false);
 			await ActivateCamera(false);
 		}
 
