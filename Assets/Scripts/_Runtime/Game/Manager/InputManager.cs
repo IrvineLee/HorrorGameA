@@ -16,11 +16,13 @@ namespace Personal.Manager
 		public InputReader InputReader { get => inputReader; }
 		public PlayerActionInput PlayerActionInput { get; private set; }
 
+		// Different actions maps for different situations.
 		public FPSInputController FPSInputController { get; private set; }
 		public UIInputController UIInputController { get; private set; }
 		public PuzzleInputController PuzzleInputController { get; private set; }
 
 		public ActionMapType CurrentActionMapType { get; private set; }
+		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
 
 		public bool IsInteract
 		{
@@ -48,10 +50,8 @@ namespace Personal.Manager
 			}
 		}
 
-		// This is only used to get the current control scheme.
-		// Should be able to remove this by following the link.
-		// https://forum.unity.com/threads/solved-can-the-new-input-system-be-used-without-the-player-input-component.856108/#post-5669128
-		public PlayerInput PlayerInput { get; private set; }
+		InputDevice currentDevice = null;
+		InputDevice previousDevice = null;
 
 		protected override async UniTask Awake()
 		{
@@ -61,10 +61,10 @@ namespace Personal.Manager
 			UIInputController = GetComponentInChildren<UIInputController>();
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();
 
-			PlayerInput = GetComponentInChildren<PlayerInput>();
-
 			inputReader.Initialize();
 			EnableActionMap(defaultActionMap);
+
+			InputSystem.onActionChange += HandleInputDeviceType;
 		}
 
 		public void EnableActionMap(ActionMapType actionMap)
@@ -87,6 +87,33 @@ namespace Personal.Manager
 		public void ResetToDefaultActionMap()
 		{
 			EnableActionMap(defaultActionMap);
+		}
+
+		void HandleInputDeviceType(object obj, InputActionChange change)
+		{
+			if (change != InputActionChange.ActionStarted) return;
+
+			var lastControl = ((InputAction)obj).activeControl;
+			currentDevice = lastControl.device;
+
+			if (currentDevice == previousDevice) return;
+			previousDevice = currentDevice;
+
+			InputDeviceType inputType = InputDeviceType.Gamepad;
+			if (Equals(currentDevice.displayName, "Mouse") || Equals(currentDevice.displayName, "Keyboard"))
+			{
+				inputType = InputDeviceType.KeyboardMouse;
+			}
+
+			if (InputDeviceType == inputType) return;
+
+			InputDeviceType = inputType;
+			Debug.Log($"DeviceType : {InputDeviceType}");
+		}
+
+		void OnDestroy()
+		{
+			InputSystem.onActionChange -= HandleInputDeviceType;
 		}
 	}
 }

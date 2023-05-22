@@ -73,17 +73,7 @@ namespace Personal.Character.Player
 
 		private const float _threshold = 0.01f;
 
-		private bool IsCurrentDeviceMouse
-		{
-			get
-			{
-#if ENABLE_INPUT_SYSTEM
-				return InputManager.Instance.PlayerInput.currentControlScheme == "KeyboardMouse";
-#else
-				return false;
-#endif
-			}
-		}
+		private bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
 
 		protected override async UniTask Awake()
 		{
