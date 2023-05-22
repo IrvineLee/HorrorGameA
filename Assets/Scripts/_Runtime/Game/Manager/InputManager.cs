@@ -62,7 +62,7 @@ namespace Personal.Manager
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();
 
 			inputReader.Initialize();
-			EnableActionMap(defaultActionMap);
+			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
 		}
@@ -84,7 +84,7 @@ namespace Personal.Manager
 			CurrentActionMapType = actionMap;
 		}
 
-		public void ResetToDefaultActionMap()
+		public void SetToDefaultActionMap()
 		{
 			EnableActionMap(defaultActionMap);
 		}

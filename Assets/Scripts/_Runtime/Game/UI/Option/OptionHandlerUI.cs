@@ -46,7 +46,7 @@ namespace Personal.UI.Option
 
 		public void CloseMenuTab()
 		{
-			InputManager.Instance.ResetToDefaultActionMap();
+			InputManager.Instance.SetToDefaultActionMap();
 			SetupMenu(false);
 		}
 
