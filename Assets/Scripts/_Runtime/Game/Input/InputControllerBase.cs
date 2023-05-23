@@ -8,7 +8,7 @@ namespace Personal.InputProcessing
 {
 	public class InputControllerBase : GameInitialize
 	{
-		protected InputReader inputReader;
+		protected InputReaderDefinition inputReaderDefinition;
 
 		public Vector2 Move { get; protected set; }
 		public Vector2 Look { get; protected set; }
@@ -20,7 +20,7 @@ namespace Personal.InputProcessing
 		{
 			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
 
-			inputReader = InputManager.Instance.InputReader;
+			inputReaderDefinition = InputManager.Instance.InputReaderDefinition;
 			isAwakeCompleted = true;
 		}
 

@@ -23,11 +23,11 @@ namespace Personal.Manager
 
 		void Update()
 		{
-			//if (InputManager.Instance.IsInteract)
-			//{
-			//	Debug.Log("<color=red> " + InputManager.Instance.IsInteract + " </color>");
-			//	RumbleManager.Instance.Vibrate(0.5f, 0.5f, 1f);
-			//}
+			if (InputManager.Instance.IsInteract)
+			{
+				Debug.Log("<color=red> " + InputManager.Instance.IsInteract + " </color>");
+				RumbleManager.Instance.Vibrate(0.5f, 0.5f, 1f);
+			}
 			if (Input.GetKeyDown(KeyCode.Z))
 			{
 				//SceneManager.Instance.ChangeLevel(1);

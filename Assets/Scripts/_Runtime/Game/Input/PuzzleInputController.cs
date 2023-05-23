@@ -15,10 +15,10 @@ namespace Personal.InputProcessing
 		{
 			await base.OnEnable();
 
-			inputReader.OnMoveEvent += MoveInput;
+			inputReaderDefinition.OnMoveEvent += MoveInput;
 
-			inputReader.OnInteractEvent += InteractInput;
-			inputReader.OnCancelEvent += CancelInput;
+			inputReaderDefinition.OnInteractEvent += InteractInput;
+			inputReaderDefinition.OnCancelEvent += CancelInput;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -40,10 +40,10 @@ namespace Personal.InputProcessing
 		{
 			if (!isAwakeCompleted) return;
 
-			inputReader.OnMoveEvent -= MoveInput;
+			inputReaderDefinition.OnMoveEvent -= MoveInput;
 
-			inputReader.OnInteractEvent -= InteractInput;
-			inputReader.OnCancelEvent -= CancelInput;
+			inputReaderDefinition.OnInteractEvent -= InteractInput;
+			inputReaderDefinition.OnCancelEvent -= CancelInput;
 
 			base.OnDisable();
 		}

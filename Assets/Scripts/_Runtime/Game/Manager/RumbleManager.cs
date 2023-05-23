@@ -23,6 +23,8 @@ namespace Personal.Manager
 
 			rumbleCR?.StopCoroutine();
 			rumbleCR = CoroutineHelper.WaitFor(duration, () => gamepad.SetMotorSpeeds(0, 0));
+
+			Debug.Log(gamepad.device.name);
 		}
 	}
 }

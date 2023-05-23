@@ -10,10 +10,10 @@ namespace Personal.Manager
 {
 	public class InputManager : GameInitializeSingleton<InputManager>
 	{
-		[SerializeField] InputReader inputReader = null;
+		[SerializeField] InputReaderDefinition inputReaderDefinition = null;
 		[SerializeField] ActionMapType defaultActionMap = ActionMapType.Player;
 
-		public InputReader InputReader { get => inputReader; }
+		public InputReaderDefinition InputReaderDefinition { get => inputReaderDefinition; }
 		public PlayerActionInput PlayerActionInput { get; private set; }
 
 		// Different actions maps for different situations.
@@ -61,7 +61,7 @@ namespace Personal.Manager
 			UIInputController = GetComponentInChildren<UIInputController>();
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();
 
-			inputReader.Initialize();
+			inputReaderDefinition.Initialize();
 			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
@@ -70,14 +70,14 @@ namespace Personal.Manager
 		public void EnableActionMap(ActionMapType actionMap)
 		{
 			// Disable all action map.
-			foreach (var map in inputReader.InputActionMapDictionary)
+			foreach (var map in inputReaderDefinition.InputActionMapDictionary)
 			{
 				map.Value.InputActionMap.Disable();
 				map.Value.InputController.enabled = false;
 			}
 
 			// Enable specified actin map.
-			inputReader.InputActionMapDictionary.TryGetValue(actionMap, out var inputActionMap);
+			inputReaderDefinition.InputActionMapDictionary.TryGetValue(actionMap, out var inputActionMap);
 			inputActionMap.InputActionMap.Enable();
 			inputActionMap.InputController.enabled = true;
 

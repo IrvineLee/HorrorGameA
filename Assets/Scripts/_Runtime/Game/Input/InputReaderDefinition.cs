@@ -8,9 +8,9 @@ using Personal.Manager;
 
 namespace Personal.InputProcessing
 {
-	[CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/InputReader", order = 0)]
+	[CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/Input/InputReaderDefinition", order = 0)]
 	[Serializable]
-	public class InputReader : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUIActions,
+	public class InputReaderDefinition : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUIActions,
 		PlayerActionInput.IPuzzleActions
 	{
 		[Serializable]

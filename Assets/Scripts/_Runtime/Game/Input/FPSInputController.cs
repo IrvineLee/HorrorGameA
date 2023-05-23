@@ -15,16 +15,16 @@ namespace Personal.InputProcessing
 		{
 			await base.OnEnable();
 
-			inputReader.OnMoveEvent += MoveInput;
-			inputReader.OnLookEvent += LookInput;
+			inputReaderDefinition.OnMoveEvent += MoveInput;
+			inputReaderDefinition.OnLookEvent += LookInput;
 
-			inputReader.OnSprintEvent += SprintInput;
-			inputReader.OnJumpEvent += JumpInput;
+			inputReaderDefinition.OnSprintEvent += SprintInput;
+			inputReaderDefinition.OnJumpEvent += JumpInput;
 
-			inputReader.OnInteractEvent += InteractInput;
-			inputReader.OnCancelEvent += CancelInput;
+			inputReaderDefinition.OnInteractEvent += InteractInput;
+			inputReaderDefinition.OnCancelEvent += CancelInput;
 
-			inputReader.OnMenuUIPressedEvent += OpenOptionMenu;
+			inputReaderDefinition.OnMenuUIPressedEvent += OpenOptionMenu;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -70,16 +70,16 @@ namespace Personal.InputProcessing
 		{
 			if (!isAwakeCompleted) return;
 
-			inputReader.OnMoveEvent -= MoveInput;
-			inputReader.OnLookEvent -= LookInput;
+			inputReaderDefinition.OnMoveEvent -= MoveInput;
+			inputReaderDefinition.OnLookEvent -= LookInput;
 
-			inputReader.OnSprintEvent -= SprintInput;
-			inputReader.OnJumpEvent -= JumpInput;
+			inputReaderDefinition.OnSprintEvent -= SprintInput;
+			inputReaderDefinition.OnJumpEvent -= JumpInput;
 
-			inputReader.OnInteractEvent -= InteractInput;
-			inputReader.OnCancelEvent -= CancelInput;
+			inputReaderDefinition.OnInteractEvent -= InteractInput;
+			inputReaderDefinition.OnCancelEvent -= CancelInput;
 
-			inputReader.OnMenuUIPressedEvent -= OpenOptionMenu;
+			inputReaderDefinition.OnMenuUIPressedEvent -= OpenOptionMenu;
 
 			base.OnDisable();
 		}
