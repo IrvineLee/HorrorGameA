@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 using Sirenix.OdinInspector;
-using QuickOutline;
 using TMPro;
+using EPOOutline;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
@@ -282,7 +282,7 @@ namespace Puzzle.Pinwheel
 				var eventTrigger = instance.GetComponentInChildren<EventTrigger>();
 				DestroyImmediate(eventTrigger);
 
-				var outline = instance.GetComponentInChildren<Outline>();
+				var outline = instance.GetComponentInChildren<Outlinable>();
 				DestroyImmediate(outline);
 			}
 
