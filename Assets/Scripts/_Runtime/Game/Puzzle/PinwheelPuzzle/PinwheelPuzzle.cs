@@ -56,17 +56,21 @@ namespace Puzzle.Pinwheel
 		public List<Pinwheel> PinwheelList { get => pinwheelList; }
 
 		int defaultTurnRemain;
+		List<Collider> colliderList = new();
+
 		CoroutineRun slideCR = new CoroutineRun();
 
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
 
-			defaultTurnRemain = turnRemain;
-
 			Initialize();
-			InitializeEndColor();
-			SetTurnRemainTMP(turnRemain);
+
+			foreach (Transform child in outerPinwheelTrans)
+			{
+				var collider = child.GetComponentInChildren<Collider>();
+				if (collider) colliderList.Add(collider);
+			}
 		}
 
 		protected override void OnUpdate()
@@ -92,11 +96,16 @@ namespace Puzzle.Pinwheel
 		/// </summary>
 		void Initialize()
 		{
-			centerPinwheel.Initialize();
+			defaultTurnRemain = turnRemain;
+
+			centerPinwheel.InitializeRotation();
 			foreach (var pinwheel in pinwheelList)
 			{
-				pinwheel.Initialize();
+				pinwheel.InitializeRotation();
 			}
+
+			InitializeEndColor();
+			SetTurnRemainTMP(turnRemain);
 		}
 
 		/// <summary>
@@ -132,16 +141,13 @@ namespace Puzzle.Pinwheel
 		{
 			foreach (var pinwheel in pinwheelList)
 			{
-				if (pinwheel.PinwheelTrans.Equals(trans))
-				{
-					if (pinwheel.IsCenterPinwheel)
-						continue;
+				if (!pinwheel.PinwheelTrans.Equals(trans)) continue;
+				if (pinwheel.IsCenterPinwheel) continue;
 
-					slideCR = pinwheel.Turn(rotateDuration);
-					centerPinwheel.Turn(rotateDuration);
-					SetTurnRemainTMP(--turnRemain);
-					break;
-				}
+				slideCR = pinwheel.Turn(rotateDuration);
+				centerPinwheel.Turn(rotateDuration);
+				SetTurnRemainTMP(--turnRemain);
+				break;
 			}
 		}
 
@@ -156,16 +162,16 @@ namespace Puzzle.Pinwheel
 
 			foreach (var pinwheel in pinwheelList)
 			{
-				if (!pinwheel.IsMatchingColor())
-				{
-					isFailed = true;
-					ResetPuzzle();
+				if (pinwheel.IsMatchingColor()) continue;
 
-					Debug.Log("You failed! Try again.");
-					return;
-				}
+				isFailed = true;
+				ResetPuzzle();
+
+				Debug.Log("You failed! Try again.");
+				return;
 			}
 
+			isCompleted = true;
 			Debug.Log("YOU WIN!");
 		}
 
@@ -177,6 +183,7 @@ namespace Puzzle.Pinwheel
 		{
 			enabled = isFlag;
 			isFailed = false;
+			EnableHitCollider(isFlag);
 		}
 
 		/// <summary>
@@ -210,6 +217,14 @@ namespace Puzzle.Pinwheel
 
 			turnRemain = defaultTurnRemain;
 			SetTurnRemainTMP(turnRemain);
+		}
+
+		void EnableHitCollider(bool isFlag)
+		{
+			foreach (var collider in colliderList)
+			{
+				collider.enabled = isFlag;
+			}
 		}
 
 		/// <summary>

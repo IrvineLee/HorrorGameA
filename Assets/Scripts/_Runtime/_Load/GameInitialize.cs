@@ -14,6 +14,8 @@ namespace Personal.GameState
 	{
 		protected bool isAwakeCompleted;
 
+		bool isInitiallyEnabled = true;
+
 		protected virtual async UniTask Awake()
 		{
 			if (GameManager.Instance == null)
@@ -21,13 +23,15 @@ namespace Personal.GameState
 
 			if (GameManager.Instance.IsLoadingOver) return;
 
+			isInitiallyEnabled = enabled;
+
 			enabled = false;
 			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
 
 			// Seems like scripts does not get re-enabled the same order as defined in the execution order.
 			// Make sure the singleton scripts get initialized first before this script.
 			await UniTask.Yield(PlayerLoopTiming.LastUpdate);
-			enabled = true;
+			if (isInitiallyEnabled) enabled = true;
 
 			AwakeComplete().Forget();
 		}

@@ -15,9 +15,13 @@ namespace Puzzle.Pinwheel
 	public class Pinwheel
 	{
 		[SerializeField] [HideInInspector] Transform pinwheelTrans = null;
+		[SerializeField] [HideInInspector] Collider collider = null;
 		[SerializeField] [HideInInspector] int activeIndex = -1;
 		[SerializeField] [HideInInspector] PositiveNegative rotationType;
 		[SerializeField] [HideInInspector] bool isCenterPinwheel;
+
+		// Odin variables.
+		[SerializeField] [HideInInspector] int colorListCount;
 
 		[OnCollectionChanged("ListCountChanged")]
 		[SerializeField] List<BasicColor> basicColorList = new();
@@ -52,7 +56,7 @@ namespace Puzzle.Pinwheel
 		[LabelWidth(10)]
 		[HideIf("isCenterPinwheel")]
 		public Color EndColorReal { get => EndColor.GetColor(); }
-
+		public Collider Collider { get => collider; }
 		public Transform PinwheelTrans { get => pinwheelTrans; }
 		public List<BasicColor> BasicColorList { get => basicColorList; }
 		public int FaceCenterIndex { get => faceCenterIndex; }
@@ -60,9 +64,6 @@ namespace Puzzle.Pinwheel
 
 		PinwheelPuzzle pinwheelPuzzle;
 		Quaternion initialRotation;
-
-		// Odin variables.
-		[SerializeField] [HideInInspector] int colorListCount;
 
 		public void SetPinwheel(PinwheelPuzzle pinwheelPuzzle, Transform pinwheelTrans, bool isCenterPinwheel)
 		{
@@ -91,7 +92,7 @@ namespace Puzzle.Pinwheel
 		/// <summary>
 		/// Initialization.
 		/// </summary>
-		public void Initialize()
+		public void InitializeRotation()
 		{
 			initialRotation = pinwheelTrans.rotation;
 		}

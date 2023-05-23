@@ -54,7 +54,7 @@ namespace Personal.FSM.Character
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;
-			await UniTask.WaitUntil(() => !StageManager.Instance.CinemachineBrain.IsBlending);
+			await UniTask.WaitUntil(() => StageManager.Instance && !StageManager.Instance.CinemachineBrain.IsBlending);
 		}
 	}
 }
