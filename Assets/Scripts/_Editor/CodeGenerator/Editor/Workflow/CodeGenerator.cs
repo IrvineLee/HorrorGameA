@@ -61,7 +61,7 @@ namespace AltoLib
 
 		protected string MakeIndent(int indentLevel)
 		{
-			return StringHelper.Repeat(indentUnit, indentLevel);
+			return indentUnit.Repeat(indentLevel);
 		}
 
 		/// <summary>
@@ -94,7 +94,7 @@ namespace AltoLib
 				string label;
 				if (symbolToLabel.TryGetValue(symbol, out label))
 				{
-					string spacing = alignEqual ? StringHelper.Repeat(" ", maxSymbolLength - symbol.Length) : "";
+					string spacing = alignEqual ? (" ").Repeat(maxSymbolLength - symbol.Length) : "";
 					builder.AppendLine($"{ indent }public const string { symbol }{ spacing } = \"{ label }\";");
 				}
 			}
@@ -123,7 +123,7 @@ namespace AltoLib
 				string symbol;
 				if (numToSymbol.TryGetValue(num, out symbol))
 				{
-					string spacing = alignEqual ? StringHelper.Repeat(" ", maxSymbolLength - symbol.Length) : "";
+					string spacing = alignEqual ? (" ").Repeat(maxSymbolLength - symbol.Length) : "";
 					builder.AppendLine($"{ indent }public const int { symbol }{ spacing } = { num };");
 				}
 			}

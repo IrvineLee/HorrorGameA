@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Personal.GameState;
 using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
+using Helper;
 
 namespace Personal.Manager
 {
@@ -23,6 +25,7 @@ namespace Personal.Manager
 
 		public ActionMapType CurrentActionMapType { get; private set; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
+		public string IconInitials { get; private set; }
 
 		public bool IsInteract
 		{
@@ -67,6 +70,10 @@ namespace Personal.Manager
 			InputSystem.onActionChange += HandleInputDeviceType;
 		}
 
+		/// <summary>
+		/// Enable action map type.
+		/// </summary>
+		/// <param name="actionMap"></param>
 		public void EnableActionMap(ActionMapType actionMap)
 		{
 			// Disable all action map.
@@ -84,11 +91,19 @@ namespace Personal.Manager
 			CurrentActionMapType = actionMap;
 		}
 
+		/// <summary>
+		/// Reset back to default action map.
+		/// </summary>
 		public void SetToDefaultActionMap()
 		{
 			EnableActionMap(defaultActionMap);
 		}
 
+		/// <summary>
+		/// Check for new input device and change icon initials for it.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
 			if (change != InputActionChange.ActionStarted) return;
@@ -112,7 +127,35 @@ namespace Personal.Manager
 			if (InputDeviceType == inputType) return;
 
 			InputDeviceType = inputType;
+			HandleIconInitials();
+
 			Debug.Log($"DeviceType : {InputDeviceType}");
+		}
+
+		/// <summary>
+		/// Handle the control initials. Ex: DS4_/XBox_/KM_ etc for display of icons.
+		/// </summary>
+		void HandleIconInitials()
+		{
+			if (InputDeviceType == InputDeviceType.KeyboardMouse)
+			{
+				IconInitials = IconDisplayType.KeyboardMouse.GetStringValue();
+				return;
+			}
+
+			// Check for gamepad...
+			if (SetInitialsWhenGamepadContains("DualShock", IconDisplayType.Dualshock.GetStringValue())) return;
+			else if (SetInitialsWhenGamepadContains("XBox", IconDisplayType.Xbox.GetStringValue())) return;
+		}
+
+		bool SetInitialsWhenGamepadContains(string subset, string initials)
+		{
+			if (Gamepad.current.device.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
+			{
+				IconInitials = initials;
+				return true;
+			}
+			return false;
 		}
 
 		void OnDestroy()

@@ -168,10 +168,10 @@ namespace Personal.Manager
 		/// <returns></returns>
 		string GetSlotPath(int slotID)
 		{
-			string file = StringHelper.RemoveAllWhenReachCharFromBehind(fileName, '.', true);
-			string ext = StringHelper.RemoveAllWhenReachCharFromBehind(fileName, '.', false, false);
+			string file = fileName.RemoveAllWhenReachCharFromBehind('.', true);
+			string ext = fileName.RemoveAllWhenReachCharFromBehind('.', false, false);
 
-			return directory + file + StringHelper.AddSymbolInFront('0', 2, slotID.ToString()) + ext;
+			return directory + file + slotID.ToString().AddSymbolInFront('0', 2) + ext;
 		}
 	}
 }

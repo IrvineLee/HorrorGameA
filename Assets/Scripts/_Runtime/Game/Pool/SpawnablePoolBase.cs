@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Helper;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
@@ -25,7 +26,7 @@ namespace Personal.Pool
 
 		void Start()
 		{
-			key = StringHelper.RemoveAllWhenReachCharFromFront(poolType.GetStringValue(), '.', true);
+			key = poolType.GetStringValue().RemoveAllWhenReachCharFromFront('.', true);
 			Initialize();
 		}
 
@@ -52,7 +53,6 @@ namespace Personal.Pool
 		public void Return(GameObject go)
 		{
 			pool.Release(go);
-			go.transform.SetParent(transform);
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Personal.Pool
 				Debug.Log(key + " is not loaded properly.");
 
 			pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, true, defaultCapacity, maxPoolSize);
-			InitalSpawn();
+			await InitalSpawn();
 		}
 
 		async UniTask<bool> LoadAddressable()
@@ -77,17 +77,19 @@ namespace Personal.Pool
 			return handle.Status == AsyncOperationStatus.Succeeded;
 		}
 
-		void InitalSpawn()
+		async UniTask InitalSpawn()
 		{
 			List<GameObject> goList = new();
 			for (int i = 0; i < initialSpawn; i++)
 			{
 				goList.Add(Get());
 			}
+
+			await UniTask.DelayFrame(1);
+
 			for (int i = 0; i < goList.Count; i++)
 			{
-				goList[i].GetComponentInChildren<SpawnableObject>()?.SetNotToReturnOnDisable();
-				Return(goList[i]);
+				goList[i].SetActive(false);
 			}
 		}
 
@@ -105,14 +107,16 @@ namespace Personal.Pool
 			pooledObj.gameObject.SetActive(true);
 		}
 
-		protected virtual void OnReturnedToPool(GameObject pooledObj)
+		protected virtual async void OnReturnedToPool(GameObject pooledObj)
 		{
 			pooledObj.gameObject.SetActive(false);
+			await Task.Yield();
+			pooledObj.transform.SetParent(transform);
 		}
 
 		protected virtual void OnDestroyPoolObject(GameObject pooledObj)
 		{
-			Destroy(pooledObj.gameObject);
+			Addressables.ReleaseInstance(pooledObj.gameObject);
 		}
 
 		void OnValidate()

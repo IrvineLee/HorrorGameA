@@ -27,7 +27,8 @@ namespace Personal.FSM.Cashier
 			Transform itemSelectionParent = transform.GetChild(0);
 
 			CashierItemSet cashierItemSet = itemSelectionParent.GetComponentInChildren<CashierItemSet>();
-			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), cashierStateMachine.TargetInfo.PlaceToPutItem.position);
+			Vector3 position = cashierStateMachine.TargetInfo.PlaceToPutItem.position;
+			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), position);
 
 			maxCount = itemSelectionParent.childCount;
 			await UniTask.WaitUntil(() => currentCount == maxCount);

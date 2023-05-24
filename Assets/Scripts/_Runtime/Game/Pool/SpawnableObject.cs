@@ -4,10 +4,9 @@ namespace Personal.Pool
 {
 	public class SpawnableObject : MonoBehaviour
 	{
-		public bool IsReturnOnDisable { get => isReturnOnDisable; }
+		[SerializeField] bool isReturnOnDisable = true;
 
 		SpawnablePoolBase ownPool;
-		bool isReturnOnDisable = true;
 
 		/// <summary>
 		/// This is set by the pool when instantiating it. No other reason to call this.
@@ -16,14 +15,7 @@ namespace Personal.Pool
 		public void SetPool(SpawnablePoolBase pool) { ownPool = pool; }
 
 		/// <summary>
-		/// Set this object to not return to pool OnDisable.
-		/// It will return when Return() function is called, which will then resets it back to returning to pool OnDisable.
-		/// </summary>
-		/// <param name="flag"></param>
-		public void SetNotToReturnOnDisable() { isReturnOnDisable = false; }
-
-		/// <summary>
-		/// Returns this object back to its pool.
+		/// Returns this object back to its pool. The gameobject will no longer be active.
 		/// </summary>
 		public void Return()
 		{
@@ -32,7 +24,6 @@ namespace Personal.Pool
 
 		void BackToPool()
 		{
-			isReturnOnDisable = true;
 			ownPool.Return(gameObject);
 		}
 

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Personal.GameState;
 using Personal.InputProcessing;
-using Cysharp.Threading.Tasks;
 using Helper;
 
 namespace Personal.Manager
@@ -23,8 +22,6 @@ namespace Personal.Manager
 
 			rumbleCR?.StopCoroutine();
 			rumbleCR = CoroutineHelper.WaitFor(duration, () => gamepad.SetMotorSpeeds(0, 0));
-
-			Debug.Log(gamepad.device.name);
 		}
 	}
 }

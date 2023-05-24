@@ -1,8 +1,7 @@
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
-using Personal.Manager;
 using Personal.GameState;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Spawner
 {

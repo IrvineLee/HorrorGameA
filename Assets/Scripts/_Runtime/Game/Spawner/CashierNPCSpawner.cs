@@ -36,8 +36,8 @@ namespace Personal.Spawner
 			var entity = MasterDataManager.Instance.CashierNPC.Get(key);
 
 			// Update the path to follow the key((##)dayID and (**)interactionID) from MasterCashierNPC data.
-			string dayStr = StringHelper.AddSymbolInFront('0', 2, dayID.ToString());
-			string interactionStr = StringHelper.AddSymbolInFront('0', 2, interactionID.ToString());
+			string dayStr = dayID.ToString().AddSymbolInFront('0', 2);
+			string interactionStr = interactionID.ToString().AddSymbolInFront('0', 2);
 
 			sb.Length = 0;
 			sb.Append(entity.interactionPath);

@@ -29,7 +29,7 @@ namespace Personal.Save
 			try
 			{
 				// Create folder path.
-				string folderPath = StringHelper.RemoveAllWhenReachCharFromBehind(path, '/', true);
+				string folderPath = path.RemoveAllWhenReachCharFromBehind('/', true);
 				if (!Directory.Exists(folderPath))
 					Directory.CreateDirectory(folderPath);
 
