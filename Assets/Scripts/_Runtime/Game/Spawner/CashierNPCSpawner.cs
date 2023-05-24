@@ -3,7 +3,6 @@ using System.Text;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
-using Personal.FSM.Cashier;
 using Personal.Definition;
 using Personal.GameState;
 using Personal.FSM;
@@ -16,7 +15,7 @@ namespace Personal.Spawner
 		[SerializeField] CashierInteractionDefinition cashierInteractionDefinition = null;
 		[SerializeField] TargetInfo targetInfo = null;
 
-		StringBuilder sb = new StringBuilder(30, 50);
+		StringBuilder sb = new StringBuilder();
 
 		void Start()
 		{
@@ -39,7 +38,7 @@ namespace Personal.Spawner
 			string dayStr = dayID.ToString().AddSymbolInFront('0', 2);
 			string interactionStr = interactionID.ToString().AddSymbolInFront('0', 2);
 
-			sb.Length = 0;
+			sb.Clear();
 			sb.Append(entity.interactionPath);
 			sb.Replace("##", dayStr);
 			sb.Replace("**", interactionStr);

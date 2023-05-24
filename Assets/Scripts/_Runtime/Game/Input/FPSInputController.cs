@@ -60,7 +60,6 @@ namespace Personal.InputProcessing
 		void OpenOptionMenu()
 		{
 			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
-			if (optionHandlerUI.IsOpened) return;
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 			optionHandlerUI.OpenMenuTab(OptionHandlerUI.MenuTab.Graphic);

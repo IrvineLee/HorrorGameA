@@ -3,6 +3,7 @@ using UnityEngine;
 using Personal.Manager;
 using Personal.GameState;
 using Cysharp.Threading.Tasks;
+using Personal.Definition;
 
 namespace Personal.InputProcessing
 {

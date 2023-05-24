@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 
 using Helper;
 using Personal.Manager;
+using Personal.InputProcessing;
 
-namespace Personal.InputProcessing
+namespace Personal.Definition
 {
 	[CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/Input/InputReaderDefinition", order = 0)]
 	[Serializable]

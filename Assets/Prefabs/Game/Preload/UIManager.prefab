@@ -526,6 +526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   optionUI: {fileID: 286673825358760157}
+  footerIconDisplay: {fileID: 4263732610549739836}
 --- !u!114 &-6932555095680199585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +661,6 @@ GameObject:
   - component: {fileID: 673300347796399648}
   - component: {fileID: 8824895228907008518}
   - component: {fileID: 1892492320823042803}
-  - component: {fileID: 1338966764365086203}
   m_Layer: 5
   m_Name: LayoutGroup
   m_TagString: Untagged
@@ -686,7 +686,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: -1920, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &8824895228907008518
 MonoBehaviour:
@@ -728,20 +728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
---- !u!114 &1338966764365086203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2724889763792811400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1938bc6f1487c742827127199b51168, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iconWithTMP: {fileID: 0}
-  initialSpawnCount: 3
 --- !u!1 &3441205485139325903
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,13 +814,14 @@ GameObject:
   m_Component:
   - component: {fileID: 9082349857976236255}
   - component: {fileID: 191423628024875423}
+  - component: {fileID: 4263732610549739836}
   m_Layer: 5
-  m_Name: Footer
+  m_Name: FooterIconDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9082349857976236255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -865,6 +852,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6462989756674323761}
   m_CullTransparentMesh: 1
+--- !u!114 &4263732610549739836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462989756674323761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1938bc6f1487c742827127199b51168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconWithTMP: {fileID: 6321140765117633073, guid: d61b2cc565aa3594f8ae4470dc83bc58, type: 3}
+  layoutGroupTrans: {fileID: 673300347796399648}
+  initialSpawnCount: 3
 --- !u!1001 &894960500168558997
 PrefabInstance:
   m_ObjectHideFlags: 0

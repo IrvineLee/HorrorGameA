@@ -23,6 +23,5 @@ namespace Personal
         public const string TransitionRectangleWipe         = "TransitionRectangleWipe";
         public const string TransitionTemplate              = "TransitionTemplate";
         public const string TransitionVerticalCurtain       = "TransitionVerticalCurtain";
-        public const string UI_IconWithTMP                  = "UI_IconWithTMP";
     }
 }

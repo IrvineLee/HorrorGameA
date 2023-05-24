@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks;
 
 using Personal.GameState;
 using Personal.InputProcessing;
-using Cysharp.Threading.Tasks;
+using Personal.Definition;
 using Helper;
 
 namespace Personal.Manager
@@ -14,9 +15,11 @@ namespace Personal.Manager
 	{
 		[SerializeField] InputReaderDefinition inputReaderDefinition = null;
 		[SerializeField] ActionMapType defaultActionMap = ActionMapType.Player;
+		[SerializeField] ButtonIconDefinition buttonIconDefinition = null;
 
 		public InputReaderDefinition InputReaderDefinition { get => inputReaderDefinition; }
 		public PlayerActionInput PlayerActionInput { get; private set; }
+		public ButtonIconDefinition ButtonIconDefinition { get => buttonIconDefinition; }
 
 		// Different actions maps for different situations.
 		public FPSInputController FPSInputController { get; private set; }
@@ -25,7 +28,6 @@ namespace Personal.Manager
 
 		public ActionMapType CurrentActionMapType { get; private set; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
-		public string IconInitials { get; private set; }
 
 		public bool IsInteract
 		{
@@ -52,6 +54,8 @@ namespace Personal.Manager
 				}
 			}
 		}
+
+		public string IconInitials { get; private set; }
 
 		InputDevice currentDevice = null;
 		InputDevice previousDevice = null;

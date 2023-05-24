@@ -18,8 +18,6 @@ namespace Personal.UI.Option
 		[SerializeField] Transform background = null;
 		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
 
-		public bool IsOpened { get; private set; }
-
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
 
 		public static event Action<bool> OnMenuOpened;
@@ -40,7 +38,7 @@ namespace Personal.UI.Option
 			// Open requested menu tab.
 			if (optionMenuUIDictionary.TryGetValue(menuTab, out OptionMenuUI optionMenuUI))
 			{
-				optionMenuUI.gameObject.SetActive(IsOpened);
+				optionMenuUI.gameObject.SetActive(true);
 			}
 		}
 
@@ -56,9 +54,9 @@ namespace Personal.UI.Option
 		/// <param name="isFlag"></param>
 		void SetupMenu(bool isFlag)
 		{
-			IsOpened = isFlag;
-			background.gameObject.SetActive(IsOpened);
-			OnMenuOpened?.Invoke(IsOpened);
+			background.gameObject.SetActive(isFlag);
+			OnMenuOpened?.Invoke(isFlag);
+			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 
 			// Close all tabs.
 			foreach (var option in optionMenuUIList)

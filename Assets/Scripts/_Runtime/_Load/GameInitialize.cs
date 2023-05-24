@@ -21,7 +21,11 @@ namespace Personal.GameState
 			if (GameManager.Instance == null)
 				await UniTask.WaitUntil(() => GameManager.Instance != null);
 
-			if (GameManager.Instance.IsLoadingOver) return;
+			if (GameManager.Instance.IsLoadingOver)
+			{
+				AwakeComplete().Forget();
+				return;
+			}
 
 			isInitiallyEnabled = enabled;
 

@@ -14,7 +14,7 @@ namespace Personal.UI
 		[SerializeField] TextMeshProUGUI valueTMP = null;
 
 		Slider slider;
-		StringBuilder stringBuilder = new StringBuilder(100, 100);
+		StringBuilder stringBuilder = new StringBuilder();
 
 		void Start()
 		{
