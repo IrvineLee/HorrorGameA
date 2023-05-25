@@ -62,7 +62,7 @@ namespace Personal.InputProcessing
 			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
-			optionHandlerUI.OpenMenuTab(OptionHandlerUI.MenuTab.Graphic);
+			optionHandlerUI.OpenOptionWindow();
 		}
 
 		protected override void OnDisable()

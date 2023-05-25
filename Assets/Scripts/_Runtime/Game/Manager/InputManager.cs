@@ -57,6 +57,8 @@ namespace Personal.Manager
 
 		public string IconInitials { get; private set; }
 
+		public event Action OnDeviceIconChanged;
+
 		InputDevice currentDevice = null;
 		InputDevice previousDevice = null;
 
@@ -144,6 +146,7 @@ namespace Personal.Manager
 			if (InputDeviceType == InputDeviceType.KeyboardMouse)
 			{
 				IconInitials = IconDisplayType.KeyboardMouse.GetStringValue();
+				OnDeviceIconChanged?.Invoke();
 				return;
 			}
 
@@ -157,6 +160,7 @@ namespace Personal.Manager
 			if (Gamepad.current.device.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
 			{
 				IconInitials = initials;
+				OnDeviceIconChanged?.Invoke();
 				return true;
 			}
 			return false;

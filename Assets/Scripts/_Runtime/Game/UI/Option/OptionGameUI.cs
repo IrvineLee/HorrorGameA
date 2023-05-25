@@ -10,7 +10,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
-	public class OptionLanguageUI : OptionMenuUI
+	public class OptionGameUI : OptionMenuUI
 	{
 		//[SerializeField] Slider masterSlider = null;
 
@@ -40,8 +40,6 @@ namespace Personal.UI.Option
 		/// </summary>
 		public override void Cancel_Inspector()
 		{
-			//ResetUIValue();
-			//ResetRealValue();
 		}
 
 		/// <summary>

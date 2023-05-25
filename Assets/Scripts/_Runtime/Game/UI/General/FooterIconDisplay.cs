@@ -34,6 +34,12 @@ namespace Personal.UI
 		{
 			await base.OnEnable();
 
+			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
+			UpdateIcons();
+		}
+
+		void UpdateIcons()
+		{
 			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
 
 			var uiList = InputManager.Instance.ButtonIconDefinition.Ui_ButtonIconInfoList;
@@ -78,6 +84,11 @@ namespace Personal.UI
 			{
 				tmp.gameObject.SetActive(false);
 			}
+		}
+
+		void OnDisable()
+		{
+			InputManager.Instance.OnDeviceIconChanged -= UpdateIcons;
 		}
 	}
 }

@@ -39,7 +39,7 @@ namespace Personal.InputProcessing
 
 		void CloseOptionMenu()
 		{
-			UIManager.Instance.OptionUI.CloseMenuTab();
+			UIManager.Instance.OptionUI.CloseOptionWindow();
 		}
 
 		protected override void OnDisable()

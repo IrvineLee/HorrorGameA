@@ -27,7 +27,7 @@ namespace Personal.UI.Option
 		/// </summary>
 		public override void Save_Inspector()
 		{
-			optionHandlerUI.CloseMenuTab();
+			optionHandlerUI.CloseOptionWindow();
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Personal.UI.Option
 			ResetDataToUI();
 			ResetDataToTarget();
 
-			optionHandlerUI.CloseMenuTab();
+			optionHandlerUI.CloseOptionWindow();
 			gameObject.SetActive(false);
 		}
 

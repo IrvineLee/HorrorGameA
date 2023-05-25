@@ -9,13 +9,13 @@ namespace Personal.UI.Option
 	{
 		public enum MenuTab
 		{
-			Graphic = 0,
+			Game = 0,
+			Graphic,
 			Audio,
 			Control,
-			Language,
 		}
 
-		[SerializeField] Transform background = null;
+		[SerializeField] Transform menus = null;
 		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
 
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
@@ -31,7 +31,7 @@ namespace Personal.UI.Option
 			}
 		}
 
-		public void OpenMenuTab(MenuTab menuTab)
+		public void OpenOptionWindow(MenuTab menuTab = MenuTab.Game)
 		{
 			SetupMenu(true);
 
@@ -42,10 +42,19 @@ namespace Personal.UI.Option
 			}
 		}
 
-		public void CloseMenuTab()
+		public void CloseOptionWindow()
 		{
 			InputManager.Instance.SetToDefaultActionMap();
 			SetupMenu(false);
+		}
+
+		public void CloseAllMenu()
+		{
+			// Close all menu.
+			foreach (var option in optionMenuUIList)
+			{
+				option.gameObject.SetActive(false);
+			}
 		}
 
 		/// <summary>
@@ -54,15 +63,11 @@ namespace Personal.UI.Option
 		/// <param name="isFlag"></param>
 		void SetupMenu(bool isFlag)
 		{
-			background.gameObject.SetActive(isFlag);
+			menus.gameObject.SetActive(isFlag);
 			OnMenuOpened?.Invoke(isFlag);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 
-			// Close all tabs.
-			foreach (var option in optionMenuUIList)
-			{
-				option.gameObject.SetActive(false);
-			}
+			CloseAllMenu();
 		}
 	}
 }
