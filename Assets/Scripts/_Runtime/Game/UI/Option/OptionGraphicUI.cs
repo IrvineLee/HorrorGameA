@@ -18,7 +18,7 @@ namespace Personal.UI.Option
 		[SerializeField] TMP_Dropdown screenResolutionDropdown = null;
 		[SerializeField] TMP_Dropdown screenModeDropdown = null;
 
-		[SerializeField] Slider brightnessSlider = null;
+		//[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] TMP_Dropdown antiAliasingDropdown = null;
 
 		[SerializeField] Toggle isVsync = null;
@@ -38,7 +38,6 @@ namespace Personal.UI.Option
 
 		UniversalAdditionalCameraData universalCameraData;
 
-		float currentBrightness01;
 		Resolution currentResolution;
 		FullScreenMode currentFullScreenMode;
 		int currentAntiAliasIndex;
@@ -46,7 +45,6 @@ namespace Personal.UI.Option
 		Resolution defaultResolution;
 
 		Volume volume;
-		ColorAdjustments colorAdjustments;
 		Vignette vignette;
 		DepthOfField depthOfField;
 		MotionBlur motionBlur;
@@ -75,12 +73,10 @@ namespace Personal.UI.Option
 		{
 			base.Save_Inspector();
 
-			graphicData.Brightness = currentBrightness01;
 			graphicData.AntiAliasing = currentAntiAliasIndex;
 
 			graphicData.SetResolutionAndScreenMode(currentResolution, currentFullScreenMode);
 			graphicData.SetBoolValue(isVsync.isOn, isVignette.isOn, isDepthOfField.isOn, isMotionBlur.isOn, isBloom.isOn, isAmbientOcclusion.isOn);
-			SaveManager.Instance.SaveProfileData();
 		}
 
 		/// <summary>
@@ -88,12 +84,6 @@ namespace Personal.UI.Option
 		/// </summary>
 		void RegisterEventsForUI()
 		{
-			brightnessSlider.onValueChanged.AddListener((value) =>
-			{
-				currentBrightness01 = value.ConvertRatio0To1();
-				colorAdjustments.postExposure.value = currentBrightness01;
-			});
-
 			screenResolutionDropdown.onValueChanged.AddListener((index) =>
 			{
 				currentResolution = resolutionList[index];
@@ -124,7 +114,6 @@ namespace Personal.UI.Option
 		{
 			// Reset data.
 			GameStateBehaviour.Instance.SaveProfile.OptionSavedData.ResetGraphicData();
-			SaveManager.Instance.SaveProfileData();
 
 			graphicData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GraphicData;
 			graphicData.ScreenResolution = defaultResolution;
@@ -138,8 +127,6 @@ namespace Personal.UI.Option
 		protected override void ResetDataToUI()
 		{
 			graphicData.HandleFirstTimeUser();
-
-			brightnessSlider.value = graphicData.Brightness.ConvertRatio0To100();
 
 			for (int i = 0; i < resolutionList.Count; i++)
 			{
@@ -197,7 +184,6 @@ namespace Personal.UI.Option
 
 			if (!volume) return;
 
-			colorAdjustments.postExposure.value = graphicData.Brightness;
 			vignette.active = graphicData.IsVignette;
 			depthOfField.active = graphicData.IsDepthOfField;
 			motionBlur.active = graphicData.IsMotionBlur;
@@ -213,7 +199,6 @@ namespace Personal.UI.Option
 			if (!volume) return;
 
 			volumeProfile = volume.sharedProfile;
-			volumeProfile.TryGet(out colorAdjustments);
 			volumeProfile.TryGet(out vignette);
 			volumeProfile.TryGet(out depthOfField);
 			volumeProfile.TryGet(out motionBlur);
@@ -333,8 +318,6 @@ namespace Personal.UI.Option
 
 		void OnDestroy()
 		{
-			brightnessSlider.onValueChanged.RemoveAllListeners();
-
 			screenResolutionDropdown.onValueChanged.RemoveAllListeners();
 			screenModeDropdown.onValueChanged.RemoveAllListeners();
 

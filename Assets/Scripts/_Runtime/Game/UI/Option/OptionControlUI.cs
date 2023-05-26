@@ -31,17 +31,6 @@ namespace Personal.UI.Option
 		public override void Save_Inspector()
 		{
 			base.Save_Inspector();
-
-			SaveManager.Instance.SaveProfileData();
-		}
-
-		/// <summary>
-		/// Cancel. Close the screen.
-		/// </summary>
-		public override void Cancel_Inspector()
-		{
-			//ResetUIValue();
-			//ResetRealValue();
 		}
 
 		/// <summary>

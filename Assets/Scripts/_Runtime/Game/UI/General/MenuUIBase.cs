@@ -17,10 +17,5 @@ namespace Personal.UI
 		/// Pressing the OK button.
 		/// </summary>
 		public abstract void Save_Inspector();
-
-		/// <summary>
-		/// Closing the menu.
-		/// </summary>
-		public abstract void Cancel_Inspector();
 	}
 }

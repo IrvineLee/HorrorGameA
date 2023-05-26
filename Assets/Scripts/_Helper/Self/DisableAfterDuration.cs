@@ -5,10 +5,9 @@ namespace Helper
 	public class DisableAfterDuration : MonoBehaviour
 	{
 		[SerializeField] protected float duration = 1f;
-		[SerializeField] protected float defaultDuration = 1f;
+		[SerializeField] protected bool isRealTime = false;
 
 		public float Duration { get => duration; }
-		public float DefaultDuration { get => defaultDuration; }
 
 		protected CoroutineRun cr;
 
@@ -31,7 +30,7 @@ namespace Helper
 				return;
 
 			cr?.StopCoroutine();
-			cr = CoroutineHelper.WaitFor(duration, RunDisable);
+			cr = CoroutineHelper.WaitFor(duration, RunDisable, default, isRealTime);
 		}
 
 		protected virtual void RunDisable()

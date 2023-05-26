@@ -13,11 +13,11 @@ namespace Personal.UI.Option
 {
 	public class OptionAudioUI : OptionMenuUI
 	{
+		[SerializeField] TMP_Dropdown speakerModeDropdown = null;
+
 		[SerializeField] Slider masterSlider = null;
 		[SerializeField] Slider bgmSlider = null;
 		[SerializeField] Slider sfxSlider = null;
-
-		[SerializeField] TMP_Dropdown speakerModeDropdown = null;
 
 		AudioData audioData;
 
@@ -56,8 +56,6 @@ namespace Personal.UI.Option
 			// Set data volume and save data.
 			audioData.SetVolume(currentMaster01, currentBgm01, currentSfx01);
 			audioData.SetAudioSpeakerMode(currentSpeakerMode);
-
-			SaveManager.Instance.SaveProfileData();
 		}
 
 		/// <summary>
@@ -67,7 +65,6 @@ namespace Personal.UI.Option
 		{
 			// Reset data.
 			GameStateBehaviour.Instance.SaveProfile.OptionSavedData.ResetAudioData();
-			SaveManager.Instance.SaveProfileData();
 
 			audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
 			base.Default_Inspector();
@@ -87,11 +84,11 @@ namespace Personal.UI.Option
 		/// </summary>
 		void RegisterEventsForUI()
 		{
+			speakerModeDropdown.onValueChanged.AddListener(SpeakerModeUpdateRealtime);
+
 			masterSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
 			bgmSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
 			sfxSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
-
-			speakerModeDropdown.onValueChanged.AddListener(SpeakerModeUpdateRealtime);
 		}
 
 		/// <summary>
@@ -176,11 +173,11 @@ namespace Personal.UI.Option
 
 		void OnDestroy()
 		{
+			speakerModeDropdown.onValueChanged.RemoveAllListeners();
+
 			masterSlider.onValueChanged.RemoveAllListeners();
 			bgmSlider.onValueChanged.RemoveAllListeners();
 			sfxSlider.onValueChanged.RemoveAllListeners();
-
-			speakerModeDropdown.onValueChanged.RemoveAllListeners();
 		}
 	}
 }

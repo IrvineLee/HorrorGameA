@@ -15,7 +15,8 @@ namespace Personal.UI.Option
 			Control,
 		}
 
-		[SerializeField] Transform menus = null;
+		[SerializeField] Transform menuParent = null;
+		[SerializeField] Transform loadingIcon = null;
 		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
 
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
@@ -44,8 +45,16 @@ namespace Personal.UI.Option
 
 		public void CloseOptionWindow()
 		{
+			foreach (var option in optionMenuUIList)
+			{
+				option.Save_Inspector();
+			}
+
+			SaveManager.Instance.SaveProfileData();
 			InputManager.Instance.SetToDefaultActionMap();
+
 			SetupMenu(false);
+			loadingIcon.gameObject.SetActive(true);
 		}
 
 		public void CloseAllMenu()
@@ -63,7 +72,7 @@ namespace Personal.UI.Option
 		/// <param name="isFlag"></param>
 		void SetupMenu(bool isFlag)
 		{
-			menus.gameObject.SetActive(isFlag);
+			menuParent.gameObject.SetActive(isFlag);
 			OnMenuOpened?.Invoke(isFlag);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 

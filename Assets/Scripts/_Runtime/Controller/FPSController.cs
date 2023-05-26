@@ -8,6 +8,7 @@ using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
+using Personal.Setting.Game;
 
 namespace Personal.Character.Player
 {
@@ -16,77 +17,89 @@ namespace Personal.Character.Player
 	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
-		public float MoveSpeed = 4.0f;
+		[SerializeField] float moveSpeed = 4.0f;
+
 		[Tooltip("Sprint speed of the character in m/s")]
-		public float SprintSpeed = 6.0f;
+		[SerializeField] float sprintSpeed = 6.0f;
+
 		[Tooltip("Rotation speed of the character")]
-		public float RotationSpeed = 1.0f;
+		[SerializeField] float rotationSpeed = 1.0f;
+
 		[Tooltip("Acceleration and deceleration")]
-		public float SpeedChangeRate = 10.0f;
+		[SerializeField] float speedChangeRate = 10.0f;
 
 		[Space(10)]
 		[Tooltip("The height the player can jump")]
-		public float JumpHeight = 1.2f;
+		[SerializeField] float jumpHeight = 1.2f;
+
 		[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-		public float Gravity = -15.0f;
+		[SerializeField] float gravity = -15.0f;
 
 		[Space(10)]
 		[Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-		public float JumpTimeout = 0.1f;
+		[SerializeField] float jumpTimeout = 0.1f;
+
 		[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-		public float FallTimeout = 0.15f;
+		[SerializeField] float fallTimeout = 0.15f;
 
 		[Header("Player Grounded")]
 		[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-		public bool Grounded = true;
+		[SerializeField] bool grounded = true;
+
 		[Tooltip("Useful for rough ground")]
-		public float GroundedOffset = -0.14f;
+		[SerializeField] float groundedOffset = -0.14f;
+
 		[Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-		public float GroundedRadius = 0.5f;
+		[SerializeField] float groundedRadius = 0.5f;
+
 		[Tooltip("What layers the character uses as ground")]
-		public LayerMask GroundLayers;
+		[SerializeField] LayerMask groundLayers;
 
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-		public GameObject CinemachineCameraTarget;
+		[SerializeField] GameObject cinemachineCameraTarget;
+
 		[Tooltip("How far in degrees can you move the camera up")]
-		public float TopClamp = 90.0f;
+		[SerializeField] float topClamp = 90.0f;
+
 		[Tooltip("How far in degrees can you move the camera down")]
-		public float BottomClamp = -90.0f;
+		[SerializeField] float bottomClamp = -90.0f;
+
 
 		// cinemachine
-		private float _cinemachineTargetPitch;
+		float _cinemachineTargetPitch;
 
 		// player
-		private float _speed;
-		private float _rotationVelocity;
-		private float _verticalVelocity;
-		private float _terminalVelocity = 53.0f;
+		float _speed;
+		float _rotationVelocity;
+		float _verticalVelocity;
+		float _terminalVelocity = 53.0f;
 
 		// timeout deltatime
-		private float _jumpTimeoutDelta;
-		private float _fallTimeoutDelta;
+		float _jumpTimeoutDelta;
+		float _fallTimeoutDelta;
 
-		private CharacterController _controller;
-		private FPSInputController _input;
-		private GameObject _mainCamera;
+		CharacterController _controller;
+		FPSInputController _input;
+		GameData gameData;
 
-		private const float _threshold = 0.01f;
+		const float _threshold = 0.01f;
 
-		private bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
+		bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
 
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
 
-			_mainCamera = StageManager.Instance.MainCamera.gameObject;
 			_input = InputManager.Instance.FPSInputController;
-
 			_controller = GetComponent<CharacterController>();
 
 			// reset our timeouts on start
-			_jumpTimeoutDelta = JumpTimeout;
-			_fallTimeoutDelta = FallTimeout;
+			_jumpTimeoutDelta = jumpTimeout;
+			_fallTimeoutDelta = fallTimeout;
+
+			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
+			rotationSpeed = gameData.CameraSensitivity;
 		}
 
 		protected override void OnUpdate()
@@ -98,19 +111,24 @@ namespace Personal.Character.Player
 			Move();
 		}
 
-		private void LateUpdate()
+		void LateUpdate()
 		{
 			CameraRotation();
 		}
 
-		private void GroundedCheck()
+		public void UpdateRotationSpeed(float value)
 		{
-			// set sphere position, with offset
-			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
-			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+			rotationSpeed = value;
 		}
 
-		private void CameraRotation()
+		void GroundedCheck()
+		{
+			// set sphere position, with offset
+			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
+			grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+		}
+
+		void CameraRotation()
 		{
 			// if there is an input
 			if (_input.Look.sqrMagnitude >= _threshold)
@@ -118,24 +136,24 @@ namespace Personal.Character.Player
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-				_cinemachineTargetPitch += _input.Look.y * RotationSpeed * deltaTimeMultiplier;
-				_rotationVelocity = _input.Look.x * RotationSpeed * deltaTimeMultiplier;
+				_cinemachineTargetPitch += _input.Look.y * rotationSpeed * deltaTimeMultiplier;
+				_rotationVelocity = _input.Look.x * rotationSpeed * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
-				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, bottomClamp, topClamp);
 
 				// Update Cinemachine camera target pitch
-				CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 
 				// rotate the player left and right
 				transform.Rotate(Vector3.up * _rotationVelocity);
 			}
 		}
 
-		private void Move()
+		void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.IsSprint ? SprintSpeed : MoveSpeed;
+			float targetSpeed = _input.IsSprint ? sprintSpeed : moveSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -154,7 +172,7 @@ namespace Personal.Character.Player
 			{
 				// creates curved result rather than a linear one giving a more organic speed change
 				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * speedChangeRate);
 
 				// round speed to 3 decimal places
 				_speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -179,12 +197,12 @@ namespace Personal.Character.Player
 			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 		}
 
-		private void JumpAndGravity()
+		void JumpAndGravity()
 		{
-			if (Grounded)
+			if (grounded)
 			{
 				// reset the fall timeout timer
-				_fallTimeoutDelta = FallTimeout;
+				_fallTimeoutDelta = fallTimeout;
 
 				// stop our velocity dropping infinitely when grounded
 				if (_verticalVelocity < 0.0f)
@@ -196,7 +214,7 @@ namespace Personal.Character.Player
 				if (_input.IsJump && _jumpTimeoutDelta <= 0.0f)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
-					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+					_verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
 				}
 
 				// jump timeout
@@ -208,7 +226,7 @@ namespace Personal.Character.Player
 			else
 			{
 				// reset the jump timeout timer
-				_jumpTimeoutDelta = JumpTimeout;
+				_jumpTimeoutDelta = jumpTimeout;
 
 				// fall timeout
 				if (_fallTimeoutDelta >= 0.0f)
@@ -223,27 +241,27 @@ namespace Personal.Character.Player
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
 			if (_verticalVelocity < _terminalVelocity)
 			{
-				_verticalVelocity += Gravity * Time.deltaTime;
+				_verticalVelocity += gravity * Time.deltaTime;
 			}
 		}
 
-		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+		static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
 
-		private void OnDrawGizmosSelected()
+		void OnDrawGizmosSelected()
 		{
 			Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
 			Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
 
-			if (Grounded) Gizmos.color = transparentGreen;
+			if (grounded) Gizmos.color = transparentGreen;
 			else Gizmos.color = transparentRed;
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z), groundedRadius);
 		}
 	}
 }

@@ -9,8 +9,6 @@ namespace Personal.UI.Option
 
 		public OptionHandlerUI.MenuTab MenuTab { get => menuTab; }
 
-		OptionHandlerUI optionHandlerUI;
-
 		/// <summary>
 		/// Initialize the value before displaying the menu to user.
 		/// Typically used to have the data pre-loaded so data is already set when opened.
@@ -19,28 +17,12 @@ namespace Personal.UI.Option
 		public override async UniTask Initialize()
 		{
 			await base.Initialize();
-			optionHandlerUI = GetComponentInParent<OptionHandlerUI>();
 		}
 
 		/// <summary>
 		/// Pressing the OK button.
 		/// </summary>
-		public override void Save_Inspector()
-		{
-			optionHandlerUI.CloseOptionWindow();
-		}
-
-		/// <summary>
-		/// Closing the menu.
-		/// </summary>
-		public override void Cancel_Inspector()
-		{
-			ResetDataToUI();
-			ResetDataToTarget();
-
-			optionHandlerUI.CloseOptionWindow();
-			gameObject.SetActive(false);
-		}
+		public override void Save_Inspector() { }
 
 		/// <summary>
 		/// Pressing the Default button.

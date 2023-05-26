@@ -15,6 +15,20 @@ namespace Helper
 		}
 
 		/// <summary>
+		/// Round it to decimal places.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="decimalPlaces"></param>
+		/// <returns></returns>
+		public static float Round(this float original, int decimalPlaces = 1)
+		{
+			float powerOfValue = Mathf.Pow(10, decimalPlaces);
+			float powerOfValueOpposite = powerOfValue / Mathf.Pow(powerOfValue, 2);
+
+			return Mathf.Round(original * powerOfValue) * powerOfValueOpposite;
+		}
+
+		/// <summary>
 		/// Convert float value to bool.
 		/// </summary>
 		/// <param name="original"></param>

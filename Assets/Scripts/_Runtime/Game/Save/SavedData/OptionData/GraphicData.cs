@@ -6,8 +6,6 @@ namespace Personal.Setting.Graphic
 	[Serializable]
 	public class GraphicData
 	{
-		[SerializeField] float brightness = 0;
-
 		[SerializeField] Resolution screenResolution = default;
 		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
 
@@ -19,8 +17,6 @@ namespace Personal.Setting.Graphic
 		[SerializeField] bool isMotionBlur = true;
 		[SerializeField] bool isBloom = true;
 		[SerializeField] bool isAmbientOcclusion = true;
-
-		public float Brightness { get => brightness; set => brightness = value; }
 
 		public Resolution ScreenResolution { get => screenResolution; set => screenResolution = value; }
 		public FullScreenMode ScreenMode { get => screenMode; set => screenMode = value; }

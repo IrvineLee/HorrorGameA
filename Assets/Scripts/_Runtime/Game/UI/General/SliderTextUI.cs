@@ -12,27 +12,28 @@ namespace Personal.UI
 	{
 		[Tooltip("This is used to update the value for slider")]
 		[SerializeField] TextMeshProUGUI valueTMP = null;
+		[SerializeField] int decimalPoint = 0;
 
 		Slider slider;
 		StringBuilder stringBuilder = new StringBuilder();
+
+		string decimalStr;
 
 		void Start()
 		{
 			slider = GetComponent<Slider>();
 
-			UnityAction<float> unityAction = default;
-			unityAction += UpdateText;
-			slider.onValueChanged.AddListener(unityAction);
-
+			slider.onValueChanged.AddListener(UpdateText);
 			UpdateText(slider.value);
 		}
 
 		void UpdateText(float value)
 		{
+			decimalStr = decimalPoint == 0 ? string.Empty : "F" + decimalPoint;
+
 			stringBuilder.Length = 0;
-			stringBuilder.Append(value);
+			stringBuilder.Append(value.ToString(decimalStr));
 			valueTMP.text = stringBuilder.ToString();
 		}
 	}
-
 }

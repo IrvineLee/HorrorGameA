@@ -21,7 +21,7 @@ namespace Personal.Manager
 			gamepad.SetMotorSpeeds(lowfrequency, highFrequency);
 
 			rumbleCR?.StopCoroutine();
-			rumbleCR = CoroutineHelper.WaitFor(duration, () => gamepad.SetMotorSpeeds(0, 0));
+			rumbleCR = CoroutineHelper.WaitFor(duration, () => gamepad.SetMotorSpeeds(0, 0), default, true);
 		}
 	}
 }
