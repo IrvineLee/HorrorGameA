@@ -21,6 +21,8 @@ namespace Personal.UI.Option
 
 		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
 
+		public Transform MenuParent { get => menuParent; }
+
 		public static event Action<bool> OnMenuOpened;
 
 		public void Initialize()

@@ -7,8 +7,9 @@ using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Game;
-using Helper;
 using Personal.Character.Player;
+using Helper;
+using TMPro;
 
 namespace Personal.UI.Option
 {
@@ -16,6 +17,9 @@ namespace Personal.UI.Option
 	{
 		[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] Slider cameraSensitivitySlider = null;
+		[SerializeField] Toggle isInvertLookHorizontal = null;
+		[SerializeField] Toggle isInvertLookVertical = null;
+		[SerializeField] TMP_Dropdown gamepadIconDropdown = null;
 
 		GameData gameData;
 
@@ -50,6 +54,9 @@ namespace Personal.UI.Option
 
 			gameData.Brightness = currentBrightness01;
 			gameData.CameraSensitivity = cameraSensitivitySlider.value;
+			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.isOn;
+			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
+			gameData.GamepadIconIndex = gamepadIconDropdown.value;
 		}
 
 		/// <summary>
@@ -78,8 +85,13 @@ namespace Personal.UI.Option
 			cameraSensitivitySlider.onValueChanged.AddListener((value) =>
 			{
 				cameraSensitivitySlider.value = value.Round(1);
-				fpsController.UpdateRotationSpeed(cameraSensitivitySlider.value);
+				fpsController.SetRotationSpeed(cameraSensitivitySlider.value);
 			});
+
+			isInvertLookHorizontal.onValueChanged.AddListener((flag) => fpsController.SetInvertedLookHorizontal(flag));
+			isInvertLookVertical.onValueChanged.AddListener((flag) => fpsController.SetInvertedLookVertical(flag));
+
+			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex(value));
 		}
 
 		protected override void ResetDataToUI()
@@ -88,12 +100,22 @@ namespace Personal.UI.Option
 
 			brightnessSlider.value = gameData.Brightness.ConvertRatio0To100();
 			cameraSensitivitySlider.value = gameData.CameraSensitivity;
+
+			isInvertLookHorizontal.isOn = gameData.IsInvertLookHorizontal;
+			isInvertLookVertical.isOn = gameData.IsInvertLookVertical;
+
+			gamepadIconDropdown.value = gameData.GamepadIconIndex;
 		}
 
 		protected override void ResetDataToTarget()
 		{
 			colorAdjustments.postExposure.value = gameData.Brightness;
-			fpsController.UpdateRotationSpeed(gameData.CameraSensitivity);
+			fpsController.SetRotationSpeed(gameData.CameraSensitivity);
+
+			fpsController.SetInvertedLookHorizontal(gameData.IsInvertLookHorizontal);
+			fpsController.SetInvertedLookVertical(gameData.IsInvertLookVertical);
+
+			InputManager.Instance.SetGamepadIconIndex(gameData.GamepadIconIndex);
 		}
 
 		void InitializeVolumeProfile()
@@ -109,6 +131,9 @@ namespace Personal.UI.Option
 		{
 			brightnessSlider.onValueChanged.RemoveAllListeners();
 			cameraSensitivitySlider.onValueChanged.RemoveAllListeners();
+			isInvertLookHorizontal.onValueChanged.RemoveAllListeners();
+			isInvertLookVertical.onValueChanged.RemoveAllListeners();
+			gamepadIconDropdown.onValueChanged.RemoveAllListeners();
 		}
 	}
 }

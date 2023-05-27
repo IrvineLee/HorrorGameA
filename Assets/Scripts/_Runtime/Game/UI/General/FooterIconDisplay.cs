@@ -28,19 +28,20 @@ namespace Personal.UI
 			}
 
 			DisableAllTmp();
+
+			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
 		}
 
 		protected override async UniTask OnEnable()
 		{
 			await base.OnEnable();
 
-			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
 			UpdateIcons();
 		}
 
 		void UpdateIcons()
 		{
-			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
+			if (!UIManager.Instance.OptionUI.MenuParent.gameObject.activeSelf) return;
 
 			var uiList = InputManager.Instance.ButtonIconDefinition.Ui_ButtonIconInfoList;
 			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetAllText(uiList));
@@ -86,7 +87,8 @@ namespace Personal.UI
 			}
 		}
 
-		void OnDisable()
+		// To remove the error when quitting application after InputManager has been destroyed.
+		void OnApplicationQuit()
 		{
 			InputManager.Instance.OnDeviceIconChanged -= UpdateIcons;
 		}

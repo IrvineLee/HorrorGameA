@@ -39,6 +39,7 @@ namespace Personal.Definition
 
 		public event Action OnInventoryUIPressedEvent;
 		public event Action OnMenuUIPressedEvent;
+		public event Action OnMenuUIDefaultPressedEvent;
 
 		public event Action<Vector2> OnDpadEvent;
 
@@ -118,6 +119,15 @@ namespace Personal.Definition
 		}
 
 		/// ------------------------------------------------------------
+		/// -----------------------PUZZLE-------------------------------
+		/// ------------------------------------------------------------
+
+		void PlayerActionInput.IUIActions.OnDefault(InputAction.CallbackContext context)
+		{
+			SetButtonEvent(context.started, OnMenuUIDefaultPressedEvent);
+		}
+
+		/// ------------------------------------------------------------
 		/// -----------------------OTHERS-------------------------------
 		/// ------------------------------------------------------------
 
@@ -126,6 +136,12 @@ namespace Personal.Definition
 			if (!isFlag) return;
 			doEvent?.Invoke();
 		}
+
+		/// ------------------------------------------------------------
+		/// ----------------------NOT USED------------------------------
+		/// ------------------------------------------------------------
+
+		void PlayerActionInput.IUIActions.OnNotUsed(InputAction.CallbackContext context) { }
 	}
 }
 

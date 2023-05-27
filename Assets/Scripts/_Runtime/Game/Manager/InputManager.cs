@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Cysharp.Threading.Tasks;
+using UnityEngine.InputSystem.Utilities;
 
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.Definition;
 using Helper;
+using Personal.Setting.Game;
 
 namespace Personal.Manager
 {
@@ -59,8 +61,9 @@ namespace Personal.Manager
 
 		public event Action OnDeviceIconChanged;
 
-		InputDevice currentDevice = null;
 		InputDevice previousDevice = null;
+
+		int gamepadIconIndex;
 
 		protected override async UniTask Awake()
 		{
@@ -74,6 +77,7 @@ namespace Personal.Manager
 			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
+			InputSystem.onAnyButtonPress.Call(ctrl => HandleInputDeviceCompare(ctrl.device.displayName));
 		}
 
 		/// <summary>
@@ -106,7 +110,21 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// Set gamepad icon index which will change the UI display.
+		/// </summary>
+		/// <param name="gamepadIconIndex"></param>
+		public void SetGamepadIconIndex(int gamepadIconIndex)
+		{
+			this.gamepadIconIndex = gamepadIconIndex; Debug.Log(gamepadIconIndex);
+
+			if (!UIManager.Instance.OptionUI.MenuParent.gameObject.activeSelf) return;
+			HandleIconInitials();
+		}
+
+		/// <summary>
 		/// Check for new input device and change icon initials for it.
+		/// This only checks for the registered actions in action input. 
+		/// Does nothing for other actions.
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="change"></param>
@@ -116,15 +134,23 @@ namespace Personal.Manager
 
 			// Get the last input device.
 			var lastControl = ((InputAction)obj).activeControl;
-			currentDevice = lastControl.device;
 
 			// Return if it's the same.
-			if (currentDevice == previousDevice) return;
-			previousDevice = currentDevice;
+			if (lastControl.device == previousDevice) return;
+			previousDevice = lastControl.device;
 
+			HandleInputDeviceCompare(lastControl.device.displayName);
+		}
+
+		/// <summary>
+		/// Check the name of the current device to get correct device.
+		/// </summary>
+		/// <param name="currentDeviceName"></param>
+		void HandleInputDeviceCompare(string currentDeviceName)
+		{
 			// Get the input type.
 			InputDeviceType inputType = InputDeviceType.Gamepad;
-			if (Equals(currentDevice.displayName, "Mouse") || Equals(currentDevice.displayName, "Keyboard"))
+			if (Equals(currentDeviceName, "Mouse") || Equals(currentDeviceName, "Keyboard"))
 			{
 				inputType = InputDeviceType.KeyboardMouse;
 			}
@@ -143,10 +169,26 @@ namespace Personal.Manager
 		/// </summary>
 		void HandleIconInitials()
 		{
+			if (gamepadIconIndex == 1) // Keyboard
+			{
+				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
+				return;
+			}
+			else if (gamepadIconIndex == 2) // Dualshock
+			{
+				SetInitials(IconDisplayType.Dualshock.GetStringValue());
+				return;
+			}
+			else if (gamepadIconIndex == 3) // XBox
+			{
+				SetInitials(IconDisplayType.Xbox.GetStringValue());
+				return;
+			}
+
+			// Auto check
 			if (InputDeviceType == InputDeviceType.KeyboardMouse)
 			{
-				IconInitials = IconDisplayType.KeyboardMouse.GetStringValue();
-				OnDeviceIconChanged?.Invoke();
+				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
 				return;
 			}
 
@@ -159,11 +201,16 @@ namespace Personal.Manager
 		{
 			if (Gamepad.current.device.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
 			{
-				IconInitials = initials;
-				OnDeviceIconChanged?.Invoke();
+				SetInitials(initials);
 				return true;
 			}
 			return false;
+		}
+
+		void SetInitials(string initials)
+		{
+			IconInitials = initials;
+			OnDeviceIconChanged?.Invoke();
 		}
 
 		void OnDestroy()

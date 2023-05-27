@@ -81,7 +81,9 @@ namespace Personal.Character.Player
 
 		CharacterController _controller;
 		FPSInputController _input;
-		GameData gameData;
+
+		bool isInvertedLookHorizontal;
+		bool isInvertedLookVertical;
 
 		const float _threshold = 0.01f;
 
@@ -97,9 +99,6 @@ namespace Personal.Character.Player
 			// reset our timeouts on start
 			_jumpTimeoutDelta = jumpTimeout;
 			_fallTimeoutDelta = fallTimeout;
-
-			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
-			rotationSpeed = gameData.CameraSensitivity;
 		}
 
 		protected override void OnUpdate()
@@ -116,9 +115,12 @@ namespace Personal.Character.Player
 			CameraRotation();
 		}
 
-		public void UpdateRotationSpeed(float value)
+		public void SetRotationSpeed(float value) { rotationSpeed = value; }
+		public void SetInvertedLookHorizontal(bool isFlag) { isInvertedLookHorizontal = isFlag; }
+		public void SetInvertedLookVertical(bool isFlag)
 		{
-			rotationSpeed = value;
+			isInvertedLookVertical = isFlag;
+			_cinemachineTargetPitch = -_cinemachineTargetPitch;
 		}
 
 		void GroundedCheck()
@@ -143,10 +145,10 @@ namespace Personal.Character.Player
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, bottomClamp, topClamp);
 
 				// Update Cinemachine camera target pitch
-				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!isInvertedLookVertical ? _cinemachineTargetPitch : -_cinemachineTargetPitch, 0.0f, 0.0f);
 
 				// rotate the player left and right
-				transform.Rotate(Vector3.up * _rotationVelocity);
+				transform.Rotate((!isInvertedLookHorizontal ? Vector3.up : Vector3.down) * _rotationVelocity);
 			}
 		}
 

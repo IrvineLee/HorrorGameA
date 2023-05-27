@@ -377,6 +377,24 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Default"",
+                    ""type"": ""Button"",
+                    ""id"": ""fdf461f3-9183-407b-a282-557a9335f36e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NotUsed"",
+                    ""type"": ""Button"",
+                    ""id"": ""89a09aad-4581-419c-89f6-2b7635732223"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -531,6 +549,39 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9791f9a7-4f65-49c8-8327-d7865ea4661c"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Default"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""306239ca-1c38-49b9-b907-822a8b0a41c5"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Default"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41069a9b-80bc-4a30-8444-3984a82c3eb7"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NotUsed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -889,6 +940,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
         m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+        m_UI_Default = m_UI.FindAction("Default", throwIfNotFound: true);
+        m_UI_NotUsed = m_UI.FindAction("NotUsed", throwIfNotFound: true);
         // Puzzle
         m_Puzzle = asset.FindActionMap("Puzzle", throwIfNotFound: true);
         m_Puzzle_GamepadSelection = m_Puzzle.FindAction("GamepadSelection", throwIfNotFound: true);
@@ -1037,6 +1090,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Move;
     private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_Cancel;
+    private readonly InputAction m_UI_Default;
+    private readonly InputAction m_UI_NotUsed;
     public struct UIActions
     {
         private @PlayerActionInput m_Wrapper;
@@ -1044,6 +1099,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_UI_Move;
         public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+        public InputAction @Default => m_Wrapper.m_UI_Default;
+        public InputAction @NotUsed => m_Wrapper.m_UI_NotUsed;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1062,6 +1119,12 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 @Cancel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
+                @Default.started -= m_Wrapper.m_UIActionsCallbackInterface.OnDefault;
+                @Default.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnDefault;
+                @Default.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnDefault;
+                @NotUsed.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNotUsed;
+                @NotUsed.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNotUsed;
+                @NotUsed.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNotUsed;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1075,6 +1138,12 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @Default.started += instance.OnDefault;
+                @Default.performed += instance.OnDefault;
+                @Default.canceled += instance.OnDefault;
+                @NotUsed.started += instance.OnNotUsed;
+                @NotUsed.performed += instance.OnNotUsed;
+                @NotUsed.canceled += instance.OnNotUsed;
             }
         }
     }
@@ -1179,6 +1248,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnDefault(InputAction.CallbackContext context);
+        void OnNotUsed(InputAction.CallbackContext context);
     }
     public interface IPuzzleActions
     {
