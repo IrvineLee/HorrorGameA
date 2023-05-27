@@ -733,11 +733,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
   m_PrefabInstance: {fileID: 1898336761}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &907643681 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3032468237786636186, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
-  m_PrefabInstance: {fileID: 2986983622955285967}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &919613944
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,10 +942,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 470641115}
     m_Modifications:
-    - target: {fileID: 3242726082678566683, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3503440407825620527, guid: 51ce8d1dc9dbcb94bbfa51c174ec4396, type: 3}
       propertyPath: m_Name
       value: NPCSpawner
@@ -1147,10 +1138,6 @@ PrefabInstance:
     - target: {fileID: 8762286023885395077, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_Name
       value: PlayerFollowCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 8762286023885395077, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_RootOrder
@@ -1629,10 +1616,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6173497528805261317, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
-      propertyPath: cinemachineCameraTarget
-      value: 
-      objectReference: {fileID: 907643681}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
 --- !u!4 &4135013737274646063 stripped

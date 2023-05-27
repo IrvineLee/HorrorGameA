@@ -38,8 +38,8 @@ namespace Puzzle.EightSlide
 
 			public BasicDirection? GetBasicDirection(int emptyIndex)
 			{
-				if (currentIndex - 1 == emptyIndex) return BasicDirection.Left;
-				else if (currentIndex + 1 == emptyIndex) return BasicDirection.Right;
+				if (currentIndex - 1 == emptyIndex && currentIndex % 3 != 0) return BasicDirection.Left;
+				else if (currentIndex + 1 == emptyIndex && (currentIndex + 1) % 3 != 0) return BasicDirection.Right;
 				else if (currentIndex - 3 == emptyIndex) return BasicDirection.Up;
 				else if (currentIndex + 3 == emptyIndex) return BasicDirection.Down;
 
