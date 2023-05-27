@@ -115,7 +115,7 @@ namespace Personal.Manager
 		/// <param name="gamepadIconIndex"></param>
 		public void SetGamepadIconIndex(int gamepadIconIndex)
 		{
-			this.gamepadIconIndex = gamepadIconIndex; Debug.Log(gamepadIconIndex);
+			this.gamepadIconIndex = gamepadIconIndex;
 
 			if (!UIManager.Instance.OptionUI.MenuParent.gameObject.activeSelf) return;
 			HandleIconInitials();

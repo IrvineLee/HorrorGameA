@@ -119,7 +119,7 @@ namespace Personal.Definition
 		}
 
 		/// ------------------------------------------------------------
-		/// -----------------------PUZZLE-------------------------------
+		/// -----------------------UI-------------------------------
 		/// ------------------------------------------------------------
 
 		void PlayerActionInput.IUIActions.OnDefault(InputAction.CallbackContext context)
@@ -141,6 +141,7 @@ namespace Personal.Definition
 		/// ----------------------NOT USED------------------------------
 		/// ------------------------------------------------------------
 
+		// To get triggers for analog movement to update UI icons.
 		void PlayerActionInput.IUIActions.OnNotUsed(InputAction.CallbackContext context) { }
 	}
 }

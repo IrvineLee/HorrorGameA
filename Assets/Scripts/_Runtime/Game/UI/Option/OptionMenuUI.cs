@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Personal.Manager;
 
 namespace Personal.UI.Option
 {
@@ -8,6 +9,11 @@ namespace Personal.UI.Option
 		[SerializeField] OptionHandlerUI.MenuTab menuTab = OptionHandlerUI.MenuTab.Graphic;
 
 		public OptionHandlerUI.MenuTab MenuTab { get => menuTab; }
+
+		protected virtual void OnEnable()
+		{
+			UIManager.Instance.OptionUI.SetCurrentMenuTab(menuTab);
+		}
 
 		/// <summary>
 		/// Initialize the value before displaying the menu to user.

@@ -6,7 +6,7 @@ namespace Personal.Setting.Game
 	[Serializable]
 	public class GameData
 	{
-		[SerializeField] float brightness = 1;
+		[SerializeField] float brightness = 0;
 		[SerializeField] float cameraSensitivity = 1;
 		[SerializeField] bool isInverLookHorizontal = false;
 		[SerializeField] bool isInvertLookVertical = false;

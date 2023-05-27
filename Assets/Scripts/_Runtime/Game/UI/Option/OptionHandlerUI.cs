@@ -25,6 +25,8 @@ namespace Personal.UI.Option
 
 		public static event Action<bool> OnMenuOpened;
 
+		MenuTab currentMenuTab;
+
 		public void Initialize()
 		{
 			foreach (var option in optionMenuUIList)
@@ -34,9 +36,12 @@ namespace Personal.UI.Option
 			}
 		}
 
+		public void SetCurrentMenuTab(MenuTab menuTab) { currentMenuTab = menuTab; }
+
 		public void OpenOptionWindow(MenuTab menuTab = MenuTab.Game)
 		{
 			SetupMenu(true);
+			currentMenuTab = menuTab;
 
 			// Open requested menu tab.
 			if (optionMenuUIDictionary.TryGetValue(menuTab, out OptionMenuUI optionMenuUI))
@@ -59,12 +64,23 @@ namespace Personal.UI.Option
 			loadingIcon.gameObject.SetActive(true);
 		}
 
-		public void CloseAllMenu()
+		public void CloseAllMenuTabs()
 		{
 			// Close all menu.
 			foreach (var option in optionMenuUIList)
 			{
 				option.gameObject.SetActive(false);
+			}
+		}
+
+		/// <summary>
+		/// Reset currently active option tab to default values.
+		/// </summary>
+		public void ResetToDefault()
+		{
+			if (optionMenuUIDictionary.TryGetValue(currentMenuTab, out OptionMenuUI optionMenuUI))
+			{
+				optionMenuUI.Default_Inspector();
 			}
 		}
 
@@ -78,7 +94,7 @@ namespace Personal.UI.Option
 			OnMenuOpened?.Invoke(isFlag);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 
-			CloseAllMenu();
+			CloseAllMenuTabs();
 		}
 	}
 }

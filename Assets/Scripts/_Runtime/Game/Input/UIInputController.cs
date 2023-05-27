@@ -20,6 +20,7 @@ namespace Personal.InputProcessing
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
 			inputReaderDefinition.OnCancelEvent += CloseOptionMenu;
+			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -42,6 +43,11 @@ namespace Personal.InputProcessing
 			UIManager.Instance.OptionUI.CloseOptionWindow();
 		}
 
+		void DefaultOptionMenu()
+		{
+			UIManager.Instance.OptionUI.ResetToDefault();
+		}
+
 		protected override void OnDisable()
 		{
 			if (!isAwakeCompleted) return;
@@ -50,6 +56,7 @@ namespace Personal.InputProcessing
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 			inputReaderDefinition.OnCancelEvent -= CloseOptionMenu;
+			inputReaderDefinition.OnMenuUIDefaultPressedEvent -= DefaultOptionMenu;
 
 			base.OnDisable();
 		}
