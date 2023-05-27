@@ -29,14 +29,17 @@ namespace Personal.Manager
 
 		bool IsInitialized()
 		{
-			if (GameStateBehaviour.Instance == null) return false;
-			if (GameSceneManager.Instance == null) return false;
-			if (UIManager.Instance == null) return false;
-			if (PoolManager.Instance == null) return false;
-			if (StageManager.Instance == null) return false;
-			if (InputManager.Instance == null) return false;
+			if (AudioManager.Instance == null) return false;
+			if (CursorManager.Instance == null) return false;
 			if (DebugManager.Instance == null) return false;
+			if (GameSceneManager.Instance == null) return false;
+			if (GameStateBehaviour.Instance == null) return false;
+			if (InputManager.Instance == null) return false;
+			if (PoolManager.Instance == null) return false;
+			if (RumbleManager.Instance == null) return false;
 			if (SaveManager.Instance == null) return false;
+			if (StageManager.Instance == null) return false;
+			if (UIManager.Instance == null) return false;
 			if (HelperObj.Instance == null) return false;
 
 			MasterDataManager.CreateInstance();
@@ -47,8 +50,10 @@ namespace Personal.Manager
 
 		async UniTask HandleProfileLoading()
 		{
-			SaveManager.Instance.LoadProfileData();
+			bool isNewlyCreated = SaveManager.Instance.LoadProfileData();
 			await UniTask.DelayFrame(10);
+
+			if (!isNewlyCreated) return;
 
 			// To make sure the profile gets created the 1st time around.
 			SaveManager.Instance.SaveProfileData();

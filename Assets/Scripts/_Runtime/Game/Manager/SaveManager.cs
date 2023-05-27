@@ -39,11 +39,12 @@ namespace Personal.Manager
 		/// <summary>
 		/// Load the current user data.
 		/// </summary>
-		public void LoadProfileData()
+		public bool LoadProfileData()
 		{
-			saveProfile = LoadPath<SaveProfile>(profileDirectory + profileFileName);
+			saveProfile = LoadPath<SaveProfile>(profileDirectory + profileFileName, out bool isNewlyCreated);
 
 			GameStateBehaviour.Instance.InitializeProfile(saveProfile);
+			return isNewlyCreated;
 		}
 
 		/// <summary>
@@ -69,7 +70,7 @@ namespace Personal.Manager
 
 			Action onCompleteAction = () => GameStateBehaviour.Instance.SetGameDataAndLoad(saveObject);
 
-			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), onCompleteAction);
+			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), out bool isNewlyCreated, onCompleteAction);
 			saveObject.PlayerSavedData.SlotID = slotID;
 
 			GameStateBehaviour.Instance.InitializeData(saveObject);
@@ -113,16 +114,20 @@ namespace Personal.Manager
 		/// <param name="path"></param>
 		/// <param name="onCompleteAction"></param>
 		/// <returns></returns>
-		T LoadPath<T>(string path, Action onCompleteAction = default) where T : GenericSave
+		T LoadPath<T>(string path, out bool isNewlyCreated, Action onCompleteAction = default) where T : GenericSave
 		{
 			T data = default(T);
 			long startTime = DateTime.Now.Ticks;
+
+			isNewlyCreated = false;
 			try
 			{
+
 				data = dataService.LoadData<T>(path, isEncryptionEnabled);
 				if (data == default)
 				{
 					data = GetTConstructor(data);
+					isNewlyCreated = true;
 				}
 
 				long loadTime = DateTime.Now.Ticks - startTime;
