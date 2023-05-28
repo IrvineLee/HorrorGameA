@@ -150,7 +150,7 @@ namespace Puzzle.EightSlide
 
 			await UniTask.WaitUntil(() => slideCR.IsDone);
 
-			isCompleted = true;
+			puzzleState = PuzzleState.Completed;
 			enabled = false;
 			Debug.Log("YOU WIN!");
 		}
@@ -162,6 +162,7 @@ namespace Puzzle.EightSlide
 		void IProcess.Begin(bool isFlag)
 		{
 			enabled = isFlag;
+			puzzleState = PuzzleState.None;
 		}
 
 		/// <summary>
@@ -170,7 +171,7 @@ namespace Puzzle.EightSlide
 		/// <returns></returns>
 		bool IProcess.IsCompleted()
 		{
-			return isCompleted;
+			return puzzleState == PuzzleState.Completed;
 		}
 
 		/// <summary>
@@ -179,7 +180,7 @@ namespace Puzzle.EightSlide
 		/// <returns></returns>
 		bool IProcess.IsFailed()
 		{
-			return isFailed;
+			return puzzleState == PuzzleState.Failed;
 		}
 
 		/// <summary>

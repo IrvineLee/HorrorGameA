@@ -45,7 +45,9 @@ namespace Personal.FSM.Character
 			Debug.Log("Hit interactable");
 
 			var interactable = hit.transform.GetComponentInChildren<InteractableObject>();
+
 			if (!interactable) return;
+			if (!interactable.enabled) return;
 
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerFSM;
 

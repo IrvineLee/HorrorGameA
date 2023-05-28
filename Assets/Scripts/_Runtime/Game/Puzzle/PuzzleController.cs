@@ -6,7 +6,12 @@ namespace Puzzle
 {
 	public class PuzzleController : GameInitialize
 	{
-		protected bool isCompleted;
-		protected bool isFailed;
+		public enum PuzzleState
+		{
+			None = 0,
+			Completed,
+			Failed,
+		}
+		protected PuzzleState puzzleState = PuzzleState.None;
 	}
 }

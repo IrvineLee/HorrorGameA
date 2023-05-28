@@ -165,33 +165,35 @@ namespace Puzzle.Pinwheel
 			{
 				if (pinwheel.IsMatchingColor()) continue;
 
-				isFailed = true;
+				puzzleState = PuzzleState.Failed;
 
 				Debug.Log("You failed! Try again.");
 				return;
 			}
 
-			isCompleted = true;
+			puzzleState = PuzzleState.Completed;
 			Debug.Log("YOU WIN!");
 		}
 
 		/// <summary>
-		/// Handle whether the puzzle has started.
+		/// Begin or end the puzzle.
 		/// </summary>
 		/// <param name="isFlag"></param>
 		void IProcess.Begin(bool isFlag)
 		{
 			enabled = isFlag;
-			isFailed = false;
 			EnableHitCollider(isFlag);
 
 			if (isFlag)
 			{
+				puzzleState = PuzzleState.None;
 				canvasGroupFade.BeginFadeIn();
 				return;
 			}
 
 			canvasGroupFade.BeginFadeOut();
+
+			if (puzzleState == PuzzleState.Completed) return;
 			ResetPuzzle();
 		}
 
@@ -201,7 +203,7 @@ namespace Puzzle.Pinwheel
 		/// <returns></returns>
 		bool IProcess.IsCompleted()
 		{
-			return isCompleted;
+			return puzzleState == PuzzleState.Completed;
 		}
 
 		/// <summary>
@@ -210,7 +212,7 @@ namespace Puzzle.Pinwheel
 		/// <returns></returns>
 		bool IProcess.IsFailed()
 		{
-			return isFailed;
+			return puzzleState == PuzzleState.Failed;
 		}
 
 		/// <summary>

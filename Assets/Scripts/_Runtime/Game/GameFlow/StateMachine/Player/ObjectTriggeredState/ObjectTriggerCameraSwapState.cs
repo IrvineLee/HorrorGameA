@@ -22,8 +22,6 @@ namespace Personal.FSM.Character
 			isRunning = null;
 
 			iProcess = iProcessTrans?.GetComponentInChildren<IProcess>();
-			if (iProcess.IsCompleted()) return;
-
 			virtualCam = GetComponentInChildren<CinemachineVirtualCamera>(true);
 
 			await ActivateCamera(true);
