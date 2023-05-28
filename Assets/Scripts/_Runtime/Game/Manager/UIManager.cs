@@ -10,9 +10,11 @@ namespace Personal.Manager
 	public class UIManager : GameInitializeSingleton<UIManager>
 	{
 		[SerializeField] OptionHandlerUI optionUI = null;
+		[SerializeField] CinematicBars cinematicBars = null;
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
 		public OptionHandlerUI OptionUI { get => optionUI; }
+		public CinematicBars CinematicBars { get => cinematicBars; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
 		// TODO : Should handle all the other UI here as well.
