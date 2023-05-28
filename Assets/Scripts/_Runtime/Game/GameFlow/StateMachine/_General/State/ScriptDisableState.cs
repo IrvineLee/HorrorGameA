@@ -15,8 +15,8 @@ namespace Personal.FSM.Character
 		{
 			await base.OnEnter();
 
-			IProcess iProcess = iProcessTrans.GetComponentInChildren<IProcess>();
-			if (iProcess != null) return;
+			IProcess iProcess = iProcessTrans.GetComponentInChildren<IProcess>(true);
+			if (iProcess == null) return;
 			if (!iProcess.IsCompleted()) return;
 
 			foreach (var script in scriptList)
