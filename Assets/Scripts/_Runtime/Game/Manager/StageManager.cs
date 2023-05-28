@@ -34,7 +34,7 @@ namespace Personal.Manager
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 			PlayerFSM = FindObjectOfType<PlayerStateMachine>();
 
-			OptionHandlerUI.OnMenuOpened += Pause;
+			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
 		}
 
 		public void RegisterCashierNPCSpawner(CashierNPCSpawner cashierNPCSpawner)
@@ -56,9 +56,9 @@ namespace Personal.Manager
 			PlayerFSM.FPSController.enabled = !isFlag;
 		}
 
-		void OnDestroy()
+		void OnApplicationQuit()
 		{
-			OptionHandlerUI.OnMenuOpened -= Pause;
+			UIManager.Instance.OptionUI.OnMenuOpened -= Pause;
 		}
 	}
 }

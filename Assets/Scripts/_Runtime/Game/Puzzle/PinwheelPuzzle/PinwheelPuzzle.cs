@@ -31,6 +31,7 @@ namespace Puzzle.Pinwheel
 		[AssetsOnly]
 		[SerializeField] Transform rotateOffsetPrefab = null;
 		[ChildGameObjectsOnly]
+		[SerializeField] CanvasGroupFade canvasGroupFade = null;
 		[SerializeField] TextMeshProUGUI turnRemainTMP = null;
 
 		[Space]
@@ -165,7 +166,6 @@ namespace Puzzle.Pinwheel
 				if (pinwheel.IsMatchingColor()) continue;
 
 				isFailed = true;
-				ResetPuzzle();
 
 				Debug.Log("You failed! Try again.");
 				return;
@@ -184,6 +184,15 @@ namespace Puzzle.Pinwheel
 			enabled = isFlag;
 			isFailed = false;
 			EnableHitCollider(isFlag);
+
+			if (isFlag)
+			{
+				canvasGroupFade.BeginFadeIn();
+				return;
+			}
+
+			canvasGroupFade.BeginFadeOut();
+			ResetPuzzle();
 		}
 
 		/// <summary>

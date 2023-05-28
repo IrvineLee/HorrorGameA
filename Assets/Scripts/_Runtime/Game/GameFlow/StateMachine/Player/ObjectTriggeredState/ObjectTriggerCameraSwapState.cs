@@ -12,13 +12,14 @@ namespace Personal.FSM.Character
 		[SerializeField] Transform iProcessTrans = null;
 
 		protected CinemachineVirtualCamera virtualCam;
-		protected bool isRunning;
+		protected bool? isRunning;
 
 		IProcess iProcess;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
+			isRunning = null;
 
 			iProcess = iProcessTrans?.GetComponentInChildren<IProcess>();
 			if (iProcess.IsCompleted()) return;
@@ -28,11 +29,14 @@ namespace Personal.FSM.Character
 			await ActivateCamera(true);
 
 			iProcess.Begin(true);
-			await UniTask.WaitUntil(() => !isRunning);
+			isRunning = true;
+			await UniTask.WaitUntil(() => !(bool)isRunning);
 		}
 
 		public override void OnUpdate()
 		{
+			if (isRunning == null) return;
+
 			if (InputManager.Instance.IsCancel ||
 				(iProcessTrans != null && (iProcess.IsCompleted() || iProcess.IsFailed())))
 			{

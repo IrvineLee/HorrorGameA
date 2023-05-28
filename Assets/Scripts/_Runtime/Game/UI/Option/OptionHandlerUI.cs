@@ -19,12 +19,11 @@ namespace Personal.UI.Option
 		[SerializeField] Transform loadingIcon = null;
 		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
 
-		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
-
 		public Transform MenuParent { get => menuParent; }
 
-		public static event Action<bool> OnMenuOpened;
+		public event Action<bool> OnMenuOpened;
 
+		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
 		MenuTab currentMenuTab;
 
 		public void Initialize()
