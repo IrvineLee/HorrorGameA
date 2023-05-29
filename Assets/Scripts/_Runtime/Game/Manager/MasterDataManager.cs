@@ -13,11 +13,13 @@ namespace Personal.Manager
 		[SerializeField] MasterSFX sfx = null;
 		[SerializeField] MasterItem item = null;
 		[SerializeField] MasterCashierNPC cashierNPC = null;
+		[SerializeField] MasterDialogUI masterDialogUI = null;
 
 		public MasterBGM Bgm { get => bgm; }
 		public MasterSFX Sfx { get => sfx; }
 		public MasterItem Item { get => item; }
 		public MasterCashierNPC CashierNPC { get => cashierNPC; }
+		public MasterDialogUI MasterDialogUI { get => masterDialogUI; }
 
 		static AsyncOperationHandle<MasterDataManager> handle;
 

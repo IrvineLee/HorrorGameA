@@ -1,7 +1,10 @@
-using Personal.Manager;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+using Personal.Manager;
+using Personal.UI.Dialog;
+using static Personal.UI.Dialog.DialogBoxHandlerUI;
 
 namespace Personal.UI.Option
 {
@@ -17,7 +20,7 @@ namespace Personal.UI.Option
 
 		[SerializeField] Transform menuParent = null;
 		[SerializeField] Transform loadingIcon = null;
-		[SerializeField] List<OptionMenuUI> optionMenuUIList = null;
+		[SerializeField] List<OptionMenuUI> optionMenuUIList = new();
 
 		public Transform MenuParent { get => menuParent; }
 
@@ -77,10 +80,15 @@ namespace Personal.UI.Option
 		/// </summary>
 		public void ResetToDefault()
 		{
-			if (optionMenuUIDictionary.TryGetValue(currentMenuTab, out OptionMenuUI optionMenuUI))
-			{
-				optionMenuUI.Default_Inspector();
-			}
+			if (!optionMenuUIDictionary.TryGetValue(currentMenuTab, out OptionMenuUI optionMenuUI)) return;
+
+			var dialogDisplayType = DialogDisplayType.DialogButtonConfirmationBox;
+			var buttonDisplayType = ButtonDisplayType.Two_YesNo;
+			var dialogEntity = MasterDataManager.Instance.MasterDialogUI.Get(MasterDialogUI.DialogueUIType.DefaultButton);
+
+			Action yesAction = () => optionMenuUI.Default_Inspector();
+			UIManager.Instance.DialogBoxUI.OpenDialogBox(dialogDisplayType, buttonDisplayType,
+				dialogEntity.title_EN, dialogEntity.description_EN, yesAction);
 		}
 
 		/// <summary>

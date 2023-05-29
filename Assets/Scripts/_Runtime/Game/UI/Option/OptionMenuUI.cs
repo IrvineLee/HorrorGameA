@@ -28,7 +28,7 @@ namespace Personal.UI.Option
 		/// <summary>
 		/// Pressing the OK button.
 		/// </summary>
-		public override void Save_Inspector() { }
+		public virtual void Save_Inspector() { }
 
 		/// <summary>
 		/// Pressing the Default button.

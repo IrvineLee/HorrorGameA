@@ -40,7 +40,14 @@ namespace Personal.InputProcessing
 
 		void CloseOptionMenu()
 		{
-			UIManager.Instance.OptionUI.CloseOptionWindow();
+			if (UIManager.Instance.DialogBoxUI.DialogBoxStack.Count == 0)
+			{
+				UIManager.Instance.OptionUI.CloseOptionWindow();
+				return;
+			}
+
+			var stack = UIManager.Instance.DialogBoxUI.DialogBoxStack;
+			stack.Peek().CancelAction();
 		}
 
 		void DefaultOptionMenu()
