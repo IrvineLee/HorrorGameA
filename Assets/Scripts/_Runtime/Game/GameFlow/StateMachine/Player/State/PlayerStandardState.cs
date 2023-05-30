@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.System.Handler;
 using Personal.Constant;
+using Personal.Object;
 
 namespace Personal.FSM.Character
 {
@@ -49,7 +50,7 @@ namespace Personal.FSM.Character
 			if (!interactable) return;
 			if (!interactable.enabled) return;
 
-			PlayerStateMachine playerFSM = StageManager.Instance.PlayerFSM;
+			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
 
 			interactable.HandleInteraction(stateMachine, () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget()).Forget();
 			playerFSM.SwitchToState(typeof(PlayerIdleState)).Forget();

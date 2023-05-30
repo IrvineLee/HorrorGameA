@@ -6,9 +6,9 @@ using Personal.FSM;
 using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
 
-namespace Personal.Manager
+namespace Personal.Object
 {
-	public class InteractableObject : GameInitialize
+	public abstract class InteractableObject : GameInitialize
 	{
 		public enum InteractType
 		{

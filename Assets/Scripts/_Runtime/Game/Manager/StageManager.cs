@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Spawner;
-using Personal.FSM.Character;
-using Personal.UI.Option;
-using Cysharp.Threading.Tasks;
-using PixelCrushers;
+using Personal.Character.Player;
 using Cinemachine;
 
 namespace Personal.Manager
@@ -20,7 +18,7 @@ namespace Personal.Manager
 
 		public Camera MainCamera { get; private set; }
 		public CinemachineBrain CinemachineBrain { get; private set; }
-		public PlayerStateMachine PlayerFSM { get; private set; }
+		public PlayerController PlayerController { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
 
 		public int DayIndex { get; private set; }
@@ -32,7 +30,7 @@ namespace Personal.Manager
 
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
-			PlayerFSM = FindObjectOfType<PlayerStateMachine>();
+			PlayerController = FindObjectOfType<PlayerController>();
 
 			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
 		}
@@ -53,7 +51,7 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			CursorManager.Instance.SetToMouseCursor(isFlag);
-			PlayerFSM.FPSController.enabled = !isFlag;
+			PlayerController.FSM.FPSController.enabled = !isFlag;
 		}
 
 		void OnApplicationQuit()

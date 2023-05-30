@@ -10,7 +10,7 @@ namespace Personal.FSM.Character
 	{
 		protected override Transform GetLookAtTarget()
 		{
-			return StageManager.Instance.PlayerFSM.transform;
+			return StageManager.Instance.PlayerController.FSM.transform;
 		}
 	}
 }

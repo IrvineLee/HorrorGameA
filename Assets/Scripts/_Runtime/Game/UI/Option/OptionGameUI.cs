@@ -38,7 +38,7 @@ namespace Personal.UI.Option
 		{
 			await base.Initialize();
 
-			fpsController = StageManager.Instance.PlayerFSM.FPSController;
+			fpsController = StageManager.Instance.PlayerController.FSM.FPSController;
 
 			InitializeVolumeProfile();
 			HandleLoadDataToUI();

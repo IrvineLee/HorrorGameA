@@ -10,7 +10,7 @@ namespace Personal.FSM.Character
 			await base.OnEnter();
 
 			// Somewhere else will change the state of player.
-			PlayerStateMachine playerFSM = StageManager.Instance.PlayerFSM;
+			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
 			await UniTask.WaitUntil(() => playerFSM.CurrentState.GetType() != typeof(PlayerIdleState));
 		}
 	}

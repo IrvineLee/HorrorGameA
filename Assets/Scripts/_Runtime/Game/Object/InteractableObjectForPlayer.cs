@@ -3,9 +3,9 @@ using UnityEngine;
 
 using Personal.FSM;
 using Cysharp.Threading.Tasks;
-using Personal.InputProcessing;
+using Personal.Manager;
 
-namespace Personal.Manager
+namespace Personal.Object
 {
 	public class InteractableObjectForPlayer : InteractableObject
 	{
@@ -13,8 +13,8 @@ namespace Personal.Manager
 		{
 			if (interactType == InteractType.Pickupable)
 			{
-				//// TODO: Item enter into inventory.
-				//Debug.Log(hit.transform.name);
+				StageManager.Instance.PlayerController.Inventory.AddItem(this);
+				gameObject.SetActive(false);
 			}
 			else if (interactType == InteractType.StateChange)
 			{

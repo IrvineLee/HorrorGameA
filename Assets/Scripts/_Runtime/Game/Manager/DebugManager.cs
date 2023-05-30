@@ -53,7 +53,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
-				StageManager.Instance.PlayerFSM.enabled = false;
+				StageManager.Instance.PlayerController.FSM.enabled = false;
 				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor();
 			}
 		}
