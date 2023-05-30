@@ -191,10 +191,11 @@ namespace Puzzle.Pinwheel
 				return;
 			}
 
-			canvasGroupFade.BeginFadeOut();
-
-			if (puzzleState == PuzzleState.Completed) return;
-			ResetPuzzle();
+			canvasGroupFade.BeginFadeOut(() =>
+			{
+				if (puzzleState == PuzzleState.Completed) return;
+				ResetPuzzle();
+			});
 		}
 
 		/// <summary>

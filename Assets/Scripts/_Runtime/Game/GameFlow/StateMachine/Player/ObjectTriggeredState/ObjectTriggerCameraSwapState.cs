@@ -56,6 +56,16 @@ namespace Personal.FSM.Character
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;
+			await WaitCameraBlend();
+		}
+
+		public override async UniTask CheckComparison()
+		{
+			await WaitCameraBlend();
+		}
+
+		async UniTask WaitCameraBlend()
+		{
 			await UniTask.WaitUntil(() => StageManager.Instance && !StageManager.Instance.CinemachineBrain.IsBlending);
 		}
 	}

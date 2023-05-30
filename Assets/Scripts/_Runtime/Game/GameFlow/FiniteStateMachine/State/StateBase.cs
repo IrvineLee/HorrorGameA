@@ -57,5 +57,11 @@ namespace Personal.FSM
 			await UniTask.Delay(0);
 			isEntered = false;
 		}
+
+		/// <summary>
+		/// This is typically used in CompareState script to halt the state before moving on.
+		/// </summary>
+		/// <returns></returns>
+		public virtual UniTask CheckComparison() { return UniTask.Delay(0); }
 	}
 }
