@@ -7,6 +7,9 @@ namespace Personal
 	{
         public const string Actor_NPC_01                    = "Actor_NPC_01";
         public const string CashParent                      = "CashParent";
+        public const string Dialog_1Button_Ok               = "Dialog_1Button_Ok";
+        public const string Dialog_2Button_YesNo            = "Dialog_2Button_YesNo";
+        public const string DialogButtonConfirmationBox     = "DialogButtonConfirmationBox";
         public const string Effects_Effect_01               = "Effects/Effect_01";
         public const string ItemParent_Day01_01             = "ItemParent_Day01_01";
         public const string MasterDataManager               = "MasterDataManager";

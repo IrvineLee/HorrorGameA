@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 
 using TMPro;
-using static Personal.UI.Dialog.DialogBoxHandlerUI;
+using static Personal.UI.Dialog.DialogBoxEnum;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Dialog
 {
@@ -16,41 +17,49 @@ namespace Personal.UI.Dialog
 		[SerializeField] TextMeshProUGUI titleTMP = null;
 		[SerializeField] TextMeshProUGUI descriptionTMP = null;
 
-		public virtual void SetOneButtonOk(DialogBoxMenuUI dialogBoxMenuUI, string title, string message, Action action, string buttonText = default)
-		{
-			DialogBoxButtonPress buttonPress = dialogBoxHandlerUI.GetDialogButtonPress(ButtonDisplayType.One_Ok);
+		RectTransform rectTransform;
 
+		public async override UniTask Initialize()
+		{
+			await base.Initialize();
+
+			rectTransform = GetComponentInChildren<RectTransform>();
+		}
+
+		public void SetSize(Vector2 size)
+		{
+			rectTransform.sizeDelta = size;
+		}
+
+		public virtual void SetOneButtonOk(DialogBoxButtonPress buttonPress, string title, string message, Action action, string buttonText = default)
+		{
 			Action addListenerAction = () =>
 			{
-				Action onPressed = SetupOnButtonPressedAction(dialogBoxMenuUI, buttonPress, action);
+				Action onPressed = SetupOnButtonPressedAction(transform, action);
 				CancelAction = onPressed;
 
 				// Enable the correct buttons.
 				buttonPress.AddListenerToButtonOnce(onPressed, buttonText);
-				buttonPress.gameObject.SetActive(true);
 			};
 			SetupButton(title, message, addListenerAction);
 		}
 
-		public virtual void SetTwoButtonYesNo(DialogBoxMenuUI dialogBoxMenuUI, string title, string message, Action action01, Action action02,
+		public virtual void SetTwoButtonYesNo(DialogBoxButtonPress buttonPress, string title, string message, Action action01, Action action02,
 											   string buttonText01 = default, string buttonText02 = default)
 		{
-			DialogBoxButtonPress buttonPress = dialogBoxHandlerUI.GetDialogButtonPress(ButtonDisplayType.Two_YesNo);
-
 			Action addListenerAction = () =>
 			{
-				Action onPressed01 = SetupOnButtonPressedAction(dialogBoxMenuUI, buttonPress, action01);
-				Action onPressed02 = SetupOnButtonPressedAction(dialogBoxMenuUI, buttonPress, action02);
+				Action onPressed01 = SetupOnButtonPressedAction(transform, action01);
+				Action onPressed02 = SetupOnButtonPressedAction(transform, action02);
 				CancelAction = onPressed02;
 
 				// Enable the correct buttons.
 				buttonPress.AddListenerToButtonOnce(onPressed01, onPressed02, buttonText01, buttonText02);
-				buttonPress.gameObject.SetActive(true);
 			};
 			SetupButton(title, message, addListenerAction);
 		}
 
-		public virtual void SetThreeButton(DialogBoxMenuUI dialogBoxMenuUIBase, string title, string message, Action action01, Action action02, Action action03,
+		public virtual void SetThreeButton(DialogBoxButtonPress buttonPress, string title, string message, Action action01, Action action02, Action action03,
 											string buttonText01 = default, string buttonText02 = default, string buttonText03 = default)
 		{ }
 
@@ -62,18 +71,14 @@ namespace Personal.UI.Dialog
 			addListenerAction?.Invoke();
 		}
 
-		Action SetupOnButtonPressedAction(DialogBoxMenuUI dialogBoxMenuUI, DialogBoxButtonPress buttonPress, Action action)
+		Action SetupOnButtonPressedAction(Transform dialogTrans, Action action)
 		{
 			return () =>
 			{
 				action?.Invoke();
 
-				// Disable the dialogBox and buttons.
-				buttonPress.gameObject.SetActive(false);
-				dialogBoxMenuUI.gameObject.SetActive(false);
-				CancelAction = null;
-
-				// Remove from stack.
+				// Disable the dialogBox and remove from stack.
+				dialogTrans.gameObject.SetActive(false);
 				dialogBoxHandlerUI.DialogBoxStack.Pop();
 			};
 		}

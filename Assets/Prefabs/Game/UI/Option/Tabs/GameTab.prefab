@@ -261,8 +261,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Personal.UI.Option.OptionGraphicUI, Assembly-CSharp
+      - m_Target: {fileID: 8527729800716091152}
+        m_TargetAssemblyTypeName: Personal.UI.Option.OptionGameUI, Assembly-CSharp
         m_MethodName: Save_Inspector
         m_Mode: 1
         m_Arguments:
@@ -432,7 +432,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4585257011102468911}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1494,6 +1494,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InvertLookVerticalToggle
       objectReference: {fileID: 0}
+    - target: {fileID: 7102021123319014031, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+      propertyPath: m_Name
+      value: Toggle
+      objectReference: {fileID: 0}
     - target: {fileID: 7425786582850207470, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2277,6 +2281,10 @@ PrefabInstance:
     - target: {fileID: 6003200131760449566, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
       propertyPath: m_Name
       value: InvertLookHorizontalToggle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7102021123319014031, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+      propertyPath: m_Name
+      value: Toggle
       objectReference: {fileID: 0}
     - target: {fileID: 7425786582850207470, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
       propertyPath: m_Pivot.x

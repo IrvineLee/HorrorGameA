@@ -57,18 +57,7 @@ namespace Personal.UI.Dialog
 		{
 			if (buttonText != default) buttonTextInfo.SetTMP(buttonText);
 
-			buttonTextInfo.Button.onClick.AddListener(() =>
-			{
-				// The action to do when button is pressed.
-				action?.Invoke();
-
-				// Reset the button after pressing it.
-				foreach (var buttonTextInfo in buttonTextInfoList)
-				{
-					buttonTextInfo.Button.onClick.RemoveAllListeners();
-					buttonTextInfo.ResetTMP();
-				}
-			});
+			buttonTextInfo.Button.onClick.AddListener(() => action?.Invoke());
 		}
 	}
 }

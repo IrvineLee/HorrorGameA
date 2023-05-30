@@ -34,7 +34,6 @@ namespace Personal.Manager
 		{
 			// Option UI initialize.
 			OptionUI.Initialize();
-			dialogBoxUI.Initialize();
 		}
 	}
 }

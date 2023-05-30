@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.UI.Dialog;
-using static Personal.UI.Dialog.DialogBoxHandlerUI;
+using static Personal.UI.Dialog.DialogBoxEnum;
 
 namespace Personal.UI.Option
 {
@@ -82,13 +81,8 @@ namespace Personal.UI.Option
 		{
 			if (!optionMenuUIDictionary.TryGetValue(currentMenuTab, out OptionMenuUI optionMenuUI)) return;
 
-			var dialogDisplayType = DialogDisplayType.DialogButtonConfirmationBox;
-			var buttonDisplayType = ButtonDisplayType.Two_YesNo;
-			var dialogEntity = MasterDataManager.Instance.MasterDialogUI.Get(MasterDialogUI.DialogueUIType.DefaultButton);
-
 			Action yesAction = () => optionMenuUI.Default_Inspector();
-			UIManager.Instance.DialogBoxUI.OpenDialogBox(dialogDisplayType, buttonDisplayType,
-				dialogEntity.title_EN, dialogEntity.description_EN, yesAction);
+			_ = UIManager.Instance.DialogBoxUI.OpenDialogBox(DialogUIType.DefaultButton, yesAction);
 		}
 
 		/// <summary>

@@ -3,24 +3,19 @@ using UnityEngine;
 
 using Personal.Data;
 using Helper;
-using static MasterDialogUI;
+using static Personal.UI.Dialog.DialogBoxEnum;
 
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
-public class MasterDialogUI : MasterGeneric<DialogUIEntity, DialogueUIType>
+public class MasterDialogUI : MasterGeneric<DialogUIEntity, DialogUIType>
 {
-	public enum DialogueUIType
-	{
-		DefaultButton = 0,
-	}
-
 	public override void OnAfterDeserialize()
 	{
-		dictionary = new Dictionary<DialogueUIType, DialogUIEntity>();
+		dictionary = new Dictionary<DialogUIType, DialogUIEntity>();
 
 		// Somehow using Linq to change it to dictionary makes the comparing resutls not work.
 		foreach (var entity in Entities)
 		{
-			dictionary.Add(entity.dialogueUIType, entity);
+			dictionary.Add(entity.dialogUIType, entity);
 		}
 	}
 
@@ -29,9 +24,9 @@ public class MasterDialogUI : MasterGeneric<DialogUIEntity, DialogueUIType>
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns></returns>
-	public override DialogUIEntity Get(DialogueUIType dialogueUIType)
+	public override DialogUIEntity Get(DialogUIType dialogUIType)
 	{
-		var result = Dictionary.GetOrDefault(dialogueUIType);
+		var result = Dictionary.GetOrDefault(dialogUIType);
 		return result;
 	}
 }
