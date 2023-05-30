@@ -89,6 +89,24 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseScrollInventory"",
+                    ""type"": ""Value"",
+                    ""id"": ""8676fe9b-1b6e-47b5-8223-2479ee861ec0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ButtonScrollInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d97ab98-c59d-4cb9-b787-56fa29c11d43"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -344,6 +362,50 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""action"": ""OptionMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""070b1450-4d85-4c12-b0f1-2bf7350ab88d"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""MouseScrollInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""9eb91a1e-624c-4ec8-b1cf-ef46673c233a"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonScrollInventory"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""b3c8c24e-cfe9-4e0b-bf3a-a483380c4016"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonScrollInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""fe573a84-746c-421f-87a4-675bf93335c5"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ButtonScrollInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -935,6 +997,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_InventoryMenu = m_Player.FindAction("InventoryMenu", throwIfNotFound: true);
         m_Player_OptionMenu = m_Player.FindAction("OptionMenu", throwIfNotFound: true);
+        m_Player_MouseScrollInventory = m_Player.FindAction("MouseScrollInventory", throwIfNotFound: true);
+        m_Player_ButtonScrollInventory = m_Player.FindAction("ButtonScrollInventory", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -1013,6 +1077,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_InventoryMenu;
     private readonly InputAction m_Player_OptionMenu;
+    private readonly InputAction m_Player_MouseScrollInventory;
+    private readonly InputAction m_Player_ButtonScrollInventory;
     public struct PlayerActions
     {
         private @PlayerActionInput m_Wrapper;
@@ -1024,6 +1090,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @InventoryMenu => m_Wrapper.m_Player_InventoryMenu;
         public InputAction @OptionMenu => m_Wrapper.m_Player_OptionMenu;
+        public InputAction @MouseScrollInventory => m_Wrapper.m_Player_MouseScrollInventory;
+        public InputAction @ButtonScrollInventory => m_Wrapper.m_Player_ButtonScrollInventory;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1054,6 +1122,12 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 @OptionMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionMenu;
                 @OptionMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionMenu;
                 @OptionMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionMenu;
+                @MouseScrollInventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseScrollInventory;
+                @MouseScrollInventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseScrollInventory;
+                @MouseScrollInventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseScrollInventory;
+                @ButtonScrollInventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonScrollInventory;
+                @ButtonScrollInventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonScrollInventory;
+                @ButtonScrollInventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonScrollInventory;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1079,6 +1153,12 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 @OptionMenu.started += instance.OnOptionMenu;
                 @OptionMenu.performed += instance.OnOptionMenu;
                 @OptionMenu.canceled += instance.OnOptionMenu;
+                @MouseScrollInventory.started += instance.OnMouseScrollInventory;
+                @MouseScrollInventory.performed += instance.OnMouseScrollInventory;
+                @MouseScrollInventory.canceled += instance.OnMouseScrollInventory;
+                @ButtonScrollInventory.started += instance.OnButtonScrollInventory;
+                @ButtonScrollInventory.performed += instance.OnButtonScrollInventory;
+                @ButtonScrollInventory.canceled += instance.OnButtonScrollInventory;
             }
         }
     }
@@ -1242,6 +1322,8 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnInventoryMenu(InputAction.CallbackContext context);
         void OnOptionMenu(InputAction.CallbackContext context);
+        void OnMouseScrollInventory(InputAction.CallbackContext context);
+        void OnButtonScrollInventory(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

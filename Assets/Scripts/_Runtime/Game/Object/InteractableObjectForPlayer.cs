@@ -14,17 +14,19 @@ namespace Personal.Object
 			if (interactType == InteractType.Pickupable)
 			{
 				StageManager.Instance.PlayerController.Inventory.AddItem(this);
-				gameObject.SetActive(false);
+				currentCollider.enabled = false;
+
+				await UniTask.Yield();
 			}
 			else if (interactType == InteractType.StateChange)
 			{
 				InputManager.Instance.EnableActionMap(actionMapType);
 
 				await orderedStateMachine.Initialize(null, interactionAssign);
-
-				doLast?.Invoke();
-				InputManager.Instance.SetToDefaultActionMap();
 			}
+
+			doLast?.Invoke();
+			InputManager.Instance.SetToDefaultActionMap();
 		}
 	}
 }

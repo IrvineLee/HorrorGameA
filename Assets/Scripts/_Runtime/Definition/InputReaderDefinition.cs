@@ -31,7 +31,6 @@ namespace Personal.Definition
 		public event Action<Vector2> OnMoveEvent;
 
 		public event Action<bool> OnJumpEvent;
-
 		public event Action<bool> OnSprintEvent;
 
 		public event Action OnInteractEvent;
@@ -40,6 +39,8 @@ namespace Personal.Definition
 		public event Action OnInventoryUIPressedEvent;
 		public event Action OnMenuUIPressedEvent;
 		public event Action OnMenuUIDefaultPressedEvent;
+
+		public event Action<float> OnInventoryScrolledEvent;
 
 		public event Action<Vector2> OnDpadEvent;
 
@@ -107,6 +108,18 @@ namespace Personal.Definition
 		void PlayerActionInput.IPlayerActions.OnOptionMenu(InputAction.CallbackContext context)
 		{
 			SetButtonEvent(context.started, OnMenuUIPressedEvent);
+		}
+
+		void PlayerActionInput.IPlayerActions.OnMouseScrollInventory(InputAction.CallbackContext context)
+		{
+			if (!context.started) return;
+			OnInventoryScrolledEvent?.Invoke(context.ReadValue<float>());
+		}
+
+		void PlayerActionInput.IPlayerActions.OnButtonScrollInventory(InputAction.CallbackContext context)
+		{
+			if (!context.started) return;
+			OnInventoryScrolledEvent?.Invoke(context.ReadValue<float>());
 		}
 
 		/// ------------------------------------------------------------

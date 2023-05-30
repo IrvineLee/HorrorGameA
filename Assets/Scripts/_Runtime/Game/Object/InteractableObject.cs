@@ -21,6 +21,7 @@ namespace Personal.Object
 
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
+		protected Collider currentCollider;
 
 		protected override async UniTask Awake()
 		{
@@ -28,6 +29,7 @@ namespace Personal.Object
 
 			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
 			interactionAssign = GetComponentInChildren<InteractionAssign>();
+			currentCollider = GetComponentInChildren<Collider>();
 		}
 
 		public virtual async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast) { await UniTask.Delay(0); }

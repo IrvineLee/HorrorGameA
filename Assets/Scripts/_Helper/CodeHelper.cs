@@ -49,34 +49,6 @@ namespace Helper
 			return finishedList;
 		}
 
-		/// <summary>
-		/// Returns the first value in the list if 'index' is over or below the list count.
-		/// This is to avoid the 'index' going out of bounds.
-		/// </summary>
-		public static T GetObjectFromList<T>(int index, List<T> list) where T : Object
-		{
-			if (index >= 0 && index < list.Count) return list[index];
-			else if (list.Count > 0) return list[0];
-
-			return default;
-		}
-
-		/// <summary>
-		/// Get a random enum from 'enumList' without the value of 'without'.
-		/// </summary>
-		public static T GetRandomEnumWithout<T>(List<T> enumList, T without) where T : System.Enum
-		{
-			T enumValue = (T)(object)(0);
-			do
-			{
-				int randNum = Random.Range(0, enumList.Count);
-				enumValue = enumList[randNum];
-
-			} while (EqualityComparer<T>.Default.Equals(enumValue, without));
-
-			return enumValue;
-		}
-
 		#endregion
 
 		#region Dictionary
