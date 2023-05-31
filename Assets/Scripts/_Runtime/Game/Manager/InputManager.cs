@@ -10,6 +10,7 @@ using Personal.InputProcessing;
 using Personal.Definition;
 using Helper;
 using Personal.Setting.Game;
+using static Personal.Definition.InputReaderDefinition;
 
 namespace Personal.Manager
 {
@@ -81,6 +82,17 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// Get input controller info.
+		/// </summary>
+		/// <param name="actionMap"></param>
+		/// <returns></returns>
+		public InputControllerInfo GetInputControllerInfo(ActionMapType actionMap)
+		{
+			inputReaderDefinition.InputActionMapDictionary.TryGetValue(actionMap, out var inputActionMap);
+			return inputActionMap;
+		}
+
+		/// <summary>
 		/// Enable action map type.
 		/// </summary>
 		/// <param name="actionMap"></param>
@@ -89,14 +101,12 @@ namespace Personal.Manager
 			// Disable all action map.
 			foreach (var map in inputReaderDefinition.InputActionMapDictionary)
 			{
-				map.Value.InputActionMap.Disable();
-				map.Value.InputController.enabled = false;
+				map.Value.Enable(false);
 			}
 
-			// Enable specified actin map.
-			inputReaderDefinition.InputActionMapDictionary.TryGetValue(actionMap, out var inputActionMap);
-			inputActionMap.InputActionMap.Enable();
-			inputActionMap.InputController.enabled = true;
+			// Enable specified action map.
+			var inputControllerInfo = GetInputControllerInfo(actionMap);
+			inputControllerInfo.Enable(true);
 
 			CurrentActionMapType = actionMap;
 		}

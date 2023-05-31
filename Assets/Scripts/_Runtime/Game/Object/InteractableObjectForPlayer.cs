@@ -15,6 +15,7 @@ namespace Personal.Object
 			{
 				StageManager.Instance.PlayerController.Inventory.AddItem(this);
 				currentCollider.enabled = false;
+				meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
 				await UniTask.Yield();
 			}

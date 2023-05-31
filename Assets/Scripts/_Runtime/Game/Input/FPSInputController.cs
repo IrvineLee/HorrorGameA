@@ -25,7 +25,9 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnCancelEvent += CancelInput;
 
 			inputReaderDefinition.OnMenuUIPressedEvent += OpenOptionMenu;
-			inputReaderDefinition.OnInventoryScrolledEvent += ScrollInventory;
+
+			inputReaderDefinition.OnInventoryNextPreviousEvent += InventoryNextPrevious;
+			inputReaderDefinition.OnInventoryIndexSelectEvent += InventoryIndexSelect;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -66,10 +68,15 @@ namespace Personal.InputProcessing
 			optionHandlerUI.OpenOptionWindow();
 		}
 
-		void ScrollInventory(float value)
+		void InventoryNextPrevious(int value)
 		{
 			if (value == 0) return;
-			StageManager.Instance.PlayerController.Inventory.MouseScrollView(value > 0);
+			StageManager.Instance.PlayerController.Inventory.NextItem(value > 0);
+		}
+
+		void InventoryIndexSelect(int number)
+		{
+			StageManager.Instance.PlayerController.Inventory.KeyboardButtonSelect(number - 1);
 		}
 
 		protected override void OnDisable()
@@ -86,7 +93,9 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnCancelEvent -= CancelInput;
 
 			inputReaderDefinition.OnMenuUIPressedEvent -= OpenOptionMenu;
-			inputReaderDefinition.OnInventoryScrolledEvent -= ScrollInventory;
+
+			inputReaderDefinition.OnInventoryNextPreviousEvent -= InventoryNextPrevious;
+			inputReaderDefinition.OnInventoryIndexSelectEvent -= InventoryIndexSelect;
 
 			base.OnDisable();
 		}

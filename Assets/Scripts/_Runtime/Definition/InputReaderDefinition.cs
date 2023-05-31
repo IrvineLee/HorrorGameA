@@ -20,13 +20,25 @@ namespace Personal.Definition
 			public InputActionMap InputActionMap { get; private set; }
 			public InputControllerBase InputController { get; private set; }
 
+			public event Action<bool> OnEnableEvent;
+
 			public InputControllerInfo(InputActionMap inputActionMap, InputControllerBase inputController)
 			{
 				InputActionMap = inputActionMap;
 				InputController = inputController;
 			}
+
+			public void Enable(bool isFlag)
+			{
+				if (isFlag) InputActionMap.Enable();
+				else InputActionMap.Disable();
+
+				InputController.enabled = isFlag;
+				OnEnableEvent?.Invoke(isFlag);
+			}
 		}
 
+		// FPS controls
 		public event Action<Vector2> OnLookEvent;
 		public event Action<Vector2> OnMoveEvent;
 
@@ -36,11 +48,14 @@ namespace Personal.Definition
 		public event Action OnInteractEvent;
 		public event Action OnCancelEvent;
 
+		// UI/Options
 		public event Action OnInventoryUIPressedEvent;
 		public event Action OnMenuUIPressedEvent;
 		public event Action OnMenuUIDefaultPressedEvent;
 
-		public event Action<float> OnInventoryScrolledEvent;
+		// Inventory
+		public event Action<int> OnInventoryNextPreviousEvent;
+		public event Action<int> OnInventoryIndexSelectEvent;
 
 		public event Action<Vector2> OnDpadEvent;
 
@@ -110,16 +125,19 @@ namespace Personal.Definition
 			SetButtonEvent(context.started, OnMenuUIPressedEvent);
 		}
 
-		void PlayerActionInput.IPlayerActions.OnMouseScrollInventory(InputAction.CallbackContext context)
+		void PlayerActionInput.IPlayerActions.OnInventoryMouseScroll(InputAction.CallbackContext context)
 		{
-			if (!context.started) return;
-			OnInventoryScrolledEvent?.Invoke(context.ReadValue<float>());
+			SetButtonEvent(context.started, () => OnInventoryNextPreviousEvent?.Invoke((int)context.ReadValue<float>()));
 		}
 
-		void PlayerActionInput.IPlayerActions.OnButtonScrollInventory(InputAction.CallbackContext context)
+		void PlayerActionInput.IPlayerActions.OnInventoryNextPrevious(InputAction.CallbackContext context)
 		{
-			if (!context.started) return;
-			OnInventoryScrolledEvent?.Invoke(context.ReadValue<float>());
+			SetButtonEvent(context.started, () => OnInventoryNextPreviousEvent?.Invoke((int)context.ReadValue<float>()));
+		}
+
+		void PlayerActionInput.IPlayerActions.OnInventoryIndexSelect(InputAction.CallbackContext context)
+		{
+			OnInventoryIndexSelectEvent?.Invoke((int)context.ReadValue<float>());
 		}
 
 		/// ------------------------------------------------------------

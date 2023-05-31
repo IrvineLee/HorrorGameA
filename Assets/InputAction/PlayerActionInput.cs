@@ -91,7 +91,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseScrollInventory"",
+                    ""name"": ""InventoryMouseScroll"",
                     ""type"": ""Value"",
                     ""id"": ""8676fe9b-1b6e-47b5-8223-2479ee861ec0"",
                     ""expectedControlType"": """",
@@ -100,13 +100,22 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""ButtonScrollInventory"",
+                    ""name"": ""InventoryNextPrevious"",
                     ""type"": ""Button"",
                     ""id"": ""6d97ab98-c59d-4cb9-b787-56fa29c11d43"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventoryIndexSelect"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""070f56b5-d0ff-4fed-bb19-eb6d4f6ccb9a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -370,7 +379,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
-                    ""action"": ""MouseScrollInventory"",
+                    ""action"": ""InventoryMouseScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -381,7 +390,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ButtonScrollInventory"",
+                    ""action"": ""InventoryNextPrevious"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -392,7 +401,7 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ButtonScrollInventory"",
+                    ""action"": ""InventoryNextPrevious"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -403,9 +412,108 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""ButtonScrollInventory"",
+                    ""action"": ""InventoryNextPrevious"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5fc2477-702a-4ca9-bec2-ea34142c3520"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""792b721d-3fcd-4018-ab26-48f2cc9e95d4"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1873ae9-259d-413e-ad66-0583939e80d5"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""710d95e8-9ee4-4b48-a47b-c5eaac4cc1ed"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7040bdbf-6f13-4e7a-9598-21159ca7ff89"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4465a12-0fc2-4dcd-a5ef-239f03429164"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=6)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccbb7342-dcf4-4c84-af07-6cb22d4721d7"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=7)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fed9b6ae-9cc7-4461-850b-cd98c3b451ba"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=8)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d6c0459-f471-40d2-839c-a42059595df5"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=9)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""InventoryIndexSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -997,8 +1105,9 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_InventoryMenu = m_Player.FindAction("InventoryMenu", throwIfNotFound: true);
         m_Player_OptionMenu = m_Player.FindAction("OptionMenu", throwIfNotFound: true);
-        m_Player_MouseScrollInventory = m_Player.FindAction("MouseScrollInventory", throwIfNotFound: true);
-        m_Player_ButtonScrollInventory = m_Player.FindAction("ButtonScrollInventory", throwIfNotFound: true);
+        m_Player_InventoryMouseScroll = m_Player.FindAction("InventoryMouseScroll", throwIfNotFound: true);
+        m_Player_InventoryNextPrevious = m_Player.FindAction("InventoryNextPrevious", throwIfNotFound: true);
+        m_Player_InventoryIndexSelect = m_Player.FindAction("InventoryIndexSelect", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -1077,8 +1186,9 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_InventoryMenu;
     private readonly InputAction m_Player_OptionMenu;
-    private readonly InputAction m_Player_MouseScrollInventory;
-    private readonly InputAction m_Player_ButtonScrollInventory;
+    private readonly InputAction m_Player_InventoryMouseScroll;
+    private readonly InputAction m_Player_InventoryNextPrevious;
+    private readonly InputAction m_Player_InventoryIndexSelect;
     public struct PlayerActions
     {
         private @PlayerActionInput m_Wrapper;
@@ -1090,8 +1200,9 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @InventoryMenu => m_Wrapper.m_Player_InventoryMenu;
         public InputAction @OptionMenu => m_Wrapper.m_Player_OptionMenu;
-        public InputAction @MouseScrollInventory => m_Wrapper.m_Player_MouseScrollInventory;
-        public InputAction @ButtonScrollInventory => m_Wrapper.m_Player_ButtonScrollInventory;
+        public InputAction @InventoryMouseScroll => m_Wrapper.m_Player_InventoryMouseScroll;
+        public InputAction @InventoryNextPrevious => m_Wrapper.m_Player_InventoryNextPrevious;
+        public InputAction @InventoryIndexSelect => m_Wrapper.m_Player_InventoryIndexSelect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1122,12 +1233,15 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 @OptionMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionMenu;
                 @OptionMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionMenu;
                 @OptionMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOptionMenu;
-                @MouseScrollInventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseScrollInventory;
-                @MouseScrollInventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseScrollInventory;
-                @MouseScrollInventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseScrollInventory;
-                @ButtonScrollInventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonScrollInventory;
-                @ButtonScrollInventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonScrollInventory;
-                @ButtonScrollInventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonScrollInventory;
+                @InventoryMouseScroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryMouseScroll;
+                @InventoryMouseScroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryMouseScroll;
+                @InventoryMouseScroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryMouseScroll;
+                @InventoryNextPrevious.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryNextPrevious;
+                @InventoryNextPrevious.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryNextPrevious;
+                @InventoryNextPrevious.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryNextPrevious;
+                @InventoryIndexSelect.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryIndexSelect;
+                @InventoryIndexSelect.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryIndexSelect;
+                @InventoryIndexSelect.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryIndexSelect;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1153,12 +1267,15 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
                 @OptionMenu.started += instance.OnOptionMenu;
                 @OptionMenu.performed += instance.OnOptionMenu;
                 @OptionMenu.canceled += instance.OnOptionMenu;
-                @MouseScrollInventory.started += instance.OnMouseScrollInventory;
-                @MouseScrollInventory.performed += instance.OnMouseScrollInventory;
-                @MouseScrollInventory.canceled += instance.OnMouseScrollInventory;
-                @ButtonScrollInventory.started += instance.OnButtonScrollInventory;
-                @ButtonScrollInventory.performed += instance.OnButtonScrollInventory;
-                @ButtonScrollInventory.canceled += instance.OnButtonScrollInventory;
+                @InventoryMouseScroll.started += instance.OnInventoryMouseScroll;
+                @InventoryMouseScroll.performed += instance.OnInventoryMouseScroll;
+                @InventoryMouseScroll.canceled += instance.OnInventoryMouseScroll;
+                @InventoryNextPrevious.started += instance.OnInventoryNextPrevious;
+                @InventoryNextPrevious.performed += instance.OnInventoryNextPrevious;
+                @InventoryNextPrevious.canceled += instance.OnInventoryNextPrevious;
+                @InventoryIndexSelect.started += instance.OnInventoryIndexSelect;
+                @InventoryIndexSelect.performed += instance.OnInventoryIndexSelect;
+                @InventoryIndexSelect.canceled += instance.OnInventoryIndexSelect;
             }
         }
     }
@@ -1322,8 +1439,9 @@ public partial class @PlayerActionInput : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnInventoryMenu(InputAction.CallbackContext context);
         void OnOptionMenu(InputAction.CallbackContext context);
-        void OnMouseScrollInventory(InputAction.CallbackContext context);
-        void OnButtonScrollInventory(InputAction.CallbackContext context);
+        void OnInventoryMouseScroll(InputAction.CallbackContext context);
+        void OnInventoryNextPrevious(InputAction.CallbackContext context);
+        void OnInventoryIndexSelect(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

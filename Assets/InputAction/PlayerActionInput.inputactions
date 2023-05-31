@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseScrollInventory",
+                    "name": "InventoryMouseScroll",
                     "type": "Value",
                     "id": "8676fe9b-1b6e-47b5-8223-2479ee861ec0",
                     "expectedControlType": "",
@@ -78,13 +78,22 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ButtonScrollInventory",
+                    "name": "InventoryNextPrevious",
                     "type": "Button",
                     "id": "6d97ab98-c59d-4cb9-b787-56fa29c11d43",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InventoryIndexSelect",
+                    "type": "PassThrough",
+                    "id": "070f56b5-d0ff-4fed-bb19-eb6d4f6ccb9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -348,7 +357,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "MouseScrollInventory",
+                    "action": "InventoryMouseScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -359,7 +368,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ButtonScrollInventory",
+                    "action": "InventoryNextPrevious",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -370,7 +379,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ButtonScrollInventory",
+                    "action": "InventoryNextPrevious",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -381,9 +390,108 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ButtonScrollInventory",
+                    "action": "InventoryNextPrevious",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d5fc2477-702a-4ca9-bec2-ea34142c3520",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "792b721d-3fcd-4018-ab26-48f2cc9e95d4",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a1873ae9-259d-413e-ad66-0583939e80d5",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "710d95e8-9ee4-4b48-a47b-c5eaac4cc1ed",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "Scale(factor=4)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7040bdbf-6f13-4e7a-9598-21159ca7ff89",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "Scale(factor=5)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4465a12-0fc2-4dcd-a5ef-239f03429164",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "Scale(factor=6)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ccbb7342-dcf4-4c84-af07-6cb22d4721d7",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "Scale(factor=7)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fed9b6ae-9cc7-4461-850b-cd98c3b451ba",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "Scale(factor=8)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d6c0459-f471-40d2-839c-a42059595df5",
+                    "path": "<Keyboard>/9",
+                    "interactions": "",
+                    "processors": "Scale(factor=9)",
+                    "groups": "KeyboardMouse",
+                    "action": "InventoryIndexSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
