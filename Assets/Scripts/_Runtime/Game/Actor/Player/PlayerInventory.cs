@@ -14,7 +14,8 @@ namespace Personal.Character.Player
 {
 	public class PlayerInventory : GameInitialize
 	{
-		[SerializeField] Transform inventoryView = null;
+		[SerializeField] Transform FPSInventoryView = null;
+		[SerializeField] Transform canvasScrollableInventory = null;
 
 		[SerializeField]
 		[ReadOnly]
@@ -41,19 +42,27 @@ namespace Personal.Character.Player
 			await base.Awake();
 
 			inputControllerInfo = InputManager.Instance.GetInputControllerInfo(ActionMapType.Player);
-			inputControllerInfo.OnEnableEvent += ShowItem;
+			inputControllerInfo.OnEnableEvent += FPS_ShowItem;
 		}
 
 		/// <summary>
 		/// Show or hide the active object.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		public void ShowItem(bool isFlag)
+		public void FPS_ShowItem(bool isFlag)
 		{
 			if (!activeObject) return;
 
 			if (isFlag) AnimateActiveItem(Vector3.zero);
 			else AnimateActiveItem(initialPosition);
+		}
+
+		/// <summary>
+		/// Use/interact/place item on someone or something.
+		/// </summary>
+		public void UseActiveItem()
+		{
+
 		}
 
 		/// <summary>
@@ -120,7 +129,7 @@ namespace Personal.Character.Player
 		{
 			Transform activeTrans = activeObject.transform;
 
-			activeTrans.SetParent(inventoryView);
+			activeTrans.SetParent(FPSInventoryView);
 			activeTrans.localPosition = initialPosition;
 			activeTrans.localRotation = Quaternion.identity;
 			activeTrans.localScale = initialScale;
@@ -143,7 +152,7 @@ namespace Personal.Character.Player
 
 		void OnApplicationQuit()
 		{
-			inputControllerInfo.OnEnableEvent -= ShowItem;
+			inputControllerInfo.OnEnableEvent -= FPS_ShowItem;
 		}
 	}
 }
