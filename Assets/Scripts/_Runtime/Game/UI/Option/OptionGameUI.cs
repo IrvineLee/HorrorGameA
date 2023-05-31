@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
@@ -10,6 +11,7 @@ using Personal.Setting.Game;
 using Personal.Character.Player;
 using Helper;
 using TMPro;
+using System.Linq;
 
 namespace Personal.UI.Option
 {
@@ -20,6 +22,7 @@ namespace Personal.UI.Option
 		[SerializeField] Toggle isInvertLookHorizontal = null;
 		[SerializeField] Toggle isInvertLookVertical = null;
 		[SerializeField] TMP_Dropdown gamepadIconDropdown = null;
+		[SerializeField] TMP_Dropdown fontSizeDropdown = null;
 
 		GameData gameData;
 
@@ -30,6 +33,8 @@ namespace Personal.UI.Option
 		VolumeProfile volumeProfile;
 		ColorAdjustments colorAdjustments;
 
+		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
+
 		/// <summary>
 		/// Initialize.
 		/// </summary>
@@ -37,6 +42,9 @@ namespace Personal.UI.Option
 		public override async UniTask Initialize()
 		{
 			await base.Initialize();
+
+			allTMPList = PixelCrushers.DialogueSystem.DialogueManager.Instance.GetComponentsInChildren<TextMeshProUGUI>(true).ToList();
+			allTMPList.AddRange(GetComponentsInChildren<TextMeshProUGUI>(true).ToList());
 
 			fpsController = StageManager.Instance.PlayerController.FSM.FPSController;
 
@@ -57,6 +65,7 @@ namespace Personal.UI.Option
 			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.isOn;
 			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
 			gameData.GamepadIconIndex = gamepadIconDropdown.value;
+			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
 		}
 
 		/// <summary>
@@ -92,6 +101,7 @@ namespace Personal.UI.Option
 			isInvertLookVertical.onValueChanged.AddListener((flag) => fpsController.SetInvertedLookVertical(flag));
 
 			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex(value));
+			fontSizeDropdown.onValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
 		}
 
 		protected override void ResetDataToUI()
@@ -105,6 +115,7 @@ namespace Personal.UI.Option
 			isInvertLookVertical.isOn = gameData.IsInvertLookVertical;
 
 			gamepadIconDropdown.value = gameData.GamepadIconIndex;
+			fontSizeDropdown.value = (int)gameData.FontSizeType;
 		}
 
 		protected override void ResetDataToTarget()
@@ -116,6 +127,7 @@ namespace Personal.UI.Option
 			fpsController.SetInvertedLookVertical(gameData.IsInvertLookVertical);
 
 			InputManager.Instance.SetGamepadIconIndex(gameData.GamepadIconIndex);
+			HandleFontSizeChanged(gameData.FontSizeType);
 		}
 
 		void InitializeVolumeProfile()
@@ -127,6 +139,15 @@ namespace Personal.UI.Option
 			volumeProfile.TryGet(out colorAdjustments);
 		}
 
+		void HandleFontSizeChanged(FontSizeType fontSizeType)
+		{
+			string textStyle = fontSizeType.GetStringValue();
+			foreach (var tmp in allTMPList)
+			{
+				tmp.textStyle = TMP_Settings.defaultStyleSheet.GetStyle(textStyle);
+			}
+		}
+
 		void OnDestroy()
 		{
 			brightnessSlider.onValueChanged.RemoveAllListeners();
@@ -134,6 +155,7 @@ namespace Personal.UI.Option
 			isInvertLookHorizontal.onValueChanged.RemoveAllListeners();
 			isInvertLookVertical.onValueChanged.RemoveAllListeners();
 			gamepadIconDropdown.onValueChanged.RemoveAllListeners();
+			fontSizeDropdown.onValueChanged.RemoveAllListeners();
 		}
 	}
 }

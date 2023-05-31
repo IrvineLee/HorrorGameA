@@ -20,7 +20,6 @@ namespace Personal.Manager
 		public CinematicBars CinematicBars { get => cinematicBars; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
-		// TODO : Should handle all the other UI here as well.
 
 		protected override async UniTask Awake()
 		{

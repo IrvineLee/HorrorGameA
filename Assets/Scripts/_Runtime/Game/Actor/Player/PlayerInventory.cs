@@ -50,6 +50,8 @@ namespace Personal.Character.Player
 		/// <param name="isFlag"></param>
 		public void ShowItem(bool isFlag)
 		{
+			if (!activeObject) return;
+
 			if (isFlag) AnimateActiveItem(Vector3.zero);
 			else AnimateActiveItem(initialPosition);
 		}
