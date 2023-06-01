@@ -13,5 +13,19 @@ namespace Helper
 			}
 			return original;
 		}
+
+		/// <summary>
+		/// Set layers to all children.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="layer"></param>
+		public static void SetLayerAllChildren(this Transform original, int layer)
+		{
+			var children = original.GetComponentsInChildren<Transform>(includeInactive: true);
+			foreach (var child in children)
+			{
+				child.gameObject.layer = layer;
+			}
+		}
 	}
 }

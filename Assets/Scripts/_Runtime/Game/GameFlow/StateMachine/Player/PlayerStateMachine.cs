@@ -9,7 +9,7 @@ using Personal.Character.Player;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerStateMachine : ActorStateMachine
+	public class PlayerStateMachine : ActorStateMachine, IFSMHandler
 	{
 		[SerializeField] Transform stateParent = null;
 
@@ -45,6 +45,16 @@ namespace Personal.FSM.Character
 				return;
 			}
 			await SetState(currentState);
+		}
+
+		void IFSMHandler.OnBegin()
+		{
+			SwitchToState(typeof(PlayerIdleState)).Forget();
+		}
+
+		void IFSMHandler.OnExit()
+		{
+			SwitchToState(typeof(PlayerStandardState)).Forget();
 		}
 	}
 }

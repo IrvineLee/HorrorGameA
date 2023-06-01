@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using Personal.UI;
 
 namespace Personal.InputProcessing
 {
@@ -19,7 +20,10 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
+
 			inputReaderDefinition.OnCancelEvent += CloseOptionMenu;
+			inputReaderDefinition.OnCancelEvent += CloseInventoryMenu;
+
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
 		}
 
@@ -40,6 +44,8 @@ namespace Personal.InputProcessing
 
 		void CloseOptionMenu()
 		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
+
 			if (UIManager.Instance.DialogBoxUI.DialogBoxStack.Count == 0)
 			{
 				UIManager.Instance.OptionUI.CloseOptionWindow();
@@ -55,6 +61,11 @@ namespace Personal.InputProcessing
 			UIManager.Instance.OptionUI.ResetToDefault();
 		}
 
+		void CloseInventoryMenu()
+		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Inventory) return;
+		}
+
 		protected override void OnDisable()
 		{
 			if (!isAwakeCompleted) return;
@@ -62,7 +73,10 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
+
 			inputReaderDefinition.OnCancelEvent -= CloseOptionMenu;
+			inputReaderDefinition.OnCancelEvent -= CloseInventoryMenu;
+
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent -= DefaultOptionMenu;
 
 			base.OnDisable();

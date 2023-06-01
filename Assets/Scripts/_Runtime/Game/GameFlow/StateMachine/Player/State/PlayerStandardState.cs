@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -7,7 +5,6 @@ using Personal.Manager;
 using Personal.System.Handler;
 using Personal.Constant;
 using Personal.Object;
-using System;
 
 namespace Personal.FSM.Character
 {
@@ -51,16 +48,7 @@ namespace Personal.FSM.Character
 			if (!interactable) return;
 			if (!interactable.enabled) return;
 
-			Action doLast = default;
-			if (interactable.InteractType == InteractType.Event_StateChange)
-			{
-				PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
-
-				playerFSM.SwitchToState(typeof(PlayerIdleState)).Forget();
-				doLast = () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget();
-			}
-
-			interactable.HandleInteraction(stateMachine, doLast).Forget();
+			interactable.HandleInteraction(stateMachine, default).Forget();
 		}
 	}
 }

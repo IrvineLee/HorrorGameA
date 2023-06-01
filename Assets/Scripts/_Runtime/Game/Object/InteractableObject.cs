@@ -28,7 +28,7 @@ namespace Personal.Object
 		/// <summary>
 		/// Not every interactableObject will be an item.
 		/// </summary>
-		public ItemTypeSet CurrentItemTypeSet { get; private set; }
+		public ItemTypeSet ItemTypeSet { get; private set; }
 
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
@@ -46,7 +46,7 @@ namespace Personal.Object
 			currentCollider = GetComponentInChildren<Collider>();
 			meshRenderer = GetComponentInChildren<MeshRenderer>();
 
-			CurrentItemTypeSet = GetComponentInChildren<ItemTypeSet>();
+			ItemTypeSet = GetComponentInChildren<ItemTypeSet>();
 		}
 
 		public virtual async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast) { await UniTask.Delay(0); }

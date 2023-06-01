@@ -539,6 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6698dfaea5c61cd4da96b27919ae4152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeInterfaceType: 0
   optionUI: {fileID: 286673825358760157}
   dialogBoxUI: {fileID: 3542604703968426748}
   cinematicBars: {fileID: 9176410393485490078}
@@ -901,6 +902,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5205855372638247139}
+  - component: {fileID: 4630957166042510341}
   m_Layer: 5
   m_Name: MenuParent
   m_TagString: Untagged
@@ -931,6 +933,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4630957166042510341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3285893137264287964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb55b5f2e752294cad667c90f9087f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiInterfaceType: 1
 --- !u!1 &3441205485139325903
 GameObject:
   m_ObjectHideFlags: 0

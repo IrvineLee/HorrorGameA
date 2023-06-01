@@ -49,7 +49,7 @@ namespace Personal.Definition
 		public event Action OnCancelEvent;
 
 		// UI/Options
-		public event Action OnInventoryUIPressedEvent;
+		public event Action<bool> OnInventoryUIPressedEvent;
 		public event Action OnMenuUIPressedEvent;
 		public event Action OnMenuUIDefaultPressedEvent;
 
@@ -117,7 +117,7 @@ namespace Personal.Definition
 
 		void PlayerActionInput.IPlayerActions.OnInventoryMenu(InputAction.CallbackContext context)
 		{
-			SetButtonEvent(context.started, OnInventoryUIPressedEvent);
+			SetButtonEvent(context.started, () => OnInventoryUIPressedEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
 		}
 
 		void PlayerActionInput.IPlayerActions.OnOptionMenu(InputAction.CallbackContext context)

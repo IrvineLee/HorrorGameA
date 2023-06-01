@@ -9,13 +9,15 @@ using Personal.Manager;
 using Personal.InputProcessing;
 using Helper;
 using static Personal.Definition.InputReaderDefinition;
+using Personal.System.Handler;
 
 namespace Personal.Character.Player
 {
 	public class PlayerInventory : GameInitialize
 	{
-		[SerializeField] Transform FPSInventoryView = null;
+		[SerializeField] Transform FPSHoldItemInHandView = null;
 		[SerializeField] Transform canvasScrollableInventory = null;
+		[SerializeField] float autoHideItemDuration = 10f;
 
 		[SerializeField]
 		[ReadOnly]
@@ -34,6 +36,7 @@ namespace Personal.Character.Player
 		Vector3 initialScale = new Vector3(0.1f, 0.1f, 0.1f);
 
 		CoroutineRun comeIntoViewCR = new CoroutineRun();
+		CoroutineRun autoHideItemCR = new CoroutineRun();
 
 		InputControllerInfo inputControllerInfo;
 
@@ -53,8 +56,17 @@ namespace Personal.Character.Player
 		{
 			if (!activeObject) return;
 
-			if (isFlag) AnimateActiveItem(Vector3.zero);
-			else AnimateActiveItem(initialPosition);
+			if (isFlag)
+			{
+				AnimateActiveItem(Vector3.zero);
+
+				autoHideItemCR?.StopCoroutine();
+				autoHideItemCR = CoroutineHelper.WaitFor(autoHideItemDuration, () => FPS_ShowItem(false));
+			}
+			else
+			{
+				AnimateActiveItem(initialPosition);
+			}
 		}
 
 		/// <summary>
@@ -78,7 +90,8 @@ namespace Personal.Character.Player
 			interactableObjectList.Add(interactableObject);
 			currentActiveIndex = interactableObjectList.Count - 1;
 
-			SetToInventoryView();
+			HoldItemInHand();
+			AddToUIInventory();
 		}
 
 		/// <summary>
@@ -96,10 +109,10 @@ namespace Personal.Character.Player
 			if (activeObject == newActiveObject) return;
 
 			// Set to new active gameobject.
-			activeObject.gameObject.SetActive(false);
+			activeObject?.gameObject.SetActive(false);
 			activeObject = newActiveObject;
 
-			SetToInventoryView();
+			HoldItemInHand();
 		}
 
 		/// <summary>
@@ -117,26 +130,36 @@ namespace Personal.Character.Player
 			if (activeObject == newActiveObject) return;
 
 			// Set to new active gameobject.
-			activeObject.gameObject.SetActive(false);
+			activeObject?.gameObject.SetActive(false);
 			activeObject = newActiveObject;
 
-			SetToInventoryView();
+			HoldItemInHand();
 		}
 
 		/// <summary>
 		/// Put it near the player view.
 		/// </summary>
-		void SetToInventoryView()
+		void HoldItemInHand()
 		{
 			Transform activeTrans = activeObject.transform;
 
-			activeTrans.SetParent(FPSInventoryView);
+			activeTrans.SetParent(FPSHoldItemInHandView);
 			activeTrans.localPosition = initialPosition;
 			activeTrans.localRotation = Quaternion.identity;
 			activeTrans.localScale = initialScale;
 
 			activeObject.gameObject.SetActive(true);
-			AnimateActiveItem(Vector3.zero);
+			FPS_ShowItem(true);
+		}
+
+		/// <summary>
+		/// Add item to canvas camera for ui selection.
+		/// </summary>
+		async void AddToUIInventory()
+		{
+			Debug.Log("AddToUIInventory");
+			GameObject go = await AddressableHelper.Spawn(activeObject.ItemTypeSet.ItemType.GetStringValue(), Vector3.zero, canvasScrollableInventory);
+			go.transform.SetLayerAllChildren((int)LayerType._UI);
 		}
 
 		/// <summary>

@@ -21,8 +21,12 @@ namespace Personal.Object
 			}
 			else if (interactType == InteractType.Event_StateChange)
 			{
+				stateMachineBase.GetComponentInChildren<IFSMHandler>()?.OnBegin();
+
 				await HandleEventStateChange();
 				InputManager.Instance.SetToDefaultActionMap();
+
+				stateMachineBase.GetComponentInChildren<IFSMHandler>()?.OnExit();
 			}
 
 			doLast?.Invoke();
@@ -59,7 +63,7 @@ namespace Personal.Object
 		{
 			var activeObject = StageManager.Instance.PlayerController.Inventory.ActiveObject;
 
-			if (activeObject.CurrentItemTypeSet.ItemType != itemTypeCompare) return;
+			if (!itemTypeCompare.HasFlag(activeObject.ItemTypeSet.ItemType)) return;
 
 			activeObject.GetComponentInChildren<IItem>().PlaceAt(placeAt.position);
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem();

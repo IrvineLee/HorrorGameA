@@ -7,6 +7,8 @@ namespace Personal
 	{
         public const string Actor_NPC_01                    = "Actor_NPC_01";
         public const string CashParent                      = "CashParent";
+        public const string CubeBlue_Pickupable             = "CubeBlue_Pickupable";
+        public const string CubeRed_Pickupable              = "CubeRed_Pickupable";
         public const string Dialog_1Button_Ok               = "Dialog_1Button_Ok";
         public const string Dialog_2Button_YesNo            = "Dialog_2Button_YesNo";
         public const string DialogButtonConfirmationBox     = "DialogButtonConfirmationBox";

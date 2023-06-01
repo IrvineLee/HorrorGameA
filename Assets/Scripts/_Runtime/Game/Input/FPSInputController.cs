@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.UI.Option;
+using Personal.UI;
 
 namespace Personal.InputProcessing
 {
@@ -25,6 +26,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnCancelEvent += CancelInput;
 
 			inputReaderDefinition.OnMenuUIPressedEvent += OpenOptionMenu;
+			inputReaderDefinition.OnInventoryUIPressedEvent += OpenInventory;
 
 			inputReaderDefinition.OnInventoryNextPreviousEvent += InventoryNextPrevious;
 			inputReaderDefinition.OnInventoryIndexSelectEvent += InventoryIndexSelect;
@@ -62,10 +64,16 @@ namespace Personal.InputProcessing
 
 		void OpenOptionMenu()
 		{
-			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
-
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
+
+			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
 			optionHandlerUI.OpenOptionWindow();
+		}
+
+		void OpenInventory(bool isFlag)
+		{
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
+			UIManager.Instance.InventoryUI.gameObject.SetActive(true);
 		}
 
 		void InventoryNextPrevious(int value)
@@ -93,6 +101,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnCancelEvent -= CancelInput;
 
 			inputReaderDefinition.OnMenuUIPressedEvent -= OpenOptionMenu;
+			inputReaderDefinition.OnInventoryUIPressedEvent -= OpenInventory;
 
 			inputReaderDefinition.OnInventoryNextPreviousEvent -= InventoryNextPrevious;
 			inputReaderDefinition.OnInventoryIndexSelectEvent -= InventoryIndexSelect;
