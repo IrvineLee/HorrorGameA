@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 using Personal.Data;
 using Helper;
@@ -22,7 +21,7 @@ public class MasterDialogUI : MasterGeneric<DialogUIEntity, DialogUIType>
 	/// <summary>
 	/// Get item data from MasterData.
 	/// </summary>
-	/// <param name="id"></param>
+	/// <param name="dialogUIType"></param>
 	/// <returns></returns>
 	public override DialogUIEntity Get(DialogUIType dialogUIType)
 	{

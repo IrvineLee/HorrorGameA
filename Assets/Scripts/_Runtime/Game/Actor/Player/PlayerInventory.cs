@@ -62,7 +62,8 @@ namespace Personal.Character.Player
 		/// </summary>
 		public void UseActiveItem()
 		{
-
+			activeObject = null;
+			interactableObjectList.RemoveAt(currentActiveIndex);
 		}
 
 		/// <summary>

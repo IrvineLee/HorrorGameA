@@ -7,6 +7,7 @@ using Personal.Manager;
 using Personal.System.Handler;
 using Personal.Constant;
 using Personal.Object;
+using System;
 
 namespace Personal.FSM.Character
 {
@@ -50,10 +51,16 @@ namespace Personal.FSM.Character
 			if (!interactable) return;
 			if (!interactable.enabled) return;
 
-			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
+			Action doLast = default;
+			if (interactable.InteractType == InteractType.Event_StateChange)
+			{
+				PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
 
-			interactable.HandleInteraction(stateMachine, () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget()).Forget();
-			playerFSM.SwitchToState(typeof(PlayerIdleState)).Forget();
+				playerFSM.SwitchToState(typeof(PlayerIdleState)).Forget();
+				doLast = () => playerFSM.SwitchToState(typeof(PlayerStandardState)).Forget();
+			}
+
+			interactable.HandleInteraction(stateMachine, doLast).Forget();
 		}
 	}
 }

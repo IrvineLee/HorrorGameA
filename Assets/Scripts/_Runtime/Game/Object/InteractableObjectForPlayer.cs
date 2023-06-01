@@ -13,21 +13,56 @@ namespace Personal.Object
 		{
 			if (interactType == InteractType.Pickupable)
 			{
-				StageManager.Instance.PlayerController.Inventory.AddItem(this);
-				currentCollider.enabled = false;
-				meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
-				await UniTask.Yield();
+				HandlePickupable();
 			}
-			else if (interactType == InteractType.StateChange)
+			else if (interactType == InteractType.UseActiveItem)
 			{
-				InputManager.Instance.EnableActionMap(actionMapType);
-
-				await orderedStateMachine.Initialize(null, interactionAssign);
+				HandleUseActiveItem();
+			}
+			else if (interactType == InteractType.Event_StateChange)
+			{
+				await HandleEventStateChange();
+				InputManager.Instance.SetToDefaultActionMap();
 			}
 
 			doLast?.Invoke();
-			InputManager.Instance.SetToDefaultActionMap();
+		}
+
+		/// <summary>
+		/// Add item into inventory.
+		/// </summary>
+		void HandlePickupable()
+		{
+			StageManager.Instance.PlayerController.Inventory.AddItem(this);
+
+			currentCollider.enabled = false;
+			meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+			enabled = false;
+		}
+
+		/// <summary>
+		/// Handle the orderedStateMachine.
+		/// </summary>
+		/// <returns></returns>
+		async UniTask HandleEventStateChange()
+		{
+			InputManager.Instance.EnableActionMap(actionMapType);
+
+			await orderedStateMachine.Initialize(null, interactionAssign);
+		}
+
+		/// <summary>
+		/// Check whether it's the correct item type before using it.
+		/// </summary>
+		void HandleUseActiveItem()
+		{
+			var activeObject = StageManager.Instance.PlayerController.Inventory.ActiveObject;
+
+			if (activeObject.CurrentItemTypeSet.ItemType != itemTypeCompare) return;
+
+			activeObject.GetComponentInChildren<IItem>().PlaceAt(placeAt.position);
+			StageManager.Instance.PlayerController.Inventory.UseActiveItem();
 		}
 	}
 }
