@@ -16,7 +16,7 @@ namespace Personal.GameState
 				await UniTask.WaitUntil(() => GameManager.Instance != null);
 
 			enabled = false;
-			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
 			enabled = true;
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");

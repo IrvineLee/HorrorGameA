@@ -104,6 +104,8 @@ namespace Personal.Character.Player
 			currentActiveIndex = isNext ? currentActiveIndex + 1 : currentActiveIndex - 1;
 			currentActiveIndex = currentActiveIndex.WithinCount(interactableObjectList.Count);
 
+			if (currentActiveIndex >= interactableObjectList.Count - 1) return;
+
 			// Do nothing if it's the same object.
 			var newActiveObject = interactableObjectList[currentActiveIndex];
 			if (activeObject == newActiveObject) return;

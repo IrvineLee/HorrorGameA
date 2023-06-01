@@ -10,13 +10,6 @@ namespace Personal.UI
 	{
 		[SerializeField] UIInterfaceType uiInterfaceType = UIInterfaceType.None;
 
-		protected async override UniTask Awake()
-		{
-			await base.Awake();
-
-			UIManager.Instance.RegisterInterfaceUI(uiInterfaceType, gameObject);
-		}
-
 		protected override async UniTask OnEnable()
 		{
 			await base.OnEnable();

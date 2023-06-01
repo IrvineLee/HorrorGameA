@@ -6,6 +6,5 @@ namespace Personal.UI
 {
 	public class InventoryHandlerUI : MonoBehaviour
 	{
-
 	}
 }
