@@ -1,13 +1,13 @@
 using System;
 
 using Personal.Entity;
-using static Personal.UI.Dialog.DialogBoxEnum;
+using static Personal.UI.Window.WindowEnum;
 
 [Serializable]
-public class DialogUIEntity : GenericEntity
+public class WindowUIEntity : GenericEntity
 {
-	public DialogUIType dialogUIType;
-	public DialogDisplayType dialogDisplayType;
+	public WindowUIType windowUIType;
+	public WindowDisplayType windowDisplayType;
 	public ButtonDisplayType buttonDisplayType;
 	public string buttonAText;
 	public string buttonBText;

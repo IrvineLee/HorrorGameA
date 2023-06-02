@@ -67,13 +67,12 @@ namespace Personal.InputProcessing
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 
 			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
-			optionHandlerUI.OpenOptionWindow();
+			optionHandlerUI.GetComponentInChildren<IWindowHandler>().OpenWindow();
 		}
 
-		void OpenInventory(bool isFlag)
+		void OpenInventory()
 		{
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
-			UIManager.Instance.InventoryUI.gameObject.SetActive(true);
+			UIManager.Instance.InventoryUI.GetComponentInChildren<IWindowHandler>().OpenWindow();
 		}
 
 		void InventoryNextPrevious(int value)

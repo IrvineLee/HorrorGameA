@@ -33,6 +33,7 @@ namespace Personal.Manager
 			PlayerController = FindObjectOfType<PlayerController>();
 
 			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
+			UIManager.Instance.InventoryUI.OnMenuOpened += Pause;
 		}
 
 		public void RegisterCashierNPCSpawner(CashierNPCSpawner cashierNPCSpawner)
@@ -57,6 +58,7 @@ namespace Personal.Manager
 		void OnApplicationQuit()
 		{
 			UIManager.Instance.OptionUI.OnMenuOpened -= Pause;
+			UIManager.Instance.InventoryUI.OnMenuOpened -= Pause;
 		}
 	}
 }

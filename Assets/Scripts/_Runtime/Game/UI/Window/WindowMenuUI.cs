@@ -2,16 +2,16 @@ using System;
 using UnityEngine;
 
 using TMPro;
-using static Personal.UI.Dialog.DialogBoxEnum;
 using Cysharp.Threading.Tasks;
+using static Personal.UI.Window.WindowEnum;
 
-namespace Personal.UI.Dialog
+namespace Personal.UI.Window
 {
-	public class DialogBoxMenuUI : DialogBoxMenuUIBase
+	public class WindowMenuUI : WindowMenuUIBase
 	{
-		[SerializeField] DialogDisplayType dialogType = DialogDisplayType.DialogButtonConfirmationBox;
+		[SerializeField] WindowDisplayType windowType = WindowDisplayType.ButtonConfirmationBox;
 
-		public DialogDisplayType DialogType { get => dialogType; }
+		public WindowDisplayType WindowType { get => windowType; }
 		public Action CancelAction { get; private set; }
 
 		[SerializeField] TextMeshProUGUI titleTMP = null;
@@ -31,7 +31,7 @@ namespace Personal.UI.Dialog
 			rectTransform.sizeDelta = size;
 		}
 
-		public virtual void SetOneButtonOk(DialogBoxButtonPress buttonPress, string title, string message, Action action, string buttonText = default)
+		public virtual void SetOneButtonOk(WindowButtonPress buttonPress, string title, string message, Action action, string buttonText = default)
 		{
 			Action addListenerAction = () =>
 			{
@@ -44,7 +44,7 @@ namespace Personal.UI.Dialog
 			SetupButton(title, message, addListenerAction);
 		}
 
-		public virtual void SetTwoButtonYesNo(DialogBoxButtonPress buttonPress, string title, string message, Action action01, Action action02,
+		public virtual void SetTwoButtonYesNo(WindowButtonPress buttonPress, string title, string message, Action action01, Action action02,
 											   string buttonText01 = default, string buttonText02 = default)
 		{
 			Action addListenerAction = () =>
@@ -59,7 +59,7 @@ namespace Personal.UI.Dialog
 			SetupButton(title, message, addListenerAction);
 		}
 
-		public virtual void SetThreeButton(DialogBoxButtonPress buttonPress, string title, string message, Action action01, Action action02, Action action03,
+		public virtual void SetThreeButton(WindowButtonPress buttonPress, string title, string message, Action action01, Action action02, Action action03,
 											string buttonText01 = default, string buttonText02 = default, string buttonText03 = default)
 		{ }
 
@@ -71,15 +71,15 @@ namespace Personal.UI.Dialog
 			addListenerAction?.Invoke();
 		}
 
-		Action SetupOnButtonPressedAction(Transform dialogTrans, Action action)
+		Action SetupOnButtonPressedAction(Transform windowTrans, Action action)
 		{
 			return () =>
 			{
 				action?.Invoke();
 
-				// Disable the dialogBox and remove from stack.
-				dialogTrans.gameObject.SetActive(false);
-				dialogBoxHandlerUI.DialogBoxStack.Pop();
+				// Disable the window and remove from stack.
+				windowTrans.gameObject.SetActive(false);
+				windowHandlerUI.WindowStack.Pop();
 			};
 		}
 	}

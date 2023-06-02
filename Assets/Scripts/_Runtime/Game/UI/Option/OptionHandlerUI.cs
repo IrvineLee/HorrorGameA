@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Personal.Manager;
-using static Personal.UI.Dialog.DialogBoxEnum;
+using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Option
 {
-	public class OptionHandlerUI : MonoBehaviour
+	public class OptionHandlerUI : MonoBehaviour, IWindowHandler, IDefaultHandler
 	{
 		public enum MenuTab
 		{
@@ -17,72 +18,78 @@ namespace Personal.UI.Option
 			Control,
 		}
 
+		[Serializable]
+		public class Tab
+		{
+			[SerializeField] Button selectButton = null;
+			[SerializeField] OptionMenuUI optionMenuUI = null;
+
+			public Button SelectButton { get => selectButton; }
+			public OptionMenuUI OptionMenuUI { get => optionMenuUI; }
+		}
+
 		[SerializeField] Transform menuParent = null;
-		[SerializeField] Transform loadingIcon = null;
-		[SerializeField] List<OptionMenuUI> optionMenuUIList = new();
+		[SerializeField] List<Tab> tabList = new();
 
 		public Transform MenuParent { get => menuParent; }
 
 		public event Action<bool> OnMenuOpened;
 
-		Dictionary<MenuTab, OptionMenuUI> optionMenuUIDictionary = new Dictionary<MenuTab, OptionMenuUI>();
+		Dictionary<MenuTab, Tab> tabDictionary = new Dictionary<MenuTab, Tab>();
 		MenuTab currentMenuTab;
 
 		public void Initialize()
 		{
-			foreach (var option in optionMenuUIList)
+			foreach (var tab in tabList)
 			{
-				_ = option.Initialize();
-				optionMenuUIDictionary.Add(option.MenuTab, option);
+				_ = tab.OptionMenuUI.Initialize();
+				tab.SelectButton.onClick.AddListener(() =>
+				{
+					currentMenuTab = tab.OptionMenuUI.MenuTab;
+
+					CloseAllMenuTabs();
+					tab.OptionMenuUI.gameObject.SetActive(true);
+				});
+
+				tabDictionary.Add(tab.OptionMenuUI.MenuTab, tab);
 			}
 		}
 
-		public void SetCurrentMenuTab(MenuTab menuTab) { currentMenuTab = menuTab; }
-
-		public void OpenOptionWindow(MenuTab menuTab = MenuTab.Game)
+		void IWindowHandler.OpenWindow()
 		{
 			SetupMenu(true);
-			currentMenuTab = menuTab;
+			currentMenuTab = MenuTab.Game;
 
 			// Open requested menu tab.
-			if (optionMenuUIDictionary.TryGetValue(menuTab, out OptionMenuUI optionMenuUI))
+			if (tabDictionary.TryGetValue(MenuTab.Game, out Tab tab))
 			{
-				optionMenuUI.gameObject.SetActive(true);
+				tab.OptionMenuUI.gameObject.SetActive(true);
 			}
 		}
 
-		public void CloseOptionWindow()
+		void IWindowHandler.CloseWindow()
 		{
-			foreach (var option in optionMenuUIList)
+			foreach (var tab in tabList)
 			{
-				option.Save_Inspector();
+				tab.OptionMenuUI.Save_Inspector();
 			}
 
 			SaveManager.Instance.SaveProfileData();
 			InputManager.Instance.SetToDefaultActionMap();
 
 			SetupMenu(false);
-			loadingIcon.gameObject.SetActive(true);
-		}
-
-		public void CloseAllMenuTabs()
-		{
-			// Close all menu.
-			foreach (var option in optionMenuUIList)
-			{
-				option.gameObject.SetActive(false);
-			}
+			UIManager.Instance.ToolsHandlerUI.LoadingIconTrans.gameObject.SetActive(true);
 		}
 
 		/// <summary>
 		/// Reset currently active option tab to default values.
 		/// </summary>
-		public void ResetToDefault()
+		void IDefaultHandler.ResetToDefault()
 		{
-			if (!optionMenuUIDictionary.TryGetValue(currentMenuTab, out OptionMenuUI optionMenuUI)) return;
+			if (!tabDictionary.TryGetValue(currentMenuTab, out Tab tab)) return;
 
-			Action yesAction = () => optionMenuUI.Default_Inspector();
-			_ = UIManager.Instance.DialogBoxUI.OpenDialogBox(DialogUIType.DefaultButton, yesAction);
+			Action yesAction = () => tab.OptionMenuUI.Default_Inspector();
+			_ = UIManager.Instance.DialogBoxUI.OpenWindow(WindowUIType.DefaultButton, yesAction);
 		}
 
 		/// <summary>
@@ -96,6 +103,14 @@ namespace Personal.UI.Option
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 
 			CloseAllMenuTabs();
+		}
+
+		void CloseAllMenuTabs()
+		{
+			foreach (var tab in tabList)
+			{
+				tab.OptionMenuUI.gameObject.SetActive(false);
+			}
 		}
 	}
 }

@@ -17,6 +17,7 @@ namespace Personal.UI.Option
 {
 	public class OptionGameUI : OptionMenuUI
 	{
+		[Space]
 		[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] Slider cameraSensitivitySlider = null;
 		[SerializeField] Toggle isInvertLookHorizontal = null;

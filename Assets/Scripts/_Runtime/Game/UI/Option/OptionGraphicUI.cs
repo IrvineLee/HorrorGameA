@@ -15,6 +15,7 @@ namespace Personal.UI.Option
 {
 	public class OptionGraphicUI : OptionMenuUI
 	{
+		[Space]
 		[SerializeField] TMP_Dropdown screenResolutionDropdown = null;
 		[SerializeField] TMP_Dropdown screenModeDropdown = null;
 

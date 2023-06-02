@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Personal.UI.Dialog
+namespace Personal.UI.Window
 {
-	public class DialogBoxButtonPress : DialogBoxMenuUIBase
+	public class WindowButtonPress : WindowMenuUIBase
 	{
 		[Serializable]
 		public class ButtonTextInfo

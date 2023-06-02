@@ -9,9 +9,6 @@ namespace Personal
         public const string CashParent                      = "CashParent";
         public const string CubeBlue_Pickupable             = "CubeBlue_Pickupable";
         public const string CubeRed_Pickupable              = "CubeRed_Pickupable";
-        public const string Dialog_1Button_Ok               = "Dialog_1Button_Ok";
-        public const string Dialog_2Button_YesNo            = "Dialog_2Button_YesNo";
-        public const string DialogButtonConfirmationBox     = "DialogButtonConfirmationBox";
         public const string Effects_Effect_01               = "Effects/Effect_01";
         public const string ItemParent_Day01_01             = "ItemParent_Day01_01";
         public const string MasterDataManager               = "MasterDataManager";
@@ -28,5 +25,8 @@ namespace Personal
         public const string TransitionRectangleWipe         = "TransitionRectangleWipe";
         public const string TransitionTemplate              = "TransitionTemplate";
         public const string TransitionVerticalCurtain       = "TransitionVerticalCurtain";
+        public const string Window_1Button_Ok               = "Window_1Button_Ok";
+        public const string Window_2Button_YesNo            = "Window_2Button_YesNo";
+        public const string WindowButtonConfirmationBox     = "WindowButtonConfirmationBox";
     }
 }

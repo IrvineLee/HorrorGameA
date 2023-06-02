@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.GameState;
 using Personal.UI;
 using Personal.UI.Option;
-using Personal.UI.Dialog;
+using Personal.UI.Window;
 
 namespace Personal.Manager
 {
@@ -16,17 +15,16 @@ namespace Personal.Manager
 
 		[SerializeField] OptionHandlerUI optionUI = null;
 		[SerializeField] InventoryHandlerUI inventoryUI = null;
-		[SerializeField] DialogBoxHandlerUI dialogBoxUI = null;
-		[SerializeField] CinematicBars cinematicBars = null;
+		[SerializeField] ToolsHandlerUI toolsHandlerUI = null;
+		[SerializeField] WindowHandlerUI windowHandlerUI = null;
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
 		public UIInterfaceType ActiveInterfaceType { get => activeInterfaceType; }
 		public OptionHandlerUI OptionUI { get => optionUI; }
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
-		public DialogBoxHandlerUI DialogBoxUI { get => dialogBoxUI; }
-		public CinematicBars CinematicBars { get => cinematicBars; }
+		public ToolsHandlerUI ToolsHandlerUI { get => toolsHandlerUI; }
+		public WindowHandlerUI DialogBoxUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
-
 
 		protected override async UniTask Awake()
 		{

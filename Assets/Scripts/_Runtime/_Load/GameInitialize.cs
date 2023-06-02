@@ -30,7 +30,7 @@ namespace Personal.GameState
 			isInitiallyEnabled = enabled;
 
 			enabled = false;
-			await UniTask.WaitUntil(() => GameManager.Instance.IsLoadingOver);
+			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
 
 			// Seems like scripts does not get re-enabled the same order as defined in the execution order.
 			// Make sure the singleton scripts get initialized first before this script.

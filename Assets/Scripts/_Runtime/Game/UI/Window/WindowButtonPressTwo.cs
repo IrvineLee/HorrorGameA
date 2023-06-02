@@ -1,8 +1,8 @@
 using System;
 
-namespace Personal.UI.Dialog
+namespace Personal.UI.Window
 {
-	public class DialogBoxButtonPressTwo : DialogBoxButtonPress
+	public class WindowButtonPressTwo : WindowButtonPress
 	{
 		public override void AddListenerToButtonOnce(Action action01, Action action02, string buttonText01, string buttonText02)
 		{

@@ -13,6 +13,7 @@ namespace Personal.UI.Option
 {
 	public class OptionAudioUI : OptionMenuUI
 	{
+		[Space]
 		[SerializeField] TMP_Dropdown speakerModeDropdown = null;
 
 		[SerializeField] Slider masterSlider = null;
