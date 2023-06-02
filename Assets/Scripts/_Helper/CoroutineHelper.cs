@@ -265,7 +265,7 @@ namespace Helper
 		/// <summary>
 		/// Perform rotation of target by rotateAmount within the specified time.
 		/// </summary>
-		public static CoroutineRun RotateWithinSeconds(Transform target, Vector3 rotateAmount, float duration, Action doLast = default, bool isDeltaTime = true, Space space = Space.World)
+		public static CoroutineRun RotateWithinSeconds(Transform target, Vector3 rotateAmount, float duration, Action doLast = default, bool isDeltaTime = true, Space space = Space.Self)
 		{
 			CoroutineRun cr = new CoroutineRun();
 			return cr.Initialize(IERotateWithinSeconds(cr, target, rotateAmount, duration, isDeltaTime, space), doLast);

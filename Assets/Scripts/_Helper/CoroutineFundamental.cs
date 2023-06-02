@@ -360,7 +360,7 @@ namespace Helper
 		}
 
 		protected static IEnumerator IEQuaternionLerpWithinSeconds(CoroutineRun cr, Transform instance, Quaternion startValue, Quaternion endValue,
-																   float duration, Func<bool> breakMethod, bool isDeltaTime)
+																   float duration, Func<bool> breakMethod, bool isDeltaTime, Space space)
 		{
 			float timer = 0;
 			while (timer < duration)
@@ -373,13 +373,19 @@ namespace Helper
 				float t = timer / duration;
 				Quaternion quaternion = Quaternion.Lerp(startValue, endValue, t);
 
-				instance.rotation = quaternion;
+				if (space == Space.Self)
+					instance.localRotation = quaternion;
+				else
+					instance.rotation = quaternion;
 
 				if (breakMethod != null && breakMethod()) yield break;
 				yield return null;
 			}
 
-			instance.rotation = endValue;
+			if (space == Space.Self)
+				instance.localRotation = endValue;
+			else
+				instance.rotation = endValue;
 		}
 
 		protected static IEnumerator IERunActionUntilBreak(CoroutineRun cr, float runEvery, Action action, Func<bool> breakMethod,

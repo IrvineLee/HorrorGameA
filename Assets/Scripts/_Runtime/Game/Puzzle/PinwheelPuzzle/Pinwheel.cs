@@ -128,7 +128,7 @@ namespace Puzzle.Pinwheel
 
 			if (duration > 0)
 			{
-				return CoroutineHelper.RotateWithinSeconds(pinwheelTrans, rotateAngle, duration, null, true, Space.Self);
+				return CoroutineHelper.RotateWithinSeconds(pinwheelTrans, rotateAngle, duration, null, true);
 			}
 			else
 			{
