@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 
-using Helper;
+using Cysharp.Threading.Tasks;
 using Personal.InputProcessing;
 using Personal.GameState;
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using Helper;
 
 namespace Personal.UI
 {
-	public class ItemInACircle3D : GameInitialize, IAngleDirection
+	public class ItemInACircle3DUI : GameInitialize, IAngleDirection
 	{
 		[SerializeField] float radius = 5f;
 		[SerializeField] float rotateDuration = 0.25f;
@@ -33,11 +33,14 @@ namespace Personal.UI
 			HandleInput();
 		}
 
-		protected override async UniTask OnEnable()
+		public void Setup()
 		{
-			await base.OnEnable();
-
 			SetIntoACircle();
+
+			int currentIndex = StageManager.Instance.PlayerController.Inventory.CurrentActiveIndex;
+			float eulerRotateToActiveItem = currentIndex * yAngleToRotate;
+
+			transform.localEulerAngles = transform.localEulerAngles.With(y: transform.localEulerAngles.y + eulerRotateToActiveItem);
 		}
 
 		void HandleInput()
@@ -70,7 +73,7 @@ namespace Personal.UI
 				child.localPosition = child.localPosition.With(x: direction.x, z: direction.y);
 			}
 
-			// Since the first item spawned would be straight ahead, rotate it 180 degrees so it face the front.
+			// Since the first item spawned would be straight ahead, rotate it 180 degrees so it faces the front.
 			transform.localRotation = Quaternion.identity;
 			transform.localEulerAngles = Vector3.zero.With(y: 180);
 

@@ -28,10 +28,8 @@ namespace Personal.UI.Option
 			public OptionMenuUI OptionMenuUI { get => optionMenuUI; }
 		}
 
-		[SerializeField] Transform menuParent = null;
 		[SerializeField] List<Tab> tabList = new();
 
-		public Transform MenuParent { get => menuParent; }
 		public IWindowHandler IWindowHandler { get => this; }
 		public IDefaultHandler IDefaultHandler { get => this; }
 
@@ -107,7 +105,7 @@ namespace Personal.UI.Option
 		/// <param name="isFlag"></param>
 		void SetupMenu(bool isFlag)
 		{
-			menuParent.gameObject.SetActive(isFlag);
+			gameObject.SetActive(isFlag);
 			OnMenuOpened?.Invoke(isFlag);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 

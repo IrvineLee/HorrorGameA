@@ -127,7 +127,7 @@ namespace Personal.Manager
 		{
 			this.gamepadIconIndex = gamepadIconIndex;
 
-			if (!UIManager.Instance.OptionUI.MenuParent.gameObject.activeSelf) return;
+			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
 			HandleIconInitials();
 		}
 

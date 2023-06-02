@@ -46,7 +46,7 @@ namespace Personal.Object
 			currentCollider = GetComponentInChildren<Collider>();
 			meshRenderer = GetComponentInChildren<MeshRenderer>();
 
-			ItemTypeSet = GetComponentInChildren<ItemTypeSet>();
+			ItemTypeSet = GetComponentInParent<ItemTypeSet>();
 		}
 
 		public virtual async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast) { await UniTask.Delay(0); }

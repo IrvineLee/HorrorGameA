@@ -41,7 +41,7 @@ namespace Personal.UI
 
 		void UpdateIcons()
 		{
-			if (!UIManager.Instance.OptionUI.MenuParent.gameObject.activeSelf) return;
+			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
 
 			var uiList = InputManager.Instance.ButtonIconDefinition.Ui_ButtonIconInfoList;
 			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetAllText(uiList));

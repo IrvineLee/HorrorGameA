@@ -37,7 +37,7 @@ namespace Personal.Manager
 		void Initalize()
 		{
 			// Option UI initialize.
-			OptionUI.Initialize();
+			optionUI.Initialize();
 		}
 
 		public void SetActiveInterfaceType(UIInterfaceType activeInterfaceType) { this.activeInterfaceType = activeInterfaceType; }

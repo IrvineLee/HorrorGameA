@@ -7,16 +7,15 @@ using Personal.Object;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.InputProcessing;
+using Personal.Item;
 using Helper;
 using static Personal.Definition.InputReaderDefinition;
-using Personal.System.Handler;
 
 namespace Personal.Character.Player
 {
 	public class PlayerInventory : GameInitialize
 	{
 		[SerializeField] Transform FPSHoldItemInHandView = null;
-		[SerializeField] Transform canvasScrollableInventory = null;
 		[SerializeField] float autoHideItemDuration = 10f;
 
 		[SerializeField]
@@ -30,7 +29,7 @@ namespace Personal.Character.Player
 		public InteractableObject ActiveObject { get => activeObject; }
 		public List<InteractableObject> InteractableObjectList { get => interactableObjectList; }
 
-		int currentActiveIndex;
+		public int CurrentActiveIndex { get; private set; }
 
 		Vector3 initialPosition = new Vector3(0, -0.25f, 0);
 		Vector3 initialScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -75,7 +74,7 @@ namespace Personal.Character.Player
 		public void UseActiveItem()
 		{
 			activeObject = null;
-			interactableObjectList.RemoveAt(currentActiveIndex);
+			interactableObjectList.RemoveAt(CurrentActiveIndex);
 		}
 
 		/// <summary>
@@ -88,10 +87,13 @@ namespace Personal.Character.Player
 			activeObject = interactableObject;
 
 			interactableObjectList.Add(interactableObject);
-			currentActiveIndex = interactableObjectList.Count - 1;
+			CurrentActiveIndex = interactableObjectList.Count - 1;
+
+			// Add item to inventory ui.
+			ItemType itemType = activeObject.ItemTypeSet.ItemType;
+			UIManager.Instance.InventoryUI.SpawnObject(itemType);
 
 			HoldItemInHand();
-			AddToUIInventory();
 		}
 
 		/// <summary>
@@ -101,13 +103,13 @@ namespace Personal.Character.Player
 		public void NextItem(bool isNext)
 		{
 			// Scroll throught the list.
-			currentActiveIndex = isNext ? currentActiveIndex + 1 : currentActiveIndex - 1;
-			currentActiveIndex = currentActiveIndex.WithinCount(interactableObjectList.Count);
+			CurrentActiveIndex = isNext ? CurrentActiveIndex + 1 : CurrentActiveIndex - 1;
+			CurrentActiveIndex = CurrentActiveIndex.WithinCount(interactableObjectList.Count);
 
-			if (currentActiveIndex >= interactableObjectList.Count - 1) return;
+			if (CurrentActiveIndex >= interactableObjectList.Count - 1) return;
 
 			// Do nothing if it's the same object.
-			var newActiveObject = interactableObjectList[currentActiveIndex];
+			var newActiveObject = interactableObjectList[CurrentActiveIndex];
 			if (activeObject == newActiveObject) return;
 
 			// Set to new active gameobject.
@@ -125,10 +127,10 @@ namespace Personal.Character.Player
 		{
 			if (index < 0 || index > interactableObjectList.Count - 1) return;
 
-			currentActiveIndex = index;
+			CurrentActiveIndex = index;
 
 			// Do nothing if it's the same object.
-			var newActiveObject = interactableObjectList[currentActiveIndex];
+			var newActiveObject = interactableObjectList[CurrentActiveIndex];
 			if (activeObject == newActiveObject) return;
 
 			// Set to new active gameobject.
@@ -152,16 +154,6 @@ namespace Personal.Character.Player
 
 			activeObject.gameObject.SetActive(true);
 			FPS_ShowItem(true);
-		}
-
-		/// <summary>
-		/// Add item to canvas camera for ui selection.
-		/// </summary>
-		async void AddToUIInventory()
-		{
-			Debug.Log("AddToUIInventory");
-			GameObject go = await AddressableHelper.Spawn(activeObject.ItemTypeSet.ItemType.GetStringValue(), Vector3.zero, canvasScrollableInventory);
-			go.transform.SetLayerAllChildren((int)LayerType._UI);
 		}
 
 		/// <summary>
