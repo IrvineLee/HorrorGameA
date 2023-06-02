@@ -373,10 +373,10 @@ namespace Helper
 		/// Ex. Action<Quaternion> callbackMethod = (result) => { transform.rotation = result; };
 		/// </summary>
 		public static CoroutineRun QuaternionLerpWithinSeconds(Transform instance, Quaternion startValue, Quaternion endValue, float duration,
-												  Action doLast = default, Func<bool> breakMethod = default, bool isDeltaTime = true)
+												  Action doLast = default, Func<bool> breakMethod = default, bool isDeltaTime = true, Space space = Space.Self)
 		{
 			CoroutineRun cr = new CoroutineRun();
-			return cr.Initialize(IEQuaternionLerpWithinSeconds(cr, instance, startValue, endValue, duration, breakMethod, isDeltaTime), doLast);
+			return cr.Initialize(IEQuaternionLerpWithinSeconds(cr, instance, startValue, endValue, duration, breakMethod, isDeltaTime, space), doLast);
 		}
 		#endregion
 
