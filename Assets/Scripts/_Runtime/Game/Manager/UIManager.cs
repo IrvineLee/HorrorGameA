@@ -23,7 +23,7 @@ namespace Personal.Manager
 		public OptionHandlerUI OptionUI { get => optionUI; }
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
 		public ToolsHandlerUI ToolsHandlerUI { get => toolsHandlerUI; }
-		public WindowHandlerUI DialogBoxUI { get => windowHandlerUI; }
+		public WindowHandlerUI WindowHandlerUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
 		protected override async UniTask Awake()

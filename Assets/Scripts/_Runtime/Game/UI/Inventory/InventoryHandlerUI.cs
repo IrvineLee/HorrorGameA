@@ -8,6 +8,8 @@ namespace Personal.UI
 {
 	public class InventoryHandlerUI : MonoBehaviour, IWindowHandler
 	{
+		public IWindowHandler IWindowHandler { get => this; }
+
 		public event Action<bool> OnMenuOpened;
 
 		void IWindowHandler.OpenWindow()

@@ -25,6 +25,11 @@ namespace Personal.UI.Window
 
 		Dictionary<WindowUIType, WindowMenuUI> windowUIDictionary = new();
 
+		public void CloseLatestWindow()
+		{
+			WindowStack.Peek().CancelAction();
+		}
+
 		/// <summary>
 		/// Disable all window displays.
 		/// </summary>
@@ -34,6 +39,8 @@ namespace Personal.UI.Window
 			{
 				window.Value.gameObject.SetActive(false);
 			}
+
+			WindowStack.Clear();
 		}
 
 		/// <summary>

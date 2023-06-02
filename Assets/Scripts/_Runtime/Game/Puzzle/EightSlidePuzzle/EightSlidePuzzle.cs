@@ -162,6 +162,8 @@ namespace Puzzle.EightSlide
 		void IProcess.Begin(bool isFlag)
 		{
 			enabled = isFlag;
+
+			if (puzzleState == PuzzleState.Completed) return;
 			puzzleState = PuzzleState.None;
 		}
 

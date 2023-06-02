@@ -63,6 +63,7 @@ namespace Personal.Object
 		{
 			var activeObject = StageManager.Instance.PlayerController.Inventory.ActiveObject;
 
+			if (!activeObject) return;
 			if (!itemTypeCompare.HasFlag(activeObject.ItemTypeSet.ItemType)) return;
 
 			activeObject.GetComponentInChildren<IItem>().PlaceAt(placeAt.position);

@@ -32,6 +32,8 @@ namespace Personal.UI.Option
 		[SerializeField] List<Tab> tabList = new();
 
 		public Transform MenuParent { get => menuParent; }
+		public IWindowHandler IWindowHandler { get => this; }
+		public IDefaultHandler IDefaultHandler { get => this; }
 
 		public event Action<bool> OnMenuOpened;
 
@@ -40,6 +42,7 @@ namespace Personal.UI.Option
 
 		public void Initialize()
 		{
+			// Initialize all the tabs and set onClick listener.
 			foreach (var tab in tabList)
 			{
 				_ = tab.OptionMenuUI.Initialize();
@@ -55,6 +58,9 @@ namespace Personal.UI.Option
 			}
 		}
 
+		/// <summary>
+		/// This opens the entire option panel containing all the tabs.
+		/// </summary>
 		void IWindowHandler.OpenWindow()
 		{
 			SetupMenu(true);
@@ -67,6 +73,9 @@ namespace Personal.UI.Option
 			}
 		}
 
+		/// <summary>
+		/// Close the entire option panel.
+		/// </summary>
 		void IWindowHandler.CloseWindow()
 		{
 			foreach (var tab in tabList)
@@ -89,7 +98,7 @@ namespace Personal.UI.Option
 			if (!tabDictionary.TryGetValue(currentMenuTab, out Tab tab)) return;
 
 			Action yesAction = () => tab.OptionMenuUI.Default_Inspector();
-			_ = UIManager.Instance.DialogBoxUI.OpenWindow(WindowUIType.DefaultButton, yesAction);
+			_ = UIManager.Instance.WindowHandlerUI.OpenWindow(WindowUIType.DefaultButton, yesAction);
 		}
 
 		/// <summary>

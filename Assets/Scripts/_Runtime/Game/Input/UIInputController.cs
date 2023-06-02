@@ -46,26 +46,25 @@ namespace Personal.InputProcessing
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
 
-			if (UIManager.Instance.DialogBoxUI.WindowStack.Count == 0)
+			if (UIManager.Instance.WindowHandlerUI.WindowStack.Count == 0)
 			{
-				UIManager.Instance.OptionUI.GetComponentInChildren<IWindowHandler>().CloseWindow();
+				UIManager.Instance.OptionUI.IWindowHandler.CloseWindow();
 				return;
 			}
 
-			var stack = UIManager.Instance.DialogBoxUI.WindowStack;
-			stack.Peek().CancelAction();
+			UIManager.Instance.WindowHandlerUI.CloseLatestWindow();
 		}
 
 		void DefaultOptionMenu()
 		{
-			UIManager.Instance.OptionUI.GetComponentInChildren<IDefaultHandler>().ResetToDefault();
+			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
 		}
 
 		void CloseInventoryMenu()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Inventory) return;
 
-			UIManager.Instance.InventoryUI.gameObject.SetActive(false);
+			UIManager.Instance.InventoryUI.IWindowHandler.CloseWindow();
 		}
 
 		protected override void OnDisable()
