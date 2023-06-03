@@ -225,11 +225,12 @@ namespace Personal.UI.Option
 		void InitializeScreenResolution()
 		{
 			var allResolutions = Screen.resolutions;
-			int refreshRate = Screen.currentResolution.refreshRate;
+			double refreshRate = Screen.currentResolution.refreshRateRatio.value;
 
 			foreach (var resolution in allResolutions)
 			{
-				if (resolution.refreshRate != refreshRate) continue;
+				double value = resolution.refreshRateRatio.value;
+				if (value != refreshRate) continue;
 
 				screenResolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.width + " x " + resolution.height));
 				resolutionList.Add(resolution);
@@ -280,7 +281,7 @@ namespace Personal.UI.Option
 		{
 			if (resolution01.width == resolution02.width &&
 				resolution01.height == resolution02.height &&
-				resolution01.refreshRate == resolution02.refreshRate)
+				resolution01.refreshRateRatio.value == resolution02.refreshRateRatio.value)
 			{
 				return true;
 			}

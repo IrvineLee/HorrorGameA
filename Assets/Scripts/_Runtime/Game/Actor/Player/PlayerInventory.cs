@@ -53,7 +53,7 @@ namespace Personal.Character.Player
 		public InteractableObject ActiveObject { get => activeObject; }
 		public List<Inventory> InventoryList { get => inventoryList; }
 
-		public int CurrentActiveIndex { get; private set; }
+		public int CurrentActiveIndex { get; private set; } = -1;
 
 		Vector3 initialPosition = new Vector3(0, -0.25f, 0);
 		Vector3 initialScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -78,10 +78,18 @@ namespace Personal.Character.Player
 		{
 			activeObject = null;
 
+			// Remove the item from the inventory and the ui view.
 			Inventory inventory = inventoryList[CurrentActiveIndex];
 			UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);
 			inventoryList.Remove(inventory);
 
+			if (inventoryList.Count <= 0)
+			{
+				CurrentActiveIndex = -1;
+				return;
+			}
+
+			// Move the index down 1.
 			CurrentActiveIndex = (--CurrentActiveIndex).WithinCount(inventoryList.Count);
 		}
 
@@ -140,6 +148,8 @@ namespace Personal.Character.Player
 		/// </summary>
 		public void UpdateActiveObject()
 		{
+			if (CurrentActiveIndex < 0) return;
+
 			// Do nothing if it's the same object.
 			var newActiveObject = inventoryList[CurrentActiveIndex];
 			if (activeObject == newActiveObject.InteractableObject) return;
