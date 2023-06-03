@@ -66,7 +66,7 @@ namespace Personal.Object
 			if (!activeObject) return;
 			if (!itemTypeCompare.HasFlag(activeObject.ItemTypeSet.ItemType)) return;
 
-			activeObject.GetComponentInChildren<IItem>().PlaceAt(placeAt.position);
+			activeObject.ParentTrans.GetComponentInChildren<IItem>().PlaceAt(placeAt.position);
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem();
 		}
 	}

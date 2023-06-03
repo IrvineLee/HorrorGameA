@@ -43,7 +43,8 @@ namespace Personal.FSM.Character
 		{
 			Debug.Log("Hit interactable");
 
-			var interactable = hit.transform.GetComponentInChildren<InteractableObject>();
+			// All interactable objects collider should be at least 1 child deep into a gameobject.
+			var interactable = hit.transform.GetComponentInParent<InteractableObject>();
 
 			if (!interactable) return;
 			if (!interactable.enabled) return;

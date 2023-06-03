@@ -13,13 +13,13 @@ namespace Personal.Item
 
 		public ItemType ItemType { get => itemType; }
 
-		ItemEntity entity;
+		public ItemEntity Entity { get; private set; }
 
 		protected async override UniTask Awake()
 		{
 			await base.Awake();
 
-			entity = MasterDataManager.Instance.Item.Get(itemType);
+			Entity = MasterDataManager.Instance.Item.Get(itemType);
 		}
 
 		void IItem.Use()

@@ -44,7 +44,7 @@ namespace Personal.Spawner
 			sb.Replace("**", interactionStr);
 
 			// Spawn the actor.
-			GameObject instance = PoolManager.Instance.GetSpawnedActor(entity.characterPath);
+			GameObject instance = PoolManager.Instance.GetSpawnedObject(entity.characterPath);
 			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
 
 			// Set the interaction.

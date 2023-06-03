@@ -1,29 +1,37 @@
-using System;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.InputProcessing;
 using Personal.GameState;
 using Personal.Manager;
+using Personal.Item;
+using Personal.System.Handler;
+using Personal.Object;
+using Personal.Character.Player;
 using Helper;
+using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
 {
 	public class ItemInACircle3DUI : GameInitialize, IAngleDirection
 	{
-		[SerializeField] float radius = 5f;
-		[SerializeField] float rotateDuration = 0.25f;
+		[SerializeField] protected Transform contentTrans = null;
+		[SerializeField] protected float radius = 5f;
+		[SerializeField] protected float rotateDuration = 0.25f;
 
-		UIInputController uIInputController;
-		float yAngleToRotate;
+		protected PlayerInventory playerInventory;
+		protected UIInputController uIInputController;
 
-		CoroutineRun rotateAroundCR = new CoroutineRun();
+		protected CoroutineRun rotateAroundCR = new CoroutineRun();
+
+		protected float yAngleToRotate;
 
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
 
 			uIInputController = InputManager.Instance.UIInputController;
+			playerInventory = StageManager.Instance.PlayerController.Inventory;
 		}
 
 		protected override void OnUpdate()
@@ -33,17 +41,39 @@ namespace Personal.UI
 			HandleInput();
 		}
 
-		public void Setup()
+		/// <summary>
+		/// Spawn objects from addressable into a parent. Set objects into UI-based.
+		/// </summary>
+		/// <param name="itemType"></param>
+		/// <param name="inventory"></param>
+		/// <returns></returns>
+		public async UniTask SpawnObject(ItemType itemType, Inventory inventory)
 		{
-			SetIntoACircle();
+			GameObject go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero, contentTrans);
+			go.transform.SetLayerAllChildren((int)LayerType._UI);
+			go.transform.localScale = Vector3.one;
 
+			inventory.SetInteractableObjectUI(go.GetComponentInChildren<InteractableObject>());
+		}
+
+		/// <summary>
+		/// Set objects into a circle and put the active object in front.
+		/// </summary>
+		public virtual void Setup()
+		{
+			if (!IsSetIntoACircle()) return;
+
+			// Put the active item at the front view.
 			int currentIndex = StageManager.Instance.PlayerController.Inventory.CurrentActiveIndex;
 			float eulerRotateToActiveItem = currentIndex * yAngleToRotate;
 
-			transform.localEulerAngles = transform.localEulerAngles.With(y: transform.localEulerAngles.y + eulerRotateToActiveItem);
+			contentTrans.localEulerAngles = contentTrans.localEulerAngles.With(y: contentTrans.localEulerAngles.y + eulerRotateToActiveItem);
 		}
 
-		void HandleInput()
+		/// <summary>
+		/// Handle the movement of items within a circle.
+		/// </summary>
+		protected virtual void HandleInput()
 		{
 			if (uIInputController.Move == Vector2.zero) return;
 			if (!rotateAroundCR.IsDone) return;
@@ -55,32 +85,39 @@ namespace Personal.UI
 			}
 
 			Vector3 angleRotation = new Vector3(0, angle, 0);
-			rotateAroundCR = CoroutineHelper.RotateWithinSeconds(transform, angleRotation, rotateDuration, default, false);
+			rotateAroundCR = CoroutineHelper.RotateWithinSeconds(contentTrans, angleRotation, rotateDuration, default, false);
 		}
 
-		void SetIntoACircle()
+		/// <summary>
+		/// The calculation of putting objects into a circle.
+		/// </summary>
+		/// <returns></returns>
+		bool IsSetIntoACircle()
 		{
 			// Put all the children into a circle.
-			int childCount = transform.childCount;
+			int childCount = contentTrans.childCount;
+			if (childCount <= 0) return false;
+
 			var directionList = IAngleDirection.GetDirectionListFor360Degrees(childCount, 0);
 
 			for (int i = 0; i < childCount; i++)
 			{
-				Transform child = transform.GetChild(i);
+				Transform child = contentTrans.GetChild(i);
 				Vector2 direction = directionList[i] * radius;
 
-				child.position = transform.position;
+				child.position = contentTrans.position;
 				child.localPosition = child.localPosition.With(x: direction.x, z: direction.y);
 			}
 
 			// Since the first item spawned would be straight ahead, rotate it 180 degrees so it faces the front.
-			transform.localRotation = Quaternion.identity;
-			transform.localEulerAngles = Vector3.zero.With(y: 180);
+			contentTrans.localRotation = Quaternion.identity;
+			contentTrans.localEulerAngles = Vector3.zero.With(y: 180);
 
-			Quaternion quaternion = Quaternion.Euler(transform.localEulerAngles);
-			transform.localRotation = quaternion;
+			Quaternion quaternion = Quaternion.Euler(contentTrans.localEulerAngles);
+			contentTrans.localRotation = quaternion;
 
 			yAngleToRotate = 360 / childCount;
+			return true;
 		}
 	}
 }

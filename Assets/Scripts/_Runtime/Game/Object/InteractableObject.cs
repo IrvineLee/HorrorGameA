@@ -13,6 +13,7 @@ namespace Personal.Object
 	public abstract class InteractableObject : GameInitialize
 	{
 		[SerializeField] protected InteractType interactType = InteractType.Pickupable;
+		[SerializeField] private Transform parentTrans = null;
 
 		[ShowIf("interactType", InteractType.Event_StateChange)]
 		[SerializeField] protected ActionMapType actionMapType = ActionMapType.Player;
@@ -24,6 +25,7 @@ namespace Personal.Object
 		[SerializeField] protected Transform placeAt = null;
 
 		public InteractType InteractType { get => interactType; }
+		public Transform ParentTrans { get => parentTrans; }
 
 		/// <summary>
 		/// Not every interactableObject will be an item.

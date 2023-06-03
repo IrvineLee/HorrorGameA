@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Personal.InputProcessing;
 using Personal.Manager;
-using Personal.System.Handler;
-using Helper;
 using Personal.Item;
+using static Personal.Character.Player.PlayerInventory;
+using Personal.Object;
 
 namespace Personal.UI
 {
@@ -18,17 +17,22 @@ namespace Personal.UI
 
 		public event Action<bool> OnMenuOpened;
 
-		List<ItemTypeSet> itemList = new();
-
 		/// <summary>
 		/// Add item to canvas camera for ui selection.
 		/// </summary>
 		/// <param name="itemTypeStr"></param>
-		public async void SpawnObject(ItemType itemType)
+		public void SpawnObject(ItemType itemType, Inventory inventory)
 		{
-			GameObject go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero, itemInACircle3DUI.transform);
-			go.transform.SetLayerAllChildren((int)LayerType._UI);
-			itemList.Add(go.GetComponentInChildren<ItemTypeSet>());
+			_ = itemInACircle3DUI.SpawnObject(itemType, inventory);
+		}
+
+		/// <summary>
+		/// Remove object from ui selection.
+		/// </summary>
+		/// <param name="interactableObject"></param>
+		public void RemoveObject(InteractableObject interactableObject)
+		{
+			PoolManager.Instance.ReturnSpawnedObject(interactableObject.ParentTrans.gameObject);
 		}
 
 		void IWindowHandler.OpenWindow()
@@ -41,6 +45,7 @@ namespace Personal.UI
 		void IWindowHandler.CloseWindow()
 		{
 			SetWindowEnable(false);
+			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
 			InputManager.Instance.SetToDefaultActionMap();
 		}
 

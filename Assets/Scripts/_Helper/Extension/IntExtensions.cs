@@ -8,7 +8,7 @@ namespace Helper
 		/// Keep the value within the size of count. 
 		/// IsResetToDefault handles whether accumulated values resets to 0 or max value.
 		/// In case of false, index value will sequently ++/--.
-		/// Ex: index 5, count 3, isResetToDefault false, returns 1.
+		/// Ex: index 5, count 3, isResetToDefault false, returns 2.
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="count"></param>

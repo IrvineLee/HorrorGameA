@@ -10,7 +10,7 @@ namespace Personal.Manager
 	public class PoolManager : GameInitializeSingleton<PoolManager>
 	{
 		Dictionary<PoolType, SpawnablePoolBase> spawnablePoolDictionary = new();
-		Dictionary<string, GameObject> actorDictionary = new();
+		Dictionary<string, GameObject> objectDictionary = new();
 
 		void Start()
 		{
@@ -27,23 +27,23 @@ namespace Personal.Manager
 			return spawnablePool;
 		}
 
-		public GameObject GetSpawnedActor(string actorStr)
+		public GameObject GetSpawnedObject(string actorStr)
 		{
-			actorDictionary.TryGetValue(actorStr, out GameObject go);
+			objectDictionary.TryGetValue(actorStr, out GameObject go);
 			go?.transform.SetParent(null);
 			go?.gameObject.SetActive(true);
 
 			return go;
 		}
 
-		public void ReturnSpawnedActor(GameObject go)
+		public void ReturnSpawnedObject(GameObject go)
 		{
 			go.transform.SetParent(transform);
 			go.gameObject.SetActive(false);
 
-			if (!actorDictionary.ContainsKey(go.name))
+			if (!objectDictionary.ContainsKey(go.name))
 			{
-				actorDictionary.Add(go.name, go);
+				objectDictionary.Add(go.name, go);
 			}
 		}
 	}
