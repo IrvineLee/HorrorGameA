@@ -22,7 +22,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnInteractEvent += InteractInput;
 
 			inputReaderDefinition.OnCancelEvent += CloseOptionMenu;
-			inputReaderDefinition.OnCancelEvent += CloseInventoryMenu;
+			inputReaderDefinition.OnCancelInventoryEvent += CloseInventoryMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
 		}
@@ -57,6 +57,8 @@ namespace Personal.InputProcessing
 
 		void DefaultOptionMenu()
 		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
+
 			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
 		}
 
@@ -76,7 +78,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 
 			inputReaderDefinition.OnCancelEvent -= CloseOptionMenu;
-			inputReaderDefinition.OnCancelEvent -= CloseInventoryMenu;
+			inputReaderDefinition.OnCancelInventoryEvent -= CloseInventoryMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent -= DefaultOptionMenu;
 

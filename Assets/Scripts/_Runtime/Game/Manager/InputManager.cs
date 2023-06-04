@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -9,7 +8,6 @@ using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.Definition;
 using Helper;
-using Personal.Setting.Game;
 using static Personal.Definition.InputReaderDefinition;
 
 namespace Personal.Manager
@@ -66,7 +64,7 @@ namespace Personal.Manager
 		InputDevice previousDevice = null;
 		IconDisplayType iconDisplayType;
 
-		string currentDeviceName;
+		IDisposable iDisposableAnyButtonPressed;
 
 		protected override async UniTask Awake()
 		{
@@ -80,7 +78,7 @@ namespace Personal.Manager
 			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
-			InputSystem.onAnyButtonPress.Call(ctrl => HandleInputDeviceCompare(ctrl.device));
+			iDisposableAnyButtonPressed = InputSystem.onAnyButtonPress.Call(ctrl => HandleInputDeviceCompare(ctrl.device));
 		}
 
 		/// <summary>
@@ -184,6 +182,7 @@ namespace Personal.Manager
 		/// <param name="currentDeviceName"></param>
 		void HandleCurrentGamepad(string currentDeviceName)
 		{
+			CurrentGamepad = null;
 			foreach (var gamepad in Gamepad.all)
 			{
 				if (gamepad.name.Contains(currentDeviceName))
@@ -199,17 +198,17 @@ namespace Personal.Manager
 		/// </summary>
 		void HandleIconInitials()
 		{
-			if (iconDisplayType == IconDisplayType.KeyboardMouse) // Keyboard
+			if (iconDisplayType == IconDisplayType.KeyboardMouse)
 			{
 				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
 				return;
 			}
-			else if (iconDisplayType == IconDisplayType.Dualshock) // Dualshock
+			else if (iconDisplayType == IconDisplayType.Dualshock)
 			{
 				SetInitials(IconDisplayType.Dualshock.GetStringValue());
 				return;
 			}
-			else if (iconDisplayType == IconDisplayType.Xbox) // XBox
+			else if (iconDisplayType == IconDisplayType.Xbox)
 			{
 				SetInitials(IconDisplayType.Xbox.GetStringValue());
 				return;
@@ -221,6 +220,8 @@ namespace Personal.Manager
 				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
 				return;
 			}
+
+			if (CurrentGamepad == null) return;
 
 			// Check for gamepad...
 			if (SetInitialsWhenGamepadContains("DualShock", IconDisplayType.Dualshock.GetStringValue())) return;
@@ -247,6 +248,7 @@ namespace Personal.Manager
 		void OnDestroy()
 		{
 			InputSystem.onActionChange -= HandleInputDeviceType;
+			iDisposableAnyButtonPressed.Dispose();
 		}
 	}
 }

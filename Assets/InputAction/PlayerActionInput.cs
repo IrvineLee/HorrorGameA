@@ -549,6 +549,15 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Cancel_Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca8a4628-f83e-408d-a6c1-583f28d43d80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Default"",
                     ""type"": ""Button"",
                     ""id"": ""fdf461f3-9183-407b-a282-557a9335f36e"",
@@ -796,6 +805,28 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""NotUsed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""607010ff-d77d-46a3-8d70-895259068596"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Cancel_Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a9ccaa9-8091-4250-89e7-304c592e8e54"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel_Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1157,6 +1188,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
         m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+        m_UI_Cancel_Inventory = m_UI.FindAction("Cancel_Inventory", throwIfNotFound: true);
         m_UI_Default = m_UI.FindAction("Default", throwIfNotFound: true);
         m_UI_NotUsed = m_UI.FindAction("NotUsed", throwIfNotFound: true);
         // Puzzle
@@ -1346,6 +1378,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Move;
     private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_Cancel;
+    private readonly InputAction m_UI_Cancel_Inventory;
     private readonly InputAction m_UI_Default;
     private readonly InputAction m_UI_NotUsed;
     public struct UIActions
@@ -1355,6 +1388,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_UI_Move;
         public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+        public InputAction @Cancel_Inventory => m_Wrapper.m_UI_Cancel_Inventory;
         public InputAction @Default => m_Wrapper.m_UI_Default;
         public InputAction @NotUsed => m_Wrapper.m_UI_NotUsed;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
@@ -1375,6 +1409,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @Cancel_Inventory.started += instance.OnCancel_Inventory;
+            @Cancel_Inventory.performed += instance.OnCancel_Inventory;
+            @Cancel_Inventory.canceled += instance.OnCancel_Inventory;
             @Default.started += instance.OnDefault;
             @Default.performed += instance.OnDefault;
             @Default.canceled += instance.OnDefault;
@@ -1394,6 +1431,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @Cancel_Inventory.started -= instance.OnCancel_Inventory;
+            @Cancel_Inventory.performed -= instance.OnCancel_Inventory;
+            @Cancel_Inventory.canceled -= instance.OnCancel_Inventory;
             @Default.started -= instance.OnDefault;
             @Default.performed -= instance.OnDefault;
             @Default.canceled -= instance.OnDefault;
@@ -1533,6 +1573,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnCancel_Inventory(InputAction.CallbackContext context);
         void OnDefault(InputAction.CallbackContext context);
         void OnNotUsed(InputAction.CallbackContext context);
     }
