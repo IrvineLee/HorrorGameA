@@ -28,7 +28,7 @@ namespace Personal.Manager
 		public PuzzleInputController PuzzleInputController { get; private set; }
 
 		public ActionMapType CurrentActionMapType { get; private set; }
-		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.KeyboardMouse;
+		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
 
 		public bool IsInteract
 		{
@@ -165,6 +165,8 @@ namespace Personal.Manager
 				inputType = InputDeviceType.KeyboardMouse;
 			}
 
+			if (inputType == InputDeviceType) return;
+
 			// Check for gamepads.
 			InputDeviceType = inputType;
 			previousDevice = inputDevice;
@@ -172,7 +174,7 @@ namespace Personal.Manager
 			HandleCurrentGamepad(inputDevice.name);
 			HandleIconInitials();
 
-			Debug.Log($"DeviceType : {inputDevice.name}");
+			Debug.Log("DeviceType : " + (InputDeviceType == InputDeviceType.KeyboardMouse ? InputDeviceType.ToString() : inputDevice.name));
 		}
 
 		/// <summary>

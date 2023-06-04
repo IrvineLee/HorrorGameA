@@ -3,7 +3,8 @@ namespace Personal.InputProcessing
 {
 	public enum InputDeviceType
 	{
-		KeyboardMouse = 0,
+		None = 0,
+		KeyboardMouse,
 		Gamepad,
 	}
 }
