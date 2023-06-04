@@ -5,8 +5,10 @@ namespace Personal.InputProcessing
 {
 	public enum IconDisplayType
 	{
+		Auto = 0,
+
 		[StringValue("KM_")]
-		KeyboardMouse = 0,
+		KeyboardMouse,
 
 		[StringValue("DS4_")]
 		Dualshock,

@@ -30,7 +30,7 @@ namespace Personal.Manager
 		public PuzzleInputController PuzzleInputController { get; private set; }
 
 		public ActionMapType CurrentActionMapType { get; private set; }
-		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
+		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.KeyboardMouse;
 
 		public bool IsInteract
 		{
@@ -59,12 +59,14 @@ namespace Personal.Manager
 		}
 
 		public string IconInitials { get; private set; }
+		public Gamepad CurrentGamepad { get; private set; }
 
 		public event Action OnDeviceIconChanged;
 
 		InputDevice previousDevice = null;
+		IconDisplayType iconDisplayType;
 
-		int gamepadIconIndex;
+		string currentDeviceName;
 
 		protected override async UniTask Awake()
 		{
@@ -78,7 +80,7 @@ namespace Personal.Manager
 			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
-			InputSystem.onAnyButtonPress.Call(ctrl => HandleInputDeviceCompare(ctrl.device.displayName));
+			InputSystem.onAnyButtonPress.Call(ctrl => HandleInputDeviceCompare(ctrl.device));
 		}
 
 		/// <summary>
@@ -123,18 +125,17 @@ namespace Personal.Manager
 		/// Set gamepad icon index which will change the UI display.
 		/// </summary>
 		/// <param name="gamepadIconIndex"></param>
-		public void SetGamepadIconIndex(int gamepadIconIndex)
+		public void SetGamepadIconIndex(IconDisplayType iconDisplayType)
 		{
-			this.gamepadIconIndex = gamepadIconIndex;
+			this.iconDisplayType = iconDisplayType;
 
 			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
 			HandleIconInitials();
 		}
 
 		/// <summary>
-		/// Check for new input device and change icon initials for it.
-		/// This only checks for the registered actions in action input. 
-		/// Does nothing for other actions.
+		/// Typically used for registered actions. 
+		/// This is used for analog confirmation.
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="change"></param>
@@ -147,31 +148,50 @@ namespace Personal.Manager
 
 			// Return if it's the same.
 			if (lastControl.device == previousDevice) return;
-			previousDevice = lastControl.device;
 
-			HandleInputDeviceCompare(lastControl.device.displayName);
+			HandleInputDeviceCompare(lastControl.device);
 		}
 
 		/// <summary>
 		/// Check the name of the current device to get correct device.
 		/// </summary>
-		/// <param name="currentDeviceName"></param>
-		void HandleInputDeviceCompare(string currentDeviceName)
+		/// <param name="inputDevice"></param>
+		void HandleInputDeviceCompare(InputDevice inputDevice)
 		{
+			if (previousDevice == inputDevice) return;
+
 			// Get the input type.
 			InputDeviceType inputType = InputDeviceType.Gamepad;
-			if (Equals(currentDeviceName, "Mouse") || Equals(currentDeviceName, "Keyboard"))
+			if (Equals(inputDevice.name, "Mouse") || Equals(inputDevice.name, "Keyboard"))
 			{
 				inputType = InputDeviceType.KeyboardMouse;
 			}
 
-			// Since mouse and keyboard are treated as different entity, return if it's the same.
-			if (InputDeviceType == inputType) return;
-
+			// Check for gamepads.
 			InputDeviceType = inputType;
+			previousDevice = inputDevice;
+
+			HandleCurrentGamepad(inputDevice.name);
 			HandleIconInitials();
 
-			Debug.Log($"DeviceType : {InputDeviceType}");
+			Debug.Log($"DeviceType : {inputDevice.name}");
+		}
+
+		/// <summary>
+		/// Make sure the active gamepad is registered.
+		/// Gamepad.current does not always return the used, active gamepad.
+		/// </summary>
+		/// <param name="currentDeviceName"></param>
+		void HandleCurrentGamepad(string currentDeviceName)
+		{
+			foreach (var gamepad in Gamepad.all)
+			{
+				if (gamepad.name.Contains(currentDeviceName))
+				{
+					CurrentGamepad = gamepad;
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -179,23 +199,23 @@ namespace Personal.Manager
 		/// </summary>
 		void HandleIconInitials()
 		{
-			if (gamepadIconIndex == 1) // Keyboard
+			if (iconDisplayType == IconDisplayType.KeyboardMouse) // Keyboard
 			{
 				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
 				return;
 			}
-			else if (gamepadIconIndex == 2) // Dualshock
+			else if (iconDisplayType == IconDisplayType.Dualshock) // Dualshock
 			{
 				SetInitials(IconDisplayType.Dualshock.GetStringValue());
 				return;
 			}
-			else if (gamepadIconIndex == 3) // XBox
+			else if (iconDisplayType == IconDisplayType.Xbox) // XBox
 			{
 				SetInitials(IconDisplayType.Xbox.GetStringValue());
 				return;
 			}
 
-			// Auto check
+			// All condition-checks below are auto check...
 			if (InputDeviceType == InputDeviceType.KeyboardMouse)
 			{
 				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
@@ -204,12 +224,13 @@ namespace Personal.Manager
 
 			// Check for gamepad...
 			if (SetInitialsWhenGamepadContains("DualShock", IconDisplayType.Dualshock.GetStringValue())) return;
+			else if (SetInitialsWhenGamepadContains("DualSense", IconDisplayType.Dualshock.GetStringValue())) return;
 			else if (SetInitialsWhenGamepadContains("XBox", IconDisplayType.Xbox.GetStringValue())) return;
 		}
 
 		bool SetInitialsWhenGamepadContains(string subset, string initials)
 		{
-			if (Gamepad.current.device.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
+			if (CurrentGamepad.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
 			{
 				SetInitials(initials);
 				return true;

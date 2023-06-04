@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using Personal.UI;
+using Personal.InputProcessing;
 
 namespace Personal.Setting.Game
 {
@@ -12,7 +13,7 @@ namespace Personal.Setting.Game
 		[SerializeField] float cameraSensitivity = 1;
 		[SerializeField] bool isInverLookHorizontal = false;
 		[SerializeField] bool isInvertLookVertical = false;
-		[SerializeField] int gamepadIconIndex = 0;
+		[SerializeField] IconDisplayType iconDisplayType = IconDisplayType.Auto;
 		[SerializeField] FontSizeType fontSizeType = FontSizeType.Normal;
 		[SerializeField] bool isSubtitle = true;
 
@@ -20,7 +21,7 @@ namespace Personal.Setting.Game
 		public float CameraSensitivity { get => cameraSensitivity; set => cameraSensitivity = value; }
 		public bool IsInvertLookHorizontal { get => isInverLookHorizontal; set => isInverLookHorizontal = value; }
 		public bool IsInvertLookVertical { get => isInvertLookVertical; set => isInvertLookVertical = value; }
-		public int GamepadIconIndex { get => gamepadIconIndex; set => gamepadIconIndex = value; }
+		public IconDisplayType IconDisplayType { get => iconDisplayType; set => iconDisplayType = value; }
 		public FontSizeType FontSizeType { get => fontSizeType; set => fontSizeType = value; }
 		public bool IsSubtitle { get => isSubtitle; set => isSubtitle = value; }
 	}

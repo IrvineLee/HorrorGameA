@@ -10,14 +10,13 @@ namespace Personal.Manager
 {
 	public class RumbleManager : GameInitializeSingleton<RumbleManager>
 	{
-		Gamepad gamepad;
 		CoroutineRun rumbleCR = new CoroutineRun();
 
 		public void Vibrate(float lowfrequency, float highFrequency, float duration)
 		{
 			if (InputManager.Instance.InputDeviceType != InputDeviceType.Gamepad) return;
 
-			gamepad = Gamepad.current;
+			Gamepad gamepad = InputManager.Instance.CurrentGamepad;
 			gamepad.SetMotorSpeeds(lowfrequency, highFrequency);
 
 			rumbleCR?.StopCoroutine();

@@ -12,6 +12,7 @@ using Personal.Character.Player;
 using Helper;
 using TMPro;
 using System.Linq;
+using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
@@ -65,7 +66,7 @@ namespace Personal.UI.Option
 			gameData.CameraSensitivity = cameraSensitivitySlider.value;
 			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.isOn;
 			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
-			gameData.GamepadIconIndex = gamepadIconDropdown.value;
+			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
 		}
 
@@ -101,7 +102,7 @@ namespace Personal.UI.Option
 			isInvertLookHorizontal.onValueChanged.AddListener((flag) => fpsController.SetInvertedLookHorizontal(flag));
 			isInvertLookVertical.onValueChanged.AddListener((flag) => fpsController.SetInvertedLookVertical(flag));
 
-			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex(value));
+			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
 			fontSizeDropdown.onValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
 		}
 
@@ -115,7 +116,7 @@ namespace Personal.UI.Option
 			isInvertLookHorizontal.isOn = gameData.IsInvertLookHorizontal;
 			isInvertLookVertical.isOn = gameData.IsInvertLookVertical;
 
-			gamepadIconDropdown.value = gameData.GamepadIconIndex;
+			gamepadIconDropdown.value = (int)gameData.IconDisplayType;
 			fontSizeDropdown.value = (int)gameData.FontSizeType;
 		}
 
@@ -127,7 +128,7 @@ namespace Personal.UI.Option
 			fpsController.SetInvertedLookHorizontal(gameData.IsInvertLookHorizontal);
 			fpsController.SetInvertedLookVertical(gameData.IsInvertLookVertical);
 
-			InputManager.Instance.SetGamepadIconIndex(gameData.GamepadIconIndex);
+			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);
 		}
 
