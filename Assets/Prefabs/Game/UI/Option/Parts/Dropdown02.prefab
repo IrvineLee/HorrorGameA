@@ -69,7 +69,7 @@ RectTransform:
   - {fileID: 4216894412072875943}
   - {fileID: 7564707601282503873}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1184,6 +1184,7 @@ GameObject:
   - component: {fileID: 2048968440265795826}
   - component: {fileID: 3213955290103624526}
   - component: {fileID: 7063415986661233774}
+  - component: {fileID: 6370322840225188671}
   m_Layer: 5
   m_Name: AudioSpeakerModeDropdown
   m_TagString: Untagged
@@ -1310,6 +1311,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
+--- !u!114 &6370322840225188671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8947799340659910881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2116040b516fd74591fb51b7d6ef707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInitialSelection: 0
 --- !u!1 &9216853456271169194
 GameObject:
   m_ObjectHideFlags: 0

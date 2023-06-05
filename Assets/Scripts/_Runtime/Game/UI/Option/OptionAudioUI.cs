@@ -35,6 +35,13 @@ namespace Personal.UI.Option
 			AudioSpeakerMode.Mono,
 		};
 
+		protected async override UniTask OnEnable()
+		{
+			await base.OnEnable();
+
+			lastSelectedGO = speakerModeDropdown.gameObject;
+		}
+
 		/// <summary>
 		/// Initialize.
 		/// </summary>

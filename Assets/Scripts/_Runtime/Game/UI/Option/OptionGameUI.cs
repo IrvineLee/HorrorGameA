@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
@@ -9,10 +10,9 @@ using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Game;
 using Personal.Character.Player;
+using Personal.InputProcessing;
 using Helper;
 using TMPro;
-using System.Linq;
-using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
@@ -36,6 +36,13 @@ namespace Personal.UI.Option
 		ColorAdjustments colorAdjustments;
 
 		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
+
+		protected async override UniTask OnEnable()
+		{
+			await base.OnEnable();
+
+			lastSelectedGO = brightnessSlider.gameObject;
+		}
 
 		/// <summary>
 		/// Initialize.

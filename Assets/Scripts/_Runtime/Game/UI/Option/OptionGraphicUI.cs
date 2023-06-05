@@ -5,10 +5,9 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
-using Helper;
-using Cysharp.Threading.Tasks;
 using Personal.Setting.Graphic;
 
 namespace Personal.UI.Option
@@ -18,8 +17,6 @@ namespace Personal.UI.Option
 		[Space]
 		[SerializeField] TMP_Dropdown screenResolutionDropdown = null;
 		[SerializeField] TMP_Dropdown screenModeDropdown = null;
-
-		//[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] TMP_Dropdown antiAliasingDropdown = null;
 
 		[SerializeField] Toggle isVsync = null;
@@ -50,6 +47,13 @@ namespace Personal.UI.Option
 		DepthOfField depthOfField;
 		MotionBlur motionBlur;
 		Bloom bloom;
+
+		protected async override UniTask OnEnable()
+		{
+			await base.OnEnable();
+
+			lastSelectedGO = screenResolutionDropdown.gameObject;
+		}
 
 		/// <summary>
 		/// Initialize.
