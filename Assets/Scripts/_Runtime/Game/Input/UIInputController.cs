@@ -42,6 +42,9 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
+		/// ------------------------------------------------------------------------
+		/// ---------------------------- Option events -----------------------------
+		/// ------------------------------------------------------------------------
 		void CloseOptionMenu()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
@@ -62,6 +65,9 @@ namespace Personal.InputProcessing
 			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
 		}
 
+		/// ------------------------------------------------------------------------
+		/// -------------------------- Inventory events ----------------------------
+		/// ------------------------------------------------------------------------
 		void CloseInventoryMenu()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Inventory) return;

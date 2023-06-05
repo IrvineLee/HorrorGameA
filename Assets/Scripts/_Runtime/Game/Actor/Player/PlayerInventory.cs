@@ -119,6 +119,8 @@ namespace Personal.Character.Player
 		/// <param name="isNext"></param>
 		public void NextItem(bool isNext)
 		{
+			if (inventoryList.Count == 0) return;
+
 			// Scroll throught the list.
 			CurrentActiveIndex = isNext ? CurrentActiveIndex + 1 : CurrentActiveIndex - 1;
 			CurrentActiveIndex = CurrentActiveIndex.WithinCount(inventoryList.Count);
