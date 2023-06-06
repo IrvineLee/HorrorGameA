@@ -18,6 +18,7 @@ namespace Personal.InputProcessing
 			await base.OnEnable();
 
 			inputReaderDefinition.OnMoveEvent += MoveInput;
+			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
 
@@ -45,6 +46,14 @@ namespace Personal.InputProcessing
 		/// ------------------------------------------------------------------------
 		/// ---------------------------- Option events -----------------------------
 		/// ------------------------------------------------------------------------
+
+		void TabSwitch(bool isNext)
+		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
+
+			UIManager.Instance.OptionUI.NextTab(isNext);
+		}
+
 		void CloseOptionMenu()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
@@ -80,6 +89,7 @@ namespace Personal.InputProcessing
 			if (!isAwakeCompleted) return;
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
+			inputReaderDefinition.OnTabSwitchEvent -= TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 

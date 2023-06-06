@@ -36,17 +36,23 @@ namespace Personal.UI.Option
 		public event Action<bool> OnMenuOpened;
 
 		Dictionary<MenuTab, Tab> tabDictionary = new Dictionary<MenuTab, Tab>();
+
 		MenuTab currentMenuTab;
+		int currentMenuIndex;
 
 		public void Initialize()
 		{
 			// Initialize all the tabs and set onClick listener.
-			foreach (var tab in tabList)
+			for (int i = 0; i < tabList.Count; i++)
 			{
+				Tab tab = tabList[i];
+				int index = i;
+
 				_ = tab.OptionMenuUI.Initialize();
 				tab.SelectButton.onClick.AddListener(() =>
 				{
 					currentMenuTab = tab.OptionMenuUI.MenuTab;
+					currentMenuIndex = index;
 
 					CloseAllMenuTabs();
 					tab.OptionMenuUI.gameObject.SetActive(true);
@@ -57,6 +63,19 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
+		/// Open next/previous tab. 
+		/// </summary>
+		/// <param name="menuTab"></param>
+		public void NextTab(bool isNextTab)
+		{
+			int index = isNextTab ? currentMenuIndex + 1 : currentMenuIndex - 1;
+			if (index < 0 || index > tabList.Count - 1) return;
+
+			tabList[index].SelectButton.onClick.Invoke();
+			currentMenuIndex = index;
+		}
+
+		/// <summary>
 		/// This opens the entire option panel containing all the tabs.
 		/// </summary>
 		void IWindowHandler.OpenWindow()
@@ -64,8 +83,7 @@ namespace Personal.UI.Option
 			SetupMenu(true);
 			currentMenuTab = MenuTab.Game;
 
-			// Open requested menu tab.
-			if (tabDictionary.TryGetValue(MenuTab.Game, out Tab tab))
+			if (tabDictionary.TryGetValue(currentMenuTab, out Tab tab))
 			{
 				tab.OptionMenuUI.gameObject.SetActive(true);
 			}

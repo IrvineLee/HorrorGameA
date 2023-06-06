@@ -531,6 +531,15 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""TabSwitch"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffc80fe2-086a-4757-83aa-ee70fafb3acd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""efaff0e0-2f40-4136-88c8-3c1b840bb610"",
@@ -829,6 +838,39 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel_Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""e236a892-144a-441e-af1b-1dc6778f2e41"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TabSwitch"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""6a818bad-4fd1-437b-a17d-433ae626d822"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""TabSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e748a1fe-f06d-4ff0-862e-8632bee4c507"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""TabSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1186,6 +1228,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
+        m_UI_TabSwitch = m_UI.FindAction("TabSwitch", throwIfNotFound: true);
         m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Cancel_Inventory = m_UI.FindAction("Cancel_Inventory", throwIfNotFound: true);
@@ -1376,6 +1419,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Move;
+    private readonly InputAction m_UI_TabSwitch;
     private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Cancel_Inventory;
@@ -1386,6 +1430,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         private @PlayerActionInput m_Wrapper;
         public UIActions(@PlayerActionInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_UI_Move;
+        public InputAction @TabSwitch => m_Wrapper.m_UI_TabSwitch;
         public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @Cancel_Inventory => m_Wrapper.m_UI_Cancel_Inventory;
@@ -1403,6 +1448,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @TabSwitch.started += instance.OnTabSwitch;
+            @TabSwitch.performed += instance.OnTabSwitch;
+            @TabSwitch.canceled += instance.OnTabSwitch;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -1425,6 +1473,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @TabSwitch.started -= instance.OnTabSwitch;
+            @TabSwitch.performed -= instance.OnTabSwitch;
+            @TabSwitch.canceled -= instance.OnTabSwitch;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -1571,6 +1622,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnTabSwitch(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnCancel_Inventory(InputAction.CallbackContext context);

@@ -509,6 +509,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "TabSwitch",
+                    "type": "Button",
+                    "id": "ffc80fe2-086a-4757-83aa-ee70fafb3acd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "efaff0e0-2f40-4136-88c8-3c1b840bb610",
@@ -807,6 +816,39 @@
                     "action": "Cancel_Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "e236a892-144a-441e-af1b-1dc6778f2e41",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TabSwitch",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "6a818bad-4fd1-437b-a17d-433ae626d822",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TabSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e748a1fe-f06d-4ff0-862e-8632bee4c507",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TabSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
