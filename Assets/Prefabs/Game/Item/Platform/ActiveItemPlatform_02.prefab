@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4742531946313592393, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
@@ -16,20 +17,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4742531946313592394, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742531946313592394, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.68
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4742531946313592394, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4742531946313592394, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.529
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4742531946313592394, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -67,6 +64,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 4877026626462280237, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
+      propertyPath: itemTypeCompare
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846547609392235363, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3d0852cc2f9f27f4c8a53973a0261e5e, type: 2}
     - target: {fileID: 8573321222199073515, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -80,4 +85,7 @@ PrefabInstance:
       value: Platform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
