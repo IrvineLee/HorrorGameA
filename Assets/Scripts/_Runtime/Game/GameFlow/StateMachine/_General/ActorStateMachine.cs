@@ -23,9 +23,9 @@ namespace Personal.FSM
 		{
 			await base.Awake();
 
-			NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
-			DialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
-			AnimatorController = GetComponentInChildren<AnimatorController>();
+			NavMeshAgent = GetComponentInChildren<NavMeshAgent>(true);
+			DialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>(true);
+			AnimatorController = GetComponentInChildren<AnimatorController>(true);
 		}
 
 		protected override void OnUpdate()

@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
+using Helper;
 
 namespace Personal.UI
 {
@@ -16,7 +17,7 @@ namespace Personal.UI
 
 			if (!isInitialSelection) return;
 
-			EventSystem.current.SetSelectedGameObject(gameObject);
+			CoroutineHelper.WaitEndOfFrame(() => EventSystem.current.SetSelectedGameObject(gameObject));
 		}
 
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
