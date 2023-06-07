@@ -9,6 +9,7 @@ using Personal.GameState;
 using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
 using Personal.Setting.Game;
+using Personal.FSM.Character;
 
 namespace Personal.Character.Player
 {
@@ -81,6 +82,7 @@ namespace Personal.Character.Player
 
 		CharacterController _controller;
 		FPSInputController _input;
+		PlayerStateMachine fsm;
 
 		bool isInvertedLookHorizontal;
 		bool isInvertedLookVertical;
@@ -95,6 +97,7 @@ namespace Personal.Character.Player
 
 			_input = InputManager.Instance.FPSInputController;
 			_controller = GetComponent<CharacterController>();
+			fsm = StageManager.Instance.PlayerController.FSM;
 
 			// reset our timeouts on start
 			_jumpTimeoutDelta = jumpTimeout;
@@ -104,6 +107,8 @@ namespace Personal.Character.Player
 		protected override void OnUpdate()
 		{
 			base.OnUpdate();
+
+			if (fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
 
 			JumpAndGravity();
 			GroundedCheck();

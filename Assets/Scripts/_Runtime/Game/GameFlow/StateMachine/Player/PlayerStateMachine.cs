@@ -37,14 +37,20 @@ namespace Personal.FSM.Character
 
 		public async UniTask SwitchToState(Type type)
 		{
-			StateDictionary.TryGetValue(type, out StateBase currentState);
+			StateDictionary.TryGetValue(type, out StateBase state);
 
-			if (currentState == null)
+			if (state == null)
 			{
 				Debug.Log("Couldn't find state of type " + type.Name);
 				return;
 			}
-			await SetState(currentState);
+			await SetState(state);
+		}
+
+		public bool IsPlayerThisState(Type type)
+		{
+			if (CurrentState.GetType() == type) return true;
+			return false;
 		}
 
 		void IFSMHandler.OnBegin()

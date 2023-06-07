@@ -7,6 +7,8 @@ using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.Item;
+using Personal.Character;
+using PixelCrushers.DialogueSystem;
 
 namespace Personal.Object
 {
@@ -35,6 +37,9 @@ namespace Personal.Object
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
+		protected DialogueSystemTrigger dialogueSystemTrigger;
+		protected HeadLookAt headLookAt;
+
 		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;
 
@@ -44,6 +49,9 @@ namespace Personal.Object
 
 			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
 			interactionAssign = GetComponentInChildren<InteractionAssign>();
+
+			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
+			headLookAt = GetComponentInChildren<HeadLookAt>();
 
 			currentCollider = GetComponentInChildren<Collider>();
 			meshRenderer = GetComponentInChildren<MeshRenderer>();

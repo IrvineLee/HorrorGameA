@@ -34,7 +34,7 @@ namespace Personal.FSM.Cashier
 			await UniTask.WaitUntil(() => currentCount == maxCount);
 		}
 
-		public override void OnHitInteractable(RaycastHit hit)
+		public override void HandleInteractable(RaycastHit hit)
 		{
 			if (!InputManager.Instance.FPSInputController.IsInteract) return;
 

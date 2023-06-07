@@ -6,6 +6,8 @@ namespace Personal.Object
 		Pickupable = 0,
 		UseActiveItem,
 		Event_StateChange,
+
+		Dialogue = 1000,
 	}
 }
 

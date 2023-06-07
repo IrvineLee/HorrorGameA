@@ -5,6 +5,7 @@ using Personal.Manager;
 using Personal.System.Handler;
 using Personal.Constant;
 using Personal.Object;
+using PixelCrushers.DialogueSystem;
 
 namespace Personal.FSM.Character
 {
@@ -33,13 +34,13 @@ namespace Personal.FSM.Character
 
 			if (Physics.SphereCast(startPos, radius, cam.transform.forward, out hit, length, 1 << (int)LayerType._Interactable))
 			{
-				OnHitInteractable(hit);
+				HandleInteractable(hit);
 			}
 
 			Debug.DrawLine(startPos, endPos, Color.green);
 		}
 
-		public virtual void OnHitInteractable(RaycastHit hit)
+		public virtual void HandleInteractable(RaycastHit hit)
 		{
 			Debug.Log("Hit interactable");
 

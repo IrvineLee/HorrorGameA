@@ -42,6 +42,8 @@ namespace Personal.Character.Animation
 
 		protected Animator animator;
 
+		public Animator Animator { get => animator; }
+
 		protected override async UniTask Awake()
 		{
 			await base.Awake();

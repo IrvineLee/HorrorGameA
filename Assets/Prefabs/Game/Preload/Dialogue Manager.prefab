@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8b685e62a9aeb4a9472b30ec2d86d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialDatabase: {fileID: 11400000, guid: c1cc03cd82f6cdb40afbc0575be25564, type: 2}
+  initialDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
   displaySettings:
     conversationOverrideSettings:
       useOverrides: 0
@@ -272,7 +272,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -321,6 +323,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 5156722668283792508}
     m_Modifications:
     - target: {fileID: 4335792001174988643, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
@@ -708,6 +711,9 @@ PrefabInstance:
       value: Basic Standard Dialogue UI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
 --- !u!1 &288924338391769024 stripped
 GameObject:
