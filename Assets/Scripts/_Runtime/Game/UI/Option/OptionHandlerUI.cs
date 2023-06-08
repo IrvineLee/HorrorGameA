@@ -60,6 +60,21 @@ namespace Personal.UI.Option
 
 				tabDictionary.Add(tab.OptionMenuUI.MenuTab, tab);
 			}
+
+			// Set game tab to be in a pressed state.
+			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
+			gameTab.SelectButton.interactable = false;
+		}
+
+		/// <summary>
+		/// Enable all tab buttons.
+		/// </summary>
+		public void EnableAllTabButtons()
+		{
+			foreach (var tab in tabList)
+			{
+				tab.SelectButton.interactable = true;
+			}
 		}
 
 		/// <summary>
