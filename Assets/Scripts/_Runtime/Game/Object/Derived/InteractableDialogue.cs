@@ -37,11 +37,11 @@ namespace Personal.Object
 			dialogueSystemTrigger.OnUse(transform);
 
 			ifSMHandler?.OnBegin();
-			headLookAt.SetLookAtPlayer(true);
+			headLookAt.SetLookAtTarget(true);
 
 			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
 
-			headLookAt.SetLookAtPlayer(false);
+			headLookAt.SetLookAtTarget(false);
 			ifSMHandler?.OnExit();
 		}
 	}

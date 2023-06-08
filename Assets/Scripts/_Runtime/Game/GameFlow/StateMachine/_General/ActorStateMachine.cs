@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-using Personal.GameState;
-using Personal.Character.Animation;
 using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
+using Personal.GameState;
+using Personal.Character.Animation;
+using Personal.Character;
 
 namespace Personal.FSM
 {
@@ -16,6 +17,7 @@ namespace Personal.FSM
 		public NavMeshAgent NavMeshAgent { get; protected set; }
 		public DialogueSystemTrigger DialogueSystemTrigger { get; protected set; }
 		public AnimatorController AnimatorController { get; protected set; }
+		public HeadLookAt HeadLookAt { get; protected set; }
 
 		protected List<StateBase> orderedStateList = new List<StateBase>();
 
@@ -26,6 +28,7 @@ namespace Personal.FSM
 			NavMeshAgent = GetComponentInChildren<NavMeshAgent>(true);
 			DialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>(true);
 			AnimatorController = GetComponentInChildren<AnimatorController>(true);
+			HeadLookAt = GetComponentInChildren<HeadLookAt>(true);
 		}
 
 		protected override void OnUpdate()

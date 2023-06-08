@@ -19,8 +19,6 @@ namespace Personal.FSM.Character
 
 			RunActorAnimation();
 			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
-
-			return;
 		}
 	}
 }

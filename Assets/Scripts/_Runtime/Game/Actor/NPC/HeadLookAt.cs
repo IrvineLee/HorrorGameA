@@ -8,12 +8,13 @@ namespace Personal.Character
 {
 	public class HeadLookAt : GameInitialize
 	{
-		[SerializeField] bool isLookAtPlayer = false;
+		[SerializeField] bool isLookAtTarget = false;
 		[SerializeField] float lookAtSpeed = 1f;
 		[SerializeField] float maxLookAtWeight = 1f;
 
 		Animator animator;
-		Transform playerTrans;
+		Transform defaultTrans;
+		Transform targetTrans;
 
 		float lookWeight;
 
@@ -22,18 +23,20 @@ namespace Personal.Character
 			await base.Awake();
 
 			animator = GetComponentInChildren<Animator>();
-			playerTrans = StageManager.Instance.PlayerController.transform;
+			defaultTrans = StageManager.Instance.PlayerController.transform;
+
+			targetTrans = defaultTrans;
 		}
 
 		protected override void OnUpdate()
 		{
 			base.OnUpdate();
 
-			Vector3 direction = Vector3.Normalize(playerTrans.position - transform.position);
+			Vector3 direction = Vector3.Normalize(targetTrans.position - transform.position);
 			float dotProduct = Vector3.Dot(transform.forward, direction);
 
 			float lastFrameValue = Time.deltaTime * lookAtSpeed;
-			if (dotProduct > 0 && isLookAtPlayer)
+			if (dotProduct > 0 && isLookAtTarget)
 			{
 				lookWeight += lastFrameValue;
 				if (lookWeight > maxLookAtWeight) lookWeight = maxLookAtWeight;
@@ -46,14 +49,33 @@ namespace Personal.Character
 			{
 				lookWeight = 0;
 
-				if (!isLookAtPlayer) enabled = false;
+				if (isLookAtTarget) return;
+
+				// Auto-disable
+				enabled = false;
+				targetTrans = defaultTrans;
 			}
 		}
 
-		public void SetLookAtPlayer(bool isFlag)
+		/// <summary>
+		/// The default target is the player's transform. 
+		/// It resets back to default transform after getting disabled.
+		/// </summary>
+		/// <param name="target"></param>
+		public void SetTarget(Transform target)
+		{
+			targetTrans = target;
+		}
+
+		/// <summary>
+		/// Animate the head to move towards target/default position.
+		/// It will automatically disabled by itself after setting it to false and finishes the animation.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		public void SetLookAtTarget(bool isFlag)
 		{
 			enabled = true;
-			isLookAtPlayer = isFlag;
+			isLookAtTarget = isFlag;
 		}
 
 		void OnAnimatorIK()
@@ -61,7 +83,7 @@ namespace Personal.Character
 			if (!animator) return;
 
 			animator.SetLookAtWeight(lookWeight);
-			animator.SetLookAtPosition(playerTrans.position);
+			animator.SetLookAtPosition(targetTrans.position);
 		}
 	}
 }
