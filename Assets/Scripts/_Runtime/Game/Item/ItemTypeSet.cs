@@ -26,11 +26,11 @@ namespace Personal.Item
 		{
 		}
 
-		void IItem.PlaceAt(Vector3 position)
+		void IItem.PlaceAt(Vector3 position, Transform parent)
 		{
 			transform.position = position;
 			transform.rotation = Quaternion.identity;
-			transform.SetParent(null);
+			transform.SetParent(parent);
 		}
 	}
 }

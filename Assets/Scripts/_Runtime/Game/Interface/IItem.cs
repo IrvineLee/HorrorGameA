@@ -13,6 +13,6 @@ namespace Personal
 		/// Placed the item at position.
 		/// </summary>
 		/// <param name="position"></param>
-		void PlaceAt(Vector3 position);
+		void PlaceAt(Vector3 position, Transform parent);
 	}
 }

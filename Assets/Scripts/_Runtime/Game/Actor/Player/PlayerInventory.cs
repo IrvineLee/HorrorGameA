@@ -26,16 +26,16 @@ namespace Personal.Character.Player
 			[SerializeField] InteractablePickupable pickupableObjectUI = null;
 
 			public InteractablePickupable PickupableObject { get => pickupableObject; }
-			public InteractablePickupable PickupableObjectUI { get => pickupableObjectUI; }
+			public InteractablePickupable InteractableObjectUI { get => pickupableObjectUI; }
 
-			public Inventory(InteractablePickupable pickupableObject)
+			public Inventory(InteractablePickupable interactableObject)
 			{
-				this.pickupableObject = pickupableObject;
+				this.pickupableObject = interactableObject;
 			}
 
-			public void SetInteractableObjectUI(InteractablePickupable pickupableObjectUI)
+			public void SetInteractableObjectUI(InteractablePickupable interactableObjectUI)
 			{
-				this.pickupableObjectUI = pickupableObjectUI;
+				this.pickupableObjectUI = interactableObjectUI;
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace Personal.Character.Player
 
 			// Remove the item from the inventory and the ui view.
 			Inventory inventory = inventoryList[CurrentActiveIndex];
-			UIManager.Instance.InventoryUI.RemoveObject(inventory.PickupableObjectUI);
+			UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);
 			inventoryList.Remove(inventory);
 
 			if (inventoryList.Count <= 0)

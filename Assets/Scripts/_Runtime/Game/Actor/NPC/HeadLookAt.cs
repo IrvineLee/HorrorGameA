@@ -3,17 +3,18 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.GameState;
+using Sirenix.OdinInspector;
 
 namespace Personal.Character
 {
 	public class HeadLookAt : GameInitialize
 	{
+		[SerializeField] [ReadOnly] Transform defaultTargetTrans = null;
 		[SerializeField] bool isLookAtTarget = false;
 		[SerializeField] float lookAtSpeed = 1f;
 		[SerializeField] float maxLookAtWeight = 1f;
 
 		Animator animator;
-		Transform defaultTrans;
 		Transform targetTrans;
 
 		float lookWeight;
@@ -23,9 +24,9 @@ namespace Personal.Character
 			await base.Awake();
 
 			animator = GetComponentInChildren<Animator>();
-			defaultTrans = StageManager.Instance.PlayerController.transform;
+			defaultTargetTrans = StageManager.Instance.PlayerController.transform;
 
-			targetTrans = defaultTrans;
+			targetTrans = defaultTargetTrans;
 		}
 
 		protected override void OnUpdate()
@@ -53,7 +54,7 @@ namespace Personal.Character
 
 				// Auto-disable
 				enabled = false;
-				targetTrans = defaultTrans;
+				targetTrans = defaultTargetTrans;
 			}
 		}
 
