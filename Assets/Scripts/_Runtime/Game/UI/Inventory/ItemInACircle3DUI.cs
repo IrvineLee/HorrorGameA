@@ -49,13 +49,13 @@ namespace Personal.UI
 		/// <returns></returns>
 		public async UniTask SpawnObject(ItemType itemType, Inventory inventory)
 		{
-			GameObject go = PoolManager.Instance.GetSpawnedObject(inventory.InteractableObject.name);
+			GameObject go = PoolManager.Instance.GetSpawnedObject(inventory.PickupableObject.name);
 			if (!go) go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero, contentTrans);
 
 			go.transform.SetLayerAllChildren((int)LayerType._UI);
 			go.transform.localScale = Vector3.one;
 
-			inventory.SetInteractableObjectUI(go.GetComponentInChildren<InteractableObject>());
+			inventory.SetInteractableObjectUI(go.GetComponentInChildren<InteractablePickupable>());
 		}
 
 		/// <summary>

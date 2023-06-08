@@ -64,17 +64,17 @@ namespace Personal.UI
 			}
 
 			Inventory currentInventory = playerInventory.InventoryList[playerInventory.CurrentActiveIndex];
-			SetInfoToText(currentInventory.InteractableObject);
+			SetInfoToText(currentInventory.PickupableObject);
 		}
 
-		void SetInfoToText(InteractableObject interactableObject)
+		void SetInfoToText(InteractablePickupable interactablePickupable)
 		{
 			string titleStr = "";
 			string descriptionStr = "";
 
-			if (interactableObject)
+			if (interactablePickupable)
 			{
-				var entity = interactableObject.ItemTypeSet.Entity;
+				var entity = interactablePickupable.ItemTypeSet.Entity;
 
 				titleStr = entity.name;
 				descriptionStr = entity.description;

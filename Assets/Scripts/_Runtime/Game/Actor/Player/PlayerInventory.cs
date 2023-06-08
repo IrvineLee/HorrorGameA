@@ -20,22 +20,22 @@ namespace Personal.Character.Player
 		public class Inventory
 		{
 			// This is the real interactable object.
-			[SerializeField] InteractableObject interactableObject = null;
+			[SerializeField] InteractablePickupable pickupableObject = null;
 
 			// This is the interactable object portrayed in the inventory ui.
-			[SerializeField] InteractableObject interactableObjectUI = null;
+			[SerializeField] InteractablePickupable pickupableObjectUI = null;
 
-			public InteractableObject InteractableObject { get => interactableObject; }
-			public InteractableObject InteractableObjectUI { get => interactableObjectUI; }
+			public InteractablePickupable PickupableObject { get => pickupableObject; }
+			public InteractablePickupable PickupableObjectUI { get => pickupableObjectUI; }
 
-			public Inventory(InteractableObject interactableObject)
+			public Inventory(InteractablePickupable pickupableObject)
 			{
-				this.interactableObject = interactableObject;
+				this.pickupableObject = pickupableObject;
 			}
 
-			public void SetInteractableObjectUI(InteractableObject interactableObjectUI)
+			public void SetInteractableObjectUI(InteractablePickupable pickupableObjectUI)
 			{
-				this.interactableObjectUI = interactableObjectUI;
+				this.pickupableObjectUI = pickupableObjectUI;
 			}
 		}
 
@@ -44,13 +44,13 @@ namespace Personal.Character.Player
 
 		[SerializeField]
 		[ReadOnly]
-		InteractableObject activeObject = null;
+		InteractablePickupable activeObject = null;
 
 		[SerializeField]
 		[ReadOnly]
 		List<Inventory> inventoryList = new();
 
-		public InteractableObject ActiveObject { get => activeObject; }
+		public InteractablePickupable ActiveObject { get => activeObject; }
 		public List<Inventory> InventoryList { get => inventoryList; }
 
 		public int CurrentActiveIndex { get; private set; } = -1;
@@ -80,7 +80,7 @@ namespace Personal.Character.Player
 
 			// Remove the item from the inventory and the ui view.
 			Inventory inventory = inventoryList[CurrentActiveIndex];
-			UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);
+			UIManager.Instance.InventoryUI.RemoveObject(inventory.PickupableObjectUI);
 			inventoryList.Remove(inventory);
 
 			if (inventoryList.Count <= 0)
@@ -96,18 +96,18 @@ namespace Personal.Character.Player
 		/// <summary>
 		/// Add item to inventory.
 		/// </summary>
-		/// <param name="interactableObject"></param>
-		public void AddItem(InteractableObject interactableObject)
+		/// <param name="interactablePickupable"></param>
+		public void AddItem(InteractablePickupable interactablePickupable)
 		{
 			activeObject?.gameObject.SetActive(false);
-			activeObject = interactableObject;
+			activeObject = interactablePickupable;
 
-			Inventory inventory = new Inventory(interactableObject);
+			Inventory inventory = new Inventory(interactablePickupable);
 			inventoryList.Add(inventory);
 			CurrentActiveIndex = inventoryList.Count - 1;
 
 			// Add item to inventory ui.
-			ItemType itemType = interactableObject.ItemTypeSet.ItemType;
+			ItemType itemType = interactablePickupable.ItemTypeSet.ItemType;
 			UIManager.Instance.InventoryUI.SpawnObject(itemType, inventory);
 
 			HoldItemInHand();
@@ -154,11 +154,11 @@ namespace Personal.Character.Player
 
 			// Do nothing if it's the same object.
 			var newActiveObject = inventoryList[CurrentActiveIndex];
-			if (activeObject == newActiveObject.InteractableObject) return;
+			if (activeObject == newActiveObject.PickupableObject) return;
 
 			// Set to new active gameobject.
 			activeObject?.gameObject.SetActive(false);
-			activeObject = newActiveObject.InteractableObject;
+			activeObject = newActiveObject.PickupableObject;
 
 			HoldItemInHand();
 		}

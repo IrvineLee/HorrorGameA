@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 3137795967590310505}
   - component: {fileID: 5960666320138923348}
   - component: {fileID: 6246579194179749453}
-  - component: {fileID: 7713542746466771945}
+  - component: {fileID: 1121595796331706122}
   m_Layer: 9
   m_Name: Controller
   m_TagString: Untagged
@@ -199,7 +199,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &7713542746466771945
+--- !u!114 &1121595796331706122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,14 +208,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7727933221542845666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
+  m_Script: {fileID: 11500000, guid: ca7e0bd26a2a6a64ab5ba0387d91e800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactType: 1000
   parentTrans: {fileID: 4707297386520015838}
-  actionMapType: 0
-  itemTypeCompare: 1
-  placeAt: {fileID: 0}
 --- !u!1001 &8557154851793567994
 PrefabInstance:
   m_ObjectHideFlags: 0
