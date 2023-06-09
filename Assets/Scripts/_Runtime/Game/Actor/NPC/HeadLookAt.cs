@@ -24,7 +24,7 @@ namespace Personal.Character
 			await base.Awake();
 
 			animator = GetComponentInChildren<Animator>();
-			defaultTargetTrans = StageManager.Instance.PlayerController.transform;
+			defaultTargetTrans = StageManager.Instance.MainCamera.transform;
 
 			targetTrans = defaultTargetTrans;
 		}

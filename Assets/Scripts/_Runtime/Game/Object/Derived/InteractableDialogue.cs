@@ -39,7 +39,7 @@ namespace Personal.Object
 			ifSMHandler?.OnBegin();
 			headLookAt.SetLookAtTarget(true);
 
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
+			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
 
 			headLookAt.SetLookAtTarget(false);
 			ifSMHandler?.OnExit();
