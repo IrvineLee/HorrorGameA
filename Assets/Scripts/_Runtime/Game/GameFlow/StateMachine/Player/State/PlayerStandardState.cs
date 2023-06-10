@@ -50,7 +50,7 @@ namespace Personal.FSM.Character
 			if (!interactable) return;
 			if (!interactable.enabled) return;
 
-			interactable.HandleInteraction(stateMachine, default).Forget();
+			interactable.HandleInteraction((PlayerStateMachine)stateMachine, default).Forget();
 		}
 	}
 }

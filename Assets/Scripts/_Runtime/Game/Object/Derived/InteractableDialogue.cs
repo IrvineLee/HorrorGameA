@@ -19,12 +19,10 @@ namespace Personal.Object
 			headLookAt = GetComponentInChildren<HeadLookAt>();
 		}
 
-		public override async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast = default)
+		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
 		{
-			var ifsmHandler = stateMachineBase.GetComponentInChildren<IFSMHandler>();
+			var ifsmHandler = actorStateMachine.GetComponentInChildren<IFSMHandler>();
 			await HandleDialogue(ifsmHandler);
-
-			doLast?.Invoke();
 		}
 
 		/// <summary>

@@ -1,10 +1,11 @@
 using UnityEngine;
 
 using Personal.FSM.Character;
+using Personal.GameState;
 
 namespace Personal.Character.Player
 {
-	public class PlayerController : MonoBehaviour
+	public class PlayerController : GameInitialize
 	{
 		[SerializeField] PlayerStateMachine fsm = null;
 		[SerializeField] PlayerInventory inventory = null;

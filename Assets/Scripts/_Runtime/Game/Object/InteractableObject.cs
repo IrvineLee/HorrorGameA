@@ -9,9 +9,10 @@ namespace Personal.Object
 {
 	public abstract class InteractableObject : GameInitialize
 	{
-		[SerializeField] private Transform parentTrans = null;
+		[SerializeField] protected Transform parentTrans = null;
 
 		public Transform ParentTrans { get => parentTrans; }
+		public ActorStateMachine ActorStateMachine { get; private set; }
 
 		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;
@@ -24,7 +25,13 @@ namespace Personal.Object
 			meshRenderer = GetComponentInChildren<MeshRenderer>();
 		}
 
-		public virtual async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast) { await UniTask.Delay(0); }
+		public virtual async UniTask HandleInteraction(ActorStateMachine actorStateMachine, Action doLast)
+		{
+			ActorStateMachine = actorStateMachine;
+			await HandleInteraction(actorStateMachine);
+		}
+
+		protected virtual async UniTask HandleInteraction(ActorStateMachine actorStateMachine) { await UniTask.Delay(0); }
 	}
 }
 

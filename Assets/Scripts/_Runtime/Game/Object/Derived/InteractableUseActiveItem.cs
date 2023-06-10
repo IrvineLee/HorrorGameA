@@ -13,12 +13,10 @@ namespace Personal.Object
 		[SerializeField] protected ItemType itemTypeCompare = ItemType.Item_1;
 		[SerializeField] protected Transform placeAt = null;
 
-		public override async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast = default)
+		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
 		{
-			await base.HandleInteraction(stateMachineBase, doLast);
+			await base.HandleInteraction(actorStateMachine);
 			HandleUseActiveItem();
-
-			doLast?.Invoke();
 		}
 
 		/// <summary>

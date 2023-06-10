@@ -18,12 +18,10 @@ namespace Personal.Object
 			ItemTypeSet = GetComponentInParent<ItemTypeSet>();
 		}
 
-		public override async UniTask HandleInteraction(StateMachineBase stateMachineBase, Action doLast = default)
+		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
 		{
-			await base.HandleInteraction(stateMachineBase, doLast);
+			await base.HandleInteraction(actorStateMachine);
 			HandlePickupable();
-
-			doLast?.Invoke();
 		}
 
 		/// <summary>

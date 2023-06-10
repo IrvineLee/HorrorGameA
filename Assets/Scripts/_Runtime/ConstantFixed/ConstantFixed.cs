@@ -15,5 +15,9 @@ namespace Personal.Constant
 
 		public const float PLAYER_LOOK_SPHERECAST_RADIUS = 0.05f;
 		public const float PLAYER_LOOK_SPHERECAST_LENGTH = 2f;
+
+		// Dissolve shader
+		public const float fullyVisibleRendValue = 2.5f;
+		public const float fullyDisappearRendValue = -0.1f;
 	}
 }
