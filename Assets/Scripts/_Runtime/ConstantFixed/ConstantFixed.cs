@@ -18,6 +18,6 @@ namespace Personal.Constant
 
 		// Dissolve shader
 		public const float fullyVisibleRendValue = 2.5f;
-		public const float fullyDisappearRendValue = -0.1f;
+		public const float fullyDisappearRendValue = -0.5f;
 	}
 }

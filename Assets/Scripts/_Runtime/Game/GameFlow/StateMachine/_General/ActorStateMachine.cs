@@ -80,7 +80,11 @@ namespace Personal.FSM
 				}
 			};
 			fadeRendererCR = CoroutineHelper.LerpWithinSeconds(startValue, endValue, remainingDuration, callbackMethod);
+
+			OnRendererDissolving(isFlag);
 		}
+
+		protected virtual void OnRendererDissolving(bool isFlag) { }
 
 		void OnDisable()
 		{

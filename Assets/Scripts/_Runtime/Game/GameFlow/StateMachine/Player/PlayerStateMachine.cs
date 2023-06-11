@@ -53,6 +53,11 @@ namespace Personal.FSM.Character
 			return false;
 		}
 
+		protected override void OnRendererDissolving(bool isFlag)
+		{
+			if (isFlag) FPSController.ResetAnimationBlend();
+		}
+
 		void IFSMHandler.OnBegin()
 		{
 			SwitchToState(typeof(PlayerIdleState)).Forget();

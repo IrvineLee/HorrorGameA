@@ -1,14 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
-using Cysharp.Threading.Tasks;
-using Personal.Setting.Game;
 using Personal.FSM.Character;
 
 namespace Personal.Character.Player
@@ -66,6 +62,12 @@ namespace Personal.Character.Player
 		[Tooltip("How far in degrees can you move the camera down")]
 		[SerializeField] float bottomClamp = -90.0f;
 
+		public bool IsGrounded { get => grounded; }
+		public float SpeedAnimationBlend { get; private set; }
+		public float InputMagnitude { get; private set; }
+
+		public event Action<bool> OnJumpEvent;
+		public event Action<bool> OnFreeFallEvent;
 
 		// cinemachine
 		float _cinemachineTargetPitch;
@@ -128,6 +130,15 @@ namespace Personal.Character.Player
 			_cinemachineTargetPitch = -_cinemachineTargetPitch;
 		}
 
+		/// <summary>
+		/// Used to reset the animation blending values. Typically for dissolve shader.
+		/// </summary>
+		public void ResetAnimationBlend()
+		{
+			SpeedAnimationBlend = 0;
+			InputMagnitude = 0;
+		}
+
 		void GroundedCheck()
 		{
 			// set sphere position, with offset
@@ -172,14 +183,14 @@ namespace Personal.Character.Player
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
 			float speedOffset = 0.1f;
-			float inputMagnitude = 1f;
+			InputMagnitude = 1f;
 
 			// accelerate or decelerate to target speed
 			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
 			{
 				// creates curved result rather than a linear one giving a more organic speed change
 				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * speedChangeRate);
+				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * InputMagnitude, Time.deltaTime * speedChangeRate);
 
 				// round speed to 3 decimal places
 				_speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -188,6 +199,9 @@ namespace Personal.Character.Player
 			{
 				_speed = targetSpeed;
 			}
+
+			SpeedAnimationBlend = Mathf.Lerp(SpeedAnimationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
+			if (SpeedAnimationBlend < 0.01f) SpeedAnimationBlend = 0f;
 
 			// normalise input direction
 			Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
@@ -211,6 +225,9 @@ namespace Personal.Character.Player
 				// reset the fall timeout timer
 				_fallTimeoutDelta = fallTimeout;
 
+				OnJumpEvent?.Invoke(false);
+				OnFreeFallEvent?.Invoke(false);
+
 				// stop our velocity dropping infinitely when grounded
 				if (_verticalVelocity < 0.0f)
 				{
@@ -222,6 +239,7 @@ namespace Personal.Character.Player
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+					OnJumpEvent?.Invoke(true);
 				}
 
 				// jump timeout
@@ -239,6 +257,10 @@ namespace Personal.Character.Player
 				if (_fallTimeoutDelta >= 0.0f)
 				{
 					_fallTimeoutDelta -= Time.deltaTime;
+				}
+				else
+				{
+					OnFreeFallEvent?.Invoke(true);
 				}
 
 				// if we are not grounded, do not jump
