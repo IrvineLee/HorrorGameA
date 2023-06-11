@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,10 +23,8 @@ namespace Personal.FSM
 		public AnimatorController AnimatorController { get; protected set; }
 		public HeadLookAt HeadLookAt { get; protected set; }
 
-		public Renderer Renderer { get => renderer; }
-
 		protected List<StateBase> orderedStateList = new List<StateBase>();
-		new Renderer renderer;
+		protected List<Material> materialList = new List<Material>();
 
 		CoroutineRun fadeRendererCR = new CoroutineRun();
 
@@ -38,7 +37,8 @@ namespace Personal.FSM
 			AnimatorController = GetComponentInChildren<AnimatorController>(true);
 			HeadLookAt = GetComponentInChildren<HeadLookAt>(true);
 
-			renderer = GetComponentInChildren<Renderer>();
+			Renderer renderer = GetComponentInChildren<Renderer>();
+			materialList = renderer?.materials.ToList();
 		}
 
 		protected override void OnUpdate()
@@ -63,7 +63,8 @@ namespace Personal.FSM
 		/// <param name="isFlag"></param>
 		void IRendererDissolve.FadeInRenderer(bool isFlag, float duration)
 		{
-			float startValue = renderer.material.GetFloat("_CutoffHeight");
+			// This is assuming that all materials are dissolvable.
+			float startValue = materialList[0].GetFloat("_CutoffHeight");
 			float endValue = isFlag ? ConstantFixed.fullyVisibleRendValue : ConstantFixed.fullyDisappearRendValue;
 
 			float differences = Mathf.Abs(startValue - endValue);
@@ -71,7 +72,13 @@ namespace Personal.FSM
 			float remainingDuration = ratio * duration;
 
 			fadeRendererCR?.StopCoroutine();
-			Action<float> callbackMethod = (result) => renderer.material.SetFloat("_CutoffHeight", result);
+			Action<float> callbackMethod = (result) =>
+			{
+				foreach (var material in materialList)
+				{
+					material.SetFloat("_CutoffHeight", result);
+				}
+			};
 			fadeRendererCR = CoroutineHelper.LerpWithinSeconds(startValue, endValue, remainingDuration, callbackMethod);
 		}
 
