@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   sprintSpeed: 6
+  backSpeed: 2
   rotationSpeed: 1
   speedChangeRate: 10
   jumpHeight: 0
@@ -608,6 +609,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8956780087392792063, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a314938077fbd2342be318a88bd923dc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

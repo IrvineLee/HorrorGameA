@@ -19,6 +19,9 @@ namespace Personal.Character.Player
 		[Tooltip("Sprint speed of the character in m/s")]
 		[SerializeField] float sprintSpeed = 6.0f;
 
+		[Tooltip("Move speed backward of the character in m/s")]
+		[SerializeField] float backSpeed = 2.0f;
+
 		[Tooltip("Rotation speed of the character")]
 		[SerializeField] float rotationSpeed = 1.0f;
 
@@ -170,14 +173,14 @@ namespace Personal.Character.Player
 
 		void Move()
 		{
+			// normalise input direction
+			Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.IsSprint ? sprintSpeed : moveSpeed;
 
-			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is no input, set the target speed to 0
-			if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
+			if (_input.Move == Vector2.zero) targetSpeed = 0f;
+			else if (inputDirection.z < 0) targetSpeed = backSpeed;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -200,11 +203,8 @@ namespace Personal.Character.Player
 				_speed = targetSpeed;
 			}
 
-			SpeedAnimationBlend = Mathf.Lerp(SpeedAnimationBlend, targetSpeed, Time.deltaTime * speedChangeRate);
-			if (SpeedAnimationBlend < 0.01f) SpeedAnimationBlend = 0f;
-
-			// normalise input direction
-			Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+			SpeedAnimationBlend = Mathf.Lerp(SpeedAnimationBlend, inputDirection.z >= 0 ? targetSpeed : -targetSpeed, Time.deltaTime * speedChangeRate);
+			if (inputDirection.z >= 0 && SpeedAnimationBlend > -0.01f && SpeedAnimationBlend < 0.01f) SpeedAnimationBlend = 0f;
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
