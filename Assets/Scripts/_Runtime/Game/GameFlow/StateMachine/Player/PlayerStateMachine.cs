@@ -53,9 +53,9 @@ namespace Personal.FSM.Character
 			return false;
 		}
 
-		protected override void OnRendererDissolving(bool isFlag)
+		protected override void OnRendererDissolveEnd()
 		{
-			if (isFlag) FPSController.ResetAnimationBlend();
+			FPSController.ResetAnimationBlend();
 		}
 
 		void IFSMHandler.OnBegin()

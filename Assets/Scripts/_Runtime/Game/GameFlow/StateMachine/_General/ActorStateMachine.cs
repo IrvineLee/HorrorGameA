@@ -77,12 +77,13 @@ namespace Personal.FSM
 					material.SetFloat("_CutoffHeight", result);
 				}
 			};
-			fadeRendererCR = CoroutineHelper.LerpWithinSeconds(startValue, endValue, remainingDuration, callbackMethod);
+			fadeRendererCR = CoroutineHelper.LerpWithinSeconds(startValue, endValue, remainingDuration, callbackMethod, OnRendererDissolveEnd);
 
-			OnRendererDissolving(isFlag);
+			OnRendererDissolveBegin();
 		}
 
-		protected virtual void OnRendererDissolving(bool isFlag) { }
+		protected virtual void OnRendererDissolveBegin() { }
+		protected virtual void OnRendererDissolveEnd() { }
 
 		void OnDisable()
 		{
