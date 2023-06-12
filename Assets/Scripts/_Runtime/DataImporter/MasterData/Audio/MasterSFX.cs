@@ -19,7 +19,7 @@ public class MasterSFX : MasterGeneric<SFXEntity, int>
 	void UpdateDefinition()
 	{
 		string definitionName = "SFX_Definition.asset";
-		string path = ConstantFixed.DEFINITION_PATH + definitionName;
+		string path = ConstantFixed.DEFINITION_AUDIO_PATH + definitionName;
 
 		// Create the asset.
 		AssetDatabase.DeleteAsset(path);
@@ -39,6 +39,9 @@ public class MasterSFX : MasterGeneric<SFXEntity, int>
 		// Focus on the newly created asset.
 		Selection.activeObject = definition;
 		EditorGUIUtility.PingObject(Selection.activeObject);
+
+		// Make sure the data is saved correctly.
+		EditorUtility.SetDirty(definition);
 
 		Debug.Log("Created " + definitionName + " successfully!");
 	}

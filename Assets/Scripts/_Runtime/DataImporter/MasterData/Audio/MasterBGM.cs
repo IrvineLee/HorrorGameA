@@ -18,7 +18,7 @@ public class MasterBGM : MasterGeneric<BGMEntity, int>
 	void UpdateDefinition()
 	{
 		string definitionName = "BGM_Definition.asset";
-		string path = ConstantFixed.DEFINITION_PATH + definitionName;
+		string path = ConstantFixed.DEFINITION_AUDIO_PATH + definitionName;
 
 		// Create the asset.
 		AssetDatabase.DeleteAsset(path);

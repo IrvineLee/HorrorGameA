@@ -21,9 +21,8 @@ namespace Personal.Manager
 
 		void Start()
 		{
-			// TODO : InvalidCastException: Specified cast is not valid.
-			//BGM_AudioDefinition.Initialize();
-			//SFX_AudioDefinition.Initialize();
+			BGM_AudioDefinition.Initialize();
+			SFX_AudioDefinition.Initialize();
 		}
 
 		public void PlayBGM(AudioBGMType audioBGMType)
@@ -39,6 +38,42 @@ namespace Personal.Manager
 			SFX_AudioDefinition.AudioDictionary.TryGetValue(audioSFXType, out AudioClip audioClip);
 			sfx.clip = audioClip;
 			sfx.Play();
+		}
+
+		public void PlaySFXOnceAt(AudioSFXType audioSFXType, Vector3 position, float volume)
+		{
+			GameObject go = PoolManager.Instance.GetSpawnedObject(audioSFXType.GetStringValue());
+
+			AudioSource audioSource = null;
+			if (go)
+			{
+				go.transform.position = position;
+
+				audioSource = go.GetComponent<AudioSource>();
+				SetSFX(audioSource, volume);
+
+				return;
+			}
+
+			SFX_AudioDefinition.AudioDictionary.TryGetValue(audioSFXType, out AudioClip audioClip);
+
+			go = new GameObject(audioSFXType.GetStringValue());
+			go.transform.position = position;
+
+			audioSource = go.AddComponent<AudioSource>();
+			audioSource.clip = audioClip;
+			SetSFX(audioSource, volume);
+		}
+
+		void SetSFX(AudioSource audioSource, float volume)
+		{
+			audioSource.volume = volume;
+			audioSource.Play();
+
+			CoroutineHelper.WaitFor(audioSource.clip.length, () =>
+			{
+				PoolManager.Instance.ReturnSpawnedObject(audioSource.gameObject);
+			});
 		}
 	}
 }

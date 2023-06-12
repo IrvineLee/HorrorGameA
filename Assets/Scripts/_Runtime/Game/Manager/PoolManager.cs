@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-using Helper;
 using Personal.Pool;
 using Personal.GameState;
 
@@ -27,23 +26,38 @@ namespace Personal.Manager
 			return spawnablePool;
 		}
 
-		public GameObject GetSpawnedObject(string actorStr)
+		public GameObject GetSpawnedObject(string objectStr)
 		{
-			objectDictionary.TryGetValue(actorStr, out GameObject go);
-			go?.transform.SetParent(null);
-			go?.gameObject.SetActive(true);
+			objectDictionary.TryGetValue(objectStr, out GameObject parentGO);
+
+			if (parentGO == null || parentGO.transform.childCount <= 0) return null;
+
+			Transform objectTrans = parentGO.transform;
+
+			GameObject go = objectTrans.GetChild(0).gameObject;
+			go.transform.SetParent(null);
+			go.gameObject.SetActive(true);
 
 			return go;
 		}
 
 		public void ReturnSpawnedObject(GameObject go)
 		{
-			go.transform.SetParent(transform);
-			go.gameObject.SetActive(false);
+			go.SetActive(false);
 
 			if (!objectDictionary.ContainsKey(go.name))
 			{
-				objectDictionary.Add(go.name, go);
+				// Create a new parent under PoolManager.
+				GameObject parentGO = new GameObject(go.name);
+				parentGO.transform.SetParent(transform);
+
+				go.transform.SetParent(parentGO.transform);
+
+				objectDictionary.Add(go.name, parentGO);
+			}
+			else if (objectDictionary.TryGetValue(go.name, out GameObject parentGO))
+			{
+				go.transform.SetParent(parentGO.transform);
 			}
 		}
 	}

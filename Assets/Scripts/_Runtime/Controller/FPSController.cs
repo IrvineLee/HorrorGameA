@@ -68,6 +68,7 @@ namespace Personal.Character.Player
 		public bool IsGrounded { get => grounded; }
 		public float SpeedAnimationBlend { get; private set; }
 		public float InputMagnitude { get; private set; }
+		public CharacterController Controller { get => _controller; }
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnFreeFallEvent;

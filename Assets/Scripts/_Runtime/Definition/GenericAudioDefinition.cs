@@ -30,14 +30,20 @@ namespace Personal.Definition
 #if UNITY_EDITOR
 		public List<Audio> AudioList { get => audioList; }
 #endif
-		public IReadOnlyDictionary<T, AudioClip> AudioDictionary { get; private set; }
+		public IReadOnlyDictionary<T, AudioClip> AudioDictionary { get => dictionary; }
+
+		Dictionary<T, AudioClip> dictionary = new();
 
 		/// <summary>
 		/// Initialize the dictionary of audio.
 		/// </summary>
 		public void Initialize()
 		{
-			AudioDictionary = (IReadOnlyDictionary<T, AudioClip>)audioList.ToDictionary((audio) => audio.AudioType);
+			dictionary.Clear();
+			foreach (var audio in audioList)
+			{
+				dictionary.Add(audio.AudioType, audio.AudioClip);
+			}
 		}
 	}
 }

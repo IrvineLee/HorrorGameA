@@ -52,7 +52,7 @@ namespace Personal.Character.Animation
 			Initialize();
 		}
 
-		public virtual void Initialize() { }
+		protected virtual void Initialize() { }
 
 		public virtual void PlayAnimation(ActorAnimationType actorAnimationType) { }
 	}

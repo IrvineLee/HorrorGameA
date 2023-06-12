@@ -343,7 +343,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.25
   m_SkinWidth: 0.02
@@ -616,8 +616,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8956780087400177591, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3977973017913940415}
   m_SourcePrefab: {fileID: 100100000, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+--- !u!1 &897979561210228910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8956780087400177591, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+  m_PrefabInstance: {fileID: 8086956056832945945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3977973017913940415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897979561210228910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1178c18e13a9cb24ea3b4fc27b504868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSFXTypes: e8030000e9030000ea030000eb030000ec030000ed030000ee030000ef030000ef030000f1030000
+  landSFXType: 1010
+  footstepVolume: 0.15
 --- !u!4 &8494016709995523721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 421768941547504016, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
