@@ -100,6 +100,7 @@ namespace Personal.UI.Option
 
 			if (tabDictionary.TryGetValue(currentMenuTab, out Tab tab))
 			{
+				tab.SelectButton.interactable = false;
 				tab.OptionMenuUI.gameObject.SetActive(true);
 			}
 		}
@@ -111,6 +112,7 @@ namespace Personal.UI.Option
 		{
 			foreach (var tab in tabList)
 			{
+				tab.SelectButton.interactable = true;
 				tab.OptionMenuUI.Save_Inspector();
 			}
 
