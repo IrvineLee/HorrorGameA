@@ -282,17 +282,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1047391612443987634, guid: a055e77a9055f1b40aa73dce9de5d9d9, type: 3}
   m_PrefabInstance: {fileID: 296847751}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &312713509 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2211541382202689283, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
-  m_PrefabInstance: {fileID: 845974454182779353}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9155d82ab07a7bc48bb409865df1be02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &333358878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
@@ -1730,10 +1719,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 144059008}
     m_Modifications:
-    - target: {fileID: 897979561213410342, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
-      propertyPath: m_CastShadows
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1402863442298916785, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1782,10 +1767,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8860664939194593209, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
-      propertyPath: fpsController
-      value: 
-      objectReference: {fileID: 312713509}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
