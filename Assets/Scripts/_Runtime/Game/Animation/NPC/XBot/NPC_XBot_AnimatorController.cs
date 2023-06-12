@@ -34,7 +34,7 @@ namespace Personal.Character.Animation
 		{
 			if (realAnimatorStateDictionary.TryGetValue(actorAnimationType, out RealAnimatorState<XBotAnimationType> realState))
 			{
-				animator.CrossFade(realState.RealAnimationType.GetStringValue(), realState.NormalizedTime);
+				Animator.CrossFade(realState.RealAnimationType.GetStringValue(), realState.NormalizedTime);
 			}
 		}
 	}

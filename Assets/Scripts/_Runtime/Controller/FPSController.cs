@@ -97,10 +97,8 @@ namespace Personal.Character.Player
 
 		bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			_input = InputManager.Instance.FPSInputController;
 			_controller = GetComponent<CharacterController>();
 			fsm = StageManager.Instance.PlayerController.FSM;

@@ -2,7 +2,6 @@ using UnityEngine;
 
 using Personal.Manager;
 using Personal.GameState;
-using Cysharp.Threading.Tasks;
 using Personal.Definition;
 
 namespace Personal.InputProcessing
@@ -17,10 +16,8 @@ namespace Personal.InputProcessing
 		public bool IsInteract { get; protected set; }
 		public bool IsCancel { get; protected set; }
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
-
 			inputReaderDefinition = InputManager.Instance.InputReaderDefinition;
 			isAwakeCompleted = true;
 		}

@@ -1,5 +1,5 @@
 using UnityEngine;
-using Cysharp.Threading.Tasks;
+
 using Personal.GameState;
 
 namespace Personal.UI
@@ -13,7 +13,7 @@ namespace Personal.UI
 		/// Typically used to have the data pre-loaded so data is already set when opened.
 		/// </summary>
 		/// <returns></returns>
-		public virtual async UniTask Initialize() { await UniTask.Delay(0); }
+		public virtual void InitialSetup() { }
 
 		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
 	}

@@ -12,9 +12,10 @@ namespace Personal.Object
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 		protected HeadLookAt headLookAt;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
+			base.Initialize();
+
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			headLookAt = GetComponentInChildren<HeadLookAt>();
 		}

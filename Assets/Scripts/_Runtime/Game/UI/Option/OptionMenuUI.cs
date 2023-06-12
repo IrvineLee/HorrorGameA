@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 
 namespace Personal.UI.Option
@@ -20,16 +19,6 @@ namespace Personal.UI.Option
 			if (!lastSelectedGO) return;
 
 			EventSystem.current.SetSelectedGameObject(lastSelectedGO);
-		}
-
-		/// <summary>
-		/// Initialize the value before displaying the menu to user.
-		/// Typically used to have the data pre-loaded so data is already set when opened.
-		/// </summary>
-		/// <returns></returns>
-		public override async UniTask Initialize()
-		{
-			await base.Initialize();
 		}
 
 		/// <summary>

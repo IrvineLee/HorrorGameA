@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 
 using TMPro;
-using Cysharp.Threading.Tasks;
 using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Window
@@ -19,9 +18,9 @@ namespace Personal.UI.Window
 
 		RectTransform rectTransform;
 
-		public async override UniTask Initialize()
+		public override void InitialSetup()
 		{
-			await base.Initialize();
+			base.InitialSetup();
 
 			rectTransform = GetComponentInChildren<RectTransform>();
 		}

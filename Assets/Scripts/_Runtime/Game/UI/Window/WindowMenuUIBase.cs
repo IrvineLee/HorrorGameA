@@ -1,17 +1,13 @@
 using System;
 
-using Cysharp.Threading.Tasks;
-
 namespace Personal.UI.Window
 {
 	public class WindowMenuUIBase : MenuUIBase
 	{
 		protected WindowHandlerUI windowHandlerUI;
 
-		public async override UniTask Initialize()
+		public override void InitialSetup()
 		{
-			await base.Initialize();
-
 			windowHandlerUI = GetComponentInParent<WindowHandlerUI>();
 		}
 	}

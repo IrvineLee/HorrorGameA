@@ -61,17 +61,9 @@ namespace Puzzle.Pinwheel
 
 		CoroutineRun slideCR = new CoroutineRun();
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
-			Initialize();
-
-			foreach (Transform child in outerPinwheelTrans)
-			{
-				var collider = child.GetComponentInChildren<Collider>();
-				if (collider) colliderList.Add(collider);
-			}
+			InitialPinwheelSetup();
 		}
 
 		protected override void OnUpdate()
@@ -95,7 +87,7 @@ namespace Puzzle.Pinwheel
 		/// <summary>
 		/// Initialize the pinwheels.
 		/// </summary>
-		void Initialize()
+		void InitialPinwheelSetup()
 		{
 			defaultTurnRemain = turnRemain;
 
@@ -107,6 +99,12 @@ namespace Puzzle.Pinwheel
 
 			InitializeEndColor();
 			SetTurnRemainTMP(turnRemain);
+
+			foreach (Transform child in outerPinwheelTrans)
+			{
+				var collider = child.GetComponentInChildren<Collider>();
+				if (collider) colliderList.Add(collider);
+			}
 		}
 
 		/// <summary>

@@ -59,10 +59,8 @@ namespace Personal.UI.Option
 		/// Initialize.
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask Initialize()
+		public override void InitialSetup()
 		{
-			await base.Initialize();
-
 			universalCameraData = StageManager.Instance.MainCamera.GetComponent<UniversalAdditionalCameraData>();
 			defaultResolution = Screen.currentResolution;
 

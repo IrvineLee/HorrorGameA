@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 
 using Personal.GameState;
-using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 
 namespace Personal.Character.Animation
@@ -40,19 +39,12 @@ namespace Personal.Character.Animation
 			public float NormalizedTime { get => normalizedTime; }
 		}
 
-		protected Animator animator;
+		public Animator Animator { get; private set; }
 
-		public Animator Animator { get => animator; }
-
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-			animator = GetComponentInChildren<Animator>();
-
-			Initialize();
+			Animator = GetComponentInChildren<Animator>();
 		}
-
-		protected virtual void Initialize() { }
 
 		public virtual void PlayAnimation(ActorAnimationType actorAnimationType) { }
 	}

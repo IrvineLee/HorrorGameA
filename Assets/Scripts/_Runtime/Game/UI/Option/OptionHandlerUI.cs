@@ -48,7 +48,7 @@ namespace Personal.UI.Option
 				Tab tab = tabList[i];
 				int index = i;
 
-				_ = tab.OptionMenuUI.Initialize();
+				tab.OptionMenuUI.InitialSetup();
 				tab.SelectButton.onClick.AddListener(() =>
 				{
 					currentMenuTab = tab.OptionMenuUI.MenuTab;

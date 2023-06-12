@@ -28,10 +28,8 @@ namespace Personal.FSM
 
 		CoroutineRun fadeRendererCR = new CoroutineRun();
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			NavMeshAgent = GetComponentInChildren<NavMeshAgent>(true);
 			DialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>(true);
 			AnimatorController = GetComponentInChildren<AnimatorController>(true);

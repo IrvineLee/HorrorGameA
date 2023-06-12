@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Character.Player;
 using Personal.Manager;
 using Personal.Setting.Audio;
 
@@ -20,11 +19,15 @@ namespace Personal.Character.Animation
 		protected async override void Initialize()
 		{
 			// Have to wait for FPS controller to get it's controller.
-			await UniTask.DelayFrame(1);
+			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
 
-			controller = StageManager.Instance.PlayerController.FSM.FPSController.Controller;
+			controller = StageManager.Instance.PlayerController.FPSController.Controller;
 		}
 
+		/// <summary>
+		/// Animation event.
+		/// </summary>
+		/// <param name="animationEvent"></param>
 		void OnFootstep(AnimationEvent animationEvent)
 		{
 			if (animationEvent.animatorClipInfo.weight <= 0.5f) return;
@@ -34,6 +37,10 @@ namespace Personal.Character.Animation
 			AudioManager.Instance.PlaySFXOnceAt(footstepSFXTypes[index], transform.TransformPoint(controller.center), footstepVolume);
 		}
 
+		/// <summary>
+		/// Animation event.
+		/// </summary>
+		/// <param name="animationEvent"></param>
 		void OnLand(AnimationEvent animationEvent)
 		{
 			if (animationEvent.animatorClipInfo.weight <= 0.5f) return;

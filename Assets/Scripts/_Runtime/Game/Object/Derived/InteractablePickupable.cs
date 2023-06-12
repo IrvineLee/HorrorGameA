@@ -11,9 +11,9 @@ namespace Personal.Object
 	{
 		public ItemTypeSet ItemTypeSet { get; private set; }
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
+			base.Initialize();
 
 			ItemTypeSet = GetComponentInParent<ItemTypeSet>();
 		}

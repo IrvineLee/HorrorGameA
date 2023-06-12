@@ -48,14 +48,12 @@ namespace Personal.UI.Option
 		/// Initialize.
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask Initialize()
+		public override void InitialSetup()
 		{
-			await base.Initialize();
-
 			allTMPList = PixelCrushers.DialogueSystem.DialogueManager.Instance.GetComponentsInChildren<TextMeshProUGUI>(true).ToList();
 			allTMPList.AddRange(GetComponentsInChildren<TextMeshProUGUI>(true).ToList());
 
-			fpsController = StageManager.Instance.PlayerController.FSM.FPSController;
+			fpsController = StageManager.Instance.PlayerController.FPSController;
 
 			InitializeVolumeProfile();
 			HandleLoadDataToUI();

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.GameState;
 using Sirenix.OdinInspector;
@@ -19,10 +18,8 @@ namespace Personal.Character
 
 		float lookWeight;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			animator = GetComponentInChildren<Animator>();
 			defaultTargetTrans = StageManager.Instance.MainCamera.transform;
 

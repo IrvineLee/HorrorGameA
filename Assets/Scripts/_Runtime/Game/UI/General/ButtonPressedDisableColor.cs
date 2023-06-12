@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 
@@ -12,9 +11,8 @@ namespace Personal.UI
 	{
 		Button button;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
 			button = GetComponentInChildren<Button>();
 		}
 

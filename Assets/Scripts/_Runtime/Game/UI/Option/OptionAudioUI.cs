@@ -46,10 +46,8 @@ namespace Personal.UI.Option
 		/// Initialize.
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask Initialize()
+		public override void InitialSetup()
 		{
-			await base.Initialize();
-
 			HandleLoadDataToUI();
 			RegisterEventsForUI();
 		}

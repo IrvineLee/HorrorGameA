@@ -15,9 +15,9 @@ namespace Personal.Object
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
+			base.Initialize();
 
 			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
 			interactionAssign = GetComponentInChildren<InteractionAssign>();

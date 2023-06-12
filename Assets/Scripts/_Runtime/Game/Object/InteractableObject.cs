@@ -17,10 +17,8 @@ namespace Personal.Object
 		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			currentCollider = GetComponentInChildren<Collider>();
 			meshRenderer = GetComponentInChildren<MeshRenderer>();
 		}

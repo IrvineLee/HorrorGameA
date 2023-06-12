@@ -56,7 +56,7 @@ namespace Personal.UI.Window
 				GameObject go = await AddressableHelper.Spawn(entity.windowDisplayType.GetStringValue(), Vector3.zero, transform);
 				windowMenuUI = go.GetComponentInChildren<WindowMenuUI>();
 
-				await windowMenuUI.Initialize();
+				windowMenuUI.InitialSetup();
 				windowMenuUI.SetSize(new Vector2(entity.widthRatio * Screen.width, entity.heightRatio * Screen.height));
 
 				windowUIDictionary.Add(windowUIType, windowMenuUI);

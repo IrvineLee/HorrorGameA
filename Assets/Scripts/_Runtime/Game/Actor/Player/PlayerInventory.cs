@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.Object;
 using Personal.GameState;
@@ -63,10 +62,8 @@ namespace Personal.Character.Player
 
 		InputControllerInfo inputControllerInfo;
 
-		protected async override UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			inputControllerInfo = InputManager.Instance.GetInputControllerInfo(ActionMapType.Player);
 			inputControllerInfo.OnEnableEvent += FPS_ShowItem;
 		}

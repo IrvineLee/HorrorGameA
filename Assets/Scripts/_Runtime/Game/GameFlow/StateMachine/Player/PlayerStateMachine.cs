@@ -16,9 +16,9 @@ namespace Personal.FSM.Character
 		public FPSController FPSController { get; private set; }
 		public IReadOnlyDictionary<Type, StateBase> StateDictionary { get; private set; }
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
+			base.Initialize();
 
 			FPSController = GetComponentInChildren<FPSController>();
 
@@ -32,7 +32,7 @@ namespace Personal.FSM.Character
 			}
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
-			await SwitchToState(typeof(PlayerStandardState));
+			SwitchToState(typeof(PlayerStandardState)).Forget();
 		}
 
 		public async UniTask SwitchToState(Type type)

@@ -26,10 +26,8 @@ namespace Personal.UI
 
 		protected float yAngleToRotate;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			uIInputController = InputManager.Instance.UIInputController;
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
 		}

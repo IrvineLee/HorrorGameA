@@ -6,11 +6,6 @@ namespace Personal.InputProcessing
 {
 	public class PuzzleInputController : InputControllerBase
 	{
-		protected override async UniTask Awake()
-		{
-			await base.Awake();
-		}
-
 		protected override async UniTask OnEnable()
 		{
 			await base.OnEnable();

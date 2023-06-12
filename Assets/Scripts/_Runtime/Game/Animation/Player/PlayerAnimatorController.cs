@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.Character.Player;
-using Personal.Manager;
 
 namespace Personal.Character.Animation
 {
@@ -18,22 +16,21 @@ namespace Personal.Character.Animation
 
 		FPSController fPSController;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
+			base.Initialize();
 			AssignAnimationIDs();
 
-			fPSController = StageManager.Instance.PlayerController.FSM.FPSController;
+			fPSController = GetComponentInParent<FPSController>();
 			fPSController.OnJumpEvent += OnJump;
 			fPSController.OnFreeFallEvent += OnFreeFall;
 		}
 
 		void LateUpdate()
 		{
-			animator.SetBool(animIDGrounded, fPSController.IsGrounded);
-			animator.SetFloat(animIDSpeed, fPSController.SpeedAnimationBlend);
-			animator.SetFloat(animIDMotionSpeed, fPSController.InputMagnitude);
+			Animator.SetBool(animIDGrounded, fPSController.IsGrounded);
+			Animator.SetFloat(animIDSpeed, fPSController.SpeedAnimationBlend);
+			Animator.SetFloat(animIDMotionSpeed, fPSController.InputMagnitude);
 		}
 
 		void AssignAnimationIDs()
@@ -47,12 +44,12 @@ namespace Personal.Character.Animation
 
 		void OnJump(bool isFlag)
 		{
-			animator.SetBool(animIDJump, isFlag);
+			Animator.SetBool(animIDJump, isFlag);
 		}
 
 		void OnFreeFall(bool isFlag)
 		{
-			animator.SetBool(animIDFreeFall, isFlag);
+			Animator.SetBool(animIDFreeFall, isFlag);
 		}
 
 		void OnApplicationQuit()

@@ -16,10 +16,8 @@ namespace Personal.UI
 
 		List<TextMeshProUGUI> iconWithTMPList = new();
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			// Using normal instantiate for fast display.
 			for (int i = 0; i < initialSpawnCount; i++)
 			{

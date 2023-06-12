@@ -3,7 +3,6 @@ using UnityEngine;
 
 using Personal.GameState;
 using Personal.Manager;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Item
 {
@@ -15,10 +14,8 @@ namespace Personal.Item
 
 		public ItemEntity Entity { get; private set; }
 
-		protected async override UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			Entity = MasterDataManager.Instance.Item.Get(itemType);
 		}
 

@@ -55,10 +55,8 @@ namespace Puzzle.EightSlide
 		int emptyIndex;
 		CoroutineRun slideCR = new CoroutineRun();
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			var tempList = new List<int>(new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
 			// Set the current and empty index.
