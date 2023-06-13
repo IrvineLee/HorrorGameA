@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Cinemachine;
-using UnityEngine.SceneManagement;
 
 namespace Personal.Manager
 {
@@ -30,19 +30,19 @@ namespace Personal.Manager
 		{
 			await base.Awake();
 
+			// Starting in main scene.
+			if (GameSceneManager.Instance.IsMainScene())
+			{
+				Initialization();
+				return;
+			}
+
 			MainCamera = Camera.main;
 			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
-		/// <summary>
-		/// Initialize the value when entering Main scene.
-		/// </summary>
-		/// <param name="scene"></param>
-		/// <param name="mode"></param>
-		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		void Initialization()
 		{
-			if (string.Equals(name, SceneName.Main)) return;
-
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 			PlayerController = FindObjectOfType<PlayerController>();
@@ -68,6 +68,18 @@ namespace Personal.Manager
 
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 			PlayerController.FSM.FPSController.enabled = !isFlag;
+		}
+
+		/// <summary>
+		/// Initialize the value when entering Main scene.
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <param name="mode"></param>
+		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		{
+			if (string.Equals(name, SceneName.Main)) return;
+
+			Initialization();
 		}
 
 		void OnApplicationQuit()

@@ -19,7 +19,7 @@ namespace Personal.Character.Animation
 		protected async override void Initialize()
 		{
 			// Have to wait for FPS controller to get it's controller.
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
+			await UniTask.NextFrame();
 
 			controller = StageManager.Instance.PlayerController.FPSController.Controller;
 		}

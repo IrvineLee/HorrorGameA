@@ -99,11 +99,12 @@ namespace Personal.Character.Player
 
 		bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
 
-		protected override void Initialize()
+		protected override async void Initialize()
 		{
+			await UniTask.NextFrame();
+
 			input = InputManager.Instance.FPSInputController;
 			fsm = StageManager.Instance.PlayerController.FSM;
-
 			Controller = GetComponent<CharacterController>();
 
 			// reset our timeouts on start
@@ -129,6 +130,8 @@ namespace Personal.Character.Player
 
 		void LateUpdate()
 		{
+			if (!fsm || fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
+
 			CameraRotation();
 		}
 

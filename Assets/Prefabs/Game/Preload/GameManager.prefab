@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3053779042807033787}
   - component: {fileID: 8905157857083554535}
   - component: {fileID: 1618192352446928081}
-  - component: {fileID: 5915930500927813813}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -72,6 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9081d19ddd5753547bde2e9972d040b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainSceneList:
+  - Main
 --- !u!114 &1618192352446928081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,15 +86,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEncryptionEnabled: 0
---- !u!114 &5915930500927813813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8905157857083554520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d85a66f938b4e954ea8e20daf7db37c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
