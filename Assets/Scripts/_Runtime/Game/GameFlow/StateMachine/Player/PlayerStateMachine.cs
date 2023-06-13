@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Character.Player;
+using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
@@ -13,14 +13,11 @@ namespace Personal.FSM.Character
 	{
 		[SerializeField] Transform stateParent = null;
 
-		public FPSController FPSController { get; private set; }
 		public IReadOnlyDictionary<Type, StateBase> StateDictionary { get; private set; }
 
 		protected override void Initialize()
 		{
 			base.Initialize();
-
-			FPSController = GetComponentInChildren<FPSController>();
 
 			List<StateBase> stateList = new();
 			foreach (Transform child in stateParent)
@@ -55,7 +52,7 @@ namespace Personal.FSM.Character
 
 		protected override void OnRendererDissolveEnd()
 		{
-			FPSController.ResetAnimationBlend();
+			StageManager.Instance.PlayerController.FPSController.ResetAnimationBlend();
 		}
 
 		void IFSMHandler.OnBegin()

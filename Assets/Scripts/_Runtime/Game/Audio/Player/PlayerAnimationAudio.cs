@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.Setting.Audio;
 using Personal.Character.Player;
@@ -15,11 +14,11 @@ namespace Personal.Character.Animation
 
 		[SerializeField] float footstepVolume = 0.5f;
 
-		PlayerController pc;
+		FPSController fpsController;
 
 		protected override void Initialize()
 		{
-			pc = StageManager.Instance.PlayerController;
+			fpsController = StageManager.Instance.PlayerController.FPSController;
 		}
 
 		/// <summary>
@@ -32,7 +31,7 @@ namespace Personal.Character.Animation
 			if (footstepSFXTypes.Count <= 0) return;
 
 			var index = Random.Range(0, footstepSFXTypes.Count);
-			AudioManager.Instance.PlaySFXOnceAt(footstepSFXTypes[index], transform.TransformPoint(pc.FPSController.Controller.center), footstepVolume);
+			AudioManager.Instance.PlaySFXOnceAt(footstepSFXTypes[index], transform.TransformPoint(fpsController.Controller.center), footstepVolume);
 		}
 
 		/// <summary>
@@ -42,7 +41,7 @@ namespace Personal.Character.Animation
 		void OnLand(AnimationEvent animationEvent)
 		{
 			if (animationEvent.animatorClipInfo.weight <= 0.5f) return;
-			AudioManager.Instance.PlaySFXOnceAt(landSFXType, transform.TransformPoint(pc.FPSController.Controller.center), footstepVolume);
+			AudioManager.Instance.PlaySFXOnceAt(landSFXType, transform.TransformPoint(fpsController.Controller.center), footstepVolume);
 		}
 	}
 }

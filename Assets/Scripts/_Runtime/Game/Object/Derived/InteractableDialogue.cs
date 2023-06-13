@@ -4,6 +4,7 @@ using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Character;
+using Personal.Manager;
 
 namespace Personal.Object
 {
@@ -22,6 +23,8 @@ namespace Personal.Object
 
 		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
 		{
+			StageManager.Instance.PlayerController.FPSController.ResetAnimationBlend();
+
 			var ifsmHandler = actorStateMachine.GetComponentInChildren<IFSMHandler>();
 			await HandleDialogue(ifsmHandler);
 		}

@@ -67,7 +67,7 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			CursorManager.Instance.SetToMouseCursor(isFlag);
-			PlayerController.FSM.FPSController.enabled = !isFlag;
+			PlayerController.FPSController.enabled = !isFlag;
 		}
 
 		/// <summary>
