@@ -33,7 +33,7 @@ namespace Personal.Manager
 			// Starting in main scene.
 			if (GameSceneManager.Instance.IsMainScene())
 			{
-				Initialization();
+				InitialSetup();
 				return;
 			}
 
@@ -41,7 +41,7 @@ namespace Personal.Manager
 			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
-		void Initialization()
+		void InitialSetup()
 		{
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
@@ -79,7 +79,7 @@ namespace Personal.Manager
 		{
 			if (string.Equals(name, SceneName.Main)) return;
 
-			Initialization();
+			InitialSetup();
 		}
 
 		void OnApplicationQuit()

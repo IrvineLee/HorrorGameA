@@ -26,7 +26,7 @@ namespace Personal.UI
 
 		protected float yAngleToRotate;
 
-		protected override void Initialize()
+		public void InitialSetup()
 		{
 			uIInputController = InputManager.Instance.UIInputController;
 			playerInventory = StageManager.Instance.PlayerController.Inventory;

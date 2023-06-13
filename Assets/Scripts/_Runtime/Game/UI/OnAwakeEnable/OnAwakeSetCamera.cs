@@ -11,18 +11,29 @@ namespace Personal.UI
 	{
 		protected override void Initialize()
 		{
+			if (GameSceneManager.Instance.IsMainScene())
+			{
+				InitialSetup();
+				return;
+			}
+
 			SceneManager.sceneLoaded += OnSceneLoaded;
+		}
+
+		void InitialSetup()
+		{
+			// Add the camera to main stack.
+			var canvas = GetComponentInChildren<Canvas>();
+			var cameraData = StageManager.Instance.MainCamera.GetUniversalAdditionalCameraData();
+
+			cameraData.cameraStack.Add(canvas.worldCamera);
 		}
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
 			if (string.Equals(name, SceneName.Main)) return;
 
-			// Add the camera to main stack.
-			var canvas = GetComponentInChildren<Canvas>();
-			var cameraData = StageManager.Instance.MainCamera.GetUniversalAdditionalCameraData();
-
-			cameraData.cameraStack.Add(canvas.worldCamera);
+			InitialSetup();
 		}
 
 		void OnApplicationQuit()
