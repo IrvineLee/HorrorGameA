@@ -11,16 +11,9 @@ namespace Personal.GameState
 	{
 		public int CharacterID { get; private set; }
 
-		public Dictionary<int, string> intStrDictionary { get; private set; } = new();
-
 		public PlayerStateModel(PlayerSavedData data)
 		{
 			CharacterID = data.CharacterID;
-
-			foreach (var test in data.IntStrDictionary)
-			{
-				intStrDictionary.Add(test.Key, test.Value);
-			}
 		}
 	}
 }

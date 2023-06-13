@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 namespace Personal.Manager
 {
+	/// <summary>
+	/// Handles all the thing that are happening within the stage.
+	/// </summary>
 	public class StageManager : GameInitializeSingleton<StageManager>
 	{
 		public bool IsPaused { get; private set; }
@@ -27,6 +29,19 @@ namespace Personal.Manager
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
+
+			MainCamera = Camera.main;
+			SceneManager.sceneLoaded += OnSceneLoaded;
+		}
+
+		/// <summary>
+		/// Initialize the value when entering Main scene.
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <param name="mode"></param>
+		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		{
+			if (string.Equals(name, SceneName.Main)) return;
 
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
@@ -57,6 +72,8 @@ namespace Personal.Manager
 
 		void OnApplicationQuit()
 		{
+			SceneManager.sceneLoaded -= OnSceneLoaded;
+
 			UIManager.Instance.OptionUI.OnMenuOpened -= Pause;
 			UIManager.Instance.InventoryUI.OnMenuOpened -= Pause;
 		}

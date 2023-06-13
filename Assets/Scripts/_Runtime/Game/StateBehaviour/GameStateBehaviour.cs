@@ -1,7 +1,5 @@
-using UnityEngine;
 using System;
 
-using Helper;
 using Personal.Save;
 
 namespace Personal.GameState
@@ -19,20 +17,7 @@ namespace Personal.GameState
 		/// </summary>
 		public SaveObject SaveObject { get; private set; }
 
-		public PlayerStateModel PlayerStateModel { get; private set; }
-
 		public void InitializeProfile(SaveProfile saveProfile) { SaveProfile = saveProfile; }
 		public void InitializeData(SaveObject saveObject) { SaveObject = saveObject; }
-
-		public void SetGameDataAndLoad(SaveObject saveObject)
-		{
-			InitializeData(saveObject);
-			OnSavedataLoaded();
-		}
-
-		void OnSavedataLoaded()
-		{
-			PlayerStateModel = new PlayerStateModel(SaveObject.PlayerSavedData);
-		}
 	}
 }

@@ -21,22 +21,17 @@ namespace Personal.GameState
 			if (GameManager.Instance == null)
 				await UniTask.WaitUntil(() => GameManager.Instance != null);
 
+			// Disable all scripts when starting so singleton could initialize first.
+			isInitiallyEnabled = enabled;
+			enabled = false;
+
 			if (GameManager.Instance.IsLoadingOver)
 			{
 				AwakeComplete();
 				return;
 			}
 
-			isInitiallyEnabled = enabled;
-
-			enabled = false;
 			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
-
-			// Seems like scripts does not get re-enabled the same order as defined in the execution order.
-			// Make sure the singleton scripts get initialized first before this script.
-			await UniTask.NextFrame();
-			if (isInitiallyEnabled) enabled = true;
-
 			AwakeComplete();
 		}
 
@@ -57,10 +52,16 @@ namespace Personal.GameState
 
 		protected virtual void OnUpdate() { }
 
-		void AwakeComplete()
+		async void AwakeComplete()
 		{
+			// Since some singleton scripts only get initalized when entering a scene,
+			// wait a frame here so singleton scripts get initialized first before this script.
+			await UniTask.NextFrame();
+
 			isAwakeCompleted = true;
+
 			Initialize();
+			if (isInitiallyEnabled) enabled = true;
 		}
 	}
 }

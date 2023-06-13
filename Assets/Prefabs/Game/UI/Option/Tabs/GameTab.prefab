@@ -185,6 +185,7 @@ MonoBehaviour:
   isInvertLookVertical: {fileID: 5748845562844463134}
   gamepadIconDropdown: {fileID: 7365899513331500946}
   fontSizeDropdown: {fileID: 5512951808615785686}
+  languageDropdown: {fileID: 2088715489070083478}
 --- !u!1 &4762075476845509633
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,7 +624,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 8.5, y: 0.000015258789}
-  m_SizeDelta: {x: 750, y: 210}
+  m_SizeDelta: {x: 750, y: 245}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7692108832242252256
 MonoBehaviour:
@@ -673,23 +674,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 745731260391458351, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Name
-      value: Subtitle
+      value: LanguageDropdown
       objectReference: {fileID: 0}
     - target: {fileID: 745731260391458351, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Options.m_Options.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Options.m_Options.Array.data[0].m_Text
-      value: Off
+      value: English
       objectReference: {fileID: 0}
     - target: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Options.m_Options.Array.data[1].m_Text
-      value: English
+      value: Japanese
       objectReference: {fileID: 0}
     - target: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Options.m_Options.Array.data[2].m_Text
@@ -697,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3967261105511679517, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_text
-      value: Off
+      value: English
       objectReference: {fileID: 0}
     - target: {fileID: 4216894412072875943, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -717,7 +718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6117979496255190403, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Name
-      value: ScreenResolutionDropdown
+      value: LanguageDropdown
       objectReference: {fileID: 0}
     - target: {fileID: 6561795147766733659, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -729,7 +730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6561795147766733659, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 570
+      value: 582.5
       objectReference: {fileID: 0}
     - target: {fileID: 6561795147766733659, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -737,7 +738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7346066090595779496, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_text
-      value: Subtitle
+      value: Language
       objectReference: {fileID: 0}
     - target: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_Pivot.x
@@ -817,7 +818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -70
+      value: -210
       objectReference: {fileID: 0}
     - target: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -836,6 +837,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a38bd27ef139314890803928465329c, type: 3}
+--- !u!114 &2088715489070083478 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
+  m_PrefabInstance: {fileID: 1261428908327101054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8634626051486847103 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}

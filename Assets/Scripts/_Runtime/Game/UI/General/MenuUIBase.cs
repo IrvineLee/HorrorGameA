@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Personal.GameState;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI
 {
@@ -14,6 +15,11 @@ namespace Personal.UI
 		/// </summary>
 		/// <returns></returns>
 		public virtual void InitialSetup() { }
+
+		/// <summary>
+		/// Call this to set options data to relevant members.
+		/// </summary>
+		public virtual UniTask SetDataToRelevantMember() { return new UniTask(); }
 
 		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
 	}

@@ -68,12 +68,10 @@ namespace Personal.Manager
 				return;
 			}
 
-			Action onCompleteAction = () => GameStateBehaviour.Instance.SetGameDataAndLoad(saveObject);
+			Action onCompleteAction = () => GameStateBehaviour.Instance.InitializeData(saveObject);
 
 			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), out bool isNewlyCreated, onCompleteAction);
 			saveObject.PlayerSavedData.SlotID = slotID;
-
-			GameStateBehaviour.Instance.InitializeData(saveObject);
 		}
 
 		/// <summary>

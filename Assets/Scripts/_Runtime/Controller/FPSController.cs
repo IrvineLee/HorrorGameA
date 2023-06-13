@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.FSM.Character;
+using Personal.Setting.Game;
+using Personal.UI.Option;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Character.Player
 {
@@ -44,7 +46,7 @@ namespace Personal.Character.Player
 
 		[Header("Player Grounded")]
 		[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-		[SerializeField] bool grounded = true;
+		[SerializeField] bool isGrounded = true;
 
 		[Tooltip("Useful for rough ground")]
 		[SerializeField] float groundedOffset = -0.14f;
@@ -65,10 +67,10 @@ namespace Personal.Character.Player
 		[Tooltip("How far in degrees can you move the camera down")]
 		[SerializeField] float bottomClamp = -90.0f;
 
-		public bool IsGrounded { get => grounded; }
+		public bool IsGrounded { get => isGrounded; }
 		public float SpeedAnimationBlend { get; private set; }
 		public float InputMagnitude { get; private set; }
-		public CharacterController Controller { get => _controller; }
+		public CharacterController Controller { get; private set; }
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnFreeFallEvent;
@@ -86,9 +88,9 @@ namespace Personal.Character.Player
 		float _jumpTimeoutDelta;
 		float _fallTimeoutDelta;
 
-		CharacterController _controller;
-		FPSInputController _input;
+		FPSInputController input;
 		PlayerStateMachine fsm;
+		OptionGameUI optionGameUI;
 
 		bool isInvertedLookHorizontal;
 		bool isInvertedLookVertical;
@@ -99,20 +101,26 @@ namespace Personal.Character.Player
 
 		protected override void Initialize()
 		{
-			_input = InputManager.Instance.FPSInputController;
-			_controller = GetComponent<CharacterController>();
+			input = InputManager.Instance.FPSInputController;
 			fsm = StageManager.Instance.PlayerController.FSM;
+
+			Controller = GetComponent<CharacterController>();
 
 			// reset our timeouts on start
 			_jumpTimeoutDelta = jumpTimeout;
 			_fallTimeoutDelta = fallTimeout;
+
+			optionGameUI = (OptionGameUI)UIManager.Instance.OptionUI.GetTab(OptionHandlerUI.MenuTab.Game).OptionMenuUI;
+			optionGameUI.OnCameraSensitivityEvent += SetRotationSpeed;
+			optionGameUI.OnInvertLookHorizontalEvent += SetInvertedLookHorizontal;
+			optionGameUI.OnInvertLookVerticalEvent += SetInvertedLookVertical;
 		}
 
 		protected override void OnUpdate()
 		{
 			base.OnUpdate();
 
-			if (fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
+			if (!fsm || fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
 
 			JumpAndGravity();
 			GroundedCheck();
@@ -124,10 +132,12 @@ namespace Personal.Character.Player
 			CameraRotation();
 		}
 
-		public void SetRotationSpeed(float value) { rotationSpeed = value; }
-		public void SetInvertedLookHorizontal(bool isFlag) { isInvertedLookHorizontal = isFlag; }
-		public void SetInvertedLookVertical(bool isFlag)
+		void SetRotationSpeed(float value) { rotationSpeed = value; }
+		void SetInvertedLookHorizontal(bool isFlag) { isInvertedLookHorizontal = isFlag; }
+		void SetInvertedLookVertical(bool isFlag)
 		{
+			if (isInvertedLookVertical == isFlag) return;
+
 			isInvertedLookVertical = isFlag;
 			_cinemachineTargetPitch = -_cinemachineTargetPitch;
 		}
@@ -145,19 +155,19 @@ namespace Personal.Character.Player
 		{
 			// set sphere position, with offset
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
-			grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+			isGrounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
 		}
 
 		void CameraRotation()
 		{
 			// if there is an input
-			if (_input.Look.sqrMagnitude >= _threshold)
+			if (input.Look.sqrMagnitude >= _threshold)
 			{
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-				_cinemachineTargetPitch += _input.Look.y * rotationSpeed * deltaTimeMultiplier;
-				_rotationVelocity = _input.Look.x * rotationSpeed * deltaTimeMultiplier;
+				_cinemachineTargetPitch += input.Look.y * rotationSpeed * deltaTimeMultiplier;
+				_rotationVelocity = input.Look.x * rotationSpeed * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, bottomClamp, topClamp);
@@ -173,16 +183,16 @@ namespace Personal.Character.Player
 		void Move()
 		{
 			// normalise input direction
-			Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+			Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.IsSprint ? sprintSpeed : moveSpeed;
+			float targetSpeed = input.IsSprint ? sprintSpeed : moveSpeed;
 
-			if (_input.Move == Vector2.zero) targetSpeed = 0f;
+			if (input.Move == Vector2.zero) targetSpeed = 0f;
 			else if (inputDirection.z < 0) targetSpeed = backSpeed;
 
 			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+			float currentHorizontalSpeed = new Vector3(Controller.velocity.x, 0.0f, Controller.velocity.z).magnitude;
 
 			float speedOffset = 0.1f;
 			InputMagnitude = 1f;
@@ -207,19 +217,19 @@ namespace Personal.Character.Player
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
-			if (_input.Move != Vector2.zero)
+			if (input.Move != Vector2.zero)
 			{
 				// move
-				inputDirection = transform.right * _input.Move.x + transform.forward * _input.Move.y;
+				inputDirection = transform.right * input.Move.x + transform.forward * input.Move.y;
 			}
 
 			// move the player
-			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			Controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 		}
 
 		void JumpAndGravity()
 		{
-			if (grounded)
+			if (isGrounded)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = fallTimeout;
@@ -234,7 +244,7 @@ namespace Personal.Character.Player
 				}
 
 				// Jump
-				if (_input.IsJump && _jumpTimeoutDelta <= 0.0f)
+				if (input.IsJump && _jumpTimeoutDelta <= 0.0f)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -285,11 +295,18 @@ namespace Personal.Character.Player
 			Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
 			Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
 
-			if (grounded) Gizmos.color = transparentGreen;
+			if (isGrounded) Gizmos.color = transparentGreen;
 			else Gizmos.color = transparentRed;
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z), groundedRadius);
+		}
+
+		void OnApplicationQuit()
+		{
+			optionGameUI.OnCameraSensitivityEvent -= SetRotationSpeed;
+			optionGameUI.OnInvertLookHorizontalEvent -= SetInvertedLookHorizontal;
+			optionGameUI.OnInvertLookVerticalEvent -= SetInvertedLookVertical;
 		}
 	}
 }

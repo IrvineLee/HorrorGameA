@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using Personal.GameState;
 using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Option
 {
-	public class OptionHandlerUI : MonoBehaviour, IWindowHandler, IDefaultHandler
+	public class OptionHandlerUI : GameInitialize, IWindowHandler, IDefaultHandler
 	{
 		public enum MenuTab
 		{
@@ -40,7 +43,7 @@ namespace Personal.UI.Option
 		MenuTab currentMenuTab;
 		int currentMenuIndex;
 
-		public void Initialize()
+		public void InitialSetup()
 		{
 			// Initialize all the tabs and set onClick listener.
 			for (int i = 0; i < tabList.Count; i++)
@@ -64,6 +67,8 @@ namespace Personal.UI.Option
 			// Set game tab to be in a pressed state.
 			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
 			gameTab.SelectButton.interactable = false;
+
+			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
 		/// <summary>
@@ -88,6 +93,30 @@ namespace Personal.UI.Option
 
 			tabList[index].SelectButton.onClick.Invoke();
 			currentMenuIndex = index;
+		}
+
+		/// <summary>
+		/// Get tab.
+		/// </summary>
+		/// <param name="menuTab"></param>
+		/// <returns></returns>
+		public Tab GetTab(MenuTab menuTab)
+		{
+			tabDictionary.TryGetValue(menuTab, out Tab tab);
+			return tab;
+		}
+
+		/// <summary>
+		/// From Title to Main scene, set options data to relevant members.
+		/// </summary>
+		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		{
+			if (string.Equals(name, SceneName.Main)) return;
+
+			foreach (var tab in tabList)
+			{
+				tab.OptionMenuUI.SetDataToRelevantMember().Forget();
+			}
 		}
 
 		/// <summary>
@@ -153,6 +182,11 @@ namespace Personal.UI.Option
 			{
 				tab.OptionMenuUI.gameObject.SetActive(false);
 			}
+		}
+
+		void OnApplicationQuit()
+		{
+			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
 	}
 }

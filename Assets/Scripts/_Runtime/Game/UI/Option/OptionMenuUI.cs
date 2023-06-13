@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Personal.Manager;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
@@ -21,6 +22,14 @@ namespace Personal.UI.Option
 			EventSystem.current.SetSelectedGameObject(lastSelectedGO);
 		}
 
+		public override async UniTask SetDataToRelevantMember()
+		{
+			await UniTask.NextFrame();
+			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
+
+			ResetData();
+		}
+
 		/// <summary>
 		/// Pressing the OK button.
 		/// </summary>
@@ -31,8 +40,7 @@ namespace Personal.UI.Option
 		/// </summary>
 		public virtual void Default_Inspector()
 		{
-			ResetDataToUI();
-			ResetDataToTarget();
+			ResetData();
 		}
 
 		/// <summary>
@@ -40,8 +48,7 @@ namespace Personal.UI.Option
 		/// </summary>
 		protected virtual void HandleLoadDataToUI()
 		{
-			ResetDataToUI();
-			ResetDataToTarget();
+			ResetData();
 		}
 
 		/// <summary>
@@ -53,5 +60,11 @@ namespace Personal.UI.Option
 		/// Reset the data value back to the real target. Ex: Audio, Graphic etc...
 		/// </summary>
 		protected virtual void ResetDataToTarget() { }
+
+		void ResetData()
+		{
+			ResetDataToUI();
+			ResetDataToTarget();
+		}
 	}
 }

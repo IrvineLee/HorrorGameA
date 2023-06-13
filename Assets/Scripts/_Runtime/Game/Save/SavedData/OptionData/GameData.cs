@@ -15,7 +15,7 @@ namespace Personal.Setting.Game
 		[SerializeField] bool isInvertLookVertical = false;
 		[SerializeField] IconDisplayType iconDisplayType = IconDisplayType.Auto;
 		[SerializeField] FontSizeType fontSizeType = FontSizeType.Normal;
-		[SerializeField] bool isSubtitle = true;
+		[SerializeField] SystemLanguage languageType = SystemLanguage.English;
 
 		public float Brightness { get => brightness; set => brightness = value; }
 		public float CameraSensitivity { get => cameraSensitivity; set => cameraSensitivity = value; }
@@ -23,6 +23,6 @@ namespace Personal.Setting.Game
 		public bool IsInvertLookVertical { get => isInvertLookVertical; set => isInvertLookVertical = value; }
 		public IconDisplayType IconDisplayType { get => iconDisplayType; set => iconDisplayType = value; }
 		public FontSizeType FontSizeType { get => fontSizeType; set => fontSizeType = value; }
-		public bool IsSubtitle { get => isSubtitle; set => isSubtitle = value; }
+		public SystemLanguage LanguageType { get => languageType; set => languageType = value; }
 	}
 }
