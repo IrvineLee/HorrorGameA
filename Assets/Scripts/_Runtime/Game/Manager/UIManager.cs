@@ -29,7 +29,7 @@ namespace Personal.Manager
 		protected override async UniTask Awake()
 		{
 			await base.Awake();
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
+			await UniTask.NextFrame();
 
 			Initalize();
 		}

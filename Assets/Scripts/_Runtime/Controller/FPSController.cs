@@ -5,9 +5,7 @@ using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.FSM.Character;
-using Personal.Setting.Game;
 using Personal.UI.Option;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Character.Player
 {
@@ -99,13 +97,11 @@ namespace Personal.Character.Player
 
 		bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
 
-		protected override async void Initialize()
+		protected override void Initialize()
 		{
-			await UniTask.NextFrame();
-
 			input = InputManager.Instance.FPSInputController;
-			fsm = StageManager.Instance.PlayerController.FSM;
-			Controller = GetComponent<CharacterController>();
+			fsm = GetComponentInParent<PlayerStateMachine>();
+			Controller = GetComponentInChildren<CharacterController>();
 
 			// reset our timeouts on start
 			_jumpTimeoutDelta = jumpTimeout;
@@ -130,7 +126,7 @@ namespace Personal.Character.Player
 
 		void LateUpdate()
 		{
-			if (!fsm || fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
+			if (!fsm) return;
 
 			CameraRotation();
 		}

@@ -24,6 +24,8 @@ namespace Personal.Character.Animation
 
 		protected override void Initialize()
 		{
+			base.Initialize();
+
 			foreach (var state in realAnimatorStateList)
 			{
 				realAnimatorStateDictionary.Add(state.ActorAnimationType, state.RealAnimatorState);

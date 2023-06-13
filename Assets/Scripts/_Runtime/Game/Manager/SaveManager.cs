@@ -120,7 +120,6 @@ namespace Personal.Manager
 			isNewlyCreated = false;
 			try
 			{
-
 				data = dataService.LoadData<T>(path, isEncryptionEnabled);
 				if (data == default)
 				{
