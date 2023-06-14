@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Helper;
 
-namespace EasyTransition
+namespace Personal.Transition
 {
 	public class Transition : MonoBehaviour
 	{

@@ -25,7 +25,6 @@ namespace Personal.UI.Option
 		public override async UniTask SetDataToRelevantMember()
 		{
 			await UniTask.NextFrame();
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
 
 			ResetData();
 		}

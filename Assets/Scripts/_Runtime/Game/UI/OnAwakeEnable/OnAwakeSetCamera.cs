@@ -1,23 +1,20 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.SceneManagement;
 
 using Personal.GameState;
 using Personal.Manager;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI
 {
 	public class OnAwakeSetCamera : GameInitialize
 	{
-		protected override void Initialize()
+		protected override async UniTask OnMainScene()
 		{
-			if (GameSceneManager.Instance.IsMainScene())
-			{
-				InitialSetup();
-				return;
-			}
+			await base.OnMainScene();
+			await UniTask.NextFrame();
 
-			SceneManager.sceneLoaded += OnSceneLoaded;
+			InitialSetup();
 		}
 
 		void InitialSetup()
@@ -27,18 +24,6 @@ namespace Personal.UI
 			var cameraData = StageManager.Instance.MainCamera.GetUniversalAdditionalCameraData();
 
 			cameraData.cameraStack.Add(canvas.worldCamera);
-		}
-
-		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-		{
-			if (string.Equals(name, SceneName.Main)) return;
-
-			InitialSetup();
-		}
-
-		void OnApplicationQuit()
-		{
-			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
 	}
 }

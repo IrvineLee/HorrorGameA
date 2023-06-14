@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace EasyTransition
+namespace Personal.Transition
 {
 	[CustomEditor(typeof(TransitionManager))]
 	public class TransitionManagerEditor : Editor

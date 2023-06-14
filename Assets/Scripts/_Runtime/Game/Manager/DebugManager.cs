@@ -14,10 +14,8 @@ namespace Personal.Manager
 	{
 		FPSInputController FPSInputController;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			FPSInputController = InputManager.Instance.FPSInputController;
 		}
 

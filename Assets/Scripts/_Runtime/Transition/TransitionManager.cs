@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Helper;
 
-namespace EasyTransition
+namespace Personal.Transition
 {
 	public class TransitionManager : MonoBehaviourSingleton<TransitionManager>
 	{
@@ -31,7 +31,7 @@ namespace EasyTransition
 			canvasGroup = GetComponentInChildren<CanvasGroup>();
 			transitionManagerSettings.Initialize();
 
-			Initialize();
+			InitialSetup();
 		}
 
 		/// <summary>
@@ -55,7 +55,7 @@ namespace EasyTransition
 		/// Rather than using addressable to spawn it, which will take a few frames, the pre-defined prefab is already inside.
 		/// Register it onto the dictionary.
 		/// </summary>
-		void Initialize()
+		void InitialSetup()
 		{
 			TransitionType transitionType = TransitionType.Fade;
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);

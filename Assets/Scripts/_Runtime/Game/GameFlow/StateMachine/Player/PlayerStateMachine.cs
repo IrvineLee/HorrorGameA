@@ -50,9 +50,9 @@ namespace Personal.FSM.Character
 			return false;
 		}
 
-		protected override void OnRendererDissolveEnd()
+		protected override void OnRendererDissolveBegin()
 		{
-			StageManager.Instance.PlayerController.FPSController.ResetAnimationBlend();
+			StageManager.Instance.PlayerController.FPSController.ResetAnimationBlend(0.25f);
 		}
 
 		void IFSMHandler.OnBegin()

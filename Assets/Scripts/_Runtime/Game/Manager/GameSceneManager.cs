@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Personal.GameState;
-using EasyTransition;
+using Personal.Transition;
 
 namespace Personal.Manager
 {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EasyTransition
+namespace Personal.Transition
 {
 	[CreateAssetMenu(fileName = "TransitionSettings", menuName = "Florian Butz/New Transition Settings", order = 0)]
 	public class TransitionManagerSettings : ScriptableObject

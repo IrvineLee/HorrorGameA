@@ -19,7 +19,24 @@ namespace Personal.GameState
 			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
 			enabled = true;
 
+			Initialize();
+			await OnMainScene();
+
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
+		}
+
+		/// <summary>
+		/// Called right after awake is finished.
+		/// </summary>
+		protected virtual void Initialize() { }
+
+		/// <summary>
+		/// Wait until the scene is in Main scene/scenes before proceeding. 
+		/// </summary>
+		/// <returns></returns>
+		protected virtual async UniTask OnMainScene()
+		{
+			await UniTask.WaitUntil(() => GameSceneManager.Instance && GameSceneManager.Instance.IsMainScene());
 		}
 	}
 }

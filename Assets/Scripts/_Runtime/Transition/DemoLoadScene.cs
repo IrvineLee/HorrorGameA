@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EasyTransition
+namespace Personal.Transition
 {
 	public class DemoLoadScene : MonoBehaviour
 	{

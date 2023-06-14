@@ -26,9 +26,8 @@ namespace Personal.Manager
 		public WindowHandlerUI WindowHandlerUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
-		protected override async UniTask Awake()
+		protected override async void Initialize()
 		{
-			await base.Awake();
 			await UniTask.NextFrame();
 
 			Initalize();
@@ -38,6 +37,11 @@ namespace Personal.Manager
 		{
 			// Option UI initialize.
 			optionUI.InitialSetup();
+		}
+
+		protected override async UniTask OnMainScene()
+		{
+			await base.OnMainScene();
 
 			// Inventory UI initialize.
 			inventoryUI.InitialSetup();

@@ -6,6 +6,7 @@ using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.FSM.Character;
 using Personal.UI.Option;
+using Helper;
 
 namespace Personal.Character.Player
 {
@@ -93,6 +94,9 @@ namespace Personal.Character.Player
 		bool isInvertedLookHorizontal;
 		bool isInvertedLookVertical;
 
+		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
+		CoroutineRun inputMagnitudeCR = new CoroutineRun();
+
 		const float _threshold = 0.01f;
 
 		bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
@@ -144,10 +148,13 @@ namespace Personal.Character.Player
 		/// <summary>
 		/// Used to reset the animation blending values. Typically for dissolve shader.
 		/// </summary>
-		public void ResetAnimationBlend()
+		public void ResetAnimationBlend(float duration = 0)
 		{
-			SpeedAnimationBlend = 0;
-			InputMagnitude = 0;
+			speedAnimationBlendCR?.StopCoroutine();
+			inputMagnitudeCR?.StopCoroutine();
+
+			speedAnimationBlendCR = CoroutineHelper.LerpWithinSeconds(SpeedAnimationBlend, 0, duration, (result) => SpeedAnimationBlend = result);
+			inputMagnitudeCR = CoroutineHelper.LerpWithinSeconds(InputMagnitude, 0, duration, (result) => InputMagnitude = result);
 		}
 
 		void GroundedCheck()

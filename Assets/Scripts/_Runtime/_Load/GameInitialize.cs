@@ -48,9 +48,24 @@ namespace Personal.GameState
 			OnUpdate();
 		}
 
+		/// <summary>
+		/// Gets called right after awake has finished and before getting enabled.
+		/// </summary>
 		protected virtual void Initialize() { }
 
+		/// <summary>
+		/// Update
+		/// </summary>
 		protected virtual void OnUpdate() { }
+
+		/// <summary>
+		/// Wait until the scene is in Main scene/scenes before proceeding. 
+		/// </summary>
+		/// <returns></returns>
+		protected virtual async UniTask OnMainScene()
+		{
+			await UniTask.WaitUntil(() => GameSceneManager.Instance.IsMainScene());
+		}
 
 		async void AwakeComplete()
 		{

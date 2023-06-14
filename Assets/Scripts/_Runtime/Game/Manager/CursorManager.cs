@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Cysharp.Threading.Tasks;
 using PixelCrushers;
 using Personal.GameState;
 
@@ -12,10 +11,8 @@ namespace Personal.Manager
 		[SerializeField] Transform crosshairUI = null;
 		[SerializeField] Transform mouseCursorUI = null;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			if (SceneManager.GetActiveScene().name.Equals(SceneName.Title))
 			{
 				SetToMouseCursor(true);

@@ -66,10 +66,8 @@ namespace Personal.Manager
 
 		IDisposable iDisposableAnyButtonPressed;
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
 			FPSInputController = GetComponentInChildren<FPSInputController>();
 			UIInputController = GetComponentInChildren<UIInputController>();
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();

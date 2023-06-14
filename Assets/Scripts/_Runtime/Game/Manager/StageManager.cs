@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
@@ -26,23 +25,17 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 
-		protected override async UniTask Awake()
+		protected override void Initialize()
 		{
-			await base.Awake();
-
-			// Starting in main scene.
-			if (GameSceneManager.Instance.IsMainScene())
-			{
-				InitialSetup();
-				return;
-			}
-
+			// The camera in the Title scene.
 			MainCamera = Camera.main;
-			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
-		void InitialSetup()
+		protected override async UniTask OnMainScene()
 		{
+			await base.OnMainScene();
+
+			// Set the camera in Main scene.
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 			PlayerController = FindObjectOfType<PlayerController>();
@@ -70,22 +63,8 @@ namespace Personal.Manager
 			PlayerController.FPSController.enabled = !isFlag;
 		}
 
-		/// <summary>
-		/// Initialize the value when entering Main scene.
-		/// </summary>
-		/// <param name="scene"></param>
-		/// <param name="mode"></param>
-		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-		{
-			if (string.Equals(name, SceneName.Main)) return;
-
-			InitialSetup();
-		}
-
 		void OnApplicationQuit()
 		{
-			SceneManager.sceneLoaded -= OnSceneLoaded;
-
 			UIManager.Instance.OptionUI.OnMenuOpened -= Pause;
 			UIManager.Instance.InventoryUI.OnMenuOpened -= Pause;
 		}
