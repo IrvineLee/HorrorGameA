@@ -3,10 +3,11 @@ using UnityEngine;
 
 using TMPro;
 using static Personal.UI.Window.WindowEnum;
+using Personal.Manager;
 
 namespace Personal.UI.Window
 {
-	public class WindowMenuUI : WindowMenuUIBase
+	public class WindowMenuUI : WindowMenuUIBase, IWindowHandler
 	{
 		[SerializeField] WindowDisplayType windowType = WindowDisplayType.ButtonConfirmationBox;
 
@@ -22,6 +23,7 @@ namespace Personal.UI.Window
 		{
 			base.InitialSetup();
 
+			IWindowHandler = this;
 			rectTransform = GetComponentInChildren<RectTransform>();
 		}
 
@@ -30,11 +32,14 @@ namespace Personal.UI.Window
 			rectTransform.sizeDelta = size;
 		}
 
+		/// <summary>
+		/// The last action is always the cancel action.
+		/// </summary>
 		public virtual void SetOneButtonOk(WindowButtonPress buttonPress, string title, string message, Action action, string buttonText = default)
 		{
 			Action addListenerAction = () =>
 			{
-				Action onPressed = SetupOnButtonPressedAction(transform, action);
+				Action onPressed = AddDisableWindowOnClick(transform, action);
 				CancelAction = onPressed;
 
 				// Enable the correct buttons.
@@ -43,13 +48,16 @@ namespace Personal.UI.Window
 			SetupButton(title, message, addListenerAction);
 		}
 
+		/// <summary>
+		/// The last action is always the cancel action.
+		/// </summary>
 		public virtual void SetTwoButtonYesNo(WindowButtonPress buttonPress, string title, string message, Action action01, Action action02,
 											   string buttonText01 = default, string buttonText02 = default)
 		{
 			Action addListenerAction = () =>
 			{
-				Action onPressed01 = SetupOnButtonPressedAction(transform, action01);
-				Action onPressed02 = SetupOnButtonPressedAction(transform, action02);
+				Action onPressed01 = AddDisableWindowOnClick(transform, action01);
+				Action onPressed02 = AddDisableWindowOnClick(transform, action02);
 				CancelAction = onPressed02;
 
 				// Enable the correct buttons.
@@ -58,6 +66,9 @@ namespace Personal.UI.Window
 			SetupButton(title, message, addListenerAction);
 		}
 
+		/// <summary>
+		/// The last action is always the cancel action.
+		/// </summary>
 		public virtual void SetThreeButton(WindowButtonPress buttonPress, string title, string message, Action action01, Action action02, Action action03,
 											string buttonText01 = default, string buttonText02 = default, string buttonText03 = default)
 		{ }
@@ -70,7 +81,7 @@ namespace Personal.UI.Window
 			addListenerAction?.Invoke();
 		}
 
-		Action SetupOnButtonPressedAction(Transform windowTrans, Action action)
+		Action AddDisableWindowOnClick(Transform windowTrans, Action action)
 		{
 			return () =>
 			{
@@ -78,8 +89,15 @@ namespace Personal.UI.Window
 
 				// Disable the window and remove from stack.
 				windowTrans.gameObject.SetActive(false);
-				windowHandlerUI.WindowStack.Pop();
+				UIManager.Instance.WindowStack.Pop();
 			};
+		}
+
+		void IWindowHandler.OpenWindow() { }
+
+		void IWindowHandler.CloseWindow()
+		{
+			CancelAction?.Invoke();
 		}
 	}
 }

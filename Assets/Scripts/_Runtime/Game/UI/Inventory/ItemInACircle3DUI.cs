@@ -13,7 +13,7 @@ using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
 {
-	public class ItemInACircle3DUI : GameInitialize, IAngleDirection
+	public class ItemInACircle3DUI : MenuUIBase, IAngleDirection
 	{
 		[SerializeField] protected Transform contentTrans = null;
 		[SerializeField] protected float radius = 5f;
@@ -26,7 +26,7 @@ namespace Personal.UI
 
 		protected float yAngleToRotate;
 
-		public void InitialSetup()
+		public override void InitialSetup()
 		{
 			uIInputController = InputManager.Instance.UIInputController;
 			playerInventory = StageManager.Instance.PlayerController.Inventory;

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
@@ -67,8 +66,20 @@ namespace Personal.UI.Option
 			// Set game tab to be in a pressed state.
 			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
 			gameTab.SelectButton.interactable = false;
+		}
 
-			SceneManager.sceneLoaded += OnSceneLoaded;
+		/// <summary>
+		/// Handle closing option menu.
+		/// </summary>
+		public void HandleCloseOptionMenu()
+		{
+			if (UIManager.Instance.WindowStack.Count == 1)
+			{
+				UIManager.Instance.OptionUI.IWindowHandler.CloseWindow();
+				return;
+			}
+
+			UIManager.Instance.WindowStack.Peek().IWindowHandler.CloseWindow();
 		}
 
 		/// <summary>
@@ -106,13 +117,8 @@ namespace Personal.UI.Option
 			return tab;
 		}
 
-		/// <summary>
-		/// From Title to Main scene, set options data to relevant members.
-		/// </summary>
-		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		protected override void OnMainScene()
 		{
-			if (string.Equals(name, SceneName.Main)) return;
-
 			foreach (var tab in tabList)
 			{
 				tab.OptionMenuUI.SetDataToRelevantMember().Forget();
@@ -132,6 +138,8 @@ namespace Personal.UI.Option
 				tab.SelectButton.interactable = false;
 				tab.OptionMenuUI.gameObject.SetActive(true);
 			}
+
+			UIManager.Instance.WindowStack.Push(tab.OptionMenuUI);
 		}
 
 		/// <summary>
@@ -149,6 +157,8 @@ namespace Personal.UI.Option
 			InputManager.Instance.SetToDefaultActionMap();
 
 			SetupMenu(false);
+
+			UIManager.Instance.WindowStack.Pop();
 			UIManager.Instance.ToolsHandlerUI.LoadingIconTrans.gameObject.SetActive(true);
 		}
 
@@ -182,11 +192,6 @@ namespace Personal.UI.Option
 			{
 				tab.OptionMenuUI.gameObject.SetActive(false);
 			}
-		}
-
-		void OnApplicationQuit()
-		{
-			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
 	}
 }

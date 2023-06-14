@@ -9,9 +9,8 @@ namespace Personal.UI
 {
 	public class OnAwakeSetCamera : GameInitialize
 	{
-		protected override async UniTask OnMainScene()
+		protected override async void OnMainScene()
 		{
-			await base.OnMainScene();
 			await UniTask.NextFrame();
 
 			InitialSetup();

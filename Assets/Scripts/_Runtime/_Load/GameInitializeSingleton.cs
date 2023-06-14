@@ -20,7 +20,9 @@ namespace Personal.GameState
 			enabled = true;
 
 			Initialize();
-			await OnMainScene();
+
+			await UniTask.WaitUntil(() => GameSceneManager.Instance && GameSceneManager.Instance.IsMainScene());
+			OnMainScene();
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
@@ -34,9 +36,6 @@ namespace Personal.GameState
 		/// Wait until the scene is in Main scene/scenes before proceeding. 
 		/// </summary>
 		/// <returns></returns>
-		protected virtual async UniTask OnMainScene()
-		{
-			await UniTask.WaitUntil(() => GameSceneManager.Instance && GameSceneManager.Instance.IsMainScene());
-		}
+		protected virtual void OnMainScene() { }
 	}
 }

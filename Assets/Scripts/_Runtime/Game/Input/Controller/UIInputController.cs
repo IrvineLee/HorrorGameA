@@ -53,13 +53,7 @@ namespace Personal.InputProcessing
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
 
-			if (UIManager.Instance.WindowHandlerUI.WindowStack.Count == 0)
-			{
-				UIManager.Instance.OptionUI.IWindowHandler.CloseWindow();
-				return;
-			}
-
-			UIManager.Instance.WindowHandlerUI.CloseLatestWindow();
+			UIManager.Instance.OptionUI.HandleCloseOptionMenu();
 		}
 
 		void DefaultOptionMenu()

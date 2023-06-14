@@ -7,6 +7,8 @@ namespace Personal.UI
 {
 	public class MenuUIBase : GameInitialize
 	{
+		public IWindowHandler IWindowHandler { get; protected set; }
+
 		protected GameObject lastSelectedGO;
 
 		/// <summary>
@@ -17,10 +19,14 @@ namespace Personal.UI
 		public virtual void InitialSetup() { }
 
 		/// <summary>
-		/// Call this to set options data to relevant members.
+		/// Call this to set data to relevant members.
 		/// </summary>
 		public virtual UniTask SetDataToRelevantMember() { return new UniTask(); }
 
+		/// <summary>
+		/// Set the last selected gameobject. Typically for mouse.
+		/// </summary>
+		/// <param name="go"></param>
 		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
 	}
 }

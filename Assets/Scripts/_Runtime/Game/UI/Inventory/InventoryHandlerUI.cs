@@ -43,6 +43,8 @@ namespace Personal.UI
 
 		void IWindowHandler.OpenWindow()
 		{
+			UIManager.Instance.WindowStack.Push(itemInACircle3DUI);
+
 			SetWindowEnable(true);
 			itemInACircle3DUI.Setup();
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
@@ -50,6 +52,8 @@ namespace Personal.UI
 
 		void IWindowHandler.CloseWindow()
 		{
+			UIManager.Instance.WindowStack.Pop();
+
 			SetWindowEnable(false);
 			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
 			InputManager.Instance.SetToDefaultActionMap();

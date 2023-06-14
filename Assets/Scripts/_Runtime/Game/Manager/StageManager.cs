@@ -31,10 +31,8 @@ namespace Personal.Manager
 			MainCamera = Camera.main;
 		}
 
-		protected override async UniTask OnMainScene()
+		protected override void OnMainScene()
 		{
-			await base.OnMainScene();
-
 			// Set the camera in Main scene.
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();

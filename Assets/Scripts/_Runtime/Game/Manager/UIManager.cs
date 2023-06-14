@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
@@ -14,6 +15,7 @@ namespace Personal.Manager
 		[SerializeField] [ReadOnly] UIInterfaceType activeInterfaceType = UIInterfaceType.None;
 
 		[SerializeField] OptionHandlerUI optionUI = null;
+		//[SerializeField] PauseMenuUI pauseMenuUI = null;
 		[SerializeField] InventoryHandlerUI inventoryUI = null;
 		[SerializeField] ToolsHandlerUI toolsHandlerUI = null;
 		[SerializeField] WindowHandlerUI windowHandlerUI = null;
@@ -25,6 +27,8 @@ namespace Personal.Manager
 		public ToolsHandlerUI ToolsHandlerUI { get => toolsHandlerUI; }
 		public WindowHandlerUI WindowHandlerUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
+
+		public Stack<MenuUIBase> WindowStack { get; } = new();
 
 		protected override async void Initialize()
 		{
@@ -39,9 +43,9 @@ namespace Personal.Manager
 			optionUI.InitialSetup();
 		}
 
-		protected override async UniTask OnMainScene()
+		protected override async void OnMainScene()
 		{
-			await base.OnMainScene();
+			await UniTask.NextFrame();
 
 			// Inventory UI initialize.
 			inventoryUI.InitialSetup();

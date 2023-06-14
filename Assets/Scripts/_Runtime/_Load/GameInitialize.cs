@@ -62,10 +62,7 @@ namespace Personal.GameState
 		/// Wait until the scene is in Main scene/scenes before proceeding. 
 		/// </summary>
 		/// <returns></returns>
-		protected virtual async UniTask OnMainScene()
-		{
-			await UniTask.WaitUntil(() => GameSceneManager.Instance.IsMainScene());
-		}
+		protected virtual void OnMainScene() { }
 
 		async void AwakeComplete()
 		{
@@ -77,6 +74,9 @@ namespace Personal.GameState
 
 			Initialize();
 			if (isInitiallyEnabled) enabled = true;
+
+			await UniTask.WaitUntil(() => GameSceneManager.Instance.IsMainScene());
+			OnMainScene();
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using PixelCrushers;
 using Personal.GameState;
@@ -13,12 +12,11 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			if (SceneManager.GetActiveScene().name.Equals(SceneName.Title))
-			{
-				SetToMouseCursor(true);
-				return;
-			}
+			SetToMouseCursor(true);
+		}
 
+		protected override void OnMainScene()
+		{
 			SetToMouseCursor(false);
 		}
 

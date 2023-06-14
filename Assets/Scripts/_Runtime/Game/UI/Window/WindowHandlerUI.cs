@@ -21,27 +21,7 @@ namespace Personal.UI.Window
 			public WindowButtonPress ButtonPress { get => buttonPress; }
 		}
 
-		public Stack<WindowMenuUI> WindowStack { get; } = new();
-
 		Dictionary<WindowUIType, WindowMenuUI> windowUIDictionary = new();
-
-		public void CloseLatestWindow()
-		{
-			WindowStack.Peek().CancelAction();
-		}
-
-		/// <summary>
-		/// Disable all window displays.
-		/// </summary>
-		public void DisableAllWindowDisplays()
-		{
-			foreach (var window in windowUIDictionary)
-			{
-				window.Value.gameObject.SetActive(false);
-			}
-
-			WindowStack.Clear();
-		}
 
 		/// <summary>
 		/// Open window with certain parameters.
@@ -65,11 +45,7 @@ namespace Personal.UI.Window
 				return;
 			}
 
-			// Don't do anything if the window is already opened.
-			if (windowMenuUI.gameObject.activeSelf) return;
-
-			WindowStack.Push(windowMenuUI);
-			windowMenuUI.gameObject.SetActive(true);
+			PushToStack(windowMenuUI);
 		}
 
 		/// <summary>
@@ -97,8 +73,16 @@ namespace Personal.UI.Window
 				windowMenuUI.SetThreeButton(buttonPress, title, description, action01, action02, action03);
 			}
 
-			// Push it to the stack and enable it.
-			WindowStack.Push(windowMenuUI);
+			PushToStack(windowMenuUI);
+		}
+
+		// Push it to the stack and enable it.
+		void PushToStack(WindowMenuUI windowMenuUI)
+		{
+			// Don't do anything if the window is already opened.
+			if (windowMenuUI.gameObject.activeSelf) return;
+
+			UIManager.Instance.WindowStack.Push(windowMenuUI);
 			windowMenuUI.gameObject.SetActive(true);
 		}
 	}
