@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using UnityEngine.SceneManagement;
 
 namespace Personal.GameState
 {
@@ -64,6 +65,11 @@ namespace Personal.GameState
 		/// <returns></returns>
 		protected virtual void OnMainScene() { }
 
+		/// <summary>
+		/// This will get called on the next frame of OnMainScene.
+		/// </summary>
+		protected virtual void OnPostMainScene() { }
+
 		async void AwakeComplete()
 		{
 			// Since some singleton scripts only get initalized when entering a scene,
@@ -75,8 +81,27 @@ namespace Personal.GameState
 			Initialize();
 			if (isInitiallyEnabled) enabled = true;
 
-			await UniTask.WaitUntil(() => GameSceneManager.Instance.IsMainScene());
+			SceneManager.sceneLoaded += OnSceneLoaded;
+			HandleMainScene();
+		}
+
+		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		{
+			HandleMainScene();
+		}
+
+		async void HandleMainScene()
+		{
+			if (!GameSceneManager.Instance.IsMainScene()) return;
 			OnMainScene();
+
+			await UniTask.NextFrame();
+			OnPostMainScene();
+		}
+
+		void OnDestroy()
+		{
+			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
 	}
 }

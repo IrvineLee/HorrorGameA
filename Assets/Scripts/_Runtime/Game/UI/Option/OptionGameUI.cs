@@ -161,7 +161,7 @@ namespace Personal.UI.Option
 			}
 		}
 
-		void OnDestroy()
+		void OnApplicationQuit()
 		{
 			brightnessSlider.onValueChanged.RemoveAllListeners();
 			cameraSensitivitySlider.onValueChanged.RemoveAllListeners();

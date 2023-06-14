@@ -5,21 +5,19 @@ using Personal.InputProcessing;
 using Personal.Manager;
 using Personal.Item;
 using Personal.Object;
-using Personal.GameState;
 using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
 {
-	public class InventoryHandlerUI : GameInitialize, IWindowHandler
+	public class InventoryHandlerUI : MenuUIBase, IWindowHandler
 	{
 		[SerializeField] ItemInACircle3DUI itemInACircle3DUI = null;
 
-		public IWindowHandler IWindowHandler { get => this; }
-
 		public event Action<bool> OnMenuOpened;
 
-		public void InitialSetup()
+		public override void InitialSetup()
 		{
+			IWindowHandler = this;
 			itemInACircle3DUI.InitialSetup();
 		}
 

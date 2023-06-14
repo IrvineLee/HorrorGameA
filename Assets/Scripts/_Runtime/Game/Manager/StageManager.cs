@@ -31,15 +31,19 @@ namespace Personal.Manager
 			MainCamera = Camera.main;
 		}
 
-		protected override void OnMainScene()
+		protected override void OnEarlyMainScene()
 		{
+			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
+			UIManager.Instance.InventoryUI.OnMenuOpened += Pause;
+		}
+
+		public void RegisterPlayer(PlayerController pc)
+		{
+			PlayerController = pc;
+
 			// Set the camera in Main scene.
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
-			PlayerController = FindObjectOfType<PlayerController>();
-
-			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
-			UIManager.Instance.InventoryUI.OnMenuOpened += Pause;
 		}
 
 		public void RegisterCashierNPCSpawner(CashierNPCSpawner cashierNPCSpawner)

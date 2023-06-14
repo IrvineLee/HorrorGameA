@@ -8,6 +8,7 @@ namespace Personal.UI
 	public class MenuUIBase : GameInitialize
 	{
 		public IWindowHandler IWindowHandler { get; protected set; }
+		public IDefaultHandler IDefaultHandler { get; protected set; }
 
 		protected GameObject lastSelectedGO;
 

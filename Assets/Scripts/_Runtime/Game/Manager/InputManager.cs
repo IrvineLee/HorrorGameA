@@ -245,7 +245,7 @@ namespace Personal.Manager
 			OnDeviceIconChanged?.Invoke();
 		}
 
-		void OnDestroy()
+		void OnApplicationQuit()
 		{
 			InputSystem.onActionChange -= HandleInputDeviceType;
 			iDisposableAnyButtonPressed.Dispose();

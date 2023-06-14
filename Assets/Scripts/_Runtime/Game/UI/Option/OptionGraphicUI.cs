@@ -320,7 +320,7 @@ namespace Personal.UI.Option
 				universalCameraData.SetRenderer(1);
 		}
 
-		void OnDestroy()
+		void OnApplicationQuit()
 		{
 			screenResolutionDropdown.onValueChanged.RemoveAllListeners();
 			screenModeDropdown.onValueChanged.RemoveAllListeners();

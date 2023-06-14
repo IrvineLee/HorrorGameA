@@ -177,7 +177,7 @@ namespace Personal.UI.Option
 			AudioManager.Instance.Sfx.volume = sfx01 * master01;
 		}
 
-		void OnDestroy()
+		void OnApplicationQuit()
 		{
 			speakerModeDropdown.onValueChanged.RemoveAllListeners();
 

@@ -14,18 +14,19 @@ namespace Personal.Manager
 	{
 		[SerializeField] [ReadOnly] UIInterfaceType activeInterfaceType = UIInterfaceType.None;
 
+		[SerializeField] PauseHandlerUI pauseMenuUI = null;
 		[SerializeField] OptionHandlerUI optionUI = null;
-		//[SerializeField] PauseMenuUI pauseMenuUI = null;
 		[SerializeField] InventoryHandlerUI inventoryUI = null;
 		[SerializeField] ToolsHandlerUI toolsHandlerUI = null;
 		[SerializeField] WindowHandlerUI windowHandlerUI = null;
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
 		public UIInterfaceType ActiveInterfaceType { get => activeInterfaceType; }
+		public PauseHandlerUI PauseUI { get => pauseMenuUI; }
 		public OptionHandlerUI OptionUI { get => optionUI; }
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
-		public ToolsHandlerUI ToolsHandlerUI { get => toolsHandlerUI; }
-		public WindowHandlerUI WindowHandlerUI { get => windowHandlerUI; }
+		public ToolsHandlerUI ToolsUI { get => toolsHandlerUI; }
+		public WindowHandlerUI WindowUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
 		public Stack<MenuUIBase> WindowStack { get; } = new();
@@ -39,15 +40,12 @@ namespace Personal.Manager
 
 		void Initalize()
 		{
-			// Option UI initialize.
+			//pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();
 		}
 
-		protected override async void OnMainScene()
+		protected override void OnPostMainScene()
 		{
-			await UniTask.NextFrame();
-
-			// Inventory UI initialize.
 			inventoryUI.InitialSetup();
 		}
 

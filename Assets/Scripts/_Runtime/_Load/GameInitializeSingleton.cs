@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Helper;
+using UnityEngine.SceneManagement;
 
 namespace Personal.GameState
 {
@@ -21,8 +22,8 @@ namespace Personal.GameState
 
 			Initialize();
 
-			await UniTask.WaitUntil(() => GameSceneManager.Instance && GameSceneManager.Instance.IsMainScene());
-			OnMainScene();
+			SceneManager.sceneLoaded += OnSceneLoaded;
+			HandleMainScene();
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
@@ -33,9 +34,41 @@ namespace Personal.GameState
 		protected virtual void Initialize() { }
 
 		/// <summary>
-		/// Wait until the scene is in Main scene/scenes before proceeding. 
+		/// This gets called when scene is in Main scene/scenes. 
 		/// </summary>
 		/// <returns></returns>
+		protected virtual void OnEarlyMainScene() { }
+
+		/// <summary>
+		/// This will get called on the next frame of OnEarlynMainScene.
+		/// </summary>
 		protected virtual void OnMainScene() { }
+
+		/// <summary>
+		/// This will get called on the next frame of OnMainScene.
+		/// </summary>
+		protected virtual void OnPostMainScene() { }
+
+		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		{
+			HandleMainScene();
+		}
+
+		async void HandleMainScene()
+		{
+			if (!GameSceneManager.Instance.IsMainScene()) return;
+			OnEarlyMainScene();
+
+			await UniTask.NextFrame();
+			OnMainScene();
+
+			await UniTask.NextFrame();
+			OnPostMainScene();
+		}
+
+		void OnDestroy()
+		{
+			SceneManager.sceneLoaded -= OnSceneLoaded;
+		}
 	}
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Personal.FSM.Character;
 using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.Character.Player
 {
@@ -14,5 +15,10 @@ namespace Personal.Character.Player
 		public PlayerStateMachine FSM { get => fsm; }
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
+
+		protected override void Initialize()
+		{
+			StageManager.Instance.RegisterPlayer(this);
+		}
 	}
 }
