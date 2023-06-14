@@ -116,7 +116,7 @@ namespace Personal.UI.Option
 			return tab;
 		}
 
-		protected override void OnPostMainScene()
+		protected override void OnMainScene()
 		{
 			foreach (var tab in tabList)
 			{

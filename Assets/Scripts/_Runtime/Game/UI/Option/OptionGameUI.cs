@@ -42,10 +42,8 @@ namespace Personal.UI.Option
 
 		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
 
-		protected async override UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			lastSelectedGO = brightnessSlider.gameObject;
 		}
 

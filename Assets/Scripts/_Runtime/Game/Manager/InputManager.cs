@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.Definition;
@@ -96,17 +95,24 @@ namespace Personal.Manager
 		/// <param name="actionMap"></param>
 		public void EnableActionMap(ActionMapType actionMap)
 		{
-			// Disable all action map.
-			foreach (var map in inputReaderDefinition.InputActionMapDictionary)
-			{
-				map.Value.Enable(false);
-			}
+			DisableAllActionMap();
 
 			// Enable specified action map.
 			var inputControllerInfo = GetInputControllerInfo(actionMap);
 			inputControllerInfo.Enable(true);
 
 			CurrentActionMapType = actionMap;
+		}
+
+		/// <summary>
+		/// Disable all action map. 
+		/// </summary>
+		public void DisableAllActionMap()
+		{
+			foreach (var map in inputReaderDefinition.InputActionMapDictionary)
+			{
+				map.Value.Enable(false);
+			}
 		}
 
 		/// <summary>

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.UI.Option;
 using Personal.UI;
@@ -12,10 +11,8 @@ namespace Personal.InputProcessing
 		public bool IsJump { get; private set; }
 		public bool IsSprint { get; private set; }
 
-		protected override async UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnLookEvent += LookInput;
 

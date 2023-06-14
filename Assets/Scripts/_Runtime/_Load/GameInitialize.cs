@@ -38,8 +38,14 @@ namespace Personal.GameState
 
 		protected virtual async UniTask OnEnable()
 		{
-			if (isAwakeCompleted) return;
+			if (isAwakeCompleted)
+			{
+				OnPostEnable();
+				return;
+			}
+
 			await UniTask.WaitUntil(() => isAwakeCompleted);
+			OnPostEnable();
 		}
 
 		void Update()
@@ -55,6 +61,11 @@ namespace Personal.GameState
 		protected virtual void Initialize() { }
 
 		/// <summary>
+		/// Gets called after awake has finished and during OnEnable.
+		/// </summary>
+		protected virtual void OnPostEnable() { }
+
+		/// <summary>
 		/// Update
 		/// </summary>
 		protected virtual void OnUpdate() { }
@@ -63,12 +74,12 @@ namespace Personal.GameState
 		/// Wait until the scene is in Main scene/scenes before proceeding. 
 		/// </summary>
 		/// <returns></returns>
-		protected virtual void OnMainScene() { }
+		protected virtual void OnEarlyMainScene() { }
 
 		/// <summary>
-		/// This will get called on the next frame of OnMainScene.
+		/// This will get called on the next frame of OnEarlyMainScene.
 		/// </summary>
-		protected virtual void OnPostMainScene() { }
+		protected virtual void OnMainScene() { }
 
 		async void AwakeComplete()
 		{
@@ -93,10 +104,10 @@ namespace Personal.GameState
 		async void HandleMainScene()
 		{
 			if (!GameSceneManager.Instance.IsMainScene()) return;
-			OnMainScene();
+			OnEarlyMainScene();
 
 			await UniTask.NextFrame();
-			OnPostMainScene();
+			OnMainScene();
 		}
 
 		void OnDestroy()

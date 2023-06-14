@@ -48,10 +48,8 @@ namespace Personal.UI.Option
 		MotionBlur motionBlur;
 		Bloom bloom;
 
-		protected async override UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			lastSelectedGO = screenResolutionDropdown.gameObject;
 		}
 

@@ -1,15 +1,11 @@
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
-
 namespace Personal.InputProcessing
 {
 	public class PuzzleInputController : InputControllerBase
 	{
-		protected override async UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;

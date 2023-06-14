@@ -5,6 +5,7 @@ using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Cinemachine;
+using Helper;
 
 namespace Personal.Manager
 {
@@ -25,16 +26,23 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 
+		CoroutineRun beginCR = new CoroutineRun();
+
 		protected override void Initialize()
 		{
 			// The camera in the Title scene.
 			MainCamera = Camera.main;
 		}
 
-		protected override void OnEarlyMainScene()
+		protected override void OnMainScene()
 		{
 			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
 			UIManager.Instance.InventoryUI.OnMenuOpened += Pause;
+
+			InputManager.Instance.DisableAllActionMap();
+
+			beginCR?.StopCoroutine();
+			beginCR = CoroutineHelper.WaitFor(1.05f, () => InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.Player));
 		}
 
 		public void RegisterPlayer(PlayerController pc)

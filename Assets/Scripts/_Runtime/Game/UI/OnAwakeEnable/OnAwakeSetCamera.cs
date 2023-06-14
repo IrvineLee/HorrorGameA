@@ -8,7 +8,7 @@ namespace Personal.UI
 {
 	public class OnAwakeSetCamera : GameInitialize
 	{
-		protected override void OnPostMainScene()
+		protected override void OnMainScene()
 		{
 			// Add the camera to main stack.
 			var canvas = GetComponentInChildren<Canvas>();

@@ -2,7 +2,6 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.InputProcessing;
-using Personal.GameState;
 using Personal.Manager;
 using Personal.Item;
 using Personal.System.Handler;

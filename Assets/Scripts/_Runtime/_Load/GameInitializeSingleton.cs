@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Helper;
-using UnityEngine.SceneManagement;
 
 namespace Personal.GameState
 {

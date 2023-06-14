@@ -1,5 +1,3 @@
-
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 using UnityEngine;
@@ -10,10 +8,8 @@ namespace Personal.UI
 	{
 		[SerializeField] UIInterfaceType uiInterfaceType = UIInterfaceType.None;
 
-		protected override async UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			UIManager.Instance.SetActiveInterfaceType(uiInterfaceType);
 		}
 

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.UI;
 
@@ -8,10 +7,8 @@ namespace Personal.InputProcessing
 {
 	public class UIInputController : InputControllerBase
 	{
-		protected override async UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
 

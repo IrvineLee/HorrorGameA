@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 
@@ -30,10 +29,8 @@ namespace Personal.UI
 			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
 		}
 
-		protected override async UniTask OnEnable()
+		protected override void OnPostEnable()
 		{
-			await base.OnEnable();
-
 			UpdateIcons();
 		}
 
