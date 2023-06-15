@@ -9,10 +9,8 @@ namespace Personal.GameState
 {
 	public class GameInitializeSingleton<T> : MonoBehaviourSingleton<T> where T : MonoBehaviour
 	{
-		protected override async UniTask Awake()
+		protected override async UniTask Initialization()
 		{
-			await base.Awake();
-
 			if (GameManager.Instance == null)
 				await UniTask.WaitUntil(() => GameManager.Instance != null);
 
@@ -23,7 +21,7 @@ namespace Personal.GameState
 			Initialize();
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
-			HandleMainScene();
+			HandleMainScene().Forget();
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
@@ -46,15 +44,16 @@ namespace Personal.GameState
 
 		/// <summary>
 		/// This will get called on the next frame of OnMainScene.
+		/// Typically used when GameInitialize has to start initializing first before this script.
 		/// </summary>
 		protected virtual void OnPostMainScene() { }
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
-			HandleMainScene();
+			HandleMainScene().Forget();
 		}
 
-		async void HandleMainScene()
+		async UniTask HandleMainScene()
 		{
 			if (!GameSceneManager.Instance.IsMainScene()) return;
 			OnEarlyMainScene();

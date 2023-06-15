@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Personal.Constant
@@ -17,7 +18,9 @@ namespace Personal.Constant
 		public const float PLAYER_LOOK_SPHERECAST_LENGTH = 2f;
 
 		// Dissolve shader
-		public const float fullyVisibleRendValue = 2.5f;
-		public const float fullyDisappearRendValue = -0.5f;
+		public const float FULLY_VISIBLE_REND_VALUE = 2.5f;
+		public const float FULLY_DISAPPEAR_REND_VALUE = -0.5f;
+
+		public static IReadOnlyList<string> MAIN_SCENE_LIST = new List<string> { SceneName.Main };
 	}
 }

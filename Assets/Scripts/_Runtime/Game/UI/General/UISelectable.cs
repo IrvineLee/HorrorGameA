@@ -2,22 +2,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Helper;
+using Personal.GameState;
 
 namespace Personal.UI
 {
-	public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class UISelectable : GameInitialize, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField] bool isInitialSelection = false;
+		[SerializeField] bool isPointerExitable = false;
 
 		MenuUIBase menuUIBase = null;
 
-		void OnEnable()
+		protected override void OnPostEnable()
 		{
 			menuUIBase = GetComponentInParent<MenuUIBase>();
 
 			if (!isInitialSelection) return;
 
-			CoroutineHelper.WaitEndOfFrame(() => EventSystem.current.SetSelectedGameObject(gameObject));
+			CoroutineHelper.WaitFor(0.5f, () => EventSystem.current.SetSelectedGameObject(gameObject));
 		}
 
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
@@ -28,6 +30,7 @@ namespace Personal.UI
 
 		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
 		{
+			if (!isPointerExitable) return;
 			eventData.selectedObject = null;
 		}
 	}

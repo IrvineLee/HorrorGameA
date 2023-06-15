@@ -12,7 +12,7 @@ namespace Personal.Definition
 	[CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/Input/InputReaderDefinition", order = 0)]
 	[Serializable]
 	public class InputReaderDefinition : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUIActions,
-		PlayerActionInput.IPuzzleActions
+		PlayerActionInput.IPuzzleActions, PlayerActionInput.IBasicControlActions
 	{
 		[Serializable]
 		public class InputControllerInfo
@@ -69,11 +69,13 @@ namespace Personal.Definition
 		{
 			PlayerActionInput playerActionInput = new PlayerActionInput();
 
+			playerActionInput.BasicControl.SetCallbacks(this);
 			playerActionInput.Player.SetCallbacks(this);
 			playerActionInput.UI.SetCallbacks(this);
 			playerActionInput.Puzzle.SetCallbacks(this);
 
 			inputActionMapDictionary.Clear();
+			inputActionMapDictionary.Add(ActionMapType.BasicControl, new InputControllerInfo(playerActionInput.BasicControl, InputManager.Instance.FPSInputController));
 			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
 			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.UIInputController));
 			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
@@ -86,6 +88,11 @@ namespace Personal.Definition
 		public void OnMove(InputAction.CallbackContext context)
 		{
 			OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
+		}
+
+		public void OnLook(InputAction.CallbackContext context)
+		{
+			OnLookEvent?.Invoke(context.ReadValue<Vector2>());
 		}
 
 		public void OnInteract(InputAction.CallbackContext context)
@@ -101,11 +108,6 @@ namespace Personal.Definition
 		/// ------------------------------------------------------------
 		/// -----------------------PLAYER-------------------------------
 		/// ------------------------------------------------------------
-
-		void PlayerActionInput.IPlayerActions.OnLook(InputAction.CallbackContext context)
-		{
-			OnLookEvent?.Invoke(context.ReadValue<Vector2>());
-		}
 
 		void PlayerActionInput.IPlayerActions.OnJump(InputAction.CallbackContext context)
 		{

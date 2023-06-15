@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Helper
 {
@@ -12,6 +13,7 @@ namespace Helper
 
 		SpriteRenderer sr;
 		Image image;
+		TextMeshProUGUI tmp;
 
 		CoroutineRun cr;
 
@@ -19,12 +21,14 @@ namespace Helper
 		{
 			sr = GetComponentInChildren<SpriteRenderer>();
 			image = GetComponentInChildren<Image>();
+			tmp = GetComponentInChildren<TextMeshProUGUI>();
 		}
 
 		void OnEnable()
 		{
 			if (sr) FadeInOut(sr);
 			if (image) FadeInOut(image);
+			if (tmp) FadeInOut(tmp);
 		}
 
 		void FadeInOut<T>(T t) where T : Component

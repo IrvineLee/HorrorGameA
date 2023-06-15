@@ -63,10 +63,10 @@ namespace Personal.FSM
 		{
 			// This is assuming that all materials are dissolvable.
 			float startValue = materialList[0].GetFloat("_CutoffHeight");
-			float endValue = isFlag ? ConstantFixed.fullyVisibleRendValue : ConstantFixed.fullyDisappearRendValue;
+			float endValue = isFlag ? ConstantFixed.FULLY_VISIBLE_REND_VALUE : ConstantFixed.FULLY_DISAPPEAR_REND_VALUE;
 
 			float differences = Mathf.Abs(startValue - endValue);
-			float ratio = differences / ConstantFixed.fullyVisibleRendValue;
+			float ratio = differences / ConstantFixed.FULLY_VISIBLE_REND_VALUE;
 			float remainingDuration = ratio * duration;
 
 			fadeRendererCR?.StopCoroutine();

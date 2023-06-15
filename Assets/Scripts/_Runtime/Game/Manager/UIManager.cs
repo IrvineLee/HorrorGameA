@@ -35,7 +35,7 @@ namespace Personal.Manager
 		{
 			await UniTask.NextFrame();
 
-			Initalize();
+			//Initalize();
 		}
 
 		void Initalize()

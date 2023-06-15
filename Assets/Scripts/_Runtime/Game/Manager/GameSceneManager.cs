@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Personal.GameState;
 using Personal.Transition;
+using Personal.Constant;
 
 namespace Personal.Manager
 {
 	public class GameSceneManager : GameInitializeSingleton<GameSceneManager>
 	{
-		[SerializeField] List<string> mainSceneList = new List<string>();
-
 		public bool IsMainScene()
 		{
-			foreach (var scene in mainSceneList)
+			foreach (var scene in ConstantFixed.MAIN_SCENE_LIST)
 			{
 				if (!string.Equals(scene, SceneManager.GetActiveScene().name)) continue;
 				return true;

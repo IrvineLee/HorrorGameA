@@ -24,14 +24,14 @@ namespace Personal.Transition
 
 		Dictionary<TransitionType, Transition> transitionDictionary = new();
 
-		protected override async UniTask Awake()
+		protected override UniTask Initialization()
 		{
-			await base.Awake();
-
 			canvasGroup = GetComponentInChildren<CanvasGroup>();
 			transitionManagerSettings.Initialize();
 
 			InitialSetup();
+
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
