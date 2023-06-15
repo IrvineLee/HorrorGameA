@@ -39,7 +39,7 @@ namespace Personal.Manager
 			InputManager.Instance.DisableAllActionMap();
 
 			beginCR?.StopCoroutine();
-			beginCR = CoroutineHelper.WaitFor(1.05f, () => InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.Player));
+			beginCR = CoroutineHelper.WaitFor(1.01f, () => InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.Player));
 		}
 
 		public void RegisterPlayer(PlayerController pc)

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Helper;
 using Personal.GameState;
 
 namespace Personal.UI
@@ -19,7 +18,8 @@ namespace Personal.UI
 
 			if (!isInitialSelection) return;
 
-			CoroutineHelper.WaitFor(0.5f, () => EventSystem.current.SetSelectedGameObject(gameObject));
+			EventSystem.current.SetSelectedGameObject(gameObject);
+			menuUIBase.SetLastSelectedGO(gameObject);
 		}
 
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)

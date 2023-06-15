@@ -12,7 +12,7 @@ namespace Personal.UI.Option
 		[SerializeField] Button quitToMainMenuButton = null;
 
 		[Tooltip("Handle buttons that open other gameobject.")]
-		[SerializeField] List<ButtonOpenSet> buttonList = new List<ButtonOpenSet>();
+		[SerializeField] List<ButtonInteractSet> buttonList = new List<ButtonInteractSet>();
 
 		public override void InitialSetup()
 		{
@@ -21,19 +21,21 @@ namespace Personal.UI.Option
 			resumeButton.onClick.AddListener(ResumeButton);
 			quitToMainMenuButton.onClick.AddListener(QuitToMainMenu);
 
-			foreach (var button in buttonList)
-			{
-				button.Go.SetActive(true);
-			}
+			//foreach (var button in buttonList)
+			//{
+			//	button.Go.SetActive(true);
+			//}
 		}
 
 		void IWindowHandler.OpenWindow()
 		{
+			gameObject.SetActive(true);
 			UIManager.Instance.WindowStack.Push(this);
 		}
 
 		void IWindowHandler.CloseWindow()
 		{
+			gameObject.SetActive(false);
 			UIManager.Instance.WindowStack.Pop();
 		}
 

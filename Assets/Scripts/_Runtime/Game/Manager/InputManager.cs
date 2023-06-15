@@ -58,6 +58,7 @@ namespace Personal.Manager
 		public string IconInitials { get; private set; }
 		public Gamepad CurrentGamepad { get; private set; }
 
+		public event Action OnAnyButtonPressed;
 		public event Action OnDeviceIconChanged;
 
 		InputDevice previousDevice = null;
@@ -75,7 +76,11 @@ namespace Personal.Manager
 			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
-			iDisposableAnyButtonPressed = InputSystem.onAnyButtonPress.Call(ctrl => HandleInputDeviceCompare(ctrl.device));
+			iDisposableAnyButtonPressed = InputSystem.onAnyButtonPress.Call(ctrl =>
+			{
+				OnAnyButtonPressed?.Invoke();
+				HandleInputDeviceCompare(ctrl.device);
+			});
 		}
 
 		/// <summary>
@@ -164,7 +169,7 @@ namespace Personal.Manager
 
 			// Get the input type.
 			InputDeviceType inputType = InputDeviceType.Gamepad;
-			if (Equals(inputDevice.name, "Mouse") || Equals(inputDevice.name, "Keyboard"))
+			if (inputDevice.name.Equals("Mouse") || inputDevice.name.Equals("Keyboard"))
 			{
 				inputType = InputDeviceType.KeyboardMouse;
 			}
