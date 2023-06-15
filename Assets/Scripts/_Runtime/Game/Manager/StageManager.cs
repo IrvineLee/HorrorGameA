@@ -36,9 +36,6 @@ namespace Personal.Manager
 
 		protected override void OnMainScene()
 		{
-			UIManager.Instance.OptionUI.OnMenuOpened += Pause;
-			UIManager.Instance.InventoryUI.OnMenuOpened += Pause;
-
 			InputManager.Instance.DisableAllActionMap();
 
 			beginCR?.StopCoroutine();
@@ -63,20 +60,6 @@ namespace Personal.Manager
 		{
 			DayIndex++;
 			CashierInteractionIndex = 0;
-		}
-
-		void Pause(bool isFlag)
-		{
-			Time.timeScale = isFlag ? 0 : 1;
-
-			CursorManager.Instance.SetToMouseCursor(isFlag);
-			PlayerController.FPSController.enabled = !isFlag;
-		}
-
-		void OnApplicationQuit()
-		{
-			UIManager.Instance.OptionUI.OnMenuOpened -= Pause;
-			UIManager.Instance.InventoryUI.OnMenuOpened -= Pause;
 		}
 	}
 }

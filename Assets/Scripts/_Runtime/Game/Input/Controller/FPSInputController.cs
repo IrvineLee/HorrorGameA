@@ -62,10 +62,10 @@ namespace Personal.InputProcessing
 		void OpenOptionMenu()
 		{
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
-			UIManager.Instance.PauseUI.GetComponentInChildren<IWindowHandler>().OpenWindow();
+			//UIManager.Instance.PauseUI.GetComponentInChildren<IWindowHandler>().OpenWindow();
 
-			//OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
-			//optionHandlerUI.GetComponentInChildren<IWindowHandler>().OpenWindow();
+			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
+			optionHandlerUI.GetComponentInChildren<IWindowHandler>().OpenWindow();
 		}
 
 		void OpenInventory()

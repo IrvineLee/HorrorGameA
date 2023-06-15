@@ -13,8 +13,6 @@ namespace Personal.UI
 	{
 		[SerializeField] ItemInACircle3DUI itemInACircle3DUI = null;
 
-		public event Action<bool> OnMenuOpened;
-
 		public override void InitialSetup()
 		{
 			IWindowHandler = this;
@@ -43,7 +41,7 @@ namespace Personal.UI
 		{
 			UIManager.Instance.WindowStack.Push(itemInACircle3DUI);
 
-			SetWindowEnable(true);
+			SetupMenu(true);
 			itemInACircle3DUI.Setup();
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 		}
@@ -52,14 +50,14 @@ namespace Personal.UI
 		{
 			UIManager.Instance.WindowStack.Pop();
 
-			SetWindowEnable(false);
+			SetupMenu(false);
 			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
 			InputManager.Instance.SetToDefaultActionMap();
 		}
 
-		void SetWindowEnable(bool isFlag)
+		protected override void SetupMenu(bool isFlag)
 		{
-			OnMenuOpened?.Invoke(isFlag);
+			base.SetupMenu(isFlag);
 			gameObject.SetActive(isFlag);
 		}
 	}

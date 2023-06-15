@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 using Personal.GameState;
@@ -7,8 +8,12 @@ namespace Personal.UI
 {
 	public class MenuUIBase : GameInitialize
 	{
+		[SerializeField] protected bool isPauseOnOpen = false;
+
 		public IWindowHandler IWindowHandler { get; protected set; }
 		public IDefaultHandler IDefaultHandler { get; protected set; }
+
+		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
 
@@ -22,12 +27,23 @@ namespace Personal.UI
 		/// <summary>
 		/// Call this to set data to relevant members.
 		/// </summary>
-		public virtual UniTask SetDataToRelevantMember() { return new UniTask(); }
+		public virtual UniTask SetDataToRelevantMember() { return UniTask.CompletedTask; }
 
 		/// <summary>
 		/// Set the last selected gameobject. Typically for mouse.
 		/// </summary>
 		/// <param name="go"></param>
 		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
+
+		/// <summary>
+		/// Handle when the window opened or closed.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		protected virtual void SetupMenu(bool isFlag)
+		{
+			if (!isPauseOnOpen) return;
+
+			OnPauseEvent?.Invoke(isFlag);
+		}
 	}
 }

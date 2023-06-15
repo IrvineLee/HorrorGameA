@@ -12,10 +12,10 @@ namespace Helper
 		void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
-			Initialization().Forget();
+			Boot().Forget();
 		}
 
-		protected virtual async UniTask Initialization() { await UniTask.Yield(); }
+		protected virtual async UniTask Boot() { await UniTask.Yield(); }
 
 		public static TSelfType Instance
 		{

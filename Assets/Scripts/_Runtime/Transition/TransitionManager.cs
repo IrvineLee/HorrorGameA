@@ -24,7 +24,7 @@ namespace Personal.Transition
 
 		Dictionary<TransitionType, Transition> transitionDictionary = new();
 
-		protected override UniTask Initialization()
+		protected override UniTask Boot()
 		{
 			canvasGroup = GetComponentInChildren<CanvasGroup>();
 			transitionManagerSettings.Initialize();

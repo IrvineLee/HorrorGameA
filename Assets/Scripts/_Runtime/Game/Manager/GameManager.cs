@@ -14,7 +14,7 @@ namespace Personal.Manager
 		public static bool IsWindow { get => Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor; }
 		public static bool IsMAC { get => Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor; }
 
-		protected override async UniTask Initialization()
+		protected override async UniTask Boot()
 		{
 			await UniTask.WaitUntil(() => IsInitialized());
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully initiated!! ----------</color>");

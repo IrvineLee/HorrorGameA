@@ -9,7 +9,7 @@ namespace Personal.GameState
 {
 	public class GameInitializeSingleton<T> : MonoBehaviourSingleton<T> where T : MonoBehaviour
 	{
-		protected override async UniTask Initialization()
+		protected override async UniTask Boot()
 		{
 			if (GameManager.Instance == null)
 				await UniTask.WaitUntil(() => GameManager.Instance != null);

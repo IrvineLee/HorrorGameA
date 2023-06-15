@@ -32,8 +32,6 @@ namespace Personal.UI.Option
 		[SerializeField] MenuTab startMenuTab = MenuTab.Game;
 		[SerializeField] List<Tab> tabList = new();
 
-		public event Action<bool> OnMenuOpened;
-
 		Dictionary<MenuTab, Tab> tabDictionary = new Dictionary<MenuTab, Tab>();
 
 		MenuTab currentMenuTab;
@@ -179,12 +177,12 @@ namespace Personal.UI.Option
 		/// Setup the menu to be opened/closed.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		void SetupMenu(bool isFlag)
+		protected override void SetupMenu(bool isFlag)
 		{
+			base.SetupMenu(isFlag);
 			currentMenuTab = startMenuTab;
 
 			gameObject.SetActive(isFlag);
-			OnMenuOpened?.Invoke(isFlag);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
 		}
 	}
