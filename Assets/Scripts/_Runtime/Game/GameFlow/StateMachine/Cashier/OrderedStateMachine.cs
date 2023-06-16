@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine.AI;
 
 using Personal.GameState;
@@ -12,10 +11,9 @@ namespace Personal.FSM
 		/// Set the target info and ordered state depending on current scenario.
 		/// </summary>
 		/// <param name="orderedStateList"></param>
-		public async UniTask Initialize(TargetInfo targetInfo, InteractionAssign interactionAssign)
+		public override async UniTask Begin(TargetInfo targetInfo, InteractionAssign interactionAssign)
 		{
-			// Wait for awake before initializing.
-			await UniTask.DelayFrame(1);
+			await base.Begin(targetInfo, interactionAssign);
 
 			if (NavMeshAgent) NavMeshAgent.enabled = true;
 			if (targetInfo != null) TargetInfo = targetInfo;

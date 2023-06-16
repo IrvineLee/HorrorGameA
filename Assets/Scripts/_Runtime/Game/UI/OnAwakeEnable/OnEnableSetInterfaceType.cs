@@ -1,21 +1,21 @@
-using Personal.GameState;
-using Personal.Manager;
 using UnityEngine;
+
+using Personal.Manager;
 
 namespace Personal.UI
 {
-	public class OnEnableSetInterfaceType : GameInitialize
+	public class OnEnableSetInterfaceType : MonoBehaviour
 	{
 		[SerializeField] UIInterfaceType uiInterfaceType = UIInterfaceType.None;
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
-			UIManager.Instance.SetActiveInterfaceType(uiInterfaceType);
+			UIManager.Instance?.SetActiveInterfaceType(uiInterfaceType);
 		}
 
 		void OnDisable()
 		{
-			UIManager.Instance.SetActiveInterfaceType(UIInterfaceType.None);
+			UIManager.Instance?.SetActiveInterfaceType(UIInterfaceType.None);
 		}
 	}
 }

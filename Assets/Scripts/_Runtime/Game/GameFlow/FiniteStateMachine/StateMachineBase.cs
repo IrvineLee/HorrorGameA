@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
-using UnityEngine;
 
 namespace Personal.FSM
 {

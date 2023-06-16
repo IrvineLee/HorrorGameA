@@ -27,19 +27,8 @@ namespace Personal.FSM.Character
 
 			RunActorAnimation();
 			navMeshAgent.destination = GetDestination();
+
 			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && navMeshAgent.remainingDistance == 0);
-
-			return;
-		}
-
-		/// <summary>
-		/// Move to the target.
-		/// </summary>
-		/// <returns></returns>
-		public override void OnUpdate()
-		{
-			// The navmesh agent head animation should be looking at the target.
-			//await UniTask.DelayFrame(0);
 		}
 
 		/// <summary>
@@ -55,11 +44,7 @@ namespace Personal.FSM.Character
 			Vector3 direction = (target.position - navMeshAgent.transform.position).normalized;
 			Quaternion endRotation = Quaternion.LookRotation(direction);
 
-			CoroutineRun cr = CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);
-			while (!cr.IsDone)
-			{
-				await UniTask.DelayFrame(0);
-			}
+			CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);
 		}
 
 		protected virtual Vector3 GetDestination()

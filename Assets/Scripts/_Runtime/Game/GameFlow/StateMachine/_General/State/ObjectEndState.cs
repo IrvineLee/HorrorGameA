@@ -7,7 +7,6 @@ namespace Personal.FSM.Character
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
-			await UniTask.DelayFrame(1);
 		}
 	}
 }

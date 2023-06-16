@@ -9,13 +9,15 @@ namespace Personal.Manager
 {
 	public class GameManager : MonoBehaviourSingleton<GameManager>
 	{
-		public bool IsLoadingOver { get; private set; }
+		public static bool IsLoadingOver { get; private set; }
 
 		public static bool IsWindow { get => Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor; }
 		public static bool IsMAC { get => Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor; }
 
 		protected override async UniTask Boot()
 		{
+			IsLoadingOver = false;
+
 			await UniTask.WaitUntil(() => IsInitialized());
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully initiated!! ----------</color>");
 
@@ -51,16 +53,16 @@ namespace Personal.Manager
 		/// <summary>
 		/// The scripts that need to be enabled first for caching.
 		/// </summary>
-		async UniTask BeginAwake()
+		UniTask BeginAwake()
 		{
 			StageManager.Instance.enabled = true;
-			await UniTask.Yield();
+			return UniTask.CompletedTask;
 		}
 
 		async UniTask HandleProfileLoading()
 		{
 			bool isNewlyCreated = SaveManager.Instance.LoadProfileData();
-			await UniTask.DelayFrame(10);
+			await UniTask.DelayFrame(10, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			if (!isNewlyCreated) return;
 

@@ -15,7 +15,7 @@ namespace Helper
 			Boot().Forget();
 		}
 
-		protected virtual async UniTask Boot() { await UniTask.Yield(); }
+		protected virtual async UniTask Boot() { await UniTask.CompletedTask; }
 
 		public static TSelfType Instance
 		{

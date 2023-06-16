@@ -24,10 +24,10 @@ namespace Personal.FSM
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public virtual async UniTask OnEnter()
+		public virtual UniTask OnEnter()
 		{
-			await UniTask.Delay(0);
 			isEntered = true;
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
@@ -37,7 +37,6 @@ namespace Personal.FSM
 		public void OnUpdateRun()
 		{
 			if (!isEntered) return;
-			if (StageManager.Instance.IsPaused) return;
 
 			OnUpdate();
 		}
@@ -52,16 +51,16 @@ namespace Personal.FSM
 		/// Called when the state is ended
 		/// </summary>
 		/// <returns></returns>
-		public virtual async UniTask OnExit()
+		public virtual UniTask OnExit()
 		{
-			await UniTask.Delay(0);
 			isEntered = false;
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
 		/// This is typically used in CompareState script to halt the state before moving on.
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask CheckComparison() { return UniTask.Delay(0); }
+		public virtual UniTask CheckComparison() { return UniTask.CompletedTask; }
 	}
 }

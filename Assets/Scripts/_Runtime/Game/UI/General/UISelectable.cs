@@ -12,7 +12,7 @@ namespace Personal.UI
 
 		MenuUIBase menuUIBase = null;
 
-		protected override void OnPostEnable()
+		protected override void Initialize()
 		{
 			menuUIBase = GetComponentInParent<MenuUIBase>();
 

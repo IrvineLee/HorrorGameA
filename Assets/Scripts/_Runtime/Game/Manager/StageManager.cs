@@ -14,8 +14,6 @@ namespace Personal.Manager
 	/// </summary>
 	public class StageManager : GameInitializeSingleton<StageManager>
 	{
-		public bool IsPaused { get; private set; }
-
 		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
 
 		public Camera MainCamera { get; private set; }

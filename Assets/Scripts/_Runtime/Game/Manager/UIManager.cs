@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.GameState;
 using Personal.UI;
@@ -31,14 +30,7 @@ namespace Personal.Manager
 
 		public Stack<MenuUIBase> WindowStack { get; } = new();
 
-		protected override async void Initialize()
-		{
-			await UniTask.NextFrame();
-
-			Initalize();
-		}
-
-		void Initalize()
+		protected override void Initialize()
 		{
 			//pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();

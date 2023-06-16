@@ -15,18 +15,12 @@ namespace Personal.FSM.Character
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask OnEnter()
+		public override UniTask OnEnter()
 		{
-			await base.OnEnter();
+			base.OnEnter();
 			actorStateMachine = (ActorStateMachine)stateMachine;
-		}
 
-		/// <summary>
-		/// Called to request updating
-		/// </summary>
-		/// <returns></returns>
-		public override void OnUpdate()
-		{
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>

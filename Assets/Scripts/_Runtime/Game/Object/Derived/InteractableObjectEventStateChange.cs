@@ -38,7 +38,7 @@ namespace Personal.Object
 			ifSMHandler?.OnBegin();
 			InputManager.Instance.EnableActionMap(actionMapType);
 
-			await orderedStateMachine.Initialize(null, interactionAssign);
+			await orderedStateMachine.Begin(null, interactionAssign);
 
 			InputManager.Instance.SetToDefaultActionMap();
 			ifSMHandler?.OnExit();

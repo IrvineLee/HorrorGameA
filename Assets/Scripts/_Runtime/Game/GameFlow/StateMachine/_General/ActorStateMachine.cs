@@ -28,6 +28,17 @@ namespace Personal.FSM
 
 		CoroutineRun fadeRendererCR = new CoroutineRun();
 
+		/// <summary>
+		/// Call this to make sure this awake gets called first and initialized.
+		/// </summary>
+		/// <param name="targetInfo"></param>
+		/// <param name="interactionAssign"></param>
+		/// <returns></returns>
+		public virtual async UniTask Begin(TargetInfo targetInfo, InteractionAssign interactionAssign)
+		{
+			await UniTask.NextFrame(PlayerLoopTiming.LastPostLateUpdate);
+		}
+
 		protected override void Initialize()
 		{
 			NavMeshAgent = GetComponentInChildren<NavMeshAgent>(true);
@@ -39,7 +50,7 @@ namespace Personal.FSM
 			materialList = renderer?.materials.ToList();
 		}
 
-		protected override void OnUpdate()
+		void Update()
 		{
 			if (state == null) return;
 

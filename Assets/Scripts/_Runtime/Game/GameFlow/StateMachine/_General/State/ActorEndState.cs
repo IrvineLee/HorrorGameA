@@ -12,9 +12,6 @@ namespace Personal.FSM.Character
 			await base.OnEnter();
 
 			PoolManager.Instance.ReturnSpawnedObject(actorStateMachine.gameObject);
-
-			await UniTask.DelayFrame(1);
-			return;
 		}
 	}
 }

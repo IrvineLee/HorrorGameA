@@ -9,19 +9,22 @@ namespace Personal.GameState
 {
 	public class GameInitializeSingleton<T> : MonoBehaviourSingleton<T> where T : MonoBehaviour
 	{
+		protected bool isBootCompleted;
+
 		protected override async UniTask Boot()
 		{
-			if (GameManager.Instance == null)
-				await UniTask.WaitUntil(() => GameManager.Instance != null);
-
 			enabled = false;
-			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
-			enabled = true;
 
-			Initialize();
+			if (!GameManager.IsLoadingOver)
+				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
 			HandleMainScene().Forget();
+
+			Initialize();
+
+			isBootCompleted = true;
+			enabled = true;
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
@@ -56,6 +59,10 @@ namespace Personal.GameState
 		async UniTask HandleMainScene()
 		{
 			if (!GameSceneManager.Instance.IsMainScene()) return;
+
+			if (!isBootCompleted)
+				await UniTask.WaitUntil(() => isBootCompleted);
+
 			OnEarlyMainScene();
 
 			await UniTask.NextFrame();

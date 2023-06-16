@@ -29,7 +29,7 @@ namespace Personal.Object
 			await HandleInteraction(actorStateMachine);
 		}
 
-		protected virtual async UniTask HandleInteraction(ActorStateMachine actorStateMachine) { await UniTask.Delay(0); }
+		protected virtual async UniTask HandleInteraction(ActorStateMachine actorStateMachine) { await UniTask.CompletedTask; }
 	}
 }
 

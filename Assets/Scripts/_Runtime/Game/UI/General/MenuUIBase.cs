@@ -8,8 +8,6 @@ namespace Personal.UI
 {
 	public class MenuUIBase : GameInitialize
 	{
-		[SerializeField] protected bool isPauseOnOpen = false;
-
 		public IWindowHandler IWindowHandler { get; protected set; }
 		public IDefaultHandler IDefaultHandler { get; protected set; }
 
@@ -41,8 +39,6 @@ namespace Personal.UI
 		/// <param name="isFlag"></param>
 		protected virtual void SetupMenu(bool isFlag)
 		{
-			if (!isPauseOnOpen) return;
-
 			OnPauseEvent?.Invoke(isFlag);
 		}
 	}

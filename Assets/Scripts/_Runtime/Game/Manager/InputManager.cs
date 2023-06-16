@@ -83,6 +83,11 @@ namespace Personal.Manager
 			});
 		}
 
+		protected override void OnEarlyMainScene()
+		{
+			defaultActionMap = ActionMapType.Player;
+		}
+
 		/// <summary>
 		/// Get input controller info.
 		/// </summary>

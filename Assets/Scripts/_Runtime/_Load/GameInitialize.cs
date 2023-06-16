@@ -19,23 +19,12 @@ namespace Personal.GameState
 
 		protected async UniTask Awake()
 		{
-			// Wait for the preload scene(singletons) to be brought into the current scene before starting script.
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
-
-			if (GameManager.Instance == null)
-				await UniTask.WaitUntil(() => GameManager.Instance != null);
-
-			// Disable all scripts when starting so singleton could initialize first.
 			isInitiallyEnabled = enabled;
 			enabled = false;
 
-			if (GameManager.Instance.IsLoadingOver)
-			{
-				AwakeComplete();
-				return;
-			}
+			if (!GameManager.IsLoadingOver)
+				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
-			await UniTask.WaitUntil(() => GameManager.Instance && GameManager.Instance.IsLoadingOver);
 			AwakeComplete();
 		}
 
@@ -48,8 +37,6 @@ namespace Personal.GameState
 
 		void Update()
 		{
-			if (StageManager.Instance.IsPaused) return;
-
 			OnUpdate();
 		}
 
@@ -81,17 +68,16 @@ namespace Personal.GameState
 
 		async void AwakeComplete()
 		{
-			// Since some singleton scripts only get initalized when entering a scene,
-			// wait a frame here so singleton scripts get initialized first before this script.
+			// Wait a frame here so singleton scripts get initialized first before this script.
 			await UniTask.NextFrame();
 
-			isAwakeCompleted = true;
+			SceneManager.sceneLoaded += OnSceneLoaded;
+			HandleMainScene().Forget();
 
 			Initialize();
 			if (isInitiallyEnabled) enabled = true;
 
-			SceneManager.sceneLoaded += OnSceneLoaded;
-			HandleMainScene().Forget();
+			isAwakeCompleted = true;
 		}
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
