@@ -192,6 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2509882112966463745}
   - component: {fileID: 7945030260483109198}
+  - component: {fileID: 200717951753955496}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -206,7 +207,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463477498833650078}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -236,8 +237,20 @@ MonoBehaviour:
   resumeButton: {fileID: 1026786710086922994}
   quitToMainMenuButton: {fileID: 0}
   buttonList:
-  - button: {fileID: 0}
-    go: {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &200717951753955496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463477498833650078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb55b5f2e752294cad667c90f9087f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiInterfaceType: 1
 --- !u!1001 &1300832908728639328
 PrefabInstance:
   m_ObjectHideFlags: 0

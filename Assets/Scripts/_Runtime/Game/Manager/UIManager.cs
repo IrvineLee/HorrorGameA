@@ -29,6 +29,7 @@ namespace Personal.Manager
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
 		public Stack<MenuUIBase> WindowStack { get; } = new();
+		public Stack<UIInterfaceType> uiInterfaceTypeStack { get; } = new();
 
 		protected override void Initialize()
 		{
@@ -41,6 +42,24 @@ namespace Personal.Manager
 			inventoryUI.InitialSetup();
 		}
 
-		public void SetActiveInterfaceType(UIInterfaceType activeInterfaceType) { this.activeInterfaceType = activeInterfaceType; }
+		public void AddToInterfaceTypeStack(bool isFlag, UIInterfaceType uiInterfaceType = UIInterfaceType.None)
+		{
+			if (isFlag)
+			{
+				activeInterfaceType = uiInterfaceType;
+				uiInterfaceTypeStack.Push(uiInterfaceType);
+
+				return;
+			}
+
+			uiInterfaceTypeStack.Pop();
+			if (uiInterfaceTypeStack.Count > 0)
+			{
+				activeInterfaceType = uiInterfaceTypeStack.Peek();
+				return;
+			}
+
+			activeInterfaceType = UIInterfaceType.None;
+		}
 	}
 }

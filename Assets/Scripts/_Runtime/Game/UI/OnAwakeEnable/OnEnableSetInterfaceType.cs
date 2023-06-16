@@ -10,12 +10,12 @@ namespace Personal.UI
 
 		void OnEnable()
 		{
-			UIManager.Instance?.SetActiveInterfaceType(uiInterfaceType);
+			UIManager.Instance.AddToInterfaceTypeStack(true, uiInterfaceType);
 		}
 
 		void OnDisable()
 		{
-			UIManager.Instance?.SetActiveInterfaceType(UIInterfaceType.None);
+			UIManager.Instance.AddToInterfaceTypeStack(false);
 		}
 	}
 }
