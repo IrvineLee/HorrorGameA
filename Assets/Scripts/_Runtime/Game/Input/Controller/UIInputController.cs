@@ -50,7 +50,7 @@ namespace Personal.InputProcessing
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
 
-			UIManager.Instance.OptionUI.HandleCloseOptionMenu();
+			UIManager.Instance.OptionUI.CloseWindow();
 		}
 
 		void DefaultOptionMenu()
@@ -67,7 +67,7 @@ namespace Personal.InputProcessing
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Inventory) return;
 
-			UIManager.Instance.InventoryUI.IWindowHandler.CloseWindow();
+			UIManager.Instance.InventoryUI.CloseWindow();
 		}
 
 		protected override void OnPostDisable()

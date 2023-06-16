@@ -345,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6698dfaea5c61cd4da96b27919ae4152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeInterfaceType: 0
   pauseMenuUI: {fileID: 8494307044665304287}
   optionUI: {fileID: 286673825358760157}
   inventoryUI: {fileID: 4569219427016071430}
@@ -1392,7 +1393,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionMenu
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 132098477244668862, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+    - {fileID: 8562913858024665932, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+    - {fileID: 2578482985563880276, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+    - {fileID: 3110469634791990763, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -33,7 +33,7 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			//pauseMenuUI.InitialSetup();
+			pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();
 		}
 

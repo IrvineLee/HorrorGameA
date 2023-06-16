@@ -7,7 +7,7 @@ using Personal.Manager;
 
 namespace Personal.UI.Window
 {
-	public class WindowMenuUI : WindowMenuUIBase, IWindowHandler
+	public class WindowMenuUI : WindowMenuUIBase
 	{
 		[SerializeField] WindowDisplayType windowType = WindowDisplayType.ButtonConfirmationBox;
 
@@ -23,8 +23,12 @@ namespace Personal.UI.Window
 		{
 			base.InitialSetup();
 
-			IWindowHandler = this;
 			rectTransform = GetComponentInChildren<RectTransform>();
+		}
+
+		public override void CloseWindow()
+		{
+			CancelAction?.Invoke();
 		}
 
 		public void SetSize(Vector2 size)
@@ -91,13 +95,6 @@ namespace Personal.UI.Window
 				windowTrans.gameObject.SetActive(false);
 				UIManager.Instance.WindowStack.Pop();
 			};
-		}
-
-		void IWindowHandler.OpenWindow() { }
-
-		void IWindowHandler.CloseWindow()
-		{
-			CancelAction?.Invoke();
 		}
 	}
 }

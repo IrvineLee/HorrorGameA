@@ -1,19 +1,33 @@
 using System;
 using UnityEngine;
 
-using Personal.GameState;
 using Cysharp.Threading.Tasks;
+using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.UI
 {
 	public class MenuUIBase : GameInitialize
 	{
-		public IWindowHandler IWindowHandler { get; protected set; }
 		public IDefaultHandler IDefaultHandler { get; protected set; }
 
 		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
+
+		public virtual void OpenWindow()
+		{
+			gameObject.SetActive(true);
+			UIManager.Instance.WindowStack.Push(this);
+		}
+
+		public virtual void CloseWindow()
+		{
+			gameObject.SetActive(false);
+			UIManager.Instance.WindowStack.Pop();
+
+			InputManager.Instance.SetToDefaultActionMap();
+		}
 
 		/// <summary>
 		/// Initialize the value before displaying the menu to user.
@@ -35,11 +49,22 @@ namespace Personal.UI
 
 		/// <summary>
 		/// Handle when the window opened or closed.
+		/// Typically used within OpenWindow and CloseWindow.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		protected virtual void SetupMenu(bool isFlag)
+		protected virtual void PauseEventBegin(bool isFlag)
 		{
 			OnPauseEvent?.Invoke(isFlag);
+		}
+
+		protected bool IsWindowStackClose()
+		{
+			if (UIManager.Instance.WindowStack.Count > 1)
+			{
+				UIManager.Instance.WindowStack.Peek().CloseWindow();
+				return true;
+			}
+			return false;
 		}
 	}
 }

@@ -9,7 +9,7 @@ using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Option
 {
-	public class OptionHandlerUI : MenuUIBase, IWindowHandler, IDefaultHandler
+	public class OptionHandlerUI : MenuUIBase, IDefaultHandler
 	{
 		public enum MenuTab
 		{
@@ -32,6 +32,8 @@ namespace Personal.UI.Option
 		[SerializeField] MenuTab startMenuTab = MenuTab.Game;
 		[SerializeField] List<Tab> tabList = new();
 
+		public IReadOnlyDictionary<MenuTab, Tab> TabDictionary { get => tabDictionary; }
+
 		Dictionary<MenuTab, Tab> tabDictionary = new Dictionary<MenuTab, Tab>();
 
 		MenuTab currentMenuTab;
@@ -39,7 +41,6 @@ namespace Personal.UI.Option
 
 		public override void InitialSetup()
 		{
-			IWindowHandler = this;
 			IDefaultHandler = this;
 
 			// Initialize all the tabs and set onClick listener.
@@ -48,12 +49,16 @@ namespace Personal.UI.Option
 				Tab tab = tabList[i];
 				int index = i;
 
+				// Setup the tabs.
 				tab.OptionMenuUI.InitialSetup();
 				tab.SelectButton.onClick.AddListener(() =>
 				{
 					currentMenuTab = tab.OptionMenuUI.MenuTab;
 					currentMenuIndex = index;
 
+					DisableAllTabs();
+
+					tab.SelectButton.interactable = false;
 					tab.OptionMenuUI.gameObject.SetActive(true);
 				});
 
@@ -65,29 +70,42 @@ namespace Personal.UI.Option
 			gameTab.SelectButton.interactable = false;
 		}
 
-		/// <summary>
-		/// Handle closing option menu.
-		/// </summary>
-		public void HandleCloseOptionMenu()
+		public override void OpenWindow()
 		{
-			if (UIManager.Instance.WindowStack.Count == 1)
-			{
-				UIManager.Instance.OptionUI.IWindowHandler.CloseWindow();
-				return;
-			}
+			base.OpenWindow();
 
-			UIManager.Instance.WindowStack.Peek().IWindowHandler.CloseWindow();
+			PauseEventBegin(true);
+			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(true);
+
+			DisableAllTabs();
+			if (!tabDictionary.TryGetValue(startMenuTab, out Tab tab)) return;
+
+			// Activate current menu tab.
+			tab.SelectButton.interactable = false;
+			tab.OptionMenuUI.gameObject.SetActive(true);
 		}
 
-		/// <summary>
-		/// Enable all tab buttons.
-		/// </summary>
-		public void EnableAllTabButtons()
+		public override void CloseWindow()
 		{
+			if (IsWindowStackClose()) return;
+
+			base.CloseWindow();
+			currentMenuTab = startMenuTab;
+
+			PauseEventBegin(false);
+			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(false);
+
 			foreach (var tab in tabList)
 			{
 				tab.SelectButton.interactable = true;
+				tab.OptionMenuUI.Save_Inspector();
+
+				// Set the start menu tab.
+				if (tab.OptionMenuUI.MenuTab != startMenuTab) continue;
+				tab.SelectButton.interactable = false;
 			}
+
+			SaveManager.Instance.SaveProfileData();
 		}
 
 		/// <summary>
@@ -103,63 +121,12 @@ namespace Personal.UI.Option
 			currentMenuIndex = index;
 		}
 
-		/// <summary>
-		/// Get tab.
-		/// </summary>
-		/// <param name="menuTab"></param>
-		/// <returns></returns>
-		public Tab GetTab(MenuTab menuTab)
-		{
-			tabDictionary.TryGetValue(menuTab, out Tab tab);
-			return tab;
-		}
-
 		protected override void OnMainScene()
 		{
 			foreach (var tab in tabList)
 			{
 				tab.OptionMenuUI.SetDataToRelevantMember().Forget();
 			}
-		}
-
-		/// <summary>
-		/// This opens the entire option panel containing all the tabs.
-		/// </summary>
-		void IWindowHandler.OpenWindow()
-		{
-			SetupMenu(true);
-
-			if (tabDictionary.TryGetValue(currentMenuTab, out Tab tab))
-			{
-				tab.SelectButton.interactable = false;
-				tab.OptionMenuUI.gameObject.SetActive(true);
-			}
-
-			UIManager.Instance.WindowStack.Push(tab.OptionMenuUI);
-		}
-
-		/// <summary>
-		/// Close the entire option panel.
-		/// </summary>
-		void IWindowHandler.CloseWindow()
-		{
-			SetupMenu(false);
-
-			foreach (var tab in tabList)
-			{
-				tab.SelectButton.interactable = true;
-				tab.OptionMenuUI.Save_Inspector();
-
-				// Set the start menu tab.
-				if (tab.OptionMenuUI.MenuTab != startMenuTab) continue;
-				tab.SelectButton.interactable = false;
-			}
-
-			SaveManager.Instance.SaveProfileData();
-			InputManager.Instance.SetToDefaultActionMap();
-
-			UIManager.Instance.WindowStack.Pop();
-			UIManager.Instance.ToolsUI.LoadingIconTrans.gameObject.SetActive(true);
 		}
 
 		/// <summary>
@@ -173,17 +140,13 @@ namespace Personal.UI.Option
 			_ = UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction);
 		}
 
-		/// <summary>
-		/// Setup the menu to be opened/closed.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		protected override void SetupMenu(bool isFlag)
+		void DisableAllTabs()
 		{
-			base.SetupMenu(isFlag);
-			currentMenuTab = startMenuTab;
-
-			gameObject.SetActive(isFlag);
-			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(isFlag);
+			foreach (var tab in tabList)
+			{
+				tab.SelectButton.interactable = true;
+				tab.OptionMenuUI.gameObject.SetActive(false);
+			}
 		}
 	}
 }

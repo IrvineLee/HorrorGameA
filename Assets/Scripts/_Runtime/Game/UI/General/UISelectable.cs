@@ -15,7 +15,11 @@ namespace Personal.UI
 		protected override void Initialize()
 		{
 			menuUIBase = GetComponentInParent<MenuUIBase>();
+			OnPostEnable();
+		}
 
+		protected override void OnPostEnable()
+		{
 			if (!isInitialSelection) return;
 
 			EventSystem.current.SetSelectedGameObject(gameObject);

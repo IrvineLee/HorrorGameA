@@ -7,6 +7,7 @@ using Personal.InputProcessing;
 using Personal.FSM.Character;
 using Personal.UI.Option;
 using Helper;
+using static Personal.UI.Option.OptionHandlerUI;
 
 namespace Personal.Character.Player
 {
@@ -111,7 +112,9 @@ namespace Personal.Character.Player
 			_jumpTimeoutDelta = jumpTimeout;
 			_fallTimeoutDelta = fallTimeout;
 
-			optionGameUI = (OptionGameUI)UIManager.Instance.OptionUI.GetTab(OptionHandlerUI.MenuTab.Game).OptionMenuUI;
+			if (!UIManager.Instance.OptionUI.TabDictionary.TryGetValue(MenuTab.Game, out Tab tab)) return;
+
+			optionGameUI = (OptionGameUI)tab.OptionMenuUI;
 			optionGameUI.OnCameraSensitivityEvent += SetRotationSpeed;
 			optionGameUI.OnInvertLookHorizontalEvent += SetInvertedLookHorizontal;
 			optionGameUI.OnInvertLookVerticalEvent += SetInvertedLookVertical;

@@ -6,7 +6,7 @@ using Personal.Manager;
 
 namespace Personal.UI.Option
 {
-	public class PauseHandlerUI : MenuUIBase, IWindowHandler
+	public class PauseHandlerUI : MenuUIBase
 	{
 		[SerializeField] Button resumeButton = null;
 		[SerializeField] Button quitToMainMenuButton = null;
@@ -16,8 +16,6 @@ namespace Personal.UI.Option
 
 		public override void InitialSetup()
 		{
-			IWindowHandler = this;
-
 			resumeButton.onClick.AddListener(ResumeButton);
 			quitToMainMenuButton.onClick.AddListener(QuitToMainMenu);
 
@@ -27,21 +25,9 @@ namespace Personal.UI.Option
 			//}
 		}
 
-		void IWindowHandler.OpenWindow()
-		{
-			gameObject.SetActive(true);
-			UIManager.Instance.WindowStack.Push(this);
-		}
-
-		void IWindowHandler.CloseWindow()
-		{
-			gameObject.SetActive(false);
-			UIManager.Instance.WindowStack.Pop();
-		}
-
 		void ResumeButton()
 		{
-			IWindowHandler.CloseWindow();
+			CloseWindow();
 		}
 
 		void QuitToMainMenu()

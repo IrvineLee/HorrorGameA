@@ -34,6 +34,7 @@ namespace Personal.Manager
 		public void SaveProfileData()
 		{
 			SavePath(profileDirectory + profileFileName, saveProfile);
+			UIManager.Instance.ToolsUI.LoadingIconTrans.gameObject.SetActive(true);
 		}
 
 		/// <summary>
@@ -54,6 +55,7 @@ namespace Personal.Manager
 		public void SaveSlotData(int slotID = 0)
 		{
 			SavePath(GetSlotPath(slotID), saveObject);
+			UIManager.Instance.ToolsUI.LoadingIconTrans.gameObject.SetActive(true);
 		}
 
 		/// <summary>

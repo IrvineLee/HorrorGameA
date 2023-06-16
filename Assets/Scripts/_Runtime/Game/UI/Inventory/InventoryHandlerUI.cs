@@ -9,14 +9,32 @@ using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
 {
-	public class InventoryHandlerUI : MenuUIBase, IWindowHandler
+	public class InventoryHandlerUI : MenuUIBase
 	{
 		[SerializeField] ItemInACircle3DUI itemInACircle3DUI = null;
 
 		public override void InitialSetup()
 		{
-			IWindowHandler = this;
 			itemInACircle3DUI.InitialSetup();
+		}
+
+		public override void OpenWindow()
+		{
+			base.OpenWindow();
+			UIManager.Instance.WindowStack.Push(itemInACircle3DUI);
+
+			PauseEventBegin(true);
+			itemInACircle3DUI.Setup();
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
+		}
+
+		public override void CloseWindow()
+		{
+			base.CloseWindow();
+
+			PauseEventBegin(false);
+			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
+			InputManager.Instance.SetToDefaultActionMap();
 		}
 
 		/// <summary>
@@ -35,30 +53,6 @@ namespace Personal.UI
 		public void RemoveObject(InteractableObject interactableObject)
 		{
 			PoolManager.Instance.ReturnSpawnedObject(interactableObject.ParentTrans.gameObject);
-		}
-
-		void IWindowHandler.OpenWindow()
-		{
-			UIManager.Instance.WindowStack.Push(itemInACircle3DUI);
-
-			SetupMenu(true);
-			itemInACircle3DUI.Setup();
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
-		}
-
-		void IWindowHandler.CloseWindow()
-		{
-			UIManager.Instance.WindowStack.Pop();
-
-			SetupMenu(false);
-			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
-			InputManager.Instance.SetToDefaultActionMap();
-		}
-
-		protected override void SetupMenu(bool isFlag)
-		{
-			base.SetupMenu(isFlag);
-			gameObject.SetActive(isFlag);
 		}
 	}
 }
