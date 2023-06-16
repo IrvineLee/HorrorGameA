@@ -19,7 +19,7 @@ namespace Personal.Manager
 			FPSInputController = InputManager.Instance.FPSInputController;
 		}
 
-		void Update()
+		protected override void OnUpdate()
 		{
 			if (InputManager.Instance.IsInteract)
 			{

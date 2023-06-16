@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
@@ -32,15 +31,15 @@ namespace Personal.Manager
 			MainCamera = Camera.main;
 		}
 
-		protected override void OnMainScene()
+		protected override void OnEarlyMainScene()
 		{
 			InputManager.Instance.DisableAllActionMap();
 
 			beginCR?.StopCoroutine();
-			beginCR = CoroutineHelper.WaitFor(1.01f, () => InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.Player));
+			beginCR = CoroutineHelper.WaitFor(1f, () => InputManager.Instance.SetToDefaultActionMap());
 		}
 
-		public void RegisterPlayer(PlayerController pc)
+		public void Load(PlayerController pc)
 		{
 			PlayerController = pc;
 

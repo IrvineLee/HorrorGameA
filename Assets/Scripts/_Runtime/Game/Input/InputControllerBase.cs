@@ -33,8 +33,11 @@ namespace Personal.InputProcessing
 			IsCancel = false;
 		}
 
-		protected virtual void OnDisable()
+		protected override void OnPostDisable()
 		{
+			Move = Vector2.zero;
+			Look = Vector2.zero;
+
 			ResetClicks();
 		}
 	}

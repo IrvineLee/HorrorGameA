@@ -22,6 +22,7 @@ namespace Personal.Manager
 		public ButtonIconDefinition ButtonIconDefinition { get => buttonIconDefinition; }
 
 		// Different actions maps for different situations.
+		public BasicControlInputController BasicControlInputController { get; private set; }
 		public FPSInputController FPSInputController { get; private set; }
 		public UIInputController UIInputController { get; private set; }
 		public PuzzleInputController PuzzleInputController { get; private set; }
@@ -35,9 +36,10 @@ namespace Personal.Manager
 			{
 				switch (CurrentActionMapType)
 				{
+					case ActionMapType.Player: return FPSInputController.IsInteract;
 					case ActionMapType.UI: return UIInputController.IsInteract;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsInteract;
-					default: return FPSInputController.IsInteract;
+					default: return BasicControlInputController.IsInteract;
 				}
 			}
 		}
@@ -48,9 +50,10 @@ namespace Personal.Manager
 			{
 				switch (CurrentActionMapType)
 				{
+					case ActionMapType.Player: return FPSInputController.IsCancel;
 					case ActionMapType.UI: return UIInputController.IsCancel;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsCancel;
-					default: return FPSInputController.IsCancel;
+					default: return BasicControlInputController.IsInteract;
 				}
 			}
 		}
@@ -68,9 +71,10 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			FPSInputController = GetComponentInChildren<FPSInputController>();
-			UIInputController = GetComponentInChildren<UIInputController>();
-			PuzzleInputController = GetComponentInChildren<PuzzleInputController>();
+			BasicControlInputController = GetComponentInChildren<BasicControlInputController>(true);
+			FPSInputController = GetComponentInChildren<FPSInputController>(true);
+			UIInputController = GetComponentInChildren<UIInputController>(true);
+			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
 
 			inputReaderDefinition.Initialize();
 			SetToDefaultActionMap();

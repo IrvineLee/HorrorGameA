@@ -84,9 +84,9 @@ namespace Personal.InputProcessing
 			StageManager.Instance.PlayerController.Inventory.KeyboardButtonSelect(number - 1);
 		}
 
-		protected override void OnDisable()
+		protected override void OnPostDisable()
 		{
-			if (!isAwakeCompleted) return;
+			base.OnPostDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnLookEvent -= LookInput;
@@ -102,8 +102,6 @@ namespace Personal.InputProcessing
 
 			inputReaderDefinition.OnInventoryNextPreviousEvent -= InventoryNextPrevious;
 			inputReaderDefinition.OnInventoryIndexSelectEvent -= InventoryIndexSelect;
-
-			base.OnDisable();
 		}
 	}
 }

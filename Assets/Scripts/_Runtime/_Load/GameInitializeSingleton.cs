@@ -29,6 +29,13 @@ namespace Personal.GameState
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
 
+		void Update()
+		{
+			if (!isBootCompleted) return;
+
+			OnUpdate();
+		}
+
 		/// <summary>
 		/// Called right after awake is finished.
 		/// </summary>
@@ -51,6 +58,11 @@ namespace Personal.GameState
 		/// </summary>
 		protected virtual void OnPostMainScene() { }
 
+		/// <summary>
+		/// Update after boot is completed.
+		/// </summary>
+		protected virtual void OnUpdate() { }
+
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
 			HandleMainScene().Forget();
@@ -72,7 +84,7 @@ namespace Personal.GameState
 			OnPostMainScene();
 		}
 
-		void OnDestroy()
+		void OnApplicationQuit()
 		{
 			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}

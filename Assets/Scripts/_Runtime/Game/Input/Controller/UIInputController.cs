@@ -70,9 +70,9 @@ namespace Personal.InputProcessing
 			UIManager.Instance.InventoryUI.IWindowHandler.CloseWindow();
 		}
 
-		protected override void OnDisable()
+		protected override void OnPostDisable()
 		{
-			if (!isAwakeCompleted) return;
+			base.OnPostDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnTabSwitchEvent -= TabSwitch;
@@ -83,8 +83,6 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnCancelInventoryEvent -= CloseInventoryMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent -= DefaultOptionMenu;
-
-			base.OnDisable();
 		}
 	}
 }

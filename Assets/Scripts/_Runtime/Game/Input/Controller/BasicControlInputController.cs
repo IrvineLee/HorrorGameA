@@ -33,17 +33,15 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
-		protected override void OnDisable()
+		protected override void OnPostDisable()
 		{
-			if (!isAwakeCompleted) return;
+			base.OnPostDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnLookEvent -= LookInput;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 			inputReaderDefinition.OnCancelEvent -= CancelInput;
-
-			base.OnDisable();
 		}
 	}
 }

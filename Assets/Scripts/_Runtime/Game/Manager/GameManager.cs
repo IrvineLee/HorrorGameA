@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 using Helper;
@@ -20,8 +19,6 @@ namespace Personal.Manager
 
 			await UniTask.WaitUntil(() => IsInitialized());
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully initiated!! ----------</color>");
-
-			await BeginAwake();
 
 			await HandleProfileLoading();
 			Debug.Log("<Color=#45FF00> ---------- Profile Loaded!! ----------</color>");
@@ -48,15 +45,6 @@ namespace Personal.Manager
 			if (MasterDataManager.Instance == null) return false;
 
 			return true;
-		}
-
-		/// <summary>
-		/// The scripts that need to be enabled first for caching.
-		/// </summary>
-		UniTask BeginAwake()
-		{
-			StageManager.Instance.enabled = true;
-			return UniTask.CompletedTask;
 		}
 
 		async UniTask HandleProfileLoading()

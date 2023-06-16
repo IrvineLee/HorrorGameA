@@ -40,7 +40,7 @@ namespace Personal.UI.Option
 			InputManager.Instance.OnAnyButtonPressed -= Begin;
 		}
 
-		void OnDisable()
+		void OnApplicationQuit()
 		{
 			RemoveListener();
 		}

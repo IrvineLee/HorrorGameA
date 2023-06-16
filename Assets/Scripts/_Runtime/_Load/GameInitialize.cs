@@ -28,11 +28,18 @@ namespace Personal.GameState
 			AwakeComplete();
 		}
 
-		protected virtual void OnEnable()
+		protected void OnEnable()
 		{
 			if (!isAwakeCompleted) return;
 
 			OnPostEnable();
+		}
+
+		protected void OnDisable()
+		{
+			if (!isAwakeCompleted) return;
+
+			OnPostDisable();
 		}
 
 		void Update()
@@ -49,6 +56,11 @@ namespace Personal.GameState
 		/// Gets called after awake has finished and during OnEnable.
 		/// </summary>
 		protected virtual void OnPostEnable() { }
+
+		/// <summary>
+		/// Gets called after awake has finished and during OnDisable.
+		/// </summary>
+		protected virtual void OnPostDisable() { }
 
 		/// <summary>
 		/// Update
