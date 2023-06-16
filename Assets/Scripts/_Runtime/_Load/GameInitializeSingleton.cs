@@ -18,13 +18,13 @@ namespace Personal.GameState
 			if (!GameManager.IsLoadingOver)
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
-			SceneManager.sceneLoaded += OnSceneLoaded;
-			HandleMainScene().Forget();
-
 			Initialize();
 
 			isBootCompleted = true;
 			enabled = true;
+
+			SceneManager.sceneLoaded += OnSceneLoaded;
+			HandleMainScene().Forget();
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}

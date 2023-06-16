@@ -18,7 +18,7 @@ namespace Personal.Character
 
 		float lookWeight;
 
-		protected override void Initialize()
+		protected override void OnMainScene()
 		{
 			animator = GetComponentInChildren<Animator>();
 			defaultTargetTrans = StageManager.Instance.MainCamera.transform;

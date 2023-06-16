@@ -68,12 +68,6 @@ namespace Personal.GameState
 		protected virtual void OnUpdate() { }
 
 		/// <summary>
-		/// Wait until the scene is in Main scene/scenes before proceeding. 
-		/// </summary>
-		/// <returns></returns>
-		protected virtual void OnEarlyMainScene() { }
-
-		/// <summary>
 		/// This will get called on the next frame of OnEarlyMainScene.
 		/// </summary>
 		protected virtual void OnMainScene() { }
@@ -99,13 +93,10 @@ namespace Personal.GameState
 
 		async UniTask HandleMainScene()
 		{
-			if (!isAwakeCompleted) return;
 			if (!GameSceneManager.Instance.IsMainScene()) return;
 
-			OnEarlyMainScene();
-
 			// Reason for loop timing is to make sure other GameInitialize script call its Initialize first before this OnMainScene.
-			await UniTask.NextFrame(PlayerLoopTiming.PostLateUpdate);
+			await UniTask.NextFrame(PlayerLoopTiming.LastTimeUpdate);
 			OnMainScene();
 		}
 

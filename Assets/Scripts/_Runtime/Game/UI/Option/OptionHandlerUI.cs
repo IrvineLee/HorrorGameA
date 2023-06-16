@@ -119,12 +119,14 @@ namespace Personal.UI.Option
 			currentMenuIndex = index;
 		}
 
-		protected override void OnMainScene()
+		public override async UniTask SetDataToRelevantMember()
 		{
 			foreach (var tab in tabList)
 			{
 				tab.OptionMenuUI.SetDataToRelevantMember().Forget();
 			}
+
+			await base.SetDataToRelevantMember();
 		}
 
 		/// <summary>

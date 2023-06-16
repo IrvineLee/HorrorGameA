@@ -6,6 +6,7 @@ using Personal.GameState;
 using Personal.UI;
 using Personal.UI.Option;
 using Personal.UI.Window;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -40,6 +41,7 @@ namespace Personal.Manager
 		protected override void OnPostMainScene()
 		{
 			inventoryUI.InitialSetup();
+			optionUI.SetDataToRelevantMember().Forget();
 		}
 
 		public void AddToInterfaceTypeStack(bool isFlag, UIInterfaceType uiInterfaceType = UIInterfaceType.None)
