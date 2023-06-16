@@ -23,18 +23,18 @@ namespace Personal.UI
 			base.OpenWindow();
 			UIManager.Instance.WindowStack.Push(itemInACircle3DUI);
 
-			PauseEventBegin(true);
 			itemInACircle3DUI.Setup();
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 		}
 
-		public override void CloseWindow()
+		public override bool CloseWindow()
 		{
-			base.CloseWindow();
+			if (!base.CloseWindow()) return false;
 
-			PauseEventBegin(false);
 			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
 			InputManager.Instance.SetToDefaultActionMap();
+
+			return true;
 		}
 
 		/// <summary>

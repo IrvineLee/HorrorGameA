@@ -3,7 +3,6 @@ using UnityEngine;
 
 using TMPro;
 using static Personal.UI.Window.WindowEnum;
-using Personal.Manager;
 
 namespace Personal.UI.Window
 {
@@ -12,7 +11,6 @@ namespace Personal.UI.Window
 		[SerializeField] WindowDisplayType windowType = WindowDisplayType.ButtonConfirmationBox;
 
 		public WindowDisplayType WindowType { get => windowType; }
-		public Action CancelAction { get; private set; }
 
 		[SerializeField] TextMeshProUGUI titleTMP = null;
 		[SerializeField] TextMeshProUGUI descriptionTMP = null;
@@ -24,11 +22,6 @@ namespace Personal.UI.Window
 			base.InitialSetup();
 
 			rectTransform = GetComponentInChildren<RectTransform>();
-		}
-
-		public override void CloseWindow()
-		{
-			CancelAction?.Invoke();
 		}
 
 		public void SetSize(Vector2 size)
@@ -43,8 +36,7 @@ namespace Personal.UI.Window
 		{
 			Action addListenerAction = () =>
 			{
-				Action onPressed = AddDisableWindowOnClick(transform, action);
-				CancelAction = onPressed;
+				Action onPressed = AddDisableWindowOnClick(action);
 
 				// Enable the correct buttons.
 				buttonPress.AddListenerToButtonOnce(onPressed, buttonText);
@@ -60,9 +52,8 @@ namespace Personal.UI.Window
 		{
 			Action addListenerAction = () =>
 			{
-				Action onPressed01 = AddDisableWindowOnClick(transform, action01);
-				Action onPressed02 = AddDisableWindowOnClick(transform, action02);
-				CancelAction = onPressed02;
+				Action onPressed01 = AddDisableWindowOnClick(action01);
+				Action onPressed02 = AddDisableWindowOnClick(action02);
 
 				// Enable the correct buttons.
 				buttonPress.AddListenerToButtonOnce(onPressed01, onPressed02, buttonText01, buttonText02);
@@ -85,15 +76,12 @@ namespace Personal.UI.Window
 			addListenerAction?.Invoke();
 		}
 
-		Action AddDisableWindowOnClick(Transform windowTrans, Action action)
+		Action AddDisableWindowOnClick(Action action)
 		{
 			return () =>
 			{
 				action?.Invoke();
-
-				// Disable the window and remove from stack.
-				windowTrans.gameObject.SetActive(false);
-				UIManager.Instance.WindowStack.Pop();
+				CloseWindow();
 			};
 		}
 	}

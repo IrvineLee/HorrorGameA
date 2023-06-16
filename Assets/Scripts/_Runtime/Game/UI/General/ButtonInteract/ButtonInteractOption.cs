@@ -1,18 +1,20 @@
 using UnityEngine;
 
+using Personal.Manager;
+
 namespace Personal.UI
 {
-	public class ButtonInteractQuit : ButtonInteractBase
+	public class ButtonInteractOption : ButtonInteractBase
 	{
 		public override void InitialSetup()
 		{
 			base.InitialSetup();
-			button.onClick.AddListener(Quit);
+			button.onClick.AddListener(Option);
 		}
 
-		void Quit()
+		void Option()
 		{
-			Application.Quit();
+			UIManager.Instance.OptionUI.OpenWindow();
 		}
 
 		void OnApplicationQuit()

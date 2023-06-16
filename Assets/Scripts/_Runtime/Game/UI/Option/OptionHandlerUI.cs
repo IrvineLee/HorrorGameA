@@ -74,7 +74,6 @@ namespace Personal.UI.Option
 		{
 			base.OpenWindow();
 
-			PauseEventBegin(true);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(true);
 
 			DisableAllTabs();
@@ -85,14 +84,12 @@ namespace Personal.UI.Option
 			tab.OptionMenuUI.gameObject.SetActive(true);
 		}
 
-		public override void CloseWindow()
+		public override bool CloseWindow()
 		{
-			if (IsWindowStackClose()) return;
+			if (!base.CloseWindow()) return false;
 
-			base.CloseWindow();
 			currentMenuTab = startMenuTab;
 
-			PauseEventBegin(false);
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(false);
 
 			foreach (var tab in tabList)
@@ -106,6 +103,7 @@ namespace Personal.UI.Option
 			}
 
 			SaveManager.Instance.SaveProfileData();
+			return true;
 		}
 
 		/// <summary>

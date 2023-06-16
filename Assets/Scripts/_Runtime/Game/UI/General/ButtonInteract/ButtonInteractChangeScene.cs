@@ -6,12 +6,13 @@ using Helper;
 
 namespace Personal.UI
 {
-	public class ButtonInteractChangeScene : ButtonInteractSet
+	public class ButtonInteractChangeScene : ButtonInteractBase
 	{
 		[SerializeField] SceneType sceneType = SceneType.Main;
 
-		public override void Initialize()
+		public override void InitialSetup()
 		{
+			base.InitialSetup();
 			button.onClick.AddListener(ChangeScene);
 		}
 

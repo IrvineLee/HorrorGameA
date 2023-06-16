@@ -3,15 +3,13 @@ using UnityEngine.UI;
 
 namespace Personal.UI
 {
-	public class ButtonInteractSet : MonoBehaviour
+	public abstract class ButtonInteractBase : MonoBehaviour
 	{
 		protected Button button;
 
-		void Awake()
+		public virtual void InitialSetup()
 		{
 			button = GetComponentInChildren<Button>();
 		}
-
-		public virtual void Initialize() { }
 	}
 }

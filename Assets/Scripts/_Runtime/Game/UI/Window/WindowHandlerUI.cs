@@ -45,7 +45,7 @@ namespace Personal.UI.Window
 				return;
 			}
 
-			PushToStack(windowMenuUI);
+			ActivateWindow(windowMenuUI);
 		}
 
 		/// <summary>
@@ -73,17 +73,16 @@ namespace Personal.UI.Window
 				windowMenuUI.SetThreeButton(buttonPress, title, description, action01, action02, action03);
 			}
 
-			PushToStack(windowMenuUI);
+			ActivateWindow(windowMenuUI);
 		}
 
 		// Push it to the stack and enable it.
-		void PushToStack(WindowMenuUI windowMenuUI)
+		void ActivateWindow(WindowMenuUI windowMenuUI)
 		{
 			// Don't do anything if the window is already opened.
 			if (windowMenuUI.gameObject.activeSelf) return;
 
-			UIManager.Instance.WindowStack.Push(windowMenuUI);
-			windowMenuUI.gameObject.SetActive(true);
+			windowMenuUI.OpenWindow();
 		}
 	}
 }

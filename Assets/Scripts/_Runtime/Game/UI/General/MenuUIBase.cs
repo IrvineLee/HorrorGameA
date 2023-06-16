@@ -11,23 +11,13 @@ namespace Personal.UI
 	{
 		public IDefaultHandler IDefaultHandler { get; protected set; }
 
+		// This is used when the player needs to select an option from the window menu.
+		// Which means the player can't press the Esc button and close the window.
+		public bool IsAbleToCloseWindow { get; protected set; } = true;
+
 		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
-
-		public virtual void OpenWindow()
-		{
-			gameObject.SetActive(true);
-			UIManager.Instance.WindowStack.Push(this);
-		}
-
-		public virtual void CloseWindow()
-		{
-			gameObject.SetActive(false);
-			UIManager.Instance.WindowStack.Pop();
-
-			InputManager.Instance.SetToDefaultActionMap();
-		}
 
 		/// <summary>
 		/// Initialize the value before displaying the menu to user.
@@ -35,6 +25,40 @@ namespace Personal.UI
 		/// </summary>
 		/// <returns></returns>
 		public virtual void InitialSetup() { }
+
+		public virtual void OpenWindow()
+		{
+			gameObject.SetActive(true);
+			UIManager.Instance.WindowStack.Push(this);
+
+			OnPauseEvent?.Invoke(true);
+		}
+
+		/// <summary>
+		/// Close the window. Returns true if it's the final window.
+		/// </summary>
+		/// <returns></returns>
+		public virtual bool CloseWindow()
+		{
+			if (UIManager.Instance.WindowStack.Count > 1)
+			{
+				MenuUIBase menuUIBase = UIManager.Instance.WindowStack.Peek();
+				if (!menuUIBase.IsAbleToCloseWindow) return false;
+
+				menuUIBase.gameObject.SetActive(false);
+				UIManager.Instance.WindowStack.Pop();
+
+				return false;
+			}
+
+			gameObject.SetActive(false);
+			UIManager.Instance.WindowStack.Pop();
+
+			InputManager.Instance.SetToDefaultActionMap();
+
+			OnPauseEvent?.Invoke(false);
+			return true;
+		}
 
 		/// <summary>
 		/// Call this to set data to relevant members.
@@ -46,25 +70,5 @@ namespace Personal.UI
 		/// </summary>
 		/// <param name="go"></param>
 		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
-
-		/// <summary>
-		/// Handle when the window opened or closed.
-		/// Typically used within OpenWindow and CloseWindow.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		protected virtual void PauseEventBegin(bool isFlag)
-		{
-			OnPauseEvent?.Invoke(isFlag);
-		}
-
-		protected bool IsWindowStackClose()
-		{
-			if (UIManager.Instance.WindowStack.Count > 1)
-			{
-				UIManager.Instance.WindowStack.Peek().CloseWindow();
-				return true;
-			}
-			return false;
-		}
 	}
 }
