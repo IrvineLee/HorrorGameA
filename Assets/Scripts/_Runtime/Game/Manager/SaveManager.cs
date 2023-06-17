@@ -13,6 +13,7 @@ namespace Personal.Manager
 		const int ID_COUNT = 5;
 
 		[SerializeField] bool isEncryptionEnabled = false;
+		[SerializeField] bool isPrintData = false;
 
 		// User profile path.
 		string profileDirectory = "/ProfileData";
@@ -96,10 +97,7 @@ namespace Personal.Manager
 			if (dataService.SaveData(path, data, isEncryptionEnabled))
 			{
 				long saveTime = DateTime.Now.Ticks - startTime;
-				string s = $"Save Time: {(saveTime / TimeSpan.TicksPerMillisecond):N4}ms " +
-						   "Save file:\r\n" + JsonConvert.SerializeObject(data, Formatting.Indented);
-
-				Debug.Log(s);
+				HandleDataPrint("Save Time : ", saveTime, data);
 			}
 			else
 			{
@@ -131,10 +129,7 @@ namespace Personal.Manager
 
 				long loadTime = DateTime.Now.Ticks - startTime;
 
-				string s = $"Load Time: {(loadTime / TimeSpan.TicksPerMillisecond):N4}ms " +
-						   "Loaded from file:\r\n" + JsonConvert.SerializeObject(data, Formatting.Indented);
-
-				Debug.Log(s);
+				HandleDataPrint("Load Time : ", loadTime, data);
 				onCompleteAction?.Invoke();
 			}
 			catch (Exception e)
@@ -176,6 +171,14 @@ namespace Personal.Manager
 			string ext = fileName.RemoveAllWhenReachCharFromBehind('.', false, false);
 
 			return directory + file + slotID.ToString().AddSymbolInFront('0', 2) + ext;
+		}
+
+		void HandleDataPrint<T>(string headerStr, float loadTime, T data) where T : GenericSave
+		{
+			string loadTimeStr = headerStr + (loadTime / TimeSpan.TicksPerMillisecond).ToString("N4") + "ms";
+			string dataStr = isPrintData ? "Loaded from file:\r\n" + JsonConvert.SerializeObject(data, Formatting.Indented) : "";
+
+			Debug.Log(loadTimeStr + dataStr);
 		}
 	}
 }
