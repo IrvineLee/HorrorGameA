@@ -21,10 +21,10 @@ namespace Personal.UI
 		public override void OpenWindow()
 		{
 			base.OpenWindow();
-			UIManager.Instance.WindowStack.Push(itemInACircle3DUI);
+
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 
 			itemInACircle3DUI.Setup();
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 		}
 
 		public override bool CloseWindow()
@@ -32,8 +32,6 @@ namespace Personal.UI
 			if (!base.CloseWindow()) return false;
 
 			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
-			InputManager.Instance.SetToDefaultActionMap();
-
 			return true;
 		}
 
