@@ -68,7 +68,7 @@ namespace Personal.GameState
 		protected virtual void OnUpdate() { }
 
 		/// <summary>
-		/// This will get called on the next frame of OnEarlyMainScene.
+		/// This will get called on the next frame of Initialize.
 		/// </summary>
 		protected virtual void OnMainScene() { }
 

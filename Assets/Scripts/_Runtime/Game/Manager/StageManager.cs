@@ -35,17 +35,17 @@ namespace Personal.Manager
 		{
 			InputManager.Instance.DisableAllActionMap();
 
+			// Set the camera in Main scene.
+			MainCamera = Camera.main;
+			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
+
 			beginCR?.StopCoroutine();
 			beginCR = CoroutineHelper.WaitFor(1f, () => InputManager.Instance.SetToDefaultActionMap());
 		}
 
-		public void Load(PlayerController pc)
+		public void RegisterPlayer(PlayerController pc)
 		{
 			PlayerController = pc;
-
-			// Set the camera in Main scene.
-			MainCamera = Camera.main;
-			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 		}
 
 		public void RegisterCashierNPCSpawner(CashierNPCSpawner cashierNPCSpawner)

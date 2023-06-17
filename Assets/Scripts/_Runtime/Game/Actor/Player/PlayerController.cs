@@ -18,7 +18,7 @@ namespace Personal.Character.Player
 
 		protected override void Initialize()
 		{
-			StageManager.Instance.Load(this);
+			StageManager.Instance.RegisterPlayer(this);
 		}
 	}
 }
