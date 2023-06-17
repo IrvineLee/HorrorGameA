@@ -22,7 +22,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnInteractEvent += InteractInput;
 			inputReaderDefinition.OnCancelEvent += CancelInput;
 
-			inputReaderDefinition.OnMenuUIPressedEvent += OpenOptionMenu;
+			inputReaderDefinition.OnMenuUIPressedEvent += OpenPauseMenu;
 			inputReaderDefinition.OnInventoryUIPressedEvent += OpenInventory;
 
 			inputReaderDefinition.OnInventoryNextPreviousEvent += InventoryNextPrevious;
@@ -59,13 +59,9 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
-		void OpenOptionMenu()
+		void OpenPauseMenu()
 		{
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
-			//UIManager.Instance.PauseUI.OpenWindow();
-
-			OptionHandlerUI optionHandlerUI = UIManager.Instance.OptionUI;
-			optionHandlerUI.OpenWindow();
+			UIManager.Instance.PauseUI.OpenWindow();
 		}
 
 		void OpenInventory()
@@ -97,7 +93,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 			inputReaderDefinition.OnCancelEvent -= CancelInput;
 
-			inputReaderDefinition.OnMenuUIPressedEvent -= OpenOptionMenu;
+			inputReaderDefinition.OnMenuUIPressedEvent -= OpenPauseMenu;
 			inputReaderDefinition.OnInventoryUIPressedEvent -= OpenInventory;
 
 			inputReaderDefinition.OnInventoryNextPreviousEvent -= InventoryNextPrevious;

@@ -60,7 +60,12 @@ namespace Personal.Manager
 
 		void OnApplicationFocus(bool hasFocus)
 		{
-			SetToMouseCursor(!hasFocus);
+			if (GameSceneManager.Instance.IsMainScene() && UIManager.Instance.WindowStack.Count <= 0)
+			{
+				SetToMouseCursor(false);
+				return;
+			}
+			SetToMouseCursor(true);
 		}
 	}
 }

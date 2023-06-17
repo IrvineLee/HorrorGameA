@@ -3,26 +3,28 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Personal.Manager;
+using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
 	public class PauseHandlerUI : MenuUIBase
 	{
 		[SerializeField] Button resumeButton = null;
-		[SerializeField] Button quitToMainMenuButton = null;
-
-		[Tooltip("Handle buttons that open other gameobject.")]
-		//[SerializeField] List<ButtonInteractSet> buttonList = new List<ButtonInteractSet>();
+		[SerializeField] List<ButtonInteractBase> buttonInteractList = new();
 
 		public override void InitialSetup()
 		{
 			resumeButton.onClick.AddListener(ResumeButton);
-			quitToMainMenuButton.onClick.AddListener(QuitToMainMenu);
 
-			//foreach (var button in buttonList)
-			//{
-			//	button.Go.SetActive(true);
-			//}
+			foreach (var buttonInteract in buttonInteractList)
+			{
+				buttonInteract.InitialSetup();
+			}
+		}
+
+		protected override void OnEnable()
+		{
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 		}
 
 		void ResumeButton()
@@ -30,15 +32,9 @@ namespace Personal.UI.Option
 			CloseWindow();
 		}
 
-		void QuitToMainMenu()
-		{
-			GameSceneManager.Instance.ChangeLevel(SceneName.Title, Transition.TransitionType.Fade);
-		}
-
 		void OnApplicationQuit()
 		{
 			resumeButton.onClick.RemoveAllListeners();
-			quitToMainMenuButton.onClick.RemoveAllListeners();
 		}
 	}
 }

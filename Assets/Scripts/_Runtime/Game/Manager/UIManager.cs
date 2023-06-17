@@ -44,6 +44,11 @@ namespace Personal.Manager
 			optionUI.SetDataToRelevantMember().Forget();
 		}
 
+		/// <summary>
+		/// Add to interfaceType stack.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		/// <param name="uiInterfaceType"></param>
 		public void AddToInterfaceTypeStack(bool isFlag, UIInterfaceType uiInterfaceType = UIInterfaceType.None)
 		{
 			if (isFlag)
@@ -62,6 +67,22 @@ namespace Personal.Manager
 			}
 
 			activeInterfaceType = UIInterfaceType.None;
+		}
+
+		/// <summary>
+		/// Close all window stack. 
+		/// Typically used when changing scene while windows are opened.
+		/// </summary>
+		public void CloseAllWindowAndUIInterfaceStack()
+		{
+			int count = WindowStack.Count;
+			for (int i = 0; i < count; i++)
+			{
+				WindowStack.Peek().CloseWindow();
+			}
+
+			WindowStack.Clear();
+			uiInterfaceTypeStack.Clear();
 		}
 	}
 }

@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using Personal.Manager;
+using Personal.InputProcessing;
 using Helper;
-using UnityEngine.EventSystems;
 
 namespace Personal.UI.Option
 {
@@ -19,6 +20,9 @@ namespace Personal.UI.Option
 
 		protected override void Initialize()
 		{
+			CursorManager.Instance.SetToMouseCursor(true);
+			InputManager.Instance.EnableActionMap(ActionMapType.BasicControl);
+
 			InputManager.Instance.OnAnyButtonPressed += Begin;
 
 			List<ButtonInteractBase> buttonInteractList = buttonGroupTrans.GetComponentsInChildren<ButtonInteractBase>(true).ToList();
