@@ -166,7 +166,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6625562955779129561}
   - {fileID: 1879310202}
   - {fileID: 1494535415}
   - {fileID: 1977082737}
@@ -1440,7 +1439,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 6625562955779129566}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3439,16 +3438,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9eb847ab97b24024588682c8601254cf, type: 3}
---- !u!4 &6625562955779129561 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-  m_PrefabInstance: {fileID: 7362647003362075997}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &6625562955779129566 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8800463658676813517, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-  m_PrefabInstance: {fileID: 7362647003362075997}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6831137036508558620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3770,67 +3759,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6b3ffe68c587f649bd60aaa6fe78f11, type: 3}
---- !u!1001 &7362647003362075997
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 144059008}
-    m_Modifications:
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.375
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5765835459467941308, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
-      propertyPath: m_Name
-      value: MainCamera
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
 --- !u!1001 &7404282575613058614
 PrefabInstance:
   m_ObjectHideFlags: 0
