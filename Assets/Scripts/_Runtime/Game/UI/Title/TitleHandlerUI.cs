@@ -14,6 +14,9 @@ namespace Personal.UI.Option
 		[SerializeField] OnEnableFadeInOut pressAnyButton = null;
 		[SerializeField] Transform buttonGroupTrans = null;
 
+		[Tooltip("How long \"Press Any Button\" remain on screen after pressing button")]
+		[SerializeField] float anyButtonWaitDuration = 0.5f;
+
 		protected override void Initialize()
 		{
 			InputManager.Instance.OnAnyButtonPressed += Begin;
@@ -40,7 +43,7 @@ namespace Personal.UI.Option
 				buttonGroupTrans.gameObject.SetActive(true);
 				RemoveListener();
 			};
-			pressAnyButton.StopFadeAndSetFullVisibility(doLast);
+			pressAnyButton.StopFadeAndSetFullVisibility(anyButtonWaitDuration, doLast);
 		}
 
 		void RemoveListener()

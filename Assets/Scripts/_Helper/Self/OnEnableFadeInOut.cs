@@ -32,36 +32,41 @@ namespace Helper
 			if (tmp) FadeSetup(tmp);
 		}
 
-		public void StopFadeAndSetFullVisibility(Action doLast = default)
+		public void StopFadeAndSetFullVisibility(float waitDuration = 0, Action doLast = default)
 		{
 			cr.StopCoroutine();
 
-			if (sr) FadeInOut(sr, 0, fadeOutDuration, false, doLast);
-			if (image) FadeInOut(image, 0, fadeOutDuration, false, doLast);
-			if (tmp) FadeInOut(tmp, 0, fadeOutDuration, false, doLast);
+			if (sr) FadeSetup_SetFullVisibilityWait(sr, waitDuration, doLast);
+			if (image) FadeSetup_SetFullVisibilityWait(image, waitDuration, doLast);
+			if (tmp) FadeSetup_SetFullVisibilityWait(tmp, waitDuration, doLast);
 		}
 
 		void FadeSetup<T>(T t) where T : Component
 		{
-			FadeInOut(t, fadeInDuration, fadeOutDuration, isLoop);
+			FadeInOut(t, fadeInDuration, waitDuration, fadeOutDuration, isLoop);
 		}
 
-		void FadeInOut<T>(T t, float fadeInDuration, float fadeOutDuration, bool isLoop, Action doLast = default) where T : Component
+		void FadeSetup_SetFullVisibilityWait<T>(T t, float waitDuration = 0, Action doLast = default) where T : Component
+		{
+			FadeInOut(t, 0, waitDuration, fadeOutDuration, false, doLast);
+		}
+
+		void FadeInOut<T>(T t, float fadeInDuration, float waitDuration, float fadeOutDuration, bool isLoop, Action doLast = default) where T : Component
 		{
 			cr = CoroutineHelper.FadeFromTo(t, 0, 1, fadeInDuration, () =>
 			{
-				CoroutineHelper.WaitFor(waitDuration, () =>
+				cr = CoroutineHelper.WaitFor(waitDuration, () =>
 				{
-					cr = CoroutineHelper.FadeFromTo(t, 1, 0, fadeOutDuration, () => FadeEnded(t, fadeInDuration, fadeOutDuration, isLoop, doLast));
+					cr = CoroutineHelper.FadeFromTo(t, 1, 0, fadeOutDuration, () => FadeEnded(t, fadeInDuration, waitDuration, fadeOutDuration, isLoop, doLast));
 				});
 			});
 		}
 
-		void FadeEnded<T>(T t, float fadeInDuration, float fadeOutDuration, bool isLoop, Action doLast = default) where T : Component
+		void FadeEnded<T>(T t, float fadeInDuration, float waitDuration, float fadeOutDuration, bool isLoop, Action doLast = default) where T : Component
 		{
 			if (isLoop)
 			{
-				FadeInOut(t, fadeInDuration, fadeOutDuration, isLoop, doLast);
+				FadeInOut(t, fadeInDuration, waitDuration, fadeOutDuration, isLoop, doLast);
 				return;
 			}
 
