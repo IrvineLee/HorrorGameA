@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Personal.UI
 {
@@ -6,8 +7,10 @@ namespace Personal.UI
 	{
 		[SerializeField] Transform loadingIconTrans = null;
 		[SerializeField] CinematicBars cinematicBars = null;
+		[SerializeField] Image inputBlocker = null;
 
 		public Transform LoadingIconTrans { get => loadingIconTrans; }
 		public CinematicBars CinematicBars { get => cinematicBars; }
+		public Image InputBlocker { get => inputBlocker; }
 	}
 }

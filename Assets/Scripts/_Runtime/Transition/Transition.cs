@@ -72,7 +72,7 @@ namespace Personal.Transition
 			HandleFlipping(transition.transform);
 			HandleAnimatorSpeed(transition.transform, speed);
 
-			await UniTask.Delay((int)animationClip.length.SecondsToMilliseconds());
+			await UniTask.Delay((int)animationClip.length.SecondsToMilliseconds(), true);
 		}
 
 		// Changing the color of the transition
