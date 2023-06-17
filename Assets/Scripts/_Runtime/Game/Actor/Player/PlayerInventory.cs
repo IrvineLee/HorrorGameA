@@ -27,14 +27,14 @@ namespace Personal.Character.Player
 			public InteractablePickupable PickupableObject { get => pickupableObject; }
 			public InteractablePickupable InteractableObjectUI { get => pickupableObjectUI; }
 
-			public Inventory(InteractablePickupable interactableObject)
+			public Inventory(InteractablePickupable pickupableObject)
 			{
-				this.pickupableObject = interactableObject;
+				this.pickupableObject = pickupableObject;
 			}
 
-			public void SetInteractableObjectUI(InteractablePickupable interactableObjectUI)
+			public void SetInteractableObjectUI(InteractablePickupable pickupableObjectUI)
 			{
-				this.pickupableObjectUI = interactableObjectUI;
+				this.pickupableObjectUI = pickupableObjectUI;
 			}
 		}
 
@@ -194,6 +194,7 @@ namespace Personal.Character.Player
 			else
 			{
 				AnimateActiveItem(initialPosition);
+				activeObject = null;
 			}
 		}
 
