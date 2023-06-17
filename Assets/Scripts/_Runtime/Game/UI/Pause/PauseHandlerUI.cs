@@ -12,7 +12,7 @@ namespace Personal.UI.Option
 		[SerializeField] Button quitToMainMenuButton = null;
 
 		[Tooltip("Handle buttons that open other gameobject.")]
-		[SerializeField] List<ButtonInteractSet> buttonList = new List<ButtonInteractSet>();
+		//[SerializeField] List<ButtonInteractSet> buttonList = new List<ButtonInteractSet>();
 
 		public override void InitialSetup()
 		{

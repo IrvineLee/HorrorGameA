@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 
-using Helper;
 using Personal.GameState;
+using UnityEngine.UI;
 
 namespace Personal.UI
 {
 	public class CursorHandler : GameInitialize
 	{
-		protected override void Initialize()
+		[SerializeField] Image cursorImage = null;
+
+		protected override void OnUpdate()
 		{
-			CoroutineHelper.RunActionUntilBreak(0, () => transform.position = Input.mousePosition, default);
+			transform.position = Input.mousePosition;
+		}
+
+		public void SetImage(Sprite sprite)
+		{
+			cursorImage.sprite = sprite;
 		}
 	}
 }

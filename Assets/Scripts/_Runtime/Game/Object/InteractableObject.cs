@@ -4,14 +4,17 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.FSM;
+using Personal.Definition;
 
 namespace Personal.Object
 {
 	public abstract class InteractableObject : GameInitialize
 	{
-		[SerializeField] protected Transform parentTrans = null;
+		[SerializeField] Transform parentTrans = null;
+		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
 
 		public Transform ParentTrans { get => parentTrans; }
+		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
 		public ActorStateMachine ActorStateMachine { get; private set; }
 
 		protected Collider currentCollider;
