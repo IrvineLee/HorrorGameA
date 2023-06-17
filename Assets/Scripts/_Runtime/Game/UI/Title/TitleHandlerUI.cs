@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -42,12 +41,8 @@ namespace Personal.UI.Option
 
 		void Begin()
 		{
-			Action doLast = () =>
-			{
-				buttonGroupTrans.gameObject.SetActive(true);
-				RemoveListener();
-			};
-			pressAnyButton.StopFadeAndSetFullVisibility(anyButtonWaitDuration, doLast);
+			pressAnyButton.StopFadeAndSetFullVisibility(anyButtonWaitDuration, () => buttonGroupTrans.gameObject.SetActive(true));
+			RemoveListener();
 		}
 
 		void RemoveListener()

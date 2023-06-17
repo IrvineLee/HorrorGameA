@@ -46,8 +46,6 @@ namespace Personal.UI
 			{
 				Application.Quit();
 			}
-
-
 		}
 
 		void OnApplicationQuit()
