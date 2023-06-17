@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
@@ -147,6 +148,11 @@ namespace Personal.UI.Option
 				tab.SelectButton.interactable = true;
 				tab.OptionMenuUI.gameObject.SetActive(false);
 			}
+		}
+
+		protected override void OnPostDisable()
+		{
+			EventSystem.current.SetSelectedGameObject(null);
 		}
 	}
 }

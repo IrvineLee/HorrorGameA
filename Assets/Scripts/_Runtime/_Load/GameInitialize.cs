@@ -28,14 +28,14 @@ namespace Personal.GameState
 			AwakeComplete();
 		}
 
-		protected void OnEnable()
+		protected virtual void OnEnable()
 		{
 			if (!isAwakeCompleted) return;
 
 			OnPostEnable();
 		}
 
-		protected void OnDisable()
+		protected virtual void OnDisable()
 		{
 			if (!isAwakeCompleted) return;
 

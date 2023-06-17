@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Personal.Manager;
+using Personal.InputProcessing;
 
 namespace Personal.UI
 {
@@ -14,6 +15,7 @@ namespace Personal.UI
 
 		void Option()
 		{
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 			UIManager.Instance.OptionUI.OpenWindow();
 		}
 
