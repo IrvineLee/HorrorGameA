@@ -16,6 +16,7 @@ namespace Personal.Manager
 
 		void Pause(bool isFlag)
 		{
+			if (IsPaused == isFlag) return;
 			if (!GameSceneManager.Instance.IsMainScene()) return;
 
 			IsPaused = isFlag;

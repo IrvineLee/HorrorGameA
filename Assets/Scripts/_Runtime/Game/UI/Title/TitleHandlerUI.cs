@@ -18,7 +18,6 @@ namespace Personal.UI.Option
 
 		protected override void Initialize()
 		{
-			CursorManager.Instance.SetToMouseCursor(true);
 			InputManager.Instance.EnableActionMap(ActionMapType.BasicControl);
 
 			InputManager.Instance.OnAnyButtonPressed += Begin;

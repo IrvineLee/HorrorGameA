@@ -14,6 +14,7 @@ namespace Personal.UI.Option
 
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
 			resumeButton.onClick.AddListener(ResumeButton);
 
 			foreach (var buttonInteract in buttonInteractList)

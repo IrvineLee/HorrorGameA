@@ -42,6 +42,7 @@ namespace Personal.UI.Option
 
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
 			IDefaultHandler = this;
 
 			// Initialize all the tabs and set onClick listener.
