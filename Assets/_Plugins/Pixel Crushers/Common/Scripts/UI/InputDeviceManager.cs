@@ -240,7 +240,7 @@ namespace PixelCrushers
 		{
 			inputDevice = newDevice;
 			m_lastMousePosition = GetMousePosition();
-			SetCursor(deviceUsesCursor);
+			//SetCursor(deviceUsesCursor);
 			SetGraphicRaycasters(deviceUsesCursor);
 			switch (inputDevice)
 			{
@@ -349,10 +349,10 @@ namespace PixelCrushers
 			yield return new WaitForSeconds(0.5f);
 			m_ignoreMouse = false;
 			m_lastMousePosition = DefaultGetMousePosition();
-			if (deviceUsesCursor)
-			{
-				SetCursor(true);
-			}
+			//if (deviceUsesCursor)
+			//{
+			//	SetCursor(true);
+			//}
 		}
 
 		public bool IsUsingKeyboard()
@@ -415,10 +415,10 @@ namespace PixelCrushers
 
 		public void ForceCursor(bool visible)
 		{
-			Cursor.visible = visible;
-			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-			m_lastMousePosition = GetMousePosition();
-			StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
+			//Cursor.visible = visible;
+			//Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+			//m_lastMousePosition = GetMousePosition();
+			//StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
 		}
 
 		public void ForceCursorFalse()
@@ -428,12 +428,12 @@ namespace PixelCrushers
 			m_lastMousePosition = GetMousePosition();
 		}
 
-		private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)
-		{
-			yield return CoroutineUtility.endOfFrame;
-			Cursor.visible = visible;
-			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-		}
+		//private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)
+		//{
+		//	yield return CoroutineUtility.endOfFrame;
+		//	Cursor.visible = visible;
+		//	Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+		//}
 
 #if USE_NEW_INPUT
 		public static Dictionary<string, InputAction> inputActionDict = new Dictionary<string, InputAction>();

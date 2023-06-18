@@ -33,7 +33,6 @@ namespace Personal.Manager
 
 		public void SetToMouseCursor(bool isFlag)
 		{
-			Cursor.visible = false;
 			InputDeviceManager.instance.ForceCursorFalse();
 
 			crosshairImage.gameObject.SetActive(!isFlag);

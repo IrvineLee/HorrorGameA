@@ -440,6 +440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1397387304809921099}
   - component: {fileID: 1143473163821062382}
+  - component: {fileID: 7310340842598481944}
   m_Layer: 5
   m_Name: TitleMenu
   m_TagString: Untagged
@@ -483,9 +484,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2afbb0349b58dd140a5b5fd29061e461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiInterfaceType: 0
   pressAnyButton: {fileID: 4594039252242559720}
   buttonGroupTrans: {fileID: 5971492533386867240}
-  anyButtonWaitDuration: 0.5
+  anyButtonWaitDuration: 1
+--- !u!114 &7310340842598481944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8396764382202047519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed036d860c5bd264cb67ce8e50240699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &43623390710174340
 PrefabInstance:
   m_ObjectHideFlags: 0
