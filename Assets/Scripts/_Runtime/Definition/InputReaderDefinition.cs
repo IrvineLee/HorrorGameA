@@ -52,7 +52,6 @@ namespace Personal.Definition
 		public event Action OnInventoryUIPressedEvent;
 		public event Action OnMenuUIPressedEvent;
 		public event Action OnMenuUIDefaultPressedEvent;
-		public event Action OnCancelInventoryEvent;
 		public event Action<bool> OnTabSwitchEvent;
 
 		// Inventory
@@ -160,11 +159,6 @@ namespace Personal.Definition
 		void PlayerActionInput.IUIActions.OnDefault(InputAction.CallbackContext context)
 		{
 			SetButtonEvent(context.started, OnMenuUIDefaultPressedEvent);
-		}
-
-		void PlayerActionInput.IUIActions.OnCancel_Inventory(InputAction.CallbackContext context)
-		{
-			SetButtonEvent(context.started, OnCancelInventoryEvent);
 		}
 
 		void PlayerActionInput.IUIActions.OnTabSwitch(InputAction.CallbackContext context)

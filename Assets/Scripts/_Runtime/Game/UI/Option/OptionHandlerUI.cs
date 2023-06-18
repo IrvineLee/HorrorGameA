@@ -85,12 +85,11 @@ namespace Personal.UI.Option
 			tab.OptionMenuUI.gameObject.SetActive(true);
 		}
 
-		public override bool CloseWindow()
+		public override void CloseWindow()
 		{
-			if (!base.CloseWindow()) return false;
+			base.CloseWindow();
 
 			currentMenuTab = startMenuTab;
-
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(false);
 
 			foreach (var tab in tabList)
@@ -104,7 +103,6 @@ namespace Personal.UI.Option
 			}
 
 			SaveManager.Instance.SaveProfileData();
-			return true;
 		}
 
 		/// <summary>

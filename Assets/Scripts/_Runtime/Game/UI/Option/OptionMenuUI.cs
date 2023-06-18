@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-using Personal.Manager;
 using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
@@ -11,16 +9,6 @@ namespace Personal.UI.Option
 		[SerializeField] OptionHandlerUI.MenuTab menuTab = OptionHandlerUI.MenuTab.Graphic;
 
 		public OptionHandlerUI.MenuTab MenuTab { get => menuTab; }
-
-		protected override void OnUpdate()
-		{
-			if (InputManager.Instance.UIInputController.Move.y == 0) return;
-
-			if (EventSystem.current.currentSelectedGameObject) return;
-			if (!lastSelectedGO) return;
-
-			EventSystem.current.SetSelectedGameObject(lastSelectedGO);
-		}
 
 		public override async UniTask SetDataToRelevantMember()
 		{

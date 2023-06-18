@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 using Personal.Manager;
 using Personal.InputProcessing;
@@ -29,14 +28,6 @@ namespace Personal.UI.Option
 			{
 				buttonInteract.InitialSetup();
 			}
-		}
-
-		protected override void OnUpdate()
-		{
-			if (EventSystem.current.currentSelectedGameObject) return;
-			if (!lastSelectedGO) return;
-
-			EventSystem.current.SetSelectedGameObject(lastSelectedGO);
 		}
 
 		void Begin()

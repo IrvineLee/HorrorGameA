@@ -14,7 +14,6 @@ namespace Personal.Manager
 	public class InputManager : GameInitializeSingleton<InputManager>
 	{
 		[SerializeField] InputReaderDefinition inputReaderDefinition = null;
-		[SerializeField] ActionMapType defaultActionMap = ActionMapType.Player;
 		[SerializeField] ButtonIconDefinition buttonIconDefinition = null;
 
 		public InputReaderDefinition InputReaderDefinition { get => inputReaderDefinition; }
@@ -87,11 +86,6 @@ namespace Personal.Manager
 			});
 		}
 
-		protected override void OnEarlyMainScene()
-		{
-			defaultActionMap = ActionMapType.Player;
-		}
-
 		/// <summary>
 		/// Get input controller info.
 		/// </summary>
@@ -134,6 +128,12 @@ namespace Personal.Manager
 		/// </summary>
 		public void SetToDefaultActionMap()
 		{
+			ActionMapType defaultActionMap = ActionMapType.BasicControl;
+			if (GameSceneManager.Instance.IsMainScene())
+			{
+				defaultActionMap = ActionMapType.Player;
+			}
+
 			EnableActionMap(defaultActionMap);
 		}
 

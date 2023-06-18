@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
@@ -7,17 +8,29 @@ using Personal.Manager;
 
 namespace Personal.UI
 {
+	[Serializable]
 	public class MenuUIBase : GameInitialize
 	{
+		[SerializeField] UIInterfaceType uiInterfaceType = UIInterfaceType.None;
+
 		public IDefaultHandler IDefaultHandler { get; protected set; }
 
 		// This is used when the player needs to select an option from the window menu.
 		// Which means the player can't press the Esc button and close the window.
 		public bool IsAbleToCloseWindow { get; protected set; } = true;
+		public UIInterfaceType UiInterfaceType { get => uiInterfaceType; }
 
 		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
+
+		protected override void OnUpdate()
+		{
+			if (EventSystem.current.currentSelectedGameObject) return;
+			if (!lastSelectedGO) return;
+
+			EventSystem.current.SetSelectedGameObject(lastSelectedGO);
+		}
 
 		/// <summary>
 		/// Resume time.
@@ -46,26 +59,15 @@ namespace Personal.UI
 		/// Close the window. Returns true if it's the final window.
 		/// </summary>
 		/// <returns></returns>
-		public virtual bool CloseWindow()
+		public virtual void CloseWindow()
 		{
-			if (UIManager.Instance.WindowStack.Count > 1)
-			{
-				MenuUIBase menuUIBase = UIManager.Instance.WindowStack.Peek();
-				if (!menuUIBase.IsAbleToCloseWindow) return false;
-
-				menuUIBase.gameObject.SetActive(false);
-				UIManager.Instance.WindowStack.Pop();
-
-				return false;
-			}
-
 			gameObject.SetActive(false);
 			UIManager.Instance.WindowStack.Pop();
 
-			InputManager.Instance.SetToDefaultActionMap();
+			if (UIManager.Instance.WindowStack.Count > 0) return;
 
+			InputManager.Instance.SetToDefaultActionMap();
 			OnPauseEvent?.Invoke(false);
-			return true;
 		}
 
 		/// <summary>

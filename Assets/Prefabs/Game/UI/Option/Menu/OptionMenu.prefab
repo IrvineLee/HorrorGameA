@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed53b5df04a3c624cb934ee2a55b9afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiInterfaceType: 0
   menuTab: 3
 --- !u!1 &6673504967854360117
 GameObject:
@@ -218,7 +219,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6673504967854360115}
   - component: {fileID: 6673504967854360114}
-  - component: {fileID: 1375873329732733278}
   m_Layer: 5
   m_Name: OptionMenu
   m_TagString: Untagged
@@ -259,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0a1f5f86c9a784faab7c5359c3055a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiInterfaceType: 2
   startMenuTab: 0
   tabList:
   - selectButton: {fileID: 3216833523264600397}
@@ -269,19 +270,6 @@ MonoBehaviour:
     optionMenuUI: {fileID: 1671287497111540192}
   - selectButton: {fileID: 458144994254030616}
     optionMenuUI: {fileID: 8835183352665960719}
---- !u!114 &1375873329732733278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6673504967854360117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeb55b5f2e752294cad667c90f9087f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiInterfaceType: 2
 --- !u!1 &8117433842499861792
 GameObject:
   m_ObjectHideFlags: 0

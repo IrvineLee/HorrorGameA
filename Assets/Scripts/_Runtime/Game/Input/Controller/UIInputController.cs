@@ -13,9 +13,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
-
-			inputReaderDefinition.OnCancelEvent += CloseOptionMenu;
-			inputReaderDefinition.OnCancelInventoryEvent += CloseInventoryMenu;
+			inputReaderDefinition.OnCancelEvent += CloseMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
 		}
@@ -35,6 +33,12 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
+		void CloseMenu()
+		{
+			if (UIManager.Instance.WindowStack.Count <= 0) return;
+			UIManager.Instance.WindowStack.Peek().CloseWindow();
+		}
+
 		/// ------------------------------------------------------------------------
 		/// ---------------------------- Option events -----------------------------
 		/// ------------------------------------------------------------------------
@@ -46,28 +50,11 @@ namespace Personal.InputProcessing
 			UIManager.Instance.OptionUI.NextTab(isNext);
 		}
 
-		void CloseOptionMenu()
-		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
-
-			UIManager.Instance.OptionUI.CloseWindow();
-		}
-
 		void DefaultOptionMenu()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
 
 			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
-		}
-
-		/// ------------------------------------------------------------------------
-		/// -------------------------- Inventory events ----------------------------
-		/// ------------------------------------------------------------------------
-		void CloseInventoryMenu()
-		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Inventory) return;
-
-			UIManager.Instance.InventoryUI.CloseWindow();
 		}
 
 		protected override void OnPostDisable()
@@ -78,9 +65,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnTabSwitchEvent -= TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
-
-			inputReaderDefinition.OnCancelEvent -= CloseOptionMenu;
-			inputReaderDefinition.OnCancelInventoryEvent -= CloseInventoryMenu;
+			inputReaderDefinition.OnCancelEvent -= CloseMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent -= DefaultOptionMenu;
 		}

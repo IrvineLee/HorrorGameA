@@ -27,12 +27,11 @@ namespace Personal.UI
 			itemInACircle3DUI.Setup();
 		}
 
-		public override bool CloseWindow()
+		public override void CloseWindow()
 		{
-			if (!base.CloseWindow()) return false;
+			base.CloseWindow();
 
 			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
-			return true;
 		}
 
 		/// <summary>

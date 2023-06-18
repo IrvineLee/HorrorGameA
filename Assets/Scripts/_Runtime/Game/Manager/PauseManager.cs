@@ -16,6 +16,8 @@ namespace Personal.Manager
 
 		void Pause(bool isFlag)
 		{
+			if (!GameSceneManager.Instance.IsMainScene()) return;
+
 			IsPaused = isFlag;
 			Time.timeScale = isFlag ? 0 : 1;
 

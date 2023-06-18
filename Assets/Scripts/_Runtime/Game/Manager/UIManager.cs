@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.UI;
 using Personal.UI.Option;
 using Personal.UI.Window;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
 	public class UIManager : GameInitializeSingleton<UIManager>
 	{
-		[SerializeField] [ReadOnly] UIInterfaceType activeInterfaceType = UIInterfaceType.None;
-
 		[SerializeField] PauseHandlerUI pauseMenuUI = null;
 		[SerializeField] OptionHandlerUI optionUI = null;
 		[SerializeField] InventoryHandlerUI inventoryUI = null;
@@ -21,16 +18,14 @@ namespace Personal.Manager
 		[SerializeField] WindowHandlerUI windowHandlerUI = null;
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
-		public UIInterfaceType ActiveInterfaceType { get => activeInterfaceType; }
+		public UIInterfaceType ActiveInterfaceType { get => WindowStack.Count >= 1 ? WindowStack.Peek().UiInterfaceType : UIInterfaceType.None; }
 		public PauseHandlerUI PauseUI { get => pauseMenuUI; }
 		public OptionHandlerUI OptionUI { get => optionUI; }
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
 		public ToolsHandlerUI ToolsUI { get => toolsHandlerUI; }
 		public WindowHandlerUI WindowUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
-
 		public Stack<MenuUIBase> WindowStack { get; } = new();
-		public Stack<UIInterfaceType> uiInterfaceTypeStack { get; } = new();
 
 		protected override void Initialize()
 		{
@@ -42,31 +37,6 @@ namespace Personal.Manager
 		{
 			inventoryUI.InitialSetup();
 			optionUI.SetDataToRelevantMember().Forget();
-		}
-
-		/// <summary>
-		/// Add to interfaceType stack.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		/// <param name="uiInterfaceType"></param>
-		public void AddToInterfaceTypeStack(bool isFlag, UIInterfaceType uiInterfaceType = UIInterfaceType.None)
-		{
-			if (isFlag)
-			{
-				activeInterfaceType = uiInterfaceType;
-				uiInterfaceTypeStack.Push(uiInterfaceType);
-
-				return;
-			}
-
-			uiInterfaceTypeStack.Pop();
-			if (uiInterfaceTypeStack.Count > 0)
-			{
-				activeInterfaceType = uiInterfaceTypeStack.Peek();
-				return;
-			}
-
-			activeInterfaceType = UIInterfaceType.None;
 		}
 
 		/// <summary>
@@ -82,7 +52,6 @@ namespace Personal.Manager
 			}
 
 			WindowStack.Clear();
-			uiInterfaceTypeStack.Clear();
 		}
 	}
 }
