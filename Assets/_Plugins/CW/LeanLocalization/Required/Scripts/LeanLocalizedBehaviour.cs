@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace Lean.Localization
 {
@@ -76,8 +77,11 @@ namespace Lean.Localization
 
 		/// <summary>If you call this then this component will update using the translation for the specified phrase.</summary>
 		[ContextMenu("Update Localization")]
-		public void UpdateLocalization()
+		public async void UpdateLocalization()
 		{
+			await UniTask.WaitUntil(() => !string.IsNullOrEmpty(LeanLocalization.CurrentLanguageStr));
+
+			if (!this) return;
 			UpdateTranslation(LeanLocalization.GetTranslation(translationName));
 		}
 

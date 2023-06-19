@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 3102855684454219812}
   - component: {fileID: 5389688047740670020}
   - component: {fileID: 4594039252242559720}
+  - component: {fileID: 4145524653109189010}
   m_Layer: 5
   m_Name: PRESS ANY KEY
   m_TagString: Untagged
@@ -363,6 +364,20 @@ MonoBehaviour:
   waitDuration: 0
   fadeOutDuration: 1
   isLoop: 1
+--- !u!114 &4145524653109189010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289258085165725867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: PressAnyKey
+  FallbackText: PRESS ANY KEY
 --- !u!1 &5109153288704707619
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInterfaceType: 0
+  windowAnimatorParent: {fileID: 0}
   pressAnyButton: {fileID: 4594039252242559720}
   buttonGroupTrans: {fileID: 5971492533386867240}
   anyButtonWaitDuration: 1

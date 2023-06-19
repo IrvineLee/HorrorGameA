@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lean.Common;
 using CW.Common;
+using TMPro;
 
 namespace Lean.Localization
 {
@@ -13,11 +14,17 @@ namespace Lean.Localization
 	[AddComponentMenu(LeanLocalization.ComponentPathPrefix + "Language")]
 	public class LeanLanguage : LeanSource
 	{
+		[SerializeField] private TMP_FontAsset fontAsset;
+		[SerializeField] private string translationCode;
+		[SerializeField] private List<string> cultures;
+
+		public TMP_FontAsset FontAsset { get { return fontAsset; } set { fontAsset = value; } }
+
 		/// <summary>The language code used for auto translation.</summary>
-		public string TranslationCode { set { translationCode = value; } get { return translationCode; } } [SerializeField] private string translationCode;
+		public string TranslationCode { get { return translationCode; } set { translationCode = value; } }
 
 		/// <summary>This culture names for this language (e.g. en-GB, en-US).</summary>
-		public List<string> Cultures { get { if (cultures == null) cultures = new List<string>(); return cultures; } } [SerializeField] private List<string> cultures;
+		public List<string> Cultures { get { if (cultures == null) cultures = new List<string>(); return cultures; } }
 
 		public override void Register()
 		{
@@ -62,6 +69,7 @@ namespace Lean.Localization.Editor
 		{
 			TARGET tgt; TARGET[] tgts; GetTargets(out tgt, out tgts);
 
+			Draw("fontAsset", "Font asset for this language.");
 			Draw("translationCode", "The language code used for auto translation.");
 
 			Separator();

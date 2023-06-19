@@ -16,6 +16,8 @@ namespace Lean.Localization
 		// This gets called every time the translation needs updating
 		public override void UpdateTranslation(LeanTranslation translation)
 		{
+			if (this == null) return;
+
 			// Get the TextMeshProUGUI component attached to this GameObject
 			var text = GetComponent<TextMeshProUGUI>();
 
@@ -28,6 +30,13 @@ namespace Lean.Localization
 			else
 			{
 				text.text = LeanTranslation.FormatText(FallbackText, text.text, this, gameObject);
+			}
+
+			if (!string.IsNullOrEmpty(LeanLocalization.CurrentLanguageStr) &&
+				LeanLocalization.CurrentLanguages.TryGetValue(LeanLocalization.CurrentLanguageStr, out var language))
+			{
+				if (language.FontAsset == null) return;
+				text.font = language.FontAsset;
 			}
 		}
 

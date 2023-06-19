@@ -68,6 +68,8 @@ namespace Lean.Localization
 		public List<LeanPrefab> Prefabs { get { if (prefabs == null) prefabs = new List<LeanPrefab>(); return prefabs; } }
 		[SerializeField] private List<LeanPrefab> prefabs;
 
+		public static string CurrentLanguageStr;
+
 		/// <summary>Called when the language or translations change.</summary>
 		public static event System.Action OnLocalizationChanged;
 
@@ -77,6 +79,11 @@ namespace Lean.Localization
 
 		private static List<LeanSource> tempSources = new List<LeanSource>(1024);
 
+		void Awake()
+		{
+			CurrentLanguageStr = currentLanguage;
+		}
+
 		/// <summary>Change the current language of this instance?</summary>
 		public string CurrentLanguage
 		{
@@ -85,6 +92,7 @@ namespace Lean.Localization
 				if (currentLanguage != value)
 				{
 					currentLanguage = value;
+					CurrentLanguageStr = currentLanguage;
 
 					if (saveLoad != SaveLoadType.None)
 					{
