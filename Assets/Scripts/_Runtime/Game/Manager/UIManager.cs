@@ -27,8 +27,10 @@ namespace Personal.Manager
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 		public Stack<MenuUIBase> WindowStack { get; } = new();
 
-		protected override void Initialize()
+		protected override async UniTask InitializeUniTask()
 		{
+			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
+
 			pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();
 		}

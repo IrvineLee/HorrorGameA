@@ -19,6 +19,7 @@ namespace Personal.GameState
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
 			Initialize();
+			InitializeUniTask().Forget();
 
 			isBootCompleted = true;
 			enabled = true;
@@ -40,6 +41,11 @@ namespace Personal.GameState
 		/// Called right after awake is finished.
 		/// </summary>
 		protected virtual void Initialize() { }
+
+		/// <summary>
+		/// UniTask where it is called right after awake is finished.
+		/// </summary>
+		protected virtual UniTask InitializeUniTask() { return UniTask.CompletedTask; }
 
 		/// <summary>
 		/// This gets called when scene is in Main scene/scenes. 
