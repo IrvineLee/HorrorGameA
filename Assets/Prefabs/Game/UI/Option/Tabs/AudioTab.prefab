@@ -88,6 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc18d08c3fd4ec34a9720202219d7553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiInterfaceType: 0
+  windowAnimatorParent: {fileID: 0}
   menuTab: 2
   speakerModeDropdown: {fileID: 4328922151594977309}
   masterSlider: {fileID: 1895185595990945455}
@@ -825,7 +827,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8215475625814448893}
   m_SourcePrefab: {fileID: 100100000, guid: 2a38bd27ef139314890803928465329c, type: 3}
 --- !u!114 &4328922151594977309 stripped
 MonoBehaviour:
@@ -838,6 +843,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4928362627553981138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+  m_PrefabInstance: {fileID: 3561941044276586485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8215475625814448893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4928362627553981138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Audio/AudioSpeaker
+  FallbackText: Audio Speaker
 --- !u!224 &6285805498611963380 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}
@@ -1058,7 +1082,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5046798136306481449}
   m_SourcePrefab: {fileID: 100100000, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
 --- !u!224 &4011074807121133901 stripped
 RectTransform:
@@ -1076,6 +1103,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7949333100696208166 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+  m_PrefabInstance: {fileID: 3899778445717483120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5046798136306481449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7949333100696208166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Audio/SFXVolume
+  FallbackText: SFX Volume
 --- !u!1001 &6529527169674438776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1295,8 +1341,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4843544947827923934}
   m_SourcePrefab: {fileID: 100100000, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+--- !u!1 &203495268094788910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+  m_PrefabInstance: {fileID: 6529527169674438776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4843544947827923934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203495268094788910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Audio/BGMVolume
+  FallbackText: BGM Volume
 --- !u!114 &2661991729035250642 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9109868360725193642, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
@@ -1407,7 +1475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 998511888769327991, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
       propertyPath: m_Name
-      value: GlobalSlider
+      value: MasterSlider
       objectReference: {fileID: 0}
     - target: {fileID: 1274680260141876741, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1423,7 +1491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434144106825351366, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
       propertyPath: m_text
-      value: Global volume
+      value: Master Volume
       objectReference: {fileID: 0}
     - target: {fileID: 1641449898697619218, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1532,7 +1600,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7123577088598287273}
   m_SourcePrefab: {fileID: 100100000, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
 --- !u!114 &1895185595990945455 stripped
 MonoBehaviour:
@@ -1545,6 +1616,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4354615543103610963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+  m_PrefabInstance: {fileID: 7215272654077578501}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7123577088598287273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4354615543103610963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Audio/MasterVolume
+  FallbackText: Master Volume
 --- !u!224 &7319814891637580344 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 122996441064828733, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}

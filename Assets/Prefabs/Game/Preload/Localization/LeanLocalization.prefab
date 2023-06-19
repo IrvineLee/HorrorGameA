@@ -34,7 +34,7 @@ Transform:
   - {fileID: 8769508384174509120}
   - {fileID: 8168249944218685523}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2091515495394003830
 MonoBehaviour:
@@ -112,6 +112,46 @@ MonoBehaviour:
     Text: "\u30AF\u30EC\u30B8\u30C3\u30C8"
   - Name: QuitGame
     Text: "\u30B2\u30FC\u30E0\u7D42\u4E86"
+  - Name: Option/Game/Brightness
+    Text: "\u660E\u308B\u3055"
+  - Name: Option/Game/CameraSensitivity
+    Text: "\u30AB\u30E1\u30E9\u611F\u5EA6"
+  - Name: Option/Game/InvertLookHorizontal
+    Text: "\u5DE6\u53F3\u53CD\u8EE2"
+  - Name: Option/Game/InvertLookVertical
+    Text: "\u4E0A\u4E0B\u53CD\u8EE2"
+  - Name: Option/Game/GamepadIcon
+    Text: "\u30B2\u30FC\u30E0\u30D1\u30C3\u30C9\u30A2\u30A4\u30B3\u30F3"
+  - Name: Option/Game/FontSize
+    Text: "\u30D5\u30A9\u30F3\u30C8\u30B5\u30A4\u30BA"
+  - Name: Option/Game/Language
+    Text: "\u8A00\u8A9E"
+  - Name: Option/Graphic/ScreenResolution
+    Text: "\u753B\u9762\u89E3\u50CF\u5EA6"
+  - Name: Option/Graphic/DisplayMode
+    Text: "\u30C7\u30A3\u30B9\u30D7\u30EC\u30A4\u30E2\u30FC\u30C9"
+  - Name: Option/Graphic/AntiAlias
+    Text: "\u30A2\u30F3\u30C1\u30A8\u30A4\u30EA\u30A2\u30B9"
+  - Name: Option/Graphic/Vsync
+    Text: Vsync
+  - Name: Option/Graphic/Vignette
+    Text: "\u30D3\u30CD\u30C3\u30C8"
+  - Name: Option/Graphic/DepthOfField
+    Text: "\u88AB\u5199\u754C\u6DF1\u5EA6"
+  - Name: Option/Graphic/MotionBlur
+    Text: "\u30E2\u30FC\u30B7\u30E7\u30F3\u30D6\u30E9\u30FC"
+  - Name: Option/Graphic/Bloom
+    Text: "\u30D6\u30EB\u30FC\u30E0"
+  - Name: Option/Graphic/AmbientOcclusion
+    Text: "\u30A2\u30F3\u30D3\u30A8\u30F3\u30C8\u30AA\u30AF\u30EB\u30FC\u30B8\u30E7\u30F3"
+  - Name: Option/Audio/AudioSpeaker
+    Text: "\u30AA\u30FC\u30C7\u30A3\u30AA\u7A2E\u985E"
+  - Name: Option/Audio/MasterVolume
+    Text: "\u30DE\u30B9\u30BF\u30FC\u30DC\u30EA\u30E5\u30FC\u30E0"
+  - Name: Option/Audio/BGMVolume
+    Text: "BGM\u30DC\u30EA\u30E5\u30FC\u30E0"
+  - Name: Option/Audio/SFXVolume
+    Text: "SFX\u30DC\u30EA\u30E5\u30FC\u30E0"
 --- !u!1 &7025631536500151904
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +211,46 @@ MonoBehaviour:
     Text: Credits
   - Name: QuitGame
     Text: Quit Game
+  - Name: Option/Game/Brightness
+    Text: Brightness
+  - Name: Option/Game/CameraSensitivity
+    Text: Camera Sensitivity
+  - Name: Option/Game/InvertLookHorizontal
+    Text: Invert Look Horizontal
+  - Name: Option/Game/InvertLookVertical
+    Text: Invert Look Vertical
+  - Name: Option/Game/GamepadIcon
+    Text: Gamepad Icon
+  - Name: Option/Game/FontSize
+    Text: Font Size
+  - Name: Option/Game/Language
+    Text: Language
+  - Name: Option/Graphic/ScreenResolution
+    Text: Screen Resolution
+  - Name: Option/Graphic/DisplayMode
+    Text: Display Mode
+  - Name: Option/Graphic/AntiAlias
+    Text: Anti-Alias
+  - Name: Option/Graphic/Vsync
+    Text: Vsync
+  - Name: Option/Graphic/Vignette
+    Text: Vignette
+  - Name: Option/Graphic/DepthOfField
+    Text: Depth Of Field
+  - Name: Option/Graphic/MotionBlur
+    Text: Motion Blur
+  - Name: Option/Graphic/Bloom
+    Text: Bloom
+  - Name: Option/Graphic/AmbientOcclusion
+    Text: AmbientOcclusion
+  - Name: Option/Audio/AudioSpeaker
+    Text: AudioSpeaker
+  - Name: Option/Audio/MasterVolume
+    Text: MasterVolume
+  - Name: Option/Audio/BGMVolume
+    Text: BGMVolume
+  - Name: Option/Audio/SFXVolume
+    Text: SFXVolume
 --- !u!1001 &2091515496353955456
 PrefabInstance:
   m_ObjectHideFlags: 0

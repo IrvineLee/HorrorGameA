@@ -178,6 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a8485a4d25a2d40ad8443039991d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiInterfaceType: 0
+  windowAnimatorParent: {fileID: 0}
   menuTab: 0
   brightnessSlider: {fileID: 4440765825112694360}
   cameraSensitivitySlider: {fileID: 4263768805012955590}
@@ -835,7 +837,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1870302526104014429}
   m_SourcePrefab: {fileID: 100100000, guid: 2a38bd27ef139314890803928465329c, type: 3}
 --- !u!114 &2088715489070083478 stripped
 MonoBehaviour:
@@ -848,6 +853,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7244884270457157465 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+  m_PrefabInstance: {fileID: 1261428908327101054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1870302526104014429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244884270457157465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/Language
+  FallbackText: Language
 --- !u!224 &8634626051486847103 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}
@@ -1008,8 +1032,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4276785704710271735, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5772405874747741499}
   m_SourcePrefab: {fileID: 100100000, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+--- !u!1 &887215458909104166 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4276785704710271735, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+  m_PrefabInstance: {fileID: 3966039812250163921}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5772405874747741499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887215458909104166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/InvertLookVertical
+  FallbackText: Invert Look Vertical
 --- !u!114 &5748845562844463134 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8701575320149859023, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
@@ -1202,6 +1248,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6981626676706731794}
     - targetCorrespondingSourceObject: {fileID: 7603197090460588947, guid: 2a38bd27ef139314890803928465329c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1382270908802899794}
@@ -1254,6 +1303,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &3816681964085001753 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+  m_PrefabInstance: {fileID: 4754698624321596222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6981626676706731794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3816681964085001753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/FontSize
+  FallbackText: Font Size
 --- !u!114 &5512951808615785686 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
@@ -1484,8 +1552,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 265506143313919229}
   m_SourcePrefab: {fileID: 100100000, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+--- !u!1 &1982562936331604132 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+  m_PrefabInstance: {fileID: 4885286290294128114}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &265506143313919229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982562936331604132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/Brightness
+  FallbackText: Brightness
 --- !u!114 &4440765825112694360 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9109868360725193642, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
@@ -1737,8 +1827,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5224054825066500191}
   m_SourcePrefab: {fileID: 100100000, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+--- !u!1 &2092007388035919674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
+  m_PrefabInstance: {fileID: 4992013830430655084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5224054825066500191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092007388035919674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/CameraSensitivity
+  FallbackText: Camera Sensitivity
 --- !u!114 &4263768805012955590 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9109868360725193642, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
@@ -1931,6 +2043,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 333211314934634113}
     - targetCorrespondingSourceObject: {fileID: 7603197090460588947, guid: 2a38bd27ef139314890803928465329c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2738592586222494509}
@@ -1983,6 +2098,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7373839881795793409, guid: 2a38bd27ef139314890803928465329c, type: 3}
   m_PrefabInstance: {fileID: 7729597357180242042}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2183835583842999645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8433976784388035879, guid: 2a38bd27ef139314890803928465329c, type: 3}
+  m_PrefabInstance: {fileID: 7729597357180242042}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &333211314934634113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183835583842999645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/GamepadIcon
+  FallbackText: Gamepad Icon
 --- !u!114 &7365899513331500946 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 972185170991779816, guid: 2a38bd27ef139314890803928465329c, type: 3}
@@ -2149,7 +2283,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4276785704710271735, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2212574656450378962}
   m_SourcePrefab: {fileID: 100100000, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
 --- !u!114 &77479846413112257 stripped
 MonoBehaviour:
@@ -2167,3 +2304,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7425786582850207470, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
   m_PrefabInstance: {fileID: 8777928145583081742}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4795004106506468345 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4276785704710271735, guid: c8dd0e5bc0b647c4e8ed467a62504ac4, type: 3}
+  m_PrefabInstance: {fileID: 8777928145583081742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2212574656450378962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795004106506468345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translationName: Option/Game/InvertLookHorizontal
+  FallbackText: Invert Look Horizontal
