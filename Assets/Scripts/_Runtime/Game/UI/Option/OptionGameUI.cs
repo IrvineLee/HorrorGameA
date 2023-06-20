@@ -6,13 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Game;
 using Personal.InputProcessing;
 using Helper;
 using TMPro;
+using Lean.Localization;
 
 namespace Personal.UI.Option
 {
@@ -40,6 +40,8 @@ namespace Personal.UI.Option
 		VolumeProfile volumeProfile;
 		ColorAdjustments colorAdjustments;
 
+		DropdownLocalization dropdownLocalization;
+
 		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
 
 		protected override void OnPostEnable()
@@ -53,6 +55,8 @@ namespace Personal.UI.Option
 		/// <returns></returns>
 		public override void InitialSetup()
 		{
+			dropdownLocalization = languageDropdown.GetComponentInChildren<DropdownLocalization>();
+
 			allTMPList = PixelCrushers.DialogueSystem.DialogueManager.Instance.GetComponentsInChildren<TextMeshProUGUI>(true).ToList();
 			allTMPList.AddRange(GetComponentsInChildren<TextMeshProUGUI>(true).ToList());
 
@@ -74,7 +78,7 @@ namespace Personal.UI.Option
 			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
 			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
-			gameData.LanguageType = (SystemLanguage)languageDropdown.value;
+			gameData.LanguageStr = dropdownLocalization.LeanLanguageList[languageDropdown.value];
 		}
 
 		/// <summary>
@@ -112,6 +116,12 @@ namespace Personal.UI.Option
 
 			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
 			fontSizeDropdown.onValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
+
+			languageDropdown.onValueChanged.AddListener((value) =>
+			{
+				string language = dropdownLocalization.LeanLanguageList[value];
+				LeanLocalization.SetCurrentLanguageAll(language);
+			});
 		}
 
 		protected override void ResetDataToUI()
@@ -126,6 +136,8 @@ namespace Personal.UI.Option
 
 			gamepadIconDropdown.value = (int)gameData.IconDisplayType;
 			fontSizeDropdown.value = (int)gameData.FontSizeType;
+
+			HandleLanguageResetToUI();
 		}
 
 		protected override void ResetDataToTarget()
@@ -139,6 +151,9 @@ namespace Personal.UI.Option
 
 			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);
+
+			string language = dropdownLocalization.LeanLanguageList[languageDropdown.value];
+			LeanLocalization.SetCurrentLanguageAll(language);
 		}
 
 		void InitializeVolumeProfile()
@@ -157,6 +172,20 @@ namespace Personal.UI.Option
 			{
 				tmp.textStyle = TMP_Settings.defaultStyleSheet.GetStyle(textStyle);
 			}
+		}
+
+		void HandleLanguageResetToUI()
+		{
+			int languageIndex = 0;
+			for (int i = 0; i < dropdownLocalization.LeanLanguageList.Count; i++)
+			{
+				string currentLanguage = dropdownLocalization.LeanLanguageList[i];
+
+				if (!currentLanguage.Equals(gameData.LanguageStr)) continue;
+				languageIndex = i;
+			}
+
+			languageDropdown.value = languageIndex;
 		}
 
 		void OnApplicationQuit()

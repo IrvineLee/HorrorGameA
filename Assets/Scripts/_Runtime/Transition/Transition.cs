@@ -27,7 +27,29 @@ namespace Personal.Transition
 			animationOut = transitionPanelOUT.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
 		}
 
-		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType, TransitionManagerSettings fullSettings, Action inBetweenAction)
+		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
+								   TransitionManagerSettings fullSettings, Action inBetweenAction)
+		{
+			SetupTransitionAndMaterial(transitionSettings, fullSettings);
+			float speed = transitionSettings.TransitionSpeed;
+
+			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed);
+			inBetweenAction?.Invoke();
+			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed);
+		}
+
+		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
+								   TransitionManagerSettings fullSettings, Func<UniTask<bool>> inBetweenFunc)
+		{
+			SetupTransitionAndMaterial(transitionSettings, fullSettings);
+			float speed = transitionSettings.TransitionSpeed;
+
+			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed);
+			await inBetweenFunc();
+			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed);
+		}
+
+		void SetupTransitionAndMaterial(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
 		{
 			this.transitionSettings = transitionSettings;
 
@@ -39,11 +61,6 @@ namespace Personal.Transition
 			if (multiplyColorMaterial == null || additiveColorMaterial == null)
 				Debug.LogWarning("There are no color tint materials set for the transition. Changing the color tint will not affect the transition anymore!");
 
-			float speed = transitionSettings.TransitionSpeed;
-
-			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed);
-			inBetweenAction?.Invoke();
-			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed);
 		}
 
 		async UniTask TransitionIn(float speed)
@@ -72,7 +89,7 @@ namespace Personal.Transition
 			HandleFlipping(transition.transform);
 			HandleAnimatorSpeed(transition.transform, speed);
 
-			await UniTask.Delay((int)animationClip.length.SecondsToMilliseconds(), true);
+			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), true);
 		}
 
 		// Changing the color of the transition

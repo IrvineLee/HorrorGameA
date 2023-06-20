@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Lean.Common;
 using CW.Common;
+using Cysharp.Threading.Tasks;
 
 namespace Lean.Localization
 {
@@ -79,8 +80,10 @@ namespace Lean.Localization
 
 		private static List<LeanSource> tempSources = new List<LeanSource>(1024);
 
-		void Awake()
+		async void Awake()
 		{
+			// Wait the loading from localization.
+			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
 			CurrentLanguageStr = currentLanguage;
 		}
 

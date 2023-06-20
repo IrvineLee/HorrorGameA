@@ -18,7 +18,7 @@ namespace Personal.FSM.Character
 			actorStateMachine.DialogueSystemTrigger.OnUse(actorStateMachine.transform);
 
 			RunActorAnimation();
-			await UniTask.Delay((int)waitDuration.SecondsToMilliseconds());
+			await UniTask.Delay(waitDuration.SecondsToMilliseconds());
 			return;
 		}
 	}

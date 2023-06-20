@@ -50,6 +50,11 @@ namespace Personal.GameState
 		/// <summary>
 		/// Gets called right after awake has finished and before getting enabled.
 		/// </summary>
+		protected virtual void PreInitialize() { }
+
+		/// <summary>
+		/// Gets called 1-frame after awake has finished and before getting enabled.
+		/// </summary>
 		protected virtual void Initialize() { }
 
 		/// <summary>
@@ -74,6 +79,8 @@ namespace Personal.GameState
 
 		async void AwakeComplete()
 		{
+			PreInitialize();
+
 			// Wait a frame here so singleton scripts get initialized first before this script.
 			await UniTask.NextFrame();
 

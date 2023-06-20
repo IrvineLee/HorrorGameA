@@ -63,9 +63,9 @@ namespace Helper
 		/// </summary>
 		/// <param name="original"></param>
 		/// <returns></returns>
-		public static float SecondsToMilliseconds(this float original)
+		public static int SecondsToMilliseconds(this float original)
 		{
-			return original * 1000;
+			return (int)(original * 1000);
 		}
 	}
 }
