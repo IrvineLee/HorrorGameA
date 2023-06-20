@@ -38,7 +38,7 @@ public class MasterCashierNPC : MasterGeneric<CashierNPCEntity, DayInteraction>
 	{
 		dictionary = new Dictionary<DayInteraction, CashierNPCEntity>(new DayInteraction.EqualityComparer());
 
-		// Somehow using Linq to change it to dictionary makes the comparing resutls not work.
+		// Somehow using Linq to change it to dictionary makes the comparing results not work.
 		foreach (var entity in Entities)
 		{
 			dictionary.Add(new DayInteraction(entity.dayID, entity.interactionID), entity);

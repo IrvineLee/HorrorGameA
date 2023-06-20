@@ -4,12 +4,12 @@ using Personal.Data;
 using Personal.Item;
 using Helper;
 
-[ExcelAsset(AssetPath = "Data/MasterData/Data")]
-public class MasterItem : MasterGeneric<ItemEntity, ItemType>
+[ExcelAsset(AssetPath = "Data/MasterData/Localization")]
+public class LocalizationGenericItem : MasterGeneric<LocalizationItemEntity, ItemType>
 {
 	public override void OnAfterDeserialize()
 	{
-		dictionary = new Dictionary<ItemType, ItemEntity>();
+		dictionary = new Dictionary<ItemType, LocalizationItemEntity>();
 
 		// Somehow using Linq to change it to dictionary makes the comparing results not work.
 		foreach (var entity in Entities)
@@ -23,7 +23,7 @@ public class MasterItem : MasterGeneric<ItemEntity, ItemType>
 	/// </summary>
 	/// <param name="itemType"></param>
 	/// <returns></returns>
-	public override ItemEntity Get(ItemType itemType)
+	public override LocalizationItemEntity Get(ItemType itemType)
 	{
 		var result = Dictionary.GetOrDefault(itemType);
 		return result;

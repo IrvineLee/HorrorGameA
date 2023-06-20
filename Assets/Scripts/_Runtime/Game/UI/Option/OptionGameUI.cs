@@ -13,6 +13,7 @@ using Personal.InputProcessing;
 using Helper;
 using TMPro;
 using Lean.Localization;
+using Personal.Localization;
 
 namespace Personal.UI.Option
 {
@@ -78,7 +79,7 @@ namespace Personal.UI.Option
 			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
 			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
-			gameData.LanguageStr = dropdownLocalization.LeanLanguageList[languageDropdown.value];
+			gameData.SupportedLanguageType = (SupportedLanguageType)languageDropdown.value;
 		}
 
 		/// <summary>
@@ -181,7 +182,7 @@ namespace Personal.UI.Option
 			{
 				string currentLanguage = dropdownLocalization.LeanLanguageList[i];
 
-				if (!currentLanguage.Equals(gameData.LanguageStr)) continue;
+				if (!currentLanguage.Equals(gameData.SupportedLanguageType.GetStringValue())) continue;
 				languageIndex = i;
 			}
 
