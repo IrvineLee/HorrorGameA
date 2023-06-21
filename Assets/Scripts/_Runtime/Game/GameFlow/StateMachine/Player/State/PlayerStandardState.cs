@@ -53,6 +53,7 @@ namespace Personal.FSM.Character
 			if (!interactable.enabled) return;
 
 			Debug.Log("Hit interactable");
+			CursorManager.Instance.SetToDefaultCrosshair();
 			interactable.HandleInteraction((PlayerStateMachine)stateMachine, default).Forget();
 		}
 	}
