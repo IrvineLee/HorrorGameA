@@ -14,6 +14,7 @@ using Helper;
 using TMPro;
 using Lean.Localization;
 using Personal.Localization;
+using UnityEngine.Events;
 
 namespace Personal.UI.Option
 {
@@ -64,6 +65,7 @@ namespace Personal.UI.Option
 			InitializeVolumeProfile();
 			HandleLoadDataToUI();
 			RegisterEventsForUI();
+			RegisterChangesMadeEvents();
 		}
 
 		/// <summary>
@@ -155,6 +157,21 @@ namespace Personal.UI.Option
 
 			string language = dropdownLocalization.LeanLanguageList[languageDropdown.value];
 			LeanLocalization.SetCurrentLanguageAll(language);
+		}
+
+		protected override void RegisterChangesMadeEvents()
+		{
+			unityEventFloatList.Add(brightnessSlider.onValueChanged);
+			unityEventFloatList.Add(cameraSensitivitySlider.onValueChanged);
+
+			unityEventBoolList.Add(isInvertLookHorizontal.onValueChanged);
+			unityEventBoolList.Add(isInvertLookVertical.onValueChanged);
+
+			unityEventIntList.Add(gamepadIconDropdown.onValueChanged);
+			unityEventIntList.Add(fontSizeDropdown.onValueChanged);
+			unityEventIntList.Add(languageDropdown.onValueChanged);
+
+			base.RegisterChangesMadeEvents();
 		}
 
 		void InitializeVolumeProfile()

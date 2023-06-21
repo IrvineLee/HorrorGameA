@@ -191,6 +191,22 @@ namespace Personal.UI.Option
 			bloom.active = graphicData.IsBloom;
 		}
 
+		protected override void RegisterChangesMadeEvents()
+		{
+			unityEventIntList.Add(screenResolutionDropdown.onValueChanged);
+			unityEventIntList.Add(screenModeDropdown.onValueChanged);
+			unityEventIntList.Add(antiAliasingDropdown.onValueChanged);
+
+			unityEventBoolList.Add(isVsync.onValueChanged);
+			unityEventBoolList.Add(isVignette.onValueChanged);
+			unityEventBoolList.Add(isDepthOfField.onValueChanged);
+			unityEventBoolList.Add(isMotionBlur.onValueChanged);
+			unityEventBoolList.Add(isBloom.onValueChanged);
+			unityEventBoolList.Add(isAmbientOcclusion.onValueChanged);
+
+			base.RegisterChangesMadeEvents();
+		}
+
 		/// <summary>
 		/// Initialize the post processing from URP.
 		/// </summary>

@@ -103,6 +103,7 @@ namespace Personal.UI.Option
 				tab.SelectButton.interactable = false;
 			}
 
+			if (!OptionMenuUI.IsChangesMade) return;
 			SaveManager.Instance.SaveProfileData();
 		}
 

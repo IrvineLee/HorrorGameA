@@ -83,6 +83,17 @@ namespace Personal.UI.Option
 			base.HandleLoadDataToUI();
 		}
 
+		protected override void RegisterChangesMadeEvents()
+		{
+			unityEventIntList.Add(speakerModeDropdown.onValueChanged);
+
+			unityEventFloatList.Add(masterSlider.onValueChanged);
+			unityEventFloatList.Add(bgmSlider.onValueChanged);
+			unityEventFloatList.Add(sfxSlider.onValueChanged);
+
+			base.RegisterChangesMadeEvents();
+		}
+
 		/// <summary>
 		/// Register events for real-time update.
 		/// </summary>
