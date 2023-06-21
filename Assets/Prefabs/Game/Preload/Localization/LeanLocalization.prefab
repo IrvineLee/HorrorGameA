@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f0696300aeac44a0e17efee222854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLanguage: English
+  currentLanguage: Japanese
   detectLanguage: 1
   defaultLanguage: English
   saveLoad: 1
@@ -112,6 +112,10 @@ MonoBehaviour:
     Text: "\u30AF\u30EC\u30B8\u30C3\u30C8"
   - Name: QuitGame
     Text: "\u30B2\u30FC\u30E0\u7D42\u4E86"
+  - Name: Resume
+    Text: "\u30B2\u30FC\u30E0\u306B\u623B\u308B"
+  - Name: QuitToMainMenu
+    Text: "\u30BF\u30A4\u30C8\u30EB\u753B\u9762\u306B\u623B\u308B"
   - Name: Option/Game/Brightness
     Text: "\u660E\u308B\u3055"
   - Name: Option/Game/CameraSensitivity
@@ -211,6 +215,10 @@ MonoBehaviour:
     Text: Credits
   - Name: QuitGame
     Text: Quit Game
+  - Name: Resume
+    Text: Resume
+  - Name: QuitToMainMenu
+    Text: Quit To Main Menu
   - Name: Option/Game/Brightness
     Text: Brightness
   - Name: Option/Game/CameraSensitivity

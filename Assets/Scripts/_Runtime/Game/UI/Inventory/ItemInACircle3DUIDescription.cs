@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using TMPro;
+using Personal.Manager;
 using Personal.Object;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
@@ -13,9 +14,18 @@ namespace Personal.UI
 		[SerializeField] TextMeshProUGUI titleTMP = null;
 		[SerializeField] TextMeshProUGUI descriptionTMP = null;
 
-		public override void Setup()
+		SetFontAsset setFontAssetTitle;
+		SetFontAsset setFontAssetDescription;
+
+		protected override void PreInitialize()
 		{
-			base.Setup();
+			setFontAssetTitle = titleTMP.GetComponentInChildren<SetFontAsset>();
+			setFontAssetDescription = descriptionTMP.GetComponentInChildren<SetFontAsset>();
+		}
+
+		public override void PutObjectsIntoACircle()
+		{
+			base.PutObjectsIntoACircle();
 
 			UpdateText();
 		}
@@ -74,10 +84,15 @@ namespace Personal.UI
 
 			if (interactablePickupable)
 			{
+				setFontAssetTitle.HandleChange();
+				setFontAssetDescription.HandleChange();
+
 				var entity = interactablePickupable.ItemTypeSet.Entity;
 
 				titleStr = entity.name;
-				descriptionStr = entity.description;
+
+				string description = MasterDataManager.Instance.Localization.LocalizedData().Item.Get(entity.itemType).description;
+				descriptionStr = description;
 			}
 
 			titleTMP.text = titleStr;

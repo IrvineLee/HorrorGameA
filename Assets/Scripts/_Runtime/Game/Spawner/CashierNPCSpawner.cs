@@ -17,7 +17,7 @@ namespace Personal.Spawner
 
 		StringBuilder sb = new StringBuilder();
 
-		void Start()
+		protected override void Initialize()
 		{
 			StageManager.Instance.RegisterCashierNPCSpawner(this);
 			cashierInteractionDefinition.Initalize();

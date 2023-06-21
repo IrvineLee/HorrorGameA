@@ -58,7 +58,7 @@ namespace Personal.UI
 		/// <summary>
 		/// Set objects into a circle and put the active object in front.
 		/// </summary>
-		public virtual void Setup()
+		public virtual void PutObjectsIntoACircle()
 		{
 			if (!IsSetIntoACircle()) return;
 

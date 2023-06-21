@@ -6,10 +6,8 @@ using Sirenix.OdinInspector;
 using Personal.Object;
 using Personal.GameState;
 using Personal.Manager;
-using Personal.InputProcessing;
 using Personal.Item;
 using Helper;
-using static Personal.Definition.InputReaderDefinition;
 
 namespace Personal.Character.Player
 {
@@ -59,14 +57,6 @@ namespace Personal.Character.Player
 
 		CoroutineRun comeIntoViewCR = new CoroutineRun();
 		CoroutineRun autoHideItemCR = new CoroutineRun();
-
-		InputControllerInfo inputControllerInfo;
-
-		protected override void Initialize()
-		{
-			inputControllerInfo = InputManager.Instance.GetInputControllerInfo(ActionMapType.Player);
-			inputControllerInfo.OnEnableEvent += FPS_ShowItem;
-		}
 
 		/// <summary>
 		/// Use/interact/place item on someone or something.
@@ -208,11 +198,6 @@ namespace Personal.Character.Player
 
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
-		}
-
-		void OnApplicationQuit()
-		{
-			inputControllerInfo.OnEnableEvent -= FPS_ShowItem;
 		}
 	}
 }

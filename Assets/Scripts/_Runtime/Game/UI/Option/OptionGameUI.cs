@@ -79,7 +79,7 @@ namespace Personal.UI.Option
 			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
 			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
-			gameData.SupportedLanguageType = (SupportedLanguageType)languageDropdown.value;
+			gameData.SelectedLanguage = (SupportedLanguageType)languageDropdown.value;
 		}
 
 		/// <summary>
@@ -182,7 +182,7 @@ namespace Personal.UI.Option
 			{
 				string currentLanguage = dropdownLocalization.LeanLanguageList[i];
 
-				if (!currentLanguage.Equals(gameData.SupportedLanguageType.GetStringValue())) continue;
+				if (!currentLanguage.Equals(gameData.SelectedLanguage.GetStringValue())) continue;
 				languageIndex = i;
 			}
 

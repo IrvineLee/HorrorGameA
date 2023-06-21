@@ -34,5 +34,10 @@ namespace Personal.Manager
 				handle.Completed += (op) => { Instance = op.Result; };
 			}
 		}
+
+		public static void Initialize()
+		{
+			Instance.Localization.Initialize();
+		}
 	}
 }

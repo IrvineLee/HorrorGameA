@@ -20,8 +20,6 @@ namespace Personal.Definition
 			public InputActionMap InputActionMap { get; private set; }
 			public InputControllerBase InputController { get; private set; }
 
-			public event Action<bool> OnEnableEvent;
-
 			public InputControllerInfo(InputActionMap inputActionMap, InputControllerBase inputController)
 			{
 				InputActionMap = inputActionMap;
@@ -34,7 +32,6 @@ namespace Personal.Definition
 				else InputActionMap.Disable();
 
 				InputController.enabled = isFlag;
-				OnEnableEvent?.Invoke(isFlag);
 			}
 		}
 

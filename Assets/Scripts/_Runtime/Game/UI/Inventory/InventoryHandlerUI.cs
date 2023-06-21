@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 using Personal.InputProcessing;
@@ -23,8 +22,7 @@ namespace Personal.UI
 			base.OpenWindow();
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
-
-			itemInACircle3DUI.Setup();
+			itemInACircle3DUI.PutObjectsIntoACircle();
 		}
 
 		public override void CloseWindow()

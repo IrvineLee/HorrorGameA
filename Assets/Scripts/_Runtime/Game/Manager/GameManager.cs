@@ -23,6 +23,9 @@ namespace Personal.Manager
 			await HandleProfileLoading();
 			Debug.Log("<Color=#45FF00> ---------- Profile Loaded!! ----------</color>");
 
+			// Initialize after data loading.
+			MasterDataManager.Initialize();
+
 			IsLoadingOver = true;
 		}
 
