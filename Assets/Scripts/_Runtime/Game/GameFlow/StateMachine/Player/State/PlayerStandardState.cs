@@ -15,6 +15,7 @@ namespace Personal.FSM.Character
 			var interactable = hit.transform.GetComponentInParent<InteractableObject>();
 
 			if (!interactable) return;
+			if (!interactable.enabled) return;
 
 			CursorManager.Instance.SetCrosshair(interactable.InteractCrosshairType);
 
