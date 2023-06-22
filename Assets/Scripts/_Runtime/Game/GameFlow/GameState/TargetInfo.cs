@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Personal.GameState
 {
+	/// <summary>
+	/// This is used for spawning and moving to places.
+	/// Typically for NPCs.
+	/// </summary>
 	[Serializable]
 	public class TargetInfo
 	{

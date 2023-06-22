@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Object;
 
 namespace Personal.FSM.Character
 {
@@ -10,22 +9,19 @@ namespace Personal.FSM.Character
 		[SerializeField] bool isFadeActor = true;
 		[SerializeField] float fadeActorDuration = 0.5f;
 
-		ActorStateMachine actorStateMachine;
-
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			actorStateMachine = GetComponentInParent<InteractableObject>().ActorStateMachine;
-			if (!actorStateMachine) return;
+			if (!stateMachine.InitiatorStateMachine) return;
 
-			if (isFadeActor) HandleFadeInActor(actorStateMachine, false);
-			else HandleFadeInActor(actorStateMachine, true);
+			if (isFadeActor) HandleFadeInActor(stateMachine.InitiatorStateMachine, false);
+			else HandleFadeInActor(stateMachine.InitiatorStateMachine, true);
 		}
 
-		void HandleFadeInActor(ActorStateMachine actorStateMachine, bool isFlag)
+		void HandleFadeInActor(StateMachineBase initiatorStateMachine, bool isFlag)
 		{
-			actorStateMachine.GetComponentInChildren<IRendererDissolve>().FadeInRenderer(isFlag, fadeActorDuration);
+			initiatorStateMachine.GetComponentInChildren<IRendererDissolve>().FadeInRenderer(isFlag, fadeActorDuration);
 		}
 	}
 }

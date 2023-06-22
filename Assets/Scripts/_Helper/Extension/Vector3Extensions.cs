@@ -13,6 +13,18 @@ namespace Helper
 		}
 
 		/// <summary>
+		/// Get normalized direction.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="targetPosition">The target position</param>
+		/// <returns></returns>
+		public static Vector3 GetNormalizedDirectionTo(this Vector3 original, Vector3 targetPosition)
+		{
+			return (targetPosition - original).normalized;
+
+		}
+
+		/// <summary>
 		/// Flatten it with y = 0
 		/// </summary>
 		public static Vector3 Flat(this Vector3 original)

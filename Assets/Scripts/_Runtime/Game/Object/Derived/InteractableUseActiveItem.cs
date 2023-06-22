@@ -1,22 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.FSM;
 using Personal.Item;
 using Personal.Manager;
 
-namespace Personal.Object
+namespace Personal.InteractiveObject
 {
 	public class InteractableUseActiveItem : InteractableObject
 	{
 		[SerializeField] protected ItemType itemTypeCompare = ItemType.Item_1;
 		[SerializeField] protected Transform placeAt = null;
 
-		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
+		protected override UniTask HandleInteraction()
 		{
-			await base.HandleInteraction(actorStateMachine);
 			HandleUseActiveItem();
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>

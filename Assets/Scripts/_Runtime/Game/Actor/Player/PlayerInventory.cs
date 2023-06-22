@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Sirenix.OdinInspector;
-using Personal.Object;
+using Personal.InteractiveObject;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Item;

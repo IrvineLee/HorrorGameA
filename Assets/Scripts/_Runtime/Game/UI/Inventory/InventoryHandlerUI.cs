@@ -3,7 +3,7 @@ using UnityEngine;
 using Personal.InputProcessing;
 using Personal.Manager;
 using Personal.Item;
-using Personal.Object;
+using Personal.InteractiveObject;
 using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI

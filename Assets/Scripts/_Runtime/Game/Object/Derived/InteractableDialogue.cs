@@ -1,50 +1,71 @@
 ﻿using System;
+using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
-using Personal.Character;
+using Personal.FSM.Character;
+using Personal.Character.Player;
+using Personal.Character.NPC;
 using Personal.Manager;
+using Helper;
 
-namespace Personal.Object
+namespace Personal.InteractiveObject
 {
 	public class InteractableDialogue : InteractableObject
 	{
 		protected DialogueSystemTrigger dialogueSystemTrigger;
-		protected HeadLookAt headLookAt;
+		protected HeadModelLookAt headModelLookAt;
+
+		protected FPSController fpsController;
+		protected Camera cam;
+
+		CoroutineRun lookAtCR = new CoroutineRun();
+		Type initiatorType;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
-			headLookAt = GetComponentInChildren<HeadLookAt>();
+			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();
+
+			fpsController = StageManager.Instance.PlayerController.FPSController;
+			cam = StageManager.Instance.MainCamera;
 		}
 
-		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
+		protected override async UniTask HandleInteraction()
 		{
-			StageManager.Instance.PlayerController.FPSController.ResetAnimationBlend();
+			fpsController.enabled = false;
+			fpsController.ResetAnimationBlend();
 
-			var ifsmHandler = actorStateMachine.GetComponentInChildren<IFSMHandler>();
+			if (InitiatorStateMachine.GetType() == typeof(PlayerStateMachine))
+			{
+				initiatorType = typeof(PlayerLookAtState);
+			}
+
+			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 			await HandleDialogue(ifsmHandler);
 		}
 
 		/// <summary>
 		/// Handle only dialogue talking with interactables.
 		/// </summary>
-		/// <param name="ifSMHandler"></param>
+		/// <param name="ifsmHandler"></param>
 		/// <returns></returns>
-		async UniTask HandleDialogue(IFSMHandler ifSMHandler)
+		async UniTask HandleDialogue(IFSMHandler ifsmHandler)
 		{
 			dialogueSystemTrigger.OnUse(transform);
 
-			ifSMHandler?.OnBegin();
-			headLookAt.SetLookAtTarget(true);
+			ifsmHandler?.OnBegin(initiatorType);
+			headModelLookAt.SetLookAtTarget(true);
 
-			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+			await UniTask.WaitUntil(() => lookAtCR.IsDone && DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
 
-			headLookAt.SetLookAtTarget(false);
-			ifSMHandler?.OnExit();
+			headModelLookAt.SetLookAtTarget(false);
+			ifsmHandler?.OnExit();
+
+			fpsController.enabled = true;
 		}
 	}
 }

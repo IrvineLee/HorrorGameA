@@ -2,11 +2,12 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using Personal.GameState;
 using Personal.FSM;
 using Personal.Definition;
 
-namespace Personal.Object
+namespace Personal.InteractiveObject
 {
 	public abstract class InteractableObject : GameInitialize
 	{
@@ -15,7 +16,7 @@ namespace Personal.Object
 
 		public Transform ParentTrans { get => parentTrans; }
 		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
-		public ActorStateMachine ActorStateMachine { get; private set; }
+		public ActorStateMachine InitiatorStateMachine { get; private set; }
 
 		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;
@@ -26,13 +27,15 @@ namespace Personal.Object
 			meshRenderer = GetComponentInChildren<MeshRenderer>();
 		}
 
-		public virtual async UniTask HandleInteraction(ActorStateMachine actorStateMachine, Action doLast)
-		{
-			ActorStateMachine = actorStateMachine;
-			await HandleInteraction(actorStateMachine);
-		}
+		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
 
-		protected virtual async UniTask HandleInteraction(ActorStateMachine actorStateMachine) { await UniTask.CompletedTask; }
+		public async UniTask HandleInteraction(ActorStateMachine initiatorStateMachine, Action doLast)
+		{
+			InitiatorStateMachine = initiatorStateMachine;
+
+			await HandleInteraction();
+			doLast?.Invoke();
+		}
 	}
 }
 

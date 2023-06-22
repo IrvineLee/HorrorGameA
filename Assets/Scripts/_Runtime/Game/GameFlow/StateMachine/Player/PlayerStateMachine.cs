@@ -25,23 +25,11 @@ namespace Personal.FSM.Character
 				var stateBase = child.GetComponent<StateBase>();
 
 				stateList.Add(stateBase);
-				stateBase.SetFSM(this);
+				stateBase.SetMyFSM(this);
 			}
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
 			SwitchToState(typeof(PlayerStandardState)).Forget();
-		}
-
-		public async UniTask SwitchToState(Type type)
-		{
-			StateDictionary.TryGetValue(type, out StateBase state);
-
-			if (state == null)
-			{
-				Debug.Log("Couldn't find state of type " + type.Name);
-				return;
-			}
-			await SetState(state);
 		}
 
 		public bool IsPlayerThisState(Type type)
@@ -55,14 +43,27 @@ namespace Personal.FSM.Character
 			StageManager.Instance.PlayerController.FPSController.ResetAnimationBlend(0.25f);
 		}
 
-		void IFSMHandler.OnBegin()
+		void IFSMHandler.OnBegin(Type type)
 		{
-			SwitchToState(typeof(PlayerIdleState)).Forget();
+			if (type == null) type = typeof(PlayerIdleState);
+			SwitchToState(type).Forget();
 		}
 
 		void IFSMHandler.OnExit()
 		{
 			SwitchToState(typeof(PlayerStandardState)).Forget();
+		}
+
+		async UniTask SwitchToState(Type type)
+		{
+			StateDictionary.TryGetValue(type, out StateBase state);
+
+			if (state == null)
+			{
+				Debug.Log("Couldn't find state of type " + type.Name);
+				return;
+			}
+			await SetState(state);
 		}
 	}
 }

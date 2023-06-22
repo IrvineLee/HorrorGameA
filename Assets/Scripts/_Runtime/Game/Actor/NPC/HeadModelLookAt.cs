@@ -4,9 +4,9 @@ using Personal.Manager;
 using Personal.GameState;
 using Sirenix.OdinInspector;
 
-namespace Personal.Character
+namespace Personal.Character.NPC
 {
-	public class HeadLookAt : GameInitialize
+	public class HeadModelLookAt : GameInitialize
 	{
 		[SerializeField] [ReadOnly] Transform defaultTargetTrans = null;
 		[SerializeField] bool isLookAtTarget = false;

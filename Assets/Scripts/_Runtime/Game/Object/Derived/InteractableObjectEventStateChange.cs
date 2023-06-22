@@ -1,12 +1,11 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Manager;
 using Personal.InputProcessing;
 
-namespace Personal.Object
+namespace Personal.InteractiveObject
 {
 	public class InteractableObjectEventStateChange : InteractableObject
 	{
@@ -23,25 +22,17 @@ namespace Personal.Object
 			interactionAssign = GetComponentInChildren<InteractionAssign>();
 		}
 
-		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
+		protected override async UniTask HandleInteraction()
 		{
-			var ifsmHandler = actorStateMachine.GetComponentInChildren<IFSMHandler>();
-			await HandleEventStateChange(ifsmHandler);
-		}
+			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 
-		/// <summary>
-		/// Handle the orderedStateMachine.
-		/// </summary>
-		/// <returns></returns>
-		async UniTask HandleEventStateChange(IFSMHandler ifSMHandler)
-		{
-			ifSMHandler?.OnBegin();
+			ifsmHandler?.OnBegin(null);
 			InputManager.Instance.EnableActionMap(actionMapType);
 
-			await orderedStateMachine.Begin(null, interactionAssign);
+			await orderedStateMachine.Begin(InitiatorStateMachine, null, interactionAssign);
 
 			InputManager.Instance.SetToDefaultActionMap();
-			ifSMHandler?.OnExit();
+			ifsmHandler?.OnExit();
 		}
 	}
 }

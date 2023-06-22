@@ -6,7 +6,7 @@ using Personal.Manager;
 
 namespace Personal.Character.Player
 {
-	public class PlayerController : GameInitialize
+	public class PlayerController : ActorController
 	{
 		[SerializeField] PlayerStateMachine fsm = null;
 		[SerializeField] FPSController fpsController = null;
@@ -16,7 +16,7 @@ namespace Personal.Character.Player
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
 
-		protected override void Initialize()
+		protected override void PreInitialize()
 		{
 			StageManager.Instance.RegisterPlayer(this);
 		}

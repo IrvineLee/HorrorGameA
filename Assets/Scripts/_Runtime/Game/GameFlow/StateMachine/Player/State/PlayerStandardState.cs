@@ -4,11 +4,12 @@ using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.System.Handler;
 using Personal.Constant;
-using Personal.Object;
+using Personal.InteractiveObject;
+using Personal.Character;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerStandardState : ActorStateBase
+	public class PlayerStandardState : PlayerBaseState
 	{
 		protected Camera cam;
 
@@ -19,7 +20,7 @@ namespace Personal.FSM.Character
 		{
 			base.OnEnter();
 
-			cam = Camera.main;
+			cam = StageManager.Instance.MainCamera;
 			return UniTask.CompletedTask;
 		}
 
@@ -53,8 +54,10 @@ namespace Personal.FSM.Character
 			if (!interactable.enabled) return;
 
 			Debug.Log("Hit interactable");
+			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
+
 			CursorManager.Instance.SetToDefaultCrosshair();
-			interactable.HandleInteraction((PlayerStateMachine)stateMachine, default).Forget();
+			interactable.HandleInteraction(playerFSM, default).Forget();
 		}
 	}
 }

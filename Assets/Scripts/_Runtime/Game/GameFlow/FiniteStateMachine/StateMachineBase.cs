@@ -6,6 +6,7 @@ namespace Personal.FSM
 	public abstract class StateMachineBase : GameInitialize
 	{
 		public StateBase CurrentState { get => state; }
+		public StateMachineBase InitiatorStateMachine { get; protected set; }
 
 		protected StateBase state;
 

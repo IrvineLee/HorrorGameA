@@ -1,9 +1,11 @@
 
+using System;
+
 namespace Personal.FSM
 {
 	public interface IFSMHandler
 	{
-		void OnBegin();
+		void OnBegin(Type type);
 		void OnExit();
 	}
 }

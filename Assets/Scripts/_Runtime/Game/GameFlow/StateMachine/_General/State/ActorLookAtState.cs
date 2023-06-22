@@ -1,7 +1,7 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Character;
+using Personal.Character.NPC;
 
 namespace Personal.FSM.Character
 {
@@ -10,16 +10,16 @@ namespace Personal.FSM.Character
 		[SerializeField] bool isLookAtTarget = true;
 		[SerializeField] Transform target = null;
 
-		HeadLookAt headLookAt;
+		HeadModelLookAt headModelLookAt;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			headLookAt = actorStateMachine.HeadLookAt;
+			headModelLookAt = actorStateMachine.HeadModelLookAt;
 
-			if (target) headLookAt.SetTarget(target);
-			headLookAt.SetLookAtTarget(isLookAtTarget);
+			if (target) headModelLookAt.SetTarget(target);
+			headModelLookAt.SetLookAtTarget(isLookAtTarget);
 		}
 	}
 }

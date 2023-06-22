@@ -3,7 +3,7 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerIdleState : ActorStateBase
+	public class PlayerIdleState : PlayerBaseState
 	{
 		public override async UniTask OnEnter()
 		{
@@ -11,7 +11,7 @@ namespace Personal.FSM.Character
 
 			// Somewhere else will change the state of player.
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
-			await UniTask.WaitUntil(() => playerFSM.CurrentState.GetType() != typeof(PlayerIdleState));
+			await UniTask.WaitUntil(() => !playerFSM.IsPlayerThisState(typeof(PlayerIdleState)));
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace Personal.FSM.Character
 
 			Transform target = GetLookAtTarget();
 
-			Vector3 direction = (target.position - navMeshAgent.transform.position).normalized;
+			Vector3 direction = navMeshAgent.transform.position.GetNormalizedDirectionTo(target.position);
 			Quaternion endRotation = Quaternion.LookRotation(direction);
 
 			CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);

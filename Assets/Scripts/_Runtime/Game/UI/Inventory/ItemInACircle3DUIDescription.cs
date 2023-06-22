@@ -3,7 +3,7 @@ using UnityEngine;
 
 using TMPro;
 using Personal.Manager;
-using Personal.Object;
+using Personal.InteractiveObject;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
 

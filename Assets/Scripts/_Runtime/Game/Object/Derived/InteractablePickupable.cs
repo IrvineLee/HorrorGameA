@@ -1,11 +1,8 @@
-﻿using System;
-
-using Cysharp.Threading.Tasks;
-using Personal.FSM;
+﻿using Cysharp.Threading.Tasks;
 using Personal.Item;
 using Personal.Manager;
 
-namespace Personal.Object
+namespace Personal.InteractiveObject
 {
 	public class InteractablePickupable : InteractableObject
 	{
@@ -18,10 +15,10 @@ namespace Personal.Object
 			ItemTypeSet = GetComponentInParent<ItemTypeSet>();
 		}
 
-		protected override async UniTask HandleInteraction(ActorStateMachine actorStateMachine)
+		protected override UniTask HandleInteraction()
 		{
-			await base.HandleInteraction(actorStateMachine);
 			HandlePickupable();
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>

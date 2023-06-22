@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 using Cysharp.Threading.Tasks;
 using Personal.FSM.Character;
-using Helper;
-using UnityEngine.AddressableAssets;
 using Personal.Manager;
+using Helper;
 
 namespace Personal.FSM.Cashier
 {
-	public class CashierScanAndPackState : PlayerStandardState
+	public class PlayerCashierScanAndPackState : PlayerStandardState
 	{
 		OrderedStateMachine cashierStateMachine;
 		GameObject spawnedObject;

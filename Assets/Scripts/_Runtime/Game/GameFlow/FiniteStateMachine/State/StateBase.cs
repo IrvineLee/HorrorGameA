@@ -1,11 +1,10 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Manager;
 
 namespace Personal.FSM
 {
-	public class StateBase : MonoBehaviour
+	public abstract class StateBase : MonoBehaviour
 	{
 		[Tooltip("Should this state wait till OnExit finishes before proceeding to the next state?")]
 		[SerializeField] bool isWaitForOnExit = false;
@@ -15,7 +14,7 @@ namespace Personal.FSM
 		protected StateMachineBase stateMachine;
 		protected bool isEntered;
 
-		public void SetFSM(StateMachineBase stateMachine)
+		public void SetMyFSM(StateMachineBase stateMachine)
 		{
 			this.stateMachine = stateMachine;
 		}

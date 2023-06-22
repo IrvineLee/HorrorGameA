@@ -108,6 +108,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 421768943009836711}
     m_Modifications:
+    - target: {fileID: 1570116141751245543, guid: 6e74a00b976d7924391a0594bed87638, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a314938077fbd2342be318a88bd923dc, type: 2}
     - target: {fileID: 1570116141758671023, guid: 6e74a00b976d7924391a0594bed87638, type: 3}
       propertyPath: m_Name
       value: LatifaModel
@@ -159,10 +163,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1570116141758671023, guid: 6e74a00b976d7924391a0594bed87638, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6373177944031260197}
   m_SourcePrefab: {fileID: 100100000, guid: 6e74a00b976d7924391a0594bed87638, type: 3}
 --- !u!4 &8956780087399678871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1570116141758968975, guid: 6e74a00b976d7924391a0594bed87638, type: 3}
   m_PrefabInstance: {fileID: 7603989627072313112}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8956780087400177591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1570116141758671023, guid: 6e74a00b976d7924391a0594bed87638, type: 3}
+  m_PrefabInstance: {fileID: 7603989627072313112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6373177944031260197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8956780087400177591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1178c18e13a9cb24ea3b4fc27b504868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSFXTypes: e8030000e9030000ea030000eb030000ec030000ed030000ee030000ef030000ef030000f1030000
+  landSFXType: 1010
+  footstepVolume: 0.15

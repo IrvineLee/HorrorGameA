@@ -5,7 +5,7 @@ using Personal.InputProcessing;
 using Personal.Manager;
 using Personal.Item;
 using Personal.System.Handler;
-using Personal.Object;
+using Personal.InteractiveObject;
 using Personal.Character.Player;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
