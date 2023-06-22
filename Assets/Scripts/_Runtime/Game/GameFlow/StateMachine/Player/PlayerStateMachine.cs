@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,6 +31,18 @@ namespace Personal.FSM.Character
 			SwitchToState(typeof(PlayerStandardState)).Forget();
 		}
 
+		public override async UniTask SwitchToState(Type type)
+		{
+			StateDictionary.TryGetValue(type, out StateBase state);
+
+			if (state == null)
+			{
+				Debug.Log("Couldn't find state of type " + type.Name);
+				return;
+			}
+			await SetState(state);
+		}
+
 		public bool IsPlayerThisState(Type type)
 		{
 			if (CurrentState.GetType() == type) return true;
@@ -52,18 +63,6 @@ namespace Personal.FSM.Character
 		void IFSMHandler.OnExit()
 		{
 			SwitchToState(typeof(PlayerStandardState)).Forget();
-		}
-
-		async UniTask SwitchToState(Type type)
-		{
-			StateDictionary.TryGetValue(type, out StateBase state);
-
-			if (state == null)
-			{
-				Debug.Log("Couldn't find state of type " + type.Name);
-				return;
-			}
-			await SetState(state);
 		}
 	}
 }

@@ -1,3 +1,5 @@
+using System;
+
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
 
@@ -10,7 +12,7 @@ namespace Personal.FSM
 
 		protected StateBase state;
 
-		public async UniTask SetState(StateBase stateBase)
+		protected async UniTask SetState(StateBase stateBase)
 		{
 			if (state != null)
 			{
@@ -21,5 +23,7 @@ namespace Personal.FSM
 			state = stateBase;
 			await state.OnEnter();
 		}
+
+		public virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
 	}
 }

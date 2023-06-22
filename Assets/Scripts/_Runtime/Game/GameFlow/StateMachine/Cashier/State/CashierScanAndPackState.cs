@@ -5,15 +5,16 @@ using Cysharp.Threading.Tasks;
 using Personal.FSM.Character;
 using Personal.Manager;
 using Helper;
+using System.Collections.Generic;
 
 namespace Personal.FSM.Cashier
 {
-	public class PlayerCashierScanAndPackState : PlayerStandardState
+	public class CashierScanAndPackState : StateBase
 	{
 		OrderedStateMachine cashierStateMachine;
 		GameObject spawnedObject;
 
-		int currentCount, maxCount;
+		List<Transform> childList = new();
 
 		public override async UniTask OnEnter()
 		{
@@ -28,24 +29,35 @@ namespace Personal.FSM.Cashier
 			Vector3 position = cashierStateMachine.TargetInfo.PlaceToPutItem.position;
 			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), position);
 
-			maxCount = itemSelectionParent.childCount;
-			await UniTask.WaitUntil(() => currentCount == maxCount);
+			StageManager.Instance.PlayerController.FSM.SwitchToState(typeof(PlayerCashierState)).Forget();
+
+			childList.Clear();
+			foreach (Transform child in spawnedObject.transform)
+			{
+				childList.Add(child);
+			}
+
+			await UniTask.WaitUntil(() => IsTakenAllItems());
 		}
 
-		public override void HandleInteractable(RaycastHit hit)
+		bool IsTakenAllItems()
 		{
-			if (!InputManager.Instance.FPSInputController.IsInteract) return;
+			for (int i = childList.Count - 1; i >= 0; i--)
+			{
+				Transform child = childList[i];
+				if (!child.gameObject.activeSelf) childList.RemoveAt(i);
+			}
 
-			currentCount++;
-			hit.transform.gameObject.SetActive(false);
+			if (childList.Count > 0) return false;
+			return true;
 		}
 
 		public override async UniTask OnExit()
 		{
 			await base.OnExit();
 
+			StageManager.Instance.PlayerController.FSM.SwitchToState(typeof(PlayerStandardState)).Forget();
 			Addressables.Release(spawnedObject);
-			currentCount = 0;
 		}
 	}
 }
