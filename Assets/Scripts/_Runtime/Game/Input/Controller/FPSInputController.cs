@@ -61,6 +61,7 @@ namespace Personal.InputProcessing
 
 		void OpenPauseMenu()
 		{
+			if (UIManager.Instance.WindowStack.Count > 0) return;
 			UIManager.Instance.PauseUI.OpenWindow();
 		}
 

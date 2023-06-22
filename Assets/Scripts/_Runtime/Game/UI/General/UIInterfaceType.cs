@@ -7,6 +7,7 @@ namespace Personal.UI
 		Pause,
 		Option,
 		Inventory,
+		Dialogue,
 
 		ExtraWindow = 1000,
 	}

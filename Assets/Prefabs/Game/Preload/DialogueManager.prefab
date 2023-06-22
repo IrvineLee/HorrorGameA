@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5156722668308509776}
   - component: {fileID: 5156722668308459502}
   m_Layer: 0
-  m_Name: Dialogue Manager
+  m_Name: DialogueManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 5156722668283792508}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5156722668308456862
 MonoBehaviour:
@@ -115,7 +115,7 @@ MonoBehaviour:
       - Fire1
       - Fire2
       cancel:
-        key: 27
+        key: 0
         buttonName: 
       cancelConversation:
         key: 27
@@ -733,8 +733,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9203667756646724796, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8491980389153209365}
   m_SourcePrefab: {fileID: 100100000, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+--- !u!1 &288924338391728796 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9203667756646724796, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+  m_PrefabInstance: {fileID: 8915869594525709856}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8491980389153209365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288924338391728796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d82f6e29dd8a945bf15618f7f0b5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiInterfaceType: 4
+  windowAnimatorParent: {fileID: 0}
 --- !u!1 &288924338391769024 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
