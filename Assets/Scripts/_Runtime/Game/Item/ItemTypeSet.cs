@@ -16,6 +16,7 @@ namespace Personal.Item
 
 		protected override void Initialize()
 		{
+			if (itemType == default) return;
 			Entity = MasterDataManager.Instance.Item.Get(itemType);
 		}
 

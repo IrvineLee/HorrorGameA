@@ -19,6 +19,9 @@ namespace Personal.Item
 		[StringValue(AssetAddress.PuzzleBlock_B_Pickupable)]
 		Item_PuzzleBlock_B = 1 << 3,
 
+		[StringValue(AssetAddress.Key_A_Pickupable)]
+		Item_Key_A = 1 << 4,
+
 		All = Item_1 | Item_2 | Item_PuzzleBlock_A | Item_PuzzleBlock_B,
 	}
 }

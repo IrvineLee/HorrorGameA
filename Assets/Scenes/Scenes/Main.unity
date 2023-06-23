@@ -728,6 +728,7 @@ Transform:
   - {fileID: 878003621526295812}
   - {fileID: 42269223}
   - {fileID: 397776862}
+  - {fileID: 4975615520106892348}
   m_Father: {fileID: 144059008}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3452,6 +3453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorOpenLeft
       objectReference: {fileID: 0}
+    - target: {fileID: 3928527989373153083, guid: f942713f5f76914409d6df7546e1edad, type: 3}
+      propertyPath: keyItemType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7439264964608695311, guid: f942713f5f76914409d6df7546e1edad, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -3850,6 +3855,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d77bc0436ecf17142ac98a99ae06f04f, type: 3}
+--- !u!1001 &4911191841917971297
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 618630914}
+    m_Modifications:
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609550961532942402, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: m_Name
+      value: Key_A_Pickupable
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
 --- !u!1001 &4970397691854021951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3919,6 +3985,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5754d3160941ac4192a368a8df949ed, type: 3}
+--- !u!4 &4975615520106892348 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+  m_PrefabInstance: {fileID: 4911191841917971297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5062770307555003203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3930,6 +4001,10 @@ PrefabInstance:
     - target: {fileID: 2139940465476422531, guid: 431ef9a94125cbf408c0dd308cc64f4e, type: 3}
       propertyPath: m_Name
       value: DoorOpenRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8780389799092335114, guid: 431ef9a94125cbf408c0dd308cc64f4e, type: 3}
+      propertyPath: keyItemType
+      value: 131088
       objectReference: {fileID: 0}
     - target: {fileID: 9199219750726606364, guid: 431ef9a94125cbf408c0dd308cc64f4e, type: 3}
       propertyPath: m_RootOrder

@@ -11,6 +11,7 @@ namespace Personal
         public const string CubeRed_Pickupable              = "CubeRed_Pickupable";
         public const string Effects_Effect_01               = "Effects/Effect_01";
         public const string ItemParent_Day01_01             = "ItemParent_Day01_01";
+        public const string Key_A_Pickupable                = "Key_A_Pickupable";
         public const string MasterDataManager               = "MasterDataManager";
         public const string PuzzleBlock_A_Pickupable        = "PuzzleBlock_A_Pickupable";
         public const string PuzzleBlock_B_Pickupable        = "PuzzleBlock_B_Pickupable";

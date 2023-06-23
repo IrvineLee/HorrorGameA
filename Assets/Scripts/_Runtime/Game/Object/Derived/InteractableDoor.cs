@@ -4,23 +4,37 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.System.Handler;
 using Helper;
+using Personal.Item;
+using Personal.Character.Player;
+using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
 	public class InteractableDoor : InteractableObject
 	{
+		[Space]
 		[SerializeField] Transform doorHingeTrans = null;
 		[SerializeField] float duration = 0.5f;
 		[SerializeField] float openAngle = 90;
+
 		[SerializeField] bool isOpened = false;
+		[SerializeField] ItemType keyItemType = default;
 
 		public event Action OnDoorOpened;
 		public event Action OnDoorClosed;
 
 		CoroutineRun runCR = new CoroutineRun();
+		PlayerInventory playerInventory;
+
+		protected override void Initialize()
+		{
+			base.Initialize();
+			playerInventory = StageManager.Instance.PlayerController.Inventory;
+		}
 
 		protected override UniTask HandleInteraction()
 		{
+			if (!IsAbleToOpenDoor()) return UniTask.CompletedTask;
 			if (!runCR.IsDone) return UniTask.CompletedTask;
 
 			if (!isOpened)
@@ -48,6 +62,20 @@ namespace Personal.InteractiveObject
 			});
 
 			return UniTask.CompletedTask;
+		}
+
+		bool IsAbleToOpenDoor()
+		{
+			if (keyItemType == default) return true;
+			if (keyItemType.HasFlag(playerInventory.ActiveObject.ItemTypeSet.ItemType))
+			{
+				keyItemType = default;
+				playerInventory.UseActiveItem(true);
+				return true;
+			}
+
+			Debug.Log("Locked");
+			return false;
 		}
 
 		float GetDoorMoveAngle()
