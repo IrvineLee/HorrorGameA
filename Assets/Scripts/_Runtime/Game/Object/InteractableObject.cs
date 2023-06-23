@@ -2,7 +2,6 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
 using Personal.GameState;
 using Personal.FSM;
 using Personal.Definition;
