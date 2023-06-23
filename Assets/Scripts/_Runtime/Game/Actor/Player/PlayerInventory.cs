@@ -53,7 +53,6 @@ namespace Personal.Character.Player
 		public int CurrentActiveIndex { get; private set; } = -1;
 
 		Vector3 initialPosition = new Vector3(0, -0.25f, 0);
-		Vector3 initialScale = new Vector3(0.1f, 0.1f, 0.1f);
 
 		CoroutineRun comeIntoViewCR = new CoroutineRun();
 		CoroutineRun autoHideItemCR = new CoroutineRun();
@@ -61,8 +60,11 @@ namespace Personal.Character.Player
 		/// <summary>
 		/// Use/interact/place item on someone or something.
 		/// </summary>
-		public void UseActiveItem()
+		/// <param name="isDestroy">If you are interacting with the object somewhere else, put it to false. Otherwise it return to the pool.</param>
+		public void UseActiveItem(bool isDestroy = true)
 		{
+			if (isDestroy) PoolManager.Instance.ReturnSpawnedObject(activeObject.gameObject);
+
 			activeObject = null;
 
 			// Remove the item from the inventory and the ui view.
@@ -151,6 +153,27 @@ namespace Personal.Character.Player
 		}
 
 		/// <summary>
+		/// Show or hide the active object.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		public void FPS_ShowItem(bool isFlag)
+		{
+			if (!activeObject) return;
+
+			autoHideItemCR?.StopCoroutine();
+			if (isFlag)
+			{
+				AnimateActiveItem(Vector3.zero);
+				autoHideItemCR = CoroutineHelper.WaitFor(autoHideItemDuration, () => FPS_ShowItem(false));
+
+				return;
+			}
+
+			AnimateActiveItem(initialPosition);
+			activeObject = null;
+		}
+
+		/// <summary>
 		/// Put it near the player's view.
 		/// </summary>
 		void HoldItemInHand()
@@ -159,33 +182,11 @@ namespace Personal.Character.Player
 
 			activeTrans.SetParent(FPSHoldItemInHandView);
 			activeTrans.localPosition = initialPosition;
-			activeTrans.localRotation = Quaternion.identity;
-			activeTrans.localScale = initialScale;
+			activeTrans.localRotation = Quaternion.Euler(activeObject.FPSRotation);
+			activeTrans.localScale = activeObject.FPSScale;
 
 			activeObject.gameObject.SetActive(true);
 			FPS_ShowItem(true);
-		}
-
-		/// <summary>
-		/// Show or hide the active object.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		void FPS_ShowItem(bool isFlag)
-		{
-			if (!activeObject) return;
-
-			if (isFlag)
-			{
-				AnimateActiveItem(Vector3.zero);
-
-				autoHideItemCR?.StopCoroutine();
-				autoHideItemCR = CoroutineHelper.WaitFor(autoHideItemDuration, () => FPS_ShowItem(false));
-			}
-			else
-			{
-				AnimateActiveItem(initialPosition);
-				activeObject = null;
-			}
 		}
 
 		/// <summary>

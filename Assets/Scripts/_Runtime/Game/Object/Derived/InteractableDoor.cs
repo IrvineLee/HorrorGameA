@@ -7,7 +7,7 @@ using Helper;
 
 namespace Personal.InteractiveObject
 {
-	public class DoorHandler : InteractableObject
+	public class InteractableDoor : InteractableObject
 	{
 		[SerializeField] Transform doorHingeTrans = null;
 		[SerializeField] float duration = 0.5f;

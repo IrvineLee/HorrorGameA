@@ -12,6 +12,8 @@ namespace Personal
         public const string Effects_Effect_01               = "Effects/Effect_01";
         public const string ItemParent_Day01_01             = "ItemParent_Day01_01";
         public const string MasterDataManager               = "MasterDataManager";
+        public const string PuzzleBlock_A_Pickupable        = "PuzzleBlock_A_Pickupable";
+        public const string PuzzleBlock_B_Pickupable        = "PuzzleBlock_B_Pickupable";
         public const string TransitionBrush                 = "TransitionBrush";
         public const string TransitionCircleWipe            = "TransitionCircleWipe";
         public const string TransitionDiagonalRectangleGrid = "TransitionDiagonalRectangleGrid";

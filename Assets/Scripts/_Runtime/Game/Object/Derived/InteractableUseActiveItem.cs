@@ -28,7 +28,7 @@ namespace Personal.InteractiveObject
 			if (!itemTypeCompare.HasFlag(activeObject.ItemTypeSet.ItemType)) return;
 
 			activeObject.ParentTrans.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
-			StageManager.Instance.PlayerController.Inventory.UseActiveItem();
+			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);
 		}
 	}
 }

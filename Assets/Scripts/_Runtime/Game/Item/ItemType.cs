@@ -13,12 +13,12 @@ namespace Personal.Item
 		[StringValue(AssetAddress.CubeRed_Pickupable)]
 		Item_2 = 1 << 1,
 
-		[StringValue(AssetAddress.CubeBlue_Pickupable)]
-		Item_3 = 1 << 2,
+		[StringValue(AssetAddress.PuzzleBlock_A_Pickupable)]
+		Item_PuzzleBlock_A = 1 << 2,
 
-		[StringValue(AssetAddress.CubeBlue_Pickupable)]
-		Item_4 = 1 << 3,
+		[StringValue(AssetAddress.PuzzleBlock_B_Pickupable)]
+		Item_PuzzleBlock_B = 1 << 3,
 
-		All = Item_1 | Item_2 | Item_3 | Item_4,
+		All = Item_1 | Item_2 | Item_PuzzleBlock_A | Item_PuzzleBlock_B,
 	}
 }
