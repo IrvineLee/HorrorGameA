@@ -1,4 +1,5 @@
-using Personal.Definition;
+using Personal.GameState;
+using Personal.Localization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -13,16 +14,16 @@ namespace Personal.Manager
 		[SerializeField] MasterBGM bgm = null;
 		[SerializeField] MasterSFX sfx = null;
 		[SerializeField] MasterItem item = null;
-		[SerializeField] MasterLocalizationDefinition localization = null;
 		[SerializeField] MasterCashierNPC cashierNPC = null;
 		[SerializeField] MasterWindowUI windowUI = null;
+		[SerializeField] MasterLocalization localization = null;
 
 		public MasterBGM Bgm { get => bgm; }
 		public MasterSFX Sfx { get => sfx; }
 		public MasterItem Item { get => item; }
-		public MasterLocalizationDefinition Localization { get => localization; }
 		public MasterCashierNPC CashierNPC { get => cashierNPC; }
 		public MasterWindowUI WindowUI { get => windowUI; }
+		public MasterLocalization Localization { get => localization; }
 
 		static AsyncOperationHandle<MasterDataManager> handle;
 
@@ -37,7 +38,10 @@ namespace Personal.Manager
 
 		public static void Initialize()
 		{
+			SupportedLanguageType language = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData.SelectedLanguage;
+
 			Instance.Localization.Initialize();
+			Instance.Localization.UpdateActiveLanguage(language);
 		}
 	}
 }

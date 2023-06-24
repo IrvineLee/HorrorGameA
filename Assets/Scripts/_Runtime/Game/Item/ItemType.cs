@@ -22,6 +22,11 @@ namespace Personal.Item
 		[StringValue(AssetAddress.Key_A_Pickupable)]
 		Item_Key_A = 1 << 4,
 
-		All = Item_1 | Item_2 | Item_PuzzleBlock_A | Item_PuzzleBlock_B,
+		//[StringValue(AssetAddress.Key_A_Pickupable)]
+		Item_Book_A = 1 << 5,
+		Item_Book_B = 1 << 6,
+		Item_Book_C = 1 << 7,
+
+		All = Item_1 | Item_2 | Item_PuzzleBlock_A | Item_PuzzleBlock_B | Item_Book_A | Item_Book_B | Item_Book_C,
 	}
 }

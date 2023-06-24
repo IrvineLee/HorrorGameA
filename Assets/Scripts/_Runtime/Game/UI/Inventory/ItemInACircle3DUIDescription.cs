@@ -89,9 +89,9 @@ namespace Personal.UI
 
 				var entity = interactablePickupable.ItemTypeSet.Entity;
 
-				titleStr = entity.name;
+				titleStr = MasterDataManager.Instance.Localization.Get(entity.key).NameText;
 
-				string description = MasterDataManager.Instance.Localization.LocalizedData().Item.Get(entity.itemType).description;
+				string description = MasterDataManager.Instance.Localization.Get(entity.key).DescriptionText;
 				descriptionStr = description;
 			}
 

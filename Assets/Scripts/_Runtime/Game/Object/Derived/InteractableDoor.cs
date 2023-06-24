@@ -67,7 +67,7 @@ namespace Personal.InteractiveObject
 		bool IsAbleToOpenDoor()
 		{
 			if (keyItemType == default) return true;
-			if (keyItemType.HasFlag(playerInventory.ActiveObject.ItemTypeSet.ItemType))
+			if (playerInventory.ActiveObject && keyItemType.HasFlag(playerInventory.ActiveObject.ItemTypeSet.ItemType))
 			{
 				keyItemType = default;
 				playerInventory.UseActiveItem(true);

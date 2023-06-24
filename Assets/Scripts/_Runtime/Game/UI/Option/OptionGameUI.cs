@@ -10,11 +10,10 @@ using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Game;
 using Personal.InputProcessing;
+using Personal.Localization;
 using Helper;
 using TMPro;
 using Lean.Localization;
-using Personal.Localization;
-using UnityEngine.Events;
 
 namespace Personal.UI.Option
 {
@@ -124,6 +123,7 @@ namespace Personal.UI.Option
 			{
 				string language = dropdownLocalization.LeanLanguageList[value];
 				LeanLocalization.SetCurrentLanguageAll(language);
+				MasterDataManager.Instance.Localization.UpdateActiveLanguage((SupportedLanguageType)languageDropdown.value);
 			});
 		}
 
@@ -157,6 +157,7 @@ namespace Personal.UI.Option
 
 			string language = dropdownLocalization.LeanLanguageList[languageDropdown.value];
 			LeanLocalization.SetCurrentLanguageAll(language);
+			MasterDataManager.Instance.Localization.UpdateActiveLanguage((SupportedLanguageType)languageDropdown.value);
 		}
 
 		protected override void RegisterChangesMadeEvents()

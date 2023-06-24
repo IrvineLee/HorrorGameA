@@ -7,5 +7,5 @@ using Personal.Item;
 public class ItemEntity : GenericEntity
 {
 	public ItemType itemType;
-	public string name;
+	public string key;
 }
