@@ -10,7 +10,7 @@ namespace Personal.FSM.Character
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
-			await state.CheckComparison();
+			await state.CheckComparisonDo();
 		}
 	}
 }

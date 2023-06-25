@@ -2,16 +2,24 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Cinemachine;
+using Personal.Character.Player;
+using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
 	public class PlayerLookAtState : PlayerBaseState
 	{
 		protected CinemachineVirtualCamera vCam;
+		protected FPSController fpsController;
 
 		public override UniTask OnEnter()
 		{
 			base.OnEnter();
+
+			fpsController = StageManager.Instance.PlayerController.FPSController;
+
+			fpsController.enabled = false;
+			fpsController.ResetAnimationBlend();
 
 			vCam = GetComponentInChildren<CinemachineVirtualCamera>();
 			vCam.LookAt = playerFSM.LookAtTarget;
@@ -25,7 +33,9 @@ namespace Personal.FSM.Character
 			vCam.LookAt = null;
 			vCam.Priority = 0;
 
+			fpsController.enabled = true;
 			playerFSM.SetLookAtTarget(null);
+
 			return base.OnExit();
 		}
 	}

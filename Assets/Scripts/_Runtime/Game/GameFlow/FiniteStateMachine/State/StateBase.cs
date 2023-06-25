@@ -58,8 +58,9 @@ namespace Personal.FSM
 
 		/// <summary>
 		/// This is typically used in CompareState script to halt the state before moving on.
+		/// Can also be used to reset values, similar to OnExit but at different time.
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask CheckComparison() { return UniTask.CompletedTask; }
+		public virtual UniTask CheckComparisonDo() { return UniTask.CompletedTask; }
 	}
 }

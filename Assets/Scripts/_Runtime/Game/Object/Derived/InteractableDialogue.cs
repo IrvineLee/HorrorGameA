@@ -5,7 +5,6 @@ using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.FSM.Character;
-using Personal.Character.Player;
 using Personal.Character.NPC;
 using Personal.Manager;
 using Helper;
@@ -17,7 +16,6 @@ namespace Personal.InteractiveObject
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 		protected HeadModelLookAt headModelLookAt;
 
-		protected FPSController fpsController;
 		protected Camera cam;
 
 		CoroutineRun lookAtCR = new CoroutineRun();
@@ -30,15 +28,11 @@ namespace Personal.InteractiveObject
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();
 
-			fpsController = StageManager.Instance.PlayerController.FPSController;
 			cam = StageManager.Instance.MainCamera;
 		}
 
 		protected override async UniTask HandleInteraction()
 		{
-			fpsController.enabled = false;
-			fpsController.ResetAnimationBlend();
-
 			if (InitiatorStateMachine.GetType() == typeof(PlayerStateMachine))
 			{
 				initiatorType = typeof(PlayerLookAtState);
@@ -64,8 +58,6 @@ namespace Personal.InteractiveObject
 
 			headModelLookAt.SetLookAtTarget(false);
 			ifsmHandler?.OnExit();
-
-			fpsController.enabled = true;
 		}
 	}
 }

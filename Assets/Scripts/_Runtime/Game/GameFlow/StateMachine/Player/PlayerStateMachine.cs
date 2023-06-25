@@ -57,6 +57,7 @@ namespace Personal.FSM.Character
 		void IFSMHandler.OnBegin(Type type)
 		{
 			if (type == null) type = typeof(PlayerIdleState);
+
 			SwitchToState(type).Forget();
 		}
 

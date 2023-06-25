@@ -50,17 +50,17 @@ namespace Personal.FSM.Character
 			await ActivateCamera(false);
 		}
 
+		public override async UniTask CheckComparisonDo()
+		{
+			await WaitCameraBlend();
+		}
+
 		async UniTask ActivateCamera(bool isFlag)
 		{
 			virtualCam.gameObject.SetActive(isFlag);
 			CursorManager.Instance.SetToMouseCursor(isFlag);
 
 			isRunning = isFlag;
-			await WaitCameraBlend();
-		}
-
-		public override async UniTask CheckComparison()
-		{
 			await WaitCameraBlend();
 		}
 
