@@ -35,5 +35,8 @@ namespace Personal.Setting.Audio
 		PlayerFootsteps_010,
 		[StringValue("PlayerLand")]
 		PlayerLand,
+
+		[StringValue("PhoneRing")]
+		PhoneRing = 2000,
 	}
 }

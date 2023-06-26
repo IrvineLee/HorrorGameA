@@ -5,13 +5,16 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class ActorEndState : ActorStateBase
+	public class EndState : StateBase
 	{
+		[SerializeField] bool isReturnToPool = true;
+
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			PoolManager.Instance.ReturnSpawnedObject(actorStateMachine.gameObject);
+			if (!isReturnToPool) return;
+			PoolManager.Instance.ReturnSpawnedObject(stateMachine.gameObject);
 		}
 	}
 }

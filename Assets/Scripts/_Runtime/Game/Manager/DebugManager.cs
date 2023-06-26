@@ -7,6 +7,7 @@ using Personal.FSM;
 using Personal.FSM.Cashier;
 using Personal.InputProcessing;
 using Cysharp.Threading.Tasks;
+using Personal.InteractiveObject;
 
 namespace Personal.Manager
 {
@@ -52,6 +53,10 @@ namespace Personal.Manager
 			else if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
 				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor();
+			}
+			else if (Input.GetKeyDown(KeyCode.LeftAlt))
+			{
+				FindObjectOfType<PhoneHandler>().Ring();
 			}
 		}
 	}

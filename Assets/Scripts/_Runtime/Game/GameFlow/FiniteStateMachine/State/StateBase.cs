@@ -63,6 +63,11 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public virtual UniTask CheckComparisonDo() { return UniTask.CompletedTask; }
 
+		private void OnValidate()
+		{
+			transform.name = GetType().Name;
+		}
+
 		void Reset()
 		{
 			transform.name = GetType().Name;
