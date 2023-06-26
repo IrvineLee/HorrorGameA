@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 421768941547504016}
   - component: {fileID: -8599894918339549832}
+  - component: {fileID: -1952921318963031389}
+  - component: {fileID: 7415343085410279965}
   m_Layer: 0
   m_Name: Actor_NPC_01_XBot
   m_TagString: Untagged
@@ -45,6 +47,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc764dd9e8927ed4db966c625404e2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1952921318963031389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421768941547504015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af71d9245c392043baa9c136b1e8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentTarget: {fileID: 421768941547504016}
+  childTarget: {fileID: 421768943009836711}
+  isFollowPosition: 1
+  isFollowRotation: 0
+  positionOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &7415343085410279965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421768941547504015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75e55685fcbffd40bc5851a1734881a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 1029873872926487917}
 --- !u!1 &421768943009836710
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +279,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
+--- !u!4 &1029873872926487917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3871907683159935740, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
+  m_PrefabInstance: {fileID: 4319267957875654545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6351845841392117742 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7194312874018183295, guid: af4fca66c340fe948b564ed252d74a30, type: 3}

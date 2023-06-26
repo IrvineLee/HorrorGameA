@@ -27,9 +27,10 @@ namespace Personal.FSM.Character
 		/// Called when the state is ended
 		/// </summary>
 		/// <returns></returns>
-		public override async UniTask OnExit()
+		public override UniTask OnExit()
 		{
-			await base.OnExit();
+			base.OnExit();
+			return UniTask.CompletedTask;
 		}
 
 		protected virtual void HandleMovement() { }

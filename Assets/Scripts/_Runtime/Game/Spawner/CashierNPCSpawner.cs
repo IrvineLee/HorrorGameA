@@ -52,7 +52,7 @@ namespace Personal.Spawner
 			// Set the interaction.
 			InteractionAssign interactionAssign = cashierInteractionDefinition.GetInteraction(sb.ToString());
 			OrderedStateMachine instanceFSM = instance.GetComponentInChildren<OrderedStateMachine>();
-			instanceFSM.Begin(null, targetInfo, interactionAssign).Forget();
+			instanceFSM.Begin(instanceFSM, targetInfo, interactionAssign).Forget();
 		}
 	}
 }

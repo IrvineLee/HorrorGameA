@@ -3,10 +3,11 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
+using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerChangeState : ActorStateBase
+	public class ChangePlayerState : ActorStateBase
 	{
 		[SerializeField] string namespaceStr = "Personal.FSM.Character.";
 		[SerializeField] Object playerState = null;
@@ -17,8 +18,13 @@ namespace Personal.FSM.Character
 		{
 			base.OnEnter();
 
-			PlayerStateMachine playerFSM = (PlayerStateMachine)stateMachine.InitiatorStateMachine;
-			playerFSM.SetLookAtTarget(transform);
+			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
+
+			playerFSM.SetLookAtTarget(actorStateMachine.transform);
+			if (actorStateMachine.ActorController)
+			{
+				playerFSM.SetLookAtTarget(actorStateMachine.ActorController.Head);
+			}
 
 			ifsmHandler = playerFSM.GetComponentInChildren<IFSMHandler>();
 

@@ -43,9 +43,11 @@ namespace Personal.FSM
 
 		protected override void Initialize()
 		{
+			HeadModelLookAt = GetComponentInChildren<HeadModelLookAt>(true);
+
 			NavMeshAgent = GetComponentInChildren<NavMeshAgent>(true);
 			AnimatorController = GetComponentInChildren<AnimatorController>(true);
-			HeadModelLookAt = GetComponentInChildren<HeadModelLookAt>(true);
+			ActorController = GetComponentInChildren<ActorController>(true);
 
 			Renderer renderer = GetComponentInChildren<Renderer>();
 			materialList = renderer?.materials.ToList();
