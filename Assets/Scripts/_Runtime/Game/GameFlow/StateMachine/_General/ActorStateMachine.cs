@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using Cysharp.Threading.Tasks;
-using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Character;
 using Personal.Character.NPC;
@@ -22,7 +21,6 @@ namespace Personal.FSM
 		public HeadModelLookAt HeadModelLookAt { get; protected set; }
 
 		public NavMeshAgent NavMeshAgent { get; protected set; }
-		public DialogueSystemTrigger DialogueSystemTrigger { get; protected set; }
 		public ActorController ActorController { get; protected set; }
 		public AnimatorController AnimatorController { get; protected set; }
 		public Transform LookAtTarget { get; protected set; }
@@ -46,7 +44,6 @@ namespace Personal.FSM
 		protected override void Initialize()
 		{
 			NavMeshAgent = GetComponentInChildren<NavMeshAgent>(true);
-			DialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>(true);
 			AnimatorController = GetComponentInChildren<AnimatorController>(true);
 			HeadModelLookAt = GetComponentInChildren<HeadModelLookAt>(true);
 

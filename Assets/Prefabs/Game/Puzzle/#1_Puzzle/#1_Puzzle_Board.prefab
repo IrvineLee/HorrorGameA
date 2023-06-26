@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 216259642483369851}
   - component: {fileID: 4828800278836202468}
   m_Layer: 0
-  m_Name: EndState
+  m_Name: ObjectEndState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 2649301278486210503}
   - component: {fileID: 3585326901739450934}
   m_Layer: 0
-  m_Name: RendererFade
+  m_Name: RendererFadeState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 301935647621091488}
   - component: {fileID: 7420552999894655257}
   m_Layer: 0
-  m_Name: RendererFade
+  m_Name: RendererFadeState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,6 +450,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca55148f7c2c3b54f955e85fec9be610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  orderedStateList:
+  - {fileID: 9158719488145182847}
+  - {fileID: 3585326901739450934}
+  - {fileID: 6264341001251700267}
+  - {fileID: 4604119591385234148}
+  - {fileID: 7420552999894655257}
+  - {fileID: 1795282386257950990}
+  - {fileID: 8492953991781248178}
+  - {fileID: 4828800278836202468}
 --- !u!1 &6264341000515498157
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +570,7 @@ GameObject:
   - component: {fileID: 6264341001251700266}
   - component: {fileID: 6264341001251700267}
   m_Layer: 0
-  m_Name: CameraSwapState
+  m_Name: ObjectTriggerCameraSwapState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

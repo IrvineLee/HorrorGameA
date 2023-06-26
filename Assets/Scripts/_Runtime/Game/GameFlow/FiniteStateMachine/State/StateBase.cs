@@ -62,5 +62,10 @@ namespace Personal.FSM
 		/// </summary>
 		/// <returns></returns>
 		public virtual UniTask CheckComparisonDo() { return UniTask.CompletedTask; }
+
+		void Reset()
+		{
+			transform.name = GetType().Name;
+		}
 	}
 }
