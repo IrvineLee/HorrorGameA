@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.GameState;
@@ -17,28 +18,36 @@ namespace Personal.FSM.Character
 
 		[SerializeField] TargetInfo.TargetType targetType = TargetInfo.TargetType.MoveTo;
 
+		[ShowIf("@targetType == Personal.GameState.TargetInfo.TargetType.Player")]
+		[SerializeField] float distanceBetweenActor = 0;
+
 		protected NavMeshAgent navMeshAgent;
+		protected Transform target;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
-
-			navMeshAgent = actorStateMachine.NavMeshAgent;
-
 			RunActorAnimation();
-			navMeshAgent.destination = GetDestination();
 
-			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && navMeshAgent.remainingDistance == 0);
+			target = GetTarget();
+			navMeshAgent = actorStateMachine.NavMeshAgent;
+			navMeshAgent.isStopped = false;
+			navMeshAgent.destination = target.position;
+
+			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.remainingDistance <= distanceBetweenActor);
 		}
 
-		/// <summary>
-		/// Rotate the actor so it's facing the player.
-		/// </summary>
-		/// <returns></returns>
+		public override void OnUpdate()
+		{
+			navMeshAgent.destination = target.position;
+		}
+
 		public override async UniTask OnExit()
 		{
 			await base.OnExit();
+			navMeshAgent.isStopped = true;
 
+			// Rotate the actor so it's facing the player.
 			Transform target = GetLookAtTarget();
 
 			Vector3 direction = navMeshAgent.transform.position.GetNormalizedDirectionTo(target.position);
@@ -47,7 +56,7 @@ namespace Personal.FSM.Character
 			CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);
 		}
 
-		protected virtual Vector3 GetDestination()
+		protected virtual Transform GetTarget()
 		{
 			Transform target = actorStateMachine.TargetInfo.SpawnAtFirst;
 
@@ -57,10 +66,14 @@ namespace Personal.FSM.Character
 			}
 			else if (targetType == TargetInfo.TargetType.Leave)
 			{
-				target = actorStateMachine.TargetInfo.MoveToLast;
+				target = actorStateMachine.TargetInfo.LeaveAtFirst;
+			}
+			else if (targetType == TargetInfo.TargetType.Player)
+			{
+				target = actorStateMachine.TargetInfo.Player;
 			}
 
-			return target.position;
+			return target;
 		}
 
 		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerController.FSM.transform; }

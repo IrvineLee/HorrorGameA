@@ -28,8 +28,10 @@ namespace Personal.Spawner
 		/// </summary>
 		public async void SpawnCashierActor()
 		{
+			StageManager.Instance.NextInteraction();
+
 			int dayID = StageManager.Instance.DayIndex + 1;
-			int interactionID = StageManager.Instance.CashierInteractionIndex + 1;
+			int interactionID = StageManager.Instance.CashierInteractionIndex;
 
 			var key = new MasterCashierNPC.DayInteraction(dayID, interactionID);
 			var entity = MasterDataManager.Instance.CashierNPC.Get(key);

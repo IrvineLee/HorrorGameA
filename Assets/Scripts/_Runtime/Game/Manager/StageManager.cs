@@ -3,6 +3,7 @@
 using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
+using Personal.InteractiveObject;
 using Cinemachine;
 using Helper;
 
@@ -19,6 +20,7 @@ namespace Personal.Manager
 		public CinemachineBrain CinemachineBrain { get; private set; }
 		public PlayerController PlayerController { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
+		public PhoneHandler PhoneHandler { get; private set; }
 
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
@@ -53,10 +55,25 @@ namespace Personal.Manager
 			CashierNPCSpawner = cashierNPCSpawner;
 		}
 
+		public void RegisterPhoneHandler(PhoneHandler phoneHandler)
+		{
+			PhoneHandler = phoneHandler;
+		}
+
 		public void NextDay()
 		{
 			DayIndex++;
 			CashierInteractionIndex = 0;
+		}
+
+		public void NextInteraction()
+		{
+			CashierInteractionIndex++;
+		}
+
+		public void SetInteraction(int index)
+		{
+			CashierInteractionIndex = index;
 		}
 	}
 }

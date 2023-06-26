@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2598960953469924517}
   - component: {fileID: 2598960953469924522}
   m_Layer: 0
-  m_Name: Cashier_Interaction_Day01_01
+  m_Name: Cashier_Interaction_Day01_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,6 +375,14 @@ PrefabInstance:
     - target: {fileID: 3326447390176032810, guid: 3830f4d15c2b6ea4788154fbebc85ed8, type: 3}
       propertyPath: m_Name
       value: NPCActorMoveState
+      objectReference: {fileID: 0}
+    - target: {fileID: 7137286413054713362, guid: 3830f4d15c2b6ea4788154fbebc85ed8, type: 3}
+      propertyPath: targetType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7137286413054713362, guid: 3830f4d15c2b6ea4788154fbebc85ed8, type: 3}
+      propertyPath: distanceBetweenActor
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

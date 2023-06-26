@@ -36,15 +36,11 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
+				StageManager.Instance.SetInteraction(0);
 			}
-			else if (Input.GetKeyDown(KeyCode.Alpha1))
+			else if (Input.GetKeyDown(KeyCode.Alpha2))
 			{
-				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary = new SerializableDictionary<int, string>();
-				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary.Add(0, "zero");
-				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.IntStrDictionary.Add(1, "one");
-
-				//GameStateBehaviour.Instance.SaveObject.PlayerSavedData.CharacterID = 999;
-				SaveManager.Instance.SaveSlotData();
+				StageManager.Instance.SetInteraction(1);
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha0))
 			{
