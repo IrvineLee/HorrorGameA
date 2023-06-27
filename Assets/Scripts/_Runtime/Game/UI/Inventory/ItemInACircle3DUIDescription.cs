@@ -14,15 +14,6 @@ namespace Personal.UI
 		[SerializeField] TextMeshProUGUI titleTMP = null;
 		[SerializeField] TextMeshProUGUI descriptionTMP = null;
 
-		SetFontAsset setFontAssetTitle;
-		SetFontAsset setFontAssetDescription;
-
-		protected override void PreInitialize()
-		{
-			setFontAssetTitle = titleTMP.GetComponentInChildren<SetFontAsset>();
-			setFontAssetDescription = descriptionTMP.GetComponentInChildren<SetFontAsset>();
-		}
-
 		public override void PutObjectsIntoACircle()
 		{
 			base.PutObjectsIntoACircle();
@@ -84,9 +75,6 @@ namespace Personal.UI
 
 			if (interactablePickupable)
 			{
-				setFontAssetTitle.HandleChange();
-				setFontAssetDescription.HandleChange();
-
 				var entity = interactablePickupable.ItemTypeSet.Entity;
 
 				titleStr = MasterDataManager.Instance.Localization.Get(entity.key).NameText;

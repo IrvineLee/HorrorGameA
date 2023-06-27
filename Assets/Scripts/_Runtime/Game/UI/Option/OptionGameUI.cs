@@ -119,12 +119,7 @@ namespace Personal.UI.Option
 			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
 			fontSizeDropdown.onValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
 
-			languageDropdown.onValueChanged.AddListener((value) =>
-			{
-				string language = dropdownLocalization.LeanLanguageList[value];
-				LeanLocalization.SetCurrentLanguageAll(language);
-				MasterDataManager.Instance.Localization.UpdateActiveLanguage((SupportedLanguageType)languageDropdown.value);
-			});
+			languageDropdown.onValueChanged.AddListener((value) => HandleLanguageResetToTarget(value));
 		}
 
 		protected override void ResetDataToUI()
@@ -155,9 +150,7 @@ namespace Personal.UI.Option
 			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);
 
-			string language = dropdownLocalization.LeanLanguageList[languageDropdown.value];
-			LeanLocalization.SetCurrentLanguageAll(language);
-			MasterDataManager.Instance.Localization.UpdateActiveLanguage((SupportedLanguageType)languageDropdown.value);
+			HandleLanguageResetToTarget(languageDropdown.value);
 		}
 
 		protected override void RegisterChangesMadeEvents()
@@ -205,6 +198,22 @@ namespace Personal.UI.Option
 			}
 
 			languageDropdown.value = languageIndex;
+		}
+
+		void HandleLanguageResetToTarget(int index)
+		{
+			string language = dropdownLocalization.LeanLanguageList[index];
+
+			// Set the UI's localization.
+			LeanLocalization.SetCurrentLanguageAll(language);
+
+			SupportedLanguageType supportedLanguageType = (SupportedLanguageType)languageDropdown.value;
+
+			// Set the data's localization.
+			MasterDataManager.Instance.Localization.UpdateActiveLanguage(supportedLanguageType);
+
+			// Set the dialogues's localization.
+			StageManager.Instance.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.GetStringValue()));
 		}
 
 		void OnApplicationQuit()

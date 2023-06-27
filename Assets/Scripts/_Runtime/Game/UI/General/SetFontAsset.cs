@@ -11,9 +11,15 @@ namespace Personal.UI
 		protected override void PreInitialize()
 		{
 			tmp = GetComponent<TextMeshProUGUI>();
+			HandleChange();
 		}
 
-		public void HandleChange()
+		protected override void OnPostEnable()
+		{
+			HandleChange();
+		}
+
+		void HandleChange()
 		{
 			if (!string.IsNullOrEmpty(LeanLocalization.CurrentLanguageStr) &&
 				LeanLocalization.CurrentLanguages.TryGetValue(LeanLocalization.CurrentLanguageStr, out var language))
