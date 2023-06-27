@@ -52,11 +52,11 @@ namespace Personal.InteractiveObject
 			dialogueSystemTrigger.OnUse(transform);
 
 			ifsmHandler?.OnBegin(initiatorType);
-			headModelLookAt.SetLookAtTarget(true);
+			headModelLookAt?.SetLookAtTarget(true);
 
 			await UniTask.WaitUntil(() => lookAtCR.IsDone && DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
 
-			headModelLookAt.SetLookAtTarget(false);
+			headModelLookAt?.SetLookAtTarget(false);
 			ifsmHandler?.OnExit();
 		}
 	}

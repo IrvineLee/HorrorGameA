@@ -21,17 +21,23 @@ namespace Personal.FSM.Character
 			fpsController.enabled = false;
 			fpsController.ResetAnimationBlend();
 
-			vCam = GetComponentInChildren<CinemachineVirtualCamera>();
-			vCam.LookAt = playerFSM.LookAtTarget;
-			vCam.Priority = 15;
+			if (playerFSM.LookAtTarget)
+			{
+				vCam = GetComponentInChildren<CinemachineVirtualCamera>();
+				vCam.LookAt = playerFSM.LookAtTarget;
+				vCam.Priority = 15;
+			}
 
 			return UniTask.CompletedTask;
 		}
 
 		public override UniTask OnExit()
 		{
-			vCam.LookAt = null;
-			vCam.Priority = 0;
+			if (playerFSM.LookAtTarget)
+			{
+				vCam.LookAt = null;
+				vCam.Priority = 0;
+			}
 
 			fpsController.enabled = true;
 			playerFSM.SetLookAtTarget(null);

@@ -26,10 +26,15 @@ namespace Personal.InteractiveObject
 		CoroutineRun runCR = new CoroutineRun();
 		PlayerInventory playerInventory;
 
+		// This is used for locked doors.
+		InteractableDialogue interactableDialogue;
+
 		protected override void Initialize()
 		{
 			base.Initialize();
+
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
+			interactableDialogue = GetComponentInChildren<InteractableDialogue>();
 		}
 
 		protected override UniTask HandleInteraction()
@@ -74,7 +79,7 @@ namespace Personal.InteractiveObject
 				return true;
 			}
 
-			Debug.Log("Locked");
+			interactableDialogue.HandleInteraction(InitiatorStateMachine, default).Forget();
 			return false;
 		}
 

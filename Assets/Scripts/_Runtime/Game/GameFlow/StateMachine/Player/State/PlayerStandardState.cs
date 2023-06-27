@@ -22,7 +22,7 @@ namespace Personal.FSM.Character
 			if (!InputManager.Instance.IsInteract) return;
 			if (!interactable.enabled) return;
 
-			//Debug.Log("Hit interactable");
+			Debug.Log("Hit interactable");
 			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
 
 			CursorManager.Instance.SetToDefaultCrosshair();
