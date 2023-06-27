@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &711016315488296704
+--- !u!1 &2574049915068445451
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 711016315488296711}
-  - component: {fileID: 711016315488296708}
-  - component: {fileID: 711016315488296709}
-  - component: {fileID: 711016315488296706}
+  - component: {fileID: 9142115552610033893}
+  - component: {fileID: 8609188759527811791}
+  - component: {fileID: 8734619949201313246}
+  - component: {fileID: 3500558809080046372}
   m_Layer: 9
-  m_Name: CubeBlue_Pickupable
+  m_Name: Book
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &711016315488296711
+--- !u!4 &9142115552610033893
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711016315488296704}
+  m_GameObject: {fileID: 2574049915068445451}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalPosition: {x: 0, y: 0.025, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.05, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1703038813748895463}
-  m_RootOrder: 0
+  m_Father: {fileID: 6609974695660993791}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &711016315488296708
+--- !u!33 &8609188759527811791
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711016315488296704}
+  m_GameObject: {fileID: 2574049915068445451}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &711016315488296709
+--- !u!23 &8734619949201313246
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711016315488296704}
+  m_GameObject: {fileID: 2574049915068445451}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -84,13 +84,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &711016315488296706
+--- !u!65 &3500558809080046372
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711016315488296704}
+  m_GameObject: {fileID: 2574049915068445451}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -105,7 +105,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1703038813748895456
+--- !u!1 &7739793730915970523
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,70 +113,71 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1703038813748895463}
-  - component: {fileID: 8333971942111060016}
-  - component: {fileID: 3470825727598336374}
-  - component: {fileID: 5308975912174277586}
-  m_Layer: 0
-  m_Name: CubeBlue_Pickupable
+  - component: {fileID: 6609974695660993791}
+  - component: {fileID: 5168816919127916678}
+  - component: {fileID: 3507150992234792931}
+  - component: {fileID: 3055662788472168236}
+  m_Layer: 9
+  m_Name: Book_A_Pickupable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1703038813748895463
+--- !u!4 &6609974695660993791
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703038813748895456}
+  m_GameObject: {fileID: 7739793730915970523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 711016315488296711}
+  - {fileID: 9142115552610033893}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8333971942111060016
+--- !u!114 &5168816919127916678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703038813748895456}
+  m_GameObject: {fileID: 7739793730915970523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecf89bda9f63a2b49a365c6c053a6781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 1
---- !u!114 &3470825727598336374
+  itemType: 32
+--- !u!114 &3507150992234792931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703038813748895456}
+  m_GameObject: {fileID: 7739793730915970523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9106bd291bcf49d408972390a3080e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentTrans: {fileID: 1703038813748895463}
+  parentTrans: {fileID: 6609974695660993791}
   interactCrosshairType: 2
   fpsRotation: {x: 0, y: 0, z: 0}
   fpsScale: {x: 0.3, y: 0.3, z: 0.3}
-  inventoryScale: {x: 2, y: 2, z: 2}
---- !u!114 &5308975912174277586
+  inventoryRotation: {x: 270, y: 0, z: 0}
+  inventoryScale: {x: 1.5, y: 1.5, z: 1.5}
+--- !u!114 &3055662788472168236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703038813748895456}
+  m_GameObject: {fileID: 7739793730915970523}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a8daeb1cd26ed94b960d10e6fac046f, type: 3}

@@ -6,7 +6,7 @@ namespace Personal.Localization
 		/// <summary>
 		/// This is typically used for Dialogue Manager's shorthand.
 		/// </summary>
-		/// <param name="language"></param>
+		/// <param name="language">SupportedLanguageType</param>
 		/// <returns></returns>
 		public static string Get(string language)
 		{

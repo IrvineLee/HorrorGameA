@@ -50,7 +50,8 @@ namespace Personal.UI
 			if (!go) go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero, contentTrans);
 
 			go.transform.SetLayerAllChildren((int)LayerType._UI);
-			go.transform.localScale = Vector3.one;
+			go.transform.rotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
+			go.transform.localScale = inventory.PickupableObject.InventoryScale;
 
 			inventory.SetInteractableObjectUI(go.GetComponentInChildren<InteractablePickupable>());
 		}

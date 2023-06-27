@@ -36,7 +36,6 @@ namespace Personal.Character.Player
 			}
 		}
 
-		[SerializeField] Transform FPSHoldItemInHandView = null;
 		[SerializeField] float autoHideItemDuration = 10f;
 
 		[SerializeField]
@@ -179,8 +178,9 @@ namespace Personal.Character.Player
 		void HoldItemInHand()
 		{
 			Transform activeTrans = activeObject.transform;
+			Transform fpsCameraView = StageManager.Instance.PlayerController.PlayerCameraView.FpsInventoryView;
 
-			activeTrans.SetParent(FPSHoldItemInHandView);
+			activeTrans.SetParent(fpsCameraView);
 			activeTrans.localPosition = initialPosition;
 			activeTrans.localRotation = Quaternion.Euler(activeObject.FPSRotation);
 			activeTrans.localScale = activeObject.FPSScale;

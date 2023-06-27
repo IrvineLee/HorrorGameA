@@ -6,6 +6,7 @@ namespace Personal
 	public static class AssetAddress
 	{
         public const string Actor_NPC_01                    = "Actor_NPC_01";
+        public const string Book_A_Pickupable               = "Book_A_Pickupable";
         public const string CashParent                      = "CashParent";
         public const string CubeBlue_Pickupable             = "CubeBlue_Pickupable";
         public const string CubeRed_Pickupable              = "CubeRed_Pickupable";

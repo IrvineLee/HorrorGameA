@@ -13,9 +13,17 @@ namespace Personal.InteractiveObject
 		[Tooltip("The scale of the item in the fps view.")]
 		[SerializeField] Vector3 fpsScale = Vector3.one;
 
+		[Tooltip("The scale of the item in the inventory view.")]
+		[SerializeField] Vector3 inventoryRotation = Vector3.zero;
+
+		[Tooltip("The scale of the item in the inventory view.")]
+		[SerializeField] Vector3 inventoryScale = Vector3.one;
+
 		public ItemTypeSet ItemTypeSet { get; private set; }
 		public Vector3 FPSRotation { get => fpsRotation; }
 		public Vector3 FPSScale { get => fpsScale; }
+		public Vector3 InventoryRotation { get => inventoryRotation; }
+		public Vector3 InventoryScale { get => inventoryScale; }
 
 		protected override void Initialize()
 		{

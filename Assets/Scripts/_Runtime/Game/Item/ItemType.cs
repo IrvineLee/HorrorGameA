@@ -14,19 +14,19 @@ namespace Personal.Item
 		Item_2 = 1 << 1,
 
 		[StringValue(AssetAddress.PuzzleBlock_A_Pickupable)]
-		Item_PuzzleBlock_A = 1 << 2,
+		PuzzleBlock_A = 1 << 2,
 
 		[StringValue(AssetAddress.PuzzleBlock_B_Pickupable)]
-		Item_PuzzleBlock_B = 1 << 3,
+		PuzzleBlock_B = 1 << 3,
 
 		[StringValue(AssetAddress.Key_A_Pickupable)]
-		Item_Key_A = 1 << 4,
+		Key_A = 1 << 4,
 
-		//[StringValue(AssetAddress.Key_A_Pickupable)]
-		Item_Book_A = 1 << 5,
-		Item_Book_B = 1 << 6,
-		Item_Book_C = 1 << 7,
+		[StringValue(AssetAddress.Book_A_Pickupable)]
+		Book_A = 1 << 5,
+		Book_B = 1 << 6,
+		Book_C = 1 << 7,
 
-		All = Item_1 | Item_2 | Item_PuzzleBlock_A | Item_PuzzleBlock_B | Item_Book_A | Item_Book_B | Item_Book_C,
+		All = Item_1 | Item_2 | PuzzleBlock_A | PuzzleBlock_B | Book_A | Book_B | Book_C,
 	}
 }
