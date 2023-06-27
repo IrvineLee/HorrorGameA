@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
+using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Personal.InteractiveObject;
 using Cinemachine;
-using Helper;
 
 namespace Personal.Manager
 {
@@ -21,6 +21,7 @@ namespace Personal.Manager
 		public PlayerController PlayerController { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
 		public PhoneHandler PhoneHandler { get; private set; }
+		public DialogueSystemController DialogueSystemController { get; private set; }
 
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
@@ -29,6 +30,8 @@ namespace Personal.Manager
 		{
 			// The camera in the Title scene.
 			MainCamera = Camera.main;
+
+			DialogueSystemController = FindObjectOfType<DialogueSystemController>();
 		}
 
 		protected override void OnEarlyMainScene()

@@ -118,7 +118,7 @@ MonoBehaviour:
         key: 0
         buttonName: 
       cancelConversation:
-        key: 27
+        key: 0
         buttonName: 
     barkSettings:
       allowBarksDuringConversations: 1
@@ -729,6 +729,10 @@ PrefabInstance:
     - target: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_Name
       value: Basic Standard Dialogue UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
