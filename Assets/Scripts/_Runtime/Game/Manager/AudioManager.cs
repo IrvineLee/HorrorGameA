@@ -116,6 +116,7 @@ namespace Personal.Manager
 
 			CoroutineHelper.WaitFor(audioSource.clip.length, () =>
 			{
+				if (!audioSource) return;
 				PoolManager.Instance.ReturnSpawnedObject(audioSource.gameObject);
 			});
 		}

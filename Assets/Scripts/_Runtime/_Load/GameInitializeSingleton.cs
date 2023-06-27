@@ -25,7 +25,7 @@ namespace Personal.GameState
 			enabled = true;
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
-			HandleMainScene().Forget();
+			HandleScene();
 
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
@@ -46,6 +46,12 @@ namespace Personal.GameState
 		/// UniTask where it is called right after awake is finished.
 		/// </summary>
 		protected virtual UniTask InitializeUniTask() { return UniTask.CompletedTask; }
+
+		/// <summary>
+		/// This gets called when scene is in Title scene. 
+		/// </summary>
+		/// <returns></returns>
+		protected virtual void OnTitleScene() { }
 
 		/// <summary>
 		/// This gets called when scene is in Main scene/scenes. 
@@ -71,13 +77,24 @@ namespace Personal.GameState
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
+			HandleScene();
+		}
+
+		void HandleScene()
+		{
+			if (!GameSceneManager.Instance.IsMainScene())
+			{
+				if (GameSceneManager.Instance.IsScene(SceneName.Title))
+					OnTitleScene();
+
+				return;
+			}
+
 			HandleMainScene().Forget();
 		}
 
 		async UniTask HandleMainScene()
 		{
-			if (!GameSceneManager.Instance.IsMainScene()) return;
-
 			if (!isBootCompleted)
 				await UniTask.WaitUntil(() => isBootCompleted);
 

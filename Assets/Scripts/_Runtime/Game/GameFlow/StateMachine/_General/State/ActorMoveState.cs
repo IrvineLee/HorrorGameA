@@ -47,13 +47,14 @@ namespace Personal.FSM.Character
 			await base.OnExit();
 			navMeshAgent.isStopped = true;
 
-			// Rotate the actor so it's facing the player.
+			// Rotate the actor so it's facing the target.
 			Transform target = GetLookAtTarget();
 
 			Vector3 direction = navMeshAgent.transform.position.GetNormalizedDirectionTo(target.position);
 			Quaternion endRotation = Quaternion.LookRotation(direction);
 
-			CoroutineHelper.QuaternionLerpWithinSeconds(navMeshAgent.transform, navMeshAgent.transform.rotation, endRotation, exitBodyRotateDuration);
+			Transform actorController = actorStateMachine.ActorController.transform;
+			CoroutineHelper.QuaternionLerpWithinSeconds(actorController, actorController.rotation, endRotation, exitBodyRotateDuration);
 		}
 
 		protected virtual Transform GetTarget()
@@ -76,6 +77,6 @@ namespace Personal.FSM.Character
 			return target;
 		}
 
-		protected virtual Transform GetLookAtTarget() { return StageManager.Instance.PlayerController.FSM.transform; }
+		protected virtual Transform GetLookAtTarget() { return null; }
 	}
 }

@@ -53,5 +53,10 @@ namespace Personal.Character.Player
 
 			flickeringCR = CoroutineHelper.RunActionUntilBreak(0, action, default);
 		}
+
+		void OnDestroy()
+		{
+			flickeringCR?.StopCoroutine();
+		}
 	}
 }

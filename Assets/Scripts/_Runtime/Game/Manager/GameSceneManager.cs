@@ -21,6 +21,12 @@ namespace Personal.Manager
 			return false;
 		}
 
+		public bool IsScene(string sceneName)
+		{
+			if (string.Equals(sceneName, SceneManager.GetActiveScene().name)) return true;
+			return false;
+		}
+
 		public void ChangeLevel(int index, TransitionType transitionType = TransitionType.Fade, Action inBetweenAction = default, float delay = 0)
 		{
 			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(index));

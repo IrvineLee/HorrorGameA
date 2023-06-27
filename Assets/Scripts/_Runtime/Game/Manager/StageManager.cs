@@ -25,8 +25,6 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 
-		CoroutineRun beginCR = new CoroutineRun();
-
 		protected override void Initialize()
 		{
 			// The camera in the Title scene.
@@ -40,9 +38,11 @@ namespace Personal.Manager
 			// Set the camera in Main scene.
 			MainCamera = Camera.main;
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
+		}
 
-			beginCR?.StopCoroutine();
-			beginCR = CoroutineHelper.WaitFor(1f, () => InputManager.Instance.SetToDefaultActionMap());
+		protected override void OnMainScene()
+		{
+			InputManager.Instance.SetToDefaultActionMap();
 		}
 
 		public void RegisterPlayer(PlayerController pc)

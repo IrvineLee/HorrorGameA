@@ -26,6 +26,11 @@ namespace Personal.Manager
 			SetToMouseCursor(true);
 		}
 
+		protected override void OnTitleScene()
+		{
+			SetToMouseCursor(true);
+		}
+
 		protected override void OnEarlyMainScene()
 		{
 			SetToMouseCursor(false);
