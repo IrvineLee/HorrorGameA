@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f0696300aeac44a0e17efee222854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLanguage: Japanese
+  currentLanguage: English
   detectLanguage: 1
   defaultLanguage: English
   saveLoad: 1
@@ -124,6 +124,8 @@ MonoBehaviour:
     Text: "\u5DE6\u53F3\u53CD\u8EE2"
   - Name: Option/Game/InvertLookVertical
     Text: "\u4E0A\u4E0B\u53CD\u8EE2"
+  - Name: Option/Game/USInteractButton
+    Text: "OK\u30DC\u30BF\u30F3"
   - Name: Option/Game/GamepadIcon
     Text: "\u30B2\u30FC\u30E0\u30D1\u30C3\u30C9\u30A2\u30A4\u30B3\u30F3"
   - Name: Option/Game/FontSize
@@ -227,6 +229,8 @@ MonoBehaviour:
     Text: Invert Look Horizontal
   - Name: Option/Game/InvertLookVertical
     Text: Invert Look Vertical
+  - Name: Option/Game/USInteractButton
+    Text: US Interact Button
   - Name: Option/Game/GamepadIcon
     Text: Gamepad Icon
   - Name: Option/Game/FontSize

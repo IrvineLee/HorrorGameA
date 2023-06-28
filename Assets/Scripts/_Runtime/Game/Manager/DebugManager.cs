@@ -25,7 +25,7 @@ namespace Personal.Manager
 			if (InputManager.Instance.IsInteract)
 			{
 				//Debug.Log("<color=red> " + InputManager.Instance.IsInteract + " </color>");
-				RumbleManager.Instance.Vibrate(0.5f, 0.5f, 1f);
+				//RumbleManager.Instance.Vibrate(0.5f, 0.5f, 1f);
 			}
 			if (Input.GetKeyDown(KeyCode.Z))
 			{
