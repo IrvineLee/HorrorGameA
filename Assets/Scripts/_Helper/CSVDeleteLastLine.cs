@@ -47,7 +47,9 @@ namespace Helper
 
 				File.WriteAllText(file.FullName, dataStr, Encoding.UTF8);
 			}
+
 			AssetDatabase.Refresh();
+			Debug.Log("Removed all empty lines!");
 		}
 	}
 }
