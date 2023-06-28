@@ -200,5 +200,13 @@ namespace Personal.Character.Player
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
 		}
+
+		void OnDestroy()
+		{
+			foreach (var inventory in inventoryList)
+			{
+				UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);
+			}
+		}
 	}
 }

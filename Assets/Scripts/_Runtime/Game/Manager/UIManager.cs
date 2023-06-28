@@ -2,6 +2,7 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using Personal.GameState;
 using Personal.UI;
 using Personal.UI.Option;
@@ -18,6 +19,7 @@ namespace Personal.Manager
 		[SerializeField] WindowHandlerUI windowHandlerUI = null;
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
+		[ShowInInspector]
 		public UIInterfaceType ActiveInterfaceType { get => WindowStack.Count >= 1 ? WindowStack.Peek().UiInterfaceType : UIInterfaceType.None; }
 		public PauseHandlerUI PauseUI { get => pauseMenuUI; }
 		public OptionHandlerUI OptionUI { get => optionUI; }

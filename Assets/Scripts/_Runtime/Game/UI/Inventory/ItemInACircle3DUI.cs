@@ -47,8 +47,9 @@ namespace Personal.UI
 		public async UniTask SpawnObject(ItemType itemType, Inventory inventory)
 		{
 			GameObject go = PoolManager.Instance.GetSpawnedObject(inventory.PickupableObject.name);
-			if (!go) go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero, contentTrans);
+			if (!go) go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero);
 
+			go.transform.SetParent(contentTrans);
 			go.transform.SetLayerAllChildren((int)LayerType._UI);
 			go.transform.rotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
 			go.transform.localScale = inventory.PickupableObject.InventoryScale;
