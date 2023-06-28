@@ -24,6 +24,7 @@ namespace Personal.UI.Option
 		[SerializeField] Slider cameraSensitivitySlider = null;
 		[SerializeField] Toggle isInvertLookHorizontal = null;
 		[SerializeField] Toggle isInvertLookVertical = null;
+		[SerializeField] Toggle isUSInteractButton = null;
 		[SerializeField] TMP_Dropdown gamepadIconDropdown = null;
 		[SerializeField] TMP_Dropdown fontSizeDropdown = null;
 		[SerializeField] TMP_Dropdown languageDropdown = null;
@@ -78,6 +79,7 @@ namespace Personal.UI.Option
 			gameData.CameraSensitivity = cameraSensitivitySlider.value;
 			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.isOn;
 			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
+			gameData.IsUSInteractButton = isUSInteractButton.isOn;
 			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
 			gameData.SelectedLanguage = (SupportedLanguageType)languageDropdown.value;
@@ -116,6 +118,8 @@ namespace Personal.UI.Option
 				colorAdjustments.postExposure.value = currentBrightness01;
 			});
 
+			isUSInteractButton.onValueChanged.AddListener((value) => InputManager.Instance.SwapInteractInput(value));
+
 			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
 			fontSizeDropdown.onValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
 
@@ -132,6 +136,8 @@ namespace Personal.UI.Option
 			isInvertLookHorizontal.isOn = gameData.IsInvertLookHorizontal;
 			isInvertLookVertical.isOn = gameData.IsInvertLookVertical;
 
+			isUSInteractButton.isOn = gameData.IsUSInteractButton;
+
 			gamepadIconDropdown.value = (int)gameData.IconDisplayType;
 			fontSizeDropdown.value = (int)gameData.FontSizeType;
 
@@ -147,6 +153,8 @@ namespace Personal.UI.Option
 
 			colorAdjustments.postExposure.value = gameData.Brightness;
 
+			InputManager.Instance.SwapInteractInput(gameData.IsUSInteractButton);
+
 			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);
 
@@ -161,6 +169,7 @@ namespace Personal.UI.Option
 			unityEventBoolList.Add(isInvertLookHorizontal.onValueChanged);
 			unityEventBoolList.Add(isInvertLookVertical.onValueChanged);
 
+			unityEventBoolList.Add(isUSInteractButton.onValueChanged);
 			unityEventIntList.Add(gamepadIconDropdown.onValueChanged);
 			unityEventIntList.Add(fontSizeDropdown.onValueChanged);
 			unityEventIntList.Add(languageDropdown.onValueChanged);

@@ -5,6 +5,7 @@ using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Personal.InteractiveObject;
+using Personal.InputProcessing;
 using Cinemachine;
 
 namespace Personal.Manager
@@ -45,7 +46,7 @@ namespace Personal.Manager
 
 		protected override void OnMainScene()
 		{
-			InputManager.Instance.SetToDefaultActionMap();
+			InputManager.Instance.EnableActionMap(ActionMapType.Player);
 		}
 
 		public void RegisterPlayer(PlayerController pc)

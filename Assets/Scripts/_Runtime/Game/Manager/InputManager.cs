@@ -8,6 +8,8 @@ using Personal.InputProcessing;
 using Personal.Definition;
 using Helper;
 using static Personal.Definition.InputReaderDefinition;
+using Sirenix.OdinInspector;
+using UnityEngine.InputSystem.UI;
 
 namespace Personal.Manager
 {
@@ -15,6 +17,7 @@ namespace Personal.Manager
 	{
 		[SerializeField] InputReaderDefinition inputReaderDefinition = null;
 		[SerializeField] ButtonIconDefinition buttonIconDefinition = null;
+		[SerializeField] [ReadOnly] ActionMapType currentActionMapType = ActionMapType.BasicControl;
 
 		public InputReaderDefinition InputReaderDefinition { get => inputReaderDefinition; }
 		public PlayerActionInput PlayerActionInput { get; private set; }
@@ -26,14 +29,14 @@ namespace Personal.Manager
 		public UIInputController UIInputController { get; private set; }
 		public PuzzleInputController PuzzleInputController { get; private set; }
 
-		public ActionMapType CurrentActionMapType { get; private set; }
+		public ActionMapType CurrentActionMapType { get => currentActionMapType; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
 
 		public bool IsInteract
 		{
 			get
 			{
-				switch (CurrentActionMapType)
+				switch (currentActionMapType)
 				{
 					case ActionMapType.Player: return FPSInputController.IsInteract;
 					case ActionMapType.UI: return UIInputController.IsInteract;
@@ -47,7 +50,7 @@ namespace Personal.Manager
 		{
 			get
 			{
-				switch (CurrentActionMapType)
+				switch (currentActionMapType)
 				{
 					case ActionMapType.Player: return FPSInputController.IsCancel;
 					case ActionMapType.UI: return UIInputController.IsCancel;
@@ -63,6 +66,10 @@ namespace Personal.Manager
 		public event Action OnAnyButtonPressed;
 		public event Action OnDeviceIconChanged;
 
+		InputSystemUIInputModule inputSystemUIInputModule;
+		InputActionReference submitActionReference;
+		InputActionReference cancelActionReference;
+
 		InputDevice previousDevice = null;
 		IconDisplayType iconDisplayType;
 
@@ -74,6 +81,10 @@ namespace Personal.Manager
 			FPSInputController = GetComponentInChildren<FPSInputController>(true);
 			UIInputController = GetComponentInChildren<UIInputController>(true);
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
+			inputSystemUIInputModule = GetComponentInChildren<InputSystemUIInputModule>(true);
+
+			submitActionReference = inputSystemUIInputModule.submit;
+			cancelActionReference = inputSystemUIInputModule.cancel;
 
 			inputReaderDefinition.Initialize();
 			SetToDefaultActionMap();
@@ -109,7 +120,7 @@ namespace Personal.Manager
 			var inputControllerInfo = GetInputControllerInfo(actionMap);
 			inputControllerInfo.Enable(true);
 
-			CurrentActionMapType = actionMap;
+			currentActionMapType = actionMap;
 		}
 
 		/// <summary>
@@ -147,6 +158,25 @@ namespace Personal.Manager
 
 			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
 			HandleIconInitials();
+		}
+
+		/// <summary>
+		/// Used when changing the interact button between x/o and a/b.
+		/// </summary>
+		/// <param name="isUSInteract"></param>
+		public void SwapInteractInput(bool isUSInteract)
+		{
+			inputReaderDefinition.SwapInteractInput(isUSInteract);
+
+			if (isUSInteract)
+			{
+				inputSystemUIInputModule.submit = submitActionReference;
+				inputSystemUIInputModule.cancel = cancelActionReference;
+				return;
+			}
+
+			inputSystemUIInputModule.submit = cancelActionReference;
+			inputSystemUIInputModule.cancel = submitActionReference;
 		}
 
 		/// <summary>

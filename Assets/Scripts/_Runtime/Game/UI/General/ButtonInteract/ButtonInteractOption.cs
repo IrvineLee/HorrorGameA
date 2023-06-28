@@ -15,7 +15,6 @@ namespace Personal.UI
 
 		void Option()
 		{
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 			UIManager.Instance.OptionUI.OpenWindow();
 		}
 

@@ -19,7 +19,6 @@ namespace Personal.Manager
 		[SerializeField] Image crosshairImage = null;
 
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
-		StandardUIMenuPanel standardUIMenuPanel;
 
 		protected override void Initialize()
 		{
@@ -27,17 +26,6 @@ namespace Personal.Manager
 			mouseCursorHandler.SetImage(cursorDefinition.MouseCursor);
 
 			SetToMouseCursor(true);
-		}
-
-		protected override async UniTask InitializeUniTask()
-		{
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
-
-			GameObject dialogueUI = StageManager.Instance.DialogueSystemController.displaySettings.dialogueUI;
-			standardUIMenuPanel = dialogueUI.GetComponentInChildren<StandardDialogueUI>().conversationUIElements.defaultMenuPanel;
-
-			standardUIMenuPanel.onOpen.AddListener(() => SetToMouseCursor(true));
-			standardUIMenuPanel.onClose.AddListener(() => SetToMouseCursor(false));
 		}
 
 		protected override void OnTitleScene()
@@ -84,12 +72,6 @@ namespace Personal.Manager
 				return;
 			}
 			SetToMouseCursor(true);
-		}
-
-		void OnDestroy()
-		{
-			standardUIMenuPanel.onOpen.RemoveAllListeners();
-			standardUIMenuPanel.onClose.RemoveAllListeners();
 		}
 	}
 }

@@ -60,6 +60,7 @@ namespace Personal.Definition
 		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
 		Dictionary<ActionMapType, InputControllerInfo> inputActionMapDictionary = new Dictionary<ActionMapType, InputControllerInfo>();
+		bool isUSInteract = true;
 
 		public void Initialize()
 		{
@@ -75,6 +76,11 @@ namespace Personal.Definition
 			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
 			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.UIInputController));
 			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
+		}
+
+		public void SwapInteractInput(bool isUSInteract)
+		{
+			this.isUSInteract = isUSInteract;
 		}
 
 		/// ------------------------------------------------------------
@@ -99,6 +105,22 @@ namespace Personal.Definition
 		public void OnCancel(InputAction.CallbackContext context)
 		{
 			SetButtonEvent(context.started, OnCancelEvent);
+		}
+
+		public void OnConfirm_Gamepad(InputAction.CallbackContext context)
+		{
+			if (isUSInteract)
+				SetButtonEvent(context.started, OnInteractEvent);
+			else
+				SetButtonEvent(context.started, OnCancelEvent);
+		}
+
+		public void OnCancel_Gamepad(InputAction.CallbackContext context)
+		{
+			if (isUSInteract)
+				SetButtonEvent(context.started, OnCancelEvent);
+			else
+				SetButtonEvent(context.started, OnInteractEvent);
 		}
 
 		/// ------------------------------------------------------------
@@ -179,6 +201,15 @@ namespace Personal.Definition
 
 		// To get triggers for analog movement to update UI icons.
 		void PlayerActionInput.IUIActions.OnNotUsed(InputAction.CallbackContext context) { }
+
+		// For the Input System UI Input Module.
+		void PlayerActionInput.IUIActions.OnPoint(InputAction.CallbackContext context) { }
+		void PlayerActionInput.IUIActions.OnClick(InputAction.CallbackContext context) { }
+		void PlayerActionInput.IUIActions.OnScrollWheel(InputAction.CallbackContext context) { }
+		void PlayerActionInput.IUIActions.OnMiddleClick(InputAction.CallbackContext context) { }
+		void PlayerActionInput.IUIActions.OnRightClick(InputAction.CallbackContext context) { }
+		void PlayerActionInput.IUIActions.OnTrackedDevicePosition(InputAction.CallbackContext context) { }
+		void PlayerActionInput.IUIActions.OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
 	}
 }
 

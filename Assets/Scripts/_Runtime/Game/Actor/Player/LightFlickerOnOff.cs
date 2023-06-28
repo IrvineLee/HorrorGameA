@@ -37,6 +37,7 @@ namespace Personal.Character.Player
 			Action action = () =>
 			{
 				if (!waitCR.IsDone) return;
+				if (flickeringCR.IsDone) return;
 
 				float random = UnityEngine.Random.Range(onMinDuration, onMaxDuration);
 				light.enabled = true;
