@@ -1,41 +1,51 @@
 ﻿#if UNITY_EDITOR
-using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
+
 
 namespace Helper
 {
 	public class CSVDeleteLastLine
 	{
-		[MenuItem("Tools/CSV Delete Last Line")]
+		[MenuItem("Tools/CSV Delete Empty Lines")]
 		public static void DeleteLastLineIfEmpty()
 		{
-			string assetFolder = Application.dataPath;
+			string assetFolder = Application.dataPath + "/Data/UILocalization";
 			if (!Directory.Exists(assetFolder)) return;
 
 			DirectoryInfo directoryInfo = new DirectoryInfo(assetFolder);
-			var fileInfo = directoryInfo.GetFiles("*.csv*", SearchOption.AllDirectories);
+			var fileInfo = directoryInfo.GetFiles("*.csv", SearchOption.AllDirectories);
 
 			foreach (FileInfo file in fileInfo)
 			{
 				string fileData = File.ReadAllText(file.FullName);
-				List<string> dataList = fileData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+				List<string> dataList = fileData.Split(new char[] { '\n' }).ToList();
 
-				int lastIndex = dataList.Count - 1;
+				// Check whether to remove the line.
+				for (int i = dataList.Count - 1; i >= 0; i--)
+				{
+					string s;
+					s = dataList[i].RemoveAllWhiteSpaces();
 
-				// Somehow just removing all the white spaces on the dataList itself does not seem to work.
-				// Have to remove and add it again to remove the space.
-				string s = dataList[lastIndex];
-				dataList.RemoveAt(lastIndex);
+					if (string.IsNullOrEmpty(s))
+					{
+						dataList.RemoveAt(i);
+					}
+				}
 
-				s = s.RemoveAllWhiteSpaces();
-				dataList.Add(s);
+				// Make sure there are no additional lines added to the file.
+				string dataStr = dataList[0].Trim();
+				for (int i = 1; i < dataList.Count; i++)
+				{
+					dataStr += "\n" + dataList[i].Trim();
+				}
 
-				File.WriteAllText(file.FullName, string.Join('\n', dataList));
+				File.WriteAllText(file.FullName, dataStr, Encoding.UTF8);
 			}
 			AssetDatabase.Refresh();
 		}
