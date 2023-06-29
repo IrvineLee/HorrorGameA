@@ -113,7 +113,7 @@ namespace Personal.Character.Player
 			CurrentActiveIndex = isNext ? CurrentActiveIndex + 1 : CurrentActiveIndex - 1;
 			CurrentActiveIndex = CurrentActiveIndex.WithinCount(inventoryList.Count);
 
-			if (CurrentActiveIndex >= inventoryList.Count - 1) return;
+			if (CurrentActiveIndex > inventoryList.Count - 1) return;
 
 			// You only want to update the active object after exiting the inventory menu.
 			if (UIManager.Instance.ActiveInterfaceType == UI.UIInterfaceType.Inventory) return;
