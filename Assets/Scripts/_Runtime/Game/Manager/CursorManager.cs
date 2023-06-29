@@ -5,8 +5,6 @@ using PixelCrushers;
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
-using Cysharp.Threading.Tasks;
-using PixelCrushers.DialogueSystem;
 
 namespace Personal.Manager
 {
@@ -38,6 +36,10 @@ namespace Personal.Manager
 			SetToMouseCursor(false);
 		}
 
+		/// <summary>
+		/// This only works for mouse input, NOT gamepad.
+		/// </summary>
+		/// <param name="isFlag"></param>
 		public void SetToMouseCursor(bool isFlag)
 		{
 			InputDeviceManager.instance.ForceCursorFalse();
@@ -46,6 +48,10 @@ namespace Personal.Manager
 			mouseCursorHandler.gameObject.SetActive(isFlag);
 		}
 
+		/// <summary>
+		/// This is the crosshair when in FPS mode, NOT when the mouse cursor is enabled,
+		/// </summary>
+		/// <param name="crosshairType"></param>
 		public void SetCrosshair(CursorDefinition.CrosshairType crosshairType)
 		{
 			if (currentCrosshairType == crosshairType) return;
@@ -56,6 +62,9 @@ namespace Personal.Manager
 			crosshairImage.sprite = sprite;
 		}
 
+		/// <summary>
+		/// Set the crosshair back to it's default state.
+		/// </summary>
 		public void SetToDefaultCrosshair()
 		{
 			cursorDefinition.CrosshairDictionary.TryGetValue(CursorDefinition.CrosshairType.FPS, out Sprite sprite);

@@ -187,7 +187,7 @@ namespace Personal.Manager
 		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
-			if (change != InputActionChange.ActionStarted) return;
+			if (change != InputActionChange.ActionStarted && change != InputActionChange.ActionPerformed) return;
 
 			// Get the last input device.
 			var lastControl = ((InputAction)obj).activeControl;

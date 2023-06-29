@@ -38,8 +38,7 @@ namespace Personal.UI
 		{
 			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
 
-			var uiList = InputManager.Instance.ButtonIconDefinition.Ui_ButtonIconInfoList;
-			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetAllText(uiList));
+			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetAllText());
 		}
 
 		void DisplayIcons(List<string> textList)

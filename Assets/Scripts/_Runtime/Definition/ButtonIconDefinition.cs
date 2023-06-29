@@ -32,11 +32,11 @@ namespace Personal.Definition
 		StringBuilder sb = new StringBuilder();
 		List<string> textList = new List<string>();
 
-		public List<string> GetAllText(List<ButtonIconInfo> buttonInfoList)
+		public List<string> GetAllText()
 		{
 			textList.Clear();
 
-			foreach (var buttonInfo in buttonInfoList)
+			foreach (var buttonInfo in ui_ButtonIconInfoList)
 			{
 				sb.Clear();
 				string s = sb.Append("<sprite name=").
