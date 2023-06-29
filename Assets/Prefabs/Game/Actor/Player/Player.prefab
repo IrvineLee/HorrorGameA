@@ -351,7 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoHideItemDuration: 10
-  activeObject: {fileID: 0}
+  activeObject:
+    pickupableObject: {fileID: 0}
+    pickupableObjectUI: {fileID: 0}
   inventoryList: []
 --- !u!1 &3032468237786636186
 GameObject:

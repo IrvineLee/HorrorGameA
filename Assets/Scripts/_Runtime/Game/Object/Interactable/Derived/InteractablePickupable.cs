@@ -1,7 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using UnityEngine;
+
+using Cysharp.Threading.Tasks;
 using Personal.Item;
 using Personal.Manager;
-using UnityEngine;
+using Helper;
 
 namespace Personal.InteractiveObject
 {
@@ -20,6 +22,7 @@ namespace Personal.InteractiveObject
 		[SerializeField] Vector3 inventoryScale = Vector3.one;
 
 		public ItemTypeSet ItemTypeSet { get; private set; }
+		public SelfRotate SelfRotate { get; private set; }
 		public Vector3 FPSRotation { get => fpsRotation; }
 		public Vector3 FPSScale { get => fpsScale; }
 		public Vector3 InventoryRotation { get => inventoryRotation; }
@@ -29,7 +32,8 @@ namespace Personal.InteractiveObject
 		{
 			base.Initialize();
 
-			ItemTypeSet = GetComponentInParent<ItemTypeSet>();
+			ItemTypeSet = GetComponentInParent<ItemTypeSet>(true);
+			SelfRotate = GetComponentInParent<SelfRotate>(true);
 		}
 
 		protected override UniTask HandleInteraction()

@@ -51,7 +51,7 @@ namespace Personal.UI
 
 			go.transform.SetParent(contentTrans);
 			go.transform.SetLayerAllChildren((int)LayerType._UI);
-			go.transform.rotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
+			go.transform.localRotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
 			go.transform.localScale = inventory.PickupableObject.InventoryScale;
 
 			inventory.SetInteractableObjectUI(go.GetComponentInChildren<InteractablePickupable>());
@@ -65,11 +65,14 @@ namespace Personal.UI
 			if (!IsSetIntoACircle()) return;
 
 			// Put the active item at the front view.
-			int currentIndex = StageManager.Instance.PlayerController.Inventory.CurrentActiveIndex;
+			int currentIndex = playerInventory.CurrentActiveIndex;
 			float eulerRotateToActiveItem = currentIndex * yAngleToRotate;
 
 			// Since it spawns clockwise starting at 6 o'clock, minus it to reach the correct index.
 			contentTrans.localEulerAngles = contentTrans.localEulerAngles.With(y: contentTrans.localEulerAngles.y - eulerRotateToActiveItem);
+
+			// Enable the rotation.
+			playerInventory.ActiveObject.PickupableObjectUI.SelfRotate.enabled = true;
 		}
 
 		/// <summary>
@@ -118,6 +121,13 @@ namespace Personal.UI
 
 			yAngleToRotate = 360 / childCount;
 			return true;
+		}
+
+		protected void ResetActiveRotation()
+		{
+			var activeObject = playerInventory.ActiveObject;
+			activeObject.PickupableObjectUI.transform.localRotation = Quaternion.Euler(activeObject.PickupableObject.InventoryRotation);
+			activeObject.PickupableObjectUI.SelfRotate.enabled = false;
 		}
 	}
 }

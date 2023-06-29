@@ -23,9 +23,9 @@ namespace Personal.Character.Player
 			[SerializeField] InteractablePickupable pickupableObjectUI = null;
 
 			public InteractablePickupable PickupableObject { get => pickupableObject; }
-			public InteractablePickupable InteractableObjectUI { get => pickupableObjectUI; }
+			public InteractablePickupable PickupableObjectUI { get => pickupableObjectUI; }
 
-			public Inventory(InteractablePickupable pickupableObject)
+			public void SetInteractableObject(InteractablePickupable pickupableObject)
 			{
 				this.pickupableObject = pickupableObject;
 			}
@@ -40,13 +40,13 @@ namespace Personal.Character.Player
 
 		[SerializeField]
 		[ReadOnly]
-		InteractablePickupable activeObject = null;
+		Inventory activeObject = null;
 
 		[SerializeField]
 		[ReadOnly]
 		List<Inventory> inventoryList = new();
 
-		public InteractablePickupable ActiveObject { get => activeObject; }
+		public Inventory ActiveObject { get => activeObject; }
 		public List<Inventory> InventoryList { get => inventoryList; }
 
 		public int CurrentActiveIndex { get; private set; } = -1;
@@ -62,14 +62,15 @@ namespace Personal.Character.Player
 		/// <param name="isDestroy">If you are interacting with the object somewhere else, put it to false. Otherwise it return to the pool.</param>
 		public void UseActiveItem(bool isDestroy = true)
 		{
-			if (isDestroy) PoolManager.Instance.ReturnSpawnedObject(activeObject.gameObject);
-
-			activeObject = null;
+			if (isDestroy)
+			{
+				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObject.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.ParentTrans.gameObject);
+			}
 
 			// Remove the item from the inventory and the ui view.
-			Inventory inventory = inventoryList[CurrentActiveIndex];
-			UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);
-			inventoryList.Remove(inventory);
+			inventoryList.Remove(activeObject);
+			activeObject = null;
 
 			if (inventoryList.Count <= 0)
 			{
@@ -87,11 +88,13 @@ namespace Personal.Character.Player
 		/// <param name="interactablePickupable"></param>
 		public void AddItem(InteractablePickupable interactablePickupable)
 		{
-			activeObject?.gameObject.SetActive(false);
-			activeObject = interactablePickupable;
+			activeObject?.PickupableObject?.gameObject.SetActive(false);
 
-			Inventory inventory = new Inventory(interactablePickupable);
+			Inventory inventory = new Inventory();
+			inventory.SetInteractableObject(interactablePickupable);
 			inventoryList.Add(inventory);
+
+			activeObject = inventory;
 			CurrentActiveIndex = inventoryList.Count - 1;
 
 			// Add item to inventory ui.
@@ -142,11 +145,11 @@ namespace Personal.Character.Player
 
 			// Do nothing if it's the same object.
 			var newActiveObject = inventoryList[CurrentActiveIndex];
-			if (activeObject == newActiveObject.PickupableObject) return;
+			if (activeObject.Equals(newActiveObject)) return;
 
 			// Set to new active gameobject.
-			activeObject?.gameObject.SetActive(false);
-			activeObject = newActiveObject.PickupableObject;
+			activeObject.PickupableObject?.gameObject.SetActive(false);
+			activeObject = newActiveObject;
 
 			HoldItemInHand();
 		}
@@ -157,7 +160,7 @@ namespace Personal.Character.Player
 		/// <param name="isFlag"></param>
 		public void FPS_ShowItem(bool isFlag)
 		{
-			if (!activeObject) return;
+			if (!activeObject.PickupableObject) return;
 
 			autoHideItemCR?.StopCoroutine();
 			if (isFlag)
@@ -177,15 +180,16 @@ namespace Personal.Character.Player
 		/// </summary>
 		void HoldItemInHand()
 		{
-			Transform activeTrans = activeObject.transform;
+			var pickupable = activeObject.PickupableObject;
+			Transform activeTrans = pickupable.transform;
 			Transform fpsCameraView = StageManager.Instance.PlayerController.PlayerCameraView.FpsInventoryView;
 
 			activeTrans.SetParent(fpsCameraView);
 			activeTrans.localPosition = initialPosition;
-			activeTrans.localRotation = Quaternion.Euler(activeObject.FPSRotation);
-			activeTrans.localScale = activeObject.FPSScale;
+			activeTrans.localRotation = Quaternion.Euler(pickupable.FPSRotation);
+			activeTrans.localScale = pickupable.FPSScale;
 
-			activeObject.gameObject.SetActive(true);
+			pickupable.gameObject.SetActive(true);
 			FPS_ShowItem(true);
 		}
 
@@ -195,7 +199,7 @@ namespace Personal.Character.Player
 		/// <param name="toPosition"></param>
 		void AnimateActiveItem(Vector3 toPosition)
 		{
-			Transform activeTrans = activeObject.transform;
+			Transform activeTrans = activeObject.PickupableObject.transform;
 
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
@@ -206,7 +210,7 @@ namespace Personal.Character.Player
 			// Remove the object from the inventory UI.
 			foreach (var inventory in inventoryList)
 			{
-				UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ParentTrans.gameObject);
 			}
 		}
 	}

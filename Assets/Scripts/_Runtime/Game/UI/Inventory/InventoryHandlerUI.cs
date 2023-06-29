@@ -40,14 +40,5 @@ namespace Personal.UI
 		{
 			_ = itemInACircle3DUI.SpawnObject(itemType, inventory);
 		}
-
-		/// <summary>
-		/// Remove object from ui selection.
-		/// </summary>
-		/// <param name="interactableObject"></param>
-		public void RemoveObject(InteractableObject interactableObject)
-		{
-			PoolManager.Instance.ReturnSpawnedObject(interactableObject.ParentTrans.gameObject);
-		}
 	}
 }

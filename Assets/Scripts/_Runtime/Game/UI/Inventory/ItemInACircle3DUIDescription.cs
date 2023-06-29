@@ -37,6 +37,9 @@ namespace Personal.UI
 
 			Vector3 angleRotation = new Vector3(0, angle, 0);
 			rotateAroundCR = CoroutineHelper.RotateWithinSeconds(contentTrans, angleRotation, rotateDuration, doLast, false);
+
+			// Rotate the active pickupable.
+			ResetActiveRotation();
 		}
 
 		/// <summary>
@@ -50,6 +53,9 @@ namespace Personal.UI
 			{
 				playerInventory.NextItem(isNextItem);
 				UpdateText();
+
+				var newActiveObject = playerInventory.InventoryList[playerInventory.CurrentActiveIndex];
+				newActiveObject.PickupableObjectUI.SelfRotate.enabled = true;
 			};
 
 			return action;

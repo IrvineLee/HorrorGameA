@@ -72,7 +72,9 @@ namespace Personal.InteractiveObject
 		bool IsAbleToOpenDoor()
 		{
 			if (keyItemType == default) return true;
-			if (playerInventory.ActiveObject && keyItemType.HasFlag(playerInventory.ActiveObject.ItemTypeSet.ItemType))
+
+			var pickupable = playerInventory.ActiveObject.PickupableObject;
+			if (pickupable && keyItemType.HasFlag(pickupable.ItemTypeSet.ItemType))
 			{
 				keyItemType = default;
 				playerInventory.UseActiveItem(true);

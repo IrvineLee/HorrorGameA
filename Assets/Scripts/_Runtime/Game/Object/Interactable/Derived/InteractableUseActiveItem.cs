@@ -22,12 +22,12 @@ namespace Personal.InteractiveObject
 		/// </summary>
 		void HandleUseActiveItem()
 		{
-			var activeObject = StageManager.Instance.PlayerController.Inventory.ActiveObject;
+			var pickupable = StageManager.Instance.PlayerController.Inventory.ActiveObject.PickupableObject;
 
-			if (!activeObject) return;
-			if (!itemTypeCompare.HasFlag(activeObject.ItemTypeSet.ItemType)) return;
+			if (!pickupable) return;
+			if (!itemTypeCompare.HasFlag(pickupable.ItemTypeSet.ItemType)) return;
 
-			activeObject.ParentTrans.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
+			pickupable.ParentTrans.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);
 		}
 	}
