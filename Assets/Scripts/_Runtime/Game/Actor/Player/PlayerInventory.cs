@@ -201,8 +201,9 @@ namespace Personal.Character.Player
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
 		}
 
-		void OnDestroy()
+		protected override void OnTitleScene()
 		{
+			// Remove the object from the inventory UI.
 			foreach (var inventory in inventoryList)
 			{
 				UIManager.Instance.InventoryUI.RemoveObject(inventory.InteractableObjectUI);

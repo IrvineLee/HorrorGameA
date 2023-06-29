@@ -77,6 +77,11 @@ namespace Personal.GameState
 		/// </summary>
 		protected virtual void OnMainScene() { }
 
+		/// <summary>
+		/// This will be called when returning to Title scene.
+		/// </summary>
+		protected virtual void OnTitleScene() { }
+
 		async void AwakeComplete()
 		{
 			PreInitialize();
@@ -100,7 +105,13 @@ namespace Personal.GameState
 
 		async UniTask HandleMainScene()
 		{
-			if (!GameSceneManager.Instance.IsMainScene()) return;
+			if (!GameSceneManager.Instance.IsMainScene())
+			{
+				if (GameSceneManager.Instance.IsScene(SceneName.Title))
+					OnTitleScene();
+
+				return;
+			}
 
 			// Reason for loop timing is to make sure other GameInitialize script call its Initialize first before this OnMainScene.
 			await UniTask.NextFrame(PlayerLoopTiming.LastTimeUpdate);

@@ -68,7 +68,8 @@ namespace Personal.UI
 			int currentIndex = StageManager.Instance.PlayerController.Inventory.CurrentActiveIndex;
 			float eulerRotateToActiveItem = currentIndex * yAngleToRotate;
 
-			contentTrans.localEulerAngles = contentTrans.localEulerAngles.With(y: contentTrans.localEulerAngles.y + eulerRotateToActiveItem);
+			// Since it spawns clockwise starting at 6 o'clock, minus it to reach the correct index.
+			contentTrans.localEulerAngles = contentTrans.localEulerAngles.With(y: contentTrans.localEulerAngles.y - eulerRotateToActiveItem);
 		}
 
 		/// <summary>
@@ -104,15 +105,13 @@ namespace Personal.UI
 			for (int i = 0; i < childCount; i++)
 			{
 				Transform child = contentTrans.GetChild(i);
-				Vector2 direction = directionList[i] * radius;
+				Vector2 direction = -directionList[i] * radius; // Negative direction so it to spawns at 6 o'clock rather than 12 o'clock.
 
 				child.position = contentTrans.position;
 				child.localPosition = child.localPosition.With(x: direction.x, z: direction.y);
 			}
 
-			// Since the first item spawned would be straight ahead, rotate it 180 degrees so it faces the front.
 			contentTrans.localRotation = Quaternion.identity;
-			contentTrans.localEulerAngles = Vector3.zero.With(y: 180);
 
 			Quaternion quaternion = Quaternion.Euler(contentTrans.localEulerAngles);
 			contentTrans.localRotation = quaternion;

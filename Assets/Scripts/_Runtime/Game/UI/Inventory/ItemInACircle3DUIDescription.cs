@@ -27,12 +27,12 @@ namespace Personal.UI
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = yAngleToRotate;
-			Action doLast = GetNextAction(true);
+			Action doLast = GetNextAction(false);
 
 			if (uIInputController.Move.x < 0)
 			{
 				angle = -yAngleToRotate;
-				doLast = GetNextAction(false);
+				doLast = GetNextAction(true);
 			}
 
 			Vector3 angleRotation = new Vector3(0, angle, 0);
