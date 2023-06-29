@@ -3,6 +3,8 @@ using UnityEngine;
 using PixelCrushers.DialogueSystem;
 using Personal.Manager;
 using Personal.GameState;
+using PixelCrushers;
+using UnityEngine.EventSystems;
 
 namespace Personal.InputProcessing
 {
@@ -25,6 +27,7 @@ namespace Personal.InputProcessing
 			standardUIMenuPanel.onOpen.AddListener(() =>
 			{
 				isWaitingResponse = true;
+				HandleCursor();
 
 				if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
 				CursorManager.Instance.SetToMouseCursor(true);
@@ -59,20 +62,30 @@ namespace Personal.InputProcessing
 		{
 			InputManager.Instance.EnableActionMap(previousActionMap);
 			isWaitingResponse = false;
+			InputDeviceManager.instance.alwaysAutoFocus = false;
 		}
 
 		void HandleCursor()
 		{
 			if (InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse && isWaitingResponse)
 			{
-				CursorManager.Instance.SetToMouseCursor(true);
+				ResponseFocus(false);
+				EventSystem.current.SetSelectedGameObject(null);
+
 				return;
 			}
-
-			CursorManager.Instance.SetToMouseCursor(false);
+			ResponseFocus(true);
 		}
 
-		void OnDestroy()
+		void ResponseFocus(bool isFlag)
+		{
+			InputDeviceManager.instance.alwaysAutoFocus = isFlag;
+			CursorManager.Instance.SetToMouseCursor(!isFlag);
+
+			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
+		}
+
+		void OnApplicationQuit()
 		{
 			standardUIMenuPanel.onOpen.RemoveAllListeners();
 			standardUIMenuPanel.onClose.RemoveAllListeners();

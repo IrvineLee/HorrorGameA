@@ -193,7 +193,7 @@ MonoBehaviour:
   keyButtonsToCheck: []
   keyCodesToCheck: 1b000000
   keyInputSwitchesModeTo: 1
-  alwaysAutoFocus: 1
+  alwaysAutoFocus: 0
   detectMouseControl: 1
   mouseMoveThreshold: 0.1
   controlCursorState: 1
@@ -717,6 +717,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756635073868, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203667756636503426, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+      propertyPath: focusCheckFrequency
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
