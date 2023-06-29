@@ -4012,7 +4012,6 @@ GameObject:
   - component: {fileID: 9203667756639369738}
   - component: {fileID: 9203667756636453490}
   - component: {fileID: 8560976700793520404}
-  - component: {fileID: 3389019736366329246}
   m_Layer: 5
   m_Name: Dialogue Panel
   m_TagString: Untagged
@@ -4162,19 +4161,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiInterfaceType: 4
   windowAnimatorParent: {fileID: 0}
---- !u!114 &3389019736366329246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9203667756646724796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2788e3052131de4b8733dec494e54b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionMapType: 1000
 --- !u!1 &9203667756646726520
 GameObject:
   m_ObjectHideFlags: 0
@@ -4854,7 +4840,7 @@ MonoBehaviour:
   maxLines: 100
   delayTypewriterUntilOpen: 0
   continueButton: {fileID: 4335792001174955111}
-  blockInputDuration: 0
+  blockInputDuration: 0.1
   visibility: 1
   focusAnimationTrigger: 
   unfocusAnimationTrigger: 
@@ -4949,7 +4935,7 @@ MonoBehaviour:
     - {fileID: 9203667756636503426}
     defaultMenuPanel: {fileID: 9203667756636503426}
     useFirstResponseForMenuPortrait: 0
-    waitForClose: 1
+    waitForClose: 0
   QTEIndicatorElements:
     QTEIndicators:
     - {fileID: 0}
