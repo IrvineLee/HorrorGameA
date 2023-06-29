@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
+using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Personal.Manager;
 using Personal.GameState;
-using PixelCrushers;
-using UnityEngine.EventSystems;
 
 namespace Personal.InputProcessing
 {
