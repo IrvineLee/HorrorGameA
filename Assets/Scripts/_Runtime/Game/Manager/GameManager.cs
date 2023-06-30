@@ -58,6 +58,7 @@ namespace Personal.Manager
 			if (!isNewlyCreated) return;
 
 			// To make sure the profile gets created the 1st time around.
+			// You might wanna re-save it if new data are added to the save profile after releasing it.
 			SaveManager.Instance.SaveProfileData();
 		}
 	}

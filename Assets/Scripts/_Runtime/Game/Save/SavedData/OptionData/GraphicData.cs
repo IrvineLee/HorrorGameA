@@ -8,6 +8,7 @@ namespace Personal.Setting.Graphic
 	{
 		[SerializeField] Resolution screenResolution = default;
 		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
+		[SerializeField] int quality = 5;
 
 		[SerializeField] int antiAliasing = 5;
 		[SerializeField] bool isVsync = true;
@@ -20,6 +21,7 @@ namespace Personal.Setting.Graphic
 
 		public Resolution ScreenResolution { get => screenResolution; set => screenResolution = value; }
 		public FullScreenMode ScreenMode { get => screenMode; set => screenMode = value; }
+		public int Quality { get => quality; set => quality = value; }
 
 		public int AntiAliasing { get => antiAliasing; set => antiAliasing = value; }
 		public bool IsVsync { get => isVsync; set => isVsync = value; }
@@ -51,10 +53,12 @@ namespace Personal.Setting.Graphic
 			}
 		}
 
-		public void SetResolutionAndScreenMode(Resolution screenResolution, FullScreenMode screenMode)
+		public void SetGraphic(Resolution screenResolution, FullScreenMode screenMode, int quality, int antiAliasing)
 		{
 			this.screenResolution = screenResolution;
 			this.screenMode = screenMode;
+			this.quality = quality;
+			this.antiAliasing = antiAliasing;
 		}
 
 		public void SetBoolValue(bool isVsync, bool isVignette, bool isDepthOfField, bool isMotionBlur, bool isBloom, bool isAmbientOcclusion)

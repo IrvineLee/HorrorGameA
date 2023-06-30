@@ -5,10 +5,10 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Graphic;
+using System.Linq;
 
 namespace Personal.UI.Option
 {
@@ -17,6 +17,7 @@ namespace Personal.UI.Option
 		[Space]
 		[SerializeField] TMP_Dropdown screenResolutionDropdown = null;
 		[SerializeField] TMP_Dropdown screenModeDropdown = null;
+		[SerializeField] TMP_Dropdown qualityDropdown = null;
 		[SerializeField] TMP_Dropdown antiAliasingDropdown = null;
 
 		[SerializeField] Toggle isVsync = null;
@@ -33,11 +34,13 @@ namespace Personal.UI.Option
 		FullScreenMode[] fullscreenModes = GameManager.IsWindow ?
 										   new[] { FullScreenMode.ExclusiveFullScreen, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed } :
 										   new[] { FullScreenMode.MaximizedWindow, FullScreenMode.FullScreenWindow, FullScreenMode.Windowed };
+		List<string> qualityNameList;
 
 		UniversalAdditionalCameraData universalCameraData;
 
 		Resolution currentResolution;
 		FullScreenMode currentFullScreenMode;
+		int currentQualityIndex;
 		int currentAntiAliasIndex;
 
 		Resolution defaultResolution;
@@ -61,10 +64,12 @@ namespace Personal.UI.Option
 		{
 			universalCameraData = StageManager.Instance.MainCamera.GetComponent<UniversalAdditionalCameraData>();
 			defaultResolution = Screen.currentResolution;
+			qualityNameList = QualitySettings.names.ToList();
 
 			InitializeVolumeProfile();
 			HandleLoadDataToUI();
 			RegisterEventsForUI();
+			RegisterChangesMadeEvents();
 		}
 
 		/// <summary>
@@ -74,9 +79,7 @@ namespace Personal.UI.Option
 		{
 			base.Save_Inspector();
 
-			graphicData.AntiAliasing = currentAntiAliasIndex;
-
-			graphicData.SetResolutionAndScreenMode(currentResolution, currentFullScreenMode);
+			graphicData.SetGraphic(currentResolution, currentFullScreenMode, currentQualityIndex, currentAntiAliasIndex);
 			graphicData.SetBoolValue(isVsync.isOn, isVignette.isOn, isDepthOfField.isOn, isMotionBlur.isOn, isBloom.isOn, isAmbientOcclusion.isOn);
 		}
 
@@ -98,6 +101,7 @@ namespace Personal.UI.Option
 				Cursor.lockState = CursorLockMode.Confined;
 			});
 
+			qualityDropdown.onValueChanged.AddListener(HandleQuality);
 			antiAliasingDropdown.onValueChanged.AddListener(HandleAntiAlias);
 
 			isVsync.onValueChanged.AddListener((flag) => QualitySettings.vSyncCount = flag ? 1 : 0);
@@ -151,6 +155,17 @@ namespace Personal.UI.Option
 				}
 			}
 
+			for (int i = 0; i < qualityNameList.Count; i++)
+			{
+				string qualityName = qualityNameList[i];
+				if (qualityName.Equals(qualityDropdown.options[graphicData.Quality].text))
+				{
+					qualityDropdown.value = i;
+					currentQualityIndex = i;
+					break;
+				}
+			}
+
 			for (int i = 0; i < antiAliasingDropdown.options.Count; i++)
 			{
 				if (i == graphicData.AntiAliasing)
@@ -180,6 +195,7 @@ namespace Personal.UI.Option
 			Screen.fullScreenMode = graphicData.ScreenMode;
 			Cursor.lockState = CursorLockMode.Confined;
 
+			HandleQuality(graphicData.Quality);
 			HandleAntiAlias(graphicData.AntiAliasing);
 			HandleAmbientOcclusion(graphicData.IsAmbientOcclusion);
 
@@ -195,6 +211,7 @@ namespace Personal.UI.Option
 		{
 			unityEventIntList.Add(screenResolutionDropdown.onValueChanged);
 			unityEventIntList.Add(screenModeDropdown.onValueChanged);
+			unityEventIntList.Add(qualityDropdown.onValueChanged);
 			unityEventIntList.Add(antiAliasingDropdown.onValueChanged);
 
 			unityEventBoolList.Add(isVsync.onValueChanged);
@@ -302,6 +319,24 @@ namespace Personal.UI.Option
 				return true;
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Handle quality change.
+		/// </summary>
+		/// <param name="index"></param>
+		void HandleQuality(int index)
+		{
+			for (int i = 0; i < qualityNameList.Count; i++)
+			{
+				string quality = qualityNameList[i];
+				if (quality.Equals(qualityDropdown.options[index].text))
+				{
+					QualitySettings.SetQualityLevel(i, true);
+					currentQualityIndex = i;
+					break;
+				}
+			}
 		}
 
 		/// <summary>

@@ -48,6 +48,7 @@ namespace Personal.UI.Option
 		{
 			HandleLoadDataToUI();
 			RegisterEventsForUI();
+			RegisterChangesMadeEvents();
 		}
 
 		/// <summary>

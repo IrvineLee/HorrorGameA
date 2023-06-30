@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Helper
 {
-	[ExecuteInEditMode]
+	//[ExecuteInEditMode]
 	public class ParabolaController : MonoBehaviour
 	{
 		/// <summary>

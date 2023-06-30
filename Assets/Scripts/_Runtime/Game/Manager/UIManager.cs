@@ -40,7 +40,9 @@ namespace Personal.Manager
 		protected override void OnPostMainScene()
 		{
 			inventoryUI.InitialSetup();
-			optionUI.SetDataToRelevantMember().Forget();
+
+			//Do you really need this?
+			//optionUI.SetDataToRelevantMember().Forget();
 		}
 
 		/// <summary>
