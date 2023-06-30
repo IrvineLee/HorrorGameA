@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.UI
 {
@@ -28,13 +29,17 @@ namespace Personal.UI
 
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
+			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
+
 			eventData.selectedObject = gameObject;
 			menuUIBase.SetLastSelectedGO(gameObject);
 		}
 
 		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
 		{
+			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
 			if (!isPointerExitable) return;
+
 			eventData.selectedObject = null;
 		}
 	}

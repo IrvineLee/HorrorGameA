@@ -16,10 +16,6 @@ namespace Personal.UI
 		[SerializeField] Animator windowAnimatorParent = null;
 
 		public IDefaultHandler IDefaultHandler { get; protected set; }
-
-		// This is used when the player needs to select an option from the window menu.
-		// Which means the player can't press the Esc button and close the window.
-		public bool IsAbleToCloseWindow { get; protected set; } = true;
 		public UIInterfaceType UiInterfaceType { get => uiInterfaceType; }
 
 		public static event Action<bool> OnPauseEvent;
@@ -31,6 +27,7 @@ namespace Personal.UI
 
 		protected override void OnUpdate()
 		{
+			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
 			if (EventSystem.current.currentSelectedGameObject) return;
 			if (!lastSelectedGO) return;
 
