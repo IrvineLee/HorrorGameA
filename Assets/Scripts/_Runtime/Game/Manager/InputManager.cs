@@ -87,7 +87,7 @@ namespace Personal.Manager
 			cancelActionReference = inputSystemUIInputModule.cancel;
 
 			inputReaderDefinition.Initialize();
-			CoroutineHelper.WaitNextFrame(SetToDefaultActionMap);
+			SetToDefaultActionMap();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
 			iDisposableAnyButtonPressed = InputSystem.onAnyButtonPress.Call(ctrl =>
