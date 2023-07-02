@@ -27,6 +27,11 @@ namespace Personal.InputProcessing
 			ResetClicks();
 		}
 
+		protected void CloseMenu()
+		{
+			UIManager.Instance.CloseWindowStack();
+		}
+
 		protected virtual void ResetClicks()
 		{
 			IsInteract = false;

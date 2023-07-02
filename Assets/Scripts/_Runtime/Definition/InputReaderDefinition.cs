@@ -72,7 +72,7 @@ namespace Personal.Definition
 			playerActionInput.Puzzle.SetCallbacks(this);
 
 			inputActionMapDictionary.Clear();
-			inputActionMapDictionary.Add(ActionMapType.BasicControl, new InputControllerInfo(playerActionInput.BasicControl, InputManager.Instance.FPSInputController));
+			inputActionMapDictionary.Add(ActionMapType.BasicControl, new InputControllerInfo(playerActionInput.BasicControl, InputManager.Instance.BasicControlInputController));
 			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
 			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.UIInputController));
 			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));

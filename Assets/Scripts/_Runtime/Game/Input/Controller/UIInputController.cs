@@ -33,15 +33,6 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
-		void CloseMenu()
-		{
-			// Dialogue will close by itself and pop from the stack.
-			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Dialogue) return;
-
-			if (UIManager.Instance.WindowStack.Count <= 0) return;
-			UIManager.Instance.WindowStack.Peek().CloseWindow();
-		}
-
 		/// ------------------------------------------------------------------------
 		/// ---------------------------- Option events -----------------------------
 		/// ------------------------------------------------------------------------

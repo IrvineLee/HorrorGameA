@@ -20,14 +20,16 @@ namespace Personal.Manager
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
 		[ShowInInspector]
-		public UIInterfaceType ActiveInterfaceType { get => WindowStack.Count >= 1 ? WindowStack.Peek().UiInterfaceType : UIInterfaceType.None; }
+		public UIInterfaceType ActiveInterfaceType { get => !IsWindowStackEmpty ? WindowStack.Peek().UiInterfaceType : UIInterfaceType.None; }
 		public PauseHandlerUI PauseUI { get => pauseMenuUI; }
 		public OptionHandlerUI OptionUI { get => optionUI; }
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
 		public ToolsHandlerUI ToolsUI { get => toolsHandlerUI; }
 		public WindowHandlerUI WindowUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
+
 		public Stack<MenuUIBase> WindowStack { get; } = new();
+		public bool IsWindowStackEmpty { get => WindowStack.Count <= 0; }
 
 		protected override async UniTask InitializeUniTask()
 		{
@@ -43,6 +45,15 @@ namespace Personal.Manager
 
 			//Do you really need this?
 			//optionUI.SetDataToRelevantMember().Forget();
+		}
+
+		public void CloseWindowStack()
+		{
+			// Dialogue will close by itself and pop from the stack.
+			if (ActiveInterfaceType == UIInterfaceType.Dialogue) return;
+
+			if (IsWindowStackEmpty) return;
+			WindowStack.Peek().CloseWindow();
 		}
 
 		/// <summary>

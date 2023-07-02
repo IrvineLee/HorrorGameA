@@ -11,7 +11,7 @@ namespace Personal.UI
 
 		protected override void OnDisable()
 		{
-			if (UIManager.Instance.WindowStack.Count <= 0) return;
+			if (UIManager.Instance.IsWindowStackEmpty) return;
 			UIManager.Instance.WindowStack.Pop();
 		}
 	}

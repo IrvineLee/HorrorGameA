@@ -75,7 +75,7 @@ namespace Personal.UI
 			UIManager.Instance.WindowStack.Pop();
 			EnableGO(false);
 
-			if (UIManager.Instance.WindowStack.Count > 0) return;
+			if (!UIManager.Instance.IsWindowStackEmpty) return;
 
 			InputManager.Instance.SetToDefaultActionMap();
 			OnPauseEvent?.Invoke(false);

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using Personal.Manager;
+using Personal.UI;
+
 namespace Personal.InputProcessing
 {
 	public class BasicControlInputController : InputControllerBase
@@ -10,7 +13,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnLookEvent += LookInput;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
-			inputReaderDefinition.OnCancelEvent += CancelInput;
+			inputReaderDefinition.OnCancelEvent += CloseMenu;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -41,7 +44,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnLookEvent -= LookInput;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
-			inputReaderDefinition.OnCancelEvent -= CancelInput;
+			inputReaderDefinition.OnCancelEvent -= CloseMenu;
 		}
 	}
 }
