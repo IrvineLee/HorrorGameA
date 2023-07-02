@@ -1,9 +1,7 @@
 using UnityEngine;
 
-using Personal.InputProcessing;
 using Personal.Manager;
 using Personal.Item;
-using Personal.InteractiveObject;
 using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
@@ -14,6 +12,7 @@ namespace Personal.UI
 
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
 			itemInACircle3DUI.InitialSetup();
 		}
 
@@ -21,7 +20,6 @@ namespace Personal.UI
 		{
 			base.OpenWindow();
 
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 			itemInACircle3DUI.PutObjectsIntoACircle();
 		}
 

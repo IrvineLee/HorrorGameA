@@ -192,6 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3204872182179471529}
   - component: {fileID: 8272410277257841457}
+  - component: {fileID: 2776414404776598794}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -239,6 +240,19 @@ MonoBehaviour:
   buttonInteractList:
   - {fileID: 8078334097955346977}
   - {fileID: 86126372851704675}
+--- !u!114 &2776414404776598794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333347073674934592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2788e3052131de4b8733dec494e54b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionMapType: 1000
 --- !u!1001 &320839300312084577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -524,6 +538,30 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -571,8 +609,8 @@ PrefabInstance:
       addedObject: {fileID: 3204872182179471529}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
---- !u!4 &4757544196852126862 stripped
-Transform:
+--- !u!224 &4757544196852126862 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
   m_PrefabInstance: {fileID: 3264161874792619092}
   m_PrefabAsset: {fileID: 0}

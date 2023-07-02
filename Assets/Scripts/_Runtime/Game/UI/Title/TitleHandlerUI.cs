@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.InputProcessing;
 using Helper;
 
 namespace Personal.UI.Option
@@ -18,8 +17,6 @@ namespace Personal.UI.Option
 
 		protected override void Initialize()
 		{
-			InputManager.Instance.EnableActionMap(ActionMapType.BasicControl);
-
 			InputManager.Instance.OnAnyButtonPressed += Begin;
 
 			List<ButtonInteractBase> buttonInteractList = buttonGroupTrans.GetComponentsInChildren<ButtonInteractBase>(true).ToList();

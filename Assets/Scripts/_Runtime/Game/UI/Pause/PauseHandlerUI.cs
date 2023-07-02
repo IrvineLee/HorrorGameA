@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Personal.Manager;
-using Personal.InputProcessing;
-
 namespace Personal.UI.Option
 {
 	public class PauseHandlerUI : MenuUIBase
@@ -21,11 +18,6 @@ namespace Personal.UI.Option
 			{
 				buttonInteract.InitialSetup();
 			}
-		}
-
-		protected override void OnEnable()
-		{
-			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 		}
 
 		void ResumeButton()

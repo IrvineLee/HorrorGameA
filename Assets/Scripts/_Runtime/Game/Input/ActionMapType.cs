@@ -3,7 +3,8 @@ namespace Personal.InputProcessing
 {
 	public enum ActionMapType
 	{
-		BasicControl = 0,
+		None = 0,
+		BasicControl = 10,
 
 		Player = 500,
 

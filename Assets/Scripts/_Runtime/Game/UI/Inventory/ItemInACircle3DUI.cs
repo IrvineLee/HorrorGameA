@@ -64,6 +64,9 @@ namespace Personal.UI
 		{
 			if (!IsSetIntoACircle()) return;
 
+			// Make sure all rotations are at their default values.
+			ResetAllInventoryRotations();
+
 			// Put the active item at the front view.
 			int currentIndex = playerInventory.CurrentActiveIndex;
 			float eulerRotateToActiveItem = currentIndex * yAngleToRotate;
@@ -71,8 +74,9 @@ namespace Personal.UI
 			// Since it spawns clockwise starting at 6 o'clock, minus it to reach the correct index.
 			contentTrans.localEulerAngles = contentTrans.localEulerAngles.With(y: contentTrans.localEulerAngles.y - eulerRotateToActiveItem);
 
-			// Enable the rotation.
-			playerInventory.ActiveObject.PickupableObjectUI.SelfRotate.enabled = true;
+			// Enable the rotation. The reason why you can't use active object is because it might be null.
+			// CurrentIndex will always point to the previous selected object.
+			playerInventory.InventoryList[currentIndex].PickupableObjectUI.SelfRotate.enabled = true;
 		}
 
 		/// <summary>
@@ -94,6 +98,18 @@ namespace Personal.UI
 		}
 
 		/// <summary>
+		/// Reset all inventory's rotations.
+		/// </summary>
+		protected void ResetAllInventoryRotations()
+		{
+			foreach (Inventory inventory in playerInventory.InventoryList)
+			{
+				inventory.PickupableObjectUI.transform.localRotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
+				inventory.PickupableObjectUI.SelfRotate.enabled = false;
+			}
+		}
+
+		/// <summary>
 		/// The calculation of putting objects into a circle.
 		/// </summary>
 		/// <returns></returns>
@@ -110,8 +126,9 @@ namespace Personal.UI
 				Transform child = contentTrans.GetChild(i);
 				Vector2 direction = -directionList[i] * radius; // Negative direction so it to spawns at 6 o'clock rather than 12 o'clock.
 
+				//child.transform.SetParent(contentTrans);
 				child.position = contentTrans.position;
-				child.localPosition = child.localPosition.With(x: direction.x, z: direction.y);
+				child.localPosition = child.localPosition.With(x: direction.x, y: 0, z: direction.y);
 			}
 
 			contentTrans.localRotation = Quaternion.identity;
@@ -121,13 +138,6 @@ namespace Personal.UI
 
 			yAngleToRotate = 360 / childCount;
 			return true;
-		}
-
-		protected void ResetActiveRotation()
-		{
-			var activeObject = playerInventory.ActiveObject;
-			activeObject.PickupableObjectUI.transform.localRotation = Quaternion.Euler(activeObject.PickupableObject.InventoryRotation);
-			activeObject.PickupableObjectUI.SelfRotate.enabled = false;
 		}
 	}
 }

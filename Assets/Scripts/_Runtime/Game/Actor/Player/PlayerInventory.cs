@@ -143,14 +143,17 @@ namespace Personal.Character.Player
 		{
 			if (CurrentActiveIndex < 0) return;
 
-			// Do nothing if it's the same object.
 			var newActiveObject = inventoryList[CurrentActiveIndex];
-			if (activeObject.Equals(newActiveObject)) return;
+			if (activeObject != null)
+			{
+				// Do nothing if it's the same object.
+				if (activeObject.PickupableObject.Equals(newActiveObject.PickupableObject)) return;
 
-			// Set to new active gameobject.
-			activeObject.PickupableObject?.gameObject.SetActive(false);
+				// Disable the active gameobject.
+				activeObject.PickupableObject?.gameObject.SetActive(false);
+			}
+
 			activeObject = newActiveObject;
-
 			HoldItemInHand();
 		}
 
