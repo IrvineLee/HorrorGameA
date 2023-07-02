@@ -67,6 +67,8 @@ namespace Personal.InputProcessing
 
 		void HandleCursor()
 		{
+			if (!GameSceneManager.Instance.IsMainScene()) return;
+
 			if (InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse && isWaitingResponse)
 			{
 				ResponseFocus(false);
