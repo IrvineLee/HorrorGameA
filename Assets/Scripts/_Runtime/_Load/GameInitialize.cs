@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
-using UnityEngine.SceneManagement;
+using Personal.Preloader;
 
 namespace Personal.GameState
 {
@@ -19,6 +20,8 @@ namespace Personal.GameState
 
 		protected async UniTask Awake()
 		{
+			if (!Preload.IsLoaded) return;
+
 			isInitiallyEnabled = enabled;
 			enabled = false;
 

@@ -163,7 +163,7 @@ namespace Personal.Character.Player
 		/// <param name="isFlag"></param>
 		public void FPS_ShowItem(bool isFlag)
 		{
-			if (!activeObject.PickupableObject) return;
+			if (activeObject == null || !activeObject.PickupableObject) return;
 
 			autoHideItemCR?.StopCoroutine();
 			if (isFlag)

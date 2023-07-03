@@ -76,6 +76,11 @@ namespace Personal.Definition
 			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
 			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.UIInputController));
 			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
+
+			foreach (var actionMap in inputActionMapDictionary)
+			{
+				actionMap.Value.InputController.Initialize();
+			}
 		}
 
 		public void SwapInteractInput(bool isUSInteract)

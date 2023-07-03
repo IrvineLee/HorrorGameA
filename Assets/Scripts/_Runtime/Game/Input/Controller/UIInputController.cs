@@ -7,7 +7,7 @@ namespace Personal.InputProcessing
 {
 	public class UIInputController : InputControllerBase
 	{
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
@@ -51,9 +51,9 @@ namespace Personal.InputProcessing
 			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
 		}
 
-		protected override void OnPostDisable()
+		protected override void OnDisable()
 		{
-			base.OnPostDisable();
+			base.OnDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnTabSwitchEvent -= TabSwitch;

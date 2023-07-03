@@ -4,7 +4,7 @@ namespace Personal.InputProcessing
 {
 	public class PuzzleInputController : InputControllerBase
 	{
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 
@@ -27,9 +27,9 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
-		protected override void OnPostDisable()
+		protected override void OnDisable()
 		{
-			base.OnPostDisable();
+			base.OnDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 

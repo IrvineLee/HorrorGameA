@@ -1,12 +1,11 @@
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.GameState;
 using Personal.Definition;
 
 namespace Personal.InputProcessing
 {
-	public class InputControllerBase : GameInitialize
+	public class InputControllerBase : MonoBehaviour
 	{
 		protected InputReaderDefinition inputReaderDefinition;
 
@@ -16,10 +15,9 @@ namespace Personal.InputProcessing
 		public bool IsInteract { get; protected set; }
 		public bool IsCancel { get; protected set; }
 
-		protected override void Initialize()
+		public void Initialize()
 		{
 			inputReaderDefinition = InputManager.Instance.InputReaderDefinition;
-			isAwakeCompleted = true;
 		}
 
 		void LateUpdate()
@@ -38,7 +36,7 @@ namespace Personal.InputProcessing
 			IsCancel = false;
 		}
 
-		protected override void OnPostDisable()
+		protected virtual void OnDisable()
 		{
 			Move = Vector2.zero;
 			Look = Vector2.zero;

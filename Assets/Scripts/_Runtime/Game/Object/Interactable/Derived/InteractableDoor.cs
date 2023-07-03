@@ -73,7 +73,7 @@ namespace Personal.InteractiveObject
 		{
 			if (keyItemType == default) return true;
 
-			var pickupable = playerInventory.ActiveObject.PickupableObject;
+			var pickupable = playerInventory.ActiveObject?.PickupableObject;
 			if (pickupable && keyItemType.HasFlag(pickupable.ItemTypeSet.ItemType))
 			{
 				keyItemType = default;

@@ -1,13 +1,10 @@
 using UnityEngine;
 
-using Personal.Manager;
-using Personal.UI;
-
 namespace Personal.InputProcessing
 {
 	public class BasicControlInputController : InputControllerBase
 	{
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnLookEvent += LookInput;
@@ -36,9 +33,9 @@ namespace Personal.InputProcessing
 			IsCancel = true;
 		}
 
-		protected override void OnPostDisable()
+		protected override void OnDisable()
 		{
-			base.OnPostDisable();
+			base.OnDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnLookEvent -= LookInput;

@@ -8,7 +8,7 @@ using Personal.GameState;
 
 namespace Personal.InputProcessing
 {
-	public class DialogueSetup : GameInitialize
+	public class DialogueSetup : MonoBehaviour
 	{
 		[SerializeField] ActionMapType actionMapType = ActionMapType.BasicControl;
 
@@ -17,7 +17,7 @@ namespace Personal.InputProcessing
 		StandardUIMenuPanel standardUIMenuPanel;
 		bool isWaitingResponse;
 
-		protected override void Initialize()
+		void Awake()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;

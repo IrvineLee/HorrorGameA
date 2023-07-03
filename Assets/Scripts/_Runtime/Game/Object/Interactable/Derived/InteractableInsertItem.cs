@@ -48,7 +48,7 @@ namespace Puzzle.EightSlide
 
 		protected override UniTask HandleInteraction()
 		{
-			var pickupable = playerInventory.ActiveObject.PickupableObject;
+			var pickupable = playerInventory.ActiveObject?.PickupableObject;
 			if (!pickupable) return UniTask.CompletedTask;
 
 			ItemType activeItemType = pickupable.ItemTypeSet.ItemType;

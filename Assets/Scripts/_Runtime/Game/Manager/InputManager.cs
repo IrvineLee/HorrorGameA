@@ -55,7 +55,7 @@ namespace Personal.Manager
 					case ActionMapType.Player: return FPSInputController.IsCancel;
 					case ActionMapType.UI: return UIInputController.IsCancel;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsCancel;
-					default: return BasicControlInputController.IsInteract;
+					default: return BasicControlInputController.IsCancel;
 				}
 			}
 		}

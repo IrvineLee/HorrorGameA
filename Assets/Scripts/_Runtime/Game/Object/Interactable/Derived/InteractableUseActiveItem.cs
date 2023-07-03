@@ -22,7 +22,7 @@ namespace Personal.InteractiveObject
 		/// </summary>
 		void HandleUseActiveItem()
 		{
-			var pickupable = StageManager.Instance.PlayerController.Inventory.ActiveObject.PickupableObject;
+			var pickupable = StageManager.Instance.PlayerController.Inventory.ActiveObject?.PickupableObject;
 
 			if (!pickupable) return;
 			if (!itemTypeCompare.HasFlag(pickupable.ItemTypeSet.ItemType)) return;

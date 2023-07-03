@@ -11,7 +11,7 @@ namespace Personal.InputProcessing
 		public bool IsJump { get; private set; }
 		public bool IsSprint { get; private set; }
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnLookEvent += LookInput;
@@ -81,9 +81,9 @@ namespace Personal.InputProcessing
 			StageManager.Instance.PlayerController.Inventory.KeyboardButtonSelect(number - 1);
 		}
 
-		protected override void OnPostDisable()
+		protected override void OnDisable()
 		{
-			base.OnPostDisable();
+			base.OnDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnLookEvent -= LookInput;
