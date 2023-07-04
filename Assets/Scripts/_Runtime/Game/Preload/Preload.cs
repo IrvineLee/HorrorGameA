@@ -1,7 +1,8 @@
-using Cysharp.Threading.Tasks;
-using Personal.Manager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+using Cysharp.Threading.Tasks;
+using Personal.Manager;
 
 namespace Personal.Preloader
 {

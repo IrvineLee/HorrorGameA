@@ -59,7 +59,7 @@ namespace Personal.UI
 			if (!windowAnimatorCR.IsDone) return;
 
 			UIManager.Instance.WindowStack.Push(this);
-			EnableGO(true);
+			EnableGO(true, false);
 
 			OnPauseEvent?.Invoke(true);
 		}
@@ -68,12 +68,12 @@ namespace Personal.UI
 		/// Close the window. Returns true if it's the final window.
 		/// </summary>
 		/// <returns></returns>
-		public virtual void CloseWindow()
+		public virtual void CloseWindow(bool isInstant = false)
 		{
-			if (!windowAnimatorCR.IsDone) return;
+			if (!windowAnimatorCR.IsDone && !isInstant) return;
 
 			UIManager.Instance.WindowStack.Pop();
-			EnableGO(false);
+			EnableGO(false, isInstant);
 
 			if (!UIManager.Instance.IsWindowStackEmpty) return;
 
@@ -96,9 +96,9 @@ namespace Personal.UI
 		/// Enable/Disable the window.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		void EnableGO(bool isFlag)
+		void EnableGO(bool isFlag, bool isInstant)
 		{
-			if (windowAnimatorParent)
+			if (!isInstant && windowAnimatorParent)
 			{
 				HandleAnimator(isFlag);
 				return;

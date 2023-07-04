@@ -20,7 +20,8 @@ namespace Personal.GameState
 
 		protected async UniTask Awake()
 		{
-			if (!Preload.IsLoaded) return;
+			if (!Preload.IsLoaded)
+				await UniTask.WaitUntil(() => Preload.IsLoaded, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			isInitiallyEnabled = enabled;
 			enabled = false;

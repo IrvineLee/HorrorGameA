@@ -63,6 +63,7 @@ namespace Personal.UI
 		public virtual void PutObjectsIntoACircle()
 		{
 			if (!IsSetIntoACircle()) return;
+			if (playerInventory.ActiveObject == null) return;
 
 			// Make sure all rotations are at their default values.
 			ResetAllInventoryRotations();

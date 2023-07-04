@@ -86,9 +86,9 @@ namespace Personal.UI.Option
 			tab.OptionMenuUI.gameObject.SetActive(true);
 		}
 
-		public override void CloseWindow()
+		public override void CloseWindow(bool isInstant)
 		{
-			base.CloseWindow();
+			base.CloseWindow(isInstant);
 
 			currentMenuTab = startMenuTab;
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(false);

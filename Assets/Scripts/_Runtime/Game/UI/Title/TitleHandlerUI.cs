@@ -26,6 +26,11 @@ namespace Personal.UI.Option
 			}
 		}
 
+		protected override void OnTitleScene()
+		{
+			InputManager.Instance?.SetToDefaultActionMap();
+		}
+
 		void Begin()
 		{
 			pressAnyButton.StopFadeAndSetFullVisibility(anyButtonWaitDuration, () => buttonGroupTrans.gameObject.SetActive(true));

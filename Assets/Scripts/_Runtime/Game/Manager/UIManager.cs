@@ -65,7 +65,7 @@ namespace Personal.Manager
 			int count = WindowStack.Count;
 			for (int i = 0; i < count; i++)
 			{
-				WindowStack.Peek().CloseWindow();
+				WindowStack.Peek().CloseWindow(true);
 			}
 
 			WindowStack.Clear();

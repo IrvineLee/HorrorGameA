@@ -11,7 +11,13 @@ namespace Helper
 		{
 			var scriptList = FindObjectsOfType(script.GetType()).ToList();
 
-			if (scriptList.Count > 1) Destroy(gameObject);
+			if (scriptList.Count > 1)
+			{
+				Destroy(gameObject);
+				return;
+			}
+
+			DontDestroyOnLoad(gameObject);
 		}
 	}
 }

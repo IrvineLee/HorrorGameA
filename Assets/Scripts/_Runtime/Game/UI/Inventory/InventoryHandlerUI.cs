@@ -23,9 +23,9 @@ namespace Personal.UI
 			itemInACircle3DUI.PutObjectsIntoACircle();
 		}
 
-		public override void CloseWindow()
+		public override void CloseWindow(bool isInstant)
 		{
-			base.CloseWindow();
+			base.CloseWindow(isInstant);
 
 			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
 		}

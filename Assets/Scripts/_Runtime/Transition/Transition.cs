@@ -89,7 +89,7 @@ namespace Personal.Transition
 			HandleFlipping(transition.transform);
 			HandleAnimatorSpeed(transition.transform, speed);
 
-			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), true);
+			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), true, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		// Changing the color of the transition
