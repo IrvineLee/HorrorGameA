@@ -9,8 +9,6 @@ namespace Personal.GameState
 {
 	public class GameInitializeSingleton<T> : MonoBehaviourSingleton<T> where T : MonoBehaviour
 	{
-		protected bool isBootCompleted;
-
 		protected override async UniTask Boot()
 		{
 			enabled = false;
@@ -21,7 +19,6 @@ namespace Personal.GameState
 			Initialize();
 			InitializeUniTask().Forget();
 
-			isBootCompleted = true;
 			enabled = true;
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
@@ -32,8 +29,6 @@ namespace Personal.GameState
 
 		void Update()
 		{
-			if (!isBootCompleted) return;
-
 			OnUpdate();
 		}
 
@@ -45,7 +40,10 @@ namespace Personal.GameState
 		/// <summary>
 		/// UniTask where it is called right after awake is finished.
 		/// </summary>
-		protected virtual UniTask InitializeUniTask() { return UniTask.CompletedTask; }
+		protected virtual async UniTask InitializeUniTask()
+		{
+			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
+		}
 
 		/// <summary>
 		/// This gets called when scene is in Title scene. 
@@ -95,9 +93,6 @@ namespace Personal.GameState
 
 		async UniTask HandleMainScene()
 		{
-			if (!isBootCompleted)
-				await UniTask.WaitUntil(() => isBootCompleted);
-
 			OnEarlyMainScene();
 
 			await UniTask.NextFrame();

@@ -33,7 +33,7 @@ namespace Personal.Manager
 
 		protected override async UniTask InitializeUniTask()
 		{
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
+			await base.InitializeUniTask();
 
 			pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();
@@ -42,9 +42,6 @@ namespace Personal.Manager
 		protected override void OnPostMainScene()
 		{
 			inventoryUI.InitialSetup();
-
-			//Do you really need this?
-			//optionUI.SetDataToRelevantMember().Forget();
 		}
 
 		public void CloseWindowStack()

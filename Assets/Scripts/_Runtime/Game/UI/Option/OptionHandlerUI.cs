@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using static Personal.UI.Window.WindowEnum;
 
@@ -118,16 +117,6 @@ namespace Personal.UI.Option
 
 			tabList[index].SelectButton.onClick.Invoke();
 			currentMenuIndex = index;
-		}
-
-		public override async UniTask SetDataToRelevantMember()
-		{
-			foreach (var tab in tabList)
-			{
-				tab.OptionMenuUI.SetDataToRelevantMember().Forget();
-			}
-
-			await base.SetDataToRelevantMember();
 		}
 
 		/// <summary>

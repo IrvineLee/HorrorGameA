@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,10 +28,9 @@ namespace Personal.UI.Option
 		[SerializeField] TMP_Dropdown fontSizeDropdown = null;
 		[SerializeField] TMP_Dropdown languageDropdown = null;
 
-		// Since the title scene would not have the player in it, make it an event.
-		public event Action<float> OnCameraSensitivityEvent;
-		public event Action<bool> OnInvertLookHorizontalEvent;
-		public event Action<bool> OnInvertLookVerticalEvent;
+		public float CameraSensitivity { get => cameraSensitivitySlider.value; }
+		public bool IsInvertLookHorizontal { get => isInvertLookHorizontal.isOn; }
+		public bool IsInvertLookVertical { get => isInvertLookVertical.isOn; }
 
 		GameData gameData;
 
@@ -103,14 +101,7 @@ namespace Personal.UI.Option
 		void RegisterEventsForUI()
 		{
 			// The player events.
-			cameraSensitivitySlider.onValueChanged.AddListener((value) =>
-			{
-				cameraSensitivitySlider.value = value.Round(1);
-				OnCameraSensitivityEvent?.Invoke(cameraSensitivitySlider.value);
-			});
-
-			isInvertLookHorizontal.onValueChanged.AddListener((flag) => OnInvertLookHorizontalEvent?.Invoke(flag));
-			isInvertLookVertical.onValueChanged.AddListener((flag) => OnInvertLookVerticalEvent?.Invoke(flag));
+			cameraSensitivitySlider.onValueChanged.AddListener((value) => cameraSensitivitySlider.value = value.Round(1));
 
 			brightnessSlider.onValueChanged.AddListener((value) =>
 			{
@@ -146,11 +137,6 @@ namespace Personal.UI.Option
 
 		protected override void ResetDataToTarget()
 		{
-			// The player events.
-			OnCameraSensitivityEvent?.Invoke(gameData.CameraSensitivity);
-			OnInvertLookHorizontalEvent?.Invoke(gameData.IsInvertLookHorizontal);
-			OnInvertLookVerticalEvent?.Invoke(gameData.IsInvertLookVertical);
-
 			colorAdjustments.postExposure.value = gameData.Brightness;
 
 			InputManager.Instance.SwapInteractInput(gameData.IsUSInteractButton);

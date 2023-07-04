@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
 using Helper;
@@ -80,11 +79,6 @@ namespace Personal.UI
 			InputManager.Instance.SetToDefaultActionMap();
 			OnPauseEvent?.Invoke(false);
 		}
-
-		/// <summary>
-		/// Call this to set data to relevant members.
-		/// </summary>
-		public virtual UniTask SetDataToRelevantMember() { return UniTask.CompletedTask; }
 
 		/// <summary>
 		/// Set the last selected gameobject. Typically for mouse.

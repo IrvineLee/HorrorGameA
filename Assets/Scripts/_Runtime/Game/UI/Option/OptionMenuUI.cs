@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
@@ -17,13 +16,6 @@ namespace Personal.UI.Option
 		protected List<UnityEvent<int>> unityEventIntList = new();
 		protected List<UnityEvent<float>> unityEventFloatList = new();
 		protected List<UnityEvent<bool>> unityEventBoolList = new();
-
-		public override async UniTask SetDataToRelevantMember()
-		{
-			await UniTask.NextFrame();
-
-			ResetData();
-		}
 
 		/// <summary>
 		/// Pressing the OK button.

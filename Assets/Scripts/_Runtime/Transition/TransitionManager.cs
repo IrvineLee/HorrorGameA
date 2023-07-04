@@ -72,8 +72,6 @@ namespace Personal.Transition
 
 			Transition transition = GetComponentInChildren<Transition>();
 			transitionDictionary.Add(transitionType, transition);
-
-			TransitionSetup(transition, TransitionPlayType.Out, transitionSettings, default).Forget();
 		}
 
 		async UniTask HandleTransition(TransitionType transitionType, TransitionPlayType transitionPlayType, float delay,

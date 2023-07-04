@@ -92,8 +92,7 @@ namespace Personal.Character.Player
 		PlayerStateMachine fsm;
 		OptionGameUI optionGameUI;
 
-		bool isInvertedLookHorizontal;
-		bool isInvertedLookVertical;
+		bool isCurrentInvertedLookVertical;
 
 		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
 		CoroutineRun inputMagnitudeCR = new CoroutineRun();
@@ -115,9 +114,8 @@ namespace Personal.Character.Player
 			if (!UIManager.Instance.OptionUI.TabDictionary.TryGetValue(MenuTab.Game, out Tab tab)) return;
 
 			optionGameUI = (OptionGameUI)tab.OptionMenuUI;
-			optionGameUI.OnCameraSensitivityEvent += SetRotationSpeed;
-			optionGameUI.OnInvertLookHorizontalEvent += SetInvertedLookHorizontal;
-			optionGameUI.OnInvertLookVerticalEvent += SetInvertedLookVertical;
+			rotationSpeed = optionGameUI.CameraSensitivity;
+			isCurrentInvertedLookVertical = optionGameUI.IsInvertLookVertical;
 		}
 
 		protected override void OnUpdate()
@@ -136,16 +134,6 @@ namespace Personal.Character.Player
 			if (!fsm) return;
 
 			CameraRotation();
-		}
-
-		void SetRotationSpeed(float value) { rotationSpeed = value; }
-		void SetInvertedLookHorizontal(bool isFlag) { isInvertedLookHorizontal = isFlag; }
-		void SetInvertedLookVertical(bool isFlag)
-		{
-			if (isInvertedLookVertical == isFlag) return;
-
-			isInvertedLookVertical = isFlag;
-			_cinemachineTargetPitch = -_cinemachineTargetPitch;
 		}
 
 		/// <summary>
@@ -175,17 +163,23 @@ namespace Personal.Character.Player
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-				_cinemachineTargetPitch += input.Look.y * rotationSpeed * deltaTimeMultiplier;
-				_rotationVelocity = input.Look.x * rotationSpeed * deltaTimeMultiplier;
+				_cinemachineTargetPitch += input.Look.y * optionGameUI.CameraSensitivity * deltaTimeMultiplier;
+				_rotationVelocity = input.Look.x * optionGameUI.CameraSensitivity * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, bottomClamp, topClamp);
 
+				if (isCurrentInvertedLookVertical != optionGameUI.IsInvertLookVertical)
+				{
+					_cinemachineTargetPitch = -_cinemachineTargetPitch;
+					isCurrentInvertedLookVertical = optionGameUI.IsInvertLookVertical;
+				}
+
 				// Update Cinemachine camera target pitch
-				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!isInvertedLookVertical ? _cinemachineTargetPitch : -_cinemachineTargetPitch, 0.0f, 0.0f);
+				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!optionGameUI.IsInvertLookVertical ? _cinemachineTargetPitch : -_cinemachineTargetPitch, 0.0f, 0.0f);
 
 				// rotate the player left and right
-				transform.Rotate((!isInvertedLookHorizontal ? Vector3.up : Vector3.down) * _rotationVelocity);
+				transform.Rotate((!optionGameUI.IsInvertLookHorizontal ? Vector3.up : Vector3.down) * _rotationVelocity);
 			}
 		}
 
@@ -309,13 +303,6 @@ namespace Personal.Character.Player
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z), groundedRadius);
-		}
-
-		void OnApplicationQuit()
-		{
-			optionGameUI.OnCameraSensitivityEvent -= SetRotationSpeed;
-			optionGameUI.OnInvertLookHorizontalEvent -= SetInvertedLookHorizontal;
-			optionGameUI.OnInvertLookVerticalEvent -= SetInvertedLookVertical;
 		}
 	}
 }

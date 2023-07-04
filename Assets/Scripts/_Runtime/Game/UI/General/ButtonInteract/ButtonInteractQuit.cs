@@ -37,7 +37,7 @@ namespace Personal.UI
 					inputBlockerGO.SetActive(false);
 				};
 
-				GameSceneManager.Instance.ChangeLevel(SceneName.Title, Transition.TransitionType.Fade, inBetweenAction);
+				GameSceneManager.Instance.ChangeLevel(SceneName.Title, Transition.TransitionType.Fade, Transition.TransitionPlayType.All, inBetweenAction);
 
 				InputManager.Instance.DisableAllActionMap();
 				inputBlockerGO.SetActive(true);
