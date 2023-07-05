@@ -29,7 +29,7 @@ namespace Personal.UI
 			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
 		}
 
-		protected override void OnEnable()
+		void OnEnable()
 		{
 			UpdateIcons();
 		}

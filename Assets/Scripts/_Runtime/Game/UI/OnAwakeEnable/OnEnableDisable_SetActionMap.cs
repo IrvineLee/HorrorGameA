@@ -12,13 +12,13 @@ namespace Personal.UI
 
 		ActionMapType previousActionMap;
 
-		protected override void OnEnable()
+		void OnEnable()
 		{
 			previousActionMap = InputManager.Instance.CurrentActionMapType;
 			InputManager.Instance.EnableActionMap(actionMapType);
 		}
 
-		protected override void OnDisable()
+		void OnDisable()
 		{
 			if (previousActionMap == ActionMapType.None) return;
 			InputManager.Instance.EnableActionMap(previousActionMap);

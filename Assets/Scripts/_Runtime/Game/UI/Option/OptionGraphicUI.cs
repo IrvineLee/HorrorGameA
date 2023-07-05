@@ -56,7 +56,7 @@ namespace Personal.UI.Option
 		MotionBlur motionBlur;
 		Bloom bloom;
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			lastSelectedGO = screenResolutionDropdown.gameObject;
 		}

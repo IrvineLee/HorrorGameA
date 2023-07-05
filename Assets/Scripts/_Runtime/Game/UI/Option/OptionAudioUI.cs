@@ -35,7 +35,7 @@ namespace Personal.UI.Option
 			AudioSpeakerMode.Mono,
 		};
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			lastSelectedGO = speakerModeDropdown.gameObject;
 		}

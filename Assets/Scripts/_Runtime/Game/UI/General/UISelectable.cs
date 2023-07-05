@@ -16,10 +16,10 @@ namespace Personal.UI
 		protected override void Initialize()
 		{
 			menuUIBase = GetComponentInParent<MenuUIBase>();
-			OnPostEnable();
+			OnEnable();
 		}
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			if (!isInitialSelection) return;
 

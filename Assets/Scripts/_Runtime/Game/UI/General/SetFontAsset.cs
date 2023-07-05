@@ -1,20 +1,20 @@
-using Personal.GameState;
+using UnityEngine;
+
 using Lean.Localization;
 using TMPro;
 
 namespace Personal.UI
 {
-	public class SetFontAsset : GameInitialize
+	public class SetFontAsset : MonoBehaviour
 	{
 		TextMeshProUGUI tmp;
 
-		protected override void PreInitialize()
+		void Awake()
 		{
 			tmp = GetComponent<TextMeshProUGUI>();
-			HandleChange();
 		}
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			HandleChange();
 		}

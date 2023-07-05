@@ -86,7 +86,7 @@ namespace Personal.UI.Option
 			ResetDataToTarget();
 		}
 
-		protected override void OnDisable()
+		void OnDisable()
 		{
 			IsChangesMade = false;
 		}

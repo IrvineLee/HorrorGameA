@@ -16,14 +16,10 @@ namespace Personal.Character.Player
 		public PlayerInventory Inventory { get => inventory; }
 		public PlayerCameraView PlayerCameraView { get; private set; }
 
-		protected override void PreInitialize()
+		void Awake()
 		{
 			StageManager.Instance.RegisterPlayer(this);
-		}
-
-		public void RegisterCameraView(PlayerCameraView playerCameraView)
-		{
-			PlayerCameraView = playerCameraView;
+			PlayerCameraView = FindObjectOfType<PlayerCameraView>();
 		}
 	}
 }

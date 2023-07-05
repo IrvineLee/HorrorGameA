@@ -139,7 +139,7 @@ namespace Personal.UI.Option
 			}
 		}
 
-		protected override void OnPostDisable()
+		void OnDisable()
 		{
 			EventSystem.current?.SetSelectedGameObject(null);
 		}

@@ -104,7 +104,7 @@ namespace Personal.FSM
 		protected virtual void OnRendererDissolveBegin() { }
 		protected virtual void OnRendererDissolveEnd() { }
 
-		protected override void OnPostDisable()
+		void OnDisable()
 		{
 			if (NavMeshAgent) NavMeshAgent.enabled = false;
 		}

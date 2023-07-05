@@ -44,7 +44,7 @@ namespace Personal.UI.Option
 
 		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
 
-		protected override void OnPostEnable()
+		void OnEnable()
 		{
 			lastSelectedGO = brightnessSlider.gameObject;
 		}

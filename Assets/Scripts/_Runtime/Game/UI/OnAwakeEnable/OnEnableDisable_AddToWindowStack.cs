@@ -4,12 +4,12 @@ namespace Personal.UI
 {
 	public class OnEnableDisable_AddToWindowStack : MenuUIBase
 	{
-		protected override void OnEnable()
+		void OnEnable()
 		{
 			UIManager.Instance.WindowStack.Push(this);
 		}
 
-		protected override void OnDisable()
+		void OnDisable()
 		{
 			if (UIManager.Instance.IsWindowStackEmpty) return;
 			UIManager.Instance.WindowStack.Pop();
