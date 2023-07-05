@@ -55,7 +55,7 @@ namespace Puzzle.EightSlide
 		int emptyIndex;
 		CoroutineRun slideCR = new CoroutineRun();
 
-		protected override void Initialize()
+		void Awake()
 		{
 			var tempList = new List<int>(new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
@@ -76,7 +76,7 @@ namespace Puzzle.EightSlide
 			emptyIndex = tempList[0];
 		}
 
-		protected override void OnUpdate()
+		void Update()
 		{
 			if (!InputManager.Instance.IsInteract) return;
 			if (!slideCR.IsDone) return;

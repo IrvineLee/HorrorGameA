@@ -27,11 +27,6 @@ namespace Personal.GameState
 			//Debug.Log("<color=yellow> GameInitializeSingleton " + typeof(T).Name + "</color>");
 		}
 
-		void Update()
-		{
-			OnUpdate();
-		}
-
 		/// <summary>
 		/// Called right after awake is finished.
 		/// </summary>
@@ -62,17 +57,6 @@ namespace Personal.GameState
 		/// </summary>
 		protected virtual void OnMainScene() { }
 
-		/// <summary>
-		/// This will get called on the next frame of OnMainScene.
-		/// Typically used when GameInitialize has to start initializing first before this script.
-		/// </summary>
-		protected virtual void OnPostMainScene() { }
-
-		/// <summary>
-		/// Update after boot is completed.
-		/// </summary>
-		protected virtual void OnUpdate() { }
-
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
 			HandleScene();
@@ -97,9 +81,6 @@ namespace Personal.GameState
 
 			await UniTask.NextFrame();
 			OnMainScene();
-
-			await UniTask.NextFrame();
-			OnPostMainScene();
 		}
 
 		void OnApplicationQuit()

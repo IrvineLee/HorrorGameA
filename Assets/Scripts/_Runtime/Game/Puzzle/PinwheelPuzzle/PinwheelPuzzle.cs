@@ -61,12 +61,12 @@ namespace Puzzle.Pinwheel
 
 		CoroutineRun slideCR = new CoroutineRun();
 
-		protected override void Initialize()
+		void Awake()
 		{
 			InitialPinwheelSetup();
 		}
 
-		protected override void OnUpdate()
+		void Update()
 		{
 			if (!InputManager.Instance.IsInteract) return;
 			if (!slideCR.IsDone) return;

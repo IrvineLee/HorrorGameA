@@ -17,6 +17,7 @@ namespace Personal.UI.Option
 
 		protected override void Initialize()
 		{
+			InputManager.Instance?.SetToDefaultActionMap();
 			InputManager.Instance.OnAnyButtonPressed += Begin;
 
 			List<ButtonInteractBase> buttonInteractList = buttonGroupTrans.GetComponentsInChildren<ButtonInteractBase>(true).ToList();
@@ -24,11 +25,6 @@ namespace Personal.UI.Option
 			{
 				buttonInteract.InitialSetup();
 			}
-		}
-
-		protected override void OnTitleScene()
-		{
-			InputManager.Instance?.SetToDefaultActionMap();
 		}
 
 		void Begin()
@@ -39,7 +35,8 @@ namespace Personal.UI.Option
 
 		void RemoveListener()
 		{
-			InputManager.Instance.OnAnyButtonPressed -= Begin;
+			if (InputManager.Instance)
+				InputManager.Instance.OnAnyButtonPressed -= Begin;
 		}
 
 		void OnApplicationQuit()

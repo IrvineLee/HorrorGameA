@@ -4,7 +4,7 @@ using Personal.GameState;
 
 namespace Puzzle
 {
-	public class PuzzleController : GameInitialize
+	public class PuzzleController : MonoBehaviour
 	{
 		public enum PuzzleState
 		{

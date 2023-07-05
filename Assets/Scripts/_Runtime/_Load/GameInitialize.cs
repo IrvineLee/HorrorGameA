@@ -9,7 +9,6 @@ namespace Personal.GameState
 {
 	/// <summary>
 	/// Makes sure the singleton scripts get created first.
-	/// Update function will only run after Awake is done.
 	/// </summary>
 	public class GameInitialize : MonoBehaviour
 	{
@@ -27,30 +26,15 @@ namespace Personal.GameState
 			HandleScene().Forget();
 		}
 
-		void Update()
-		{
-			OnUpdate();
-		}
-
 		/// <summary>
-		/// Gets called 1-frame after awake has finished and before getting enabled.
+		/// Treat this as a normal Awake function.
 		/// </summary>
 		protected virtual void Initialize() { }
-
-		/// <summary>
-		/// Update
-		/// </summary>
-		protected virtual void OnUpdate() { }
 
 		/// <summary>
 		/// This will get called on the next frame of Initialize.
 		/// </summary>
 		protected virtual void OnMainScene() { }
-
-		/// <summary>
-		/// This will be called when returning to Title scene.
-		/// </summary>
-		protected virtual void OnTitleScene() { }
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
@@ -59,13 +43,7 @@ namespace Personal.GameState
 
 		async UniTask HandleScene()
 		{
-			if (!GameSceneManager.Instance.IsMainScene())
-			{
-				if (GameSceneManager.Instance.IsScene(SceneName.Title))
-					OnTitleScene();
-
-				return;
-			}
+			if (!GameSceneManager.Instance.IsMainScene()) return;
 
 			// Wait for every GameInitialize script to call its Initialize first before this OnMainScene.
 			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);

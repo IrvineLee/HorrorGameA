@@ -118,10 +118,8 @@ namespace Personal.Character.Player
 			isCurrentInvertedLookVertical = optionGameUI.IsInvertLookVertical;
 		}
 
-		protected override void OnUpdate()
+		void Update()
 		{
-			base.OnUpdate();
-
 			if (!fsm || fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
 
 			JumpAndGravity();

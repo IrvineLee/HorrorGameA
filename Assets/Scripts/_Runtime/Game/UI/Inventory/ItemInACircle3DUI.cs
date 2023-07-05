@@ -31,10 +31,8 @@ namespace Personal.UI
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
 		}
 
-		protected override void OnUpdate()
+		void Update()
 		{
-			base.OnUpdate();
-
 			HandleInput();
 		}
 

@@ -24,7 +24,7 @@ namespace Personal.UI
 		protected CoroutineRun windowAnimatorCR = new();
 		protected int animIsExpand;
 
-		protected override void OnUpdate()
+		void Update()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
 			if (EventSystem.current.currentSelectedGameObject) return;
@@ -87,6 +87,12 @@ namespace Personal.UI
 			if (!isInstant && windowAnimatorParent)
 			{
 				HandleAnimator(isFlag);
+				return;
+			}
+
+			if (windowAnimatorParent)
+			{
+				windowAnimatorParent.gameObject.SetActive(false);
 				return;
 			}
 			gameObject.SetActive(isFlag);

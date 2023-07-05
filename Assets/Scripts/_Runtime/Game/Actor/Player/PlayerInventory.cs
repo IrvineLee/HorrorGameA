@@ -178,6 +178,15 @@ namespace Personal.Character.Player
 			activeObject = null;
 		}
 
+		public void ResetInventoryUI()
+		{
+			// Remove the object from the inventory UI.
+			foreach (var inventory in inventoryList)
+			{
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ParentTrans.gameObject);
+			}
+		}
+
 		/// <summary>
 		/// Put it near the player's view.
 		/// </summary>
@@ -206,15 +215,6 @@ namespace Personal.Character.Player
 
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
-		}
-
-		protected override void OnTitleScene()
-		{
-			// Remove the object from the inventory UI.
-			foreach (var inventory in inventoryList)
-			{
-				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ParentTrans.gameObject);
-			}
 		}
 	}
 }

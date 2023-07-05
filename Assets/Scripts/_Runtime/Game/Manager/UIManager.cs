@@ -39,7 +39,7 @@ namespace Personal.Manager
 			optionUI.InitialSetup();
 		}
 
-		protected override void OnPostMainScene()
+		protected override void OnMainScene()
 		{
 			inventoryUI.InitialSetup();
 		}

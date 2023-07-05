@@ -33,6 +33,7 @@ namespace Personal.UI
 				{
 					PauseManager.Instance.ResumeTime();
 
+					StageManager.Instance.PlayerController.Inventory.ResetInventoryUI();
 					UIManager.Instance.CloseAllWindowAndUIInterfaceStack();
 					inputBlockerGO.SetActive(false);
 				};

@@ -9,17 +9,17 @@ namespace Personal.Manager
 	{
 		public bool IsPaused { get; private set; }
 
-		protected override void OnEarlyMainScene()
-		{
-			MenuUIBase.OnPauseEvent += Pause;
-		}
-
 		/// <summary>
 		/// Resume time.
 		/// </summary>
 		public void ResumeTime()
 		{
 			Pause(false);
+		}
+
+		protected override void Initialize()
+		{
+			MenuUIBase.OnPauseEvent += Pause;
 		}
 
 		void Pause(bool isFlag)

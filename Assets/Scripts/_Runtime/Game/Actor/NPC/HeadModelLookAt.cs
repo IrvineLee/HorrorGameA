@@ -26,10 +26,8 @@ namespace Personal.Character.NPC
 			targetTrans = defaultTargetTrans;
 		}
 
-		protected override void OnUpdate()
+		void Update()
 		{
-			base.OnUpdate();
-
 			Vector3 direction = Vector3.Normalize(targetTrans.position - transform.position);
 			float dotProduct = Vector3.Dot(transform.forward, direction);
 
