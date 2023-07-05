@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
 
-using Personal.GameState;
 using Sirenix.OdinInspector;
 
 namespace Personal.Character.Animation
 {
-	public class AnimatorController : GameInitialize
+	public class AnimatorController : MonoBehaviour
 	{
 		[Serializable]
 		public class AnimatorState<T> where T : Enum
@@ -41,7 +40,7 @@ namespace Personal.Character.Animation
 
 		public Animator Animator { get; private set; }
 
-		protected override void Initialize()
+		protected virtual void Awake()
 		{
 			Animator = GetComponentInChildren<Animator>();
 		}

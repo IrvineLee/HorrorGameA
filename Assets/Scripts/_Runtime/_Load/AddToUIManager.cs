@@ -4,9 +4,9 @@ using Personal.Manager;
 
 namespace Personal.GameState
 {
-	public class AddToUIManager : GameInitialize
+	public class AddToUIManager : MonoBehaviour
 	{
-		protected override void Initialize()
+		void Awake()
 		{
 			transform.SetParent(UIManager.Instance.transform);
 		}

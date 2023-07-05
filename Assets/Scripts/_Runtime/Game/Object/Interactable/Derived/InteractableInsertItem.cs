@@ -34,11 +34,11 @@ namespace Puzzle.EightSlide
 
 		PlayerInventory playerInventory;
 
-		protected override void Initialize()
+		protected override void Awake()
 		{
-			base.Initialize();
+			base.Awake();
 
-			playerInventory = StageManager.Instance.PlayerController.Inventory;
+			playerInventory = StageManager.Instance.PlayerController?.Inventory;
 
 			foreach (var itemInfo in itemInfoList)
 			{

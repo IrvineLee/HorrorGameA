@@ -34,14 +34,6 @@ namespace Personal.UI
 		}
 
 		/// <summary>
-		/// Resume time.
-		/// </summary>
-		public static void ResumeTime()
-		{
-			OnPauseEvent?.Invoke(false);
-		}
-
-		/// <summary>
 		/// Initialize the value before displaying the menu to user.
 		/// Typically used to have the data pre-loaded so data is already set when opened.
 		/// </summary>

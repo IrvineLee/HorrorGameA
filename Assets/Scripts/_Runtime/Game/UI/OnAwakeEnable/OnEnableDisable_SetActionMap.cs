@@ -2,11 +2,10 @@ using UnityEngine;
 
 using Personal.Manager;
 using Personal.InputProcessing;
-using Personal.GameState;
 
 namespace Personal.UI
 {
-	public class OnEnableDisable_SetActionMap : GameInitialize
+	public class OnEnableDisable_SetActionMap : MonoBehaviour
 	{
 		[SerializeField] ActionMapType actionMapType = ActionMapType.BasicControl;
 
@@ -21,7 +20,7 @@ namespace Personal.UI
 		void OnDisable()
 		{
 			if (previousActionMap == ActionMapType.None) return;
-			InputManager.Instance.EnableActionMap(previousActionMap);
+			InputManager.Instance?.EnableActionMap(previousActionMap);
 		}
 	}
 }

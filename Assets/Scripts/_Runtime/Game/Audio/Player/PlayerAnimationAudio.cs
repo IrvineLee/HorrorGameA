@@ -16,7 +16,7 @@ namespace Personal.Character.Animation
 
 		FPSController fpsController;
 
-		protected override void OnMainScene()
+		protected override void Awake()
 		{
 			fpsController = StageManager.Instance.PlayerController.FPSController;
 		}

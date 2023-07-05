@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
-
-using Personal.GameState;
 using UnityEngine.UI;
 
 namespace Personal.UI
 {
-	public class CursorHandler : GameInitialize
+	public class CursorHandler : MonoBehaviour
 	{
 		[SerializeField] Image cursorImage = null;
 
-		protected override void OnUpdate()
+		void Update()
 		{
 			transform.position = Input.mousePosition;
 		}

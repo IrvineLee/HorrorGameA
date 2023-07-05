@@ -35,18 +35,16 @@ namespace Personal.Manager
 			DialogueSystemController = FindObjectOfType<DialogueSystemController>();
 		}
 
-		protected override void OnEarlyMainScene()
-		{
-			InputManager.Instance.DisableAllActionMap();
-
-			// Set the camera in Main scene.
-			MainCamera = Camera.main;
-			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
-		}
-
 		protected override void OnMainScene()
 		{
 			InputManager.Instance.EnableActionMap(ActionMapType.Player);
+		}
+
+		public void RegisterCamera(Camera cam)
+		{
+			// Set the camera in Main scene.
+			MainCamera = cam;
+			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 		}
 
 		public void RegisterPlayer(PlayerController pc)

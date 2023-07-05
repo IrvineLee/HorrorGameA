@@ -2,13 +2,12 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.GameState;
 using Personal.FSM;
 using Personal.Definition;
 
 namespace Personal.InteractiveObject
 {
-	public abstract class InteractableObject : GameInitialize
+	public abstract class InteractableObject : MonoBehaviour
 	{
 		[SerializeField] Transform parentTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
@@ -20,7 +19,7 @@ namespace Personal.InteractiveObject
 		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;
 
-		protected override void Initialize()
+		protected virtual void Awake()
 		{
 			currentCollider = GetComponentInChildren<Collider>();
 			meshRenderer = GetComponentInChildren<MeshRenderer>();

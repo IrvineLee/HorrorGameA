@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Personal.Manager;
-using Personal.GameState;
 
 namespace Personal.InputProcessing
 {
@@ -87,12 +86,13 @@ namespace Personal.InputProcessing
 			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
 		}
 
-		void OnApplicationQuit()
+		void OnDisable()
 		{
 			standardUIMenuPanel.onOpen.RemoveAllListeners();
 			standardUIMenuPanel.onClose.RemoveAllListeners();
 
-			InputManager.Instance.OnDeviceIconChanged -= HandleCursor;
+			if (InputManager.Instance)
+				InputManager.Instance.OnDeviceIconChanged -= HandleCursor;
 		}
 	}
 }

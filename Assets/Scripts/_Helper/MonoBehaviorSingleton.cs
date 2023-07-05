@@ -7,7 +7,6 @@ namespace Helper
 	public class MonoBehaviourSingleton<TSelfType> : MonoBehaviour where TSelfType : MonoBehaviour
 	{
 		static TSelfType m_Instance = null;
-		static bool isQuitting;
 
 		void Awake()
 		{
@@ -22,7 +21,7 @@ namespace Helper
 			get
 			{
 				// To prevent creating a new instance in case of qutting.
-				if (isQuitting) return null;
+				if (App.IsQuitting) return null;
 
 				if (m_Instance == null)
 				{
@@ -33,11 +32,6 @@ namespace Helper
 				}
 				return m_Instance;
 			}
-		}
-
-		void OnApplicationQuit()
-		{
-			isQuitting = true;
 		}
 	}
 }

@@ -14,9 +14,9 @@ namespace Personal.InteractiveObject
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
-		protected override void Initialize()
+		protected override void Awake()
 		{
-			base.Initialize();
+			base.Awake();
 
 			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
 			interactionAssign = GetComponentInChildren<InteractionAssign>();

@@ -31,7 +31,7 @@ namespace Personal.UI
 			{
 				Action inBetweenAction = () =>
 				{
-					MenuUIBase.ResumeTime();
+					PauseManager.Instance.ResumeTime();
 
 					UIManager.Instance.CloseAllWindowAndUIInterfaceStack();
 					inputBlockerGO.SetActive(false);

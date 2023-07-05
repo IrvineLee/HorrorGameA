@@ -17,6 +17,7 @@ namespace Personal.Manager
 		[SerializeField] Image crosshairImage = null;
 
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
+		CursorDefinition.CrosshairType defaultCrosshairType = CursorDefinition.CrosshairType.FPS;
 
 		protected override void Initialize()
 		{
@@ -67,9 +68,11 @@ namespace Personal.Manager
 		/// </summary>
 		public void SetToDefaultCrosshair()
 		{
-			cursorDefinition.CrosshairDictionary.TryGetValue(CursorDefinition.CrosshairType.FPS, out Sprite sprite);
+			if (currentCrosshairType == defaultCrosshairType) return;
 
-			currentCrosshairType = CursorDefinition.CrosshairType.FPS;
+			cursorDefinition.CrosshairDictionary.TryGetValue(defaultCrosshairType, out Sprite sprite);
+
+			currentCrosshairType = defaultCrosshairType;
 			crosshairImage.sprite = sprite;
 		}
 

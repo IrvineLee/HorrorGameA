@@ -21,9 +21,9 @@ namespace Personal.InteractiveObject
 		CoroutineRun lookAtCR = new CoroutineRun();
 		Type initiatorType;
 
-		protected override void Initialize()
+		protected override void Awake()
 		{
-			base.Initialize();
+			base.Awake();
 
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();

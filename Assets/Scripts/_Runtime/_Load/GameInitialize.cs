@@ -13,17 +13,18 @@ namespace Personal.GameState
 	/// </summary>
 	public class GameInitialize : MonoBehaviour
 	{
-		bool isInitiallyEnabled = true;
-
 		protected async UniTask Awake()
 		{
 			if (!Preload.IsLoaded)
 				await UniTask.WaitUntil(() => Preload.IsLoaded, cancellationToken: this.GetCancellationTokenOnDestroy());
 
-			isInitiallyEnabled = enabled;
-			enabled = false;
+			// Wait for the singleton scripts to handle its OnSceneLoaded first before initializing this script.
+			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
 
-			AwakeComplete();
+			Initialize();
+
+			SceneManager.sceneLoaded += OnSceneLoaded;
+			HandleScene().Forget();
 		}
 
 		void Update()
@@ -51,24 +52,12 @@ namespace Personal.GameState
 		/// </summary>
 		protected virtual void OnTitleScene() { }
 
-		async void AwakeComplete()
-		{
-			// Wait a frame here so singleton scripts get initialized first before this script.
-			await UniTask.NextFrame();
-
-			Initialize();
-			if (isInitiallyEnabled) enabled = true;
-
-			SceneManager.sceneLoaded += OnSceneLoaded;
-			HandleMainScene().Forget();
-		}
-
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
-			HandleMainScene().Forget();
+			HandleScene().Forget();
 		}
 
-		async UniTask HandleMainScene()
+		async UniTask HandleScene()
 		{
 			if (!GameSceneManager.Instance.IsMainScene())
 			{
@@ -78,8 +67,8 @@ namespace Personal.GameState
 				return;
 			}
 
-			// Reason for loop timing is to make sure other GameInitialize script call its Initialize first before this OnMainScene.
-			await UniTask.NextFrame(PlayerLoopTiming.LastTimeUpdate);
+			// Wait for every GameInitialize script to call its Initialize first before this OnMainScene.
+			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
 			OnMainScene();
 		}
 

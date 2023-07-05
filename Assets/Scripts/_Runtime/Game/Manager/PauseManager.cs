@@ -14,6 +14,14 @@ namespace Personal.Manager
 			MenuUIBase.OnPauseEvent += Pause;
 		}
 
+		/// <summary>
+		/// Resume time.
+		/// </summary>
+		public void ResumeTime()
+		{
+			Pause(false);
+		}
+
 		void Pause(bool isFlag)
 		{
 			if (IsPaused == isFlag) return;

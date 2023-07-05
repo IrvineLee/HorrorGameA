@@ -22,9 +22,9 @@ namespace Personal.Character.Animation
 
 		Dictionary<ActorAnimationType, RealAnimatorState<XBotAnimationType>> realAnimatorStateDictionary = new();
 
-		protected override void Initialize()
+		protected override void Awake()
 		{
-			base.Initialize();
+			base.Awake();
 
 			foreach (var state in realAnimatorStateList)
 			{

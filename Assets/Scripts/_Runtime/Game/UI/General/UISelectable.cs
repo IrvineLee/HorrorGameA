@@ -1,22 +1,20 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Personal.GameState;
 using Personal.Manager;
 
 namespace Personal.UI
 {
-	public class UISelectable : GameInitialize, IPointerEnterHandler, IPointerExitHandler
+	public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField] bool isInitialSelection = false;
 		[SerializeField] bool isPointerExitable = false;
 
 		MenuUIBase menuUIBase = null;
 
-		protected override void Initialize()
+		void Awake()
 		{
 			menuUIBase = GetComponentInParent<MenuUIBase>();
-			OnEnable();
 		}
 
 		void OnEnable()
@@ -37,6 +35,7 @@ namespace Personal.UI
 
 		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
 		{
+			if (!UIManager.Instance) return;
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
 			if (!isPointerExitable) return;
 

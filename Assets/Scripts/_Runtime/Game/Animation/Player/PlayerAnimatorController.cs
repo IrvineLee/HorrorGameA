@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 using Personal.Character.Player;
@@ -16,9 +15,9 @@ namespace Personal.Character.Animation
 
 		FPSController fPSController;
 
-		protected override void Initialize()
+		protected override void Awake()
 		{
-			base.Initialize();
+			base.Awake();
 			AssignAnimationIDs();
 
 			fPSController = GetComponentInParent<FPSController>();

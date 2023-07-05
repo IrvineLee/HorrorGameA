@@ -1,18 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Audio;
 
 namespace Personal.InteractiveObject
 {
-	public class PhoneHandler : GameInitialize
+	public class PhoneHandler : MonoBehaviour
 	{
 		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.PhoneRing;
 		[SerializeField] InteractableObject interactableObject = null;
 
-		protected override void Initialize()
+		void Awake()
 		{
 			StageManager.Instance.RegisterPhoneHandler(this);
 		}
