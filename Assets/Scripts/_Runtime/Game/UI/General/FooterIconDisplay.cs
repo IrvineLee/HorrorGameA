@@ -27,6 +27,7 @@ namespace Personal.UI
 			DisableAllTmp();
 
 			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
+			UpdateIcons();
 		}
 
 		void OnEnable()

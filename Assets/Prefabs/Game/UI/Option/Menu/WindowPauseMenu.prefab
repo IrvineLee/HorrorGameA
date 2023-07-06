@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInterfaceType: 1
-  windowAnimatorParent: {fileID: 4971849168539097286}
+  windowUIAnimator: {fileID: 1224018788550959817}
   resumeButton: {fileID: 1026786710086922994}
   buttonInteractList:
   - {fileID: 8078334097955346977}
@@ -521,7 +521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -597,6 +597,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5546630869629790033, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 855339210116795814}
+    - targetCorrespondingSourceObject: {fileID: 5546630869629790033, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1224018788550959817}
   m_SourcePrefab: {fileID: 100100000, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
 --- !u!224 &4757544196852126862 stripped
 RectTransform:
@@ -626,6 +629,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionMapType: 1000
+--- !u!114 &1224018788550959817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7040593572489132805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a19982f6f8c2174886cf4469f82b375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4971849168539097286}
+  animationName: IsEnable
 --- !u!1001 &8653556325703576247
 PrefabInstance:
   m_ObjectHideFlags: 0

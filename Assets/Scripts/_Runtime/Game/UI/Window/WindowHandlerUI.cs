@@ -80,7 +80,7 @@ namespace Personal.UI.Window
 		void ActivateWindow(WindowMenuUI windowMenuUI)
 		{
 			// Don't do anything if the window is already opened.
-			if (windowMenuUI.gameObject.activeSelf) return;
+			if (windowMenuUI.IsWindowOpened) return;
 
 			windowMenuUI.OpenWindow();
 		}

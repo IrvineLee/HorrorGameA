@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 using Personal.GameState;
 using Personal.Manager;
-using Helper;
+using Personal.UI.Window;
 
 namespace Personal.UI
 {
@@ -12,17 +12,16 @@ namespace Personal.UI
 	public class MenuUIBase : GameInitialize
 	{
 		[SerializeField] UIInterfaceType uiInterfaceType = UIInterfaceType.None;
-		[SerializeField] Animator windowAnimatorParent = null;
+		[SerializeField] WindowUIAnimator windowUIAnimator = null;
 
 		public IDefaultHandler IDefaultHandler { get; protected set; }
 		public UIInterfaceType UiInterfaceType { get => uiInterfaceType; }
+		public bool IsWindowOpened { get => windowUIAnimator ? windowUIAnimator.gameObject.activeSelf : gameObject.activeSelf; }
+		protected bool IsWindowAnimationDone { get => windowUIAnimator ? windowUIAnimator.IsDone : true; }
 
 		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
-
-		protected CoroutineRun windowAnimatorCR = new();
-		protected int animIsExpand;
 
 		void Update()
 		{
@@ -38,16 +37,11 @@ namespace Personal.UI
 		/// Typically used to have the data pre-loaded so data is already set when opened.
 		/// </summary>
 		/// <returns></returns>
-		public virtual void InitialSetup()
-		{
-			if (!windowAnimatorParent) return;
-
-			animIsExpand = Animator.StringToHash("IsExpand");
-		}
+		public virtual void InitialSetup() { }
 
 		public virtual void OpenWindow()
 		{
-			if (!windowAnimatorCR.IsDone) return;
+			if (!IsWindowAnimationDone) return;
 
 			UIManager.Instance.WindowStack.Push(this);
 			EnableGO(true, false);
@@ -61,7 +55,7 @@ namespace Personal.UI
 		/// <returns></returns>
 		public virtual void CloseWindow(bool isInstant = false)
 		{
-			if (!windowAnimatorCR.IsDone && !isInstant) return;
+			if (!IsWindowAnimationDone && !isInstant) return;
 
 			UIManager.Instance.WindowStack.Pop();
 			EnableGO(false, isInstant);
@@ -84,38 +78,14 @@ namespace Personal.UI
 		/// <param name="isFlag"></param>
 		void EnableGO(bool isFlag, bool isInstant)
 		{
-			if (!isInstant && windowAnimatorParent)
+			if (windowUIAnimator)
 			{
-				HandleAnimator(isFlag);
-				return;
-			}
+				if (!isInstant) windowUIAnimator.Run(isFlag);
+				else windowUIAnimator.gameObject.SetActive(false);
 
-			if (windowAnimatorParent)
-			{
-				windowAnimatorParent.gameObject.SetActive(false);
 				return;
 			}
 			gameObject.SetActive(isFlag);
-		}
-
-		/// <summary>
-		/// Handle animator's animation.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		void HandleAnimator(bool isFlag)
-		{
-			if (isFlag)
-			{
-				windowAnimatorParent.gameObject.SetActive(true);
-				windowAnimatorParent.SetBool(animIsExpand, true);
-				return;
-			}
-
-			windowAnimatorParent.SetBool(animIsExpand, false);
-			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(windowAnimatorParent, () =>
-			{
-				windowAnimatorParent.gameObject.SetActive(false);
-			}, true);
 		}
 	}
 }

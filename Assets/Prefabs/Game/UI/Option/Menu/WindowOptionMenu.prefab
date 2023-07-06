@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInterfaceType: 2
-  windowAnimatorParent: {fileID: 0}
+  windowUIAnimator: {fileID: 0}
   menuTab: 3
 --- !u!1 &8117433842499861792
 GameObject:
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInterfaceType: 2
-  windowAnimatorParent: {fileID: 7997309915927549501}
+  windowUIAnimator: {fileID: 9134686927290302371}
   startMenuTab: 0
   tabList:
   - selectButton: {fileID: 8168248129439608810}
@@ -597,6 +597,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5546630869629790033, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6004595457077362884}
+    - targetCorrespondingSourceObject: {fileID: 5546630869629790033, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9134686927290302371}
   m_SourcePrefab: {fileID: 100100000, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
 --- !u!1 &5455721755905029630 stripped
 GameObject:
@@ -616,6 +619,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionMapType: 1000
+--- !u!114 &9134686927290302371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5455721755905029630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a19982f6f8c2174886cf4469f82b375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7997309915927549501}
+  animationName: IsEnable
 --- !u!224 &7495566173176437365 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
