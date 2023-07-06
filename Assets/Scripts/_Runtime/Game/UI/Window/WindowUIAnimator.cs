@@ -21,6 +21,7 @@ namespace Personal.UI.Window
 
 		public void Run(bool isFlag)
 		{
+			windowAnimatorCR.StopCoroutine();
 			if (isFlag)
 			{
 				animator.gameObject.SetActive(true);
@@ -29,7 +30,7 @@ namespace Personal.UI.Window
 			}
 
 			animator.SetBool(animIsEnable, false);
-			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false), true);
+			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false));
 		}
 	}
 }

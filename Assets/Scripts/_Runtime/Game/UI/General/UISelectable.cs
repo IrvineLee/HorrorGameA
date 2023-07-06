@@ -2,19 +2,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Personal.Manager;
+using Personal.UI.Window;
 
 namespace Personal.UI
 {
-	public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 	{
 		[SerializeField] bool isInitialSelection = false;
-		[SerializeField] bool isPointerExitable = false;
 
 		MenuUIBase menuUIBase = null;
+		WindowUIAnimator windowUIAnimator;
 
 		void Awake()
 		{
-			menuUIBase = GetComponentInParent<MenuUIBase>();
+			menuUIBase = GetComponentInParent<MenuUIBase>(true);
+			windowUIAnimator = GetComponentInChildren<WindowUIAnimator>(true);
 		}
 
 		void OnEnable()
@@ -37,9 +39,18 @@ namespace Personal.UI
 		{
 			if (!UIManager.Instance) return;
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
-			if (!isPointerExitable) return;
 
 			eventData.selectedObject = null;
+		}
+
+		void ISelectHandler.OnSelect(BaseEventData eventData)
+		{
+			windowUIAnimator?.Run(true);
+		}
+
+		void IDeselectHandler.OnDeselect(BaseEventData eventData)
+		{
+			windowUIAnimator?.Run(false);
 		}
 	}
 }

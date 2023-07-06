@@ -54,6 +54,7 @@ namespace Helper
 
 				yield return null;
 			}
+			yield return null;
 		}
 
 		protected static IEnumerator IEWaitUntilFuncReturnsTrue(CoroutineRun cr, Func<bool> checkFunc, float timeOutDuration = Mathf.Infinity)
