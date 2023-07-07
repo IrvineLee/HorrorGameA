@@ -12,7 +12,6 @@ namespace Personal.UI
 
 		public override void InitialSetup()
 		{
-			base.InitialSetup();
 			itemInACircle3DUI.InitialSetup();
 		}
 

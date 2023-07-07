@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 namespace Personal.UI.Option
 {
-	public class PauseHandlerUI : MenuUIBase
+	public class PauseHandlerUI : UIHandlerBase
 	{
 		[SerializeField] Button resumeButton = null;
 		[SerializeField] List<ButtonInteractBase> buttonInteractList = new();
 
-		public override void InitialSetup()
+		protected override void Initialize()
 		{
-			base.InitialSetup();
 			resumeButton.onClick.AddListener(ResumeButton);
 
 			foreach (var buttonInteract in buttonInteractList)

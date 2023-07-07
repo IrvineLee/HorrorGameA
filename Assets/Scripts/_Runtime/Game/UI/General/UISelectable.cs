@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using Personal.Manager;
@@ -11,12 +14,16 @@ namespace Personal.UI
 		[SerializeField] bool isInitialSelection = false;
 
 		MenuUIBase menuUIBase = null;
-		WindowUIAnimator windowUIAnimator;
+		WindowSelectionUIAnimator windowSelectionUIAnimator;
+
+		List<Selectable> selectableList = new();
 
 		void Awake()
 		{
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
-			windowUIAnimator = GetComponentInChildren<WindowUIAnimator>(true);
+			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
+
+			selectableList = GetComponentsInChildren<Selectable>(true).ToList();
 		}
 
 		void OnEnable()
@@ -45,12 +52,22 @@ namespace Personal.UI
 
 		void ISelectHandler.OnSelect(BaseEventData eventData)
 		{
-			windowUIAnimator?.Run(true);
+			windowSelectionUIAnimator?.Run(true);
+
+			foreach (var selectable in selectableList)
+			{
+				selectable.targetGraphic.color = selectable.colors.selectedColor;
+			}
 		}
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
 		{
-			windowUIAnimator?.Run(false);
+			windowSelectionUIAnimator?.Run(false);
+
+			foreach (var selectable in selectableList)
+			{
+				selectable.targetGraphic.color = selectable.colors.normalColor;
+			}
 		}
 	}
 }

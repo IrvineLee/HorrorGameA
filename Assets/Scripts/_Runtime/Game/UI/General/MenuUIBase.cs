@@ -11,8 +11,8 @@ namespace Personal.UI
 	[Serializable]
 	public class MenuUIBase : GameInitialize
 	{
-		[SerializeField] UIInterfaceType uiInterfaceType = UIInterfaceType.None;
-		[SerializeField] WindowUIAnimator windowUIAnimator = null;
+		[SerializeField] protected UIInterfaceType uiInterfaceType = UIInterfaceType.None;
+		[SerializeField] protected WindowSelectionUIAnimator windowUIAnimator = null;
 
 		public IDefaultHandler IDefaultHandler { get; protected set; }
 		public UIInterfaceType UiInterfaceType { get => uiInterfaceType; }

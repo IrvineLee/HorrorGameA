@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 using Personal.Manager;
@@ -7,7 +5,7 @@ using Helper;
 
 namespace Personal.UI.Option
 {
-	public class TitleHandlerUI : MenuUIBase
+	public class TitleHandlerUI : UIHandlerBase
 	{
 		[SerializeField] OnEnableFadeInOut pressAnyButton = null;
 		[SerializeField] Transform buttonGroupTrans = null;
@@ -17,14 +15,11 @@ namespace Personal.UI.Option
 
 		protected override void Initialize()
 		{
-			InputManager.Instance?.SetToDefaultActionMap();
-			InputManager.Instance.OnAnyButtonPressed += Begin;
+			base.Initialize();
 
-			List<ButtonInteractBase> buttonInteractList = buttonGroupTrans.GetComponentsInChildren<ButtonInteractBase>(true).ToList();
-			foreach (var buttonInteract in buttonInteractList)
-			{
-				buttonInteract.InitialSetup();
-			}
+			InitialSetup();
+			InputManager.Instance.SetToDefaultActionMap();
+			InputManager.Instance.OnAnyButtonPressed += Begin;
 		}
 
 		void Begin()

@@ -19,8 +19,6 @@ namespace Personal.UI.Window
 
 		public override void InitialSetup()
 		{
-			base.InitialSetup();
-
 			rectTransform = GetComponentInChildren<RectTransform>();
 		}
 

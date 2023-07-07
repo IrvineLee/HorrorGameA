@@ -9,7 +9,7 @@ using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Option
 {
-	public class OptionHandlerUI : MenuUIBase, IDefaultHandler
+	public class OptionHandlerUI : UIHandlerBase, IDefaultHandler
 	{
 		public enum MenuTab
 		{
