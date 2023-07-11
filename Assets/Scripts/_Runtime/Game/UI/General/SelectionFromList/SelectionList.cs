@@ -102,11 +102,11 @@ namespace Personal.UI
 
 		void HandleButtonVisibility()
 		{
-			leftButton.image.enabled = true;
-			rightButton.image.enabled = true;
+			leftButton.interactable = true;
+			rightButton.interactable = true;
 
-			if (currentActiveIndex == 0) leftButton.image.enabled = false;
-			else if (currentActiveIndex >= stringList.Count - 1) rightButton.image.enabled = false;
+			if (currentActiveIndex == 0) leftButton.interactable = false;
+			else if (currentActiveIndex >= stringList.Count - 1) rightButton.interactable = false;
 		}
 
 		void OnDestroy()
