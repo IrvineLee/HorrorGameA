@@ -6,17 +6,17 @@ namespace Helper
 	{
 		/// <summary>
 		/// Keep the value within the size of count. 
-		/// IsResetToDefault handles whether accumulated values resets to 0 or max value.
-		/// In case of false, index value will sequently ++/--.
-		/// Ex: index 5, count 3, isResetToDefault false, returns 2.
+		/// isLoopable handles whether accumulated values resets to 0 or max value.
+		/// In case of true, index value will sequently ++/--.
+		/// Ex: index 5, count 3, isLoopable true, returns 2.
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="count"></param>
-		/// <param name="isResetToDefault"></param>
+		/// <param name="isLoopable"></param>
 		/// <returns></returns>
-		public static int WithinCount(this int index, int count, bool isResetToDefault = true)
+		public static int WithinCount(this int index, int count, bool isLoopable = false)
 		{
-			if (isResetToDefault)
+			if (!isLoopable)
 			{
 				if (index > count - 1) return 0;
 				else if (index < 0) return count - 1;

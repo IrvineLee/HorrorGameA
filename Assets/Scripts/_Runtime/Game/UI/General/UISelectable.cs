@@ -13,10 +13,10 @@ namespace Personal.UI
 	{
 		[SerializeField] bool isInitialSelection = false;
 
-		MenuUIBase menuUIBase = null;
-		WindowSelectionUIAnimator windowSelectionUIAnimator;
+		protected MenuUIBase menuUIBase = null;
+		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
 
-		List<Selectable> selectableList = new();
+		protected List<Selectable> selectableList = new();
 
 		void Awake()
 		{

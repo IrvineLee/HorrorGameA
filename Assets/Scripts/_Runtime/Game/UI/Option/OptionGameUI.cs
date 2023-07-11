@@ -21,16 +21,16 @@ namespace Personal.UI.Option
 		[Space]
 		[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] Slider cameraSensitivitySlider = null;
-		[SerializeField] Toggle isInvertLookHorizontal = null;
-		[SerializeField] Toggle isInvertLookVertical = null;
-		[SerializeField] Toggle isUSInteractButton = null;
-		[SerializeField] TMP_Dropdown gamepadIconDropdown = null;
-		[SerializeField] TMP_Dropdown fontSizeDropdown = null;
-		[SerializeField] TMP_Dropdown languageDropdown = null;
+		[SerializeField] ToggleSelectionList isInvertLookHorizontal = null;
+		[SerializeField] ToggleSelectionList isInvertLookVertical = null;
+		[SerializeField] ToggleSelectionList isUSInteractButton = null;
+		[SerializeField] DropdownSelectionList gamepadIconDropdown = null;
+		[SerializeField] DropdownSelectionList fontSizeDropdown = null;
+		[SerializeField] DropdownSelectionList languageDropdown = null;
 
 		public float CameraSensitivity { get => cameraSensitivitySlider.value; }
-		public bool IsInvertLookHorizontal { get => isInvertLookHorizontal.isOn; }
-		public bool IsInvertLookVertical { get => isInvertLookVertical.isOn; }
+		public bool IsInvertLookHorizontal { get => isInvertLookHorizontal.IsOn; }
+		public bool IsInvertLookVertical { get => isInvertLookVertical.IsOn; }
 
 		GameData gameData;
 
@@ -39,8 +39,6 @@ namespace Personal.UI.Option
 		Volume volume;
 		VolumeProfile volumeProfile;
 		ColorAdjustments colorAdjustments;
-
-		DropdownLocalization dropdownLocalization;
 
 		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
 
@@ -55,8 +53,6 @@ namespace Personal.UI.Option
 		/// <returns></returns>
 		public override void InitialSetup()
 		{
-			dropdownLocalization = languageDropdown.GetComponentInChildren<DropdownLocalization>();
-
 			allTMPList = PixelCrushers.DialogueSystem.DialogueManager.Instance.GetComponentsInChildren<TextMeshProUGUI>(true).ToList();
 			allTMPList.AddRange(GetComponentsInChildren<TextMeshProUGUI>(true).ToList());
 
@@ -75,12 +71,12 @@ namespace Personal.UI.Option
 
 			gameData.Brightness = currentBrightness01;
 			gameData.CameraSensitivity = cameraSensitivitySlider.value;
-			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.isOn;
-			gameData.IsInvertLookVertical = isInvertLookVertical.isOn;
-			gameData.IsUSInteractButton = isUSInteractButton.isOn;
-			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.value;
-			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.value;
-			gameData.SelectedLanguage = (SupportedLanguageType)languageDropdown.value;
+			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.IsOn;
+			gameData.IsInvertLookVertical = isInvertLookVertical.IsOn;
+			gameData.IsUSInteractButton = isUSInteractButton.IsOn;
+			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.Value;
+			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.Value;
+			gameData.SelectedLanguage = (SupportedLanguageType)languageDropdown.Value;
 		}
 
 		/// <summary>
@@ -109,12 +105,12 @@ namespace Personal.UI.Option
 				colorAdjustments.postExposure.value = currentBrightness01;
 			});
 
-			isUSInteractButton.onValueChanged.AddListener((value) => InputManager.Instance.SwapInteractInput(value));
+			isUSInteractButton.OnValueChanged.AddListener((value) => InputManager.Instance.SwapInteractInput(value));
 
-			gamepadIconDropdown.onValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
-			fontSizeDropdown.onValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
+			gamepadIconDropdown.OnValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
+			fontSizeDropdown.OnValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
 
-			languageDropdown.onValueChanged.AddListener((value) => HandleLanguageResetToTarget(value));
+			languageDropdown.OnValueChanged.AddListener((value) => HandleLanguageResetToTarget(value));
 		}
 
 		protected override void ResetDataToUI()
@@ -124,13 +120,13 @@ namespace Personal.UI.Option
 			brightnessSlider.value = gameData.Brightness.ConvertRatio0To100();
 			cameraSensitivitySlider.value = gameData.CameraSensitivity;
 
-			isInvertLookHorizontal.isOn = gameData.IsInvertLookHorizontal;
-			isInvertLookVertical.isOn = gameData.IsInvertLookVertical;
+			isInvertLookHorizontal.SetCurrentIndex(gameData.IsInvertLookHorizontal ? 1 : 0);
+			isInvertLookVertical.SetCurrentIndex(gameData.IsInvertLookVertical ? 1 : 0);
 
-			isUSInteractButton.isOn = gameData.IsUSInteractButton;
+			isUSInteractButton.SetCurrentIndex(gameData.IsUSInteractButton ? 1 : 0);
 
-			gamepadIconDropdown.value = (int)gameData.IconDisplayType;
-			fontSizeDropdown.value = (int)gameData.FontSizeType;
+			gamepadIconDropdown.SetCurrentIndex((int)gameData.IconDisplayType);
+			fontSizeDropdown.SetCurrentIndex((int)gameData.FontSizeType);
 
 			HandleLanguageResetToUI();
 		}
@@ -144,7 +140,7 @@ namespace Personal.UI.Option
 			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);
 
-			HandleLanguageResetToTarget(languageDropdown.value);
+			HandleLanguageResetToTarget(languageDropdown.Value);
 		}
 
 		protected override void RegisterChangesMadeEvents()
@@ -152,13 +148,13 @@ namespace Personal.UI.Option
 			unityEventFloatList.Add(brightnessSlider.onValueChanged);
 			unityEventFloatList.Add(cameraSensitivitySlider.onValueChanged);
 
-			unityEventBoolList.Add(isInvertLookHorizontal.onValueChanged);
-			unityEventBoolList.Add(isInvertLookVertical.onValueChanged);
+			unityEventBoolList.Add(isInvertLookHorizontal.OnValueChanged);
+			unityEventBoolList.Add(isInvertLookVertical.OnValueChanged);
 
-			unityEventBoolList.Add(isUSInteractButton.onValueChanged);
-			unityEventIntList.Add(gamepadIconDropdown.onValueChanged);
-			unityEventIntList.Add(fontSizeDropdown.onValueChanged);
-			unityEventIntList.Add(languageDropdown.onValueChanged);
+			unityEventBoolList.Add(isUSInteractButton.OnValueChanged);
+			unityEventIntList.Add(gamepadIconDropdown.OnValueChanged);
+			unityEventIntList.Add(fontSizeDropdown.OnValueChanged);
+			unityEventIntList.Add(languageDropdown.OnValueChanged);
 
 			base.RegisterChangesMadeEvents();
 		}
@@ -184,25 +180,25 @@ namespace Personal.UI.Option
 		void HandleLanguageResetToUI()
 		{
 			int languageIndex = 0;
-			for (int i = 0; i < dropdownLocalization.LeanLanguageList.Count; i++)
+			for (int i = 0; i < languageDropdown.StringList.Count; i++)
 			{
-				string currentLanguage = dropdownLocalization.LeanLanguageList[i];
+				string language = languageDropdown.StringList[i];
 
-				if (!currentLanguage.Equals(gameData.SelectedLanguage.GetStringValue())) continue;
+				if (!language.Equals(gameData.SelectedLanguage.GetStringValue())) continue;
 				languageIndex = i;
 			}
 
-			languageDropdown.value = languageIndex;
+			languageDropdown.SetCurrentIndex(languageIndex);
 		}
 
 		void HandleLanguageResetToTarget(int index)
 		{
-			string language = dropdownLocalization.LeanLanguageList[index];
+			string language = languageDropdown.StringList[index];
 
 			// Set the UI's localization.
 			LeanLocalization.SetCurrentLanguageAll(language);
 
-			SupportedLanguageType supportedLanguageType = (SupportedLanguageType)languageDropdown.value;
+			SupportedLanguageType supportedLanguageType = (SupportedLanguageType)languageDropdown.Value;
 
 			// Set the data's localization.
 			MasterDataManager.Instance.Localization.UpdateActiveLanguage(supportedLanguageType);
@@ -215,10 +211,10 @@ namespace Personal.UI.Option
 		{
 			brightnessSlider.onValueChanged.RemoveAllListeners();
 			cameraSensitivitySlider.onValueChanged.RemoveAllListeners();
-			isInvertLookHorizontal.onValueChanged.RemoveAllListeners();
-			isInvertLookVertical.onValueChanged.RemoveAllListeners();
-			gamepadIconDropdown.onValueChanged.RemoveAllListeners();
-			fontSizeDropdown.onValueChanged.RemoveAllListeners();
+			isInvertLookHorizontal.OnValueChanged.RemoveAllListeners();
+			isInvertLookVertical.OnValueChanged.RemoveAllListeners();
+			gamepadIconDropdown.OnValueChanged.RemoveAllListeners();
+			fontSizeDropdown.OnValueChanged.RemoveAllListeners();
 		}
 	}
 }

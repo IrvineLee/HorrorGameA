@@ -115,7 +115,7 @@ namespace Puzzle.Pinwheel
 			if (pinwheelList.Count <= 0) return;
 
 			int count = centerTurnType == PositiveNegative.Positive ? pinwheelList.Count - turnRemain : pinwheelList.Count + turnRemain;
-			int index = count.WithinCount(pinwheelList.Count, false);
+			int index = count.WithinCount(pinwheelList.Count, true);
 
 			for (int i = 0; i < centerPinwheel.BasicColorList.Count; i++)
 			{
