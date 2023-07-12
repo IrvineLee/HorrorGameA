@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using TMPro;
 
 using Personal.GameState;
 using Personal.Manager;
@@ -14,7 +13,7 @@ namespace Personal.UI.Option
 	public class OptionAudioUI : OptionMenuUI
 	{
 		[Space]
-		[SerializeField] TMP_Dropdown speakerModeDropdown = null;
+		[SerializeField] DropdownSelectionList speakerModeDropdown = null;
 
 		[SerializeField] Slider masterSlider = null;
 		[SerializeField] Slider bgmSlider = null;
@@ -86,7 +85,7 @@ namespace Personal.UI.Option
 
 		protected override void RegisterChangesMadeEvents()
 		{
-			unityEventIntList.Add(speakerModeDropdown.onValueChanged);
+			unityEventIntList.Add(speakerModeDropdown.OnValueChanged);
 
 			unityEventFloatList.Add(masterSlider.onValueChanged);
 			unityEventFloatList.Add(bgmSlider.onValueChanged);
@@ -100,7 +99,7 @@ namespace Personal.UI.Option
 		/// </summary>
 		void RegisterEventsForUI()
 		{
-			speakerModeDropdown.onValueChanged.AddListener(SpeakerModeUpdateRealtime);
+			speakerModeDropdown.OnValueChanged.AddListener(SpeakerModeUpdateRealtime);
 
 			masterSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
 			bgmSlider.onValueChanged.AddListener(VolumeUpdateRealtime);
@@ -128,7 +127,7 @@ namespace Personal.UI.Option
 		void SpeakerModeUpdateRealtime(int index)
 		{
 			AudioConfiguration config = AudioSettings.GetConfiguration();
-			config.speakerMode = validSpeakerModes[speakerModeDropdown.value];
+			config.speakerMode = validSpeakerModes[speakerModeDropdown.Value];
 			AudioSettings.Reset(config);
 
 			currentSpeakerMode = config.speakerMode;
@@ -149,7 +148,7 @@ namespace Personal.UI.Option
 										.Where((obj) => obj.value == audioData.AudioSpeakerMode)
 										.Select((obj) => obj.index);
 
-			speakerModeDropdown.value = list.ElementAtOrDefault(0);
+			speakerModeDropdown.SetCurrentIndex(list.ElementAtOrDefault(0));
 
 			// Update current value.
 			currentMaster01 = masterSlider.value;
@@ -166,7 +165,7 @@ namespace Personal.UI.Option
 		{
 			SetGameVolume(audioData.MasterVolume, audioData.BgmVolume, audioData.SfxVolume);
 
-			if (validSpeakerModes[speakerModeDropdown.value] == audioData.AudioSpeakerMode) return;
+			if (validSpeakerModes[speakerModeDropdown.Value] == audioData.AudioSpeakerMode) return;
 
 			// Reset the speaker mode.
 			AudioConfiguration config = AudioSettings.GetConfiguration();
@@ -189,7 +188,7 @@ namespace Personal.UI.Option
 
 		void OnApplicationQuit()
 		{
-			speakerModeDropdown.onValueChanged.RemoveAllListeners();
+			speakerModeDropdown.OnValueChanged.RemoveAllListeners();
 
 			masterSlider.onValueChanged.RemoveAllListeners();
 			bgmSlider.onValueChanged.RemoveAllListeners();

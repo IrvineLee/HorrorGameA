@@ -379,11 +379,7 @@ namespace Personal.UI.Option
 
 			for (int i = 0; i < antiAliasingDropdown.StringList.Count; i++)
 			{
-				Func<bool> func = () =>
-				{
-					Debug.Log(i + "  " + graphicData.AntiAliasing);
-					return i == graphicData.AntiAliasing;
-				};
+				Func<bool> func = () => (i == graphicData.AntiAliasing);
 				if (ResetDropdown(func, antiAliasingDropdown, ref currentAntiAliasIndex, i)) break;
 			}
 		}

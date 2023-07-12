@@ -1284,22 +1284,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5042747384037831433, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5042747384037831433, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5042747384037831433, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5042747384037831433, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7050769275735808781, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1349,30 +1333,8 @@ PrefabInstance:
     - {fileID: 4672896401399689969, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 265506143313919229}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
---- !u!1 &1982562936331604132 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6363445003074121046, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
-  m_PrefabInstance: {fileID: 4885286290294128114}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &265506143313919229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982562936331604132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf51be86e70d7941bd40914206e4ddc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  translationName: Option/Game/Brightness
-  FallbackText: Brightness
 --- !u!114 &4440765825112694360 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9109868360725193642, guid: d4a400fde243ed8408cb99b2444fc3f3, type: 3}
