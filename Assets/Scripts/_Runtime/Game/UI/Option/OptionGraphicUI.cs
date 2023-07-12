@@ -18,18 +18,18 @@ namespace Personal.UI.Option
 	public class OptionGraphicUI : OptionMenuUI
 	{
 		[Space]
-		[SerializeField] TMP_Dropdown screenResolutionDropdown = null;
-		[SerializeField] TMP_Dropdown screenModeDropdown = null;
-		[SerializeField] TMP_Dropdown qualityDropdown = null;
-		[SerializeField] TMP_Dropdown shadowDropdown = null;
-		[SerializeField] TMP_Dropdown antiAliasingDropdown = null;
+		[SerializeField] DropdownSelectionList screenResolutionDropdown = null;
+		[SerializeField] DropdownSelectionList screenModeDropdown = null;
+		[SerializeField] DropdownSelectionList qualityDropdown = null;
+		[SerializeField] DropdownSelectionList shadowDropdown = null;
+		[SerializeField] DropdownSelectionList antiAliasingDropdown = null;
 
-		[SerializeField] Toggle isVsync = null;
-		[SerializeField] Toggle isVignette = null;
-		[SerializeField] Toggle isDepthOfField = null;
-		[SerializeField] Toggle isMotionBlur = null;
-		[SerializeField] Toggle isBloom = null;
-		[SerializeField] Toggle isAmbientOcclusion = null;
+		[SerializeField] ToggleSelectionList isVsync = null;
+		[SerializeField] ToggleSelectionList isVignette = null;
+		[SerializeField] ToggleSelectionList isDepthOfField = null;
+		[SerializeField] ToggleSelectionList isMotionBlur = null;
+		[SerializeField] ToggleSelectionList isBloom = null;
+		[SerializeField] ToggleSelectionList isAmbientOcclusion = null;
 
 		GraphicData graphicData;
 		VolumeProfile volumeProfile;
@@ -43,7 +43,7 @@ namespace Personal.UI.Option
 		UniversalAdditionalCameraData universalCameraData;
 
 		Resolution currentResolution;
-		FullScreenMode currentFullScreenMode;
+		int currentFullScreenMode;
 		int currentQualityIndex;
 		int currentShadowIndex;
 		int currentAntiAliasIndex;
@@ -85,7 +85,7 @@ namespace Personal.UI.Option
 			base.Save_Inspector();
 
 			graphicData.SetGraphic(currentResolution, currentFullScreenMode, currentQualityIndex, currentShadowIndex, currentAntiAliasIndex);
-			graphicData.SetBoolValue(isVsync.isOn, isVignette.isOn, isDepthOfField.isOn, isMotionBlur.isOn, isBloom.isOn, isAmbientOcclusion.isOn);
+			graphicData.SetBoolValue(isVsync.IsOn, isVignette.IsOn, isDepthOfField.IsOn, isMotionBlur.IsOn, isBloom.IsOn, isAmbientOcclusion.IsOn);
 		}
 
 		/// <summary>
@@ -93,29 +93,29 @@ namespace Personal.UI.Option
 		/// </summary>
 		void RegisterEventsForUI()
 		{
-			screenResolutionDropdown.onValueChanged.AddListener((index) =>
+			screenResolutionDropdown.OnValueChanged.AddListener((index) =>
 			{
 				currentResolution = resolutionList[index];
-				Screen.SetResolution(currentResolution.width, currentResolution.height, currentFullScreenMode);
+				Screen.SetResolution(currentResolution.width, currentResolution.height, (FullScreenMode)currentFullScreenMode);
 			});
-			screenModeDropdown.onValueChanged.AddListener((index) =>
+			screenModeDropdown.OnValueChanged.AddListener((index) =>
 			{
-				currentFullScreenMode = fullscreenModes[index];
-				Screen.fullScreenMode = currentFullScreenMode;
+				currentFullScreenMode = index;
+				Screen.fullScreenMode = (FullScreenMode)currentFullScreenMode;
 
 				Cursor.lockState = CursorLockMode.Confined;
 			});
 
-			qualityDropdown.onValueChanged.AddListener(HandleQuality);
-			shadowDropdown.onValueChanged.AddListener(HandleShadow);
-			antiAliasingDropdown.onValueChanged.AddListener(HandleAntiAlias);
+			qualityDropdown.OnValueChanged.AddListener(HandleQuality);
+			shadowDropdown.OnValueChanged.AddListener(HandleShadow);
+			antiAliasingDropdown.OnValueChanged.AddListener(HandleAntiAlias);
 
-			isVsync.onValueChanged.AddListener((flag) => QualitySettings.vSyncCount = flag ? 1 : 0);
-			isVignette.onValueChanged.AddListener((flag) => vignette.active = flag);
-			isDepthOfField.onValueChanged.AddListener((flag) => depthOfField.active = flag);
-			isMotionBlur.onValueChanged.AddListener((flag) => motionBlur.active = flag);
-			isBloom.onValueChanged.AddListener((flag) => bloom.active = flag);
-			isAmbientOcclusion.onValueChanged.AddListener((flag) => HandleAmbientOcclusion(flag));
+			isVsync.OnValueChanged.AddListener((flag) => QualitySettings.vSyncCount = flag ? 1 : 0);
+			isVignette.OnValueChanged.AddListener((flag) => vignette.active = flag);
+			isDepthOfField.OnValueChanged.AddListener((flag) => depthOfField.active = flag);
+			isMotionBlur.OnValueChanged.AddListener((flag) => motionBlur.active = flag);
+			isBloom.OnValueChanged.AddListener((flag) => bloom.active = flag);
+			isAmbientOcclusion.OnValueChanged.AddListener((flag) => HandleAmbientOcclusion(flag));
 		}
 
 		/// <summary>
@@ -149,9 +149,9 @@ namespace Personal.UI.Option
 		protected override void ResetDataToTarget()
 		{
 			Resolution resolution = graphicData.ScreenResolution;
-			Screen.SetResolution(resolution.width, resolution.height, graphicData.ScreenMode);
+			Screen.SetResolution(resolution.width, resolution.height, (FullScreenMode)graphicData.ScreenMode);
 
-			Screen.fullScreenMode = graphicData.ScreenMode;
+			Screen.fullScreenMode = (FullScreenMode)graphicData.ScreenMode;
 			Cursor.lockState = CursorLockMode.Confined;
 
 			HandleShadow(graphicData.ShadowResolution);
@@ -169,18 +169,18 @@ namespace Personal.UI.Option
 
 		protected override void RegisterChangesMadeEvents()
 		{
-			unityEventIntList.Add(screenResolutionDropdown.onValueChanged);
-			unityEventIntList.Add(screenModeDropdown.onValueChanged);
-			unityEventIntList.Add(qualityDropdown.onValueChanged);
-			unityEventIntList.Add(shadowDropdown.onValueChanged);
-			unityEventIntList.Add(antiAliasingDropdown.onValueChanged);
+			unityEventIntList.Add(screenResolutionDropdown.OnValueChanged);
+			unityEventIntList.Add(screenModeDropdown.OnValueChanged);
+			unityEventIntList.Add(qualityDropdown.OnValueChanged);
+			unityEventIntList.Add(shadowDropdown.OnValueChanged);
+			unityEventIntList.Add(antiAliasingDropdown.OnValueChanged);
 
-			unityEventBoolList.Add(isVsync.onValueChanged);
-			unityEventBoolList.Add(isVignette.onValueChanged);
-			unityEventBoolList.Add(isDepthOfField.onValueChanged);
-			unityEventBoolList.Add(isMotionBlur.onValueChanged);
-			unityEventBoolList.Add(isBloom.onValueChanged);
-			unityEventBoolList.Add(isAmbientOcclusion.onValueChanged);
+			unityEventBoolList.Add(isVsync.OnValueChanged);
+			unityEventBoolList.Add(isVignette.OnValueChanged);
+			unityEventBoolList.Add(isDepthOfField.OnValueChanged);
+			unityEventBoolList.Add(isMotionBlur.OnValueChanged);
+			unityEventBoolList.Add(isBloom.OnValueChanged);
+			unityEventBoolList.Add(isAmbientOcclusion.OnValueChanged);
 
 			base.RegisterChangesMadeEvents();
 		}
@@ -221,20 +221,22 @@ namespace Personal.UI.Option
 			var allResolutions = Screen.resolutions;
 			double refreshRate = Screen.currentResolution.refreshRateRatio.value;
 
+			List<string> resolutionDisplayList = new();
 			foreach (var resolution in allResolutions)
 			{
 				double value = resolution.refreshRateRatio.value;
 				if (value != refreshRate) continue;
 
-				screenResolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.width + " x " + resolution.height));
+				resolutionDisplayList.Add(resolution.width + " x " + resolution.height);
 				resolutionList.Add(resolution);
 
 				if (IsSameResolution(resolution, graphicData.ScreenResolution))
 				{
-					screenResolutionDropdown.value = screenResolutionDropdown.options.Count - 1;
+					screenResolutionDropdown.SetCurrentIndex(screenResolutionDropdown.StringList.Count - 1);
 					currentResolution = resolution;
 				}
 			}
+			screenResolutionDropdown.AddToListAndInitalize(resolutionDisplayList);
 		}
 
 		/// <summary>
@@ -244,9 +246,10 @@ namespace Personal.UI.Option
 		void InitializeFullScreenMode()
 		{
 			// Reset the Window data to Mac data.
-			if (graphicData.ScreenMode == FullScreenMode.ExclusiveFullScreen)
-				graphicData.ScreenMode = FullScreenMode.MaximizedWindow;
+			if ((FullScreenMode)graphicData.ScreenMode == FullScreenMode.ExclusiveFullScreen)
+				graphicData.ScreenMode = (int)FullScreenMode.MaximizedWindow;
 
+			List<string> screenModeDisplayList = new();
 			foreach (var screenMode in fullscreenModes)
 			{
 				string s = "Windowed";
@@ -255,14 +258,15 @@ namespace Personal.UI.Option
 				else if (screenMode == FullScreenMode.FullScreenWindow)
 					s = "Borderless Fullscreen";
 
-				screenModeDropdown.options.Add(new TMP_Dropdown.OptionData(s));
+				screenModeDisplayList.Add(s);
 
-				if (screenMode == graphicData.ScreenMode)
+				if (screenMode == (FullScreenMode)graphicData.ScreenMode)
 				{
-					screenModeDropdown.value = screenModeDropdown.options.Count - 1;
-					currentFullScreenMode = screenMode;
+					screenModeDropdown.SetCurrentIndex(screenModeDropdown.StringList.Count - 1);
+					currentFullScreenMode = (int)screenMode;
 				}
 			}
+			screenModeDropdown.AddToListAndInitalize(screenModeDisplayList);
 		}
 
 		/// <summary>
@@ -287,7 +291,7 @@ namespace Personal.UI.Option
 			for (int i = 0; i < qualityNameList.Count; i++)
 			{
 				string quality = qualityNameList[i];
-				if (quality.Equals(qualityDropdown.options[index].text))
+				if (quality.Equals(qualityDropdown.StringList[index]))
 				{
 					QualitySettings.SetQualityLevel(i, true);
 					currentQualityIndex = i;
@@ -325,7 +329,7 @@ namespace Personal.UI.Option
 			if (index == 1) universalCameraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
 			else if (index == 2) universalCameraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
 
-			antiAliasingDropdown.value = index;
+			antiAliasingDropdown.SetCurrentIndex(index);
 			currentAntiAliasIndex = index;
 		}
 
@@ -344,7 +348,7 @@ namespace Personal.UI.Option
 				Resolution resolution = resolutionList[i];
 				if (IsSameResolution(resolution, graphicData.ScreenResolution))
 				{
-					screenResolutionDropdown.value = i;
+					screenResolutionDropdown.SetCurrentIndex(i);
 					currentResolution = resolution;
 					break;
 				}
@@ -353,51 +357,52 @@ namespace Personal.UI.Option
 			for (int i = 0; i < fullscreenModes.Length; i++)
 			{
 				FullScreenMode fullScreenMode = fullscreenModes[i];
-				if (fullScreenMode == graphicData.ScreenMode)
-				{
-					screenModeDropdown.value = i;
-					currentFullScreenMode = fullScreenMode;
-					break;
-				}
+
+				Func<bool> func = () => (fullScreenMode == (FullScreenMode)graphicData.ScreenMode);
+				if (ResetDropdown(func, screenModeDropdown, ref currentFullScreenMode, i)) break;
 			}
 
 			for (int i = 0; i < qualityNameList.Count; i++)
 			{
 				string qualityName = qualityNameList[i];
 
-				Func<bool> func = () => (qualityName.Equals(qualityDropdown.options[graphicData.Quality].text));
+				Func<bool> func = () => (qualityName.Equals(qualityDropdown.StringList[graphicData.Quality]));
 				if (ResetDropdown(func, qualityDropdown, ref currentQualityIndex, i)) break;
 			}
 
-			int shadowCount = Enum.GetValues(typeof(ShadowResolution)).Length;
+			int shadowCount = Enum.GetValues(typeof(ShadowResolution)).Length + 1; // +1 for the index 0 (off)
 			for (int i = 0; i < shadowCount; i++)
 			{
 				Func<bool> func = () => (i == graphicData.ShadowResolution);
 				if (ResetDropdown(func, shadowDropdown, ref currentShadowIndex, i)) break;
 			}
 
-			for (int i = 0; i < antiAliasingDropdown.options.Count; i++)
+			for (int i = 0; i < antiAliasingDropdown.StringList.Count; i++)
 			{
-				Func<bool> func = () => (i == graphicData.AntiAliasing);
+				Func<bool> func = () =>
+				{
+					Debug.Log(i + "  " + graphicData.AntiAliasing);
+					return i == graphicData.AntiAliasing;
+				};
 				if (ResetDropdown(func, antiAliasingDropdown, ref currentAntiAliasIndex, i)) break;
 			}
 		}
 
 		void ResetToggleUI()
 		{
-			isVsync.isOn = graphicData.IsVsync;
-			isVignette.isOn = graphicData.IsVignette;
-			isDepthOfField.isOn = graphicData.IsDepthOfField;
-			isMotionBlur.isOn = graphicData.IsMotionBlur;
-			isBloom.isOn = graphicData.IsBloom;
-			isAmbientOcclusion.isOn = graphicData.IsAmbientOcclusion;
+			isVsync.SetCurrentIndex(graphicData.IsVsync ? 1 : 0);
+			isVignette.SetCurrentIndex(graphicData.IsVignette ? 1 : 0);
+			isDepthOfField.SetCurrentIndex(graphicData.IsDepthOfField ? 1 : 0);
+			isMotionBlur.SetCurrentIndex(graphicData.IsMotionBlur ? 1 : 0);
+			isBloom.SetCurrentIndex(graphicData.IsBloom ? 1 : 0);
+			isAmbientOcclusion.SetCurrentIndex(graphicData.IsAmbientOcclusion ? 1 : 0);
 		}
 
-		bool ResetDropdown(Func<bool> condition, TMP_Dropdown tmp_Dropdown, ref int toChangeIndex, int replaceWithIndex)
+		bool ResetDropdown(Func<bool> condition, SelectionList selectionList, ref int toChangeIndex, int replaceWithIndex)
 		{
 			if (!condition.Invoke()) return false;
 
-			tmp_Dropdown.value = replaceWithIndex;
+			selectionList.SetCurrentIndex(replaceWithIndex);
 			toChangeIndex = replaceWithIndex;
 
 			return true;
@@ -418,13 +423,13 @@ namespace Personal.UI.Option
 
 		void OnApplicationQuit()
 		{
-			screenResolutionDropdown.onValueChanged.RemoveAllListeners();
-			screenModeDropdown.onValueChanged.RemoveAllListeners();
+			screenResolutionDropdown.OnValueChanged.RemoveAllListeners();
+			screenModeDropdown.OnValueChanged.RemoveAllListeners();
 
-			isVignette.onValueChanged.RemoveAllListeners();
-			isDepthOfField.onValueChanged.RemoveAllListeners();
-			isMotionBlur.onValueChanged.RemoveAllListeners();
-			isBloom.onValueChanged.RemoveAllListeners();
+			isVignette.OnValueChanged.RemoveAllListeners();
+			isDepthOfField.OnValueChanged.RemoveAllListeners();
+			isMotionBlur.OnValueChanged.RemoveAllListeners();
+			isBloom.OnValueChanged.RemoveAllListeners();
 		}
 	}
 }

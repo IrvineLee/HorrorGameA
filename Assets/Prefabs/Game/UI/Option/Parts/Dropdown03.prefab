@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   translationName: Option/Game/GamepadIcon
-  FallbackText: 
+  FallbackText: Gamepad Icon
 --- !u!114 &6015197398768077797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,109 +431,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7394090623467678390, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-      propertyPath: stringList.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7394090623467678390, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-      propertyPath: stringList.Array.data[0]
-      value: Auto
-      objectReference: {fileID: 0}
-    - target: {fileID: 7394090623467678390, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-      propertyPath: stringList.Array.data[1]
-      value: Keyboard/Mouse
-      objectReference: {fileID: 0}
-    - target: {fileID: 7394090623467678390, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-      propertyPath: stringList.Array.data[2]
-      value: Dualshock Controller
-      objectReference: {fileID: 0}
-    - target: {fileID: 7394090623467678390, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-      propertyPath: stringList.Array.data[3]
-      value: XBox Controller
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7394090623467678390, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1383893705972530943, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3047935415982457352}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 732420c6efe13934b94c189872a2f108, type: 3}
 --- !u!224 &1941748231185660179 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4539321688007824118, guid: 732420c6efe13934b94c189872a2f108, type: 3}
   m_PrefabInstance: {fileID: 2597610222851632101}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3330647709445374793 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 735290489150597292, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-  m_PrefabInstance: {fileID: 2597610222851632101}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &3978933854573073690 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1383893705972530943, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-  m_PrefabInstance: {fileID: 2597610222851632101}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3047935415982457352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3978933854573073690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a16a45a8fe120784596c8ef5f7d7c813, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftButton: {fileID: 8818282388330083876}
-  rightButton: {fileID: 3330647709445374793}
-  templateTMP: {fileID: 5588742111936940087}
-  sameUISelectableList: []
-  lerpDuration: 0.15
-  selectionParentTrans: {fileID: 7858938693043249270}
-  stringList:
-  - Auto
-  - Keyboard/Mouse
-  - Dualshock Controller
-  - XBox Controller
-  OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5588742111936940087 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7603100825757033426, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-  m_PrefabInstance: {fileID: 2597610222851632101}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!224 &7858938693043249270 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5268120463880801171, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-  m_PrefabInstance: {fileID: 2597610222851632101}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8818282388330083876 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6803889691629313473, guid: 732420c6efe13934b94c189872a2f108, type: 3}
-  m_PrefabInstance: {fileID: 2597610222851632101}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &9146711339171498528
 PrefabInstance:
   m_ObjectHideFlags: 0

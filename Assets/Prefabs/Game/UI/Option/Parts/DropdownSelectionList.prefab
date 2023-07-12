@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4539321688007824118}
   - component: {fileID: 6885030157862239594}
-  - component: {fileID: 7394090623467678390}
+  - component: {fileID: 317268066809882834}
   m_Layer: 5
   m_Name: DropdownSelectionList
   m_TagString: Untagged
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7394090623467678390
+--- !u!114 &317268066809882834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,20 +244,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1383893705972530943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 783ebe93a63a29a489b10576eb5365a0, type: 3}
+  m_Script: {fileID: 11500000, guid: a16a45a8fe120784596c8ef5f7d7c813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftButton: {fileID: 6803889691629313473}
   rightButton: {fileID: 735290489150597292}
   templateTMP: {fileID: 7603100825757033426}
-  sameUISelectableList:
-  - {fileID: 2626730646176554158}
-  - {fileID: 8505284497618409121}
+  sameUISelectableList: []
   lerpDuration: 0.15
   selectionParentTrans: {fileID: 5268120463880801171}
   stringList:
-  - Off
-  - On
+  - Auto
+  - Keyboard/Mouse
+  - Dualshock Controller
+  - XBox Controller
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

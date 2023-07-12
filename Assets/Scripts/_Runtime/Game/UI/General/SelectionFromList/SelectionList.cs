@@ -34,7 +34,7 @@ namespace Personal.UI
 
 		void Awake()
 		{
-			if (isInitalized) return;
+			if (stringList.Count <= 0 || isInitalized) return;
 
 			Initialize();
 			HandleButtonVisibility();

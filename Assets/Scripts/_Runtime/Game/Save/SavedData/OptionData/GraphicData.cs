@@ -9,7 +9,7 @@ namespace Personal.Setting.Graphic
 	public class GraphicData
 	{
 		[SerializeField] Resolution screenResolution = default;
-		[SerializeField] FullScreenMode screenMode = FullScreenMode.FullScreenWindow;
+		[SerializeField] int screenMode = 1;                        // 1. FullScreenMode.FullScreenWindow
 		[SerializeField] int quality = 5;
 		[SerializeField] int shadowResolution = 5;
 
@@ -23,7 +23,7 @@ namespace Personal.Setting.Graphic
 		[SerializeField] bool isAmbientOcclusion = true;
 
 		public Resolution ScreenResolution { get => screenResolution; set => screenResolution = value; }
-		public FullScreenMode ScreenMode { get => screenMode; set => screenMode = value; }
+		public int ScreenMode { get => screenMode; set => screenMode = value; }
 		public int Quality { get => quality; set => quality = value; }
 		public int ShadowResolution { get => shadowResolution; set => shadowResolution = value; }
 
@@ -57,7 +57,7 @@ namespace Personal.Setting.Graphic
 			}
 		}
 
-		public void SetGraphic(Resolution screenResolution, FullScreenMode screenMode, int quality, int shadowResolution, int antiAliasing)
+		public void SetGraphic(Resolution screenResolution, int screenMode, int quality, int shadowResolution, int antiAliasing)
 		{
 			this.screenResolution = screenResolution;
 			this.screenMode = screenMode;
