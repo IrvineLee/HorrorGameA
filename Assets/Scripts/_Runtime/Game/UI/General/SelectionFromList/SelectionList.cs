@@ -94,7 +94,7 @@ namespace Personal.UI
 			float width = isNext ? -lerpWidth : lerpWidth;
 
 			Vector3 nextPos = selectionParentTrans.localPosition.With(x: selectionParentTrans.localPosition.x + width);
-			lerpCR = CoroutineHelper.LerpFromTo(selectionParentTrans, selectionParentTrans.localPosition, nextPos, lerpDuration);
+			lerpCR = CoroutineHelper.LerpFromTo(selectionParentTrans, selectionParentTrans.localPosition, nextPos, lerpDuration, default, default, false);
 
 			HandleButtonVisibility();
 			HandleSelectionValueChangedEvent();

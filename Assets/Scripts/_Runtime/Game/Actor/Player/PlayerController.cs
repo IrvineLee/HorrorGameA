@@ -19,7 +19,7 @@ namespace Personal.Character.Player
 		void Awake()
 		{
 			StageManager.Instance.RegisterPlayer(this);
-			PlayerCameraView = FindObjectOfType<PlayerCameraView>();
+			PlayerCameraView = StageManager.Instance?.MainCamera?.GetComponentInChildren<CameraHandler>().PlayerCameraView;
 		}
 	}
 }
