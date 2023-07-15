@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using Personal.Constant;
 using Helper;
 
 namespace Personal.GameState
@@ -66,7 +67,7 @@ namespace Personal.GameState
 		{
 			if (!GameSceneManager.Instance.IsMainScene())
 			{
-				if (GameSceneManager.Instance.IsScene(SceneName.Title))
+				if (GameSceneManager.Instance.IsScene(SceneType.Title.GetStringValue()))
 					OnTitleScene();
 
 				return;

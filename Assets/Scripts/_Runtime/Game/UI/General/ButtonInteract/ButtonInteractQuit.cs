@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 using Personal.Manager;
-using System;
+using Personal.Constant;
+using Helper;
 
 namespace Personal.UI
 {
@@ -38,7 +40,7 @@ namespace Personal.UI
 					inputBlockerGO.SetActive(false);
 				};
 
-				GameSceneManager.Instance.ChangeLevel(SceneName.Title, Transition.TransitionType.Fade, Transition.TransitionPlayType.All, inBetweenAction);
+				GameSceneManager.Instance.ChangeLevel(SceneType.Title.GetStringValue(), inBetweenAction: inBetweenAction, isIgnoreTimescale: true);
 
 				InputManager.Instance.DisableAllActionMap();
 				inputBlockerGO.SetActive(true);

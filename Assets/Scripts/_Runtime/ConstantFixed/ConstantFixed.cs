@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Helper;
+
 namespace Personal.Constant
 {
 	public class ConstantFixed : MonoBehaviour
@@ -21,6 +23,6 @@ namespace Personal.Constant
 		public const float FULLY_VISIBLE_REND_VALUE = 2.5f;
 		public const float FULLY_DISAPPEAR_REND_VALUE = -0.5f;
 
-		public static IReadOnlyList<string> MAIN_SCENE_LIST = new List<string> { SceneName.Main };
+		public static IReadOnlyList<string> MAIN_SCENE_LIST = new List<string> { SceneType.Main.GetStringValue() };
 	}
 }

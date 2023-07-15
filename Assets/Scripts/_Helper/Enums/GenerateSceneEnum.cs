@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
-using UnityEditor;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEditor;
 
 namespace Helper
 {
@@ -14,14 +14,10 @@ namespace Helper
 		public static void Generate()
 		{
 			string enumName = "SceneType";
-			List<string> enumTypeList = new List<string>();
 			string filePathAndName = "Assets/Scripts/GenerateCode/" + enumName + ".cs"; //The folder Scripts/Enums/ is expected to exist
 
-			for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-			{
-				string sceneName = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
-				enumTypeList.Add(sceneName);
-			}
+			string scenePath = "Scenes";
+			List<string> sceneNameList = Resources.LoadAll(scenePath).Select((scene) => scene.name).ToList();
 
 			using (StreamWriter streamWriter = new StreamWriter(filePathAndName))
 			{
@@ -31,15 +27,17 @@ namespace Helper
 				streamWriter.WriteLine("{");
 				streamWriter.WriteLine("\tpublic enum " + enumName);
 				streamWriter.WriteLine("\t{");
-				for (int i = 0; i < enumTypeList.Count; i++)
+
+				for (int i = 0; i < sceneNameList.Count; i++)
 				{
-					string name = enumTypeList[i];
+					string name = sceneNameList[i];
 					streamWriter.WriteLine("\t\t[StringValue(\"" + name + "\")]");
 					streamWriter.WriteLine("\t\t" + name + ",");
 
-					if (i >= enumTypeList.Count - 1) break;
+					if (i >= sceneNameList.Count - 1) break;
 					streamWriter.WriteLine("");
 				}
+
 				streamWriter.WriteLine("\t}");
 				streamWriter.WriteLine("}");
 			}

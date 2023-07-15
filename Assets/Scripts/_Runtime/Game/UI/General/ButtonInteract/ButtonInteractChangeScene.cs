@@ -18,7 +18,7 @@ namespace Personal.UI
 
 		void ChangeScene()
 		{
-			GameSceneManager.Instance.ChangeLevel(sceneType.GetStringValue());
+			GameSceneManager.Instance.ChangeLevel(sceneType.GetStringValue(), isIgnoreTimescale: false);
 		}
 
 		void OnApplicationQuit()

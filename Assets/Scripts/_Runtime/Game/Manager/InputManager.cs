@@ -10,6 +10,7 @@ using Helper;
 using static Personal.Definition.InputReaderDefinition;
 using Sirenix.OdinInspector;
 using UnityEngine.InputSystem.UI;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -94,6 +95,13 @@ namespace Personal.Manager
 				OnAnyButtonPressed?.Invoke();
 				HandleInputDeviceCompare(ctrl.device);
 			});
+		}
+
+		protected override async void OnMainScene()
+		{
+			DisableAllActionMap();
+			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
+			EnableActionMap(ActionMapType.Player);
 		}
 
 		/// <summary>

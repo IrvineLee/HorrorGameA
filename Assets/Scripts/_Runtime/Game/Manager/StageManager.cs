@@ -5,7 +5,7 @@ using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Personal.InteractiveObject;
-using Personal.InputProcessing;
+using Personal.Transition;
 using Cinemachine;
 
 namespace Personal.Manager
@@ -26,6 +26,7 @@ namespace Personal.Manager
 
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
+		public bool IsBusy { get => TransitionManager.Instance.IsTransitioning; }
 
 		protected override void Initialize()
 		{
@@ -33,11 +34,6 @@ namespace Personal.Manager
 			MainCamera = Camera.main;
 
 			DialogueSystemController = FindObjectOfType<DialogueSystemController>();
-		}
-
-		protected override void OnMainScene()
-		{
-			InputManager.Instance.EnableActionMap(ActionMapType.Player);
 		}
 
 		public void RegisterCamera(Camera cam)

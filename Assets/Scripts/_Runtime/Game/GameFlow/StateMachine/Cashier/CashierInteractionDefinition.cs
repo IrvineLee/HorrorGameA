@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 
 using Personal.FSM;
-using Sirenix.OdinInspector;
 
 namespace Personal.Definition
 {
@@ -12,7 +11,6 @@ namespace Personal.Definition
 	[Serializable]
 	public class CashierInteractionDefinition : ScriptableObject
 	{
-		[FolderPath(ParentFolder = "Assets/Prefabs/Cashier/Resources")]
 		[SerializeField] string interactionResourcePath = "";
 
 		Dictionary<string, InteractionAssign> interactionDictionary = new Dictionary<string, InteractionAssign>();

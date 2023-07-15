@@ -29,39 +29,39 @@ namespace Personal.Manager
 		}
 
 		public void ChangeLevel(int index, TransitionType transitionType = TransitionType.Fade, TransitionPlayType transitionPlayType = TransitionPlayType.All,
-								Action inBetweenAction = default, float delay = 0)
+								Action inBetweenAction = default, float delay = 0, bool isIgnoreTimescale = false)
 		{
 			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(index));
-			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action);
+			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action, isIgnoreTimescale);
 		}
 
 		public void ChangeLevel(string sceneName, TransitionType transitionType = TransitionType.Fade, TransitionPlayType transitionPlayType = TransitionPlayType.All,
-								Action inBetweenAction = default, float delay = 0)
+								Action inBetweenAction = default, float delay = 0, bool isIgnoreTimescale = false)
 		{
 			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(sceneName));
-			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action);
+			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action, isIgnoreTimescale);
 		}
 
 		public void ChangeLevelFunc(int index, TransitionType transitionType = TransitionType.Fade, TransitionPlayType transitionPlayType = TransitionPlayType.All,
-									Func<UniTask<bool>> inBetweenFunc = default, float delay = 0, float delayAfter = 0)
+									Func<UniTask<bool>> inBetweenFunc = default, float delay = 0, float delayAfter = 0, bool isIgnoreTimescale = false)
 		{
 			Func<UniTask<bool>> func = async () =>
 			{
 				await DoFunc(inBetweenFunc, () => SceneManager.LoadScene(index), delayAfter);
 				return true;
 			};
-			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func);
+			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func, isIgnoreTimescale);
 		}
 
 		public void ChangeLevelFunc(string sceneName, TransitionType transitionType = TransitionType.Fade, TransitionPlayType transitionPlayType = TransitionPlayType.All,
-									Func<UniTask<bool>> inBetweenFunc = default, float delay = 0, float delayAfter = 0)
+									Func<UniTask<bool>> inBetweenFunc = default, float delay = 0, float delayAfter = 0, bool isIgnoreTimescale = false)
 		{
 			Func<UniTask<bool>> func = async () =>
 			{
 				await DoFunc(inBetweenFunc, () => SceneManager.LoadScene(sceneName), delayAfter);
 				return true;
 			};
-			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func);
+			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func, isIgnoreTimescale);
 		}
 
 		void DoAction(Action inBetweenAction, Action doLast)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,9 +19,10 @@ namespace Personal.Transition
 
 		public TransitionManagerSettings TransitionManagerSettings { get => transitionManagerSettings; }
 		public CanvasGroup CanvasGroup { get => canvasGroup; }
+		public bool IsTransitioning { get => isTransitioning; }
 
 		CanvasGroup canvasGroup;
-		bool isRunningTransition;
+		bool isTransitioning;
 
 		Dictionary<TransitionType, Transition> transitionDictionary = new();
 
@@ -42,21 +44,21 @@ namespace Personal.Transition
 		/// <param name="inBetweenAction"></param>
 #nullable enable
 		public void Transition(TransitionType transitionType, TransitionPlayType? transitionPlayType = TransitionPlayType.All,
-							   float? delay = 0, Action? inBetweenAction = default)
+							   float? delay = 0, Action? inBetweenAction = default, bool isIgnoreTimescale = false)
 		{
-			if (isRunningTransition) return;
+			if (isTransitioning) return;
 
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
-			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenAction ?? default).Forget();
+			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenAction ?? default, isIgnoreTimescale).Forget();
 		}
 
 		public void TransitionFunc(TransitionType transitionType, TransitionPlayType? transitionPlayType = TransitionPlayType.All,
-							   float? delay = 0, Func<UniTask<bool>>? inBetweenFunc = default)
+							   float? delay = 0, Func<UniTask<bool>>? inBetweenFunc = default, bool isIgnoreTimescale = false)
 		{
-			if (isRunningTransition) return;
+			if (isTransitioning) return;
 
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
-			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenFunc ?? default).Forget();
+			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenFunc ?? default, isIgnoreTimescale).Forget();
 		}
 #nullable disable
 
@@ -75,27 +77,27 @@ namespace Personal.Transition
 		}
 
 		async UniTask HandleTransition(TransitionType transitionType, TransitionPlayType transitionPlayType, float delay,
-									   TransitionSettings transitionSettings, Action inBetweenAction)
+									   TransitionSettings transitionSettings, Action inBetweenAction, bool isIgnoreTimescale)
 		{
-			Transition transition = await GetTransition(transitionType, delay);
-			await TransitionSetup(transition, transitionPlayType, transitionSettings, inBetweenAction);
+			Transition transition = await GetTransition(transitionType, delay, isIgnoreTimescale);
+			await TransitionSetup(transition, transitionPlayType, transitionSettings, inBetweenAction, isIgnoreTimescale);
 
-			isRunningTransition = false;
+			isTransitioning = false;
 		}
 
 		async UniTask HandleTransition(TransitionType transitionType, TransitionPlayType transitionPlayType, float delay,
-									   TransitionSettings transitionSettings, Func<UniTask<bool>> inBetweenFunc)
+									   TransitionSettings transitionSettings, Func<UniTask<bool>> inBetweenFunc, bool isIgnoreTimescale)
 		{
-			Transition transition = await GetTransition(transitionType, delay);
-			await TransitionSetupFunc(transition, transitionPlayType, transitionSettings, inBetweenFunc);
+			Transition transition = await GetTransition(transitionType, delay, isIgnoreTimescale);
+			await TransitionSetupFunc(transition, transitionPlayType, transitionSettings, inBetweenFunc, isIgnoreTimescale);
 
-			isRunningTransition = false;
+			isTransitioning = false;
 		}
 
-		async UniTask<Transition> GetTransition(TransitionType transitionType, float delay)
+		async UniTask<Transition> GetTransition(TransitionType transitionType, float delay, bool isIgnoreTimescale)
 		{
-			isRunningTransition = true;
-			await UniTask.Delay(delay.SecondsToMilliseconds());
+			isTransitioning = true;
+			await UniTask.Delay(delay.SecondsToMilliseconds(), isIgnoreTimescale);
 
 			if (!transitionDictionary.TryGetValue(transitionType, out Transition transition))
 				transition = await SpawnTemplate(transitionType);
@@ -113,16 +115,18 @@ namespace Personal.Transition
 			return transition;
 		}
 
-		async UniTask TransitionSetup(Transition transition, TransitionPlayType transitionPlayType, TransitionSettings transitionSettings, Action inBetweenAction)
+		async UniTask TransitionSetup(Transition transition, TransitionPlayType transitionPlayType, TransitionSettings transitionSettings,
+									Action inBetweenAction, bool isIgnoreTimescale)
 		{
 			CanvasSetup(transitionSettings);
-			await transition.Begin(transitionSettings, transitionPlayType, transitionManagerSettings, inBetweenAction);
+			await transition.Begin(transitionSettings, transitionPlayType, transitionManagerSettings, inBetweenAction, isIgnoreTimescale);
 		}
 
-		async UniTask TransitionSetupFunc(Transition transition, TransitionPlayType transitionPlayType, TransitionSettings transitionSettings, Func<UniTask<bool>> inBetweenFunc)
+		async UniTask TransitionSetupFunc(Transition transition, TransitionPlayType transitionPlayType, TransitionSettings transitionSettings,
+										Func<UniTask<bool>> inBetweenFunc, bool isIgnoreTimescale)
 		{
 			CanvasSetup(transitionSettings);
-			await transition.Begin(transitionSettings, transitionPlayType, transitionManagerSettings, inBetweenFunc);
+			await transition.Begin(transitionSettings, transitionPlayType, transitionManagerSettings, inBetweenFunc, isIgnoreTimescale);
 		}
 
 		void CanvasSetup(TransitionSettings transitionSettings)

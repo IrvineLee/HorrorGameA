@@ -17,37 +17,60 @@ namespace Personal.Transition
 		Material multiplyColorMaterial;
 		Material additiveColorMaterial;
 
+		Animator animatorIn;
+		Animator animatorOut;
+
 		AnimationClip animationIn;
 		AnimationClip animationOut;
 
 		void Awake()
 		{
+			animatorIn = transitionPanelIN.GetComponentInChildren<Animator>();
+			animatorOut = transitionPanelOUT.GetComponentInChildren<Animator>();
+
 			// There will only be 1 clip within the state.
-			animationIn = transitionPanelIN.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
-			animationOut = transitionPanelOUT.GetComponentInChildren<Animator>().runtimeAnimatorController.animationClips[0];
+			animationIn = animatorIn.runtimeAnimatorController.animationClips[0];
+			animationOut = animatorOut.runtimeAnimatorController.animationClips[0];
 		}
 
 		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
-								   TransitionManagerSettings fullSettings, Action inBetweenAction)
+								   TransitionManagerSettings fullSettings, Action inBetweenAction, bool isIgnoreTimescale)
+		{
+			await Initialize(transitionSettings, transitionPlayType, fullSettings, inBetweenAction, isIgnoreTimescale);
+		}
+
+		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
+								   TransitionManagerSettings fullSettings, Func<UniTask<bool>> inBetweenFunc, bool isIgnoreTimescale)
+		{
+			await Initialize(transitionSettings, transitionPlayType, fullSettings, inBetweenFunc, isIgnoreTimescale);
+		}
+
+		async UniTask Initialize<T>(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
+								   TransitionManagerSettings fullSettings, T actionOrFunc, bool isIgnoreTimescale)
 		{
 			SetupTransitionAndMaterial(transitionSettings, fullSettings);
 			float speed = transitionSettings.TransitionSpeed;
 
-			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed);
-			inBetweenAction?.Invoke();
-			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed);
+			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed, isIgnoreTimescale);
+
+			// Make sure the transition timing is at the end of it.
+			animatorIn.gameObject.SetActive(true);
+			animatorIn.Play(0, -1, 1f);
+
+			if (actionOrFunc.GetType() == typeof(Action))
+			{
+				((Action)(object)actionOrFunc).Invoke();
+			}
+			else if (actionOrFunc.GetType() == typeof(Func<UniTask<bool>>))
+			{
+				await ((Func<UniTask<bool>>)(object)actionOrFunc).Invoke();
+			}
+
+			// Give it a grace period after changing scene.
+			await UniTask.Delay(1000, isIgnoreTimescale);
+			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed, isIgnoreTimescale);
 		}
 
-		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
-								   TransitionManagerSettings fullSettings, Func<UniTask<bool>> inBetweenFunc)
-		{
-			SetupTransitionAndMaterial(transitionSettings, fullSettings);
-			float speed = transitionSettings.TransitionSpeed;
-
-			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed);
-			await inBetweenFunc();
-			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed);
-		}
 
 		void SetupTransitionAndMaterial(TransitionSettings transitionSettings, TransitionManagerSettings fullSettings)
 		{
@@ -63,33 +86,33 @@ namespace Personal.Transition
 
 		}
 
-		async UniTask TransitionIn(float speed)
+		async UniTask TransitionIn(float speed, bool isIgnoreTimescale)
 		{
 			// Setting up the transition objects
 			transitionPanelOUT.gameObject.SetActive(false);
 			transitionPanelIN.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionIn.transform, animationIn, speed);
+			await HandleTransition(transitionSettings.TransitionIn.transform, animatorIn, animationIn, speed, isIgnoreTimescale);
 		}
 
-		async UniTask TransitionOut(float speed)
+		async UniTask TransitionOut(float speed, bool isIgnoreTimescale)
 		{
 			// Setting up the transition
 			transitionPanelIN.gameObject.SetActive(false);
 			transitionPanelOUT.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionOut.transform, animationOut, speed);
+			await HandleTransition(transitionSettings.TransitionOut.transform, animatorOut, animationOut, speed, isIgnoreTimescale);
 
 			transitionPanelOUT.gameObject.SetActive(false);
 		}
 
-		async UniTask HandleTransition(Transform transition, AnimationClip animationClip, float speed)
+		async UniTask HandleTransition(Transform transition, Animator animator, AnimationClip animationClip, float speed, bool isIgnoreTimescale)
 		{
-			HandleTransitionColor(transition.transform);
-			HandleFlipping(transition.transform);
-			HandleAnimatorSpeed(transition.transform, speed);
+			HandleTransitionColor(transition);
+			HandleFlipping(transition);
+			HandleAnimator(animator, speed, isIgnoreTimescale);
 
-			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), true, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), isIgnoreTimescale, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		// Changing the color of the transition
@@ -128,20 +151,13 @@ namespace Personal.Transition
 				trans.localScale = trans.localScale.With(y: -trans.localScale.y);
 		}
 
-		// Changing the animator speed
-		void HandleAnimatorSpeed(Transform trans, float speed)
+		// Changing the animator's update mode and speed
+		void HandleAnimator(Animator animator, float speed, bool isIgnoreTimescale)
 		{
-			if (trans.TryGetComponent(out Animator parentAnim) && transitionSettings.TransitionSpeed != 0)
-			{
-				parentAnim.speed = speed;
-				return;
-			}
+			if (!animator) return;
 
-			for (int i = 0; i < trans.childCount; i++)
-			{
-				if (trans.GetChild(i).TryGetComponent(out Animator childAnim) && transitionSettings.TransitionSpeed != 0)
-					childAnim.speed = speed;
-			}
+			animator.updateMode = isIgnoreTimescale ? AnimatorUpdateMode.UnscaledTime : AnimatorUpdateMode.Normal;
+			animator.speed = speed;
 		}
 	}
 }
