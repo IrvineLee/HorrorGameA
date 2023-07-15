@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 
 using Personal.Manager;
 using Personal.UI.Window;
+using Helper;
 
 namespace Personal.UI
 {
-	public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
+	public class UISelectable : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 	{
 		[SerializeField] bool isInitialSelection = false;
 
@@ -17,6 +18,7 @@ namespace Personal.UI
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
 
 		protected List<Selectable> selectableList = new();
+		protected List<GameObject> ignoredGOList = new();
 
 		void Awake()
 		{
@@ -24,6 +26,10 @@ namespace Personal.UI
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
 			selectableList = GetComponentsInChildren<Selectable>(true).ToList();
+
+			// Since only sliders do not follow the usual ui selection, get the sliders and add it here.
+			ignoredGOList.AddRange(GetComponentsInChildren<Slider>(true).ToList().Select((slider) => slider.gameObject));
+			ignoredGOList.Add(gameObject);
 		}
 
 		void OnEnable()
@@ -34,20 +40,17 @@ namespace Personal.UI
 			menuUIBase.SetLastSelectedGO(gameObject);
 		}
 
+		public void AddIgnoredSelection(List<GameObject> goList)
+		{
+			ignoredGOList.AddRange(goList);
+		}
+
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
 
 			eventData.selectedObject = gameObject;
 			menuUIBase.SetLastSelectedGO(gameObject);
-		}
-
-		void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
-		{
-			if (!UIManager.Instance) return;
-			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
-
-			eventData.selectedObject = null;
 		}
 
 		void ISelectHandler.OnSelect(BaseEventData eventData)
@@ -62,12 +65,25 @@ namespace Personal.UI
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
 		{
-			windowSelectionUIAnimator?.Run(false);
-
-			foreach (var selectable in selectableList)
+			// Wait for end of frame to check whether the next active selection is within the ignored list.
+			CoroutineHelper.WaitEndOfFrame(() =>
 			{
-				selectable.targetGraphic.color = selectable.colors.normalColor;
-			}
+				foreach (var ignoredGO in ignoredGOList)
+				{
+					if (EventSystem.current.currentSelectedGameObject == ignoredGO)
+					{
+						EventSystem.current.SetSelectedGameObject(gameObject);
+						return;
+					}
+				}
+
+				windowSelectionUIAnimator?.Run(false);
+
+				foreach (var selectable in selectableList)
+				{
+					selectable.targetGraphic.color = selectable.colors.normalColor;
+				}
+			});
 		}
 	}
 }

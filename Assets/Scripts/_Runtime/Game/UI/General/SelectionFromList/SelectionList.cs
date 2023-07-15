@@ -13,16 +13,12 @@ namespace Personal.UI
 		[SerializeField] Button rightButton = null;
 		[SerializeField] TextMeshProUGUI templateTMP = null;
 
-		[Tooltip("Other gameobjects that should not trigger the onSelect on their selectable when this gameobject is already selected")]
-		[SerializeField] List<GameObject> sameUISelectableList = new();
-
 		[Space]
 		[SerializeField] float lerpDuration = 0.25f;
 		[SerializeField] Transform selectionParentTrans = null;
 		[SerializeField] List<string> stringList = new();
 
 		public List<string> StringList { get => stringList; }
-		public List<GameObject> SameUISelectableList { get => sameUISelectableList; }
 
 		protected int currentActiveIndex;
 		protected List<TextMeshProUGUI> stringTMPList = new();
@@ -62,6 +58,7 @@ namespace Personal.UI
 		{
 			if (stringList.Count <= 0) return;
 
+			// Spawn the required selection to choose from.
 			foreach (var str in stringList)
 			{
 				TextMeshProUGUI tmp = Instantiate(templateTMP, selectionParentTrans);
@@ -74,9 +71,11 @@ namespace Personal.UI
 				stringTMPList.Add(tmp);
 			}
 
+			// Get the lerp width and disable the template.
 			lerpWidth = templateTMP.rectTransform.rect.width;
 			templateTMP.gameObject.SetActive(false);
 
+			// Set the events.
 			leftButton.onClick.AddListener(() => HandleSelection(false));
 			rightButton.onClick.AddListener(() => HandleSelection(true));
 
@@ -93,9 +92,11 @@ namespace Personal.UI
 			currentActiveIndex = isNext ? currentActiveIndex + 1 : currentActiveIndex - 1;
 			float width = isNext ? -lerpWidth : lerpWidth;
 
+			// Lerp to the next selection.
 			Vector3 nextPos = selectionParentTrans.localPosition.With(x: selectionParentTrans.localPosition.x + width);
 			lerpCR = CoroutineHelper.LerpFromTo(selectionParentTrans, selectionParentTrans.localPosition, nextPos, lerpDuration, default, default, false);
 
+			// Handle the button visibility and selection changed event.
 			HandleButtonVisibility();
 			HandleSelectionValueChangedEvent();
 		}

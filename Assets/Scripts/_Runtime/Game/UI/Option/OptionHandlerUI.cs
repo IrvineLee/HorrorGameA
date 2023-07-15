@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 using Personal.Manager;
 using static Personal.UI.Window.WindowEnum;
+using System.Linq;
 
 namespace Personal.UI.Option
 {
@@ -69,6 +70,17 @@ namespace Personal.UI.Option
 			// Set game tab to be in a pressed state.
 			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
 			gameTab.SelectButton.interactable = false;
+		}
+
+		protected override void AdditionalSetup()
+		{
+			List<UISelectable> uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
+			List<GameObject> goList = tabList.Select((tab) => tab.SelectButton.gameObject).ToList();
+
+			foreach (var selectable in uiSelectableList)
+			{
+				selectable.AddIgnoredSelection(goList);
+			}
 		}
 
 		public override void OpenWindow()

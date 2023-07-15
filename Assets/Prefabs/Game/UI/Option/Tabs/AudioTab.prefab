@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 9123328622744925778}
   - component: {fileID: 3770968148402549088}
   - component: {fileID: 157767927912816282}
+  - component: {fileID: 336693633084211075}
   m_Layer: 5
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
@@ -582,6 +583,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &336693633084211075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906874339771696334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea54a0f569d6e9046b84dc0bd09ddf34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8862065067419684408
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,7 +659,7 @@ MonoBehaviour:
   m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 2
-  m_Elasticity: 0.1
+  m_Elasticity: 0
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50
@@ -1018,6 +1031,10 @@ PrefabInstance:
     - target: {fileID: 4542031024159966413, guid: ae94b066d35f4f14a8c28b0ac4a52e08, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906719715939739117, guid: ae94b066d35f4f14a8c28b0ac4a52e08, type: 3}
+      propertyPath: isInitialSelection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8207356530234892120, guid: ae94b066d35f4f14a8c28b0ac4a52e08, type: 3}
       propertyPath: m_Pivot.x

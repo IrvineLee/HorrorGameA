@@ -21,6 +21,8 @@ namespace Personal.UI.Window
 
 		public void Run(bool isFlag)
 		{
+			windowAnimatorCR.StopCoroutine();
+
 			if (isFlag)
 			{
 				// Make sure to stop the coroutine, as stopping it when it started on the same frame does not work.
@@ -32,10 +34,21 @@ namespace Personal.UI.Window
 				return;
 			}
 
+			if (!animator.gameObject.activeSelf) return;
 			animator.SetBool(animIsEnable, false);
 
-			windowAnimatorCR.StopCoroutine();
 			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false), true);
+		}
+
+		/// <summary>
+		/// Typically called when needing to disable/reset the animation when the parent is closed.
+		/// </summary>
+		public void StopAnimation()
+		{
+			animator.gameObject.SetActive(false);
+
+			if (!animator.gameObject.activeSelf) return;
+			animator.SetBool(animIsEnable, false);
 		}
 	}
 }

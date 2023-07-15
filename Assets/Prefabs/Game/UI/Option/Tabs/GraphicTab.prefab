@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2174053333319376931}
   - component: {fileID: 425737190976827628}
   - component: {fileID: 8321802472760335734}
+  - component: {fileID: 1733090903969579276}
   m_Layer: 5
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
@@ -127,6 +128,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1733090903969579276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2232132152388385211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea54a0f569d6e9046b84dc0bd09ddf34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3127767462262455737
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +549,7 @@ MonoBehaviour:
   m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 2
-  m_Elasticity: 0.1
+  m_Elasticity: 0
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 50

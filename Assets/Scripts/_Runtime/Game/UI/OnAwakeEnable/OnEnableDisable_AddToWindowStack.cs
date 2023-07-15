@@ -11,7 +11,7 @@ namespace Personal.UI
 
 		void OnDisable()
 		{
-			if (UIManager.Instance.IsWindowStackEmpty) return;
+			if (UIManager.Instance && UIManager.Instance.IsWindowStackEmpty) return;
 			UIManager.Instance.WindowStack.Pop();
 		}
 	}
