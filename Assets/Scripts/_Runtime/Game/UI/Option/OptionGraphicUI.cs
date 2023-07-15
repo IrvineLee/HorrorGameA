@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using TMPro;
 
 using Personal.GameState;
 using Personal.Manager;
@@ -101,8 +99,7 @@ namespace Personal.UI.Option
 			screenModeDropdown.OnValueChanged.AddListener((index) =>
 			{
 				currentFullScreenMode = index;
-				Screen.fullScreenMode = (FullScreenMode)currentFullScreenMode;
-
+				Screen.fullScreenMode = fullscreenModes[index];
 				Cursor.lockState = CursorLockMode.Confined;
 			});
 
@@ -232,7 +229,6 @@ namespace Personal.UI.Option
 
 				if (IsSameResolution(resolution, graphicData.ScreenResolution))
 				{
-					screenResolutionDropdown.SetCurrentIndex(screenResolutionDropdown.StringList.Count - 1);
 					currentResolution = resolution;
 				}
 			}
@@ -241,14 +237,10 @@ namespace Personal.UI.Option
 
 		/// <summary>
 		/// Fill up screen mode to dropdown according to OS.
-		/// Only handles Windows/MAC as of now.
+		/// Handles Windows/MAC as of now.
 		/// </summary>
 		void InitializeFullScreenMode()
 		{
-			// Reset the Window data to Mac data.
-			if ((FullScreenMode)graphicData.ScreenMode == FullScreenMode.ExclusiveFullScreen)
-				graphicData.ScreenMode = (int)FullScreenMode.MaximizedWindow;
-
 			List<string> screenModeDisplayList = new();
 			foreach (var screenMode in fullscreenModes)
 			{
@@ -262,7 +254,6 @@ namespace Personal.UI.Option
 
 				if (screenMode == (FullScreenMode)graphicData.ScreenMode)
 				{
-					screenModeDropdown.SetCurrentIndex(screenModeDropdown.StringList.Count - 1);
 					currentFullScreenMode = (int)screenMode;
 				}
 			}
@@ -346,20 +337,20 @@ namespace Personal.UI.Option
 			for (int i = 0; i < resolutionList.Count; i++)
 			{
 				Resolution resolution = resolutionList[i];
-				if (IsSameResolution(resolution, graphicData.ScreenResolution))
-				{
-					screenResolutionDropdown.SetCurrentIndex(i);
-					currentResolution = resolution;
-					break;
-				}
+				if (!IsSameResolution(resolution, graphicData.ScreenResolution)) continue;
+
+				screenResolutionDropdown.SetCurrentIndex(i);
+				currentResolution = resolution;
+				break;
 			}
 
 			for (int i = 0; i < fullscreenModes.Length; i++)
 			{
-				FullScreenMode fullScreenMode = fullscreenModes[i];
+				if (i != graphicData.ScreenMode) continue;
 
-				Func<bool> func = () => (fullScreenMode == (FullScreenMode)graphicData.ScreenMode);
-				if (ResetDropdown(func, screenModeDropdown, ref currentFullScreenMode, i)) break;
+				screenModeDropdown.SetCurrentIndex(i);
+				currentFullScreenMode = i;
+				break;
 			}
 
 			for (int i = 0; i < qualityNameList.Count; i++)

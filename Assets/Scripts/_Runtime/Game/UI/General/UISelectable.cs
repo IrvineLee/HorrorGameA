@@ -56,11 +56,7 @@ namespace Personal.UI
 		void ISelectHandler.OnSelect(BaseEventData eventData)
 		{
 			windowSelectionUIAnimator?.Run(true);
-
-			foreach (var selectable in selectableList)
-			{
-				selectable.targetGraphic.color = selectable.colors.selectedColor;
-			}
+			SetSelectableColor(true);
 		}
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
@@ -78,12 +74,23 @@ namespace Personal.UI
 				}
 
 				windowSelectionUIAnimator?.Run(false);
-
-				foreach (var selectable in selectableList)
-				{
-					selectable.targetGraphic.color = selectable.colors.normalColor;
-				}
+				SetSelectableColor(false);
 			});
+		}
+
+		void SetSelectableColor(bool isSelectedColor)
+		{
+			foreach (var selectable in selectableList)
+			{
+				selectable.targetGraphic.color = isSelectedColor ? selectable.colors.selectedColor : selectable.colors.normalColor;
+			}
+
+		}
+
+		void OnDisable()
+		{
+			windowSelectionUIAnimator?.StopAnimation();
+			SetSelectableColor(false);
 		}
 	}
 }
