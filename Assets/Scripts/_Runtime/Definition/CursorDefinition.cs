@@ -13,6 +13,8 @@ namespace Personal.Definition
 			FPS = 0,
 			Talk,
 			Search,
+
+			UI_Nothing = 100,
 		}
 
 		[Serializable]

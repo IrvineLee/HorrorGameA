@@ -10,6 +10,7 @@ namespace Personal.InputProcessing
 		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
+			inputReaderDefinition.OnMoveOnceEvent += MoveOnceInput;
 			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
@@ -21,6 +22,11 @@ namespace Personal.InputProcessing
 		void MoveInput(Vector2 newMoveDirection)
 		{
 			Move = newMoveDirection;
+		}
+
+		void MoveOnceInput(Vector2 newMoveDirection)
+		{
+			MoveOnce = newMoveDirection;
 		}
 
 		void InteractInput()

@@ -32,6 +32,7 @@ namespace Personal.Manager
 
 		public ActionMapType CurrentActionMapType { get => currentActionMapType; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
+		public bool IsCurrentDeviceMouse { get => InputDeviceType == InputDeviceType.KeyboardMouse; }
 
 		public bool IsInteract
 		{
@@ -194,7 +195,8 @@ namespace Personal.Manager
 		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
-			if (change != InputActionChange.ActionStarted && change != InputActionChange.ActionPerformed) return;
+			if (change != InputActionChange.ActionStarted) return;
+			//if (change != InputActionChange.ActionStarted && change != InputActionChange.ActionPerformed) return;
 
 			// Get the last input device.
 			var lastControl = ((InputAction)obj).activeControl;
@@ -300,6 +302,11 @@ namespace Personal.Manager
 		{
 			IconInitials = initials;
 			OnDeviceIconChanged?.Invoke();
+
+			if (IsCurrentDeviceMouse)
+				CursorManager.Instance.SetToMouseCursor(true);
+			else
+				CursorManager.Instance.SetToMouseCursor(false);
 		}
 
 		void OnApplicationQuit()

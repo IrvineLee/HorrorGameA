@@ -29,7 +29,15 @@ namespace Personal.Manager
 
 		protected override void OnTitleScene()
 		{
-			SetToMouseCursor(true);
+			if (InputManager.Instance.IsCurrentDeviceMouse)
+			{
+				SetToMouseCursor(true);
+			}
+			else
+			{
+				SetToMouseCursor(false);
+				SetCrosshair(CursorDefinition.CrosshairType.UI_Nothing);
+			}
 		}
 
 		protected override void OnEarlyMainScene()
@@ -55,12 +63,7 @@ namespace Personal.Manager
 		/// <param name="crosshairType"></param>
 		public void SetCrosshair(CursorDefinition.CrosshairType crosshairType)
 		{
-			if (currentCrosshairType == crosshairType) return;
-
-			cursorDefinition.CrosshairDictionary.TryGetValue(crosshairType, out Sprite sprite);
-
-			currentCrosshairType = crosshairType;
-			crosshairImage.sprite = sprite;
+			SetCrosshairSprite(crosshairType);
 		}
 
 		/// <summary>
@@ -68,22 +71,30 @@ namespace Personal.Manager
 		/// </summary>
 		public void SetToDefaultCrosshair()
 		{
-			if (currentCrosshairType == defaultCrosshairType) return;
+			SetCrosshairSprite(defaultCrosshairType);
+		}
 
-			cursorDefinition.CrosshairDictionary.TryGetValue(defaultCrosshairType, out Sprite sprite);
+		void SetCrosshairSprite(CursorDefinition.CrosshairType compareCrosshair)
+		{
+			if (currentCrosshairType == compareCrosshair) return;
 
-			currentCrosshairType = defaultCrosshairType;
+			cursorDefinition.CrosshairDictionary.TryGetValue(compareCrosshair, out Sprite sprite);
+
+			currentCrosshairType = compareCrosshair;
 			crosshairImage.sprite = sprite;
+			crosshairImage.enabled = true;
+
+			if (compareCrosshair == CursorDefinition.CrosshairType.UI_Nothing) crosshairImage.enabled = false;
 		}
 
 		void OnApplicationFocus(bool hasFocus)
 		{
-			if (GameSceneManager.Instance.IsMainScene() && UIManager.Instance.IsWindowStackEmpty)
-			{
-				SetToMouseCursor(false);
-				return;
-			}
-			SetToMouseCursor(true);
+			//if (GameSceneManager.Instance.IsMainScene() && UIManager.Instance.IsWindowStackEmpty)
+			//{
+			//	SetToMouseCursor(false);
+			//	return;
+			//}
+			//SetToMouseCursor(true);
 		}
 	}
 }

@@ -14,6 +14,8 @@ namespace Personal.UI
 	{
 		[SerializeField] bool isInitialSelection = false;
 
+		public SelectionListing SelectionListing { get; private set; }
+
 		protected MenuUIBase menuUIBase = null;
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
 
@@ -25,6 +27,7 @@ namespace Personal.UI
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
+			SelectionListing = GetComponentInChildren<SelectionListing>(true);
 			selectableList = GetComponentsInChildren<Selectable>(true).ToList();
 
 			// Since only sliders do not follow the usual ui selection, get the sliders and add it here.
@@ -48,6 +51,7 @@ namespace Personal.UI
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
+			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
 
 			eventData.selectedObject = gameObject;
 			menuUIBase.SetLastSelectedGO(gameObject);

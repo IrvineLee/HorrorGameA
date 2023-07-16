@@ -22,12 +22,12 @@ namespace Personal.UI.Option
 		[SerializeField] DropdownSelectionList shadowDropdown = null;
 		[SerializeField] DropdownSelectionList antiAliasingDropdown = null;
 
-		[SerializeField] ToggleSelectionList isVsync = null;
-		[SerializeField] ToggleSelectionList isVignette = null;
-		[SerializeField] ToggleSelectionList isDepthOfField = null;
-		[SerializeField] ToggleSelectionList isMotionBlur = null;
-		[SerializeField] ToggleSelectionList isBloom = null;
-		[SerializeField] ToggleSelectionList isAmbientOcclusion = null;
+		[SerializeField] ToggleSelectionListing isVsync = null;
+		[SerializeField] ToggleSelectionListing isVignette = null;
+		[SerializeField] ToggleSelectionListing isDepthOfField = null;
+		[SerializeField] ToggleSelectionListing isMotionBlur = null;
+		[SerializeField] ToggleSelectionListing isBloom = null;
+		[SerializeField] ToggleSelectionListing isAmbientOcclusion = null;
 
 		GraphicData graphicData;
 		VolumeProfile volumeProfile;
@@ -385,7 +385,7 @@ namespace Personal.UI.Option
 			isAmbientOcclusion.SetCurrentIndex(graphicData.IsAmbientOcclusion ? 1 : 0);
 		}
 
-		bool ResetDropdown(Func<bool> condition, SelectionList selectionList, ref int toChangeIndex, int replaceWithIndex)
+		bool ResetDropdown(Func<bool> condition, SelectionListing selectionList, ref int toChangeIndex, int replaceWithIndex)
 		{
 			if (!condition.Invoke()) return false;
 

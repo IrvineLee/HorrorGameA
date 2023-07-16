@@ -99,8 +99,6 @@ namespace Personal.Character.Player
 
 		const float _threshold = 0.01f;
 
-		bool IsCurrentDeviceMouse { get => InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse; }
-
 		protected override void Initialize()
 		{
 			input = InputManager.Instance.FPSInputController;
@@ -159,7 +157,7 @@ namespace Personal.Character.Player
 			if (input.Look.sqrMagnitude >= _threshold)
 			{
 				//Don't multiply mouse input by Time.deltaTime
-				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+				float deltaTimeMultiplier = InputManager.Instance.IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
 				_cinemachineTargetPitch += input.Look.y * optionGameUI.CameraSensitivity * deltaTimeMultiplier;
 				_rotationVelocity = input.Look.x * optionGameUI.CameraSensitivity * deltaTimeMultiplier;

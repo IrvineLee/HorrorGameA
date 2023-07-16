@@ -28,16 +28,16 @@ namespace Personal.InputProcessing
 				isWaitingResponse = true;
 				HandleCursor();
 
-				if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
-				CursorManager.Instance.SetToMouseCursor(true);
+				//if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
+				//CursorManager.Instance.SetToMouseCursor(true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>
 			{
 				isWaitingResponse = false;
 
-				if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
-				CursorManager.Instance.SetToMouseCursor(false);
+				//if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
+				//CursorManager.Instance.SetToMouseCursor(false);
 			});
 
 			InputManager.Instance.OnDeviceIconChanged += HandleCursor;
@@ -67,9 +67,9 @@ namespace Personal.InputProcessing
 		void HandleCursor()
 		{
 			if (!GameSceneManager.Instance.IsMainScene()) return;
-			if (UIManager.Instance.ActiveInterfaceType == UI.UIInterfaceType.Option) return;
+			if (UIManager.Instance.ActiveInterfaceType != UI.UIInterfaceType.Dialogue) return;
 
-			if (InputManager.Instance.InputDeviceType == InputDeviceType.KeyboardMouse && isWaitingResponse)
+			if (InputManager.Instance.IsCurrentDeviceMouse && isWaitingResponse)
 			{
 				ResponseFocus(false);
 				EventSystem.current.SetSelectedGameObject(null);
@@ -82,7 +82,7 @@ namespace Personal.InputProcessing
 		void ResponseFocus(bool isFlag)
 		{
 			InputDeviceManager.instance.alwaysAutoFocus = isFlag;
-			CursorManager.Instance.SetToMouseCursor(!isFlag);
+			//CursorManager.Instance.SetToMouseCursor(!isFlag);
 
 			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
 		}

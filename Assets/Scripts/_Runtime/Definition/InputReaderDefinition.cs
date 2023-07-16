@@ -38,6 +38,7 @@ namespace Personal.Definition
 		// FPS controls
 		public event Action<Vector2> OnLookEvent;
 		public event Action<Vector2> OnMoveEvent;
+		public event Action<Vector2> OnMoveOnceEvent;
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnSprintEvent;
@@ -94,7 +95,8 @@ namespace Personal.Definition
 
 		public void OnMove(InputAction.CallbackContext context)
 		{
-			OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
+			if (context.started) OnMoveOnceEvent?.Invoke(context.ReadValue<Vector2>());
+			else OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
 		}
 
 		public void OnLook(InputAction.CallbackContext context)

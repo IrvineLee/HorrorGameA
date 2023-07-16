@@ -7,7 +7,7 @@ using Helper;
 
 namespace Personal.UI
 {
-	public class SelectionList : MonoBehaviour
+	public class SelectionListing : MonoBehaviour
 	{
 		[SerializeField] Button leftButton = null;
 		[SerializeField] Button rightButton = null;
@@ -50,6 +50,11 @@ namespace Personal.UI
 			selectionParentTrans.localPosition = selectionParentTrans.localPosition.With(x: currentActiveIndex * (-lerpWidth));
 
 			HandleButtonVisibility();
+		}
+
+		public void NextSelection(bool isNext)
+		{
+			HandleSelection(isNext);
 		}
 
 		protected virtual void HandleSelectionValueChangedEvent() { }

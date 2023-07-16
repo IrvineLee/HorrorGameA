@@ -21,9 +21,9 @@ namespace Personal.UI.Option
 		[Space]
 		[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] Slider cameraSensitivitySlider = null;
-		[SerializeField] ToggleSelectionList isInvertLookHorizontal = null;
-		[SerializeField] ToggleSelectionList isInvertLookVertical = null;
-		[SerializeField] ToggleSelectionList isUSInteractButton = null;
+		[SerializeField] ToggleSelectionListing isInvertLookHorizontal = null;
+		[SerializeField] ToggleSelectionListing isInvertLookVertical = null;
+		[SerializeField] ToggleSelectionListing isUSInteractButton = null;
 		[SerializeField] DropdownSelectionList gamepadIconDropdown = null;
 		[SerializeField] DropdownSelectionList fontSizeDropdown = null;
 		[SerializeField] DropdownSelectionList languageDropdown = null;
