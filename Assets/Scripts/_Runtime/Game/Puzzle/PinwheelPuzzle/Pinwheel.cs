@@ -115,7 +115,7 @@ namespace Puzzle.Pinwheel
 		public CoroutineRun Turn(float duration = 0, bool isSetup = false)
 		{
 			activeIndex = rotationType == PositiveNegative.Positive ? activeIndex + 1 : activeIndex - 1;
-			activeIndex = activeIndex.WithinCount(basicColorList.Count);
+			activeIndex = activeIndex.WithinCount(basicColorList.Count, true);
 
 			float angle = 360 / basicColorList.Count;
 

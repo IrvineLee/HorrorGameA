@@ -119,7 +119,7 @@ namespace Puzzle.Pinwheel
 
 			for (int i = 0; i < centerPinwheel.BasicColorList.Count; i++)
 			{
-				int outerIndex = (index + i).WithinCount(pinwheelList.Count, false);
+				int outerIndex = (index + i).WithinCount(pinwheelList.Count, true);
 				Pinwheel pinwheel = pinwheelList[outerIndex];
 
 				pinwheel.SetEndColor(centerPinwheel.BasicColorList[i]);
