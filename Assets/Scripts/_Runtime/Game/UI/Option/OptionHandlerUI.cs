@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using Personal.Manager;
 using static Personal.UI.Window.WindowEnum;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
@@ -89,7 +90,7 @@ namespace Personal.UI.Option
 
 			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(true);
 
-			DisableAllTabs();
+			DisableAllTabs(startMenuTab);
 			if (!tabDictionary.TryGetValue(startMenuTab, out Tab tab)) return;
 
 			// Activate current menu tab.
@@ -142,10 +143,16 @@ namespace Personal.UI.Option
 			_ = UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction);
 		}
 
-		void DisableAllTabs()
+		/// <summary>
+		/// Disable all tabs which is not in ignoredTab (typically starting tab).
+		/// </summary>
+		/// <param name="ignoredMenuTab"></param>
+		void DisableAllTabs(MenuTab? ignoredTab = null)
 		{
 			foreach (var tab in tabList)
 			{
+				if (ignoredTab != null && ignoredTab == tab.OptionMenuUI.MenuTab) continue;
+
 				tab.SelectButton.interactable = true;
 				tab.OptionMenuUI.gameObject.SetActive(false);
 			}
