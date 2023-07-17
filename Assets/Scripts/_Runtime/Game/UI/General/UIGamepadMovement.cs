@@ -53,6 +53,8 @@ namespace Personal.UI
 			HandleMovement(move);
 		}
 
+		public void SetCurrentIndex(int index) { currentActiveIndex = index; }
+
 		void HandleMovement(Vector2 move)
 		{
 			if (move.y != 0)

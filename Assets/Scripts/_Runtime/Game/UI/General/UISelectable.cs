@@ -16,6 +16,8 @@ namespace Personal.UI
 
 		public UISelectionBase UISelectionBase { get; private set; }
 
+		protected UIGamepadMovement uiGamepadMovement;
+
 		protected MenuUIBase menuUIBase = null;
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
 
@@ -24,6 +26,7 @@ namespace Personal.UI
 
 		void Awake()
 		{
+			uiGamepadMovement = GetComponentInParent<UIGamepadMovement>(true);
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
@@ -61,6 +64,8 @@ namespace Personal.UI
 		{
 			windowSelectionUIAnimator?.Run(true);
 			SetSelectableColor(true);
+
+			uiGamepadMovement?.SetCurrentIndex(transform.GetSiblingIndex());
 		}
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
