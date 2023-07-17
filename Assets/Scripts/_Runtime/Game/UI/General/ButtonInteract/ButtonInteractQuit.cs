@@ -51,7 +51,7 @@ namespace Personal.UI
 			}
 		}
 
-		void OnApplicationQuit()
+		void OnDisable()
 		{
 			button.onClick.RemoveAllListeners();
 		}

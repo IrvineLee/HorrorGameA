@@ -19,9 +19,11 @@ namespace Personal.UI
 		void ChangeScene()
 		{
 			GameSceneManager.Instance.ChangeLevel(sceneType.GetStringValue(), isIgnoreTimescale: false);
+			InputManager.Instance.DisableAllActionMap();
+			CursorManager.Instance.SetToMouseCursor(false);
 		}
 
-		void OnApplicationQuit()
+		void OnDisable()
 		{
 			button.onClick.RemoveAllListeners();
 		}
