@@ -2,9 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using PixelCrushers;
+using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
+using Personal.Dialogue;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -19,30 +22,28 @@ namespace Personal.Manager
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
 		CursorDefinition.CrosshairType defaultCrosshairType = CursorDefinition.CrosshairType.FPS;
 
+		DialogueSetup dialogueSetup;
+
 		protected override void Initialize()
 		{
+			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
+
 			cursorDefinition.Initialize();
 			mouseCursorHandler.SetImage(cursorDefinition.MouseCursor);
 
-			SetToMouseCursor(true);
+			InputManager.OnDeviceIconChanged += HandleCursorAndMouseChange;
 		}
 
 		protected override void OnTitleScene()
 		{
-			if (InputManager.Instance.IsCurrentDeviceMouse)
-			{
-				SetToMouseCursor(true);
-			}
-			else
-			{
-				SetToMouseCursor(false);
-				SetCrosshair(CursorDefinition.CrosshairType.UI_Nothing);
-			}
+			HandleCursorAndMouseChange();
+			SetCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
 		}
 
 		protected override void OnEarlyMainScene()
 		{
 			SetToMouseCursor(false);
+			SetToDefaultCrosshair();
 		}
 
 		/// <summary>
@@ -51,7 +52,7 @@ namespace Personal.Manager
 		/// <param name="isFlag"></param>
 		public void SetToMouseCursor(bool isFlag)
 		{
-			InputDeviceManager.instance.ForceCursorFalse();
+			InputDeviceManager.instance.SetCursorConfined();
 
 			crosshairImage.gameObject.SetActive(!isFlag);
 			mouseCursorHandler.gameObject.SetActive(isFlag);
@@ -84,17 +85,43 @@ namespace Personal.Manager
 			crosshairImage.sprite = sprite;
 			crosshairImage.enabled = true;
 
-			if (compareCrosshair == CursorDefinition.CrosshairType.UI_Nothing) crosshairImage.enabled = false;
+			if (compareCrosshair == CursorDefinition.CrosshairType.UI_Nothing)
+				crosshairImage.enabled = false;
+		}
+
+		async void HandleCursorAndMouseChange()
+		{
+			// Reset the mouse to the center of the screen.
+			Cursor.lockState = CursorLockMode.Locked;
+			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
+
+			Cursor.lockState = CursorLockMode.Confined;
+
+			if (InputManager.Instance.IsCurrentDeviceMouse &&
+				(!GameSceneManager.Instance.IsMainScene() || dialogueSetup.IsWaitingResponse))
+			{
+				SetToMouseCursor(true);
+				return;
+			}
+
+			SetToMouseCursor(false);
+		}
+
+		void OnApplicationQuit()
+		{
+			InputManager.OnDeviceIconChanged -= HandleCursorAndMouseChange;
 		}
 
 		void OnApplicationFocus(bool hasFocus)
 		{
-			//if (GameSceneManager.Instance.IsMainScene() && UIManager.Instance.IsWindowStackEmpty)
-			//{
-			//	SetToMouseCursor(false);
-			//	return;
-			//}
-			//SetToMouseCursor(true);
+			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
+
+			if (GameSceneManager.Instance.IsMainScene() && UIManager.IsWindowStackEmpty)
+			{
+				SetToMouseCursor(false);
+				return;
+			}
+			SetToMouseCursor(true);
 		}
 	}
 }

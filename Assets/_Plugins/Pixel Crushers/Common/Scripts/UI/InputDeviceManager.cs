@@ -421,7 +421,7 @@ namespace PixelCrushers
 			//StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
 		}
 
-		public void ForceCursorFalse()
+		public void SetCursorConfined()
 		{
 			Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Confined;

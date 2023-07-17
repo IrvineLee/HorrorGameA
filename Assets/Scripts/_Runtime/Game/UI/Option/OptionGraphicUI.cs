@@ -324,11 +324,11 @@ namespace Personal.UI.Option
 			currentAntiAliasIndex = index;
 		}
 
-		void HandleAmbientOcclusion(bool flag)
+		void HandleAmbientOcclusion(bool isFlag)
 		{
 			universalCameraData.SetRenderer(0);
 
-			if (flag)
+			if (isFlag)
 				universalCameraData.SetRenderer(1);
 		}
 

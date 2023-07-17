@@ -4,12 +4,15 @@ using UnityEngine.EventSystems;
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Personal.Manager;
+using Personal.InputProcessing;
 
-namespace Personal.InputProcessing
+namespace Personal.Dialogue
 {
 	public class DialogueSetup : MonoBehaviour
 	{
 		[SerializeField] ActionMapType actionMapType = ActionMapType.BasicControl;
+
+		public bool IsWaitingResponse { get => isWaitingResponse; }
 
 		ActionMapType previousActionMap;
 
@@ -28,19 +31,19 @@ namespace Personal.InputProcessing
 				isWaitingResponse = true;
 				HandleCursor();
 
-				//if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
-				//CursorManager.Instance.SetToMouseCursor(true);
+				if (!InputManager.Instance.IsCurrentDeviceMouse) return;
+				CursorManager.Instance.SetToMouseCursor(true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>
 			{
 				isWaitingResponse = false;
 
-				//if (InputManager.Instance.InputDeviceType == InputDeviceType.Gamepad) return;
-				//CursorManager.Instance.SetToMouseCursor(false);
+				if (!InputManager.Instance.IsCurrentDeviceMouse) return;
+				CursorManager.Instance.SetToMouseCursor(false);
 			});
 
-			InputManager.Instance.OnDeviceIconChanged += HandleCursor;
+			InputManager.OnDeviceIconChanged += HandleCursor;
 		}
 
 		/// <summary>
@@ -82,8 +85,6 @@ namespace Personal.InputProcessing
 		void ResponseFocus(bool isFlag)
 		{
 			InputDeviceManager.instance.alwaysAutoFocus = isFlag;
-			//CursorManager.Instance.SetToMouseCursor(!isFlag);
-
 			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
 		}
 
@@ -92,8 +93,7 @@ namespace Personal.InputProcessing
 			standardUIMenuPanel.onOpen.RemoveAllListeners();
 			standardUIMenuPanel.onClose.RemoveAllListeners();
 
-			if (InputManager.Instance)
-				InputManager.Instance.OnDeviceIconChanged -= HandleCursor;
+			InputManager.OnDeviceIconChanged -= HandleCursor;
 		}
 	}
 }

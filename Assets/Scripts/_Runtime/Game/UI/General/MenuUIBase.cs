@@ -43,7 +43,7 @@ namespace Personal.UI
 		{
 			if (!IsWindowAnimationDone) return;
 
-			UIManager.Instance.WindowStack.Push(this);
+			UIManager.WindowStack.Push(this);
 			EnableGO(true, false);
 
 			OnPauseEvent?.Invoke(true);
@@ -57,10 +57,10 @@ namespace Personal.UI
 		{
 			if (!IsWindowAnimationDone && !isInstant) return;
 
-			UIManager.Instance.WindowStack.Pop();
+			UIManager.WindowStack.Pop();
 			EnableGO(false, isInstant);
 
-			if (!UIManager.Instance.IsWindowStackEmpty) return;
+			if (!UIManager.IsWindowStackEmpty) return;
 
 			InputManager.Instance.SetToDefaultActionMap();
 			OnPauseEvent?.Invoke(false);

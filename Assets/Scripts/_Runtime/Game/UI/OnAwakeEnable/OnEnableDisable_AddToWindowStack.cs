@@ -6,13 +6,13 @@ namespace Personal.UI
 	{
 		void OnEnable()
 		{
-			UIManager.Instance.WindowStack.Push(this);
+			UIManager.WindowStack.Push(this);
 		}
 
 		void OnDisable()
 		{
-			if (UIManager.Instance && UIManager.Instance.IsWindowStackEmpty) return;
-			UIManager.Instance.WindowStack.Pop();
+			if (UIManager.IsWindowStackEmpty) return;
+			UIManager.WindowStack.Pop();
 		}
 	}
 }

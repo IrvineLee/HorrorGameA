@@ -65,8 +65,8 @@ namespace Personal.Manager
 		public string IconInitials { get; private set; }
 		public Gamepad CurrentGamepad { get; private set; }
 
-		public event Action OnAnyButtonPressed;
-		public event Action OnDeviceIconChanged;
+		public static event Action OnAnyButtonPressed;
+		public static event Action OnDeviceIconChanged;
 
 		InputSystemUIInputModule inputSystemUIInputModule;
 		InputActionReference submitActionReference;
@@ -195,8 +195,7 @@ namespace Personal.Manager
 		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
-			if (change != InputActionChange.ActionStarted) return;
-			//if (change != InputActionChange.ActionStarted && change != InputActionChange.ActionPerformed) return;
+			if (change != InputActionChange.ActionStarted && change != InputActionChange.ActionPerformed) return;
 
 			// Get the last input device.
 			var lastControl = ((InputAction)obj).activeControl;
@@ -302,11 +301,6 @@ namespace Personal.Manager
 		{
 			IconInitials = initials;
 			OnDeviceIconChanged?.Invoke();
-
-			if (IsCurrentDeviceMouse)
-				CursorManager.Instance.SetToMouseCursor(true);
-			else
-				CursorManager.Instance.SetToMouseCursor(false);
 		}
 
 		void OnApplicationQuit()

@@ -47,7 +47,7 @@ namespace PixelCrushers
 		public void ForceCursor(bool visible)
 		{
 			if (InputDeviceManager.instance == null) return;
-			InputDeviceManager.instance.ForceCursorFalse();
+			InputDeviceManager.instance.SetCursorConfined();
 		}
 
 		public void BrieflyIgnoreMouseMovement()

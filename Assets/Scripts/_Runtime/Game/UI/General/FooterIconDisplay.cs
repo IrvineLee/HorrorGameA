@@ -26,7 +26,7 @@ namespace Personal.UI
 
 			DisableAllTmp();
 
-			InputManager.Instance.OnDeviceIconChanged += UpdateIcons;
+			InputManager.OnDeviceIconChanged += UpdateIcons;
 			UpdateIcons();
 		}
 
@@ -82,10 +82,9 @@ namespace Personal.UI
 			}
 		}
 
-		// To remove the error when quitting application after InputManager has been destroyed.
 		void OnApplicationQuit()
 		{
-			InputManager.Instance.OnDeviceIconChanged -= UpdateIcons;
+			InputManager.OnDeviceIconChanged -= UpdateIcons;
 		}
 	}
 }

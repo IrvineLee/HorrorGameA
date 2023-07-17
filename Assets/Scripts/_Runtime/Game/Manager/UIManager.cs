@@ -28,8 +28,8 @@ namespace Personal.Manager
 		public WindowHandlerUI WindowUI { get => windowHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
-		public Stack<MenuUIBase> WindowStack { get; } = new();
-		public bool IsWindowStackEmpty { get => WindowStack.Count <= 0; }
+		public static Stack<MenuUIBase> WindowStack { get; } = new();
+		public static bool IsWindowStackEmpty { get => WindowStack.Count <= 0; }
 
 		protected override async UniTask InitializeUniTask()
 		{

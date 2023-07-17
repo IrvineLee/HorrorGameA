@@ -19,7 +19,7 @@ namespace Personal.UI.Option
 
 			InitialSetup();
 			InputManager.Instance.SetToDefaultActionMap();
-			InputManager.Instance.OnAnyButtonPressed += Begin;
+			InputManager.OnAnyButtonPressed += Begin;
 		}
 
 		void Begin()
@@ -30,8 +30,7 @@ namespace Personal.UI.Option
 
 		void RemoveListener()
 		{
-			if (InputManager.Instance)
-				InputManager.Instance.OnAnyButtonPressed -= Begin;
+			InputManager.OnAnyButtonPressed -= Begin;
 		}
 
 		void OnApplicationQuit()
