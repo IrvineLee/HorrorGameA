@@ -77,7 +77,8 @@ namespace Personal.UI
 			if (!scrollRect) return;
 			if (uiSelectableList.Count <= 0) return;
 
-			Vector2 nextNormalizesPosition = new Vector2(0, 1 - (currentActiveIndex / ((float)uiSelectableList.Count - 1)));
+			float ratio = 1 - (currentActiveIndex / ((float)uiSelectableList.Count - 1));
+			Vector2 nextNormalizesPosition = new Vector2(0, ratio);
 
 			Action<Vector2> callbackMethod = (result) => scrollRect.normalizedPosition = result;
 			CoroutineHelper.LerpWithinSeconds(scrollRect.normalizedPosition, nextNormalizesPosition, ConstantFixed.UI_SCROLLBAR_DURATION, callbackMethod, isDeltaTime: false);

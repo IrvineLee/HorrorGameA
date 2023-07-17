@@ -57,7 +57,6 @@ namespace Personal.UI
 			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
 
 			eventData.selectedObject = gameObject;
-			menuUIBase.SetLastSelectedGO(gameObject);
 		}
 
 		void ISelectHandler.OnSelect(BaseEventData eventData)
@@ -65,6 +64,7 @@ namespace Personal.UI
 			windowSelectionUIAnimator?.Run(true);
 			SetSelectableColor(true);
 
+			menuUIBase.SetLastSelectedGO(gameObject);
 			uiGamepadMovement?.SetCurrentIndex(transform.GetSiblingIndex());
 		}
 
