@@ -27,5 +27,6 @@ namespace Personal.Constant
 
 		// UI Gamepad selection
 		public const float UI_SELECTION_DELAY = 0.15f;
+		public const float UI_SCROLLBAR_DURATION = 0.1f;
 	}
 }
