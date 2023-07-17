@@ -79,7 +79,7 @@ namespace Personal.Character.Player
 			}
 
 			// Move the index down 1.
-			CurrentActiveIndex = (--CurrentActiveIndex).WithinCount(inventoryList.Count);
+			CurrentActiveIndex = (--CurrentActiveIndex).WithinCountLoopOver(inventoryList.Count);
 		}
 
 		/// <summary>
@@ -114,7 +114,7 @@ namespace Personal.Character.Player
 
 			// Scroll throught the list.
 			CurrentActiveIndex = isNext ? CurrentActiveIndex + 1 : CurrentActiveIndex - 1;
-			CurrentActiveIndex = CurrentActiveIndex.WithinCount(inventoryList.Count);
+			CurrentActiveIndex = CurrentActiveIndex.WithinCountLoopOver(inventoryList.Count);
 
 			if (CurrentActiveIndex > inventoryList.Count - 1) return;
 

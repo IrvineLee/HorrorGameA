@@ -115,11 +115,11 @@ namespace Puzzle.Pinwheel
 			if (pinwheelList.Count <= 0) return;
 
 			int count = centerTurnType == PositiveNegative.Positive ? pinwheelList.Count - turnRemain : pinwheelList.Count + turnRemain;
-			int index = count.WithinCount(pinwheelList.Count, true);
+			int index = count.WithinCountLoopOver(pinwheelList.Count, true);
 
 			for (int i = 0; i < centerPinwheel.BasicColorList.Count; i++)
 			{
-				int outerIndex = (index + i).WithinCount(pinwheelList.Count, true);
+				int outerIndex = (index + i).WithinCountLoopOver(pinwheelList.Count, true);
 				Pinwheel pinwheel = pinwheelList[outerIndex];
 
 				pinwheel.SetEndColor(centerPinwheel.BasicColorList[i]);
