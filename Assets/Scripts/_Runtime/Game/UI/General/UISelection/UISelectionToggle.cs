@@ -2,7 +2,7 @@ using UnityEngine.Events;
 
 namespace Personal.UI
 {
-	public class ToggleSelectionListing : SelectionListing
+	public class UISelectionToggle : UISelectionListing
 	{
 		public bool IsOn { get => currentActiveIndex != 0; }
 

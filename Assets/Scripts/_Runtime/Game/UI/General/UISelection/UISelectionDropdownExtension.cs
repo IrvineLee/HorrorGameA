@@ -6,7 +6,7 @@ using Lean.Localization;
 
 namespace Personal.UI
 {
-	public class DropdownSelectionListExtension : DropdownSelectionList
+	public class UISelectionDropdownExtension : UISelectionDropdown
 	{
 		[Tooltip("This updates the value of the text from strList. " +
 			"Useful when needing to show user different value when using strList for different purposes.")]

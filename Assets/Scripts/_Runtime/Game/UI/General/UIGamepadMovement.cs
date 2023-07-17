@@ -60,7 +60,7 @@ namespace Personal.UI
 			}
 			if (move.x != 0)
 			{
-				SelectionListing currentSelection = uiSelectableList[currentActiveIndex].SelectionListing;
+				UISelectionBase currentSelection = uiSelectableList[currentActiveIndex].UISelectionBase;
 				currentSelection.NextSelection(move.x > 0);
 			}
 		}

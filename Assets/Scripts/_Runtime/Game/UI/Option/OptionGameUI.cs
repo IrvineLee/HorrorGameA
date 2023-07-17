@@ -21,12 +21,12 @@ namespace Personal.UI.Option
 		[Space]
 		[SerializeField] Slider brightnessSlider = null;
 		[SerializeField] Slider cameraSensitivitySlider = null;
-		[SerializeField] ToggleSelectionListing isInvertLookHorizontal = null;
-		[SerializeField] ToggleSelectionListing isInvertLookVertical = null;
-		[SerializeField] ToggleSelectionListing isUSInteractButton = null;
-		[SerializeField] DropdownSelectionList gamepadIconDropdown = null;
-		[SerializeField] DropdownSelectionList fontSizeDropdown = null;
-		[SerializeField] DropdownSelectionList languageDropdown = null;
+		[SerializeField] UISelectionToggle isInvertLookHorizontal = null;
+		[SerializeField] UISelectionToggle isInvertLookVertical = null;
+		[SerializeField] UISelectionToggle isUSInteractButton = null;
+		[SerializeField] UISelectionDropdown gamepadIconDropdown = null;
+		[SerializeField] UISelectionDropdown fontSizeDropdown = null;
+		[SerializeField] UISelectionDropdown languageDropdown = null;
 
 		public float CameraSensitivity { get => cameraSensitivitySlider.value; }
 		public bool IsInvertLookHorizontal { get => isInvertLookHorizontal.IsOn; }

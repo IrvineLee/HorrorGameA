@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -283,6 +283,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7425786582850207470}
     m_Modifications:
+    - target: {fileID: 1078438500866776489, guid: 535b18d996d913c47848009779888afd, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1383893705972530943, guid: 535b18d996d913c47848009779888afd, type: 3}
       propertyPath: m_Name
       value: ToggleSelectionList

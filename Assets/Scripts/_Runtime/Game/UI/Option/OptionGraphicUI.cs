@@ -16,18 +16,18 @@ namespace Personal.UI.Option
 	public class OptionGraphicUI : OptionMenuUI
 	{
 		[Space]
-		[SerializeField] DropdownSelectionList screenResolutionDropdown = null;
-		[SerializeField] DropdownSelectionList screenModeDropdown = null;
-		[SerializeField] DropdownSelectionList qualityDropdown = null;
-		[SerializeField] DropdownSelectionList shadowDropdown = null;
-		[SerializeField] DropdownSelectionList antiAliasingDropdown = null;
+		[SerializeField] UISelectionDropdown screenResolutionDropdown = null;
+		[SerializeField] UISelectionDropdown screenModeDropdown = null;
+		[SerializeField] UISelectionDropdown qualityDropdown = null;
+		[SerializeField] UISelectionDropdown shadowDropdown = null;
+		[SerializeField] UISelectionDropdown antiAliasingDropdown = null;
 
-		[SerializeField] ToggleSelectionListing isVsync = null;
-		[SerializeField] ToggleSelectionListing isVignette = null;
-		[SerializeField] ToggleSelectionListing isDepthOfField = null;
-		[SerializeField] ToggleSelectionListing isMotionBlur = null;
-		[SerializeField] ToggleSelectionListing isBloom = null;
-		[SerializeField] ToggleSelectionListing isAmbientOcclusion = null;
+		[SerializeField] UISelectionToggle isVsync = null;
+		[SerializeField] UISelectionToggle isVignette = null;
+		[SerializeField] UISelectionToggle isDepthOfField = null;
+		[SerializeField] UISelectionToggle isMotionBlur = null;
+		[SerializeField] UISelectionToggle isBloom = null;
+		[SerializeField] UISelectionToggle isAmbientOcclusion = null;
 
 		GraphicData graphicData;
 		VolumeProfile volumeProfile;
@@ -385,7 +385,7 @@ namespace Personal.UI.Option
 			isAmbientOcclusion.SetCurrentIndex(graphicData.IsAmbientOcclusion ? 1 : 0);
 		}
 
-		bool ResetDropdown(Func<bool> condition, SelectionListing selectionList, ref int toChangeIndex, int replaceWithIndex)
+		bool ResetDropdown(Func<bool> condition, UISelectionListing selectionList, ref int toChangeIndex, int replaceWithIndex)
 		{
 			if (!condition.Invoke()) return false;
 

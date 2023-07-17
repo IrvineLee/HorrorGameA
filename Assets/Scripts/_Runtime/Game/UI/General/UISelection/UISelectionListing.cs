@@ -7,7 +7,7 @@ using Helper;
 
 namespace Personal.UI
 {
-	public class SelectionListing : MonoBehaviour
+	public class UISelectionListing : UISelectionBase
 	{
 		[SerializeField] Button leftButton = null;
 		[SerializeField] Button rightButton = null;
@@ -28,11 +28,13 @@ namespace Personal.UI
 
 		CoroutineRun lerpCR = new();
 
-		void Awake()
+		protected virtual void HandleSelectionValueChangedEvent() { }
+
+		protected override void Initialize()
 		{
 			if (stringList.Count <= 0 || isInitalized) return;
 
-			Initialize();
+			SpawnRequiredSelection();
 			HandleButtonVisibility();
 		}
 
@@ -52,17 +54,27 @@ namespace Personal.UI
 			HandleButtonVisibility();
 		}
 
-		public void NextSelection(bool isNext)
+		public override void NextSelection(bool isNext)
 		{
-			HandleSelection(isNext);
+			if (!lerpCR.IsDone) return;
+			if ((isNext && currentActiveIndex >= stringList.Count - 1) ||
+				(!isNext && currentActiveIndex == 0)) return;
+
+			// Scroll throught the list.
+			currentActiveIndex = isNext ? currentActiveIndex + 1 : currentActiveIndex - 1;
+			float width = isNext ? -lerpWidth : lerpWidth;
+
+			// Lerp to the next selection.
+			Vector3 nextPos = selectionParentTrans.localPosition.With(x: selectionParentTrans.localPosition.x + width);
+			lerpCR = CoroutineHelper.LerpFromTo(selectionParentTrans, selectionParentTrans.localPosition, nextPos, lerpDuration, default, default, false);
+
+			// Handle the button visibility and selection changed event.
+			HandleButtonVisibility();
+			HandleSelectionValueChangedEvent();
 		}
 
-		protected virtual void HandleSelectionValueChangedEvent() { }
-
-		protected virtual void Initialize()
+		void SpawnRequiredSelection()
 		{
-			if (stringList.Count <= 0) return;
-
 			// Spawn the required selection to choose from.
 			foreach (var str in stringList)
 			{
@@ -81,29 +93,10 @@ namespace Personal.UI
 			templateTMP.gameObject.SetActive(false);
 
 			// Set the events.
-			leftButton.onClick.AddListener(() => HandleSelection(false));
-			rightButton.onClick.AddListener(() => HandleSelection(true));
+			leftButton.onClick.AddListener(() => NextSelection(false));
+			rightButton.onClick.AddListener(() => NextSelection(true));
 
 			isInitalized = true;
-		}
-
-		void HandleSelection(bool isNext)
-		{
-			if (!lerpCR.IsDone) return;
-			if ((isNext && currentActiveIndex >= stringList.Count - 1) ||
-				(!isNext && currentActiveIndex == 0)) return;
-
-			// Scroll throught the list.
-			currentActiveIndex = isNext ? currentActiveIndex + 1 : currentActiveIndex - 1;
-			float width = isNext ? -lerpWidth : lerpWidth;
-
-			// Lerp to the next selection.
-			Vector3 nextPos = selectionParentTrans.localPosition.With(x: selectionParentTrans.localPosition.x + width);
-			lerpCR = CoroutineHelper.LerpFromTo(selectionParentTrans, selectionParentTrans.localPosition, nextPos, lerpDuration, default, default, false);
-
-			// Handle the button visibility and selection changed event.
-			HandleButtonVisibility();
-			HandleSelectionValueChangedEvent();
 		}
 
 		void HandleButtonVisibility()

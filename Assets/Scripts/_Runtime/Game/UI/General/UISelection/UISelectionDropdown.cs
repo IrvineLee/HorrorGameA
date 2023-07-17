@@ -2,7 +2,7 @@ using UnityEngine.Events;
 
 namespace Personal.UI
 {
-	public class DropdownSelectionList : SelectionListing
+	public class UISelectionDropdown : UISelectionListing
 	{
 		public int Value { get => currentActiveIndex; }
 

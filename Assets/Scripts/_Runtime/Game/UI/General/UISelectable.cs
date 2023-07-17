@@ -14,7 +14,7 @@ namespace Personal.UI
 	{
 		[SerializeField] bool isInitialSelection = false;
 
-		public SelectionListing SelectionListing { get; private set; }
+		public UISelectionBase UISelectionBase { get; private set; }
 
 		protected MenuUIBase menuUIBase = null;
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
@@ -27,7 +27,7 @@ namespace Personal.UI
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
-			SelectionListing = GetComponentInChildren<SelectionListing>(true);
+			UISelectionBase = GetComponentInChildren<UISelectionBase>(true);
 			selectableList = GetComponentsInChildren<Selectable>(true).ToList();
 
 			// Since only sliders do not follow the usual ui selection, get the sliders and add it here.
