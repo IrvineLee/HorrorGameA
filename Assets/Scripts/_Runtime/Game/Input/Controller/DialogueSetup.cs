@@ -5,10 +5,11 @@ using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Personal.Manager;
 using Personal.InputProcessing;
+using Personal.GameState;
 
 namespace Personal.Dialogue
 {
-	public class DialogueSetup : MonoBehaviour
+	public class DialogueSetup : GameInitialize
 	{
 		[SerializeField] ActionMapType actionMapType = ActionMapType.BasicControl;
 
@@ -19,11 +20,14 @@ namespace Personal.Dialogue
 		StandardUIMenuPanel standardUIMenuPanel;
 		bool isWaitingResponse;
 
-		void Awake()
+		protected override void Initialize()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;
 			standardUIMenuPanel = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true).conversationUIElements.defaultMenuPanel;
+
+			var playerActionInput = InputManager.Instance.PlayerActionInput;
+			InputDeviceManager.RegisterInputAction("Interact", playerActionInput.Player.Interact);
 
 			// For the response window.
 			standardUIMenuPanel.onOpen.AddListener(() =>
@@ -94,6 +98,7 @@ namespace Personal.Dialogue
 			standardUIMenuPanel.onClose.RemoveAllListeners();
 
 			InputManager.OnDeviceIconChanged -= HandleCursor;
+			InputDeviceManager.UnregisterInputAction("Interact");
 		}
 	}
 }

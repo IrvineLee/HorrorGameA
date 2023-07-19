@@ -21,7 +21,7 @@ namespace Personal.Manager
 		[SerializeField] [ReadOnly] ActionMapType currentActionMapType = ActionMapType.BasicControl;
 
 		public InputReaderDefinition InputReaderDefinition { get => inputReaderDefinition; }
-		public PlayerActionInput PlayerActionInput { get; private set; }
+		public PlayerActionInput PlayerActionInput { get => inputReaderDefinition.PlayerActionInput; }
 		public ButtonIconDefinition ButtonIconDefinition { get => buttonIconDefinition; }
 
 		// Different actions maps for different situations.
@@ -195,7 +195,7 @@ namespace Personal.Manager
 		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
-			if (change != InputActionChange.ActionStarted && change != InputActionChange.ActionPerformed) return;
+			if (change != InputActionChange.ActionStarted) return;
 
 			// Get the last input device.
 			var lastControl = ((InputAction)obj).activeControl;

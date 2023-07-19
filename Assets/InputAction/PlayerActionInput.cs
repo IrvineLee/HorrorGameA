@@ -62,24 +62,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Confirm_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""b0213f16-c2e0-4a83-b3ad-bf8a30b1a6ef"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""68f6a2f6-db09-4cc2-93fd-82fd6504c17c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -255,7 +237,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Confirm_Gamepad"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -266,7 +248,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Cancel_Gamepad"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -322,6 +304,15 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""2bb86600-7d45-4fc0-ab28-ca9d3d651716"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""InventoryMenu"",
                     ""type"": ""Button"",
                     ""id"": ""a7b50b3e-66f3-4003-8ab9-40e2e98534c4"",
@@ -365,24 +356,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Confirm_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""758d9551-ef5f-4d2e-bb84-8eef4ddaa135"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""8eaf12c8-cb93-4176-b1e5-d84244fff057"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -773,23 +746,34 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5546a872-0ac2-48fc-943e-7769538dfe4b"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""id"": ""434bfa07-f010-4c65-891d-a82aff19ee27"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Confirm_Gamepad"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4207c375-6129-4ad3-b652-8bffc1fc1cc0"",
+                    ""id"": ""1a4bae49-4507-46d7-b233-c3b6f779fcd5"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Cancel_Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5546a872-0ac2-48fc-943e-7769538dfe4b"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -839,24 +823,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""name"": ""Default"",
                     ""type"": ""Button"",
                     ""id"": ""fdf461f3-9183-407b-a282-557a9335f36e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Confirm_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""8e063b74-28d3-404a-9652-726ea4b36f63"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""8baf5da0-92e9-403d-83e4-f65d10e6ba35"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1169,28 +1135,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b0318cb1-f2b8-47ce-8b55-140d0b2de6f3"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Confirm_Gamepad"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""103d6b34-bf8f-4809-8893-39c31ab58981"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Cancel_Gamepad"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""04788889-3355-4b0c-8ae8-2471f37365ab"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
@@ -1331,6 +1275,28 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""action"": ""NotUsed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0318cb1-f2b8-47ce-8b55-140d0b2de6f3"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""103d6b34-bf8f-4809-8893-39c31ab58981"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1360,24 +1326,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""908d78aa-5a49-44e1-901b-126696a5ff8a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Confirm_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""39f6226b-341f-466e-ad0b-e064eb0d1f0d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel_Gamepad"",
-                    ""type"": ""Button"",
-                    ""id"": ""7932575a-0886-4f3f-a2c9-d28054700e4d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1618,23 +1566,23 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""924ef5ec-8aaa-4d5d-b526-871484b77793"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Cancel_Gamepad"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""91ca46ee-bfb3-4450-89e5-192db35c8c1c"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Confirm_Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""924ef5ec-8aaa-4d5d-b526-871484b77793"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1697,8 +1645,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         m_BasicControl_Look = m_BasicControl.FindAction("Look", throwIfNotFound: true);
         m_BasicControl_Interact = m_BasicControl.FindAction("Interact", throwIfNotFound: true);
         m_BasicControl_Cancel = m_BasicControl.FindAction("Cancel", throwIfNotFound: true);
-        m_BasicControl_Confirm_Gamepad = m_BasicControl.FindAction("Confirm_Gamepad", throwIfNotFound: true);
-        m_BasicControl_Cancel_Gamepad = m_BasicControl.FindAction("Cancel_Gamepad", throwIfNotFound: true);
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
@@ -1706,13 +1652,12 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_InventoryMenu = m_Player.FindAction("InventoryMenu", throwIfNotFound: true);
         m_Player_OptionMenu = m_Player.FindAction("OptionMenu", throwIfNotFound: true);
         m_Player_InventoryMouseScroll = m_Player.FindAction("InventoryMouseScroll", throwIfNotFound: true);
         m_Player_InventoryNextPrevious = m_Player.FindAction("InventoryNextPrevious", throwIfNotFound: true);
         m_Player_InventoryIndexSelect = m_Player.FindAction("InventoryIndexSelect", throwIfNotFound: true);
-        m_Player_Confirm_Gamepad = m_Player.FindAction("Confirm_Gamepad", throwIfNotFound: true);
-        m_Player_Cancel_Gamepad = m_Player.FindAction("Cancel_Gamepad", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -1720,8 +1665,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Default = m_UI.FindAction("Default", throwIfNotFound: true);
-        m_UI_Confirm_Gamepad = m_UI.FindAction("Confirm_Gamepad", throwIfNotFound: true);
-        m_UI_Cancel_Gamepad = m_UI.FindAction("Cancel_Gamepad", throwIfNotFound: true);
         m_UI_NotUsed = m_UI.FindAction("NotUsed", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -1735,8 +1678,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         m_Puzzle_GamepadSelection = m_Puzzle.FindAction("GamepadSelection", throwIfNotFound: true);
         m_Puzzle_Interact = m_Puzzle.FindAction("Interact", throwIfNotFound: true);
         m_Puzzle_Cancel = m_Puzzle.FindAction("Cancel", throwIfNotFound: true);
-        m_Puzzle_Confirm_Gamepad = m_Puzzle.FindAction("Confirm_Gamepad", throwIfNotFound: true);
-        m_Puzzle_Cancel_Gamepad = m_Puzzle.FindAction("Cancel_Gamepad", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1802,8 +1743,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_BasicControl_Look;
     private readonly InputAction m_BasicControl_Interact;
     private readonly InputAction m_BasicControl_Cancel;
-    private readonly InputAction m_BasicControl_Confirm_Gamepad;
-    private readonly InputAction m_BasicControl_Cancel_Gamepad;
     public struct BasicControlActions
     {
         private @PlayerActionInput m_Wrapper;
@@ -1812,8 +1751,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_BasicControl_Look;
         public InputAction @Interact => m_Wrapper.m_BasicControl_Interact;
         public InputAction @Cancel => m_Wrapper.m_BasicControl_Cancel;
-        public InputAction @Confirm_Gamepad => m_Wrapper.m_BasicControl_Confirm_Gamepad;
-        public InputAction @Cancel_Gamepad => m_Wrapper.m_BasicControl_Cancel_Gamepad;
         public InputActionMap Get() { return m_Wrapper.m_BasicControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1835,12 +1772,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
-            @Confirm_Gamepad.started += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled += instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled += instance.OnCancel_Gamepad;
         }
 
         private void UnregisterCallbacks(IBasicControlActions instance)
@@ -1857,12 +1788,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
-            @Confirm_Gamepad.started -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled -= instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled -= instance.OnCancel_Gamepad;
         }
 
         public void RemoveCallbacks(IBasicControlActions instance)
@@ -1889,13 +1814,12 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_InventoryMenu;
     private readonly InputAction m_Player_OptionMenu;
     private readonly InputAction m_Player_InventoryMouseScroll;
     private readonly InputAction m_Player_InventoryNextPrevious;
     private readonly InputAction m_Player_InventoryIndexSelect;
-    private readonly InputAction m_Player_Confirm_Gamepad;
-    private readonly InputAction m_Player_Cancel_Gamepad;
     public struct PlayerActions
     {
         private @PlayerActionInput m_Wrapper;
@@ -1905,13 +1829,12 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputAction @InventoryMenu => m_Wrapper.m_Player_InventoryMenu;
         public InputAction @OptionMenu => m_Wrapper.m_Player_OptionMenu;
         public InputAction @InventoryMouseScroll => m_Wrapper.m_Player_InventoryMouseScroll;
         public InputAction @InventoryNextPrevious => m_Wrapper.m_Player_InventoryNextPrevious;
         public InputAction @InventoryIndexSelect => m_Wrapper.m_Player_InventoryIndexSelect;
-        public InputAction @Confirm_Gamepad => m_Wrapper.m_Player_Confirm_Gamepad;
-        public InputAction @Cancel_Gamepad => m_Wrapper.m_Player_Cancel_Gamepad;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1936,6 +1859,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
             @InventoryMenu.started += instance.OnInventoryMenu;
             @InventoryMenu.performed += instance.OnInventoryMenu;
             @InventoryMenu.canceled += instance.OnInventoryMenu;
@@ -1951,12 +1877,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @InventoryIndexSelect.started += instance.OnInventoryIndexSelect;
             @InventoryIndexSelect.performed += instance.OnInventoryIndexSelect;
             @InventoryIndexSelect.canceled += instance.OnInventoryIndexSelect;
-            @Confirm_Gamepad.started += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled += instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled += instance.OnCancel_Gamepad;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1976,6 +1896,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
             @InventoryMenu.started -= instance.OnInventoryMenu;
             @InventoryMenu.performed -= instance.OnInventoryMenu;
             @InventoryMenu.canceled -= instance.OnInventoryMenu;
@@ -1991,12 +1914,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @InventoryIndexSelect.started -= instance.OnInventoryIndexSelect;
             @InventoryIndexSelect.performed -= instance.OnInventoryIndexSelect;
             @InventoryIndexSelect.canceled -= instance.OnInventoryIndexSelect;
-            @Confirm_Gamepad.started -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled -= instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled -= instance.OnCancel_Gamepad;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -2023,8 +1940,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Default;
-    private readonly InputAction m_UI_Confirm_Gamepad;
-    private readonly InputAction m_UI_Cancel_Gamepad;
     private readonly InputAction m_UI_NotUsed;
     private readonly InputAction m_UI_Point;
     private readonly InputAction m_UI_Click;
@@ -2042,8 +1957,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @Default => m_Wrapper.m_UI_Default;
-        public InputAction @Confirm_Gamepad => m_Wrapper.m_UI_Confirm_Gamepad;
-        public InputAction @Cancel_Gamepad => m_Wrapper.m_UI_Cancel_Gamepad;
         public InputAction @NotUsed => m_Wrapper.m_UI_NotUsed;
         public InputAction @Point => m_Wrapper.m_UI_Point;
         public InputAction @Click => m_Wrapper.m_UI_Click;
@@ -2076,12 +1989,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Default.started += instance.OnDefault;
             @Default.performed += instance.OnDefault;
             @Default.canceled += instance.OnDefault;
-            @Confirm_Gamepad.started += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled += instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled += instance.OnCancel_Gamepad;
             @NotUsed.started += instance.OnNotUsed;
             @NotUsed.performed += instance.OnNotUsed;
             @NotUsed.canceled += instance.OnNotUsed;
@@ -2125,12 +2032,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Default.started -= instance.OnDefault;
             @Default.performed -= instance.OnDefault;
             @Default.canceled -= instance.OnDefault;
-            @Confirm_Gamepad.started -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled -= instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled -= instance.OnCancel_Gamepad;
             @NotUsed.started -= instance.OnNotUsed;
             @NotUsed.performed -= instance.OnNotUsed;
             @NotUsed.canceled -= instance.OnNotUsed;
@@ -2179,8 +2080,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Puzzle_GamepadSelection;
     private readonly InputAction m_Puzzle_Interact;
     private readonly InputAction m_Puzzle_Cancel;
-    private readonly InputAction m_Puzzle_Confirm_Gamepad;
-    private readonly InputAction m_Puzzle_Cancel_Gamepad;
     public struct PuzzleActions
     {
         private @PlayerActionInput m_Wrapper;
@@ -2188,8 +2087,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         public InputAction @GamepadSelection => m_Wrapper.m_Puzzle_GamepadSelection;
         public InputAction @Interact => m_Wrapper.m_Puzzle_Interact;
         public InputAction @Cancel => m_Wrapper.m_Puzzle_Cancel;
-        public InputAction @Confirm_Gamepad => m_Wrapper.m_Puzzle_Confirm_Gamepad;
-        public InputAction @Cancel_Gamepad => m_Wrapper.m_Puzzle_Cancel_Gamepad;
         public InputActionMap Get() { return m_Wrapper.m_Puzzle; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2208,12 +2105,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
-            @Confirm_Gamepad.started += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed += instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled += instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed += instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled += instance.OnCancel_Gamepad;
         }
 
         private void UnregisterCallbacks(IPuzzleActions instance)
@@ -2227,12 +2118,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
-            @Confirm_Gamepad.started -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.performed -= instance.OnConfirm_Gamepad;
-            @Confirm_Gamepad.canceled -= instance.OnConfirm_Gamepad;
-            @Cancel_Gamepad.started -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.performed -= instance.OnCancel_Gamepad;
-            @Cancel_Gamepad.canceled -= instance.OnCancel_Gamepad;
         }
 
         public void RemoveCallbacks(IPuzzleActions instance)
@@ -2292,8 +2177,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
-        void OnConfirm_Gamepad(InputAction.CallbackContext context);
-        void OnCancel_Gamepad(InputAction.CallbackContext context);
     }
     public interface IPlayerActions
     {
@@ -2302,13 +2185,12 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
         void OnInventoryMenu(InputAction.CallbackContext context);
         void OnOptionMenu(InputAction.CallbackContext context);
         void OnInventoryMouseScroll(InputAction.CallbackContext context);
         void OnInventoryNextPrevious(InputAction.CallbackContext context);
         void OnInventoryIndexSelect(InputAction.CallbackContext context);
-        void OnConfirm_Gamepad(InputAction.CallbackContext context);
-        void OnCancel_Gamepad(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -2317,8 +2199,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnDefault(InputAction.CallbackContext context);
-        void OnConfirm_Gamepad(InputAction.CallbackContext context);
-        void OnCancel_Gamepad(InputAction.CallbackContext context);
         void OnNotUsed(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
@@ -2333,7 +2213,5 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         void OnGamepadSelection(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
-        void OnConfirm_Gamepad(InputAction.CallbackContext context);
-        void OnCancel_Gamepad(InputAction.CallbackContext context);
     }
 }

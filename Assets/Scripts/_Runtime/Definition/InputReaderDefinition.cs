@@ -58,6 +58,7 @@ namespace Personal.Definition
 
 		public event Action<Vector2> OnDpadEvent;
 
+		public PlayerActionInput PlayerActionInput { get; private set; }
 		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
 		Dictionary<ActionMapType, InputControllerInfo> inputActionMapDictionary = new Dictionary<ActionMapType, InputControllerInfo>();
@@ -65,18 +66,18 @@ namespace Personal.Definition
 
 		public void Initialize()
 		{
-			PlayerActionInput playerActionInput = new PlayerActionInput();
+			PlayerActionInput = new PlayerActionInput();
 
-			playerActionInput.BasicControl.SetCallbacks(this);
-			playerActionInput.Player.SetCallbacks(this);
-			playerActionInput.UI.SetCallbacks(this);
-			playerActionInput.Puzzle.SetCallbacks(this);
+			PlayerActionInput.BasicControl.SetCallbacks(this);
+			PlayerActionInput.Player.SetCallbacks(this);
+			PlayerActionInput.UI.SetCallbacks(this);
+			PlayerActionInput.Puzzle.SetCallbacks(this);
 
 			inputActionMapDictionary.Clear();
-			inputActionMapDictionary.Add(ActionMapType.BasicControl, new InputControllerInfo(playerActionInput.BasicControl, InputManager.Instance.BasicControlInputController));
-			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(playerActionInput.Player, InputManager.Instance.FPSInputController));
-			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(playerActionInput.UI, InputManager.Instance.UIInputController));
-			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(playerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
+			inputActionMapDictionary.Add(ActionMapType.BasicControl, new InputControllerInfo(PlayerActionInput.BasicControl, InputManager.Instance.BasicControlInputController));
+			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(PlayerActionInput.Player, InputManager.Instance.FPSInputController));
+			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(PlayerActionInput.UI, InputManager.Instance.UIInputController));
+			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(PlayerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));
 
 			foreach (var actionMap in inputActionMapDictionary)
 			{
@@ -106,28 +107,22 @@ namespace Personal.Definition
 
 		public void OnInteract(InputAction.CallbackContext context)
 		{
-			SetButtonEvent(context.started, OnInteractEvent);
+			if (InputManager.Instance.IsCurrentDeviceMouse || isUSInteract)
+			{
+				SetButtonEvent(context.started, OnInteractEvent);
+				return;
+			}
+			SetButtonEvent(context.started, OnCancelEvent);
 		}
 
 		public void OnCancel(InputAction.CallbackContext context)
 		{
-			SetButtonEvent(context.started, OnCancelEvent);
-		}
-
-		public void OnConfirm_Gamepad(InputAction.CallbackContext context)
-		{
-			if (isUSInteract)
-				SetButtonEvent(context.started, OnInteractEvent);
-			else
+			if (InputManager.Instance.IsCurrentDeviceMouse || isUSInteract)
+			{
 				SetButtonEvent(context.started, OnCancelEvent);
-		}
-
-		public void OnCancel_Gamepad(InputAction.CallbackContext context)
-		{
-			if (isUSInteract)
-				SetButtonEvent(context.started, OnCancelEvent);
-			else
-				SetButtonEvent(context.started, OnInteractEvent);
+				return;
+			}
+			SetButtonEvent(context.started, OnInteractEvent);
 		}
 
 		/// ------------------------------------------------------------
