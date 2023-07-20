@@ -31,8 +31,6 @@ namespace Personal.FSM.Character
 
 		public override UniTask OnExit()
 		{
-			transform.rotation = Quaternion.identity;
-
 			vCam.LookAt = null;
 			vCam.Priority = 0;
 
