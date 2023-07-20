@@ -17,7 +17,7 @@ namespace Personal.UI
 			UIManager.Instance.OptionUI.OpenWindow();
 		}
 
-		void OnDisable()
+		void OnDestroy()
 		{
 			button.onClick.RemoveAllListeners();
 		}

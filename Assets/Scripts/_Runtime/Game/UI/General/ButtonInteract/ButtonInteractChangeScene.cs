@@ -23,7 +23,7 @@ namespace Personal.UI
 			CursorManager.Instance.SetToMouseCursor(false);
 		}
 
-		void OnDisable()
+		void OnDestroy()
 		{
 			button.onClick.RemoveAllListeners();
 		}

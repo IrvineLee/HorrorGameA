@@ -7,7 +7,7 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerLookAtState : PlayerBaseState
+	public class PlayerPOVControlState : PlayerBaseState
 	{
 		protected CinemachineVirtualCamera vCam;
 		protected FPSController fpsController;
@@ -17,15 +17,13 @@ namespace Personal.FSM.Character
 			base.OnEnter();
 
 			fpsController = StageManager.Instance.PlayerController.FPSController;
-
-			fpsController.enabled = false;
-			fpsController.ResetAnimationBlend();
+			fpsController.enabled = true;
 
 			if (playerFSM.LookAtTarget)
 			{
 				vCam = GetComponentInChildren<CinemachineVirtualCamera>();
 				vCam.LookAt = playerFSM.LookAtTarget;
-				vCam.Priority = 20;
+				vCam.Priority = 30;
 			}
 
 			return UniTask.CompletedTask;
@@ -33,13 +31,11 @@ namespace Personal.FSM.Character
 
 		public override UniTask OnExit()
 		{
-			if (playerFSM.LookAtTarget)
-			{
-				vCam.LookAt = null;
-				vCam.Priority = 0;
-			}
+			transform.rotation = Quaternion.identity;
 
-			fpsController.enabled = true;
+			vCam.LookAt = null;
+			vCam.Priority = 0;
+
 			return base.OnExit();
 		}
 	}

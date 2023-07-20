@@ -3,11 +3,10 @@ using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
-using Personal.FSM;
 using Personal.FSM.Character;
 using Personal.Character.NPC;
 using Personal.Manager;
-using Helper;
+using Cinemachine;
 
 namespace Personal.InteractiveObject
 {
@@ -16,48 +15,59 @@ namespace Personal.InteractiveObject
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 		protected HeadModelLookAt headModelLookAt;
 
-		protected Camera cam;
-
-		CoroutineRun lookAtCR = new CoroutineRun();
-		Type initiatorType;
-
 		protected override void Awake()
 		{
 			base.Awake();
 
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();
-
-			cam = StageManager.Instance.MainCamera;
 		}
 
 		protected override async UniTask HandleInteraction()
 		{
-			if (InitiatorStateMachine.GetType() == typeof(PlayerStateMachine))
-			{
-				initiatorType = typeof(PlayerLookAtState);
-			}
-
-			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
-			await HandleDialogue(ifsmHandler);
+			await HandleDialogue();
 		}
 
 		/// <summary>
-		/// Handle only dialogue talking with interactables.
+		/// Handle dialogue talking with interactables.
 		/// </summary>
 		/// <param name="ifsmHandler"></param>
 		/// <returns></returns>
-		async UniTask HandleDialogue(IFSMHandler ifsmHandler)
+		async UniTask HandleDialogue()
 		{
 			dialogueSystemTrigger.OnUse(transform);
 
-			ifsmHandler?.OnBegin(initiatorType);
+			// Enable LookAt state
+			InitiatorStateMachine.SwitchToState(typeof(PlayerLookAtState)).Forget();
 			headModelLookAt?.SetLookAtTarget(true);
 
-			await UniTask.WaitUntil(() => lookAtCR.IsDone && DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+			await UniTask.NextFrame();
+			await UniTask.WaitUntil(() => !StageManager.Instance.CinemachineBrain.IsBlending);
 
+			// Enable POV control state.
+			SetRotationToPOVControl();
+			InitiatorStateMachine.SwitchToState(typeof(PlayerPOVControlState)).Forget();
+
+			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+
+			// Switch back to default standard state.
 			headModelLookAt?.SetLookAtTarget(false);
-			ifsmHandler?.OnExit();
+			InitiatorStateMachine.SwitchToState(typeof(PlayerStandardState)).Forget();
+
+			InitiatorStateMachine.SetLookAtTarget(null);
+		}
+
+		void SetRotationToPOVControl()
+		{
+			var stateDictionary = ((PlayerStateMachine)InitiatorStateMachine).StateDictionary;
+
+			// Get lookAtState virtual camera.
+			stateDictionary.TryGetValue(typeof(PlayerLookAtState), out var lookAtState);
+			var vCam = lookAtState.GetComponentInChildren<CinemachineVirtualCamera>();
+
+			// Replace the rotation onto the POV control state.
+			stateDictionary.TryGetValue(typeof(PlayerPOVControlState), out var povControlState);
+			povControlState.transform.rotation = vCam.transform.rotation;
 		}
 	}
 }
