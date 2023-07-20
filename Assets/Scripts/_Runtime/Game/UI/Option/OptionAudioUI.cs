@@ -45,6 +45,8 @@ namespace Personal.UI.Option
 		/// <returns></returns>
 		public override void InitialSetup()
 		{
+			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
+
 			HandleLoadDataToUI();
 			RegisterEventsForUI();
 			RegisterChangesMadeEvents();

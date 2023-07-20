@@ -24,38 +24,52 @@ namespace Personal.UI
 		protected List<TextMeshProUGUI> stringTMPList = new();
 
 		float lerpWidth;
-		bool isInitalized;
 
 		CoroutineRun lerpCR = new();
 
 		protected virtual void HandleSelectionValueChangedEvent() { }
 
-		protected override void Initialize()
+		/// <summary>
+		/// Initialize the pre-defined values in inspector.
+		/// </summary>
+		public override void Initialize()
 		{
-			if (stringList.Count <= 0 || isInitalized) return;
+			if (stringList.Count <= 0) return;
 
 			SpawnRequiredSelection();
 			HandleButtonVisibility();
 		}
 
+		/// <summary>
+		/// This is used to add the selections to the list after starting the game.
+		/// Useful for screen resolutions etc.
+		/// </summary>
+		/// <param name="stringList"></param>
 		public void AddToListAndInitalize(List<string> stringList)
 		{
 			this.stringList = new List<string>(stringList);
 			Initialize();
 		}
 
+		/// <summary>
+		/// Used to set the current index in the list.
+		/// </summary>
+		/// <param name="currentActiveIndex"></param>
 		public void SetCurrentIndex(int currentActiveIndex)
 		{
-			if (!isInitalized) Initialize();
-
 			this.currentActiveIndex = currentActiveIndex;
 			selectionParentTrans.localPosition = selectionParentTrans.localPosition.With(x: currentActiveIndex * (-lerpWidth));
 
 			HandleButtonVisibility();
 		}
 
+		/// <summary>
+		/// Button pressed left or right.
+		/// </summary>
+		/// <param name="isNext"></param>
 		public override void NextSelection(bool isNext)
 		{
+			if (stringList.Count <= 0) return;
 			if (!lerpCR.IsDone) return;
 			if ((isNext && currentActiveIndex >= stringList.Count - 1) ||
 				(!isNext && currentActiveIndex == 0)) return;
@@ -95,8 +109,6 @@ namespace Personal.UI
 			// Set the events.
 			leftButton.onClick.AddListener(() => NextSelection(false));
 			rightButton.onClick.AddListener(() => NextSelection(true));
-
-			isInitalized = true;
 		}
 
 		void HandleButtonVisibility()

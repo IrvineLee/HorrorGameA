@@ -8,7 +8,7 @@ namespace Personal.UI
 		[SerializeField] float addValue = 1;
 		Slider slider;
 
-		protected override void Initialize()
+		public override void Initialize()
 		{
 			slider = GetComponentInChildren<Slider>();
 		}

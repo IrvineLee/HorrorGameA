@@ -14,7 +14,7 @@ namespace Personal.UI
 
 		public List<string> DisplayStrList { get => displayStrList; }
 
-		protected override void Initialize()
+		public override void Initialize()
 		{
 			base.Initialize();
 
