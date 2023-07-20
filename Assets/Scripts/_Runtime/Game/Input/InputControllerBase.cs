@@ -10,7 +10,6 @@ namespace Personal.InputProcessing
 		protected InputReaderDefinition inputReaderDefinition;
 
 		public Vector2 Move { get; protected set; }
-		public Vector2 MoveOnce { get; protected set; }
 		public Vector2 Look { get; protected set; }
 
 		public bool IsInteract { get; protected set; }
@@ -26,7 +25,7 @@ namespace Personal.InputProcessing
 			ResetClicks();
 		}
 
-		protected void CloseMenu()
+		protected virtual void CloseMenu()
 		{
 			UIManager.Instance.CloseWindowStack();
 		}
@@ -35,8 +34,6 @@ namespace Personal.InputProcessing
 		{
 			IsInteract = false;
 			IsCancel = false;
-
-			MoveOnce = Vector2.zero;
 		}
 
 		protected virtual void OnDisable()

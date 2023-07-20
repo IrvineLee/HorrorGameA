@@ -820,6 +820,15 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""CancelOptionMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3065fb1-b678-4771-ac8a-4ec008cddcc9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Default"",
                     ""type"": ""Button"",
                     ""id"": ""fdf461f3-9183-407b-a282-557a9335f36e"",
@@ -1297,6 +1306,28 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1cfc6cdb-6243-4275-b720-64b9e8c551f2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""CancelOptionMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23c476bd-8b8d-447d-90bf-9768a5e5da45"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""CancelOptionMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1664,6 +1695,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         m_UI_TabSwitch = m_UI.FindAction("TabSwitch", throwIfNotFound: true);
         m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+        m_UI_CancelOptionMenu = m_UI.FindAction("CancelOptionMenu", throwIfNotFound: true);
         m_UI_Default = m_UI.FindAction("Default", throwIfNotFound: true);
         m_UI_NotUsed = m_UI.FindAction("NotUsed", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -1939,6 +1971,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TabSwitch;
     private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_Cancel;
+    private readonly InputAction m_UI_CancelOptionMenu;
     private readonly InputAction m_UI_Default;
     private readonly InputAction m_UI_NotUsed;
     private readonly InputAction m_UI_Point;
@@ -1956,6 +1989,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         public InputAction @TabSwitch => m_Wrapper.m_UI_TabSwitch;
         public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+        public InputAction @CancelOptionMenu => m_Wrapper.m_UI_CancelOptionMenu;
         public InputAction @Default => m_Wrapper.m_UI_Default;
         public InputAction @NotUsed => m_Wrapper.m_UI_NotUsed;
         public InputAction @Point => m_Wrapper.m_UI_Point;
@@ -1986,6 +2020,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @CancelOptionMenu.started += instance.OnCancelOptionMenu;
+            @CancelOptionMenu.performed += instance.OnCancelOptionMenu;
+            @CancelOptionMenu.canceled += instance.OnCancelOptionMenu;
             @Default.started += instance.OnDefault;
             @Default.performed += instance.OnDefault;
             @Default.canceled += instance.OnDefault;
@@ -2029,6 +2066,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @CancelOptionMenu.started -= instance.OnCancelOptionMenu;
+            @CancelOptionMenu.performed -= instance.OnCancelOptionMenu;
+            @CancelOptionMenu.canceled -= instance.OnCancelOptionMenu;
             @Default.started -= instance.OnDefault;
             @Default.performed -= instance.OnDefault;
             @Default.canceled -= instance.OnDefault;
@@ -2198,6 +2238,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         void OnTabSwitch(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnCancelOptionMenu(InputAction.CallbackContext context);
         void OnDefault(InputAction.CallbackContext context);
         void OnNotUsed(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);

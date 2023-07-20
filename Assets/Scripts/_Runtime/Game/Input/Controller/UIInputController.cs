@@ -10,23 +10,19 @@ namespace Personal.InputProcessing
 		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
-			inputReaderDefinition.OnMoveOnceEvent += MoveOnceInput;
 			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
 			inputReaderDefinition.OnCancelEvent += CloseMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
+
+			inputReaderDefinition.OnMenuUICancelledEvent += ClosePauseMenu;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
 		{
 			Move = newMoveDirection;
-		}
-
-		void MoveOnceInput(Vector2 newMoveDirection)
-		{
-			MoveOnce = newMoveDirection;
 		}
 
 		void InteractInput()
@@ -42,6 +38,19 @@ namespace Personal.InputProcessing
 		/// ------------------------------------------------------------------------
 		/// ---------------------------- Option events -----------------------------
 		/// ------------------------------------------------------------------------
+
+		protected override void CloseMenu()
+		{
+			// Since gamepad uses the start button to open/close the initial pause menu, do not allow the cancel button to close it.
+			if (UIManager.WindowStack.Count <= 1) return;
+			base.CloseMenu();
+		}
+
+		void ClosePauseMenu()
+		{
+			if (UIManager.WindowStack.Count > 1) return;
+			base.CloseMenu();
+		}
 
 		void TabSwitch(bool isNext)
 		{

@@ -5,6 +5,7 @@ namespace Personal.UI
 {
 	public class UISelectionSlider : UISelectionBase
 	{
+		[SerializeField] float addValue = 1;
 		Slider slider;
 
 		protected override void Initialize()
@@ -14,7 +15,7 @@ namespace Personal.UI
 
 		public override void NextSelection(bool isNext)
 		{
-			slider.value = isNext ? slider.value + 1 : slider.value - 1;
+			slider.value = isNext ? slider.value + addValue : slider.value - addValue;
 		}
 	}
 }

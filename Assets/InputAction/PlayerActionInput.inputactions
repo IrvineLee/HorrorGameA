@@ -798,6 +798,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "CancelOptionMenu",
+                    "type": "Button",
+                    "id": "b3065fb1-b678-4771-ac8a-4ec008cddcc9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Default",
                     "type": "Button",
                     "id": "fdf461f3-9183-407b-a282-557a9335f36e",
@@ -1273,6 +1282,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1cfc6cdb-6243-4275-b720-64b9e8c551f2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "CancelOptionMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23c476bd-8b8d-447d-90bf-9768a5e5da45",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CancelOptionMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

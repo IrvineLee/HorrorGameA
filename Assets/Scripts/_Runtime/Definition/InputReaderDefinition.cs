@@ -38,7 +38,6 @@ namespace Personal.Definition
 		// FPS controls
 		public event Action<Vector2> OnLookEvent;
 		public event Action<Vector2> OnMoveEvent;
-		public event Action<Vector2> OnMoveOnceEvent;
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnSprintEvent;
@@ -51,6 +50,8 @@ namespace Personal.Definition
 		public event Action OnMenuUIPressedEvent;
 		public event Action OnMenuUIDefaultPressedEvent;
 		public event Action<bool> OnTabSwitchEvent;
+
+		public event Action OnMenuUICancelledEvent;
 
 		// Inventory
 		public event Action<int> OnInventoryNextPreviousEvent;
@@ -96,8 +97,7 @@ namespace Personal.Definition
 
 		public void OnMove(InputAction.CallbackContext context)
 		{
-			if (context.started) OnMoveOnceEvent?.Invoke(context.ReadValue<Vector2>());
-			else OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
+			OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
 		}
 
 		public void OnLook(InputAction.CallbackContext context)
@@ -185,6 +185,11 @@ namespace Personal.Definition
 		void PlayerActionInput.IUIActions.OnTabSwitch(InputAction.CallbackContext context)
 		{
 			SetButtonEvent(context.started, () => OnTabSwitchEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
+		}
+
+		void PlayerActionInput.IUIActions.OnCancelOptionMenu(InputAction.CallbackContext context)
+		{
+			SetButtonEvent(context.started, OnMenuUICancelledEvent);
 		}
 
 		/// ------------------------------------------------------------

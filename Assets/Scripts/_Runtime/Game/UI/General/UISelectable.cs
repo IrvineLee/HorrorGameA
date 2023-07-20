@@ -93,7 +93,6 @@ namespace Personal.UI
 			{
 				selectable.targetGraphic.color = isSelectedColor ? selectable.colors.selectedColor : selectable.colors.normalColor;
 			}
-
 		}
 
 		void OnDisable()

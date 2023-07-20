@@ -18,7 +18,7 @@ namespace Personal.UI
 		int currentActiveIndex;
 
 		ScrollRect scrollRect;
-		CoroutineRun waitCR = new();
+		CoroutineRun waitCR = new CoroutineRun();
 
 		protected override void Initialize()
 		{
@@ -34,26 +34,31 @@ namespace Personal.UI
 		void Update()
 		{
 			if (InputManager.Instance.IsCurrentDeviceMouse) return;
-			if (InputManager.Instance.UIInputController.MoveOnce == Vector2.zero && !waitCR.IsDone) return;
-
-			waitCR.StopCoroutine();
+			if (InputManager.Instance.UIInputController.Move == Vector2.zero) return;
+			if (!waitCR.IsDone) return;
 
 			Vector2 move = InputManager.Instance.UIInputController.Move;
-			bool isHold = move != Vector2.zero;
+			HandleMovement(GetHorizontalOrVericalMovement(move));
 
-			if (isHold)
-			{
-				waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY);
-			}
-			else
-			{
-				move = InputManager.Instance.UIInputController.MoveOnce;
-			}
-
-			HandleMovement(move);
+			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
 		}
 
 		public void SetCurrentIndex(int index) { currentActiveIndex = index; }
+
+		Vector2 GetHorizontalOrVericalMovement(Vector2 move)
+		{
+			if (MathF.Abs(move.x) > MathF.Abs(move.y))
+			{
+				move.x = move.x > 0 ? 1 : -1;
+				move.y = 0;
+			}
+			else
+			{
+				move.x = 0;
+				move.y = move.y > 0 ? 1 : -1;
+			}
+			return move;
+		}
 
 		void HandleMovement(Vector2 move)
 		{
