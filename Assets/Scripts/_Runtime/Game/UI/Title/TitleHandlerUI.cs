@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Helper;
 
@@ -13,13 +14,16 @@ namespace Personal.UI.Option
 		[Tooltip("How long \"Press Any Button\" remain on screen after pressing button")]
 		[SerializeField] float anyButtonWaitDuration = 0.5f;
 
-		protected override void Initialize()
+		protected override async void Initialize()
 		{
 			base.Initialize();
+			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
 
 			InitialSetup();
 			InputManager.Instance.SetToDefaultActionMap();
 			InputManager.OnAnyButtonPressed += Begin;
+
+			pressAnyButton.gameObject.SetActive(true);
 		}
 
 		void Begin()
