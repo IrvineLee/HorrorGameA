@@ -6,12 +6,13 @@ using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
 {
-	public class InventoryHandlerUI : MenuUIBase
+	public class InventoryHandlerUI : UIHandlerBase
 	{
 		[SerializeField] ItemInACircle3DUI itemInACircle3DUI = null;
 
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
 			itemInACircle3DUI.InitialSetup();
 		}
 

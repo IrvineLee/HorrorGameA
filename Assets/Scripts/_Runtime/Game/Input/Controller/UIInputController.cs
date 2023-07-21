@@ -42,13 +42,13 @@ namespace Personal.InputProcessing
 		protected override void CloseMenu()
 		{
 			// Since gamepad uses the start button to open/close the initial pause menu, do not allow the cancel button to close it.
-			if (UIManager.WindowStack.Count <= 1) return;
+			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Pause) return;
 			base.CloseMenu();
 		}
 
 		void ClosePauseMenu()
 		{
-			if (UIManager.WindowStack.Count > 1) return;
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Pause) return;
 			base.CloseMenu();
 		}
 

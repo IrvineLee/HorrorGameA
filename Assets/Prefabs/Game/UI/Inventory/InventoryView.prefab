@@ -650,7 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInterfaceType: 0
-  windowAnimatorParent: {fileID: 0}
+  windowUIAnimator: {fileID: 0}
   contentTrans: {fileID: 7219484425574526785}
   radius: 2
   rotateDuration: 0.25
@@ -893,6 +893,7 @@ GameObject:
   - component: {fileID: 7096533705090088451}
   - component: {fileID: 7975888901899041570}
   - component: {fileID: 6165235878695349744}
+  - component: {fileID: 1076112871162225770}
   m_Layer: 5
   m_Name: InventoryView
   m_TagString: Untagged
@@ -914,7 +915,7 @@ RectTransform:
   m_Children:
   - {fileID: 7219484425611620812}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -955,7 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInterfaceType: 3
-  windowAnimatorParent: {fileID: 7096533705090088451}
+  windowUIAnimator: {fileID: 1076112871162225770}
   itemInACircle3DUI: {fileID: 2165045295288475311}
 --- !u!114 &6165235878695349744
 MonoBehaviour:
@@ -970,3 +971,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionMapType: 1000
+--- !u!114 &1076112871162225770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975888901899041572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a19982f6f8c2174886cf4469f82b375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7096533705090088451}
+  animationName: IsEnable

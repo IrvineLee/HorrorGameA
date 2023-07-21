@@ -31,8 +31,11 @@ namespace Personal.FSM.Character
 
 		public override UniTask OnExit()
 		{
-			vCam.LookAt = null;
-			vCam.Priority = 0;
+			if (vCam)
+			{
+				vCam.LookAt = null;
+				vCam.Priority = 0;
+			}
 
 			return base.OnExit();
 		}

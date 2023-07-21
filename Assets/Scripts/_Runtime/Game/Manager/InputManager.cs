@@ -1,16 +1,18 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.Utilities;
 
+using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.Definition;
 using Helper;
 using static Personal.Definition.InputReaderDefinition;
-using Sirenix.OdinInspector;
-using UnityEngine.InputSystem.UI;
-using Cysharp.Threading.Tasks;
+using PixelCrushers.DialogueSystem;
+using Personal.Dialogue;
 
 namespace Personal.Manager
 {
@@ -72,6 +74,8 @@ namespace Personal.Manager
 		InputActionReference submitActionReference;
 		InputActionReference cancelActionReference;
 
+		DialogueSetup dialogueSetup;
+
 		InputDevice previousDevice = null;
 		IconDisplayType iconDisplayType;
 
@@ -84,6 +88,8 @@ namespace Personal.Manager
 			UIInputController = GetComponentInChildren<UIInputController>(true);
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
 			inputSystemUIInputModule = GetComponentInChildren<InputSystemUIInputModule>(true);
+
+			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
 
 			submitActionReference = inputSystemUIInputModule.submit;
 			cancelActionReference = inputSystemUIInputModule.cancel;
@@ -195,15 +201,13 @@ namespace Personal.Manager
 		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
-			if (change != InputActionChange.ActionStarted) return;
-
-			// Get the last input device.
-			var lastControl = ((InputAction)obj).activeControl;
-
-			// Return if it's the same.
-			if (lastControl.device == previousDevice) return;
-
-			HandleInputDeviceCompare(lastControl.device);
+			if (change == InputActionChange.ActionStarted ||
+				(dialogueSetup.IsWaitingResponse && change == InputActionChange.ActionPerformed))
+			{
+				// Handle input device compare.
+				var lastControl = ((InputAction)obj).activeControl;
+				HandleInputDeviceCompare(lastControl.device);
+			}
 		}
 
 		/// <summary>
@@ -212,6 +216,7 @@ namespace Personal.Manager
 		/// <param name="inputDevice"></param>
 		void HandleInputDeviceCompare(InputDevice inputDevice)
 		{
+			// Return if it's the same.
 			if (previousDevice == inputDevice) return;
 
 			// Get the input type.

@@ -23,6 +23,7 @@ namespace Personal.UI
 
 		protected override void HandleInput()
 		{
+			if (playerInventory.InventoryList.Count <= 0) return;
 			if (uIInputController.Move == Vector2.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 

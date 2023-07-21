@@ -46,42 +46,8 @@ namespace Personal.UI.Option
 			base.InitialSetup();
 			IDefaultHandler = this;
 
-			// Initialize all the tabs and set onClick listener.
-			for (int i = 0; i < tabList.Count; i++)
-			{
-				Tab tab = tabList[i];
-				int index = i;
-
-				// Setup the tabs.
-				tab.OptionMenuUI.InitialSetup();
-				tab.SelectButton.onClick.AddListener(() =>
-				{
-					currentMenuTab = tab.OptionMenuUI.MenuTab;
-					currentMenuIndex = index;
-
-					DisableAllTabs();
-
-					tab.SelectButton.interactable = false;
-					tab.OptionMenuUI.gameObject.SetActive(true);
-				});
-
-				tabDictionary.Add(tab.OptionMenuUI.MenuTab, tab);
-			}
-
-			// Set game tab to be in a pressed state.
-			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
-			gameTab.SelectButton.interactable = false;
-		}
-
-		protected override void AdditionalSetup()
-		{
-			List<UISelectable> uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
-			List<GameObject> goList = tabList.Select((tab) => tab.SelectButton.gameObject).ToList();
-
-			foreach (var selectable in uiSelectableList)
-			{
-				selectable.AddIgnoredSelection(goList);
-			}
+			InitializeTabs();
+			InitializeIgnoredSelection();
 		}
 
 		public override void OpenWindow()
@@ -130,6 +96,52 @@ namespace Personal.UI.Option
 
 			tabList[index].SelectButton.onClick.Invoke();
 			currentMenuIndex = index;
+		}
+
+		/// <summary>
+		/// Initialize the tabs.
+		/// </summary>
+		void InitializeTabs()
+		{
+			// Initialize all the tabs and set onClick listener.
+			for (int i = 0; i < tabList.Count; i++)
+			{
+				Tab tab = tabList[i];
+				int index = i;
+
+				// Setup the tabs.
+				tab.OptionMenuUI.InitialSetup();
+				tab.SelectButton.onClick.AddListener(() =>
+				{
+					currentMenuTab = tab.OptionMenuUI.MenuTab;
+					currentMenuIndex = index;
+
+					DisableAllTabs();
+
+					tab.SelectButton.interactable = false;
+					tab.OptionMenuUI.gameObject.SetActive(true);
+				});
+
+				tabDictionary.Add(tab.OptionMenuUI.MenuTab, tab);
+			}
+
+			// Set game tab to be in a pressed state.
+			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
+			gameTab.SelectButton.interactable = false;
+		}
+
+		/// <summary>
+		/// Initialize ignored selections for UI hightlight selection.
+		/// </summary>
+		void InitializeIgnoredSelection()
+		{
+			List<UISelectable> uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
+			List<GameObject> goList = tabList.Select((tab) => tab.SelectButton.gameObject).ToList();
+
+			foreach (var selectable in uiSelectableList)
+			{
+				selectable.AddIgnoredSelection(goList);
+			}
 		}
 
 		/// <summary>

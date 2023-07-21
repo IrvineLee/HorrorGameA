@@ -24,13 +24,6 @@ namespace Personal.UI
 			{
 				selection.InitialSetup();
 			}
-
-			AdditionalSetup();
 		}
-
-		/// <summary>
-		/// Additional setup for other things specific to their classes.
-		/// </summary>
-		protected virtual void AdditionalSetup() { }
 	}
 }
