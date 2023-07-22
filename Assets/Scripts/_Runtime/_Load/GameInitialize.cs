@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.Preloader;
+using Personal.Constant;
+using Helper;
 
 namespace Personal.GameState
 {
@@ -32,6 +34,12 @@ namespace Personal.GameState
 		protected virtual void Initialize() { }
 
 		/// <summary>
+		/// This gets called when scene is in Title scene. 
+		/// </summary>
+		/// <returns></returns>
+		protected virtual void OnTitleScene() { }
+
+		/// <summary>
 		/// This will get called on the next frame of Initialize.
 		/// </summary>
 		protected virtual void OnMainScene() { }
@@ -43,7 +51,13 @@ namespace Personal.GameState
 
 		async UniTask HandleScene()
 		{
-			if (!GameSceneManager.Instance.IsMainScene()) return;
+			if (!GameSceneManager.Instance.IsMainScene())
+			{
+				if (GameSceneManager.Instance.IsScene(SceneType.Title.GetStringValue()))
+					OnTitleScene();
+
+				return;
+			}
 
 			// Wait for every GameInitialize script to call its Initialize first before this OnMainScene.
 			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
