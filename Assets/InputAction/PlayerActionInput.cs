@@ -793,6 +793,15 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""6e38fabc-1098-4c2a-98ba-99fe909ebfbd"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""TabSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""ffc80fe2-086a-4757-83aa-ee70fafb3acd"",
@@ -1309,22 +1318,44 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1cfc6cdb-6243-4275-b720-64b9e8c551f2"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""af3ec31b-758e-471e-a6f2-8fe79163f0f3"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f354afd-72cb-4d0b-b1a4-2bcdd7a8f33d"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertX=false),StickDeadzone,ScaleVector2(x=300,y=300)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""586e70f4-4675-4935-a886-d7604bc8d432"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CancelOptionMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""23c476bd-8b8d-447d-90bf-9768a5e5da45"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""id"": ""1fd21f06-42e2-449f-ae87-d7d585e3e4d7"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""KeyboardMouse"",
                     ""action"": ""CancelOptionMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1692,6 +1723,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
+        m_UI_Look = m_UI.FindAction("Look", throwIfNotFound: true);
         m_UI_TabSwitch = m_UI.FindAction("TabSwitch", throwIfNotFound: true);
         m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
@@ -1968,6 +2000,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Move;
+    private readonly InputAction m_UI_Look;
     private readonly InputAction m_UI_TabSwitch;
     private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_Cancel;
@@ -1986,6 +2019,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         private @PlayerActionInput m_Wrapper;
         public UIActions(@PlayerActionInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_UI_Move;
+        public InputAction @Look => m_Wrapper.m_UI_Look;
         public InputAction @TabSwitch => m_Wrapper.m_UI_TabSwitch;
         public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
@@ -2011,6 +2045,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
             @TabSwitch.started += instance.OnTabSwitch;
             @TabSwitch.performed += instance.OnTabSwitch;
             @TabSwitch.canceled += instance.OnTabSwitch;
@@ -2057,6 +2094,9 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
             @TabSwitch.started -= instance.OnTabSwitch;
             @TabSwitch.performed -= instance.OnTabSwitch;
             @TabSwitch.canceled -= instance.OnTabSwitch;
@@ -2235,6 +2275,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnTabSwitch(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);

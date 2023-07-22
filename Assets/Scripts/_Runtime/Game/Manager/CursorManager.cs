@@ -98,7 +98,7 @@ namespace Personal.Manager
 			Cursor.lockState = CursorLockMode.Confined;
 
 			if (InputManager.Instance.IsCurrentDeviceMouse &&
-				(!GameSceneManager.Instance.IsMainScene() || dialogueSetup.IsWaitingResponse))
+				(!GameSceneManager.Instance.IsMainScene() || dialogueSetup.IsWaitingResponse || !UIManager.IsWindowStackEmpty))
 			{
 				SetToMouseCursor(true);
 				return;
@@ -114,14 +114,7 @@ namespace Personal.Manager
 
 		void OnApplicationFocus(bool hasFocus)
 		{
-			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
-
-			if (GameSceneManager.Instance.IsMainScene() && UIManager.IsWindowStackEmpty)
-			{
-				SetToMouseCursor(false);
-				return;
-			}
-			SetToMouseCursor(true);
+			HandleCursorAndMouseChange();
 		}
 	}
 }

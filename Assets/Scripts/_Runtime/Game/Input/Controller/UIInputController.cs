@@ -2,11 +2,14 @@ using UnityEngine;
 
 using Personal.Manager;
 using Personal.UI;
+using Helper;
 
 namespace Personal.InputProcessing
 {
 	public class UIInputController : InputControllerBase
 	{
+		bool isPressedCancel;
+
 		void OnEnable()
 		{
 			inputReaderDefinition.OnMoveEvent += MoveInput;
@@ -42,13 +45,20 @@ namespace Personal.InputProcessing
 		protected override void CloseMenu()
 		{
 			// Since gamepad uses the start button to open/close the initial pause menu, do not allow the cancel button to close it.
-			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Pause) return;
+			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Pause && !InputManager.Instance.IsCurrentDeviceMouse) return;
+
 			base.CloseMenu();
+
+			// Since the escape button closses both the option and pause menu, prevent it from closing both at the same time.
+			isPressedCancel = true;
+			CoroutineHelper.WaitNextFrame(() => isPressedCancel = false);
 		}
 
 		void ClosePauseMenu()
 		{
+			if (isPressedCancel) return;
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Pause) return;
+
 			base.CloseMenu();
 		}
 

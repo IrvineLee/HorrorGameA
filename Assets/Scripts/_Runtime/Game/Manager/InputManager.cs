@@ -201,13 +201,11 @@ namespace Personal.Manager
 		/// <param name="change"></param>
 		void HandleInputDeviceType(object obj, InputActionChange change)
 		{
-			if (change == InputActionChange.ActionStarted ||
-				(dialogueSetup.IsWaitingResponse && change == InputActionChange.ActionPerformed))
-			{
-				// Handle input device compare.
-				var lastControl = ((InputAction)obj).activeControl;
-				HandleInputDeviceCompare(lastControl.device);
-			}
+			if (change != InputActionChange.ActionStarted) return;
+
+			// Handle input device compare.
+			var lastControl = ((InputAction)obj).activeControl;
+			HandleInputDeviceCompare(lastControl.device);
 		}
 
 		/// <summary>
