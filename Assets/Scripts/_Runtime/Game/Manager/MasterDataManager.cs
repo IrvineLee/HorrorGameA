@@ -17,6 +17,7 @@ namespace Personal.Manager
 		[SerializeField] MasterCashierNPC cashierNPC = null;
 		[SerializeField] MasterWindowUI windowUI = null;
 		[SerializeField] MasterLocalization localization = null;
+		[SerializeField] MasterAchievement achievement = null;
 
 		public MasterBGM Bgm { get => bgm; }
 		public MasterSFX Sfx { get => sfx; }
@@ -24,6 +25,7 @@ namespace Personal.Manager
 		public MasterCashierNPC CashierNPC { get => cashierNPC; }
 		public MasterWindowUI WindowUI { get => windowUI; }
 		public MasterLocalization Localization { get => localization; }
+		public MasterAchievement Achievement { get => achievement; }
 
 		static AsyncOperationHandle<MasterDataManager> handle;
 

@@ -51,13 +51,9 @@ namespace Personal.Manager
 
 		async UniTask HandleProfileLoading()
 		{
-			bool isNewlyCreated = SaveManager.Instance.LoadProfileData();
+			SaveManager.Instance.LoadProfileData();
 			await UniTask.DelayFrame(10, cancellationToken: this.GetCancellationTokenOnDestroy());
 
-			if (!isNewlyCreated) return;
-
-			// To make sure the profile gets created the 1st time around.
-			// You might wanna re-save it if new data are added to the save profile after releasing it.
 			SaveManager.Instance.SaveProfileData();
 		}
 	}

@@ -11,7 +11,6 @@ public class MasterItem : MasterGeneric<ItemEntity, ItemType>
 	{
 		dictionary = new Dictionary<ItemType, ItemEntity>();
 
-		// Somehow using Linq to change it to dictionary makes the comparing results not work.
 		foreach (var entity in Entities)
 		{
 			dictionary.Add(entity.itemType, entity);

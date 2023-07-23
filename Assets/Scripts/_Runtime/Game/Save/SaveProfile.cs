@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+using Personal.Achievement;
 
 namespace Personal.Save
 {
@@ -12,5 +15,19 @@ namespace Personal.Save
 		[SerializeField] OptionSavedData optionSavedData = new OptionSavedData();
 
 		public OptionSavedData OptionSavedData { get => optionSavedData; }
+		public List<AchievementType> UnlockedAchievementList { get; } = new List<AchievementType>();
+
+		public bool AddToAchievement(AchievementType achievementType)
+		{
+			if (UnlockedAchievementList.Contains(achievementType)) return false;
+
+			UnlockedAchievementList.Add(achievementType);
+			return true;
+		}
+
+		public void ResetAchievement()
+		{
+			UnlockedAchievementList.Clear();
+		}
 	}
 }
