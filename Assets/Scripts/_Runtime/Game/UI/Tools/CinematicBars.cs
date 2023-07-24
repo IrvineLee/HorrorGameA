@@ -3,11 +3,14 @@ using UnityEngine.UI;
 using System;
 
 using Helper;
+using Sirenix.OdinInspector;
 
 namespace Personal.UI
 {
 	public class CinematicBars : MonoBehaviour
 	{
+		[AssetsOnly]
+		[SerializeField] Sprite sprite = null;
 		[SerializeField] float duration = 1f;
 
 		[Range(0, 1)]
@@ -40,11 +43,11 @@ namespace Personal.UI
 
 			// Get the start local position.
 			topStartLocalPosition = topBar.localPosition.With(y: topBar.localPosition.y + height);
-			bottomStartLocalPosition = bottomBar.localPosition.With(y: bottomBar.localPosition.y - height);
+			bottomStartLocalPosition = bottomBar.localPosition;
 
 			// Get the end local position.
 			topEndLocalPosition = topBar.localPosition;
-			bottomEndLocalPosition = bottomBar.localPosition;
+			bottomEndLocalPosition = bottomBar.localPosition.With(y: bottomBar.localPosition.y + height);
 
 			// Initialize the local position.
 			topBar.localPosition = topStartLocalPosition;
@@ -55,7 +58,10 @@ namespace Personal.UI
 		{
 			GameObject go = new GameObject(goName, typeof(Image));
 			go.transform.SetParent(transform, false);
-			go.GetComponent<Image>().color = Color.black;
+
+			Image image = go.GetComponent<Image>();
+			image.sprite = sprite;
+			image.transform.localScale = image.transform.localScale.With(y: pivot.y == 0 ? -1 : 1);
 
 			RectTransform rectTransform = go.GetComponent<RectTransform>();
 			rectTransform.pivot = pivot;
