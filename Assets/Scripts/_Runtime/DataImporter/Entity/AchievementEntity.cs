@@ -12,6 +12,5 @@ public class AchievementEntity : GenericEntity
 	public int xboxID = 0;
 	public string steamID = "";
 	public string nameLocalizationKey = "";
-	public string descriptionLocalizationKey = "";
 	public bool isHidden;
 }

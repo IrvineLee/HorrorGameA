@@ -8,7 +8,7 @@ using Helper;
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
 public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiver
 {
-	public enum TableNameTypes
+	public enum TableNameType
 	{
 		NameText = 0,
 		DescriptionText,
@@ -68,8 +68,8 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 		{
 			foreach (var key in keyStr)
 			{
-				LocalizationTextEntity nameTextEntity = GetTableEntity(TableNameTypes.NameText, key);
-				LocalizationTextEntity descriptionTextEntity = GetTableEntity(TableNameTypes.DescriptionText, key);
+				LocalizationTextEntity nameTextEntity = GetTableEntity(TableNameType.NameText, key);
+				LocalizationTextEntity descriptionTextEntity = GetTableEntity(TableNameType.DescriptionText, key);
 
 				keyLocalizationDictionary.Add(key, new Localization(GetValue(language, nameTextEntity), GetValue(language, descriptionTextEntity)));
 			}
@@ -93,12 +93,17 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// </summary>
 	/// <param name="language"></param>
 	/// <returns></returns>
-	public Localization Get(string key)
+	public string Get(TableNameType tableNameType, string key)
 	{
-		activeLocalizedDictionary.TryGetValue(key, out Localization localization);
-		var result = activeLocalizedDictionary.GetOrDefault(key);
+		if (!activeLocalizedDictionary.TryGetValue(key, out Localization localization)) return string.Empty;
 
-		return result;
+		switch (tableNameType)
+		{
+			case TableNameType.NameText: return localization.NameText;
+			case TableNameType.DescriptionText: return localization.DescriptionText;
+		}
+
+		return string.Empty;
 	}
 
 	/// <summary>
@@ -107,13 +112,13 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// <param name="tableNameTypes"></param>
 	/// <param name="key"></param>
 	/// <returns></returns>
-	LocalizationTextEntity GetTableEntity(TableNameTypes tableNameTypes, string key)
+	LocalizationTextEntity GetTableEntity(TableNameType tableNameTypes, string key)
 	{
 		switch (tableNameTypes)
 		{
-			case TableNameTypes.NameText:
+			case TableNameType.NameText:
 				return nameTextDictionary.GetOrDefault(key);
-			case TableNameTypes.DescriptionText:
+			case TableNameType.DescriptionText:
 				return descriptionTextDictionary.GetOrDefault(key);
 		}
 		return null;

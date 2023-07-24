@@ -10,6 +10,7 @@ namespace Personal.UI.Option
 	{
 		[SerializeField] OnEnableFadeInOut pressAnyButton = null;
 		[SerializeField] Transform buttonGroupTrans = null;
+		[SerializeField] Transform creditsMenu = null;
 
 		[Tooltip("How long \"Press Any Button\" remain on screen after pressing button")]
 		[SerializeField] float anyButtonWaitDuration = 0.5f;
@@ -24,6 +25,11 @@ namespace Personal.UI.Option
 			InputManager.OnAnyButtonPressed += Begin;
 
 			pressAnyButton.gameObject.SetActive(true);
+		}
+
+		public void OpenCredits()
+		{
+			creditsMenu.gameObject.SetActive(true);
 		}
 
 		void Begin()
