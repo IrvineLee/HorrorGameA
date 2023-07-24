@@ -183,6 +183,7 @@ namespace Personal.Character.Player
 			// Remove the object from the inventory UI.
 			foreach (var inventory in inventoryList)
 			{
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObject.ParentTrans.gameObject);
 				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ParentTrans.gameObject);
 			}
 		}

@@ -35,7 +35,7 @@ namespace Personal.UI
 				{
 					PauseManager.Instance.ResumeTime();
 
-					StageManager.Instance.PlayerController.Inventory.ResetInventoryUI();
+					StageManager.Instance.ResetStage();
 					UIManager.Instance.CloseAllWindowAndUIInterfaceStack();
 					inputBlockerGO.SetActive(false);
 				};

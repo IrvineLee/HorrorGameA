@@ -67,7 +67,7 @@ namespace Personal.Manager
 		void DoAction(Action inBetweenAction, Action doLast)
 		{
 			inBetweenAction?.Invoke();
-			doLast?.Invoke();
+			CoroutineHelper.WaitNextFrame(() => doLast?.Invoke());
 		}
 
 		async UniTask DoFunc(Func<UniTask<bool>> inBetweenFunc, Action action, float delayAfter)

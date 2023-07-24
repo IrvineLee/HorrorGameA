@@ -11,11 +11,8 @@ namespace Personal.Character
 
 		void Start()
 		{
-			var cam = GetComponentInChildren<Camera>();
-			if (!cam) return;
-
 			PlayerCameraView = GetComponentInChildren<PlayerCameraView>();
-			StageManager.Instance.RegisterCamera(cam);
+			StageManager.Instance.SetMainCameraTransform(transform);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Spawner;
@@ -7,6 +8,7 @@ using Personal.Character.Player;
 using Personal.InteractiveObject;
 using Personal.Transition;
 using Cinemachine;
+using Helper;
 
 namespace Personal.Manager
 {
@@ -30,16 +32,18 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			// The camera in the Title scene.
-			MainCamera = Camera.main;
-
-			DialogueSystemController = FindObjectOfType<DialogueSystemController>();
+			MainCamera = GetComponentInChildren<Camera>();
+			DialogueSystemController = DialogueManager.Instance.GetComponentInChildren<DialogueSystemController>();
 		}
 
-		public void RegisterCamera(Camera cam)
+		public async void SetMainCameraTransform(Transform target)
 		{
-			// Set the camera in Main scene.
-			MainCamera = cam;
+			await UniTask.WaitUntil(() => MainCamera);
+
+			// Set camera transform to MainCamera.
+			MainCamera.transform.position = target.transform.position;
+			MainCamera.transform.rotation = target.transform.rotation;
+
 			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
 		}
 
@@ -72,6 +76,20 @@ namespace Personal.Manager
 		public void SetInteraction(int index)
 		{
 			CashierInteractionIndex = index;
+		}
+
+		public void ResetStage()
+		{
+			// Prevent virtual camera from updating the camera position and rotation.
+			PlayerController.gameObject.SetActive(false);
+
+			CoroutineHelper.WaitEndOfFrame(() =>
+			{
+				MainCamera.transform.localPosition = Vector3.zero;
+				MainCamera.transform.localRotation = Quaternion.identity;
+			});
+
+			PlayerController.Inventory.ResetInventoryUI();
 		}
 	}
 }
