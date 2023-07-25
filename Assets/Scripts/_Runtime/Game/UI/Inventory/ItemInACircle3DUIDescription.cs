@@ -30,7 +30,7 @@ namespace Personal.UI
 			float angle = yAngleToRotate;
 			Action doLast = GetNextAction(false);
 
-			if (uIInputController.Move.x < 0)
+			if (uIInputController.Move.x < 0 || uIInputController.Move.y < 0)
 			{
 				angle = -yAngleToRotate;
 				doLast = GetNextAction(true);
