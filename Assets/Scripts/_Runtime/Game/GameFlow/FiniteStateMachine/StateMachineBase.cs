@@ -11,6 +11,7 @@ namespace Personal.FSM
 		public StateMachineBase InitiatorStateMachine { get; protected set; }
 
 		protected StateBase state;
+		protected bool isPauseStateMachine;
 
 		protected async UniTask SetState(StateBase stateBase)
 		{
@@ -25,5 +26,6 @@ namespace Personal.FSM
 		}
 
 		public virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
+		public void PauseStateMachine(bool isFlag) { isPauseStateMachine = isFlag; }
 	}
 }

@@ -43,7 +43,7 @@ namespace Personal.FSM.Character
 				return;
 			}
 
-			CursorManager.Instance.SetToDefaultCrosshair();
+			CursorManager.Instance.SetToDefaultCenterCrosshair();
 		}
 
 		protected virtual void HandleInteractable(RaycastHit hit) { }

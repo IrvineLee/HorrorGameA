@@ -1,7 +1,9 @@
 using UnityEngine;
 
 using Personal.Manager;
+using Personal.Definition;
 using Personal.Item;
+using Personal.Character.Player;
 using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
@@ -10,9 +12,13 @@ namespace Personal.UI
 	{
 		[SerializeField] ItemInACircle3DUI itemInACircle3DUI = null;
 
+		PlayerController pc;
+
 		public override void InitialSetup()
 		{
 			base.InitialSetup();
+
+			pc = StageManager.Instance.PlayerController;
 			itemInACircle3DUI.InitialSetup();
 		}
 
@@ -21,13 +27,17 @@ namespace Personal.UI
 			base.OpenWindow();
 
 			itemInACircle3DUI.PutObjectsIntoACircle();
+			pc.FSM.PauseStateMachine(true);
+			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.UI_Nothing);
 		}
 
 		public override void CloseWindow(bool isInstant)
 		{
 			base.CloseWindow(isInstant);
 
-			StageManager.Instance.PlayerController.Inventory.UpdateActiveObject();
+			pc.Inventory.UpdateActiveObject();
+			pc.FSM.PauseStateMachine(false);
+			CursorManager.Instance.SetToDefaultCenterCrosshair();
 		}
 
 		/// <summary>

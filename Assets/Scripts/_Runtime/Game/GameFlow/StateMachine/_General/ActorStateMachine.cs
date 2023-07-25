@@ -56,6 +56,7 @@ namespace Personal.FSM
 		void Update()
 		{
 			if (state == null) return;
+			if (isPauseStateMachine) return;
 
 			state.OnUpdateRun();
 		}

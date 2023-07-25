@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using Cysharp.Threading.Tasks;
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
 using Personal.Dialogue;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -17,7 +17,7 @@ namespace Personal.Manager
 
 		[Space]
 		[SerializeField] CursorDefinition cursorDefinition = null;
-		[SerializeField] Image crosshairImage = null;
+		[SerializeField] Image centerCrosshairImage = null;
 
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
 		CursorDefinition.CrosshairType defaultCrosshairType = CursorDefinition.CrosshairType.FPS;
@@ -37,13 +37,13 @@ namespace Personal.Manager
 		protected override void OnTitleScene()
 		{
 			HandleCursorAndMouseChange();
-			SetCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
+			SetCenterCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
 		}
 
 		protected override void OnEarlyMainScene()
 		{
 			SetToMouseCursor(false);
-			SetToDefaultCrosshair();
+			SetToDefaultCenterCrosshair();
 		}
 
 		/// <summary>
@@ -54,39 +54,41 @@ namespace Personal.Manager
 		{
 			InputDeviceManager.instance.SetCursorConfined();
 
-			crosshairImage.gameObject.SetActive(!isFlag);
+			centerCrosshairImage.gameObject.SetActive(!isFlag);
 			mouseCursorHandler.gameObject.SetActive(isFlag);
 		}
 
 		/// <summary>
-		/// This is the crosshair when in FPS mode, NOT when the mouse cursor is enabled,
+		/// This is the center crosshair when in FPS mode, NOT when the mouse cursor is enabled,
 		/// </summary>
 		/// <param name="crosshairType"></param>
-		public void SetCrosshair(CursorDefinition.CrosshairType crosshairType)
+		public void SetCenterCrosshair(CursorDefinition.CrosshairType crosshairType)
 		{
-			SetCrosshairSprite(crosshairType);
+			SetCenterCrosshairSprite(crosshairType);
 		}
 
 		/// <summary>
-		/// Set the crosshair back to it's default state.
+		/// Set the center crosshair back to it's default state.
 		/// </summary>
-		public void SetToDefaultCrosshair()
+		public void SetToDefaultCenterCrosshair()
 		{
-			SetCrosshairSprite(defaultCrosshairType);
+			SetCenterCrosshairSprite(defaultCrosshairType);
 		}
 
-		void SetCrosshairSprite(CursorDefinition.CrosshairType compareCrosshair)
+		void SetCenterCrosshairSprite(CursorDefinition.CrosshairType compareCrosshair)
 		{
 			if (currentCrosshairType == compareCrosshair) return;
 
 			cursorDefinition.CrosshairDictionary.TryGetValue(compareCrosshair, out Sprite sprite);
 
 			currentCrosshairType = compareCrosshair;
-			crosshairImage.sprite = sprite;
-			crosshairImage.enabled = true;
+			centerCrosshairImage.sprite = sprite;
+			centerCrosshairImage.enabled = true;
 
 			if (compareCrosshair == CursorDefinition.CrosshairType.UI_Nothing)
-				crosshairImage.enabled = false;
+			{
+				centerCrosshairImage.enabled = false;
+			}
 		}
 
 		async void HandleCursorAndMouseChange()

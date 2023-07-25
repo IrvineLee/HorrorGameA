@@ -17,7 +17,7 @@ namespace Personal.FSM.Character
 			if (!interactable) return;
 			if (!interactable.enabled) return;
 
-			CursorManager.Instance.SetCrosshair(interactable.InteractCrosshairType);
+			CursorManager.Instance.SetCenterCrosshair(interactable.InteractCrosshairType);
 
 			if (!InputManager.Instance.IsInteract) return;
 			if (!interactable.enabled) return;
@@ -25,7 +25,7 @@ namespace Personal.FSM.Character
 			Debug.Log("Hit interactable");
 			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
 
-			CursorManager.Instance.SetToDefaultCrosshair();
+			CursorManager.Instance.SetToDefaultCenterCrosshair();
 			interactable.HandleInteraction(playerFSM, default).Forget();
 		}
 	}
