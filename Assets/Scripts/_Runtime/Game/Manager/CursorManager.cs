@@ -19,6 +19,12 @@ namespace Personal.Manager
 		[SerializeField] CursorDefinition cursorDefinition = null;
 		[SerializeField] Image centerCrosshairImage = null;
 
+		bool IsCanChangeToMouse
+		{
+			get => GameSceneManager.Instance.IsScene("Title") || dialogueSetup.IsWaitingResponse ||
+				  !UIManager.IsWindowStackEmpty || InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle;
+		}
+
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
 		CursorDefinition.CrosshairType defaultCrosshairType = CursorDefinition.CrosshairType.FPS;
 
@@ -99,8 +105,7 @@ namespace Personal.Manager
 
 			Cursor.lockState = CursorLockMode.Confined;
 
-			if (InputManager.Instance.IsCurrentDeviceMouse &&
-				(!GameSceneManager.Instance.IsMainScene() || dialogueSetup.IsWaitingResponse || !UIManager.IsWindowStackEmpty))
+			if (InputManager.Instance.IsCurrentDeviceMouse && IsCanChangeToMouse)
 			{
 				SetToMouseCursor(true);
 				return;

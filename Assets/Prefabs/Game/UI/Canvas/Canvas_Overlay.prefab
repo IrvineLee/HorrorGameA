@@ -38,7 +38,7 @@ RectTransform:
   - {fileID: 2310269417893768867}
   - {fileID: 6774896912680936659}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -654,6 +654,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8813871060680811718}
     m_Modifications:
+    - target: {fileID: 1699127336035726010, guid: 67986fd18fa9d0945895d1d2be460f40, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 693a58c3c0ec541438f584f12a83d92f, type: 3}
     - target: {fileID: 6393643159345760496, guid: 67986fd18fa9d0945895d1d2be460f40, type: 3}
       propertyPath: m_Name
       value: Tools

@@ -55,9 +55,6 @@ namespace Personal.Definition
 		// Inventory
 		public event Action<int> OnInventoryNextPreviousEvent;
 		public event Action<int> OnInventoryIndexSelectEvent;
-
-		public event Action<Vector2> OnDpadEvent;
-
 		public PlayerActionInput PlayerActionInput { get; private set; }
 		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
@@ -159,15 +156,6 @@ namespace Personal.Definition
 		void PlayerActionInput.IPlayerActions.OnInventoryIndexSelect(InputAction.CallbackContext context)
 		{
 			OnInventoryIndexSelectEvent?.Invoke((int)context.ReadValue<float>());
-		}
-
-		/// ------------------------------------------------------------
-		/// -----------------------PUZZLE-------------------------------
-		/// ------------------------------------------------------------
-
-		void PlayerActionInput.IPuzzleActions.OnGamepadSelection(InputAction.CallbackContext context)
-		{
-			OnDpadEvent?.Invoke(context.ReadValue<Vector2>());
 		}
 
 		/// ------------------------------------------------------------
