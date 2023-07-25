@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using static Personal.UI.Window.WindowEnum;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
@@ -173,6 +173,8 @@ namespace Personal.UI.Option
 		protected override void OnDisable()
 		{
 			base.OnDisable();
+
+			currentMenuIndex = 0;
 			EventSystem.current?.SetSelectedGameObject(null);
 		}
 	}

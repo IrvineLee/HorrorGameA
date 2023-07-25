@@ -57,15 +57,17 @@ namespace Personal.Manager
 		/// Close all window stack. 
 		/// Typically used when changing scene while windows are opened.
 		/// </summary>
-		public void CloseAllWindowAndUIInterfaceStack()
+		public void CloseAllWindowAndUIInterfaceStack(bool isDisableAllActionMap = true)
 		{
 			int count = WindowStack.Count;
 			for (int i = 0; i < count; i++)
 			{
 				WindowStack.Peek().CloseWindow(true);
 			}
-
 			WindowStack.Clear();
+
+			// Since closing the window will automatically reset it back to default action map, make sure it's disabled when needed.
+			if (isDisableAllActionMap) InputManager.Instance.DisableAllActionMap();
 		}
 	}
 }
