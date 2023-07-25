@@ -32,7 +32,7 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			MainCamera = GetComponentInChildren<Camera>();
+			MainCamera = Camera.main;
 			DialogueSystemController = DialogueManager.Instance.GetComponentInChildren<DialogueSystemController>();
 		}
 

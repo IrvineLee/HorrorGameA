@@ -31,9 +31,9 @@ namespace Personal.Manager
 		public static Stack<MenuUIBase> WindowStack { get; } = new();
 		public static bool IsWindowStackEmpty { get => WindowStack.Count <= 0; }
 
-		protected override async UniTask InitializeUniTask()
+		protected override async void Initialize()
 		{
-			await base.InitializeUniTask();
+			await UniTask.NextFrame();
 
 			pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();

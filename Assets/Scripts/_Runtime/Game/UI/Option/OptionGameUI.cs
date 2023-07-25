@@ -6,10 +6,12 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 using Personal.GameState;
+using PixelCrushers.DialogueSystem;
 using Personal.Manager;
 using Personal.Setting.Game;
 using Personal.InputProcessing;
 using Personal.Localization;
+using Personal.Dialogue;
 using Helper;
 using TMPro;
 using Lean.Localization;
@@ -40,6 +42,8 @@ namespace Personal.UI.Option
 		VolumeProfile volumeProfile;
 		ColorAdjustments colorAdjustments;
 
+		DialogueSetup dialogueSetup;
+
 		List<TextMeshProUGUI> allTMPList = new List<TextMeshProUGUI>();
 
 		void OnEnable()
@@ -54,8 +58,9 @@ namespace Personal.UI.Option
 		public override void InitialSetup()
 		{
 			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
+			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
 
-			allTMPList = PixelCrushers.DialogueSystem.DialogueManager.Instance.GetComponentsInChildren<TextMeshProUGUI>(true).ToList();
+			allTMPList = DialogueManager.Instance.GetComponentsInChildren<TextMeshProUGUI>(true).ToList();
 			allTMPList.AddRange(GetComponentsInChildren<TextMeshProUGUI>(true).ToList());
 
 			InitializeVolumeProfile();
@@ -107,7 +112,11 @@ namespace Personal.UI.Option
 				colorAdjustments.postExposure.value = currentBrightness01;
 			});
 
-			isUSInteractButton.OnValueChanged.AddListener((value) => InputManager.Instance.SwapInteractInput(value));
+			isUSInteractButton.OnValueChanged.AddListener((value) =>
+			{
+				InputManager.Instance.SwapInteractInput(value);
+				dialogueSetup.SwapInteractInput(value);
+			});
 
 			gamepadIconDropdown.OnValueChanged.AddListener((value) => InputManager.Instance.SetGamepadIconIndex((IconDisplayType)value));
 			fontSizeDropdown.OnValueChanged.AddListener((value) => HandleFontSizeChanged((FontSizeType)value));
@@ -138,6 +147,7 @@ namespace Personal.UI.Option
 			colorAdjustments.postExposure.value = gameData.Brightness;
 
 			InputManager.Instance.SwapInteractInput(gameData.IsUSInteractButton);
+			dialogueSetup.SwapInteractInput(gameData.IsUSInteractButton);
 
 			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);

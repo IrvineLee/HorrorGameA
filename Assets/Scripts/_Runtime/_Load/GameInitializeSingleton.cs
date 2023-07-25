@@ -18,8 +18,6 @@ namespace Personal.GameState
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
 			Initialize();
-			InitializeUniTask().Forget();
-
 			enabled = true;
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
@@ -32,14 +30,6 @@ namespace Personal.GameState
 		/// Called right after awake is finished.
 		/// </summary>
 		protected virtual void Initialize() { }
-
-		/// <summary>
-		/// UniTask where it is called right after awake is finished.
-		/// </summary>
-		protected virtual async UniTask InitializeUniTask()
-		{
-			await UniTask.Yield(PlayerLoopTiming.LastInitialization);
-		}
 
 		/// <summary>
 		/// This gets called when scene is in Title scene. 

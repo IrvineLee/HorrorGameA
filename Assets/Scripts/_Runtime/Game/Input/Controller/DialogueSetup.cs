@@ -6,12 +6,15 @@ using PixelCrushers.DialogueSystem;
 using Personal.Manager;
 using Personal.InputProcessing;
 using Personal.GameState;
+using UIButtonKeyTrigger = PixelCrushers.UIButtonKeyTrigger;
 
 namespace Personal.Dialogue
 {
 	public class DialogueSetup : GameInitialize
 	{
 		[SerializeField] ActionMapType actionMapType = ActionMapType.UI;
+		[SerializeField] string interactStr = "Interact";
+		[SerializeField] string cancelStr = "Cancel";
 
 		public bool IsWaitingResponse { get => isWaitingResponse; }
 
@@ -20,11 +23,15 @@ namespace Personal.Dialogue
 		StandardUIMenuPanel standardUIMenuPanel;
 		bool isWaitingResponse;
 
+		UIButtonKeyTrigger uiButtonKeyTrigger;
+
 		protected override void Initialize()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;
 			standardUIMenuPanel = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true).conversationUIElements.defaultMenuPanel;
+
+			uiButtonKeyTrigger = GetComponentInChildren<UIButtonKeyTrigger>(true);
 
 			var playerActionInput = InputManager.Instance.PlayerActionInput;
 			InputDeviceManager.RegisterInputAction("Interact", playerActionInput.Player.Interact);
@@ -47,6 +54,7 @@ namespace Personal.Dialogue
 				CursorManager.Instance.SetToMouseCursor(false);
 			});
 
+			ResponseFocus(true);
 			InputManager.OnDeviceIconChanged += HandleCursor;
 		}
 
@@ -58,6 +66,8 @@ namespace Personal.Dialogue
 		{
 			previousActionMap = InputManager.Instance.CurrentActionMapType;
 			InputManager.Instance.EnableActionMap(actionMapType);
+
+			HandleCursor();
 		}
 
 		/// <summary>
@@ -69,6 +79,15 @@ namespace Personal.Dialogue
 			InputManager.Instance.EnableActionMap(previousActionMap);
 			isWaitingResponse = false;
 			InputDeviceManager.instance.alwaysAutoFocus = false;
+		}
+
+		/// <summary>
+		/// Swap interact input.
+		/// </summary>
+		/// <param name="isUSInteract"></param>
+		public void SwapInteractInput(bool isUSInteract)
+		{
+			uiButtonKeyTrigger.buttonName = isUSInteract ? interactStr : cancelStr;
 		}
 
 		void HandleCursor()
