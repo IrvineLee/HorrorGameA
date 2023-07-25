@@ -21,5 +21,17 @@ namespace Personal.Character.Player
 			StageManager.Instance.RegisterPlayer(this);
 			PlayerCameraView = StageManager.Instance?.MainCamera?.GetComponentInChildren<CameraHandler>().PlayerCameraView;
 		}
+
+		public void PauseFSM(bool isFlag)
+		{
+			FSM.PauseStateMachine(isFlag);
+
+			if (isFlag)
+			{
+				CursorManager.Instance.SetCenterCrosshair(Definition.CursorDefinition.CrosshairType.UI_Nothing);
+				return;
+			}
+			CursorManager.Instance.SetToDefaultCenterCrosshair();
+		}
 	}
 }

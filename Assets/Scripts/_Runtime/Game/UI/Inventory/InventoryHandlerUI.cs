@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.Definition;
 using Personal.Item;
 using Personal.Character.Player;
 using static Personal.Character.Player.PlayerInventory;
@@ -27,8 +26,7 @@ namespace Personal.UI
 			base.OpenWindow();
 
 			itemInACircle3DUI.PutObjectsIntoACircle();
-			pc.FSM.PauseStateMachine(true);
-			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.UI_Nothing);
+			pc.PauseFSM(true);
 		}
 
 		public override void CloseWindow(bool isInstant)
@@ -36,8 +34,7 @@ namespace Personal.UI
 			base.CloseWindow(isInstant);
 
 			pc.Inventory.UpdateActiveObject();
-			pc.FSM.PauseStateMachine(false);
-			CursorManager.Instance.SetToDefaultCenterCrosshair();
+			pc.PauseFSM(false);
 		}
 
 		/// <summary>
