@@ -5,7 +5,7 @@ using Personal.Save;
 
 namespace Personal.UI.Option
 {
-	public class CreditsUI : GameInitialize
+	public class CreditsUI : MenuUIBase
 	{
 		[SerializeField] Transform specialThanksTrans = null;
 

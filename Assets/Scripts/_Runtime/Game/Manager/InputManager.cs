@@ -20,14 +20,13 @@ namespace Personal.Manager
 	{
 		[SerializeField] InputReaderDefinition inputReaderDefinition = null;
 		[SerializeField] ButtonIconDefinition buttonIconDefinition = null;
-		[SerializeField] [ReadOnly] ActionMapType currentActionMapType = ActionMapType.BasicControl;
+		[SerializeField] [ReadOnly] ActionMapType currentActionMapType = ActionMapType.UI;
 
 		public InputReaderDefinition InputReaderDefinition { get => inputReaderDefinition; }
 		public PlayerActionInput PlayerActionInput { get => inputReaderDefinition.PlayerActionInput; }
 		public ButtonIconDefinition ButtonIconDefinition { get => buttonIconDefinition; }
 
 		// Different actions maps for different situations.
-		public BasicControlInputController BasicControlInputController { get; private set; }
 		public FPSInputController FPSInputController { get; private set; }
 		public UIInputController UIInputController { get; private set; }
 		public PuzzleInputController PuzzleInputController { get; private set; }
@@ -43,9 +42,8 @@ namespace Personal.Manager
 				switch (currentActionMapType)
 				{
 					case ActionMapType.Player: return FPSInputController.IsInteract;
-					case ActionMapType.UI: return UIInputController.IsInteract;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsInteract;
-					default: return BasicControlInputController.IsInteract;
+					default: return UIInputController.IsInteract;
 				}
 			}
 		}
@@ -57,9 +55,8 @@ namespace Personal.Manager
 				switch (currentActionMapType)
 				{
 					case ActionMapType.Player: return FPSInputController.IsCancel;
-					case ActionMapType.UI: return UIInputController.IsCancel;
 					case ActionMapType.Puzzle: return PuzzleInputController.IsCancel;
-					default: return BasicControlInputController.IsCancel;
+					default: return UIInputController.IsCancel;
 				}
 			}
 		}
@@ -83,7 +80,6 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			BasicControlInputController = GetComponentInChildren<BasicControlInputController>(true);
 			FPSInputController = GetComponentInChildren<FPSInputController>(true);
 			UIInputController = GetComponentInChildren<UIInputController>(true);
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
@@ -153,7 +149,7 @@ namespace Personal.Manager
 		/// </summary>
 		public void SetToDefaultActionMap()
 		{
-			ActionMapType defaultActionMap = ActionMapType.BasicControl;
+			ActionMapType defaultActionMap = ActionMapType.UI;
 			if (GameSceneManager.Instance.IsMainScene())
 			{
 				defaultActionMap = ActionMapType.Player;

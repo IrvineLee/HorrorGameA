@@ -14,6 +14,8 @@ namespace Personal.UI
 
 		void Option()
 		{
+			uiGamepadMovement.SetIsUpdate(false);
+			UIManager.Instance.OptionUI.SetOnDisableAction(() => uiGamepadMovement.SetIsUpdate(true));
 			UIManager.Instance.OptionUI.OpenWindow();
 		}
 

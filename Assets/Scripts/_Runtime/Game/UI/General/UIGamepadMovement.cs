@@ -20,6 +20,8 @@ namespace Personal.UI
 		ScrollRect scrollRect;
 		CoroutineRun waitCR = new CoroutineRun();
 
+		bool isUpdate = true;
+
 		protected override void Initialize()
 		{
 			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
@@ -33,6 +35,7 @@ namespace Personal.UI
 
 		void Update()
 		{
+			if (!isUpdate) return;
 			if (InputManager.Instance.IsCurrentDeviceMouse) return;
 			if (InputManager.Instance.UIInputController.Move == Vector2.zero) return;
 			if (!waitCR.IsDone) return;
@@ -44,6 +47,7 @@ namespace Personal.UI
 		}
 
 		public void SetCurrentIndex(int index) { currentActiveIndex = index; }
+		public void SetIsUpdate(bool isFlag) { isUpdate = isFlag; }
 
 		Vector2 GetHorizontalOrVericalMovement(Vector2 move)
 		{

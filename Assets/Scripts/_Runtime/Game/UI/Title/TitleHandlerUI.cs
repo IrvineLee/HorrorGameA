@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Helper;
+using System.Linq;
 
 namespace Personal.UI.Option
 {
@@ -10,10 +13,12 @@ namespace Personal.UI.Option
 	{
 		[SerializeField] OnEnableFadeInOut pressAnyButton = null;
 		[SerializeField] Transform buttonGroupTrans = null;
-		[SerializeField] Transform creditsMenu = null;
+		[SerializeField] CreditsUI creditsUI = null;
 
 		[Tooltip("How long \"Press Any Button\" remain on screen after pressing button")]
 		[SerializeField] float anyButtonWaitDuration = 0.5f;
+
+		UIGamepadMovement uiGamepadMovement;
 
 		protected override async void Initialize()
 		{
@@ -21,15 +26,22 @@ namespace Personal.UI.Option
 			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
 
 			InitialSetup();
+			uiGamepadMovement = GetComponentInChildren<UIGamepadMovement>(true);
+
 			InputManager.Instance.SetToDefaultActionMap();
 			InputManager.OnAnyButtonPressed += Begin;
 
 			pressAnyButton.gameObject.SetActive(true);
 		}
 
+		/// <summary>
+		/// Inspector set.
+		/// </summary>
 		public void OpenCredits()
 		{
-			creditsMenu.gameObject.SetActive(true);
+			uiGamepadMovement.SetIsUpdate(false);
+			creditsUI.SetOnDisableAction(() => uiGamepadMovement.SetIsUpdate(true));
+			creditsUI.OpenWindow();
 		}
 
 		void Begin()

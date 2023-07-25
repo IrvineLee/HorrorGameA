@@ -9,8 +9,10 @@ namespace Personal.UI
 			UIManager.WindowStack.Push(this);
 		}
 
-		void OnDisable()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
+
 			if (UIManager.IsWindowStackEmpty) return;
 			UIManager.WindowStack.Pop();
 		}

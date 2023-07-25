@@ -7,7 +7,7 @@ namespace Personal.UI
 {
 	public class OnEnableDisable_SetActionMap : MonoBehaviour
 	{
-		[SerializeField] ActionMapType actionMapType = ActionMapType.BasicControl;
+		[SerializeField] ActionMapType actionMapType = ActionMapType.UI;
 
 		ActionMapType previousActionMap;
 

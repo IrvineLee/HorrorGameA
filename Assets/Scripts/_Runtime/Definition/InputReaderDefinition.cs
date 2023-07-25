@@ -11,8 +11,7 @@ namespace Personal.Definition
 {
 	[CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/Input/InputReaderDefinition", order = 0)]
 	[Serializable]
-	public class InputReaderDefinition : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUIActions,
-		PlayerActionInput.IPuzzleActions, PlayerActionInput.IBasicControlActions
+	public class InputReaderDefinition : ScriptableObject, PlayerActionInput.IPlayerActions, PlayerActionInput.IUIActions, PlayerActionInput.IPuzzleActions
 	{
 		[Serializable]
 		public class InputControllerInfo
@@ -69,13 +68,11 @@ namespace Personal.Definition
 		{
 			PlayerActionInput = new PlayerActionInput();
 
-			PlayerActionInput.BasicControl.SetCallbacks(this);
 			PlayerActionInput.Player.SetCallbacks(this);
 			PlayerActionInput.UI.SetCallbacks(this);
 			PlayerActionInput.Puzzle.SetCallbacks(this);
 
 			inputActionMapDictionary.Clear();
-			inputActionMapDictionary.Add(ActionMapType.BasicControl, new InputControllerInfo(PlayerActionInput.BasicControl, InputManager.Instance.BasicControlInputController));
 			inputActionMapDictionary.Add(ActionMapType.Player, new InputControllerInfo(PlayerActionInput.Player, InputManager.Instance.FPSInputController));
 			inputActionMapDictionary.Add(ActionMapType.UI, new InputControllerInfo(PlayerActionInput.UI, InputManager.Instance.UIInputController));
 			inputActionMapDictionary.Add(ActionMapType.Puzzle, new InputControllerInfo(PlayerActionInput.Puzzle, InputManager.Instance.PuzzleInputController));

@@ -22,6 +22,7 @@ namespace Personal.UI
 		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
+		protected Action disableAction;
 
 		void Update()
 		{
@@ -73,6 +74,12 @@ namespace Personal.UI
 		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
 
 		/// <summary>
+		/// Action that will be called OnDisable.
+		/// </summary>
+		/// <param name="action"></param>
+		public virtual void SetOnDisableAction(Action action) { disableAction = action; }
+
+		/// <summary>
 		/// Enable/Disable the window.
 		/// </summary>
 		/// <param name="isFlag"></param>
@@ -86,6 +93,12 @@ namespace Personal.UI
 				return;
 			}
 			gameObject.SetActive(isFlag);
+		}
+
+		protected virtual void OnDisable()
+		{
+			disableAction?.Invoke();
+			disableAction = default;
 		}
 	}
 }

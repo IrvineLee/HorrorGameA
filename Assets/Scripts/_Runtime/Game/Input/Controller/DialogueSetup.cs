@@ -11,7 +11,7 @@ namespace Personal.Dialogue
 {
 	public class DialogueSetup : GameInitialize
 	{
-		[SerializeField] ActionMapType actionMapType = ActionMapType.BasicControl;
+		[SerializeField] ActionMapType actionMapType = ActionMapType.UI;
 
 		public bool IsWaitingResponse { get => isWaitingResponse; }
 
