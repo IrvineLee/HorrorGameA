@@ -66,7 +66,7 @@ namespace Personal.FSM.Character
 
 		async UniTask WaitCameraBlend()
 		{
-			await UniTask.WaitUntil(() => StageManager.Instance && !StageManager.Instance.CinemachineBrain.IsBlending);
+			await UniTask.WaitUntil(() => StageManager.Instance && !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending);
 		}
 	}
 }

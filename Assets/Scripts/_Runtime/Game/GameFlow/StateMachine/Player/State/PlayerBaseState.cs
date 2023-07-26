@@ -25,7 +25,7 @@ namespace Personal.FSM.Character
 			base.OnEnter();
 			playerFSM = (PlayerStateMachine)stateMachine;
 
-			cam = StageManager.Instance.MainCamera;
+			cam = StageManager.Instance.CameraHandler.MainCamera;
 			return UniTask.CompletedTask;
 		}
 

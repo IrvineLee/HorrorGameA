@@ -14,12 +14,10 @@ namespace Personal.Character.Player
 		public PlayerStateMachine FSM { get => fsm; }
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
-		public PlayerCameraView PlayerCameraView { get; private set; }
 
 		void Awake()
 		{
 			StageManager.Instance.RegisterPlayer(this);
-			PlayerCameraView = StageManager.Instance?.MainCamera?.GetComponentInChildren<CameraHandler>().PlayerCameraView;
 		}
 
 		public void PauseFSM(bool isFlag)

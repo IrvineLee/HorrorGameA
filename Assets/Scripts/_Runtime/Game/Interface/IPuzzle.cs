@@ -1,11 +1,13 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Puzzle
+namespace Personal.Puzzle
 {
 	public interface IPuzzle
 	{
 		void ClickedInteractable(Transform trans);
 		void CheckPuzzleAnswer();
+		List<Transform> GetInteractableObjectList();
 	}
 }

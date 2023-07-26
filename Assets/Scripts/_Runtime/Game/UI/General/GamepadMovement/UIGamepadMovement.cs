@@ -15,12 +15,12 @@ namespace Personal.UI
 	public class UIGamepadMovement : GameInitialize
 	{
 		List<UISelectable> uiSelectableList = new();
-		int currentActiveIndex;
 
 		ScrollRect scrollRect;
 		CoroutineRun waitCR = new CoroutineRun();
 
-		bool isUpdate = true;
+		protected int currentActiveIndex;
+		protected bool isUpdate = true;
 
 		protected override void Initialize()
 		{
@@ -28,16 +28,17 @@ namespace Personal.UI
 			scrollRect = GetComponentInChildren<ScrollRect>();
 		}
 
-		void OnEnable()
+		protected virtual void OnEnable()
 		{
 			currentActiveIndex = 0;
+			InputManager.OnDeviceIconChanged += OnDeviceChanged;
 		}
 
 		void Update()
 		{
 			if (!isUpdate) return;
 			if (InputManager.Instance.IsCurrentDeviceMouse) return;
-			if (InputManager.Instance.UIInputController.Move == Vector2.zero) return;
+			if (InputManager.Instance.Move == Vector3.zero) return;
 			if (!waitCR.IsDone) return;
 
 			Vector2 move = InputManager.Instance.UIInputController.Move;
@@ -49,22 +50,7 @@ namespace Personal.UI
 		public void SetCurrentIndex(int index) { currentActiveIndex = index; }
 		public void SetIsUpdate(bool isFlag) { isUpdate = isFlag; }
 
-		Vector2 GetHorizontalOrVericalMovement(Vector2 move)
-		{
-			if (MathF.Abs(move.x) > MathF.Abs(move.y))
-			{
-				move.x = move.x > 0 ? 1 : -1;
-				move.y = 0;
-			}
-			else
-			{
-				move.x = 0;
-				move.y = move.y > 0 ? 1 : -1;
-			}
-			return move;
-		}
-
-		void HandleMovement(Vector2 move)
+		protected virtual void HandleMovement(Vector2 move)
 		{
 			if (move.y != 0)
 			{
@@ -81,6 +67,23 @@ namespace Personal.UI
 			}
 		}
 
+		protected virtual void OnDeviceChanged() { }
+
+		Vector2 GetHorizontalOrVericalMovement(Vector2 move)
+		{
+			if (MathF.Abs(move.x) > MathF.Abs(move.y))
+			{
+				move.x = move.x > 0 ? 1 : -1;
+				move.y = 0;
+			}
+			else
+			{
+				move.x = 0;
+				move.y = move.y > 0 ? 1 : -1;
+			}
+			return move;
+		}
+
 		void ScrollToSelected()
 		{
 			if (!scrollRect) return;
@@ -93,8 +96,9 @@ namespace Personal.UI
 			CoroutineHelper.LerpWithinSeconds(scrollRect.normalizedPosition, nextNormalizesPosition, ConstantFixed.UI_SCROLLBAR_DURATION, callbackMethod, isDeltaTime: false);
 		}
 
-		void OnDisable()
+		protected virtual void OnDisable()
 		{
+			InputManager.OnDeviceIconChanged -= OnDeviceChanged;
 			waitCR.StopCoroutine();
 		}
 	}

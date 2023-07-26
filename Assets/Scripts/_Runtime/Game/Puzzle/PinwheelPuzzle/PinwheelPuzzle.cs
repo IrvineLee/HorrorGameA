@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 
 using Sirenix.OdinInspector;
 using TMPro;
-using EPOOutline;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
@@ -16,7 +14,7 @@ using Helper;
 using UnityEditor;
 #endif
 
-namespace Puzzle.Pinwheel
+namespace Personal.Puzzle.Pinwheel
 {
 	public class PinwheelPuzzle : PuzzleController, IPuzzle, IProcess
 	{
@@ -28,6 +26,8 @@ namespace Puzzle.Pinwheel
 		[Space]
 		[AssetsOnly]
 		[SerializeField] Transform pinwheelPrefab = null;
+		[AssetsOnly]
+		[SerializeField] Transform centerPinwheelPrefab = null;
 		[AssetsOnly]
 		[SerializeField] Transform rotateOffsetPrefab = null;
 		[ChildGameObjectsOnly]
@@ -61,9 +61,11 @@ namespace Puzzle.Pinwheel
 
 		CoroutineRun slideCR = new CoroutineRun();
 
-		void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
 			InitialPinwheelSetup();
+			EnableHitCollider(false);
 		}
 
 		void Update()
@@ -82,6 +84,11 @@ namespace Puzzle.Pinwheel
 				((IPuzzle)this).ClickedInteractable(hit.transform);
 				((IPuzzle)this).CheckPuzzleAnswer();
 			}
+		}
+
+		public List<Transform> GetInteractableObjectList()
+		{
+			return PinwheelList.ConvertAll(x => x.PinwheelTrans);
 		}
 
 		/// <summary>
@@ -181,6 +188,7 @@ namespace Puzzle.Pinwheel
 		{
 			enabled = isFlag;
 			EnableHitCollider(isFlag);
+			HandleMouseOrGamepadDisplay(isFlag);
 
 			if (isFlag)
 			{
@@ -277,7 +285,7 @@ namespace Puzzle.Pinwheel
 			if (pinwheelList.Count <= 0) angle = 0;
 
 			// Instantiate pinwheel.
-			Transform instance = Instantiate(pinwheelPrefab, outerPinwheelTrans);
+			Transform instance = Instantiate(isCenterPinwheel ? centerPinwheelPrefab : pinwheelPrefab, outerPinwheelTrans);
 			instance.name = name;
 			instance.position = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle) + 1f, outerPinwheelTrans.position.z);
 			instance.rotation = Quaternion.Euler(new Vector3(0, 90, 90));
@@ -285,16 +293,6 @@ namespace Puzzle.Pinwheel
 			// Set instantiated transform.
 			pinwheel.SetPinwheel(this, instance, isCenterPinwheel);
 			pinwheel.SetRotationType(turnRotation);
-
-			// Remove the outline for the center piece.
-			if (isCenterPinwheel)
-			{
-				var eventTrigger = instance.GetComponentInChildren<EventTrigger>();
-				DestroyImmediate(eventTrigger);
-
-				var outline = instance.GetComponentInChildren<Outlinable>();
-				DestroyImmediate(outline);
-			}
 
 			SpawnColors(pinwheel);
 			return instance;

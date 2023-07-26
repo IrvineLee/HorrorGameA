@@ -42,7 +42,7 @@ namespace Personal.InteractiveObject
 			headModelLookAt?.SetLookAtTarget(true);
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CinemachineBrain.IsBlending);
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending);
 
 			// Enable POV control state.
 			SetRotationToPOVControl();

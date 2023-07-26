@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4530776234118806591}
   - component: {fileID: 4873669600751589017}
   - component: {fileID: 950131242678986974}
-  - component: {fileID: 5561965194179391209}
   - component: {fileID: 8725457503941504366}
   m_Layer: 0
   m_Name: MainCamera
@@ -38,7 +37,7 @@ Transform:
   m_Children:
   - {fileID: 1385724394989957256}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &8800463658676813517
 Camera:
@@ -218,22 +217,6 @@ MonoBehaviour:
   dilateQuality: 0
   blurIterations: 2
   blurType: 4
---- !u!114 &5561965194179391209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5765835459467941308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EventMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_MaxRayIntersections: 0
 --- !u!114 &8725457503941504366
 MonoBehaviour:
   m_ObjectHideFlags: 0

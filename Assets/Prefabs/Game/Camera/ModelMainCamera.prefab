@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1489139494845222162, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54,12 +54,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5765835459467941308, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
       propertyPath: m_Name
-      value: FakeMainCamera
+      value: ModelMainCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8725457503941504366, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5765835459467941308, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5373950013713442887}
     - targetCorrespondingSourceObject: {fileID: 5765835459467941308, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3304920838824285419}
@@ -69,6 +73,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5765835459467941308, guid: c452076a537fb774a9e3a0fe5a3bebc0, type: 3}
   m_PrefabInstance: {fileID: 293992087928022468}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5373950013713442887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057382121508024440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cab7b635e704e443b0a5d59f49c45f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3304920838824285419
 MonoBehaviour:
   m_ObjectHideFlags: 0

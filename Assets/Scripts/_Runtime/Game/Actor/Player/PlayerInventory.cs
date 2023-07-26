@@ -195,7 +195,7 @@ namespace Personal.Character.Player
 		{
 			var pickupable = activeObject.PickupableObject;
 			Transform activeTrans = pickupable.transform;
-			Transform fpsCameraView = StageManager.Instance.PlayerController.PlayerCameraView.FpsInventoryView;
+			Transform fpsCameraView = StageManager.Instance.CameraHandler.PlayerCameraView.FpsInventoryView;
 
 			activeTrans.SetParent(fpsCameraView);
 			activeTrans.localPosition = initialPosition;

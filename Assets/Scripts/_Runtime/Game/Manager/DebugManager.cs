@@ -36,11 +36,11 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
-				StageManager.Instance.SetInteraction(0);
+				//StageManager.Instance.SetInteraction(0);
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha2))
 			{
-				StageManager.Instance.SetInteraction(1);
+				//StageManager.Instance.SetInteraction(1);
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha0))
 			{

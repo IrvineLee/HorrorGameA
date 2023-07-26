@@ -9,7 +9,7 @@ using Helper;
 using Personal.Interface;
 using Personal.Manager;
 
-namespace Puzzle.EightSlide
+namespace Personal.Puzzle.EightSlide
 {
 	public class EightSlidePuzzle : PuzzleController, IPuzzle, IProcess
 	{
@@ -55,8 +55,9 @@ namespace Puzzle.EightSlide
 		int emptyIndex;
 		CoroutineRun slideCR = new CoroutineRun();
 
-		void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
 			var tempList = new List<int>(new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
 			// Set the current and empty index.
@@ -92,6 +93,11 @@ namespace Puzzle.EightSlide
 				((IPuzzle)this).ClickedInteractable(hit.transform);
 				((IPuzzle)this).CheckPuzzleAnswer();
 			}
+		}
+
+		public List<Transform> GetInteractableObjectList()
+		{
+			return tileList.ConvertAll(x => x.TileTrans);
 		}
 
 		/// <summary>
@@ -160,6 +166,7 @@ namespace Puzzle.EightSlide
 		void IProcess.Begin(bool isFlag)
 		{
 			enabled = isFlag;
+			HandleMouseOrGamepadDisplay(isFlag);
 
 			if (puzzleState == PuzzleState.Completed) return;
 			puzzleState = PuzzleState.None;

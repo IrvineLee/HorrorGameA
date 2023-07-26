@@ -12,7 +12,7 @@ namespace Personal.UI
 		{
 			// Add the camera to main stack.
 			var canvas = GetComponentInChildren<Canvas>();
-			var cameraData = StageManager.Instance.MainCamera.GetUniversalAdditionalCameraData();
+			var cameraData = StageManager.Instance.CameraHandler.MainCamera.GetUniversalAdditionalCameraData();
 
 			cameraData.cameraStack.Add(canvas.worldCamera);
 		}

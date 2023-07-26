@@ -67,7 +67,7 @@ namespace Personal.UI.Option
 		{
 			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
 
-			universalCameraData = StageManager.Instance.MainCamera.GetComponent<UniversalAdditionalCameraData>();
+			universalCameraData = StageManager.Instance.CameraHandler.UniversalAdditionalCameraData;
 			defaultResolution = Screen.currentResolution;
 			qualityNameList = QualitySettings.names.ToList();
 

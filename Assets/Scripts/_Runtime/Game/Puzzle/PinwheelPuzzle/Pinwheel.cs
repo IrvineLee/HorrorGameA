@@ -9,7 +9,7 @@ using Helper;
 using Sirenix.OdinInspector.Editor;
 #endif
 
-namespace Puzzle.Pinwheel
+namespace Personal.Puzzle.Pinwheel
 {
 	[Serializable]
 	public class Pinwheel

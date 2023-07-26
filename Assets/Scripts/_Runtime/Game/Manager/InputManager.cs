@@ -11,8 +11,6 @@ using Personal.InputProcessing;
 using Personal.Definition;
 using Helper;
 using static Personal.Definition.InputReaderDefinition;
-using PixelCrushers.DialogueSystem;
-using Personal.Dialogue;
 
 namespace Personal.Manager
 {
@@ -34,6 +32,19 @@ namespace Personal.Manager
 		public ActionMapType CurrentActionMapType { get => currentActionMapType; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
 		public bool IsCurrentDeviceMouse { get => InputDeviceType == InputDeviceType.KeyboardMouse; }
+
+		public Vector3 Move
+		{
+			get
+			{
+				switch (currentActionMapType)
+				{
+					case ActionMapType.Player: return FPSInputController.Move;
+					case ActionMapType.Puzzle: return PuzzleInputController.Move;
+					default: return UIInputController.Move;
+				}
+			}
+		}
 
 		public bool IsInteract
 		{
@@ -71,8 +82,6 @@ namespace Personal.Manager
 		InputActionReference submitActionReference;
 		InputActionReference cancelActionReference;
 
-		DialogueSetup dialogueSetup;
-
 		InputDevice previousDevice = null;
 		IconDisplayType iconDisplayType;
 
@@ -84,8 +93,6 @@ namespace Personal.Manager
 			UIInputController = GetComponentInChildren<UIInputController>(true);
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
 			inputSystemUIInputModule = GetComponentInChildren<InputSystemUIInputModule>(true);
-
-			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
 
 			submitActionReference = inputSystemUIInputModule.submit;
 			cancelActionReference = inputSystemUIInputModule.cancel;
@@ -309,4 +316,3 @@ namespace Personal.Manager
 		}
 	}
 }
-

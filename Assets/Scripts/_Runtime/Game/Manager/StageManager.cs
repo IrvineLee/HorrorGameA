@@ -7,6 +7,7 @@ using Personal.Spawner;
 using Personal.Character.Player;
 using Personal.InteractiveObject;
 using Personal.Transition;
+using Personal.Character;
 using Cinemachine;
 using Helper;
 
@@ -19,8 +20,7 @@ namespace Personal.Manager
 	{
 		public MasterDataManager MasterData { get => MasterDataManager.Instance; }
 
-		public Camera MainCamera { get; private set; }
-		public CinemachineBrain CinemachineBrain { get; private set; }
+		public CameraHandler CameraHandler { get; private set; }
 		public PlayerController PlayerController { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
 		public PhoneHandler PhoneHandler { get; private set; }
@@ -32,19 +32,13 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			MainCamera = Camera.main;
+			CameraHandler = Camera.main.GetComponentInChildren<CameraHandler>();
 			DialogueSystemController = DialogueManager.Instance.GetComponentInChildren<DialogueSystemController>();
 		}
 
-		public async void SetMainCameraTransform(Transform target)
+		public void SetMainCameraTransform(Transform target)
 		{
-			await UniTask.WaitUntil(() => MainCamera);
-
-			// Set camera transform to MainCamera.
-			MainCamera.transform.position = target.transform.position;
-			MainCamera.transform.rotation = target.transform.rotation;
-
-			CinemachineBrain = MainCamera.GetComponentInChildren<CinemachineBrain>();
+			CameraHandler?.SetPosAndRot(target);
 		}
 
 		public void RegisterPlayer(PlayerController pc)
@@ -82,12 +76,7 @@ namespace Personal.Manager
 		{
 			// Prevent virtual camera from updating the camera position and rotation.
 			PlayerController.gameObject.SetActive(false);
-
-			CoroutineHelper.WaitEndOfFrame(() =>
-			{
-				MainCamera.transform.localPosition = Vector3.zero;
-				MainCamera.transform.localRotation = Quaternion.identity;
-			});
+			CoroutineHelper.WaitEndOfFrame(CameraHandler.ResetPosAndRot);
 
 			PlayerController.Inventory.ResetInventoryUI();
 		}

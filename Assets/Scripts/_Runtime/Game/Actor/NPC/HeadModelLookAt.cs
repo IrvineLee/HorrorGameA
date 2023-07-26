@@ -21,7 +21,7 @@ namespace Personal.Character.NPC
 		protected override void OnMainScene()
 		{
 			animator = GetComponentInChildren<Animator>();
-			defaultTargetTrans = StageManager.Instance.MainCamera.transform;
+			defaultTargetTrans = StageManager.Instance.CameraHandler.MainCamera.transform;
 
 			targetTrans = defaultTargetTrans;
 		}
