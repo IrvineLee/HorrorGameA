@@ -24,13 +24,13 @@ namespace Personal.UI
 		protected override void HandleInput()
 		{
 			if (playerInventory.InventoryList.Count <= 0) return;
-			if (uIInputController.Move == Vector2.zero) return;
+			if (InputManager.Instance.Move == Vector3.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = yAngleToRotate;
 			Action doLast = GetNextAction(false);
 
-			if (uIInputController.Move.x < 0 || uIInputController.Move.y < 0)
+			if (InputManager.Instance.Move.x < 0 || InputManager.Instance.Move.y < 0)
 			{
 				angle = -yAngleToRotate;
 				doLast = GetNextAction(true);

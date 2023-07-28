@@ -74,16 +74,20 @@ namespace Personal.Puzzle.Pinwheel
 			if (!slideCR.IsDone) return;
 
 			// Check puzzle click.
-			RaycastHit hit;
-
-			Vector2 mousePosition = Mouse.current.position.ReadValue();
-			Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-			if (Physics.Raycast(ray, out hit))
+			Transform target = puzzleGamepadMovement ? pinwheelList[puzzleGamepadMovement.CurrentActiveIndex].PinwheelTrans : null;
+			if (InputManager.Instance.IsCurrentDeviceMouse)
 			{
-				((IPuzzle)this).ClickedInteractable(hit.transform);
-				((IPuzzle)this).CheckPuzzleAnswer();
+				RaycastHit hit;
+
+				Vector2 mousePosition = Mouse.current.position.ReadValue();
+				Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
+				if (!Physics.Raycast(ray, out hit)) return;
+				target = hit.transform;
 			}
+
+			((IPuzzle)this).ClickedInteractable(target);
+			((IPuzzle)this).CheckPuzzleAnswer();
 		}
 
 		public List<Transform> GetInteractableObjectList()

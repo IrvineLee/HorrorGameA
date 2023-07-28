@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using EPOOutline;
 
 namespace Helper
@@ -38,14 +37,18 @@ namespace Helper
 			fadeCR.StopCoroutine();
 		}
 
-		async void Fade(bool isFadeIn, Action<float> callbackMethod)
+		void Fade(bool isFadeIn, Action<float> callbackMethod)
 		{
 			float startValue = isFadeIn ? minimumAlpha : 1f;
 			float endValue = isFadeIn ? 1f : minimumAlpha;
 
 			if (!isFadeIn)
 			{
-				await UniTask.Delay(waitForDuration.SecondsToMilliseconds());
+				fadeCR = CoroutineHelper.WaitFor(waitForDuration, () =>
+				{
+					fadeCR = CoroutineHelper.LerpWithinSeconds(startValue, endValue, duration, callbackMethod, () => Fade(!isFadeIn, callbackMethod));
+				});
+				return;
 			}
 			fadeCR = CoroutineHelper.LerpWithinSeconds(startValue, endValue, duration, callbackMethod, () => Fade(!isFadeIn, callbackMethod));
 		}

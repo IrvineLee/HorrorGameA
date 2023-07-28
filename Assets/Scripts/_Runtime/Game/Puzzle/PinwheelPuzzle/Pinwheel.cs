@@ -14,7 +14,8 @@ namespace Personal.Puzzle.Pinwheel
 	[Serializable]
 	public class Pinwheel
 	{
-		[SerializeField] [HideInInspector] Transform pinwheelTrans = null;
+		[SerializeField] [ReadOnly] Transform pinwheelTrans = null;
+		[SerializeField] [HideInInspector] PinwheelPuzzle pinwheelPuzzle = null;
 		[SerializeField] [HideInInspector] Collider collider = null;
 		[SerializeField] [HideInInspector] int activeIndex = -1;
 		[SerializeField] [HideInInspector] PositiveNegative rotationType;
@@ -62,7 +63,6 @@ namespace Personal.Puzzle.Pinwheel
 		public int FaceCenterIndex { get => faceCenterIndex; }
 		public bool IsCenterPinwheel { get => isCenterPinwheel; }
 
-		PinwheelPuzzle pinwheelPuzzle;
 		Quaternion initialRotation;
 
 		public void SetPinwheel(PinwheelPuzzle pinwheelPuzzle, Transform pinwheelTrans, bool isCenterPinwheel)

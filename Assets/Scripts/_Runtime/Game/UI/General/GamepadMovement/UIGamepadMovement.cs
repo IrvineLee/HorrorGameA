@@ -14,6 +14,8 @@ namespace Personal.UI
 {
 	public class UIGamepadMovement : GameInitialize
 	{
+		public int CurrentActiveIndex { get => currentActiveIndex; }
+
 		List<UISelectable> uiSelectableList = new();
 
 		ScrollRect scrollRect;
@@ -41,8 +43,8 @@ namespace Personal.UI
 			if (InputManager.Instance.Move == Vector3.zero) return;
 			if (!waitCR.IsDone) return;
 
-			Vector2 move = InputManager.Instance.UIInputController.Move;
-			HandleMovement(GetHorizontalOrVericalMovement(move));
+			Vector2 move = InputManager.Instance.Move;
+			HandleMovement(GetHorizontalVericalMovement(move));
 
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
 		}
@@ -67,9 +69,7 @@ namespace Personal.UI
 			}
 		}
 
-		protected virtual void OnDeviceChanged() { }
-
-		Vector2 GetHorizontalOrVericalMovement(Vector2 move)
+		protected virtual Vector2 GetHorizontalVericalMovement(Vector2 move)
 		{
 			if (MathF.Abs(move.x) > MathF.Abs(move.y))
 			{
@@ -83,6 +83,8 @@ namespace Personal.UI
 			}
 			return move;
 		}
+
+		protected virtual void OnDeviceChanged() { }
 
 		void ScrollToSelected()
 		{

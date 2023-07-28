@@ -19,7 +19,6 @@ namespace Personal.UI
 		[SerializeField] protected float rotateDuration = 0.25f;
 
 		protected PlayerInventory playerInventory;
-		protected UIInputController uIInputController;
 
 		protected CoroutineRun rotateAroundCR = new CoroutineRun();
 
@@ -27,7 +26,6 @@ namespace Personal.UI
 
 		public override void InitialSetup()
 		{
-			uIInputController = InputManager.Instance.UIInputController;
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
 		}
 
@@ -83,11 +81,11 @@ namespace Personal.UI
 		/// </summary>
 		protected virtual void HandleInput()
 		{
-			if (uIInputController.Move == Vector2.zero) return;
+			if (InputManager.Instance.Move == Vector3.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = yAngleToRotate;
-			if (uIInputController.Move.x < 0)
+			if (InputManager.Instance.Move.x < 0)
 			{
 				angle = -yAngleToRotate;
 			}
