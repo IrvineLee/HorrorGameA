@@ -25,7 +25,7 @@ namespace Personal.FSM.Character
 			Debug.Log("Hit interactable");
 			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
 
-			CursorManager.Instance.SetToDefaultCenterCrosshair();
+			CursorManager.Instance.SetCenterCrosshairToDefault();
 			interactable.HandleInteraction(playerFSM, default).Forget();
 		}
 	}

@@ -55,11 +55,8 @@ namespace Helper
 
 		void SetOutlineColor(float result)
 		{
-			outlinable.FrontParameters.Color = outlinable.FrontParameters.Color.With(a: result);
-			outlinable.BackParameters.Color = outlinable.BackParameters.Color.With(a: result);
 			outlinable.OutlineParameters.Color = outlinable.OutlineParameters.Color.With(a: result);
 			outlinable.OutlineParameters.FillPass.SetColor("_PublicColor", fillColor.With(a: result * fillMaxAlpha));
-			outlinable.OutlineParameters.DilateShift = result;
 		}
 	}
 }

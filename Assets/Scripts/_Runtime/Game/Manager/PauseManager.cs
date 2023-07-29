@@ -30,10 +30,8 @@ namespace Personal.Manager
 			IsPaused = isFlag;
 			Time.timeScale = isFlag ? 0 : 1;
 
-			StageManager.Instance.PlayerController.FPSController.enabled = !isFlag;
-
-			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
-			CursorManager.Instance.SetToMouseCursor(isFlag);
+			StageManager.Instance.PlayerController.PauseFSM(isFlag);
+			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag);
 		}
 
 		void OnApplicationQuit()

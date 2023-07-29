@@ -560,14 +560,6 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1221913015419282836, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1221913015419282836, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.20000006
-      objectReference: {fileID: 0}
-    - target: {fileID: 1221913015419282836, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -611,42 +603,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: EightSlidePuzzle
       objectReference: {fileID: 0}
-    - target: {fileID: 1221913015419282843, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6389909631428199676, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 2147484215
+    - target: {fileID: 6022999799852612914, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1221913015419282837, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4714194187730989447}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
---- !u!1 &5051477040040588658 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1221913015419282837, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
-  m_PrefabInstance: {fileID: 6264341001676460263}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4714194187730989447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5051477040040588658}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a99d8fce956c5449170f382bc54fe8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startIndex: 4
-  compareAxis: 1
-  selectionArcDotProduct: 0.85
 --- !u!4 &5051477040040588659 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1221913015419282836, guid: 6f75b873e7379364fa79fbd622833940, type: 3}

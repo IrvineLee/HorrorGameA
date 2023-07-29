@@ -26,7 +26,6 @@ namespace Personal.UI
 			base.OpenWindow();
 
 			itemInACircle3DUI.PutObjectsIntoACircle();
-			pc.PauseFSM(true);
 		}
 
 		public override void CloseWindow(bool isInstant)
@@ -34,7 +33,6 @@ namespace Personal.UI
 			base.CloseWindow(isInstant);
 
 			pc.Inventory.UpdateActiveObject();
-			pc.PauseFSM(false);
 		}
 
 		/// <summary>

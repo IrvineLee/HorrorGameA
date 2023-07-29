@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
-using Helper;
 using Personal.Interface;
-using Personal.Manager;
+using Helper;
 
 namespace Personal.Puzzle.EightSlide
 {
@@ -50,10 +49,11 @@ namespace Personal.Puzzle.EightSlide
 		[DetailedInfoBox("TileInfo", "Tile index:\n" + "[0,1,2]\n" + "[3,4,5]\n" + "[6,7,8]\n")]
 		[TableList] [SerializeField] List<Tile> tileList = new();
 
+		[SerializeField] SelectionTransformSet selectionTransformSet = null;
 		[SerializeField] float slideDuration = 0.5f;
 
 		int emptyIndex;
-		CoroutineRun slideCR = new CoroutineRun();
+		Dictionary<Transform, Tile> tileDictionary = new();
 
 		protected override void Awake()
 		{
@@ -64,6 +64,9 @@ namespace Personal.Puzzle.EightSlide
 			foreach (var tile in tileList)
 			{
 				tile.Initialize();
+				selectionTransformSet.Initialize(tile.StartIndex, tile.TileTrans);
+
+				tileDictionary.Add(tile.TileTrans, tile);
 
 				if (!tempList.Contains(tile.StartIndex))
 				{
@@ -77,27 +80,15 @@ namespace Personal.Puzzle.EightSlide
 			emptyIndex = tempList[0];
 		}
 
-		void Update()
+		protected override Transform GetActiveSelectionForGamepad()
 		{
-			if (!InputManager.Instance.IsInteract) return;
-			if (!slideCR.IsDone) return;
-
-			// Check puzzle click.
-			RaycastHit hit;
-
-			Vector2 mousePosition = Mouse.current.position.ReadValue();
-			Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-			if (Physics.Raycast(ray, out hit))
-			{
-				((IPuzzle)this).ClickedInteractable(hit.transform);
-				((IPuzzle)this).CheckPuzzleAnswer();
-			}
+			// The reason why you don't wanna return back the Target as selection is because it needs to handle the mouse control as well.
+			return selectionTransformSet.SelectionTargetList[puzzleGamepadMovement.CurrentActiveIndex].Selection;
 		}
 
 		public List<Transform> GetInteractableObjectList()
 		{
-			return tileList.ConvertAll(x => x.TileTrans);
+			return selectionTransformSet.SelectionTargetList.Select(selection => selection.Selection).ToList();
 		}
 
 		/// <summary>
@@ -106,10 +97,13 @@ namespace Personal.Puzzle.EightSlide
 		/// <param name="trans"></param>
 		void IPuzzle.ClickedInteractable(Transform trans)
 		{
-			foreach (var tile in tileList)
+			foreach (var selection in selectionTransformSet.SelectionTargetList)
 			{
-				if (tile.TileTrans.Equals(trans))
+				if (selection.Selection.Equals(trans))
 				{
+					if (selection.Target == null) return;
+					if (!tileDictionary.TryGetValue(selection.Target, out Tile tile)) return;
+
 					TryMoveTile(tile);
 					break;
 				}
@@ -139,6 +133,8 @@ namespace Personal.Puzzle.EightSlide
 			int index = emptyIndex;
 			emptyIndex = tile.CurrentIndex;
 			tile.SetCurrentIndex(index);
+
+			selectionTransformSet.SwapTargetToEmpty(tile.TileTrans, emptyIndex);
 		}
 
 		/// <summary>

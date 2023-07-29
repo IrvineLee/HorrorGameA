@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,13 +18,13 @@ namespace Personal.UI.Option
 		public override void OpenWindow()
 		{
 			base.OpenWindow();
-			StageManager.Instance.PlayerController.PauseFSM(true);
+			OnPause(true);
 		}
 
 		public override void CloseWindow(bool isInstant = false)
 		{
 			base.CloseWindow(isInstant);
-			StageManager.Instance.PlayerController.PauseFSM(false);
+			OnPause(false);
 		}
 
 		void ResumeButton()

@@ -47,7 +47,7 @@ namespace Personal.UI
 			UIManager.WindowStack.Push(this);
 			EnableGO(true, false);
 
-			OnPauseEvent?.Invoke(true);
+			OnPause(true);
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace Personal.UI
 			if (!UIManager.IsWindowStackEmpty) return;
 
 			InputManager.Instance.SetToDefaultActionMap();
-			OnPauseEvent?.Invoke(false);
+			OnPause(false);
 		}
 
 		/// <summary>
@@ -78,6 +78,15 @@ namespace Personal.UI
 		/// </summary>
 		/// <param name="action"></param>
 		public virtual void SetOnDisableAction(Action action) { disableAction = action; }
+
+		/// <summary>
+		/// OnPauseEvent for derived class.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		protected virtual void OnPause(bool isFlag)
+		{
+			OnPauseEvent?.Invoke(isFlag);
+		}
 
 		/// <summary>
 		/// Enable/Disable the window.

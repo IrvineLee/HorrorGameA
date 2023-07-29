@@ -23,13 +23,7 @@ namespace Personal.Character.Player
 		public void PauseFSM(bool isFlag)
 		{
 			FSM.PauseStateMachine(isFlag);
-
-			if (isFlag)
-			{
-				CursorManager.Instance.SetCenterCrosshair(Definition.CursorDefinition.CrosshairType.UI_Nothing);
-				return;
-			}
-			CursorManager.Instance.SetToDefaultCenterCrosshair();
+			FPSController.enabled = !isFlag;
 		}
 	}
 }

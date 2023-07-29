@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 using Sirenix.OdinInspector;
 using TMPro;
 
 using Cysharp.Threading.Tasks;
-using Personal.Manager;
 using Personal.Interface;
 using Helper;
 
@@ -59,7 +57,6 @@ namespace Personal.Puzzle.Pinwheel
 		int defaultTurnRemain;
 		List<Collider> colliderList = new();
 
-		CoroutineRun slideCR = new CoroutineRun();
 
 		protected override void Awake()
 		{
@@ -68,26 +65,9 @@ namespace Personal.Puzzle.Pinwheel
 			EnableHitCollider(false);
 		}
 
-		void Update()
+		protected override Transform GetActiveSelectionForGamepad()
 		{
-			if (!InputManager.Instance.IsInteract) return;
-			if (!slideCR.IsDone) return;
-
-			// Check puzzle click.
-			Transform target = puzzleGamepadMovement ? pinwheelList[puzzleGamepadMovement.CurrentActiveIndex].PinwheelTrans : null;
-			if (InputManager.Instance.IsCurrentDeviceMouse)
-			{
-				RaycastHit hit;
-
-				Vector2 mousePosition = Mouse.current.position.ReadValue();
-				Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-				if (!Physics.Raycast(ray, out hit)) return;
-				target = hit.transform;
-			}
-
-			((IPuzzle)this).ClickedInteractable(target);
-			((IPuzzle)this).CheckPuzzleAnswer();
+			return pinwheelList[puzzleGamepadMovement.CurrentActiveIndex].PinwheelTrans;
 		}
 
 		public List<Transform> GetInteractableObjectList()

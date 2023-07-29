@@ -8,6 +8,8 @@ using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
 using Personal.Dialogue;
+using Personal.Constant;
+using Helper;
 
 namespace Personal.Manager
 {
@@ -21,8 +23,9 @@ namespace Personal.Manager
 
 		bool IsCanChangeToMouse
 		{
-			get => GameSceneManager.Instance.IsScene("Title") || dialogueSetup.IsWaitingResponse ||
-				  !UIManager.IsWindowStackEmpty || InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle;
+			get => GameSceneManager.Instance.IsScene(SceneType.Title.GetStringValue()) || dialogueSetup.IsWaitingResponse ||
+				  (!UIManager.IsWindowStackEmpty && UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) ||
+				  InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle;
 		}
 
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
@@ -49,11 +52,11 @@ namespace Personal.Manager
 		protected override void OnEarlyMainScene()
 		{
 			SetToMouseCursor(false);
-			SetToDefaultCenterCrosshair();
+			SetCenterCrosshairToDefault();
 		}
 
 		/// <summary>
-		/// This only works for mouse input, NOT gamepad.
+		/// This changes the control from gamepad to mouse and vice-versa.
 		/// </summary>
 		/// <param name="isFlag"></param>
 		public void SetToMouseCursor(bool isFlag)
@@ -62,6 +65,24 @@ namespace Personal.Manager
 
 			centerCrosshairImage.gameObject.SetActive(!isFlag);
 			mouseCursorHandler.gameObject.SetActive(isFlag);
+		}
+
+		/// <summary>
+		/// This checks whether the user is using mouse first before setting it to mouse cursor.
+		/// </summary>
+		public void TrySetToMouseCursorForMouseControl(bool isCrosshairNothing = false)
+		{
+			if (isCrosshairNothing)
+			{
+				SetCenterCrosshairToNothing();
+			}
+			else
+			{
+				SetCenterCrosshairToDefault();
+			}
+
+			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
+			SetToMouseCursor(true);
 		}
 
 		/// <summary>
@@ -76,9 +97,17 @@ namespace Personal.Manager
 		/// <summary>
 		/// Set the center crosshair back to it's default state.
 		/// </summary>
-		public void SetToDefaultCenterCrosshair()
+		public void SetCenterCrosshairToDefault()
 		{
 			SetCenterCrosshairSprite(defaultCrosshairType);
+		}
+
+		/// <summary>
+		/// Set the center crosshair to nothing.
+		/// </summary>
+		public void SetCenterCrosshairToNothing()
+		{
+			SetCenterCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
 		}
 
 		void SetCenterCrosshairSprite(CursorDefinition.CrosshairType compareCrosshair)
