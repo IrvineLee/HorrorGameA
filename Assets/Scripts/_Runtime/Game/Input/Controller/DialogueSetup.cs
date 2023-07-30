@@ -41,13 +41,13 @@ namespace Personal.Dialogue
 			{
 				isWaitingResponse = true;
 				HandleCursor();
-				CursorManager.Instance.TrySetToMouseCursorForMouseControl();
+				CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>
 			{
 				isWaitingResponse = false;
-				CursorManager.Instance.TrySetToMouseCursorForMouseControl();
+				CursorManager.Instance.TrySetToMouseCursorForMouseControl(false);
 			});
 
 			ResponseFocus(true);

@@ -70,7 +70,7 @@ namespace Personal.Manager
 		/// <summary>
 		/// This checks whether the user is using mouse first before setting it to mouse cursor.
 		/// </summary>
-		public void TrySetToMouseCursorForMouseControl(bool isCrosshairNothing = false)
+		public void TrySetToMouseCursorForMouseControl(bool isFlag, bool isCrosshairNothing = false)
 		{
 			if (isCrosshairNothing)
 			{
@@ -82,7 +82,7 @@ namespace Personal.Manager
 			}
 
 			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
-			SetToMouseCursor(true);
+			SetToMouseCursor(isFlag);
 		}
 
 		/// <summary>

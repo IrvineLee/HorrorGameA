@@ -31,7 +31,7 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			StageManager.Instance.PlayerController.PauseFSM(isFlag);
-			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag);
+			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag, isFlag);
 		}
 
 		void OnApplicationQuit()

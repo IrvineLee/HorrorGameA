@@ -58,7 +58,7 @@ namespace Personal.FSM.Character
 		async UniTask ActivateCamera(bool isFlag)
 		{
 			virtualCam.gameObject.SetActive(isFlag);
-			CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
+			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag, true);
 
 			isRunning = isFlag;
 			await WaitCameraBlend();
