@@ -101,7 +101,9 @@ namespace Personal.Definition
 
 		public void OnInteract(InputAction.CallbackContext context)
 		{
-			if (InputManager.Instance.IsCurrentDeviceMouse || isUSInteract)
+			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
+
+			if (isMouse || (!isMouse && isUSInteract))
 			{
 				SetButtonEvent(context.started, OnInteractEvent);
 				return;
@@ -111,7 +113,9 @@ namespace Personal.Definition
 
 		public void OnCancel(InputAction.CallbackContext context)
 		{
-			if (InputManager.Instance.IsCurrentDeviceMouse || isUSInteract)
+			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
+
+			if (isMouse || (!isMouse && isUSInteract))
 			{
 				SetButtonEvent(context.started, OnCancelEvent);
 				return;

@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.Definition;
+using Personal.Setting.Game;
 using Helper;
 using static Personal.Definition.InputReaderDefinition;
 
@@ -87,12 +88,16 @@ namespace Personal.Manager
 
 		IDisposable iDisposableAnyButtonPressed;
 
+		GameData gameData;
+
 		protected override void Initialize()
 		{
 			FPSInputController = GetComponentInChildren<FPSInputController>(true);
 			UIInputController = GetComponentInChildren<UIInputController>(true);
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
 			inputSystemUIInputModule = GetComponentInChildren<InputSystemUIInputModule>(true);
+
+			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
 
 			submitActionReference = inputSystemUIInputModule.submit;
 			cancelActionReference = inputSystemUIInputModule.cancel;
@@ -264,24 +269,24 @@ namespace Personal.Manager
 		{
 			if (iconDisplayType == IconDisplayType.KeyboardMouse)
 			{
-				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
+				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.KeyboardMouse.GetStringValue());
 				return;
 			}
 			else if (iconDisplayType == IconDisplayType.Dualshock)
 			{
-				SetInitials(IconDisplayType.Dualshock.GetStringValue());
+				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.Dualshock.GetStringValue());
 				return;
 			}
 			else if (iconDisplayType == IconDisplayType.Xbox)
 			{
-				SetInitials(IconDisplayType.Xbox.GetStringValue());
+				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.Xbox.GetStringValue());
 				return;
 			}
 
 			// All condition-checks below are auto check...
 			if (InputDeviceType == InputDeviceType.KeyboardMouse)
 			{
-				SetInitials(IconDisplayType.KeyboardMouse.GetStringValue());
+				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.KeyboardMouse.GetStringValue());
 				return;
 			}
 
@@ -297,16 +302,24 @@ namespace Personal.Manager
 		{
 			if (CurrentGamepad.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
 			{
-				SetInitials(initials);
+				SetInitialsAndHandleGamepadInteractInput(initials);
 				return true;
 			}
 			return false;
 		}
 
-		void SetInitials(string initials)
+		void SetInitialsAndHandleGamepadInteractInput(string initials)
 		{
 			IconInitials = initials;
 			OnDeviceIconChanged?.Invoke();
+
+			// You don't wanna swap the interact input when in mouse mode.
+			if (IsCurrentDeviceMouse)
+			{
+				SwapInteractInput(true);
+				return;
+			}
+			SwapInteractInput(gameData.IsUSInteractButton);
 		}
 
 		void OnApplicationQuit()

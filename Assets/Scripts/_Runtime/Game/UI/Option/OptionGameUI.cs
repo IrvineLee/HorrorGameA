@@ -30,10 +30,6 @@ namespace Personal.UI.Option
 		[SerializeField] UISelectionDropdown fontSizeDropdown = null;
 		[SerializeField] UISelectionDropdown languageDropdown = null;
 
-		public float CameraSensitivity { get => cameraSensitivitySlider.value; }
-		public bool IsInvertLookHorizontal { get => isInvertLookHorizontal.IsOn; }
-		public bool IsInvertLookVertical { get => isInvertLookVertical.IsOn; }
-
 		GameData gameData;
 
 		float currentBrightness01;

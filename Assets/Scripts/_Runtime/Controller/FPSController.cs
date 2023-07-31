@@ -8,6 +8,7 @@ using Personal.FSM.Character;
 using Personal.UI.Option;
 using Helper;
 using static Personal.UI.Option.OptionHandlerUI;
+using Personal.Setting.Game;
 
 namespace Personal.Character.Player
 {
@@ -90,8 +91,8 @@ namespace Personal.Character.Player
 
 		FPSInputController input;
 		PlayerStateMachine fsm;
-		OptionGameUI optionGameUI;
 
+		GameData gameData;
 		bool isCurrentInvertedLookVertical;
 
 		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
@@ -109,11 +110,10 @@ namespace Personal.Character.Player
 			_jumpTimeoutDelta = jumpTimeout;
 			_fallTimeoutDelta = fallTimeout;
 
-			if (!UIManager.Instance.OptionUI.TabDictionary.TryGetValue(MenuTab.Game, out Tab tab)) return;
+			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
 
-			optionGameUI = (OptionGameUI)tab.OptionMenuUI;
-			rotationSpeed = optionGameUI.CameraSensitivity;
-			isCurrentInvertedLookVertical = optionGameUI.IsInvertLookVertical;
+			rotationSpeed = gameData.CameraSensitivity;
+			isCurrentInvertedLookVertical = gameData.IsInvertLookVertical;
 		}
 
 		void Update()
@@ -159,23 +159,23 @@ namespace Personal.Character.Player
 				//Don't multiply mouse input by Time.deltaTime
 				float deltaTimeMultiplier = InputManager.Instance.IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-				_cinemachineTargetPitch += input.Look.y * optionGameUI.CameraSensitivity * deltaTimeMultiplier;
-				_rotationVelocity = input.Look.x * optionGameUI.CameraSensitivity * deltaTimeMultiplier;
+				_cinemachineTargetPitch += input.Look.y * gameData.CameraSensitivity * deltaTimeMultiplier;
+				_rotationVelocity = input.Look.x * gameData.CameraSensitivity * deltaTimeMultiplier;
 
 				// clamp our pitch rotation
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, bottomClamp, topClamp);
 
-				if (isCurrentInvertedLookVertical != optionGameUI.IsInvertLookVertical)
+				if (isCurrentInvertedLookVertical != gameData.IsInvertLookVertical)
 				{
 					_cinemachineTargetPitch = -_cinemachineTargetPitch;
-					isCurrentInvertedLookVertical = optionGameUI.IsInvertLookVertical;
+					isCurrentInvertedLookVertical = gameData.IsInvertLookVertical;
 				}
 
 				// Update Cinemachine camera target pitch
-				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!optionGameUI.IsInvertLookVertical ? _cinemachineTargetPitch : -_cinemachineTargetPitch, 0.0f, 0.0f);
+				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!gameData.IsInvertLookVertical ? _cinemachineTargetPitch : -_cinemachineTargetPitch, 0.0f, 0.0f);
 
 				// rotate the player left and right
-				transform.Rotate((!optionGameUI.IsInvertLookHorizontal ? Vector3.up : Vector3.down) * _rotationVelocity);
+				transform.Rotate((!gameData.IsInvertLookHorizontal ? Vector3.up : Vector3.down) * _rotationVelocity);
 			}
 		}
 
