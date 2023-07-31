@@ -26,7 +26,7 @@ namespace Personal.Puzzle.EightSlide
 
 		SelectionTarget emptySelectionTarget;
 
-		void Awake()
+		void Start()
 		{
 			foreach (var selectionTarget in selectionTargetList)
 			{
@@ -42,7 +42,7 @@ namespace Personal.Puzzle.EightSlide
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="target"></param>
-		public void Initialize(int index, Transform target)
+		public void SetInitialTarget(int index, Transform target)
 		{
 			selectionTargetList[index].SetTarget(target);
 		}

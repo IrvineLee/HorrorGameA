@@ -64,7 +64,7 @@ namespace Personal.Puzzle.EightSlide
 			foreach (var tile in tileList)
 			{
 				tile.Initialize();
-				selectionTransformSet.Initialize(tile.StartIndex, tile.TileTrans);
+				selectionTransformSet.SetInitialTarget(tile.StartIndex, tile.TileTrans);
 
 				tileDictionary.Add(tile.TileTrans, tile);
 
