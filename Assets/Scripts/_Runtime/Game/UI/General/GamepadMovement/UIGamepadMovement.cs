@@ -16,6 +16,7 @@ namespace Personal.UI
 	public class UIGamepadMovement : GameInitialize
 	{
 		public int CurrentActiveIndex { get => currentActiveIndex; }
+		public static bool IsHold { get; private set; }
 
 		List<UISelectable> uiSelectableList = new();
 
@@ -44,10 +45,15 @@ namespace Personal.UI
 
 			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
 
-			if (move == Vector3.zero) return;
+			if (move == Vector3.zero)
+			{
+				IsHold = false;
+				return;
+			}
 			if (!waitCR.IsDone) return;
 
 			HandleMovement(GetHorizontalVericalMovement(move));
+			IsHold = true;
 
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
 		}
