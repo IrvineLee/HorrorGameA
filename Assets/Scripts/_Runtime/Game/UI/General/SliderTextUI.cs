@@ -1,9 +1,8 @@
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
-using UnityEngine.Events;
-using System.Text;
 
 namespace Personal.UI
 {

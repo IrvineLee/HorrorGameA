@@ -24,6 +24,8 @@ namespace Personal.UI
 		protected List<Selectable> selectableList = new();
 		protected List<GameObject> ignoredGOList = new();
 
+		static bool isLockSelection;
+
 		void Awake()
 		{
 			uiGamepadMovement = GetComponentInParent<UIGamepadMovement>(true);
@@ -43,10 +45,15 @@ namespace Personal.UI
 			if (!isInitialSelection) return;
 
 			// Make sure it's always on the selected state when starting.
-			EventSystem.current.SetSelectedGameObject(null);
 			EventSystem.current.SetSelectedGameObject(gameObject);
 			menuUIBase.SetLastSelectedGO(gameObject);
 		}
+
+		/// <summary>
+		/// Call this to prevent the selection changing when moving the mouse.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		public static void LockSelection(bool isFlag) { isLockSelection = isFlag; }
 
 		public void AddIgnoredSelection(List<GameObject> goList)
 		{
@@ -55,6 +62,7 @@ namespace Personal.UI
 
 		void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
 		{
+			if (isLockSelection) return;
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
 			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
 
@@ -63,6 +71,7 @@ namespace Personal.UI
 
 		void ISelectHandler.OnSelect(BaseEventData eventData)
 		{
+			if (isLockSelection) return;
 			windowSelectionUIAnimator?.Run(true);
 			SetSelectableColor(true);
 
@@ -72,6 +81,8 @@ namespace Personal.UI
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
 		{
+			if (isLockSelection) return;
+
 			// Wait for end of frame to check whether the next active selection is within the ignored list.
 			CoroutineHelper.WaitEndOfFrame(() =>
 			{
