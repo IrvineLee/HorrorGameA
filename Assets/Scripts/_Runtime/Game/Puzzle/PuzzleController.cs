@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 using Personal.Manager;
 using Helper;
+using static Personal.Manager.InputManager;
 
 namespace Personal.Puzzle
 {
@@ -32,7 +33,7 @@ namespace Personal.Puzzle
 
 		void Update()
 		{
-			if (!InputManager.Instance.IsInteract) return;
+			if (!InputManager.Instance.GetButtonPush(ButtonPush.Submit)) return;
 			if (!slideCR.IsDone) return;
 
 			// Check puzzle click.

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Cinemachine;
 using Personal.Interface;
 using Personal.Manager;
+using static Personal.Manager.InputManager;
 
 namespace Personal.FSM.Character
 {
@@ -35,7 +36,7 @@ namespace Personal.FSM.Character
 		{
 			if (isRunning == null) return;
 
-			if (InputManager.Instance.IsCancel ||
+			if (InputManager.Instance.GetButtonPush(ButtonPush.Cancel) ||
 				(iProcessTrans != null && (iProcess.IsCompleted() || iProcess.IsFailed())))
 			{
 				isRunning = false;

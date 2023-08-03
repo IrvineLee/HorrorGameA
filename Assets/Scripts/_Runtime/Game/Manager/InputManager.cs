@@ -17,6 +17,18 @@ namespace Personal.Manager
 {
 	public class InputManager : GameInitializeSingleton<InputManager>
 	{
+		public enum MotionType
+		{
+			Move = 0,
+			LookAt,
+		}
+
+		public enum ButtonPush
+		{
+			Submit = 0,
+			Cancel,
+		}
+
 		[SerializeField] InputReaderDefinition inputReaderDefinition = null;
 		[SerializeField] ButtonIconDefinition buttonIconDefinition = null;
 		[SerializeField] [ReadOnly] ActionMapType currentActionMapType = ActionMapType.UI;
@@ -33,45 +45,6 @@ namespace Personal.Manager
 		public ActionMapType CurrentActionMapType { get => currentActionMapType; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
 		public bool IsCurrentDeviceMouse { get => InputDeviceType == InputDeviceType.KeyboardMouse; }
-
-		public Vector3 Move
-		{
-			get
-			{
-				switch (currentActionMapType)
-				{
-					case ActionMapType.Player: return FPSInputController.Move;
-					case ActionMapType.Puzzle: return PuzzleInputController.Move;
-					default: return UIInputController.Move;
-				}
-			}
-		}
-
-		public bool IsInteract
-		{
-			get
-			{
-				switch (currentActionMapType)
-				{
-					case ActionMapType.Player: return FPSInputController.IsInteract;
-					case ActionMapType.Puzzle: return PuzzleInputController.IsInteract;
-					default: return UIInputController.IsInteract;
-				}
-			}
-		}
-
-		public bool IsCancel
-		{
-			get
-			{
-				switch (currentActionMapType)
-				{
-					case ActionMapType.Player: return FPSInputController.IsCancel;
-					case ActionMapType.Puzzle: return PuzzleInputController.IsCancel;
-					default: return UIInputController.IsCancel;
-				}
-			}
-		}
 
 		public string IconInitials { get; private set; }
 		public Gamepad CurrentGamepad { get; private set; }
@@ -117,6 +90,26 @@ namespace Personal.Manager
 			DisableAllActionMap();
 			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
 			EnableActionMap(ActionMapType.Player);
+		}
+
+		public Vector3 GetMotion(MotionType motionType)
+		{
+			switch (currentActionMapType)
+			{
+				case ActionMapType.Player: return motionType == MotionType.Move ? FPSInputController.Move : FPSInputController.Look;
+				case ActionMapType.Puzzle: return motionType == MotionType.Move ? PuzzleInputController.Move : PuzzleInputController.Look;
+				default: return motionType == MotionType.Move ? UIInputController.Move : UIInputController.Look;
+			}
+		}
+
+		public bool GetButtonPush(ButtonPush buttonPush)
+		{
+			switch (currentActionMapType)
+			{
+				case ActionMapType.Player: return buttonPush == ButtonPush.Submit ? FPSInputController.IsInteract : FPSInputController.IsCancel;
+				case ActionMapType.Puzzle: return buttonPush == ButtonPush.Submit ? PuzzleInputController.IsInteract : PuzzleInputController.IsCancel;
+				default: return buttonPush == ButtonPush.Submit ? UIInputController.IsInteract : UIInputController.IsCancel;
+			}
 		}
 
 		/// <summary>

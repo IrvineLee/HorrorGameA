@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.UI.Option
 {
@@ -9,10 +10,12 @@ namespace Personal.UI.Option
 		[SerializeField] float moveModifier = 1f;
 
 		Vector3 startPos;
+		Camera cam;
 
 		protected override void Initialize()
 		{
 			startPos = transform.position;
+			cam = Camera.main;
 		}
 
 		protected override void OnTitleScene()
@@ -27,7 +30,12 @@ namespace Personal.UI.Option
 
 		void Update()
 		{
-			var viewportPoint = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+			var viewportPoint = Vector3.Normalize(InputManager.Instance.GetMotion(InputManager.MotionType.LookAt));
+			if (InputManager.Instance.IsCurrentDeviceMouse)
+			{
+				viewportPoint = cam.ScreenToViewportPoint(Input.mousePosition);
+			}
+
 			var point = new Vector3(startPos.x + (viewportPoint.x * moveModifier), startPos.y + (viewportPoint.y * moveModifier), 0);
 			transform.position = point;
 		}

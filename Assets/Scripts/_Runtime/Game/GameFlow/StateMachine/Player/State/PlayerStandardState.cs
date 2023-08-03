@@ -19,7 +19,7 @@ namespace Personal.FSM.Character
 
 			CursorManager.Instance.SetCenterCrosshair(interactable.InteractCrosshairType);
 
-			if (!InputManager.Instance.IsInteract) return;
+			if (!InputManager.Instance.GetButtonPush(InputManager.ButtonPush.Submit)) return;
 			if (!interactable.enabled) return;
 
 			Debug.Log("Hit interactable");

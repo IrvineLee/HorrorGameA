@@ -111,8 +111,8 @@ namespace Personal.Dialogue
 
 		void OnDisable()
 		{
-			standardUIMenuPanel.onOpen.RemoveAllListeners();
-			standardUIMenuPanel.onClose.RemoveAllListeners();
+			standardUIMenuPanel?.onOpen.RemoveAllListeners();
+			standardUIMenuPanel?.onClose.RemoveAllListeners();
 
 			InputManager.OnDeviceIconChanged -= HandleCursor;
 			InputDeviceManager.UnregisterInputAction("Interact");

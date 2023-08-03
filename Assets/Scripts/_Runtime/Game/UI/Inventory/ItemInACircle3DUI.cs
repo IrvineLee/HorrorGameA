@@ -9,6 +9,7 @@ using Personal.InteractiveObject;
 using Personal.Character.Player;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
+using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
@@ -81,11 +82,13 @@ namespace Personal.UI
 		/// </summary>
 		protected virtual void HandleInput()
 		{
-			if (InputManager.Instance.Move == Vector3.zero) return;
+			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
+
+			if (move == Vector3.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = yAngleToRotate;
-			if (InputManager.Instance.Move.x < 0)
+			if (move.x < 0)
 			{
 				angle = -yAngleToRotate;
 			}

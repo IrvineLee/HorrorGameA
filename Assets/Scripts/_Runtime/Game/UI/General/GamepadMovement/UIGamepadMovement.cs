@@ -9,6 +9,7 @@ using Personal.Manager;
 using Personal.GameState;
 using Helper;
 using Personal.Constant;
+using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
@@ -40,10 +41,12 @@ namespace Personal.UI
 		{
 			if (!isUpdate) return;
 			if (InputManager.Instance.IsCurrentDeviceMouse) return;
-			if (InputManager.Instance.Move == Vector3.zero) return;
+
+			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
+
+			if (move == Vector3.zero) return;
 			if (!waitCR.IsDone) return;
 
-			Vector2 move = InputManager.Instance.Move;
 			HandleMovement(GetHorizontalVericalMovement(move));
 
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);

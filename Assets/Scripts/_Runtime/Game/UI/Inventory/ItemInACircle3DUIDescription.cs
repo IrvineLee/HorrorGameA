@@ -6,6 +6,7 @@ using Personal.Manager;
 using Personal.InteractiveObject;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
+using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
@@ -24,13 +25,16 @@ namespace Personal.UI
 		protected override void HandleInput()
 		{
 			if (playerInventory.InventoryList.Count <= 0) return;
-			if (InputManager.Instance.Move == Vector3.zero) return;
+
+			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
+
+			if (move == Vector3.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = yAngleToRotate;
 			Action doLast = GetNextAction(false);
 
-			if (InputManager.Instance.Move.x < 0 || InputManager.Instance.Move.y < 0)
+			if (move.x < 0 || move.y < 0)
 			{
 				angle = -yAngleToRotate;
 				doLast = GetNextAction(true);
