@@ -5,10 +5,8 @@ using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.FSM.Character;
-using Personal.UI.Option;
-using Helper;
-using static Personal.UI.Option.OptionHandlerUI;
 using Personal.Setting.Game;
+using Helper;
 
 namespace Personal.Character.Player
 {

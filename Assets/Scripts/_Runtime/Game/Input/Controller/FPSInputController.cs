@@ -1,8 +1,6 @@
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.UI.Option;
-using Personal.UI;
 
 namespace Personal.InputProcessing
 {

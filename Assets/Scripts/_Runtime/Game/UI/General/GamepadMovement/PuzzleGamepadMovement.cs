@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Personal.Manager;
-using Helper;
 using Personal.UI;
+using Helper;
 
 namespace Personal.Puzzle
 {
