@@ -163,6 +163,7 @@ namespace Personal.Puzzle.EightSlide
 		{
 			enabled = isFlag;
 			HandleMouseOrGamepadDisplay(isFlag);
+			selectionTransformSet.gameObject.SetActive(isFlag);
 
 			if (puzzleState == PuzzleState.Completed) return;
 			puzzleState = PuzzleState.None;

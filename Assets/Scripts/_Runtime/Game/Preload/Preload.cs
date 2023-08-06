@@ -16,7 +16,7 @@ namespace Personal.Preloader
 		static string preloadSceneName = SceneType.PreloadScene.GetStringValue();
 		static string startSceneName = SceneType.Title.GetStringValue();
 
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		static async void RuntimeInit()
 		{
 			string activeSceneName = SceneManager.GetActiveScene().name;

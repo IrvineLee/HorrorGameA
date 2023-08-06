@@ -14,24 +14,16 @@ namespace Personal.GameState
 	/// </summary>
 	public class GameInitialize : MonoBehaviour
 	{
-		bool isInitiallyLoaded;
-
 		protected async UniTask Awake()
 		{
-			isInitiallyLoaded = enabled;
-
 			if (!Preload.IsLoaded)
 			{
-				// To prevent any monobehaviour functions from getting called before preload is done.
-				enabled = false;
-
 				await UniTask.WaitUntil(() => Preload.IsLoaded, cancellationToken: this.GetCancellationTokenOnDestroy());
 			}
 
 			// Wait for the singleton scripts to handle its OnSceneLoaded first before initializing this script.
 			//await UniTask.Yield(PlayerLoopTiming.LastInitialization);
 
-			enabled = isInitiallyLoaded;
 			Initialize();
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
