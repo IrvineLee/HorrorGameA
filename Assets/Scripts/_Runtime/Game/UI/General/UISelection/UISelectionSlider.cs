@@ -16,7 +16,7 @@ namespace Personal.UI
 		Slider slider;
 		float multiplier = 1f;
 
-		CoroutineRun waitCR = new();
+		CoroutineRun holdCR = new();
 		bool isIncreaseMultiplier;
 
 		public override void Initialize()
@@ -42,30 +42,26 @@ namespace Personal.UI
 
 		void HandleMultiplier()
 		{
-			if (UIGamepadMovement.IsHold)
+			if (!UIGamepadMovement.IsHold)
 			{
-				if (!isIncreaseMultiplier && waitCR.IsDone)
-				{
-					waitCR = CoroutineHelper.WaitFor(addMultiplierAfterDuration, () => isIncreaseMultiplier = true);
-				}
-			}
-			else
-			{
-				waitCR?.StopCoroutine();
+				holdCR?.StopCoroutine();
 				isIncreaseMultiplier = false;
-			}
 
-			if (!isIncreaseMultiplier)
-			{
 				multiplier = 1f;
 				return;
 			}
 
-			// Increase multiplier.
-			multiplier += holdDownAddMultiplier;
-			if (multiplier > holdDownMaxMultiplier)
+			if (isIncreaseMultiplier)
 			{
-				multiplier = holdDownMaxMultiplier;
+				multiplier += holdDownAddMultiplier;
+				if (multiplier > holdDownMaxMultiplier)
+				{
+					multiplier = holdDownMaxMultiplier;
+				}
+			}
+			else if (holdCR.IsDone)
+			{
+				holdCR = CoroutineHelper.WaitFor(addMultiplierAfterDuration, () => isIncreaseMultiplier = true, default, true);
 			}
 		}
 	}

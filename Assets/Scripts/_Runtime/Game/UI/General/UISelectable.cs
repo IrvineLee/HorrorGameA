@@ -45,9 +45,7 @@ namespace Personal.UI
 			if (!isInitialSelection) return;
 
 			// Make sure it's always on the selected state when starting.
-			EventSystem.current.SetSelectedGameObject(null);
 			EventSystem.current.SetSelectedGameObject(gameObject);
-
 			menuUIBase.SetLastSelectedGO(gameObject);
 		}
 
@@ -112,6 +110,8 @@ namespace Personal.UI
 
 		void OnDisable()
 		{
+			EventSystem.current.SetSelectedGameObject(null);
+
 			windowSelectionUIAnimator?.StopAnimation();
 			SetSelectableColor(false);
 		}
