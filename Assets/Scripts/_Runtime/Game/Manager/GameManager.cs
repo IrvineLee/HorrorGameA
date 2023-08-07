@@ -39,6 +39,7 @@ namespace Personal.Manager
 			if (PoolManager.Instance == null) return false;
 			if (RumbleManager.Instance == null) return false;
 			if (SaveManager.Instance == null) return false;
+			if (SteamManager.Instance == null) return false;
 			if (StageManager.Instance == null) return false;
 			if (UIManager.Instance == null) return false;
 			if (HelperObj.Instance == null) return false;
