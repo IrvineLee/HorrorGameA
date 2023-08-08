@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 using Helper;
 using Personal.Setting.Audio;
@@ -13,6 +14,10 @@ namespace Personal.Manager
 		[SerializeField] AudioSource sfx = null;
 
 		[Space]
+		[SerializeField] AudioMixerGroup bgmMixerGroup = null;
+		[SerializeField] AudioMixerGroup sfxMixerGroup = null;
+
+		[Space]
 		[SerializeField] BGMDefinition BGM_AudioDefinition = null;
 		[SerializeField] SFXDefinition SFX_AudioDefinition = null;
 
@@ -23,6 +28,16 @@ namespace Personal.Manager
 		{
 			BGM_AudioDefinition.Initialize();
 			SFX_AudioDefinition.Initialize();
+		}
+
+		public void SetBGMVolume(float value01)
+		{
+			SetMixerVolume(bgmMixerGroup, "BGM", value01);
+		}
+
+		public void SetSFXVolume(float value01)
+		{
+			SetMixerVolume(sfxMixerGroup, "SFX", value01);
 		}
 
 		public void PlayBGM(AudioBGMType audioBGMType)
@@ -46,24 +61,12 @@ namespace Personal.Manager
 		/// <param name="audioSFXType"></param>
 		/// <param name="position"></param>
 		/// <param name="volume"></param>
+		/// <param name="isLoop"></param>
 		/// <returns></returns>
-		public AudioSource PlaySFXOnceAt(AudioSFXType audioSFXType, Vector3 position, float volume = -1)
+		public AudioSource PlaySFXAt(AudioSFXType audioSFXType, Vector3 position, float volume = -1, bool isLoop = false)
 		{
 			volume = volume == -1 ? sfx.volume : volume;
-			return SetupSFX(audioSFXType, position, false, volume);
-		}
-
-		/// <summary>
-		/// Play sfx loop at position.
-		/// </summary>
-		/// <param name="audioSFXType"></param>
-		/// <param name="position"></param>
-		/// <param name="volume"></param>
-		/// <returns></returns>
-		public AudioSource PlaySFXLoopAt(AudioSFXType audioSFXType, Vector3 position, float volume = -1)
-		{
-			volume = volume == -1 ? sfx.volume : volume;
-			return SetupSFX(audioSFXType, position, true, volume);
+			return SetupSFX(audioSFXType, position, volume, isLoop);
 		}
 
 		/// <summary>
@@ -71,23 +74,21 @@ namespace Personal.Manager
 		/// </summary>
 		/// <param name="audioSFXType"></param>
 		/// <param name="position"></param>
-		/// <param name="isLoop"></param>
 		/// <param name="volume"></param>
+		/// <param name="isLoop"></param>
 		/// <returns></returns>
-		AudioSource SetupSFX(AudioSFXType audioSFXType, Vector3 position, bool isLoop, float volume)
+		AudioSource SetupSFX(AudioSFXType audioSFXType, Vector3 position, float volume, bool isLoop)
 		{
 			SFX_AudioDefinition.AudioDictionary.TryGetValue(audioSFXType, out AudioClip audioClip);
 
 			if (!audioClip) return null;
 
 			GameObject go = PoolManager.Instance.GetSpawnedObject(audioSFXType.GetStringValue());
-			AudioSource audioSource = null;
+			AudioSource audioSource = go?.GetComponent<AudioSource>(); ;
 
 			if (go)
 			{
 				go.transform.position = position;
-
-				audioSource = go.GetComponent<AudioSource>();
 				SetSFX(audioSource, audioClip, isLoop, volume);
 
 				return audioSource;
@@ -106,6 +107,7 @@ namespace Personal.Manager
 		{
 			audioSource.clip = audioClip;
 			audioSource.volume = volume;
+			audioSource.outputAudioMixerGroup = sfxMixerGroup;
 			audioSource.Play();
 
 			if (isLoop)
@@ -119,6 +121,15 @@ namespace Personal.Manager
 				if (!audioSource) return;
 				PoolManager.Instance.ReturnSpawnedObject(audioSource.gameObject);
 			});
+		}
+
+		void SetMixerVolume(AudioMixerGroup audioMixerGroup, string str, float value01)
+		{
+			// Reason why you multiply by 20. https://en.wikipedia.org/wiki/Decibel#Uses
+			float value = Mathf.Log10(value01) * 20;
+			if (value01 <= 0) value = -80;
+
+			audioMixerGroup.audioMixer.SetFloat(str, value);
 		}
 	}
 }

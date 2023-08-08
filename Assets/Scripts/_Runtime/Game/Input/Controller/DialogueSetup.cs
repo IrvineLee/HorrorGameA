@@ -105,8 +105,6 @@ namespace Personal.Dialogue
 		{
 			InputDeviceManager.instance.alwaysAutoFocus = isFlag;
 			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
-
-			CursorManager.Instance.SetToMouseCursor(!isFlag);
 		}
 
 		void OnDisable()

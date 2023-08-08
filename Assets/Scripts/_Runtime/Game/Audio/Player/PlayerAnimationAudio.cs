@@ -31,7 +31,7 @@ namespace Personal.Character.Animation
 			if (footstepSFXTypes.Count <= 0) return;
 
 			var index = Random.Range(0, footstepSFXTypes.Count);
-			AudioManager.Instance.PlaySFXOnceAt(footstepSFXTypes[index], transform.TransformPoint(fpsController.Controller.center), footstepVolume);
+			AudioManager.Instance.PlaySFXAt(footstepSFXTypes[index], transform.TransformPoint(fpsController.Controller.center), footstepVolume);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Personal.Character.Animation
 		void OnLand(AnimationEvent animationEvent)
 		{
 			if (animationEvent.animatorClipInfo.weight <= 0.5f) return;
-			AudioManager.Instance.PlaySFXOnceAt(landSFXType, transform.TransformPoint(fpsController.Controller.center), footstepVolume);
+			AudioManager.Instance.PlaySFXAt(landSFXType, transform.TransformPoint(fpsController.Controller.center), footstepVolume);
 		}
 	}
 }

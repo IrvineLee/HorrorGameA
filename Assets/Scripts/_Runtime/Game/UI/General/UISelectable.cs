@@ -110,7 +110,7 @@ namespace Personal.UI
 
 		void OnDisable()
 		{
-			EventSystem.current.SetSelectedGameObject(null);
+			EventSystem.current?.SetSelectedGameObject(null);
 
 			windowSelectionUIAnimator?.StopAnimation();
 			SetSelectableColor(false);

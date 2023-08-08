@@ -184,8 +184,8 @@ namespace Personal.UI.Option
 		void SetGameVolume(float master01, float bgm01, float sfx01)
 		{
 			// Set game volume.
-			AudioManager.Instance.Bgm.volume = bgm01 * master01;
-			AudioManager.Instance.Sfx.volume = sfx01 * master01;
+			AudioManager.Instance.SetBGMVolume(bgm01 * master01);
+			AudioManager.Instance.SetSFXVolume(sfx01 * master01);
 		}
 
 		void OnApplicationQuit()
