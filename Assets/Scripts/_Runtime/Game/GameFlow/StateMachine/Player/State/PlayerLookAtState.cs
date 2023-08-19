@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Cinemachine;
 using Personal.Character.Player;
 using Personal.Manager;
+using Personal.Character.Animation;
 
 namespace Personal.FSM.Character
 {
@@ -11,15 +12,18 @@ namespace Personal.FSM.Character
 	{
 		protected CinemachineVirtualCamera vCam;
 		protected FPSController fpsController;
+		protected PlayerAnimatorController playerAnimatorController;
 
 		public override UniTask OnEnter()
 		{
 			base.OnEnter();
 
-			fpsController = StageManager.Instance.PlayerController.FPSController;
+			PlayerController pc = StageManager.Instance.PlayerController;
+			fpsController = pc.FPSController;
+			playerAnimatorController = pc.PlayerAnimatorController;
 
 			fpsController.enabled = false;
-			fpsController.ResetAnimationBlend();
+			playerAnimatorController.ResetAnimationBlend();
 
 			if (playerFSM.LookAtTarget)
 			{

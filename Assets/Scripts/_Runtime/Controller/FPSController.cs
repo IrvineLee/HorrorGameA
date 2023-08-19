@@ -6,7 +6,6 @@ using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.FSM.Character;
 using Personal.Setting.Game;
-using Helper;
 
 namespace Personal.Character.Player
 {
@@ -67,25 +66,27 @@ namespace Personal.Character.Player
 		[SerializeField] float bottomClamp = -90.0f;
 
 		public bool IsGrounded { get => isGrounded; }
-		public float SpeedAnimationBlend { get; private set; }
 		public float InputMagnitude { get; private set; }
+		public Vector3 InputDirection { get; private set; }
+		public float TargetSpeed { get; private set; }
+		public float SpeedChangeRate { get => speedChangeRate; }
 		public CharacterController Controller { get; private set; }
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnFreeFallEvent;
 
 		// cinemachine
-		float _cinemachineTargetPitch;
+		float cinemachineTargetPitch;
 
 		// player
-		float _speed;
-		float _rotationVelocity;
-		float _verticalVelocity;
-		float _terminalVelocity = 53.0f;
+		float speed;
+		float rotationVelocity;
+		float verticalVelocity;
+		float terminalVelocity = 53.0f;
 
 		// timeout deltatime
-		float _jumpTimeoutDelta;
-		float _fallTimeoutDelta;
+		float jumpTimeoutDelta;
+		float fallTimeoutDelta;
 
 		FPSInputController input;
 		PlayerStateMachine fsm;
@@ -93,20 +94,16 @@ namespace Personal.Character.Player
 		GameData gameData;
 		bool isCurrentInvertedLookVertical;
 
-		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
-		CoroutineRun inputMagnitudeCR = new CoroutineRun();
-
-		const float _threshold = 0.01f;
-
 		protected override void Initialize()
 		{
 			input = InputManager.Instance.FPSInputController;
-			fsm = GetComponentInParent<PlayerStateMachine>();
+
 			Controller = GetComponentInChildren<CharacterController>();
+			fsm = GetComponentInParent<PlayerStateMachine>();
 
 			// reset our timeouts on start
-			_jumpTimeoutDelta = jumpTimeout;
-			_fallTimeoutDelta = fallTimeout;
+			jumpTimeoutDelta = jumpTimeout;
+			fallTimeoutDelta = fallTimeout;
 
 			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
 
@@ -116,6 +113,7 @@ namespace Personal.Character.Player
 
 		void Update()
 		{
+			InputDirection = Vector3.zero;
 			if (!fsm || fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
 
 			JumpAndGravity();
@@ -130,18 +128,6 @@ namespace Personal.Character.Player
 			CameraRotation();
 		}
 
-		/// <summary>
-		/// Used to reset the animation blending values. Typically for dissolve shader.
-		/// </summary>
-		public void ResetAnimationBlend(float duration = 0)
-		{
-			speedAnimationBlendCR?.StopCoroutine();
-			inputMagnitudeCR?.StopCoroutine();
-
-			speedAnimationBlendCR = CoroutineHelper.LerpWithinSeconds(SpeedAnimationBlend, 0, duration, (result) => SpeedAnimationBlend = result);
-			inputMagnitudeCR = CoroutineHelper.LerpWithinSeconds(InputMagnitude, 0, duration, (result) => InputMagnitude = result);
-		}
-
 		void GroundedCheck()
 		{
 			// set sphere position, with offset
@@ -152,41 +138,41 @@ namespace Personal.Character.Player
 		void CameraRotation()
 		{
 			// if there is an input
-			if (input.Look.sqrMagnitude >= _threshold)
+			if (input.Look == Vector2.zero) return;
+
+			//Don't multiply mouse input by Time.deltaTime
+			float deltaTimeMultiplier = InputManager.Instance.IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+
+			cinemachineTargetPitch += input.Look.y * gameData.CameraSensitivity * deltaTimeMultiplier;
+			rotationVelocity = input.Look.x * gameData.CameraSensitivity * deltaTimeMultiplier;
+
+			// clamp our pitch rotation
+			cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
+
+			if (isCurrentInvertedLookVertical != gameData.IsInvertLookVertical)
 			{
-				//Don't multiply mouse input by Time.deltaTime
-				float deltaTimeMultiplier = InputManager.Instance.IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-				_cinemachineTargetPitch += input.Look.y * gameData.CameraSensitivity * deltaTimeMultiplier;
-				_rotationVelocity = input.Look.x * gameData.CameraSensitivity * deltaTimeMultiplier;
-
-				// clamp our pitch rotation
-				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, bottomClamp, topClamp);
-
-				if (isCurrentInvertedLookVertical != gameData.IsInvertLookVertical)
-				{
-					_cinemachineTargetPitch = -_cinemachineTargetPitch;
-					isCurrentInvertedLookVertical = gameData.IsInvertLookVertical;
-				}
-
-				// Update Cinemachine camera target pitch
-				cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!gameData.IsInvertLookVertical ? _cinemachineTargetPitch : -_cinemachineTargetPitch, 0.0f, 0.0f);
-
-				// rotate the player left and right
-				transform.Rotate((!gameData.IsInvertLookHorizontal ? Vector3.up : Vector3.down) * _rotationVelocity);
+				cinemachineTargetPitch = -cinemachineTargetPitch;
+				isCurrentInvertedLookVertical = gameData.IsInvertLookVertical;
 			}
+
+			// Update Cinemachine camera target pitch
+			cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!gameData.IsInvertLookVertical ? cinemachineTargetPitch : -cinemachineTargetPitch, 0.0f, 0.0f);
+
+			// rotate the player left and right
+			transform.Rotate((!gameData.IsInvertLookHorizontal ? Vector3.up : Vector3.down) * rotationVelocity);
 		}
 
 		void Move()
 		{
 			// normalise input direction
 			Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
+			InputDirection = inputDirection;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = input.IsSprint ? sprintSpeed : moveSpeed;
+			TargetSpeed = input.IsSprint ? sprintSpeed : moveSpeed;
 
-			if (input.Move == Vector2.zero) targetSpeed = 0f;
-			else if (inputDirection.z < 0) targetSpeed = backSpeed;
+			if (input.Move == Vector2.zero) TargetSpeed = 0f;
+			else if (inputDirection.z < 0) TargetSpeed = backSpeed;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(Controller.velocity.x, 0.0f, Controller.velocity.z).magnitude;
@@ -195,22 +181,19 @@ namespace Personal.Character.Player
 			InputMagnitude = 1f;
 
 			// accelerate or decelerate to target speed
-			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
+			if (currentHorizontalSpeed < TargetSpeed - speedOffset || currentHorizontalSpeed > TargetSpeed + speedOffset)
 			{
 				// creates curved result rather than a linear one giving a more organic speed change
 				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * InputMagnitude, Time.deltaTime * speedChangeRate);
+				speed = Mathf.Lerp(currentHorizontalSpeed, TargetSpeed * InputMagnitude, Time.deltaTime * speedChangeRate);
 
 				// round speed to 3 decimal places
-				_speed = Mathf.Round(_speed * 1000f) / 1000f;
+				speed = Mathf.Round(speed * 1000f) / 1000f;
 			}
 			else
 			{
-				_speed = targetSpeed;
+				speed = TargetSpeed;
 			}
-
-			SpeedAnimationBlend = Mathf.Lerp(SpeedAnimationBlend, inputDirection.z >= 0 ? targetSpeed : -targetSpeed, Time.deltaTime * speedChangeRate);
-			if (inputDirection.z >= 0 && SpeedAnimationBlend > -0.01f && SpeedAnimationBlend < 0.01f) SpeedAnimationBlend = 0f;
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
@@ -221,7 +204,7 @@ namespace Personal.Character.Player
 			}
 
 			// move the player
-			Controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			Controller.Move(inputDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 		}
 
 		void JumpAndGravity()
@@ -229,40 +212,40 @@ namespace Personal.Character.Player
 			if (isGrounded)
 			{
 				// reset the fall timeout timer
-				_fallTimeoutDelta = fallTimeout;
+				fallTimeoutDelta = fallTimeout;
 
 				OnJumpEvent?.Invoke(false);
 				OnFreeFallEvent?.Invoke(false);
 
 				// stop our velocity dropping infinitely when grounded
-				if (_verticalVelocity < 0.0f)
+				if (verticalVelocity < 0.0f)
 				{
-					_verticalVelocity = -2f;
+					verticalVelocity = -2f;
 				}
 
 				// Jump
-				if (input.IsJump && _jumpTimeoutDelta <= 0.0f)
+				if (input.IsJump && jumpTimeoutDelta <= 0.0f)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
-					_verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+					verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
 					OnJumpEvent?.Invoke(true);
 				}
 
 				// jump timeout
-				if (_jumpTimeoutDelta >= 0.0f)
+				if (jumpTimeoutDelta >= 0.0f)
 				{
-					_jumpTimeoutDelta -= Time.deltaTime;
+					jumpTimeoutDelta -= Time.deltaTime;
 				}
 			}
 			else
 			{
 				// reset the jump timeout timer
-				_jumpTimeoutDelta = jumpTimeout;
+				jumpTimeoutDelta = jumpTimeout;
 
 				// fall timeout
-				if (_fallTimeoutDelta >= 0.0f)
+				if (fallTimeoutDelta >= 0.0f)
 				{
-					_fallTimeoutDelta -= Time.deltaTime;
+					fallTimeoutDelta -= Time.deltaTime;
 				}
 				else
 				{
@@ -274,9 +257,9 @@ namespace Personal.Character.Player
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-			if (_verticalVelocity < _terminalVelocity)
+			if (verticalVelocity < terminalVelocity)
 			{
-				_verticalVelocity += gravity * Time.deltaTime;
+				verticalVelocity += gravity * Time.deltaTime;
 			}
 		}
 

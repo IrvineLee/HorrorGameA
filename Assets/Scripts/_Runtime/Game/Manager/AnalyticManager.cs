@@ -10,9 +10,7 @@ namespace Personal.Manager
 	{
 		protected override UniTask Boot()
 		{
-			Debug.Log("AnalyticManager");
 			GameAnalytics.Initialize();
-			Debug.Log("AnalyticManager started");
 
 			return base.Boot();
 		}

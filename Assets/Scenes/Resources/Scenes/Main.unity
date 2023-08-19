@@ -2026,6 +2026,17 @@ Transform:
   m_Father: {fileID: 191620979}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &957982371 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8593537841668148793, guid: 87eeb349f3a5d1d45b0e7e1e69e81aa7, type: 3}
+  m_PrefabInstance: {fileID: 4062979546967085881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6827da78449ecf9418d53ec4415c21e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &960921504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4897,6 +4908,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4074862612873755385, guid: 87eeb349f3a5d1d45b0e7e1e69e81aa7, type: 3}
+      propertyPath: playerAnimatorController
+      value: 
+      objectReference: {fileID: 957982371}
     - target: {fileID: 7652466897203582076, guid: 87eeb349f3a5d1d45b0e7e1e69e81aa7, type: 3}
       propertyPath: footstepVolume
       value: 0.15

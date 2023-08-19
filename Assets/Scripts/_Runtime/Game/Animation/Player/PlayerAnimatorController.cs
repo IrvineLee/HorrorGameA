@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Personal.Character.Player;
+using Helper;
 
 namespace Personal.Character.Animation
 {
@@ -13,23 +14,56 @@ namespace Personal.Character.Animation
 		int animIDFreeFall;
 		int animIDMotionSpeed;
 
-		FPSController fPSController;
+		FPSController fpsController;
+
+		float speedBlend;
+		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
+
+		float motionBlend;
+		bool isSlowdownMotionBlend;
+		CoroutineRun slowdownMotionBlendCR = new CoroutineRun();
 
 		protected override void Awake()
 		{
 			base.Awake();
 			AssignAnimationIDs();
 
-			fPSController = GetComponentInParent<FPSController>();
-			fPSController.OnJumpEvent += OnJump;
-			fPSController.OnFreeFallEvent += OnFreeFall;
+			fpsController = GetComponentInParent<FPSController>();
+
+			fpsController.OnJumpEvent += OnJump;
+			fpsController.OnFreeFallEvent += OnFreeFall;
+		}
+
+		void Update()
+		{
+			if (fpsController.InputDirection == Vector3.zero && speedBlend == 0) return;
+
+			float inputValue = fpsController.InputDirection.z;
+			float targetSpeed = fpsController.TargetSpeed;
+			float speedChangeRate = fpsController.SpeedChangeRate;
+
+			speedBlend = Mathf.Lerp(speedBlend, inputValue >= 0 ? targetSpeed : -targetSpeed, Time.deltaTime * speedChangeRate);
+			if (inputValue >= 0 && speedBlend > -0.01f && speedBlend < 0.01f) speedBlend = 0f;
 		}
 
 		void LateUpdate()
 		{
-			Animator.SetBool(animIDGrounded, fPSController.IsGrounded);
-			Animator.SetFloat(animIDSpeed, fPSController.SpeedAnimationBlend);
-			Animator.SetFloat(animIDMotionSpeed, fPSController.InputMagnitude);
+			Animator.SetBool(animIDGrounded, fpsController.IsGrounded);
+			Animator.SetFloat(animIDSpeed, speedBlend);
+			Animator.SetFloat(animIDMotionSpeed, !isSlowdownMotionBlend ? fpsController.InputMagnitude : motionBlend);
+		}
+
+		/// <summary>
+		/// Used to reset the animation blending values.
+		/// </summary>
+		public void ResetAnimationBlend(float duration = 0)
+		{
+			speedAnimationBlendCR?.StopCoroutine();
+			speedAnimationBlendCR = CoroutineHelper.LerpWithinSeconds(speedBlend, 0, duration, (result) => speedBlend = result);
+
+			isSlowdownMotionBlend = true;
+			slowdownMotionBlendCR?.StopCoroutine();
+			slowdownMotionBlendCR = CoroutineHelper.LerpWithinSeconds(fpsController.InputMagnitude, 0, duration, (result) => motionBlend = result, () => isSlowdownMotionBlend = false);
 		}
 
 		void AssignAnimationIDs()
@@ -53,8 +87,8 @@ namespace Personal.Character.Animation
 
 		void OnApplicationQuit()
 		{
-			fPSController.OnJumpEvent -= OnJump;
-			fPSController.OnFreeFallEvent -= OnFreeFall;
+			fpsController.OnJumpEvent -= OnJump;
+			fpsController.OnFreeFallEvent -= OnFreeFall;
 		}
 	}
 }

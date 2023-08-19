@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Personal.FSM.Character;
 using Personal.Manager;
+using Personal.Character.Animation;
 
 namespace Personal.Character.Player
 {
@@ -10,10 +11,12 @@ namespace Personal.Character.Player
 		[SerializeField] PlayerStateMachine fsm = null;
 		[SerializeField] FPSController fpsController = null;
 		[SerializeField] PlayerInventory inventory = null;
+		[SerializeField] PlayerAnimatorController playerAnimatorController = null;
 
 		public PlayerStateMachine FSM { get => fsm; }
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
+		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
 
 		void Awake()
 		{
