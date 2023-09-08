@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
-using Personal.Constant;
-using Helper;
+using Personal.Transition;
 
 namespace Personal.Preloader
 {
@@ -12,14 +12,21 @@ namespace Personal.Preloader
 	{
 		public static bool IsLoaded { get; private set; }
 
-		static string bootSceneName = SceneType.Boot.GetStringValue();
-		static string preloadSceneName = SceneType.PreloadScene.GetStringValue();
-		static string startSceneName = SceneType.Title.GetStringValue();
+		static string bootSceneName = SceneName.Boot;
+		static string preloadSceneName = SceneName.PreloadScene;
+		static string startSceneName = SceneName.Title;
 
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-		static async void RuntimeInit()
+		static string activeSceneName = bootSceneName;
+
+		// Load the boot and preload scene first.
+		// Start up the next active scene when in the editor.
+		// Otherwise it loads up Title scene.
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		static async void BeforeRuntimeInit()
 		{
-			string activeSceneName = SceneManager.GetActiveScene().name;
+#if UNITY_EDITOR
+			activeSceneName = SceneManager.GetActiveScene().name;
+#endif
 
 			if (!activeSceneName.Equals(bootSceneName))
 			{
@@ -33,11 +40,20 @@ namespace Personal.Preloader
 
 			SceneManager.LoadScene(preloadSceneName, LoadSceneMode.Additive);
 			await UniTask.NextFrame();
+		}
 
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+		static async void RuntimeInit()
+		{
+			// Makes sure all the singletons are ready to go before loading up the active scene.
 			if (!GameManager.IsLoadingOver)
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
-			GameSceneManager.Instance.ChangeLevel(activeSceneName, transitionPlayType: Transition.TransitionPlayType.Out, isIgnoreTimescale: false);
+			Action afterLoadSceneAct = () =>
+			{
+				SceneManager.SetActiveScene(SceneManager.GetSceneByName(activeSceneName));
+			};
+			GameSceneManager.Instance.ChangeLevel(activeSceneName, TransitionType.Fade, TransitionPlayType.Out, default, 0, false, afterLoadSceneAct);
 			IsLoaded = true;
 		}
 	}

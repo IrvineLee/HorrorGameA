@@ -63,7 +63,7 @@ namespace Personal.GameState
 		{
 			if (!GameSceneManager.Instance.IsMainScene())
 			{
-				if (GameSceneManager.Instance.IsScene(SceneType.Title.GetStringValue()))
+				if (GameSceneManager.Instance.IsScene(SceneName.Title))
 					OnTitleScene();
 
 				return;

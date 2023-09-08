@@ -23,7 +23,7 @@ namespace Personal.Constant
 		public const float FULLY_VISIBLE_REND_VALUE = 2.5f;
 		public const float FULLY_DISAPPEAR_REND_VALUE = -0.5f;
 
-		public static IReadOnlyList<string> MAIN_SCENE_LIST = new List<string> { SceneType.Main.GetStringValue() };
+		public static IReadOnlyList<string> MAIN_SCENE_LIST = new List<string> { SceneName.Main };
 
 		// UI Gamepad selection
 		public const float UI_SELECTION_DELAY = 0.15f;

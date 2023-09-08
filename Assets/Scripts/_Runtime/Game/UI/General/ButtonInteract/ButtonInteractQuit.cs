@@ -40,7 +40,7 @@ namespace Personal.UI
 					inputBlockerGO.SetActive(false);
 				};
 
-				GameSceneManager.Instance.ChangeLevel(SceneType.Title.GetStringValue(), inBetweenAction: inBetweenAction, isIgnoreTimescale: true);
+				GameSceneManager.Instance.ChangeLevel(SceneName.Title, inBetweenAction: inBetweenAction, isIgnoreTimescale: true);
 
 				InputManager.Instance.DisableAllActionMap();
 				inputBlockerGO.SetActive(true);

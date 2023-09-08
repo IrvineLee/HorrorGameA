@@ -29,16 +29,16 @@ namespace Personal.Manager
 		}
 
 		public void ChangeLevel(int index, TransitionType transitionType = TransitionType.Fade, TransitionPlayType transitionPlayType = TransitionPlayType.All,
-								Action inBetweenAction = default, float delay = 0, bool isIgnoreTimescale = false)
+								Action inBetweenAction = default, float delay = 0, bool isIgnoreTimescale = false, Action afterLoadSceneAction = default)
 		{
-			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(index));
+			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(index), afterLoadSceneAction);
 			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action, isIgnoreTimescale);
 		}
 
 		public void ChangeLevel(string sceneName, TransitionType transitionType = TransitionType.Fade, TransitionPlayType transitionPlayType = TransitionPlayType.All,
-								Action inBetweenAction = default, float delay = 0, bool isIgnoreTimescale = false)
+								Action inBetweenAction = default, float delay = 0, bool isIgnoreTimescale = false, Action afterLoadSceneAction = default)
 		{
-			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(sceneName));
+			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(sceneName), afterLoadSceneAction);
 			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action, isIgnoreTimescale);
 		}
 
@@ -64,10 +64,11 @@ namespace Personal.Manager
 			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func, isIgnoreTimescale);
 		}
 
-		void DoAction(Action inBetweenAction, Action doLast)
+		void DoAction(Action inBetweenAction, Action loadSceneAction, Action afterLoadSceneAction)
 		{
 			inBetweenAction?.Invoke();
-			CoroutineHelper.WaitNextFrame(() => doLast?.Invoke());
+			CoroutineHelper.WaitEndOfFrame(() => loadSceneAction?.Invoke());
+			CoroutineHelper.WaitNextFrame(afterLoadSceneAction);
 		}
 
 		async UniTask DoFunc(Func<UniTask<bool>> inBetweenFunc, Action action, float delayAfter)

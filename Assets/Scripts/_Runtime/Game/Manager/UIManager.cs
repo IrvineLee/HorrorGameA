@@ -33,7 +33,7 @@ namespace Personal.Manager
 
 		protected override async void Initialize()
 		{
-			await UniTask.NextFrame();
+			await UniTask.DelayFrame(10);
 
 			pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();

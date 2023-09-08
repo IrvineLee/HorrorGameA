@@ -23,7 +23,7 @@ namespace Personal.Manager
 
 		bool IsCanChangeToMouse
 		{
-			get => GameSceneManager.Instance.IsScene(SceneType.Title.GetStringValue()) || dialogueSetup.IsWaitingResponse ||
+			get => GameSceneManager.Instance.IsScene(SceneName.Title) || dialogueSetup.IsWaitingResponse ||
 				  (!UIManager.IsWindowStackEmpty && UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) ||
 				  InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle;
 		}

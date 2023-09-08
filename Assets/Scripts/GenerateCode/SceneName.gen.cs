@@ -5,6 +5,7 @@ namespace Personal
 {
 	public static class SceneName
 	{
+        public const string Boot         = "Boot";
         public const string Main         = "Main";
         public const string PreloadScene = "PreloadScene";
         public const string Title        = "Title";
