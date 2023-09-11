@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.Preloader;
-using Personal.Constant;
-using Helper;
 
 namespace Personal.GameState
 {
@@ -14,12 +12,8 @@ namespace Personal.GameState
 	/// </summary>
 	public class GameInitialize : MonoBehaviour
 	{
-		bool isInitiallyLoaded;
-
 		protected async UniTask Awake()
 		{
-			isInitiallyLoaded = enabled;
-
 			if (!Preload.IsLoaded)
 			{
 				// To prevent any monobehaviour functions from getting called before preload is done.
@@ -31,7 +25,6 @@ namespace Personal.GameState
 			// Wait for the singleton scripts to handle its OnSceneLoaded first before initializing this script.
 			//await UniTask.Yield(PlayerLoopTiming.LastInitialization);
 
-			enabled = isInitiallyLoaded;
 			Initialize();
 
 			SceneManager.sceneLoaded += OnSceneLoaded;

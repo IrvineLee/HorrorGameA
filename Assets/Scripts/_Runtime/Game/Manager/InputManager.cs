@@ -318,7 +318,7 @@ namespace Personal.Manager
 		void OnApplicationQuit()
 		{
 			InputSystem.onActionChange -= HandleInputDeviceType;
-			iDisposableAnyButtonPressed.Dispose();
+			iDisposableAnyButtonPressed?.Dispose();
 		}
 	}
 }

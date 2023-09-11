@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
-using Personal.Constant;
 using Helper;
 
 namespace Personal.GameState
@@ -12,13 +11,10 @@ namespace Personal.GameState
 	{
 		protected override async UniTask Boot()
 		{
-			enabled = false;
-
 			if (!GameManager.IsLoadingOver)
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
 			Initialize();
-			enabled = true;
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
 			HandleScene();

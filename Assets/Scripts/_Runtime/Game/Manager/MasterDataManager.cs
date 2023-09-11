@@ -27,15 +27,12 @@ namespace Personal.Manager
 		public MasterLocalization Localization { get => localization; }
 		public MasterAchievement Achievement { get => achievement; }
 
-		static AsyncOperationHandle<MasterDataManager> handle;
-
 		public static void CreateInstance()
 		{
-			if (Instance == null && !handle.IsValid())
-			{
-				handle = Addressables.LoadAssetAsync<MasterDataManager>(typeof(MasterDataManager).Name);
-				handle.Completed += (op) => { Instance = op.Result; };
-			}
+			if (Instance != null) return;
+
+			var handle = Addressables.LoadAssetAsync<MasterDataManager>(typeof(MasterDataManager).Name);
+			handle.Completed += (op) => { Instance = op.Result; };
 		}
 
 		public static void Initialize()

@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.Constant;
-using Helper;
 
 namespace Personal.UI
 {
@@ -31,24 +29,29 @@ namespace Personal.UI
 		{
 			if (quitType == QuitType.TitleScene)
 			{
-				Action inBetweenAction = () =>
-				{
-					PauseManager.Instance.ResumeTime();
-
-					StageManager.Instance.ResetStage();
-					UIManager.Instance.CloseAllWindowAndUIInterfaceStack();
-					inputBlockerGO.SetActive(false);
-				};
-
-				GameSceneManager.Instance.ChangeLevel(SceneName.Title, inBetweenAction: inBetweenAction, isIgnoreTimescale: true);
-
-				InputManager.Instance.DisableAllActionMap();
-				inputBlockerGO.SetActive(true);
+				ReturnToTitleScene();
 			}
 			else if (quitType == QuitType.QuitGame)
 			{
 				Application.Quit();
 			}
+		}
+
+		void ReturnToTitleScene()
+		{
+			Action inBetweenAction = () =>
+			{
+				PauseManager.Instance.ResumeTime();
+
+				StageManager.Instance.ResetStage();
+				UIManager.Instance.CloseAllWindowAndUIInterfaceStack();
+				inputBlockerGO.SetActive(false);
+			};
+
+			GameSceneManager.Instance.ChangeLevel(SceneName.Title, inBetweenAction: inBetweenAction, isIgnoreTimescale: true);
+
+			InputManager.Instance.DisableAllActionMap();
+			inputBlockerGO.SetActive(true);
 		}
 
 		void OnDestroy()

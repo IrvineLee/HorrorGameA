@@ -52,7 +52,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftAlt))
 			{
-				FindObjectOfType<PhoneHandler>().Ring();
+				FindObjectOfType<PhoneHandler>()?.Ring();
 			}
 			else if (Input.GetKeyDown(KeyCode.RightControl))
 			{

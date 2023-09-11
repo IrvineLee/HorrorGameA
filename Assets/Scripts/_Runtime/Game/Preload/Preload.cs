@@ -19,7 +19,7 @@ namespace Personal.Preloader
 		static string activeSceneName = bootSceneName;
 
 		// Load the boot and preload scene first.
-		// Start up the next active scene when in the editor.
+		// Start up the current active scene when in the editor.
 		// Otherwise it loads up Title scene.
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		static async void BeforeRuntimeInit()
@@ -39,7 +39,6 @@ namespace Personal.Preloader
 			}
 
 			SceneManager.LoadScene(preloadSceneName, LoadSceneMode.Additive);
-			await UniTask.NextFrame();
 		}
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -49,11 +48,9 @@ namespace Personal.Preloader
 			if (!GameManager.IsLoadingOver)
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
 
-			Action afterLoadSceneAct = () =>
-			{
-				SceneManager.SetActiveScene(SceneManager.GetSceneByName(activeSceneName));
-			};
+			Action afterLoadSceneAct = () => SceneManager.SetActiveScene(SceneManager.GetSceneByName(activeSceneName));
 			GameSceneManager.Instance.ChangeLevel(activeSceneName, TransitionType.Fade, TransitionPlayType.Out, default, 0, false, afterLoadSceneAct);
+
 			IsLoaded = true;
 		}
 	}

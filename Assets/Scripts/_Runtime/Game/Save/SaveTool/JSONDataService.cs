@@ -41,7 +41,8 @@ namespace Personal.Save
 				else
 				{
 					stream.Close();
-					File.WriteAllText(path, JsonConvert.SerializeObject(data));
+					File.WriteAllText(path, JsonUtility.ToJson(data));
+					//File.WriteAllText(path, JsonConvert.SerializeObject(data));
 				}
 				return true;
 			}
@@ -78,7 +79,8 @@ namespace Personal.Save
 				}
 				else
 				{
-					data = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+					data = JsonUtility.FromJson<T>(File.ReadAllText(path));
+					//data = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
 				}
 				return data;
 			}
@@ -119,7 +121,9 @@ namespace Personal.Save
 			// You can also generate your own if you wish
 			//Debug.Log($"Initialization Vector: {Convert.ToBase64String(aesProvider.IV)}");
 			//Debug.Log($"Key: {Convert.ToBase64String(aesProvider.Key)}");
-			cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(data)));
+
+			cryptoStream.Write(Encoding.ASCII.GetBytes(JsonUtility.ToJson(data)));
+			//cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(data)));
 		}
 
 		T ReadEncryptedData<T>(string path)
