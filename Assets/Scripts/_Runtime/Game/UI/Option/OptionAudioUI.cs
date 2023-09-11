@@ -153,9 +153,9 @@ namespace Personal.UI.Option
 			speakerModeDropdown.SetCurrentIndex(list.ElementAtOrDefault(0));
 
 			// Update current value.
-			currentMaster01 = masterSlider.value;
-			currentBgm01 = bgmSlider.value;
-			currentSfx01 = sfxSlider.value;
+			currentMaster01 = masterSlider.value.ConvertRatio0To1();
+			currentBgm01 = bgmSlider.value.ConvertRatio0To1();
+			currentSfx01 = sfxSlider.value.ConvertRatio0To1();
 
 			currentSpeakerMode = audioData.AudioSpeakerMode;
 		}

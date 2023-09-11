@@ -125,6 +125,8 @@ namespace Personal.Manager
 
 		void SetMixerVolume(AudioMixerGroup audioMixerGroup, string str, float value01)
 		{
+			if (value01 > 1) value01 = 1;
+
 			// Reason why you multiply by 20. https://en.wikipedia.org/wiki/Decibel#Uses
 			float value = Mathf.Log10(value01) * 20;
 			if (value01 <= 0) value = -80;

@@ -22,9 +22,6 @@ namespace Personal.GameState
 				await UniTask.WaitUntil(() => Preload.IsLoaded, cancellationToken: this.GetCancellationTokenOnDestroy());
 			}
 
-			// Wait for the singleton scripts to handle its OnSceneLoaded first before initializing this script.
-			//await UniTask.Yield(PlayerLoopTiming.LastInitialization);
-
 			Initialize();
 
 			SceneManager.sceneLoaded += OnSceneLoaded;

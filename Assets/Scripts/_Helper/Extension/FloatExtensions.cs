@@ -59,6 +59,16 @@ namespace Helper
 		}
 
 		/// <summary>
+		/// Convert value from 0~1 to -1~1.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static float Convert01ToNeg1Pos1(this float original)
+		{
+			return 2 * original - 1;
+		}
+
+		/// <summary>
 		/// Change from seconds to milliseconds.
 		/// </summary>
 		/// <param name="original"></param>
