@@ -3,6 +3,7 @@ using UnityEngine;
 using Personal.GameState;
 using Personal.Manager;
 using Helper;
+using Personal.Setting.Game;
 
 namespace Personal.UI.Option
 {
@@ -14,14 +15,17 @@ namespace Personal.UI.Option
 		Camera cam;
 
 		bool isReturnToOrigin;
-		Vector3 velocity = Vector3.zero;
+		Vector3 velocity;
 
 		CoroutineRun parallaxCR = new CoroutineRun();
+		GameData gameData;
 
-		protected override void Initialize()
+		void Start()
 		{
 			startPos = transform.position;
 			cam = Camera.main;
+
+			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
 		}
 
 		protected override void OnTitleScene()
@@ -36,20 +40,31 @@ namespace Personal.UI.Option
 
 		void Update()
 		{
-			var viewportPoint = Vector3.zero;
+			HandleParallax();
+		}
+
+		void HandleParallax()
+		{
+			Vector3 viewportPoint;
 			if (InputManager.Instance.IsCurrentDeviceMouse)
 			{
+				// Mouse controls.
 				viewportPoint = cam.ScreenToViewportPoint(Input.mousePosition);
 				viewportPoint.x = viewportPoint.x.Convert01ToNeg1Pos1();
 				viewportPoint.y = viewportPoint.y.Convert01ToNeg1Pos1();
+
+				if (gameData.IsInvertLookHorizontal) viewportPoint.x = -viewportPoint.x;
+				if (gameData.IsInvertLookVertical) viewportPoint.y = -viewportPoint.y;
 			}
 			else
 			{
-				viewportPoint = Vector3.Normalize(InputManager.Instance.GetMotion(InputManager.MotionType.LookAt));
+				// Gamepad controls.
+				viewportPoint = Vector3.Normalize(InputManager.Instance.GetMotion(InputManager.MotionType.LookAt, true));
+				viewportPoint.y = -viewportPoint.y;
 
 				if (isReturnToOrigin && viewportPoint == Vector3.zero && parallaxCR.IsDone)
 				{
-					parallaxCR = CoroutineHelper.LerpTo(transform, Vector3.zero, 0.5f, () => isReturnToOrigin = false);
+					parallaxCR = CoroutineHelper.LerpTo(transform, startPos, 0.5f, space: Space.World);
 					return;
 				}
 				else if (viewportPoint != Vector3.zero)

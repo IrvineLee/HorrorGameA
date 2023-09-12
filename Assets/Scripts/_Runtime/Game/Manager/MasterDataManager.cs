@@ -2,7 +2,6 @@ using Personal.GameState;
 using Personal.Localization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Personal.Manager
 {

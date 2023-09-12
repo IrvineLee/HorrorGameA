@@ -92,14 +92,28 @@ namespace Personal.Manager
 			EnableActionMap(ActionMapType.Player);
 		}
 
-		public Vector3 GetMotion(MotionType motionType)
+		/// <summary>
+		/// Get the current active motion.
+		/// </summary>
+		/// <param name="motionType"></param>
+		/// <param name="isAffectedByOption">Return value that is affected by invert controls</param>
+		/// <returns></returns>
+		public Vector3 GetMotion(MotionType motionType, bool isAffectedByOption = false)
 		{
+			Vector3 movement;
 			switch (currentActionMapType)
 			{
-				case ActionMapType.Player: return motionType == MotionType.Move ? FPSInputController.Move : FPSInputController.Look;
-				case ActionMapType.Puzzle: return motionType == MotionType.Move ? PuzzleInputController.Move : PuzzleInputController.Look;
-				default: return motionType == MotionType.Move ? UIInputController.Move : UIInputController.Look;
+				case ActionMapType.Player: movement = motionType == MotionType.Move ? FPSInputController.Move : FPSInputController.Look; break;
+				case ActionMapType.Puzzle: movement = motionType == MotionType.Move ? PuzzleInputController.Move : PuzzleInputController.Look; break;
+				default: movement = motionType == MotionType.Move ? UIInputController.Move : UIInputController.Look; break;
 			}
+
+			if (!isAffectedByOption) return movement;
+
+			if (gameData.IsInvertLookHorizontal) movement.x = -movement.x;
+			if (gameData.IsInvertLookVertical) movement.y = -movement.y;
+
+			return movement;
 		}
 
 		public bool GetButtonPush(ButtonPush buttonPush)
