@@ -22,6 +22,9 @@ namespace Personal.Character.Player
 		[Tooltip("Move speed backward of the character in m/s")]
 		[SerializeField] float backSpeed = 2.0f;
 
+		[Tooltip("Move speed horizontally of the character in m/s")]
+		[SerializeField] float horizontalSpeed = 2.0f;
+
 		[Tooltip("Rotation speed of the character")]
 		[SerializeField] float rotationSpeed = 1.0f;
 
@@ -68,7 +71,7 @@ namespace Personal.Character.Player
 		public bool IsGrounded { get => isGrounded; }
 		public float InputMagnitude { get; private set; }
 		public Vector3 InputDirection { get; private set; }
-		public float TargetSpeed { get; private set; }
+		public Vector3 Velocity { get => velocity; }
 		public float SpeedChangeRate { get => speedChangeRate; }
 		public CharacterController Controller { get; private set; }
 
@@ -87,6 +90,8 @@ namespace Personal.Character.Player
 		// timeout deltatime
 		float jumpTimeoutDelta;
 		float fallTimeoutDelta;
+
+		Vector3 velocity;
 
 		FPSInputController input;
 		PlayerStateMachine fsm;
@@ -168,11 +173,17 @@ namespace Personal.Character.Player
 			Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
 			InputDirection = inputDirection;
 
-			// set target speed based on move speed, sprint speed and if sprint is pressed
-			TargetSpeed = input.IsSprint ? sprintSpeed : moveSpeed;
+			// handle horizontal move speed
+			if (inputDirection.x != 0) velocity.x = horizontalSpeed;
 
-			if (input.Move == Vector2.zero) TargetSpeed = 0f;
-			else if (inputDirection.z < 0) TargetSpeed = backSpeed;
+			if (inputDirection.z != 0)
+			{
+				// set target speed based on move speed, sprint speed and if sprint is pressed
+				velocity.z = input.IsSprint ? sprintSpeed : moveSpeed;
+				if (inputDirection.z < 0) velocity.z = backSpeed;
+			}
+
+			if (inputDirection == Vector3.zero) velocity = Vector3.zero;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(Controller.velocity.x, 0.0f, Controller.velocity.z).magnitude;
@@ -181,18 +192,21 @@ namespace Personal.Character.Player
 			InputMagnitude = 1f;
 
 			// accelerate or decelerate to target speed
-			if (currentHorizontalSpeed < TargetSpeed - speedOffset || currentHorizontalSpeed > TargetSpeed + speedOffset)
+			if (currentHorizontalSpeed < velocity.z - speedOffset || currentHorizontalSpeed > velocity.z + speedOffset ||
+				currentHorizontalSpeed < velocity.x - speedOffset || currentHorizontalSpeed > velocity.x + speedOffset)
 			{
+				float value = velocity.z == 0 ? velocity.x : velocity.z;
+
 				// creates curved result rather than a linear one giving a more organic speed change
 				// note T in Lerp is clamped, so we don't need to clamp our speed
-				speed = Mathf.Lerp(currentHorizontalSpeed, TargetSpeed * InputMagnitude, Time.deltaTime * speedChangeRate);
+				speed = Mathf.Lerp(currentHorizontalSpeed, value * InputMagnitude, Time.deltaTime * speedChangeRate);
 
 				// round speed to 3 decimal places
 				speed = Mathf.Round(speed * 1000f) / 1000f;
 			}
 			else
 			{
-				speed = TargetSpeed;
+				speed = velocity.z;
 			}
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude

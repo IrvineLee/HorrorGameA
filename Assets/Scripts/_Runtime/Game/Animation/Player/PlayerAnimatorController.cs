@@ -8,7 +8,8 @@ namespace Personal.Character.Animation
 	public class PlayerAnimatorController : AnimatorController
 	{
 		// Animation IDs
-		int animIDSpeed;
+		int animIDVelozityX;
+		int animIDVelozityZ;
 		int animIDGrounded;
 		int animIDJump;
 		int animIDFreeFall;
@@ -16,7 +17,7 @@ namespace Personal.Character.Animation
 
 		FPSController fpsController;
 
-		float speedBlend;
+		Vector3 velocity;
 		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
 
 		float motionBlend;
@@ -36,20 +37,20 @@ namespace Personal.Character.Animation
 
 		void Update()
 		{
-			if (fpsController.InputDirection == Vector3.zero && speedBlend == 0) return;
+			if (fpsController.InputDirection == Vector3.zero && velocity.x == 0 && velocity.z == 0) return;
 
-			float inputValue = fpsController.InputDirection.z;
-			float targetSpeed = fpsController.TargetSpeed;
+			Vector3 inputDirection = fpsController.InputDirection;
 			float speedChangeRate = fpsController.SpeedChangeRate;
 
-			speedBlend = Mathf.Lerp(speedBlend, inputValue >= 0 ? targetSpeed : -targetSpeed, Time.deltaTime * speedChangeRate);
-			if (inputValue >= 0 && speedBlend > -0.01f && speedBlend < 0.01f) speedBlend = 0f;
+			LerpToVelocity(ref velocity.x, inputDirection.x, fpsController.Velocity.x, speedChangeRate);
+			LerpToVelocity(ref velocity.z, inputDirection.z, fpsController.Velocity.z, speedChangeRate);
 		}
 
 		void LateUpdate()
 		{
+			Animator.SetFloat(animIDVelozityX, velocity.x);
+			Animator.SetFloat(animIDVelozityZ, velocity.z);
 			Animator.SetBool(animIDGrounded, fpsController.IsGrounded);
-			Animator.SetFloat(animIDSpeed, speedBlend);
 			Animator.SetFloat(animIDMotionSpeed, !isSlowdownMotionBlend ? fpsController.InputMagnitude : motionBlend);
 		}
 
@@ -59,7 +60,7 @@ namespace Personal.Character.Animation
 		public void ResetAnimationBlend(float duration = 0)
 		{
 			speedAnimationBlendCR?.StopCoroutine();
-			speedAnimationBlendCR = CoroutineHelper.LerpWithinSeconds(speedBlend, 0, duration, (result) => speedBlend = result);
+			speedAnimationBlendCR = CoroutineHelper.LerpWithinSeconds(velocity.z, 0, duration, (result) => velocity.z = result);
 
 			isSlowdownMotionBlend = true;
 			slowdownMotionBlendCR?.StopCoroutine();
@@ -68,11 +69,18 @@ namespace Personal.Character.Animation
 
 		void AssignAnimationIDs()
 		{
-			animIDSpeed = Animator.StringToHash("Speed");
+			animIDVelozityX = Animator.StringToHash("VelocityX");
+			animIDVelozityZ = Animator.StringToHash("VelocityZ");
 			animIDGrounded = Animator.StringToHash("Grounded");
 			animIDJump = Animator.StringToHash("Jump");
 			animIDFreeFall = Animator.StringToHash("FreeFall");
 			animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+		}
+
+		void LerpToVelocity(ref float fromVelocity, float inputAxisDirection, float toVelocity, float speedChangeRate)
+		{
+			fromVelocity = Mathf.Lerp(fromVelocity, inputAxisDirection >= 0 ? toVelocity : -toVelocity, Time.deltaTime * speedChangeRate);
+			if (inputAxisDirection >= 0 && fromVelocity > -0.01f && fromVelocity < 0.01f) fromVelocity = 0f;
 		}
 
 		void OnJump(bool isFlag)

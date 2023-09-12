@@ -2,8 +2,8 @@ using UnityEngine;
 
 using Personal.GameState;
 using Personal.Manager;
-using Helper;
 using Personal.Setting.Game;
+using Helper;
 
 namespace Personal.UI.Option
 {
