@@ -17,9 +17,11 @@ namespace Personal.GameState
 			if (!Preload.IsLoaded)
 			{
 				// To prevent any monobehaviour functions from getting called before preload is done.
+				bool isInitiallyEnabled = enabled;
 				enabled = false;
 
 				await UniTask.WaitUntil(() => Preload.IsLoaded, cancellationToken: this.GetCancellationTokenOnDestroy());
+				enabled = isInitiallyEnabled;
 			}
 
 			Initialize();

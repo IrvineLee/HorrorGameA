@@ -107,7 +107,7 @@ namespace Personal.Dialogue
 			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
 		}
 
-		void OnDisable()
+		void OnApplicationQuit()
 		{
 			standardUIMenuPanel?.onOpen.RemoveAllListeners();
 			standardUIMenuPanel?.onClose.RemoveAllListeners();

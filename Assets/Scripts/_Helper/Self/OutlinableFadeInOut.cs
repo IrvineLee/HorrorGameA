@@ -19,13 +19,15 @@ namespace Helper
 
 		void Awake()
 		{
-			outlinable = GetComponentInChildren<Outlinable>();
+			outlinable = GetComponentInChildren<Outlinable>(true);
 			fillColor = outlinable.OutlineParameters.FillPass.GetColor("_PublicColor");
 			fillMaxAlpha = fillColor.a;
 		}
 
 		public void StartFade()
 		{
+			if (!outlinable) return;
+
 			Action<float> callbackMethod = (result) => SetOutlineColor(result);
 			SetOutlineColor(0);
 
