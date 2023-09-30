@@ -93,6 +93,7 @@ namespace PixelCrushers.DialogueSystem.ArcweaveSupport
 
         protected override void DrawControls()
         {
+            if (arcweaveImporter == null) arcweaveImporter = new ArcweaveImporter();
             DrawSourceSection();
             DrawComponentTypeSection();
             DrawBoardTypeSection();

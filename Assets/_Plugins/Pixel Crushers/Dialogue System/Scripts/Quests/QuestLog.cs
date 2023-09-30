@@ -2,7 +2,6 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-using Language.Lua;
 
 namespace PixelCrushers.DialogueSystem
 {
@@ -744,7 +743,16 @@ namespace PixelCrushers.DialogueSystem
         /// <param name="entryNumber">Entry number.</param>
         public static string GetQuestEntry(string questName, int entryNumber)
         {
+            var state = GetQuestEntryState(questName, entryNumber);
             string entryFieldName = GetEntryFieldName(entryNumber);
+            if (state == QuestState.Success && DialogueLua.DoesTableElementExist("Quest", entryFieldName + " Success"))
+            {
+                entryFieldName += " Success";
+            }
+            else if (state == QuestState.Failure && DialogueLua.DoesTableElementExist("Quest", entryFieldName + " Failure"))
+            {
+                entryFieldName += " Failure";
+            }
             return DialogueLua.GetLocalizedQuestField(questName, entryFieldName).asString;
         }
 
@@ -1404,7 +1412,7 @@ namespace PixelCrushers.DialogueSystem
         /// </summary>
         public static void UpdateQuestIndicators(string questName)
         {
-            var dispatcher = GameObject.FindObjectOfType<QuestStateDispatcher>();
+            var dispatcher = GameObjectUtility.FindFirstObjectByType<QuestStateDispatcher>();
             if (dispatcher != null) dispatcher.OnQuestStateChange(questName);
         }
 

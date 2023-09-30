@@ -106,7 +106,8 @@ namespace PixelCrushers.DialogueSystem
         /// For speakers who do not have DialogueActor components, this method overrides the
         /// actor's default panel.
         /// </summary>
-        public void OverrideActorPanel(Actor actor, SubtitlePanelNumber subtitlePanelNumber, StandardUISubtitlePanel customPanel = null)
+        public void OverrideActorPanel(Actor actor, SubtitlePanelNumber subtitlePanelNumber,
+            StandardUISubtitlePanel customPanel = null, bool immediate = false)
         {
             if (actor == null) return;
             if (customPanel == null) customPanel = actor.IsPlayer ? m_defaultPCPanel : m_defaultNPCPanel;
@@ -117,7 +118,47 @@ namespace PixelCrushers.DialogueSystem
             }
             else
             {
+                // Set panel override:
                 m_actorIdOverridePanel[actor.id] = panel;
+
+                if (immediate)
+                {
+                    // Make change immediately:
+                    StandardUISubtitlePanel actorCurrentPanel =
+                        m_builtinPanels.Find(x => x.isOpen && x.portraitActorName == actor.Name) ??
+                        m_customPanels.Find(x => x.isOpen && x.portraitActorName == actor.Name);
+                    if (actorCurrentPanel != panel)
+                    {
+                        if (actorCurrentPanel != null)
+                        {
+                            var isContinueButtonActive = actorCurrentPanel.continueButton != null && actorCurrentPanel.continueButton.gameObject.activeInHierarchy;
+                            var currentName = actorCurrentPanel.portraitActorName;
+                            var currentSprite = (actorCurrentPanel.portraitImage != null) ? actorCurrentPanel.portraitImage.sprite : null;
+                            var currentHasFocus = actorCurrentPanel.hasFocus;
+                            if (actorCurrentPanel.subtitleText.gameObject != panel.subtitleText.gameObject)
+                            {
+                                actorCurrentPanel.Close();
+                            }
+                            else
+                            {
+                                actorCurrentPanel.Unfocus();
+                                actorCurrentPanel.SetPortraitName(string.Empty);
+                                actorCurrentPanel.SetPortraitImage(null);
+                            }
+                            if (panel.panelState != UIPanel.PanelState.Open)
+                            {
+                                panel.Open();
+                                if (currentHasFocus) panel.Focus();
+                                if (isContinueButtonActive) panel.ShowContinueButton();
+                            }
+                            panel.SetPortraitName(currentName);
+                            if (actorCurrentPanel.portraitImage != null)
+                            {
+                                panel.SetPortraitImage(currentSprite);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -202,7 +243,7 @@ namespace PixelCrushers.DialogueSystem
                 dialogueActor = DialogueActor.GetDialogueActorComponent(speakerTransform);
                 m_dialogueActorCache.Add(speakerTransform, dialogueActor);
             }
-            if (m_actorPanelCache.ContainsKey(speakerTransform)) return m_actorPanelCache[speakerTransform];
+            if (m_actorPanelCache.ContainsKey(speakerTransform) && m_actorPanelCache[speakerTransform] != null) return m_actorPanelCache[speakerTransform];
             if (m_useBarkUIs.Contains(speakerTransform)) return null;
             if (DialogueActorUsesBarkUI(dialogueActor))
             {
@@ -213,7 +254,8 @@ namespace PixelCrushers.DialogueSystem
             {
                 var panel = GetDialogueActorPanel(dialogueActor);
                 if (panel == null) panel = defaultPanel;
-                m_actorPanelCache.Add(speakerTransform, panel);
+                m_actorPanelCache[speakerTransform] = panel;
+                m_useBarkUIs.Remove(speakerTransform);
                 return panel;
             }
         }
@@ -430,7 +472,7 @@ namespace PixelCrushers.DialogueSystem
                 m_focusedPanel = panel;
                 if (panel.addSpeakerName && !string.IsNullOrEmpty(subtitle.speakerInfo.Name))
                 {
-                    subtitle.formattedText.text = string.Format(panel.addSpeakerNameFormat, new object[] { subtitle.speakerInfo.Name, subtitle.formattedText.text });
+                    subtitle.formattedText.text = FormattedText.Parse(string.Format(panel.addSpeakerNameFormat, new object[] { subtitle.speakerInfo.Name, subtitle.formattedText.text })).text;
                 }
                 if (dialogueActor != null && dialogueActor.standardDialogueUISettings.setSubtitleColor)
                 {

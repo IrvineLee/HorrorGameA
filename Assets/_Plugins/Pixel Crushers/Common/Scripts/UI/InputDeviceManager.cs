@@ -212,9 +212,6 @@ namespace PixelCrushers
 					DontDestroyOnLoad(gameObject);
 				}
 			}
-#if !UNITY_5_3
-			SceneManager.sceneLoaded += OnSceneLoaded;
-#endif
 		}
 
 		public void OnDestroy()
@@ -229,6 +226,9 @@ namespace PixelCrushers
 			m_lastMousePosition = GetMousePosition();
 			SetInputDevice(inputDevice);
 			BrieflyIgnoreMouseMovement();
+#if !UNITY_5_3
+			SceneManager.sceneLoaded += OnSceneLoaded;
+#endif
 		}
 
 		private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
@@ -240,7 +240,7 @@ namespace PixelCrushers
 		{
 			inputDevice = newDevice;
 			m_lastMousePosition = GetMousePosition();
-			//SetCursor(deviceUsesCursor);
+			SetCursor(deviceUsesCursor);
 			SetGraphicRaycasters(deviceUsesCursor);
 			switch (inputDevice)
 			{
@@ -265,7 +265,7 @@ namespace PixelCrushers
 		private void SetGraphicRaycasters(bool deviceUsesCursor)
 		{
 			if (!controlGraphicRaycasters) return;
-			var raycasters = FindObjectsOfType<UnityEngine.UI.GraphicRaycaster>();
+			var raycasters = GameObjectUtility.FindObjectsByType<UnityEngine.UI.GraphicRaycaster>();
 			for (int i = 0; i < raycasters.Length; i++)
 			{
 				raycasters[i].enabled = deviceUsesCursor;
@@ -349,10 +349,10 @@ namespace PixelCrushers
 			yield return new WaitForSeconds(0.5f);
 			m_ignoreMouse = false;
 			m_lastMousePosition = DefaultGetMousePosition();
-			//if (deviceUsesCursor)
-			//{
-			//	SetCursor(true);
-			//}
+			if (deviceUsesCursor)
+			{
+				SetCursor(true);
+			}
 		}
 
 		public bool IsUsingKeyboard()
@@ -430,9 +430,9 @@ namespace PixelCrushers
 
 		//private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)
 		//{
-		//	yield return CoroutineUtility.endOfFrame;
-		//	Cursor.visible = visible;
-		//	Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+		//    yield return CoroutineUtility.endOfFrame;
+		//    Cursor.visible = visible;
+		//    Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
 		//}
 
 #if USE_NEW_INPUT
