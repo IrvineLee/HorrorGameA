@@ -21,6 +21,8 @@ namespace Personal.UI
 		List<UISelectable> uiSelectableList = new();
 
 		ScrollRect scrollRect;
+		AutoScrollRect autoScrollRect;
+
 		CoroutineRun waitCR = new CoroutineRun();
 
 		protected int currentActiveIndex;
@@ -30,6 +32,7 @@ namespace Personal.UI
 		{
 			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
 			scrollRect = GetComponentInChildren<ScrollRect>();
+			autoScrollRect = GetComponentInChildren<AutoScrollRect>();
 		}
 
 		protected virtual void OnEnable()
@@ -69,7 +72,7 @@ namespace Personal.UI
 				currentActiveIndex = currentActiveIndex.WithinCount(uiSelectableList.Count);
 
 				EventSystem.current.SetSelectedGameObject(uiSelectableList[currentActiveIndex].gameObject);
-				ScrollToSelected();
+				autoScrollRect?.ScrollToSelected();
 			}
 			if (move.x != 0)
 			{
@@ -103,7 +106,11 @@ namespace Personal.UI
 			float ratio = 1 - (currentActiveIndex / ((float)uiSelectableList.Count - 1));
 			Vector2 nextNormalizesPosition = new Vector2(0, ratio);
 
-			Action<Vector2> callbackMethod = (result) => scrollRect.normalizedPosition = result;
+			Action<Vector2> callbackMethod = (result) =>
+			{
+				scrollRect.normalizedPosition = result;
+				Debug.Log(result);
+			};
 			CoroutineHelper.LerpWithinSeconds(scrollRect.normalizedPosition, nextNormalizesPosition, ConstantFixed.UI_SCROLLBAR_DURATION, callbackMethod, isDeltaTime: false);
 		}
 
