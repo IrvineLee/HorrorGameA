@@ -42,7 +42,7 @@ namespace Personal.UI
 
 		void HandleMultiplier()
 		{
-			if (!UIGamepadMovement.IsHold)
+			if (!UIKeyboardAndGamepadMovement.IsHold)
 			{
 				holdCR?.StopCoroutine();
 				isIncreaseMultiplier = false;

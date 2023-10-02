@@ -1,11 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Helper;
-using System.Linq;
 
 namespace Personal.UI.Option
 {
@@ -18,15 +15,12 @@ namespace Personal.UI.Option
 		[Tooltip("How long \"Press Any Button\" remain on screen after pressing button")]
 		[SerializeField] float anyButtonWaitDuration = 0.5f;
 
-		UIGamepadMovement uiGamepadMovement;
-
 		protected override async void Initialize()
 		{
 			base.Initialize();
 			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
 
 			InitialSetup();
-			uiGamepadMovement = GetComponentInChildren<UIGamepadMovement>(true);
 
 			InputManager.Instance.SetToDefaultActionMap();
 			InputManager.OnAnyButtonPressed += Begin;
@@ -39,8 +33,6 @@ namespace Personal.UI.Option
 		/// </summary>
 		public void OpenCredits()
 		{
-			uiGamepadMovement.SetIsUpdate(false);
-			creditsUI.SetOnDisableAction(() => uiGamepadMovement.SetIsUpdate(true));
 			creditsUI.OpenWindow();
 		}
 

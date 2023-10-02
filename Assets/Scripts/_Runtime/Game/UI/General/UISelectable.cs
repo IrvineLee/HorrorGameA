@@ -16,7 +16,7 @@ namespace Personal.UI
 
 		public UISelectionBase UISelectionBase { get; private set; }
 
-		protected UIGamepadMovement uiGamepadMovement;
+		protected UIKeyboardAndGamepadMovement uiGamepadMovement;
 
 		protected MenuUIBase menuUIBase = null;
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
@@ -28,7 +28,7 @@ namespace Personal.UI
 
 		void Awake()
 		{
-			uiGamepadMovement = GetComponentInParent<UIGamepadMovement>(true);
+			uiGamepadMovement = GetComponentInParent<UIKeyboardAndGamepadMovement>(true);
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 

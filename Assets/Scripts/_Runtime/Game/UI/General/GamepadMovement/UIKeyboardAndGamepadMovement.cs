@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using Personal.Manager;
@@ -13,25 +12,21 @@ using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
-	public class UIGamepadMovement : GameInitialize
+	public class UIKeyboardAndGamepadMovement : GameInitialize
 	{
 		public int CurrentActiveIndex { get => currentActiveIndex; }
 		public static bool IsHold { get; private set; }
 
 		List<UISelectable> uiSelectableList = new();
 
-		ScrollRect scrollRect;
 		AutoScrollRect autoScrollRect;
-
 		CoroutineRun waitCR = new CoroutineRun();
 
 		protected int currentActiveIndex;
-		protected bool isUpdate = true;
 
 		protected override void Initialize()
 		{
 			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
-			scrollRect = GetComponentInChildren<ScrollRect>();
 			autoScrollRect = GetComponentInChildren<AutoScrollRect>();
 		}
 
@@ -43,9 +38,6 @@ namespace Personal.UI
 
 		void Update()
 		{
-			if (!isUpdate) return;
-			if (InputManager.Instance.IsCurrentDeviceMouse) return;
-
 			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
 
 			if (move == Vector3.zero)
@@ -62,7 +54,6 @@ namespace Personal.UI
 		}
 
 		public void SetCurrentIndex(int index) { currentActiveIndex = index; }
-		public void SetIsUpdate(bool isFlag) { isUpdate = isFlag; }
 
 		protected virtual void HandleMovement(Vector2 move)
 		{
@@ -97,22 +88,6 @@ namespace Personal.UI
 		}
 
 		protected virtual void OnDeviceChanged() { }
-
-		void ScrollToSelected()
-		{
-			if (!scrollRect) return;
-			if (uiSelectableList.Count <= 0) return;
-
-			float ratio = 1 - (currentActiveIndex / ((float)uiSelectableList.Count - 1));
-			Vector2 nextNormalizesPosition = new Vector2(0, ratio);
-
-			Action<Vector2> callbackMethod = (result) =>
-			{
-				scrollRect.normalizedPosition = result;
-				Debug.Log(result);
-			};
-			CoroutineHelper.LerpWithinSeconds(scrollRect.normalizedPosition, nextNormalizesPosition, ConstantFixed.UI_SCROLLBAR_DURATION, callbackMethod, isDeltaTime: false);
-		}
 
 		protected virtual void OnDisable()
 		{
