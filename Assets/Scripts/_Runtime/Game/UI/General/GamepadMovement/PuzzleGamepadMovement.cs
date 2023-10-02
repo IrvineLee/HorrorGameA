@@ -10,7 +10,7 @@ using Helper;
 
 namespace Personal.Puzzle
 {
-	public class PuzzleGamepadMovement : UIKeyboardAndGamepadMovement
+	public class PuzzleGamepadMovement : UIGamepadMovement
 	{
 		[SerializeField] int startIndex = 0;
 		[SerializeField] Axis compareAxis = Axis.XY;

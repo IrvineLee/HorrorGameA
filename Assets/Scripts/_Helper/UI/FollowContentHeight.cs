@@ -45,7 +45,7 @@ namespace Helper
 
 		void OnValidate()
 		{
-			HandleLayout();
+			//HandleLayout();
 		}
 	}
 }

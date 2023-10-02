@@ -22,9 +22,9 @@ namespace Helper
 		/// <summary>
 		/// Wait next frame before doing action. 'isRealTime' deals with whether the timescale is 0 or 1.
 		/// </summary>
-		public static CoroutineRun WaitNextFrame(Action doLast, bool isRealTime = true)
+		public static CoroutineRun WaitNextFrame(Action doLast, bool isRealTime = true, bool isWaitNextEndOfFrame = false)
 		{
-			return new CoroutineRun().Initialize(IEWaitNextFrame(isRealTime), doLast);
+			return new CoroutineRun().Initialize(IEWaitNextFrame(isRealTime, isWaitNextEndOfFrame), doLast);
 		}
 
 		/// <summary>

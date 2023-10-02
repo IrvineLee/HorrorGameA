@@ -10,13 +10,17 @@ using Helper;
 
 namespace Personal.UI
 {
+	/// <summary>
+	/// This is put on selectable objects like buttons, toggle, slider etc under ScrollView content.
+	/// This works in conjunction with UIKeyboardAndGamepadMovement script.
+	/// </summary>
 	public class UISelectable : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 	{
 		[SerializeField] bool isInitialSelection = false;
 
 		public UISelectionBase UISelectionBase { get; private set; }
 
-		protected UIKeyboardAndGamepadMovement uiGamepadMovement;
+		protected UIGamepadMovement uiGamepadMovement;
 
 		protected MenuUIBase menuUIBase = null;
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
@@ -28,7 +32,7 @@ namespace Personal.UI
 
 		void Awake()
 		{
-			uiGamepadMovement = GetComponentInParent<UIKeyboardAndGamepadMovement>(true);
+			uiGamepadMovement = GetComponentInParent<UIGamepadMovement>(true);
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
@@ -46,7 +50,7 @@ namespace Personal.UI
 
 			// Make sure it's always on the selected state when starting.
 			EventSystem.current.SetSelectedGameObject(gameObject);
-			menuUIBase.SetLastSelectedGO(gameObject);
+			menuUIBase?.SetLastSelectedGO(gameObject);
 		}
 
 		/// <summary>
@@ -75,8 +79,8 @@ namespace Personal.UI
 			windowSelectionUIAnimator?.Run(true);
 			SetSelectableColor(true);
 
-			menuUIBase.SetLastSelectedGO(gameObject);
-			uiGamepadMovement?.SetCurrentIndex(transform.GetSiblingIndex());
+			menuUIBase?.SetLastSelectedGO(gameObject);
+			uiGamepadMovement?.UpdateCurrentSelection(gameObject);
 		}
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)

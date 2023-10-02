@@ -27,13 +27,19 @@ namespace Helper
 			}
 		}
 
-		protected static IEnumerator IEWaitNextFrame(bool isRealTime)
+		protected static IEnumerator IEWaitNextFrame(bool isRealTime, bool isWaitNextEndOfFrame)
 		{
 			while (!isRealTime && Time.timeScale == 0)
 			{
 				yield return null;
 			}
+
 			yield return null;
+
+			if (isWaitNextEndOfFrame)
+			{
+				yield return new WaitForEndOfFrame();
+			}
 		}
 
 		protected static IEnumerator IEWaitNextFixedFrame()

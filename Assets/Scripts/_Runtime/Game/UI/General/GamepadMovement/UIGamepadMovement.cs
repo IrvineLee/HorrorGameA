@@ -12,22 +12,24 @@ using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
-	public class UIKeyboardAndGamepadMovement : GameInitialize
+	/// <summary>
+	/// This handles the gamepad movement for UI.
+	/// </summary>
+	public class UIGamepadMovement : GameInitialize
 	{
 		public int CurrentActiveIndex { get => currentActiveIndex; }
+		public AutoScrollRect AutoScrollRect { get; private set; }
 		public static bool IsHold { get; private set; }
-
-		List<UISelectable> uiSelectableList = new();
-
-		AutoScrollRect autoScrollRect;
-		CoroutineRun waitCR = new CoroutineRun();
 
 		protected int currentActiveIndex;
 
+		List<UISelectable> uiSelectableList = new();
+		CoroutineRun waitCR = new CoroutineRun();
+
 		protected override void Initialize()
 		{
-			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
-			autoScrollRect = GetComponentInChildren<AutoScrollRect>();
+			uiSelectableList = GetComponentsInChildren<UISelectable>().ToList();
+			AutoScrollRect = GetComponentInChildren<AutoScrollRect>();
 		}
 
 		protected virtual void OnEnable()
@@ -53,22 +55,44 @@ namespace Personal.UI
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
 		}
 
-		public void SetCurrentIndex(int index) { currentActiveIndex = index; }
+		/// <summary>
+		/// Call this when some new ui gets initialized and selectables need to be refresh.
+		/// </summary>
+		public void RefreshCacheValues() { Initialize(); }
+
+		/// <summary>
+		/// Update the current selection.
+		/// </summary>
+		/// <param name="go"></param>
+		public void UpdateCurrentSelection(GameObject go)
+		{
+			for (int i = 0; i < uiSelectableList.Count; i++)
+			{
+				GameObject uiSelectableGO = uiSelectableList[i].gameObject;
+
+				if (uiSelectableGO != go) continue;
+
+				currentActiveIndex = i;
+				break;
+			}
+		}
 
 		protected virtual void HandleMovement(Vector2 move)
 		{
+			if (uiSelectableList.Count <= 0) return;
+
 			if (move.y != 0)
 			{
 				currentActiveIndex = move.y > 0 ? currentActiveIndex - 1 : currentActiveIndex + 1;
 				currentActiveIndex = currentActiveIndex.WithinCount(uiSelectableList.Count);
 
 				EventSystem.current.SetSelectedGameObject(uiSelectableList[currentActiveIndex].gameObject);
-				autoScrollRect?.ScrollToSelected();
+				AutoScrollRect?.ScrollToSelected();
 			}
 			if (move.x != 0)
 			{
 				UISelectionBase currentSelection = uiSelectableList[currentActiveIndex].UISelectionBase;
-				currentSelection.NextSelection(move.x > 0);
+				currentSelection?.NextSelection(move.x > 0);
 			}
 		}
 
