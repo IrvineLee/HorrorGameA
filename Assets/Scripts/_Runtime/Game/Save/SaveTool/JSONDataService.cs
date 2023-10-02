@@ -33,14 +33,14 @@ namespace Personal.Save
 				if (!Directory.Exists(folderPath))
 					Directory.CreateDirectory(folderPath);
 
-				using FileStream stream = File.Create(path);
 				if (encrypted)
 				{
+					using FileStream stream = File.Create(path);
 					WriteEncryptedData(data, stream);
+					stream.Close();
 				}
 				else
 				{
-					stream.Close();
 					File.WriteAllText(path, JsonUtility.ToJson(data));
 					//File.WriteAllText(path, JsonConvert.SerializeObject(data));
 				}

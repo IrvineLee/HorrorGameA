@@ -81,7 +81,7 @@ namespace Personal.InteractiveObject
 				return true;
 			}
 
-			interactableDialogue.HandleInteraction(InitiatorStateMachine, default).Forget();
+			interactableDialogue.HandleInteraction(InitiatorStateMachine).Forget();
 			return false;
 		}
 

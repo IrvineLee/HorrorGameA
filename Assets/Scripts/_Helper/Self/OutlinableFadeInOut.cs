@@ -11,7 +11,8 @@ namespace Helper
 		[SerializeField] float waitForDuration = 0.2f;
 		[SerializeField] float minimumAlpha = 0.4f;
 
-		Outlinable outlinable;
+		public Outlinable Outlinable { get; private set; }
+
 		Color fillColor;
 		float fillMaxAlpha;
 
@@ -19,23 +20,25 @@ namespace Helper
 
 		void Awake()
 		{
-			outlinable = GetComponentInChildren<Outlinable>(true);
-			fillColor = outlinable.OutlineParameters.FillPass.GetColor("_PublicColor");
+			Outlinable = GetComponentInChildren<Outlinable>(true);
+			fillColor = Outlinable.OutlineParameters.FillPass.GetColor("_PublicColor");
 			fillMaxAlpha = fillColor.a;
 		}
 
-		public void StartFade()
+		public void StartFade(bool isFlag)
 		{
-			if (!outlinable) return;
+			if (!Outlinable) return;
 
-			Action<float> callbackMethod = (result) => SetOutlineColor(result);
-			SetOutlineColor(0);
+			Outlinable.enabled = isFlag;
 
-			Fade(true, callbackMethod);
-		}
+			if (isFlag)
+			{
+				Action<float> callbackMethod = (result) => SetOutlineColor(result);
+				SetOutlineColor(0);
 
-		public void StopFade()
-		{
+				Fade(true, callbackMethod);
+				return;
+			}
 			fadeCR.StopCoroutine();
 		}
 
@@ -57,8 +60,8 @@ namespace Helper
 
 		void SetOutlineColor(float result)
 		{
-			outlinable.OutlineParameters.Color = outlinable.OutlineParameters.Color.With(a: result);
-			outlinable.OutlineParameters.FillPass.SetColor("_PublicColor", fillColor.With(a: result * fillMaxAlpha));
+			Outlinable.OutlineParameters.Color = Outlinable.OutlineParameters.Color.With(a: result);
+			Outlinable.OutlineParameters.FillPass.SetColor("_PublicColor", fillColor.With(a: result * fillMaxAlpha));
 		}
 	}
 }

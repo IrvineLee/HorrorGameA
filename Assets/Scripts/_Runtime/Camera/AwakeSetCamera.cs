@@ -1,12 +1,13 @@
 using UnityEngine;
 
 using Personal.Manager;
+using Personal.GameState;
 
 namespace Personal.Character
 {
-	public class AwakeSetCamera : MonoBehaviour
+	public class AwakeSetCamera : GameInitialize
 	{
-		void Awake()
+		protected override void Initialize()
 		{
 			StageManager.Instance?.SetMainCameraTransform(transform);
 		}

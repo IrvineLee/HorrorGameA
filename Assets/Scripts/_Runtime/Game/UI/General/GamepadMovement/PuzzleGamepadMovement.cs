@@ -35,9 +35,8 @@ namespace Personal.Puzzle
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			currentActiveIndex = startIndex;
 
-			if (InputManager.Instance.IsCurrentDeviceMouse) return;
+			currentActiveIndex = startIndex;
 			eventTriggerList[startIndex].OnPointerEnter(null);
 		}
 
