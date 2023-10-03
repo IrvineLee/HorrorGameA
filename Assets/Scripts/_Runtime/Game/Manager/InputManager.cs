@@ -161,6 +161,8 @@ namespace Personal.Manager
 			{
 				map.Value.Enable(false);
 			}
+
+			currentActionMapType = ActionMapType.None;
 		}
 
 		/// <summary>

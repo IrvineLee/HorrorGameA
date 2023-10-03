@@ -70,7 +70,7 @@ namespace Personal.Character.Player
 
 		public bool IsGrounded { get => isGrounded; }
 		public float InputMagnitude { get; private set; }
-		public Vector3 InputDirection { get; private set; }
+		public Vector2 InputDirection { get => input.MoveNormalized; }
 		public Vector3 Velocity { get => velocity; }
 		public float SpeedChangeRate { get => speedChangeRate; }
 		public CharacterController Controller { get; private set; }
@@ -118,7 +118,6 @@ namespace Personal.Character.Player
 
 		void Update()
 		{
-			InputDirection = Vector3.zero;
 			if (!fsm || fsm.IsPlayerThisState(typeof(PlayerIdleState))) return;
 
 			JumpAndGravity();
@@ -170,8 +169,7 @@ namespace Personal.Character.Player
 		void Move()
 		{
 			// normalise input direction
-			Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
-			InputDirection = inputDirection;
+			Vector3 inputDirection = new Vector3(input.MoveNormalized.x, 0, input.MoveNormalized.y);
 
 			// handle horizontal move speed
 			if (inputDirection.x != 0) velocity.x = horizontalSpeed;

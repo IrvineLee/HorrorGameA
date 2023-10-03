@@ -10,7 +10,10 @@ namespace Personal.InputProcessing
 		protected InputReaderDefinition inputReaderDefinition;
 
 		public Vector2 Move { get; protected set; }
+		public Vector2 MoveNormalized { get => Move.normalized; }
+
 		public Vector2 Look { get; protected set; }
+		public Vector2 LookNormalized { get => Look.normalized; }
 
 		public bool IsInteract { get; protected set; }
 		public bool IsCancel { get; protected set; }

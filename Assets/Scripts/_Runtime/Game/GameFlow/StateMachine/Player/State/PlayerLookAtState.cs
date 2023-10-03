@@ -11,19 +11,16 @@ namespace Personal.FSM.Character
 	public class PlayerLookAtState : PlayerBaseState
 	{
 		protected CinemachineVirtualCamera vCam;
-		protected FPSController fpsController;
+		protected PlayerController pc;
 		protected PlayerAnimatorController playerAnimatorController;
 
 		public override UniTask OnEnter()
 		{
 			base.OnEnter();
 
-			PlayerController pc = StageManager.Instance.PlayerController;
-			fpsController = pc.FPSController;
-			playerAnimatorController = pc.PlayerAnimatorController;
-
-			fpsController.enabled = false;
-			playerAnimatorController.ResetAnimationBlend();
+			pc = StageManager.Instance.PlayerController;
+			pc.FPSController.enabled = false;
+			pc.PlayerAnimatorController.ResetAnimationBlend(0.25f);
 
 			if (playerFSM.LookAtTarget)
 			{
@@ -43,7 +40,7 @@ namespace Personal.FSM.Character
 				vCam.Priority = 0;
 			}
 
-			fpsController.enabled = true;
+			pc.FPSController.enabled = true;
 			return base.OnExit();
 		}
 	}
