@@ -4,11 +4,12 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Definition;
+using Personal.GameState;
 using Helper;
 
 namespace Personal.InteractiveObject
 {
-	public abstract class InteractableObject : MonoBehaviour
+	public abstract class InteractableObject : GameInitialize
 	{
 		[SerializeField] Transform parentTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
@@ -22,7 +23,7 @@ namespace Personal.InteractiveObject
 
 		protected OutlinableFadeInOut outlinableFadeInOut;
 
-		protected virtual void Awake()
+		protected override void Initialize()
 		{
 			currentCollider = GetComponentInChildren<Collider>();
 			meshRenderer = GetComponentInChildren<MeshRenderer>();

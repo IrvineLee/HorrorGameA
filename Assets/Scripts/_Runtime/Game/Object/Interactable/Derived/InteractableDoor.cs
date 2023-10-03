@@ -29,9 +29,9 @@ namespace Personal.InteractiveObject
 		// This is used for locked doors.
 		InteractableDialogue interactableDialogue;
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
 
 			playerInventory = StageManager.Instance.PlayerController?.Inventory;
 			interactableDialogue = GetComponentInChildren<InteractableDialogue>();

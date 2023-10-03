@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1370108213826632358}
   - component: {fileID: -3906697166609073397}
   - component: {fileID: 6789558762398787585}
-  - component: {fileID: 4506023477361142092}
+  - component: {fileID: 3170207832200457289}
   m_Layer: 5
   m_Name: Pinwheel
   m_TagString: Untagged
@@ -132,10 +132,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4506023477361142092}
-          m_TargetAssemblyTypeName: Helper.OutlinableFadeInOut, _Helper
-          m_MethodName: StartFade
-          m_Mode: 6
+        - m_Target: {fileID: 3170207832200457289}
+          m_TargetAssemblyTypeName: Helper.OutlinablePuzzle, Assembly-CSharp
+          m_MethodName: SetPieceActive
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -143,22 +143,6 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4506023477361142092}
-          m_TargetAssemblyTypeName: Helper.OutlinableFadeInOut, _Helper
-          m_MethodName: StartFade
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &-3906697166609073397
 MonoBehaviour:
@@ -235,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4506023477361142092
+--- !u!114 &3170207832200457289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,9 +228,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7000215843796477246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad468e63a0f50154ba3b5faa1b80c906, type: 3}
+  m_Script: {fileID: 11500000, guid: 6702dca85f9144d40aca58089e9ea2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.65
-  waitForDuration: 0.1
-  minimumAlpha: 0.2
+  duration: 0.5
+  waitForDuration: 0.2
+  minimumAlpha: 0.4

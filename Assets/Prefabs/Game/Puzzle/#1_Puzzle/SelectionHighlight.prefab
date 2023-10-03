@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2658880903914572312}
   - component: {fileID: 672772210465195011}
   - component: {fileID: 7637304807281100203}
-  - component: {fileID: 5007158112003734668}
+  - component: {fileID: 1698937956613305193}
   m_Layer: 0
   m_Name: SelectionHighlight
   m_TagString: Untagged
@@ -126,26 +126,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5007158112003734668}
-          m_TargetAssemblyTypeName: Helper.OutlinableFadeInOut, _Helper
-          m_MethodName: StartFade
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5007158112003734668}
-          m_TargetAssemblyTypeName: Helper.OutlinableFadeInOut, _Helper
-          m_MethodName: StartFade
-          m_Mode: 6
+        - m_Target: {fileID: 1698937956613305193}
+          m_TargetAssemblyTypeName: Helper.OutlinablePuzzle, Assembly-CSharp
+          m_MethodName: SetPieceActive
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -229,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5007158112003734668
+--- !u!114 &1698937956613305193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,9 +222,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8022265630583748878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad468e63a0f50154ba3b5faa1b80c906, type: 3}
+  m_Script: {fileID: 11500000, guid: 6702dca85f9144d40aca58089e9ea2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.65
-  waitForDuration: 0.1
-  minimumAlpha: 0.3
+  duration: 0.5
+  waitForDuration: 0.2
+  minimumAlpha: 0.4

@@ -8,15 +8,13 @@ using Personal.Transition;
 
 namespace Personal.Preloader
 {
-	public class Preload : MonoBehaviour
+	public class PreloadGame : Preload
 	{
-		public static bool IsLoaded { get; private set; }
+		const string BootSceneName = SceneName.Boot;
+		const string preloadSceneName = SceneName.PreloadScene;
+		const string startSceneName = SceneName.Title;
 
-		static string bootSceneName = SceneName.Boot;
-		static string preloadSceneName = SceneName.PreloadScene;
-		static string startSceneName = SceneName.Title;
-
-		static string activeSceneName = bootSceneName;
+		static string activeSceneName = BootSceneName;
 
 		// Load the boot and preload scene first.
 		// Start up the current active scene when in the editor.
@@ -28,9 +26,9 @@ namespace Personal.Preloader
 			activeSceneName = SceneManager.GetActiveScene().name;
 #endif
 
-			if (!activeSceneName.Equals(bootSceneName))
+			if (!activeSceneName.Equals(BootSceneName))
 			{
-				SceneManager.LoadScene(bootSceneName);
+				SceneManager.LoadScene(BootSceneName);
 				await UniTask.NextFrame();
 			}
 			else
@@ -44,6 +42,8 @@ namespace Personal.Preloader
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
 		static async void RuntimeInit()
 		{
+			IsPreloadSceneLoaded = true;
+
 			// Makes sure all the singletons are ready to go before loading up the active scene.
 			if (!GameManager.IsLoadingOver)
 				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);

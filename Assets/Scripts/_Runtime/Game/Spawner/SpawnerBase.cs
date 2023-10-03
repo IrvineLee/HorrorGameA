@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Personal.Spawner
 {
-	public abstract class SpawnerBase : MonoBehaviour
+	public abstract class SpawnerBase : GameInitialize
 	{
 		/// <summary>
 		/// Handle the spawning of objects.

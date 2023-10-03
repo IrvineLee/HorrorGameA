@@ -34,9 +34,9 @@ namespace Puzzle.EightSlide
 
 		PlayerInventory playerInventory;
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
 
 			playerInventory = StageManager.Instance.PlayerController?.Inventory;
 

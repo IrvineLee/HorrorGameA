@@ -28,9 +28,9 @@ namespace Personal.InteractiveObject
 		public Vector3 InventoryRotation { get => inventoryRotation; }
 		public Vector3 InventoryScale { get => inventoryScale; }
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
 
 			ItemTypeSet = GetComponentInParent<ItemTypeSet>(true);
 			SelfRotate = GetComponentInParent<SelfRotate>(true);

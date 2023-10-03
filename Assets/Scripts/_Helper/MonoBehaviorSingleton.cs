@@ -20,8 +20,11 @@ namespace Helper
 		{
 			get
 			{
-				// To prevent creating a new instance in case of qutting.
+				// To prevent creating a new instance in case of quitting.
 				if (App.IsQuitting) return null;
+
+				// Prevent any scripts from calling singleton before it's ready to start.
+				if (!App.IsReadyToStart) return null;
 
 				if (m_Instance == null)
 				{

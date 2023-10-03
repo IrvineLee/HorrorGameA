@@ -18,7 +18,7 @@ namespace Helper
 
 		CoroutineRun fadeCR = new();
 
-		void Awake()
+		protected virtual void Awake()
 		{
 			Outlinable = GetComponentInChildren<Outlinable>(true);
 			fillColor = Outlinable.OutlineParameters.FillPass.GetColor("_PublicColor");

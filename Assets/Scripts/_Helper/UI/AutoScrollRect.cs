@@ -25,7 +25,14 @@ namespace Helper
 		public void SetSelectionToTop()
 		{
 			// Wait for the prefab to be instantiated and parented first before setting the ScrollView selection to be the top most.
-			CoroutineHelper.WaitNextFrame(() => scrollRect.verticalNormalizedPosition = 1, isWaitNextEndOfFrame: true);
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				if (scrollRect.content.childCount <= 0) return;
+
+				scrollRect.verticalNormalizedPosition = 1;
+				EventSystem.current.SetSelectedGameObject(scrollRect.content.transform.GetChild(0).gameObject);
+
+			}, isWaitNextEndOfFrame: true);
 		}
 
 		public void ScrollToSelected()

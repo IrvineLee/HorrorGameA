@@ -24,9 +24,9 @@ namespace Personal.Character.Animation
 		bool isSlowdownMotionBlend;
 		CoroutineRun slowdownMotionBlendCR = new CoroutineRun();
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
 			AssignAnimationIDs();
 
 			fpsController = GetComponentInParent<FPSController>();

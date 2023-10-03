@@ -18,7 +18,7 @@ namespace Personal.Character.Player
 		public PlayerInventory Inventory { get => inventory; }
 		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
 
-		void Awake()
+		protected override void Initialize()
 		{
 			StageManager.Instance.RegisterPlayer(this);
 		}

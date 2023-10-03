@@ -2,15 +2,16 @@
 
 using Personal.Manager;
 using Personal.Setting.Audio;
+using Personal.GameState;
 
 namespace Personal.InteractiveObject
 {
-	public class PhoneHandler : MonoBehaviour
+	public class PhoneHandler : GameInitialize
 	{
 		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.PhoneRing;
 		[SerializeField] InteractableObject interactableObject = null;
 
-		void Awake()
+		protected override void Initialize()
 		{
 			StageManager.Instance.RegisterPhoneHandler(this);
 		}

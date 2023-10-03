@@ -15,9 +15,9 @@ namespace Personal.InteractiveObject
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 		protected HeadModelLookAt headModelLookAt;
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
 
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();

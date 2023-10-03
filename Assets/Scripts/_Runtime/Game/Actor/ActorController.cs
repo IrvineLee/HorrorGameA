@@ -1,8 +1,10 @@
 using UnityEngine;
 
+using Personal.GameState;
+
 namespace Personal.Character
 {
-	public class ActorController : MonoBehaviour
+	public class ActorController : GameInitialize
 	{
 		[SerializeField] Transform head = null;
 

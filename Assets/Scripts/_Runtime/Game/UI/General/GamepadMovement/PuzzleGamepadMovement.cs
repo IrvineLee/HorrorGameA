@@ -1,17 +1,28 @@
 using System.Collections.Generic;
-using System.Linq;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Personal.Manager;
 using Personal.UI;
 using Helper;
 
 namespace Personal.Puzzle
 {
-	public class PuzzleGamepadMovement : UIGamepadMovement
+	public class PuzzleGamepadMovement : GamepadMovement
 	{
+		class PuzzlePiece
+		{
+			public EventTrigger EventTrigger { get; private set; }
+			public OutlinableFadeInOut OutlinableFadeInOut { get; private set; }
+
+			public PuzzlePiece(EventTrigger eventTrigger, OutlinableFadeInOut outlinableFadeInOut)
+			{
+				EventTrigger = eventTrigger;
+				OutlinableFadeInOut = outlinableFadeInOut;
+			}
+		}
+
+
 		[SerializeField] int startIndex = 0;
 		[SerializeField] Axis compareAxis = Axis.XY;
 
@@ -22,14 +33,22 @@ namespace Personal.Puzzle
 		[Range(0, 1)]
 		[SerializeField] float selectionArcDotProduct = 0.75f;
 
-		List<EventTrigger> eventTriggerList = new();
+		List<PuzzlePiece> puzzlePieceList = new();
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 
 			List<Transform> interactableObjectList = GetComponentInChildren<IPuzzle>().GetInteractableObjectList();
-			eventTriggerList = interactableObjectList.Select((obj) => obj.GetComponentInChildren<EventTrigger>()).ToList();
+
+			foreach (var interactable in interactableObjectList)
+			{
+				EventTrigger eventTrigger = interactable.GetComponentInChildren<EventTrigger>();
+				OutlinableFadeInOut outlinableFadeInOut = interactable.GetComponentInChildren<OutlinableFadeInOut>();
+
+				PuzzlePiece puzzlePiece = new(eventTrigger, outlinableFadeInOut);
+				puzzlePieceList.Add(puzzlePiece);
+			}
 		}
 
 		protected override void OnEnable()
@@ -37,18 +56,30 @@ namespace Personal.Puzzle
 			base.OnEnable();
 
 			currentActiveIndex = startIndex;
-			eventTriggerList[startIndex].OnPointerEnter(null);
+			SetSelectionActive(startIndex, true);
+		}
+
+		public override void UpdateCurrentSelection(GameObject go)
+		{
+			for (int i = 0; i < puzzlePieceList.Count; i++)
+			{
+				var puzzlePiece = puzzlePieceList[i];
+				bool isFade = puzzlePiece.EventTrigger.gameObject.Equals(go);
+
+				SetSelectionActive(i, isFade);
+				if (isFade) currentActiveIndex = i;
+			}
 		}
 
 		protected override void HandleMovement(Vector2 move)
 		{
 			int nextIndex = -1;
 			float shortestSqrMagnitude = float.MaxValue;
-			Vector3 currentPosition = eventTriggerList[currentActiveIndex].transform.position;
+			Vector3 currentPosition = puzzlePieceList[currentActiveIndex].EventTrigger.transform.position;
 
-			for (int i = 0; i < eventTriggerList.Count; i++)
+			for (int i = 0; i < puzzlePieceList.Count; i++)
 			{
-				Vector3 triggerPosition = eventTriggerList[i].transform.position;
+				Vector3 triggerPosition = puzzlePieceList[i].EventTrigger.transform.position;
 				if (currentActiveIndex == i) continue;
 
 				if (!IsMovementPossible(move, currentPosition, triggerPosition)) continue;
@@ -59,8 +90,9 @@ namespace Personal.Puzzle
 
 			if (nextIndex < 0) return;
 
-			eventTriggerList[currentActiveIndex].OnPointerExit(null);
-			eventTriggerList[nextIndex].OnPointerEnter(null);
+			SetSelectionActive(currentActiveIndex, true);
+			SetSelectionActive(nextIndex, false);
+
 			currentActiveIndex = nextIndex;
 		}
 
@@ -123,20 +155,15 @@ namespace Personal.Puzzle
 			return false;
 		}
 
-		protected override void OnDeviceChanged()
+		void SetSelectionActive(int index, bool isFlag)
 		{
-			if (InputManager.Instance.IsCurrentDeviceMouse)
-			{
-				eventTriggerList[currentActiveIndex].OnPointerExit(null);
-				return;
-			}
-			eventTriggerList[currentActiveIndex].OnPointerEnter(null);
+			puzzlePieceList[index].OutlinableFadeInOut.StartFade(isFlag);
 		}
 
 		protected override void OnDisable()
 		{
 			base.OnDisable();
-			eventTriggerList[currentActiveIndex].OnPointerExit(null);
+			SetSelectionActive(currentActiveIndex, false);
 		}
 	}
 }

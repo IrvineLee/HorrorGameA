@@ -19,7 +19,7 @@ namespace Personal.Character.Animation
 		FPSController fpsController;
 		CoroutineRun SEDelayCR = new();
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
 			fpsController = StageManager.Instance.PlayerController.FPSController;
 		}
