@@ -26,7 +26,7 @@ namespace Personal.Pool
 
 		void Start()
 		{
-			key = poolType.GetStringValue().RemoveAllWhenReachCharFromFront('.', true);
+			key = poolType.GetStringValue().SearchFrontRemoveEnd('.', true);
 			Initialize();
 		}
 

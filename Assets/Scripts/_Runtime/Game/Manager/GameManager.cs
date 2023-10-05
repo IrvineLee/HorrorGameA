@@ -19,7 +19,7 @@ namespace Personal.Manager
 			await UniTask.WaitUntil(() => IsInitialized());
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully initiated!! ----------</color>");
 
-			await HandleProfileLoading();
+			await HandleLoading();
 			Debug.Log("<Color=#45FF00> ---------- Profile Loaded!! ----------</color>");
 
 			// Initialize after data loading.
@@ -50,9 +50,11 @@ namespace Personal.Manager
 			return true;
 		}
 
-		async UniTask HandleProfileLoading()
+		async UniTask HandleLoading()
 		{
 			SaveManager.Instance.LoadProfileData();
+			SaveManager.Instance.LoadSlotData();
+
 			await UniTask.DelayFrame(10, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			SaveManager.Instance.SaveProfileData();

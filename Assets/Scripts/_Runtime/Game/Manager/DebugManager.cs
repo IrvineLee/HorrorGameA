@@ -42,6 +42,13 @@ namespace Personal.Manager
 			{
 				//StageManager.Instance.SetInteraction(1);
 			}
+			else if (Input.GetKeyDown(KeyCode.Alpha9))
+			{
+				QuestManager.Instance.UpdateSaveData();
+				SaveManager.Instance.SaveSlotData();
+
+				Debug.Log("Save Slot data");
+			}
 			else if (Input.GetKeyDown(KeyCode.Alpha0))
 			{
 				SaveManager.Instance.LoadSlotData();

@@ -132,7 +132,7 @@ namespace Helper
 		/// Remove all characters including and after 'c'
 		/// Ex: s = '100 <sprite=0>', c = '<', will return '100'.
 		/// </summary>
-		public static string RemoveAllWhenReachCharFromFront(this string source, char c, bool isRemoveChar = false)
+		public static string SearchFrontRemoveEnd(this string source, char c, bool isRemoveChar = false)
 		{
 			int index = isRemoveChar ? source.IndexOf(c) : source.IndexOf(c) + 1;
 			return index >= 0 ? source.Substring(0, index) : source;
@@ -140,12 +140,12 @@ namespace Helper
 
 		/// <summary>
 		/// Kill all characters after encountering char 'c'. Check behind to front.
-		/// 'IsRemoveBack' either kills character at front or back.
 		/// </summary>
 		/// <param name="c"></param>
-		/// <param name="isRemoveChar"></param>
+		/// <param name="isRemoveC">Whether to remove character 'c'</param>
+		/// <param name="isRemoveFromBack">Whether to remove all characters from the back or front</param>
 		/// <returns></returns>
-		public static string RemoveAllWhenReachCharFromBehind(this string source, char c, bool isRemoveChar = false, bool isRemoveBack = true)
+		public static string SearchBehindRemoveFrontOrEnd(this string source, char c, bool isRemoveC = false, bool isRemoveFromBack = true)
 		{
 			for (int i = source.Length - 1; i >= 0; i--)
 			{
@@ -153,14 +153,14 @@ namespace Helper
 
 				int index = i;
 
-				if (isRemoveBack)
+				if (isRemoveFromBack)
 				{
-					if (!isRemoveChar) index--;
+					if (!isRemoveC) index--;
 					source = source.Substring(0, index);
 				}
 				else
 				{
-					if (isRemoveChar) index++;
+					if (isRemoveC) index++;
 					source = source.Substring(index);
 				}
 				break;

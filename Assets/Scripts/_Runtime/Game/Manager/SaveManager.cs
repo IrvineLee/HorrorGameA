@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Helper;
 using Personal.Save;
 using Personal.GameState;
+using System.IO;
 
 namespace Personal.Manager
 {
@@ -14,6 +15,7 @@ namespace Personal.Manager
 
 		[SerializeField] bool isEncryptionEnabled = false;
 		[SerializeField] bool isPrintData = false;
+		[SerializeField] bool isFastSaveLoad = false;
 
 		// User profile path.
 		string profileDirectory = "/ProfileData";
@@ -71,10 +73,8 @@ namespace Personal.Manager
 				return;
 			}
 
-			Action onCompleteAction = () => GameStateBehaviour.Instance.InitializeData(saveObject);
-
-			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), out bool isNewlyCreated, onCompleteAction);
-			saveObject.PlayerSavedData.SlotID = slotID;
+			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), out bool isNewlyCreated);
+			GameStateBehaviour.Instance.InitializeData(saveObject);
 		}
 
 		/// <summary>
@@ -94,14 +94,33 @@ namespace Personal.Manager
 		void SavePath<T>(string path, T data) where T : GenericSave
 		{
 			long startTime = DateTime.Now.Ticks;
-			if (dataService.SaveData(path, data, isEncryptionEnabled))
+
+			try
 			{
+				string newPath = Application.persistentDataPath + path;
+
+				if (isFastSaveLoad)
+				{
+					// Create folder path.
+					string folderPath = newPath.SearchBehindRemoveFrontOrEnd('/', true);
+					if (!Directory.Exists(folderPath))
+						Directory.CreateDirectory(folderPath);
+
+					File.WriteAllText(newPath, JsonUtility.ToJson(data));
+				}
+				else
+				{
+					dataService.SaveData(newPath, data, isEncryptionEnabled);
+				}
+
 				long saveTime = DateTime.Now.Ticks - startTime;
-				HandleDataPrint("Save Time : ", saveTime, data);
+
+				string typeStr = typeof(T).ToString().SearchBehindRemoveFrontOrEnd('.', true, false);
+				HandleDataPrint("Save Time : <color=red>" + typeStr + "</color> : ", saveTime, data);
 			}
-			else
+			catch (Exception e)
 			{
-				Debug.LogError("Could not save file!");
+				Debug.LogError($"Unable to save data due to: {e.Message} {e.StackTrace}");
 			}
 		}
 
@@ -120,7 +139,17 @@ namespace Personal.Manager
 			isNewlyCreated = false;
 			try
 			{
-				data = dataService.LoadData<T>(path, isEncryptionEnabled);
+				string newPath = Application.persistentDataPath + path;
+
+				if (isFastSaveLoad)
+				{
+					data = JsonUtility.FromJson<T>(File.ReadAllText(newPath));
+				}
+				else
+				{
+					data = dataService.LoadData<T>(newPath, isEncryptionEnabled);
+				}
+
 				if (data == default)
 				{
 					data = GetTConstructor(data);
@@ -129,7 +158,9 @@ namespace Personal.Manager
 
 				long loadTime = DateTime.Now.Ticks - startTime;
 
-				HandleDataPrint("Load Time : ", loadTime, data);
+				string typeStr = typeof(T).ToString().SearchBehindRemoveFrontOrEnd('.', true, false);
+				HandleDataPrint("Load Time : <color=yellow>" + typeStr + "</color> : ", loadTime, data);
+
 				onCompleteAction?.Invoke();
 			}
 			catch (Exception e)
@@ -167,8 +198,8 @@ namespace Personal.Manager
 		/// <returns></returns>
 		string GetSlotPath(int slotID)
 		{
-			string file = fileName.RemoveAllWhenReachCharFromBehind('.', true);
-			string ext = fileName.RemoveAllWhenReachCharFromBehind('.', false, false);
+			string file = fileName.SearchBehindRemoveFrontOrEnd('.', true);
+			string ext = fileName.SearchBehindRemoveFrontOrEnd('.', false, false);
 
 			return directory + file + slotID.ToString().AddSymbolInFront('0', 2) + ext;
 		}

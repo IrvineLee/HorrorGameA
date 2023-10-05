@@ -22,14 +22,12 @@ namespace Personal.Save
 		/// <param name="data"></param>
 		/// <param name="encrypted"></param>
 		/// <returns></returns>
-		public bool SaveData<T>(string relativePath, T data, bool encrypted)
+		public bool SaveData<T>(string path, T data, bool encrypted)
 		{
-			string path = Application.persistentDataPath + relativePath;
-
 			try
 			{
 				// Create folder path.
-				string folderPath = path.RemoveAllWhenReachCharFromBehind('/', true);
+				string folderPath = path.SearchBehindRemoveFrontOrEnd('/', true);
 				if (!Directory.Exists(folderPath))
 					Directory.CreateDirectory(folderPath);
 
@@ -60,10 +58,8 @@ namespace Personal.Save
 		/// <param name="relativePath"></param>
 		/// <param name="encrypted"></param>
 		/// <returns></returns>
-		public T LoadData<T>(string relativePath, bool encrypted)
+		public T LoadData<T>(string path, bool encrypted)
 		{
-			string path = Application.persistentDataPath + relativePath;
-
 			if (!File.Exists(path))
 			{
 				Debug.Log($"Cannot load file at {path}. File does not exist!");
