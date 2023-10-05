@@ -104,8 +104,10 @@ namespace Personal.Manager
 			switch (currentActionMapType)
 			{
 				case ActionMapType.Player: movement = motionType == MotionType.Move ? FPSInputController.Move : FPSInputController.Look; break;
+				case ActionMapType.UI: movement = motionType == MotionType.Move ? UIInputController.Move : UIInputController.Look; break;
 				case ActionMapType.Puzzle: movement = motionType == MotionType.Move ? PuzzleInputController.Move : PuzzleInputController.Look; break;
-				default: movement = motionType == MotionType.Move ? UIInputController.Move : UIInputController.Look; break;
+
+				default: return Vector3.zero;
 			}
 
 			if (!isAffectedByOption) return movement;
@@ -121,8 +123,10 @@ namespace Personal.Manager
 			switch (currentActionMapType)
 			{
 				case ActionMapType.Player: return buttonPush == ButtonPush.Submit ? FPSInputController.IsInteract : FPSInputController.IsCancel;
+				case ActionMapType.UI: return buttonPush == ButtonPush.Submit ? UIInputController.IsInteract : UIInputController.IsCancel;
 				case ActionMapType.Puzzle: return buttonPush == ButtonPush.Submit ? PuzzleInputController.IsInteract : PuzzleInputController.IsCancel;
-				default: return buttonPush == ButtonPush.Submit ? UIInputController.IsInteract : UIInputController.IsCancel;
+
+				default: return false;
 			}
 		}
 

@@ -30,12 +30,11 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	public List<LocalizationTextEntity> NameTextEntities;
 	public List<LocalizationTextEntity> DescriptionTextEntities;
 
-	public IReadOnlyDictionary<string, Localization> activeLocalizedDictionary { get; private set; }
-
 	protected Dictionary<string, LocalizationTextEntity> nameTextDictionary = new();
 	protected Dictionary<string, LocalizationTextEntity> descriptionTextDictionary = new();
 
-	protected Dictionary<SupportedLanguageType, Dictionary<string, Localization>> localizationDictionary = new();
+	static Dictionary<SupportedLanguageType, Dictionary<string, Localization>> localizationDictionary = new();
+	static Dictionary<string, Localization> activeLocalizedDictionary;
 
 	HashSet<string> keyStr = new();
 
@@ -57,15 +56,15 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// <summary>
 	/// Initialize the value into dictionary.
 	/// </summary>
-	public void Initialize()
+	public void InitializeAllLanguages()
 	{
 		GetAllKeyList();
 		localizationDictionary.Clear();
 
-		Dictionary<string, Localization> keyLocalizationDictionary = new();
-
 		foreach (SupportedLanguageType language in Enum.GetValues(typeof(SupportedLanguageType)))
 		{
+			Dictionary<string, Localization> keyLocalizationDictionary = new();
+
 			foreach (var key in keyStr)
 			{
 				LocalizationTextEntity nameTextEntity = GetTableEntity(TableNameType.NameText, key);
@@ -75,15 +74,14 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 			}
 
 			localizationDictionary.Add(language, keyLocalizationDictionary);
-			keyLocalizationDictionary = new();
 		}
 	}
 
 	/// <summary>
-	/// Update the current localization based on selected language.
+	/// Set the current localization based on selected language.
 	/// </summary>
 	/// <param name="language"></param>
-	public void UpdateActiveLanguage(SupportedLanguageType language)
+	public static void SetActiveLanguage(SupportedLanguageType language)
 	{
 		activeLocalizedDictionary = localizationDictionary.GetOrDefault(language);
 	}
@@ -93,7 +91,7 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// </summary>
 	/// <param name="language"></param>
 	/// <returns></returns>
-	public string Get(TableNameType tableNameType, string key)
+	public static string Get(TableNameType tableNameType, string key)
 	{
 		if (!activeLocalizedDictionary.TryGetValue(key, out Localization localization)) return string.Empty;
 

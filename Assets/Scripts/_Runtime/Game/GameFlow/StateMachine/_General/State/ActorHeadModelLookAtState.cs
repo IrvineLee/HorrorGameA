@@ -5,7 +5,7 @@ using Personal.Character.NPC;
 
 namespace Personal.FSM.Character
 {
-	public class ActorLookAtState : ActorStateBase
+	public class ActorHeadModelLookAtState : ActorStateBase
 	{
 		[SerializeField] bool isLookAtTarget = true;
 		[SerializeField] Transform target = null;
@@ -18,6 +18,7 @@ namespace Personal.FSM.Character
 
 			headModelLookAt = actorStateMachine.HeadModelLookAt;
 
+			// All headModelLookAt default target is the MainCameara.
 			if (target) headModelLookAt.SetTarget(target);
 			headModelLookAt.SetLookAtTarget(isLookAtTarget);
 		}

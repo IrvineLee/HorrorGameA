@@ -9,12 +9,14 @@ namespace Personal.InteractiveObject
 {
 	public class InteractablePickupable : InteractableObject
 	{
+		[Header("FPS view")]
 		[Tooltip("The rotation of the item in the fps view.")]
 		[SerializeField] Vector3 fpsRotation = Vector3.zero;
 
 		[Tooltip("The scale of the item in the fps view.")]
 		[SerializeField] Vector3 fpsScale = Vector3.one;
 
+		[Header("Inventory view")]
 		[Tooltip("The scale of the item in the inventory view.")]
 		[SerializeField] Vector3 inventoryRotation = Vector3.zero;
 

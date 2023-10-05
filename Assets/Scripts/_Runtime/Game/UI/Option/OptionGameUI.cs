@@ -209,7 +209,7 @@ namespace Personal.UI.Option
 			SupportedLanguageType supportedLanguageType = (SupportedLanguageType)languageDropdown.Value;
 
 			// Set the data's localization.
-			MasterDataManager.Instance.Localization.UpdateActiveLanguage(supportedLanguageType);
+			MasterLocalization.SetActiveLanguage(supportedLanguageType);
 
 			// Set the dialogues's localization.
 			StageManager.Instance.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.GetStringValue()));

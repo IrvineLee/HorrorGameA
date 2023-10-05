@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653123560cef1e848a8f0e4c8088783f, type: 3}
+  m_Name: MasterQuest
+  m_EditorClassIdentifier: 
+  Entities:
+  - id: 1
+    key: 20000
+    name: An unknown presence..
+    isMainQuest: 1
+    isDisplayQuest: 1
+    prerequisiteKey: 0
+    description01: Call my father?
+    actionType01: 0
+    requiredKey01: 0
+    requiredAmount01: 0
+    description02: 
+    actionType02: 0
+    requiredKey02: 0
+    requiredAmount02: 0
+    rewardKey: 0
+    rewardAmount: 1
+  - id: 2
+    key: 20001
+    name: Economic hardship
+    isMainQuest: 0
+    isDisplayQuest: 0
+    prerequisiteKey: 20000
+    description01: Scavenge for coins.
+    actionType01: 2
+    requiredKey01: 0
+    requiredAmount01: 2
+    description02: 
+    actionType02: 0
+    requiredKey02: 0
+    requiredAmount02: 0
+    rewardKey: 0
+    rewardAmount: 1

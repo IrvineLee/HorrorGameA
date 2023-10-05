@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8070837542320718864}
   - component: {fileID: 371793891649990306}
   m_Layer: 9
-  m_Name: ChangePlayerState
+  m_Name: SetPlayerState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,5 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWaitForOnExit: 0
   actorAnimationType: 0
-  namespaceStr: Personal.FSM.Character.
-  playerState: {fileID: 11500000, guid: dbacc10a8df371c4a905d8f71b52ac25, type: 3}
+  playerState: 0

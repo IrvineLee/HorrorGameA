@@ -7,6 +7,7 @@ using Personal.FSM.Character;
 using Personal.Character.NPC;
 using Personal.Manager;
 using Cinemachine;
+using Personal.FSM;
 
 namespace Personal.InteractiveObject
 {
@@ -38,7 +39,9 @@ namespace Personal.InteractiveObject
 			dialogueSystemTrigger.OnUse(transform);
 
 			// Enable LookAt state
-			InitiatorStateMachine.SwitchToState(typeof(PlayerLookAtState)).Forget();
+			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
+			ifsmHandler.OnBegin(typeof(PlayerLookAtState));
+
 			headModelLookAt?.SetLookAtTarget(true);
 
 			await UniTask.NextFrame();
@@ -52,9 +55,7 @@ namespace Personal.InteractiveObject
 
 			// Switch back to default standard state.
 			headModelLookAt?.SetLookAtTarget(false);
-			InitiatorStateMachine.SwitchToState(typeof(PlayerStandardState)).Forget();
-
-			InitiatorStateMachine.SetLookAtTarget(null);
+			ifsmHandler.OnExit();
 		}
 
 		void SetRotationToPOVControl()

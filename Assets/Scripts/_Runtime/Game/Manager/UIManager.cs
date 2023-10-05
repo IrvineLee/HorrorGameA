@@ -17,6 +17,7 @@ namespace Personal.Manager
 		[SerializeField] InventoryHandlerUI inventoryUI = null;
 		[SerializeField] ToolsHandlerUI toolsHandlerUI = null;
 		[SerializeField] WindowHandlerUI windowHandlerUI = null;
+		[SerializeField] MainDisplayHandlerUI mainDisplayHandlerUI = null;
 		[SerializeField] FooterIconDisplay footerIconDisplay = null;
 
 		[ShowInInspector]
@@ -26,6 +27,7 @@ namespace Personal.Manager
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
 		public ToolsHandlerUI ToolsUI { get => toolsHandlerUI; }
 		public WindowHandlerUI WindowUI { get => windowHandlerUI; }
+		public MainDisplayHandlerUI MainDisplayHandlerUI { get => mainDisplayHandlerUI; }
 		public FooterIconDisplay FooterIconDisplay { get => footerIconDisplay; }
 
 		public static Stack<MenuUIBase> WindowStack { get; } = new();

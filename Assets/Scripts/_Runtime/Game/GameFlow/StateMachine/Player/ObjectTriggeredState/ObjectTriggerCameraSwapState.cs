@@ -51,7 +51,7 @@ namespace Personal.FSM.Character
 			await ActivateCamera(false);
 		}
 
-		public override async UniTask CheckComparisonDo()
+		public override async UniTask Standby()
 		{
 			await WaitCameraBlend();
 		}

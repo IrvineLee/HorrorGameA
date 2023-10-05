@@ -12,7 +12,6 @@ namespace Personal.FSM.Character
 		protected PlayerStateMachine playerFSM;
 
 		protected Camera cam;
-		protected Transform previousHitTrans;
 
 		float radius = ConstantFixed.PLAYER_LOOK_SPHERECAST_RADIUS;
 		float length = ConstantFixed.PLAYER_LOOK_SPHERECAST_LENGTH;
@@ -40,20 +39,15 @@ namespace Personal.FSM.Character
 			Debug.DrawLine(startPos, endPos, Color.green);
 			if (Physics.SphereCast(startPos, radius, cam.transform.forward, out hit, length, 1 << (int)LayerType._Interactable))
 			{
-				previousHitTrans = hit.transform;
 				HandleOnInteractable(hit);
 				return;
 			}
 
 			CursorManager.Instance.SetCenterCrosshairToDefault();
-			if (previousHitTrans)
-			{
-				HandleOffInteractable(previousHitTrans);
-				previousHitTrans = null;
-			}
+			HandleOffInteractable();
 		}
 
 		protected virtual void HandleOnInteractable(RaycastHit hit) { }
-		protected virtual void HandleOffInteractable(Transform previousHitTrans) { }
+		protected virtual void HandleOffInteractable() { }
 	}
 }

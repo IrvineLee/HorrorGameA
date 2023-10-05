@@ -61,7 +61,7 @@ namespace Personal.FSM
 		/// Can also be used to reset values, similar to OnExit but at different time.
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask CheckComparisonDo() { return UniTask.CompletedTask; }
+		public virtual UniTask Standby() { return UniTask.CompletedTask; }
 
 		private void OnValidate()
 		{

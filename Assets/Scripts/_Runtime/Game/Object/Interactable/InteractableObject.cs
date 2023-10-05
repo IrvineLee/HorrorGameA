@@ -16,7 +16,7 @@ namespace Personal.InteractiveObject
 
 		public Transform ParentTrans { get => parentTrans; }
 		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
-		public ActorStateMachine InitiatorStateMachine { get; private set; }
+		public ActorStateMachine InitiatorStateMachine { get; protected set; }
 
 		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;

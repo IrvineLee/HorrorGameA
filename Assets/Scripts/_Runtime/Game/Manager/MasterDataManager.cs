@@ -38,8 +38,8 @@ namespace Personal.Manager
 		{
 			SupportedLanguageType language = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData.SelectedLanguage;
 
-			Instance.Localization.Initialize();
-			Instance.Localization.UpdateActiveLanguage(language);
+			Instance.Localization.InitializeAllLanguages();
+			Instance.Localization.SetActiveLanguage(language);
 		}
 	}
 }

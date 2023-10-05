@@ -22,6 +22,12 @@ namespace Personal.FSM.Character
 			pc.FPSController.enabled = false;
 			pc.PlayerAnimatorController.ResetAnimationBlend(0.25f);
 
+			playerFSM.SetLookAtTarget(pc.FSM.LookAtTarget);
+			if (!pc.FSM.LookAtTarget && actorStateMachine.ActorController)
+			{
+				playerFSM.SetLookAtTarget(actorStateMachine.ActorController.Head);
+			}
+
 			if (playerFSM.LookAtTarget)
 			{
 				vCam = GetComponentInChildren<CinemachineVirtualCamera>();
