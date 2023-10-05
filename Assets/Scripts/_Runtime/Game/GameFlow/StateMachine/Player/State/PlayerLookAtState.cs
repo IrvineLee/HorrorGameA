@@ -23,10 +23,6 @@ namespace Personal.FSM.Character
 			pc.PlayerAnimatorController.ResetAnimationBlend(0.25f);
 
 			playerFSM.SetLookAtTarget(pc.FSM.LookAtTarget);
-			if (!pc.FSM.LookAtTarget && actorStateMachine.ActorController)
-			{
-				playerFSM.SetLookAtTarget(actorStateMachine.ActorController.Head);
-			}
 
 			if (playerFSM.LookAtTarget)
 			{
