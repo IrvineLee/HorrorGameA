@@ -39,7 +39,7 @@ namespace Personal.Manager
 			SupportedLanguageType language = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData.SelectedLanguage;
 
 			Instance.Localization.InitializeAllLanguages();
-			Instance.Localization.SetActiveLanguage(language);
+			MasterLocalization.SetActiveLanguage(language);
 		}
 	}
 }
