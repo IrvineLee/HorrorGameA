@@ -90,8 +90,8 @@ namespace Personal.Puzzle
 
 			if (nextIndex < 0) return;
 
-			SetSelectionActive(currentActiveIndex, true);
-			SetSelectionActive(nextIndex, false);
+			SetSelectionActive(currentActiveIndex, false);
+			SetSelectionActive(nextIndex, true);
 
 			currentActiveIndex = nextIndex;
 		}

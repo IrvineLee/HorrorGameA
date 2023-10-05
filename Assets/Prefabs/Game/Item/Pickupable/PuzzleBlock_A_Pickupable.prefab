@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4225013848009996330}
   - component: {fileID: 7066836478012743653}
   - component: {fileID: 7867668756725586475}
-  - component: {fileID: 3429676385030135779}
+  - component: {fileID: 3007956051136006274}
   - component: {fileID: 7143464753411933135}
   - component: {fileID: 5960083110933087969}
   m_Layer: 9
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3429676385030135779
+--- !u!114 &3007956051136006274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,11 +124,27 @@ MonoBehaviour:
   complexMaskingMode: 0
   drawingMode: 1
   outlineLayer: 0
-  outlineTargets: []
+  outlineTargets:
+  - IsVisible: 1
+    CutoutMask: 8
+    edgeDilateAmount: 5
+    frontEdgeDilateAmount: 5
+    backEdgeDilateAmount: 5
+    renderer: {fileID: 7066836478012743653}
+    SubmeshIndex: 0
+    BoundsMode: 0
+    Bounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0.5}
+    CutoutThreshold: 0.5
+    CullMode: 2
+    cutoutTextureName: 
+    DilateRenderingMode: 0
+    cutoutTextureIndex: 0
   renderStyle: 1
   outlineParameters:
     enabled: 1
-    color: {r: 1, g: 0.030596506, b: 0, a: 1}
+    color: {r: 1, g: 0.03137255, b: 0, a: 1}
     dilateShift: 1
     blurShift: 1
     fillPass:
@@ -136,7 +152,7 @@ MonoBehaviour:
       serializedProperties:
       - PropertyName: _PublicColor
         Property:
-          ColorValue: {r: 0.427451, g: 0.5510202, b: 1, a: 0.39215687}
+          ColorValue: {r: 0.42745098, g: 0.5529412, b: 1, a: 0.39215687}
           FloatValue: 0
           VectorValue: {x: 0, y: 0, z: 0, w: 0}
           PropertyType: 0

@@ -9,32 +9,35 @@ namespace Personal.FSM.Character
 {
 	public class PlayerStandardState : PlayerBaseState
 	{
-		InteractableObject interactableObject;
+		InteractableObject previousInteractable;
 
 		protected override void HandleOnInteractable(RaycastHit hit)
 		{
 			// All interactable objects collider should be at least 1 child deep into a gameobject.
-			interactableObject = hit.transform.GetComponentInParent<InteractableObject>();
+			InteractableObject interactable = hit.transform.GetComponentInParent<InteractableObject>();
 
-			if (!interactableObject) return;
-			if (!interactableObject.enabled) return;
+			if (!interactable) return;
+			if (!interactable.enabled) return;
 
-			CursorManager.Instance.SetCenterCrosshair(interactableObject.InteractCrosshairType);
-			interactableObject.ShowOutline(true);
+			CursorManager.Instance.SetCenterCrosshair(interactable.InteractCrosshairType);
+			interactable.ShowOutline(true);
+
+			previousInteractable = interactable;
 
 			if (!InputManager.Instance.GetButtonPush(InputManager.ButtonPush.Submit)) return;
-			if (!interactableObject.enabled) return;
+			if (!interactable.enabled) return;
 
 			Debug.Log("Hit interactable");
-			playerFSM.SetLookAtTarget(interactableObject.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
+			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
 
 			CursorManager.Instance.SetCenterCrosshairToDefault();
-			interactableObject.HandleInteraction(playerFSM).Forget();
+			interactable.HandleInteraction(playerFSM).Forget();
 		}
 
 		protected override void HandleOffInteractable()
 		{
-			interactableObject?.ShowOutline(false);
+			previousInteractable?.ShowOutline(false);
+			previousInteractable = null;
 		}
 	}
 }
