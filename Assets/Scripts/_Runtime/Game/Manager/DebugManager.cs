@@ -44,7 +44,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.Alpha9))
 			{
-				QuestManager.Instance.UpdateSaveData();
+				//QuestManager.Instance.UpdateSaveData();
 				SaveManager.Instance.SaveSlotData();
 
 				Debug.Log("Save Slot data");

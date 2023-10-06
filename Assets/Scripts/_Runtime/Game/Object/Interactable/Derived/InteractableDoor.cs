@@ -4,7 +4,6 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.System.Handler;
 using Helper;
-using Personal.Item;
 using Personal.Character.Player;
 using Personal.Manager;
 
@@ -18,23 +17,19 @@ namespace Personal.InteractiveObject
 		[SerializeField] float openAngle = 90;
 
 		[SerializeField] bool isOpened = false;
-		[SerializeField] ItemType keyItemType = default;
 
 		public event Action OnDoorOpened;
 		public event Action OnDoorClosed;
 
-		CoroutineRun runCR = new CoroutineRun();
-		PlayerInventory playerInventory;
+		protected PlayerInventory playerInventory;
 
-		// This is used for locked doors.
-		InteractableDialogue interactableDialogue;
+		CoroutineRun runCR = new CoroutineRun();
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 
 			playerInventory = StageManager.Instance.PlayerController?.Inventory;
-			interactableDialogue = GetComponentInChildren<InteractableDialogue>();
 		}
 
 		protected override UniTask HandleInteraction()
@@ -69,21 +64,7 @@ namespace Personal.InteractiveObject
 			return UniTask.CompletedTask;
 		}
 
-		bool IsAbleToOpenDoor()
-		{
-			if (keyItemType == default) return true;
-
-			var pickupable = playerInventory.ActiveObject?.PickupableObject;
-			if (pickupable && keyItemType.HasFlag(pickupable.ItemTypeSet.ItemType))
-			{
-				keyItemType = default;
-				playerInventory.UseActiveItem(true);
-				return true;
-			}
-
-			interactableDialogue.HandleInteraction(InitiatorStateMachine).Forget();
-			return false;
-		}
+		protected virtual bool IsAbleToOpenDoor() { return true; }
 
 		float GetDoorMoveAngle()
 		{

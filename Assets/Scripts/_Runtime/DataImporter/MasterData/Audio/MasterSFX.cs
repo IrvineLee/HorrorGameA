@@ -7,6 +7,7 @@ using UnityEditor;
 using Personal.Constant;
 using Personal.Data;
 using Personal.Definition;
+using Personal.Setting.Audio;
 
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
 public class MasterSFX : MasterGeneric<SFXEntity, int>
@@ -33,7 +34,7 @@ public class MasterSFX : MasterGeneric<SFXEntity, int>
 		{
 			string audioPath = ConstantFixed.SFX_PATH + sfx.name;
 			AudioClip audioClip = Resources.Load<AudioClip>(audioPath);
-			definition.AudioList.Add(new SFXDefinition.Audio(sfx.audioSFXType, audioClip));
+			definition.AudioList.Add(new SFXDefinition.Audio((AudioSFXType)sfx.id, audioClip));
 		}
 
 		// Focus on the newly created asset.

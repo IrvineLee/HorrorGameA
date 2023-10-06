@@ -5,6 +5,7 @@ using Personal.Definition;
 using UnityEngine;
 
 using UnityEditor;
+using Personal.Setting.Audio;
 
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
 public class MasterBGM : MasterGeneric<BGMEntity, int>
@@ -32,7 +33,7 @@ public class MasterBGM : MasterGeneric<BGMEntity, int>
 		{
 			string audioPath = ConstantFixed.BGM_PATH + bgm.name;
 			AudioClip audioClip = Resources.Load<AudioClip>(audioPath);
-			definition.AudioList.Add(new BGMDefinition.Audio(bgm.audioBGMType, audioClip));
+			definition.AudioList.Add(new BGMDefinition.Audio((AudioBGMType)bgm.id, audioClip));
 		}
 
 		// Focus on the newly created asset.

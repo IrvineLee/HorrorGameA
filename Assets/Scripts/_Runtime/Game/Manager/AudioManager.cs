@@ -83,7 +83,7 @@ namespace Personal.Manager
 
 			if (!audioClip) return null;
 
-			GameObject go = PoolManager.Instance.GetSpawnedObject(audioSFXType.GetStringValue());
+			GameObject go = PoolManager.Instance.GetSpawnedObject(audioSFXType.ToString());
 			AudioSource audioSource = go?.GetComponent<AudioSource>(); ;
 
 			if (go)
@@ -94,7 +94,7 @@ namespace Personal.Manager
 				return audioSource;
 			}
 
-			go = new GameObject(audioSFXType.GetStringValue());
+			go = new GameObject(audioSFXType.ToString());
 			go.transform.position = position;
 
 			audioSource = go.AddComponent<AudioSource>();

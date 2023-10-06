@@ -6,37 +6,22 @@ namespace Personal.Setting.Audio
 	{
 		None = 0,
 
-		[StringValue("SFX_01_FirstAudio")]
-		SFX_01_FirstAudio,
-		[StringValue("SFX_02_SecondAudio")]
-		SFX_02_SecondAudio,
-		[StringValue("SFX_03_ThirdAudio")]
-		SFX_03_ThirdAudio,
+		SFX_01_FirstAudio = 2000,
+		SFX_02_SecondAudio = 2001,
+		SFX_03_ThirdAudio = 2002,
 
-		[StringValue("PlayerFootsteps_01")]
-		PlayerFootsteps_01 = 1000,
-		[StringValue("PlayerFootsteps_02")]
-		PlayerFootsteps_02,
-		[StringValue("PlayerFootsteps_03")]
-		PlayerFootsteps_03,
-		[StringValue("PlayerFootsteps_04")]
-		PlayerFootsteps_04,
-		[StringValue("PlayerFootsteps_05")]
-		PlayerFootsteps_05,
-		[StringValue("PlayerFootsteps_06")]
-		PlayerFootsteps_06,
-		[StringValue("PlayerFootsteps_07")]
-		PlayerFootsteps_07,
-		[StringValue("PlayerFootsteps_08")]
-		PlayerFootsteps_08,
-		[StringValue("PlayerFootsteps_09")]
-		PlayerFootsteps_09,
-		[StringValue("PlayerFootsteps_010")]
-		PlayerFootsteps_010,
-		[StringValue("PlayerLand")]
-		PlayerLand,
+		PlayerFootsteps_01 = 2100,
+		PlayerFootsteps_02 = 2101,
+		PlayerFootsteps_03 = 2102,
+		PlayerFootsteps_04 = 2103,
+		PlayerFootsteps_05 = 2104,
+		PlayerFootsteps_06 = 2105,
+		PlayerFootsteps_07 = 2106,
+		PlayerFootsteps_08 = 2107,
+		PlayerFootsteps_09 = 2108,
+		PlayerFootsteps_010 = 2109,
+		PlayerLand = 2110,
 
-		[StringValue("PhoneRing")]
 		PhoneRing = 2000,
 	}
 }

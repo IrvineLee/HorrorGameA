@@ -24,7 +24,7 @@ namespace Personal.InputProcessing
 		[StringValue("RightStick")] RightStick,                     // Right analog stick
 		[StringValue("RightStick_Up")] RightStick_Up,
 		[StringValue("RightStick_Down")] RightStick_Down,
-		[StringValue("DpaRightStick_Leftd")] RightStick_Left,
+		[StringValue("RightStick_Left")] RightStick_Left,
 		[StringValue("RightStick_Right")] RightStick_Right,
 		[StringValue("RightStick_UpDown")] RightStick_UpDown,
 		[StringValue("RightStick_LeftRight")] RightStick_LeftRight,

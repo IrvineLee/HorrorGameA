@@ -2,7 +2,6 @@ using UnityEngine;
 
 using Personal.Constant;
 using Personal.Manager;
-using Helper;
 
 namespace Personal.UI
 {
@@ -18,7 +17,7 @@ namespace Personal.UI
 
 		void ChangeScene()
 		{
-			GameSceneManager.Instance.ChangeLevel(sceneType.GetStringValue(), isIgnoreTimescale: false);
+			GameSceneManager.Instance.ChangeLevel(sceneType.ToString(), isIgnoreTimescale: false);
 			InputManager.Instance.DisableAllActionMap();
 			CursorManager.Instance.SetToMouseCursor(false);
 		}

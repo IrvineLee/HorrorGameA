@@ -178,7 +178,7 @@ namespace Personal.UI.Option
 
 		void HandleFontSizeChanged(FontSizeType fontSizeType)
 		{
-			string textStyle = fontSizeType.GetStringValue();
+			string textStyle = fontSizeType.ToString();
 			foreach (var tmp in allTMPList)
 			{
 				tmp.textStyle = TMP_Settings.defaultStyleSheet.GetStyle(textStyle);
@@ -192,7 +192,7 @@ namespace Personal.UI.Option
 			{
 				string language = languageDropdown.StringList[i];
 
-				if (!language.Equals(gameData.SelectedLanguage.GetStringValue())) continue;
+				if (!language.Equals(gameData.SelectedLanguage.ToString())) continue;
 				languageIndex = i;
 			}
 
@@ -212,7 +212,7 @@ namespace Personal.UI.Option
 			MasterLocalization.SetActiveLanguage(supportedLanguageType);
 
 			// Set the dialogues's localization.
-			StageManager.Instance.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.GetStringValue()));
+			StageManager.Instance.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.ToString()));
 		}
 
 		void OnApplicationQuit()

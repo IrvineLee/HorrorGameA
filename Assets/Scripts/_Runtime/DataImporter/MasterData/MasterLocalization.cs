@@ -30,13 +30,13 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	public List<LocalizationTextEntity> NameTextEntities;
 	public List<LocalizationTextEntity> DescriptionTextEntities;
 
-	protected Dictionary<string, LocalizationTextEntity> nameTextDictionary = new();
-	protected Dictionary<string, LocalizationTextEntity> descriptionTextDictionary = new();
+	protected Dictionary<int, LocalizationTextEntity> nameTextDictionary = new();
+	protected Dictionary<int, LocalizationTextEntity> descriptionTextDictionary = new();
 
-	static Dictionary<SupportedLanguageType, Dictionary<string, Localization>> localizationDictionary = new();
-	static Dictionary<string, Localization> activeLocalizedDictionary;
+	static Dictionary<SupportedLanguageType, Dictionary<int, Localization>> localizationDictionary = new();
+	static Dictionary<int, Localization> activeLocalizedDictionary;
 
-	HashSet<string> keyStr = new();
+	List<int> idList = new();
 
 	public void OnBeforeSerialize() { }
 
@@ -44,12 +44,12 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	{
 		foreach (var entity in NameTextEntities)
 		{
-			nameTextDictionary.Add(entity.key, entity);
+			nameTextDictionary.Add(entity.id, entity);
 		}
 
 		foreach (var entity in DescriptionTextEntities)
 		{
-			descriptionTextDictionary.Add(entity.key, entity);
+			descriptionTextDictionary.Add(entity.id, entity);
 		}
 	}
 
@@ -58,22 +58,22 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// </summary>
 	public void InitializeAllLanguages()
 	{
-		GetAllKeyList();
+		GetAllIDList();
 		localizationDictionary.Clear();
 
 		foreach (SupportedLanguageType language in Enum.GetValues(typeof(SupportedLanguageType)))
 		{
-			Dictionary<string, Localization> keyLocalizationDictionary = new();
+			Dictionary<int, Localization> idLocalizationDictionary = new();
 
-			foreach (var key in keyStr)
+			foreach (int id in idList)
 			{
-				LocalizationTextEntity nameTextEntity = GetTableEntity(TableNameType.NameText, key);
-				LocalizationTextEntity descriptionTextEntity = GetTableEntity(TableNameType.DescriptionText, key);
+				LocalizationTextEntity nameTextEntity = GetTableEntity(TableNameType.NameText, id);
+				LocalizationTextEntity descriptionTextEntity = GetTableEntity(TableNameType.DescriptionText, id);
 
-				keyLocalizationDictionary.Add(key, new Localization(GetValue(language, nameTextEntity), GetValue(language, descriptionTextEntity)));
+				idLocalizationDictionary.Add(id, new Localization(GetValue(language, nameTextEntity), GetValue(language, descriptionTextEntity)));
 			}
 
-			localizationDictionary.Add(language, keyLocalizationDictionary);
+			localizationDictionary.Add(language, idLocalizationDictionary);
 		}
 	}
 
@@ -91,9 +91,9 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// </summary>
 	/// <param name="language"></param>
 	/// <returns></returns>
-	public static string Get(TableNameType tableNameType, string key)
+	public static string Get(TableNameType tableNameType, int id)
 	{
-		if (!activeLocalizedDictionary.TryGetValue(key, out Localization localization)) return string.Empty;
+		if (!activeLocalizedDictionary.TryGetValue(id, out Localization localization)) return string.Empty;
 
 		switch (tableNameType)
 		{
@@ -108,16 +108,16 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	/// Get table data from MasterLocalization.
 	/// </summary>
 	/// <param name="tableNameTypes"></param>
-	/// <param name="key"></param>
+	/// <param name="id"></param>
 	/// <returns></returns>
-	LocalizationTextEntity GetTableEntity(TableNameType tableNameTypes, string key)
+	LocalizationTextEntity GetTableEntity(TableNameType tableNameTypes, int id)
 	{
 		switch (tableNameTypes)
 		{
 			case TableNameType.NameText:
-				return nameTextDictionary.GetOrDefault(key);
+				return nameTextDictionary.GetOrDefault(id);
 			case TableNameType.DescriptionText:
-				return descriptionTextDictionary.GetOrDefault(key);
+				return descriptionTextDictionary.GetOrDefault(id);
 		}
 		return null;
 	}
@@ -139,30 +139,29 @@ public class MasterLocalization : ScriptableObject, ISerializationCallbackReceiv
 	}
 
 	/// <summary>
-	/// Get all unique key list.
+	/// Get all unique id list.
 	/// </summary>
-	void GetAllKeyList()
+	void GetAllIDList()
 	{
-		keyStr.Clear();
+		idList.Clear();
 		foreach (var entity in NameTextEntities)
 		{
-			AddToKeyList(entity.key, keyStr);
+			AddToIDList(entity.id);
 		}
 
 		foreach (var entity in DescriptionTextEntities)
 		{
-			AddToKeyList(entity.key, keyStr);
+			AddToIDList(entity.id);
 		}
 	}
 
 	/// <summary>
-	/// Add unique key.
+	/// Add unique id.
 	/// </summary>
-	/// <param name="key"></param>
-	/// <param name="keyStr"></param>
-	void AddToKeyList(string key, HashSet<string> keyStr)
+	/// <param name="id"></param>
+	void AddToIDList(int id)
 	{
-		if (keyStr.Contains(key)) return;
-		keyStr.Add(key);
+		if (idList.Contains(id)) return;
+		idList.Add(id);
 	}
 }
