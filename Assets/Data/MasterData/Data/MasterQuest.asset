@@ -14,34 +14,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entities:
   - id: 20000
-    key: 
     name: An unknown presence..
     isMainQuest: 1
-    isDisplayQuest: 1
+    isHiddenQuest: 0
     prerequisiteKey: 0
-    description01: Call my father?
-    actionType01: 0
-    requiredKey01: 0
-    requiredAmount01: 0
-    description02: 
-    actionType02: 0
-    requiredKey02: 0
-    requiredAmount02: 0
-    rewardKey: 0
-    rewardAmount: 1
-  - id: 20001
-    key: 
+    taskDescription01: Call my father?
+    taskActionType01: 1
+    taskObjectiveKey01: 2
+    taskRequiredAmount01: 0
+    taskDescription02: 
+    taskActionType02: 0
+    taskObjectiveKey02: 0
+    taskRequiredAmount02: 0
+    taskDescription03: 
+    taskActionType03: 0
+    taskObjectiveKey03: 0
+    taskRequiredAmount03: 0
+    rewardKey01: 0
+    rewardAmount01: 1
+    rewardKey02: 0
+    rewardAmount02: 0
+    rewardKey03: 0
+    rewardAmount03: 0
+  - id: 25000
     name: Economic hardship
     isMainQuest: 0
-    isDisplayQuest: 0
+    isHiddenQuest: 1
     prerequisiteKey: 20000
-    description01: Scavenge for coins.
-    actionType01: 2
-    requiredKey01: 0
-    requiredAmount01: 2
-    description02: 
-    actionType02: 0
-    requiredKey02: 0
-    requiredAmount02: 0
-    rewardKey: 0
-    rewardAmount: 1
+    taskDescription01: Scavenge for coins.
+    taskActionType01: 3
+    taskObjectiveKey01: 10304
+    taskRequiredAmount01: 2
+    taskDescription02: Purchase Amulet from the vending machine
+    taskActionType02: 4
+    taskObjectiveKey02: 10304
+    taskRequiredAmount02: 2
+    taskDescription03: 
+    taskActionType03: 0
+    taskObjectiveKey03: 0
+    taskRequiredAmount03: 0
+    rewardKey01: 0
+    rewardAmount01: 1
+    rewardKey02: 0
+    rewardAmount02: 0
+    rewardKey03: 0
+    rewardAmount03: 0

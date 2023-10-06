@@ -16,15 +16,15 @@ namespace Personal.Save
 		[SerializeField] SerializableDictionary<QuestType, QuestInfo> activeMainQuestDictionary = new();
 		[SerializeField] SerializableDictionary<QuestType, QuestInfo> activeSubQuestDictionary = new();
 
-		[SerializeField] SerializableDictionary<QuestType, QuestInfo> completedMainQuestDictionary = new();
-		[SerializeField] SerializableDictionary<QuestType, QuestInfo> completedSubQuestDictionary = new();
+		[SerializeField] SerializableDictionary<QuestType, QuestInfo> endedMainQuestDictionary = new();
+		[SerializeField] SerializableDictionary<QuestType, QuestInfo> endedSubQuestDictionary = new();
 
 		public int SlotID { get => slotID; set => slotID = value; }
 		public int CharacterID { get => characterID; set => characterID = value; }
 
 		public SerializableDictionary<QuestType, QuestInfo> ActiveMainQuestDictionary { get => activeMainQuestDictionary; set => activeMainQuestDictionary = value; }
 		public SerializableDictionary<QuestType, QuestInfo> ActiveSubQuestDictionary { get => activeSubQuestDictionary; set => activeSubQuestDictionary = value; }
-		public SerializableDictionary<QuestType, QuestInfo> CompletedMainQuestDictionary { get => completedMainQuestDictionary; set => completedMainQuestDictionary = value; }
-		public SerializableDictionary<QuestType, QuestInfo> CompletedSubQuestDictionary { get => completedSubQuestDictionary; set => completedSubQuestDictionary = value; }
+		public SerializableDictionary<QuestType, QuestInfo> EndedMainQuestDictionary { get => endedMainQuestDictionary; set => endedMainQuestDictionary = value; }
+		public SerializableDictionary<QuestType, QuestInfo> EndedSubQuestDictionary { get => endedSubQuestDictionary; set => endedSubQuestDictionary = value; }
 	}
 }

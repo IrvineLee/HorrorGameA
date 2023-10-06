@@ -178,14 +178,32 @@ namespace Personal.Character.Player
 			activeObject = null;
 		}
 
+		/// <summary>
+		/// Remove the object from the inventory.
+		/// </summary>
 		public void ResetInventoryUI()
 		{
-			// Remove the object from the inventory UI.
 			foreach (var inventory in inventoryList)
 			{
 				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObject.ParentTrans.gameObject);
 				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ParentTrans.gameObject);
 			}
+		}
+
+		/// <summary>
+		/// Get the item count.
+		/// </summary>
+		/// <param name="itemTypeSet"></param>
+		/// <returns></returns>
+		public int GetItemCount(ItemType itemType)
+		{
+			int count = 0;
+			foreach (var inventory in inventoryList)
+			{
+				if (inventory.PickupableObject.ItemTypeSet.ItemType != itemType) continue;
+				count++;
+			}
+			return count;
 		}
 
 		/// <summary>

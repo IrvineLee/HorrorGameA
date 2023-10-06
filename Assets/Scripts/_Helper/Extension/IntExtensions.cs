@@ -61,5 +61,40 @@ namespace Helper
 		{
 			return original * 100;
 		}
+
+		/// <summary>
+		/// Check to see whether the value is between minValue and maxValue.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="minValue"></param>
+		/// <param name="maxValue"></param>
+		/// <returns></returns>
+		public static bool IsWithin(this int original, int minValue, int maxValue,
+			Inequality minInequality = Inequality.GreaterThanOrEqualTo,
+			Inequality maxInequality = Inequality.LessThanOrEqualTo)
+		{
+			bool isWithinA = InequalityChecker(original, minInequality, minValue);
+			bool isWithinB = InequalityChecker(original, maxInequality, maxValue);
+
+			return (isWithinA && isWithinB);
+		}
+
+		/// <summary>
+		/// Check to see whethher the passed-in value is true.
+		/// </summary>
+		/// <param name="valueA"></param>
+		/// <param name="inequality"></param>
+		/// <param name="valueB"></param>
+		/// <returns></returns>
+		static bool InequalityChecker(int valueA, Inequality inequality, int valueB)
+		{
+			if (inequality == Inequality.GreaterThanOrEqualTo) return valueA >= valueB;
+			else if (inequality == Inequality.GreaterThan) return valueA > valueB;
+			else if (inequality == Inequality.LessThanOrEqualTo) return valueA <= valueB;
+			else if (inequality == Inequality.LessThan) return valueA < valueB;
+			else if (inequality == Inequality.EqualTo) return valueA == valueB;
+
+			return valueA != valueB;
+		}
 	}
 }

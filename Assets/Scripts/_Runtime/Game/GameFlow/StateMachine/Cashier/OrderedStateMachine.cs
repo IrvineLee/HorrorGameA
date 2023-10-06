@@ -1,8 +1,8 @@
+using UnityEngine;
 using UnityEngine.AI;
 
 using Personal.GameState;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Personal.FSM
 {

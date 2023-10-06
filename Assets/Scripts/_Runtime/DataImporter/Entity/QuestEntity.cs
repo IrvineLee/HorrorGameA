@@ -5,22 +5,32 @@ using Personal.Quest;
 [Serializable]
 public class QuestEntity : GenericEntity
 {
-	public string key;
 	public string name;
 	public bool isMainQuest;
-	public bool isDisplayQuest;
+	public bool isHiddenQuest;
 	public int prerequisiteKey;
 
-	public string description01;
-	public ActionType actionType01;
-	public int requiredKey01;
-	public int requiredAmount01;
+	public string taskDescription01;
+	public ActionType taskActionType01;
+	public int taskObjectiveKey01;
+	public int taskRequiredAmount01;
 
-	public string description02;
-	public ActionType actionType02;
-	public int requiredKey02;
-	public int requiredAmount02;
+	public string taskDescription02;
+	public ActionType taskActionType02;
+	public int taskObjectiveKey02;
+	public int taskRequiredAmount02;
 
-	public int rewardKey;
-	public int rewardAmount;
+	public string taskDescription03;
+	public ActionType taskActionType03;
+	public int taskObjectiveKey03;
+	public int taskRequiredAmount03;
+
+	public int rewardKey01;
+	public int rewardAmount01;
+
+	public int rewardKey02;
+	public int rewardAmount02;
+
+	public int rewardKey03;
+	public int rewardAmount03;
 }
