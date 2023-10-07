@@ -68,6 +68,8 @@ namespace Personal.Character.Player
 				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.ParentTrans.gameObject);
 			}
 
+			GlossaryManager.Instance.AddUsedType(activeObject.PickupableObject.ItemTypeSet.ItemType);
+
 			// Remove the item from the inventory and the ui view.
 			inventoryList.Remove(activeObject);
 			activeObject = null;

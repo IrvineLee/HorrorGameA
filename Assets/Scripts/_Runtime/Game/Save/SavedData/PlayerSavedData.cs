@@ -1,30 +1,17 @@
 using UnityEngine;
 using System;
 
-using Helper;
-using Personal.Quest;
-
 namespace Personal.Save
 {
 	[Serializable]
 	public class PlayerSavedData
 	{
-		[SerializeField] int slotID = 0;
+		[SerializeField] SlotSavedData slotSavedData = new SlotSavedData();
+		[SerializeField] QuestData questData = new QuestData();
+		[SerializeField] GlossaryData glossaryData = new GlossaryData();
 
-		[SerializeField] int characterID = 0;
-
-		[SerializeField] SerializableDictionary<QuestType, QuestInfo> activeMainQuestDictionary = new();
-		[SerializeField] SerializableDictionary<QuestType, QuestInfo> activeSubQuestDictionary = new();
-
-		[SerializeField] SerializableDictionary<QuestType, QuestInfo> endedMainQuestDictionary = new();
-		[SerializeField] SerializableDictionary<QuestType, QuestInfo> endedSubQuestDictionary = new();
-
-		public int SlotID { get => slotID; set => slotID = value; }
-		public int CharacterID { get => characterID; set => characterID = value; }
-
-		public SerializableDictionary<QuestType, QuestInfo> ActiveMainQuestDictionary { get => activeMainQuestDictionary; set => activeMainQuestDictionary = value; }
-		public SerializableDictionary<QuestType, QuestInfo> ActiveSubQuestDictionary { get => activeSubQuestDictionary; set => activeSubQuestDictionary = value; }
-		public SerializableDictionary<QuestType, QuestInfo> EndedMainQuestDictionary { get => endedMainQuestDictionary; set => endedMainQuestDictionary = value; }
-		public SerializableDictionary<QuestType, QuestInfo> EndedSubQuestDictionary { get => endedSubQuestDictionary; set => endedSubQuestDictionary = value; }
+		public SlotSavedData SlotSavedData { get => slotSavedData; set => slotSavedData = value; }
+		public QuestData QuestData { get => questData; set => questData = value; }
+		public GlossaryData GlossaryData { get => glossaryData; set => glossaryData = value; }
 	}
 }

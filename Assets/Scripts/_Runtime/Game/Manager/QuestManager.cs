@@ -5,6 +5,7 @@ using Helper;
 using Personal.GameState;
 using Personal.Quest;
 using Personal.Save;
+using System.Collections.Generic;
 
 namespace Personal.Manager
 {
@@ -19,31 +20,22 @@ namespace Personal.Manager
 		SerializableDictionary<QuestType, QuestInfo> activeDictionary = new();
 		SerializableDictionary<QuestType, QuestInfo> endedDictionary = new();
 
-		PlayerSavedData playerSavedData;
+		QuestData questData;
 
 		protected override void Initialize()
 		{
-			playerSavedData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData;
+			questData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.QuestData;
 		}
 
+		/// <summary>
+		/// This should be called from gameobject with quest ID that has task of ActionType.DialogueResponse/Acquire.
+		/// </summary>
+		/// <param name="questType"></param>
 		public void TryUpdateData(QuestType questType)
 		{
 			if (!IsAbleToUpdateData(questType)) return;
 
 			UpdateData(questType);
-		}
-
-		/// <summary>
-		/// This should be called from skills/items with quest ID that has task with ActionType.Use.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="questType"></param>
-		/// <param name="useType"></param>
-		public void TryUpdateUseData<T>(QuestType questType, T useType) where T : Enum
-		{
-			if (!IsAbleToUpdateData(questType)) return;
-
-			UpdateUseTask(questType, useType);
 		}
 
 		/// <summary>
@@ -53,17 +45,17 @@ namespace Personal.Manager
 		/// <returns></returns>
 		bool IsAbleToUpdateData(QuestType questType)
 		{
-			activeDictionary = playerSavedData.ActiveMainQuestDictionary;
-			endedDictionary = playerSavedData.EndedMainQuestDictionary;
+			activeDictionary = questData.ActiveMainQuestDictionary;
+			endedDictionary = questData.EndedMainQuestDictionary;
 
 			if (((int)questType).IsWithin(SUB_QUEST_INDEX, SUB_QUEST_INDEX))
 			{
-				activeDictionary = playerSavedData.ActiveSubQuestDictionary;
-				endedDictionary = playerSavedData.EndedSubQuestDictionary;
+				activeDictionary = questData.ActiveSubQuestDictionary;
+				endedDictionary = questData.EndedSubQuestDictionary;
 			}
 
 			if (endedDictionary.ContainsKey(questType)) return false;
-			if (!IsAbleToTriggerQuest(endedDictionary, questType)) return false;
+			if (!IsAbleToTriggerQuest(activeDictionary, questType)) return false;
 
 			return true;
 		}
@@ -71,14 +63,14 @@ namespace Personal.Manager
 		/// <summary>
 		/// Check to see whether the prerequisite is met.
 		/// </summary>
-		/// <param name="completedDictionary"></param>
+		/// <param name="activeDictionary"></param>
 		/// <param name="questType"></param>
 		/// <returns></returns>
-		bool IsAbleToTriggerQuest(SerializableDictionary<QuestType, QuestInfo> completedDictionary, QuestType questType)
+		bool IsAbleToTriggerQuest(Dictionary<QuestType, QuestInfo> activeDictionary, QuestType questType)
 		{
 			QuestEntity entity = MasterDataManager.Instance.Quest.Get((int)questType);
 
-			if (completedDictionary.ContainsKey((QuestType)entity.prerequisiteKey)) return true;
+			if (activeDictionary.ContainsKey((QuestType)entity.prerequisiteKey)) return true;
 			return false;
 		}
 
@@ -87,15 +79,6 @@ namespace Personal.Manager
 			// Update the quest.
 			QuestInfo questInfo = GetQuestInfo(questType);
 			questInfo.UpdateQuest();
-
-			CheckQuestCompletion(questType, questInfo);
-		}
-
-		void UpdateUseTask<T>(QuestType questType, T useType) where T : Enum
-		{
-			// Update the quest.
-			QuestInfo questInfo = GetQuestInfo(questType);
-			questInfo.UpdateUseTask(useType);
 
 			CheckQuestCompletion(questType, questInfo);
 		}

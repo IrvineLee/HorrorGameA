@@ -1,10 +1,12 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
 using Personal.Item;
 using Personal.Manager;
+using Helper;
 
 namespace Personal.Quest
 {
@@ -17,40 +19,64 @@ namespace Personal.Quest
 	/// </summary>
 	public class QuestInfo
 	{
+		public class TaskInfo
+		{
+			[SerializeField] string description;
+			[SerializeField] ActionType actionType;
+			[SerializeField] int objectiveKey;
+			[SerializeField] int requiredAmount;
+
+			// Current progress.
+			[SerializeField] int progress;          // A value of -1 means it's completed. Other value are the total progress.
+
+			public string Description { get => description; }
+			public ActionType ActionType { get => actionType; }
+			public int ObjectiveKey { get => objectiveKey; }
+			public int RequiredAmount { get => requiredAmount; }
+
+			public int Progress { get => progress; }
+			public bool IsComplete { get => actionType == ActionType.None || progress >= requiredAmount || progress < 0; }
+
+			public TaskInfo(string description, ActionType actionType, int objectiveKey, int requiredAmount)
+			{
+				this.description = description;
+				this.actionType = actionType;
+				this.objectiveKey = objectiveKey;
+				this.requiredAmount = requiredAmount;
+			}
+
+			public void SetProgress(int value) { progress = value; }
+		}
+
 		public QuestEntity QuestEntity { get; private set; }
 		public QuestState QuestState { get; private set; }
-		public List<int> ProgressList { get => progressList; }        // A value of -1 means it's completed. Other value are the total count.
 
-		List<int> progressList = new();
+		List<TaskInfo> taskInfoList = new();
 
 		public QuestInfo(QuestEntity questEntity)
 		{
 			QuestEntity = questEntity;
 
-			for (int i = 0; i < QuestManager.MAX_TASK; i++)
-			{
-				progressList.Add(0);
-			}
+			TaskInfo taskInfo01 = new TaskInfo(QuestEntity.taskDescription01, QuestEntity.taskActionType01, QuestEntity.taskObjectiveKey01, QuestEntity.taskRequiredAmount01);
+			TaskInfo taskInfo02 = new TaskInfo(QuestEntity.taskDescription02, QuestEntity.taskActionType02, QuestEntity.taskObjectiveKey02, QuestEntity.taskRequiredAmount02);
+			TaskInfo taskInfo03 = new TaskInfo(QuestEntity.taskDescription03, QuestEntity.taskActionType03, QuestEntity.taskObjectiveKey03, QuestEntity.taskRequiredAmount03);
 
-			UpdateAllTask();
+			taskInfoList.Add(taskInfo01);
+			taskInfoList.Add(taskInfo02);
+			taskInfoList.Add(taskInfo03);
 		}
 
 		public void SetQuestState(QuestState questState) { QuestState = questState; }
 
+		/// <summary>
+		/// Update task for DialogueResponse/Acquire
+		/// </summary>
 		public void UpdateQuest()
 		{
-			UpdateAllTask();
-		}
-
-		/// <summary>
-		/// Update task after using specific item.
-		/// </summary>
-		/// <param name="useType"></param>
-		public void UpdateUseTask<T>(T useType) where T : Enum
-		{
-			progressList[0] = UpdateUseTask(progressList[0], QuestEntity.taskActionType01, QuestEntity.taskObjectiveKey01, QuestEntity.taskRequiredAmount01, useType);
-			progressList[1] = UpdateUseTask(progressList[1], QuestEntity.taskActionType02, QuestEntity.taskObjectiveKey02, QuestEntity.taskRequiredAmount02, useType);
-			progressList[2] = UpdateUseTask(progressList[2], QuestEntity.taskActionType03, QuestEntity.taskObjectiveKey03, QuestEntity.taskRequiredAmount03, useType);
+			foreach (var taskInfo in taskInfoList)
+			{
+				UpdateTask(taskInfo);
+			}
 		}
 
 		/// <summary>
@@ -61,41 +87,42 @@ namespace Personal.Quest
 			if (IsQuestCompleted()) QuestState = QuestState.Completed;
 		}
 
-		void UpdateAllTask()
+		void UpdateTask(TaskInfo taskInfo)
 		{
-			progressList[0] = UpdateTask(progressList[0], QuestEntity.taskActionType01, QuestEntity.taskObjectiveKey01, QuestEntity.taskRequiredAmount01);
-			progressList[1] = UpdateTask(progressList[1], QuestEntity.taskActionType02, QuestEntity.taskObjectiveKey02, QuestEntity.taskRequiredAmount02);
-			progressList[2] = UpdateTask(progressList[2], QuestEntity.taskActionType03, QuestEntity.taskObjectiveKey03, QuestEntity.taskRequiredAmount03);
+			if (taskInfo.IsComplete) return;
+
+			switch (taskInfo.ActionType)
+			{
+				case ActionType.DialogueResponse: HandleActionTypeDialogueResponse(taskInfo); break;
+				case ActionType.Acquire: HandleActionTypeAcquire(taskInfo); break;
+				case ActionType.Use: HandleActionTypeUse(taskInfo); break;
+			}
 		}
 
-		int UpdateTask(int progress, ActionType actionType, int objectiveKey, int requiredAmount)
+		void HandleActionTypeDialogueResponse(TaskInfo taskInfo)
 		{
-			// Empty/completed tasks means it's completed.
-			if (actionType == ActionType.None || progress <= -1) return -1;
+			if (taskInfo.ObjectiveKey != DialogueManager.Instance.LastConversationID) return;
 
-			if (actionType == ActionType.DialogueResponse)
-			{
-				if (objectiveKey != DialogueManager.Instance.LastConversationID) return 0;
-				return -1;
-			}
-			else if (actionType == ActionType.Acquire)
-			{
-				var playerInventory = StageManager.Instance.PlayerController.Inventory;
-				int count = playerInventory.GetItemCount((ItemType)objectiveKey);
-
-				if (requiredAmount >= count) return -1;
-			}
-			return 0;
+			taskInfo.SetProgress(-1);
 		}
 
-		int UpdateUseTask<T>(int progress, ActionType actionType, int objectiveKey, int requiredAmount, T useType) where T : Enum
+		void HandleActionTypeAcquire(TaskInfo taskInfo)
 		{
-			if (actionType == ActionType.Use && objectiveKey == (int)(object)useType)
+			var playerInventory = StageManager.Instance.PlayerController.Inventory;
+			int count = playerInventory.GetItemCount((ItemType)taskInfo.ObjectiveKey);
+
+			taskInfo.SetProgress(count);
+		}
+
+		void HandleActionTypeUse(TaskInfo taskInfo)
+		{
+			Type enumType = MasterDataManager.Instance.GetEnumType(taskInfo.ObjectiveKey);
+
+			if (enumType == typeof(ItemType))
 			{
-				++progress;
-				if (requiredAmount >= progress) return -1;
+				ItemType itemType = (ItemType)taskInfo.ObjectiveKey;
+				taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(itemType));
 			}
-			return progress;
 		}
 
 		/// <summary>
@@ -104,9 +131,9 @@ namespace Personal.Quest
 		/// <returns></returns>
 		bool IsQuestCompleted()
 		{
-			foreach (var progress in progressList)
+			foreach (var taskInfo in taskInfoList)
 			{
-				if (progress >= 0) return false;
+				if (!taskInfo.IsComplete) return false;
 			}
 			return true;
 		}

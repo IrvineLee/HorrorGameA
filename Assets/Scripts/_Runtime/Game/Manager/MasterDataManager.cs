@@ -1,7 +1,12 @@
-using Personal.GameState;
-using Personal.Localization;
+using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+
+using Helper;
+using Personal.GameState;
+using Personal.Item;
+using Personal.Localization;
+using Personal.Quest;
 
 namespace Personal.Manager
 {
@@ -42,6 +47,18 @@ namespace Personal.Manager
 
 			Instance.Localization.InitializeAllLanguages();
 			MasterLocalization.SetActiveLanguage(language);
+		}
+
+		/// <summary>
+		/// The numbers are id defined in the MasterData(.csv).
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public Type GetEnumType(int id)
+		{
+			if (id.IsWithin(10000, 19999)) return typeof(ItemType);
+			else if (id.IsWithin(20000, 29999)) return typeof(QuestType);
+			return null;
 		}
 	}
 }

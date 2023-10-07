@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Personal.Quest;
 
 namespace Personal.FSM
 {
@@ -26,6 +27,8 @@ namespace Personal.FSM
 		public virtual UniTask OnEnter()
 		{
 			isEntered = true;
+			GetComponentInChildren<QuestTypeSet>()?.TryToInitializeQuest();
+
 			return UniTask.CompletedTask;
 		}
 
