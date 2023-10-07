@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Helper;
 using Personal.Save;
 using Personal.GameState;
 using Personal.Item;
-using Personal.Quest;
 
 namespace Personal.Manager
 {
@@ -32,7 +30,6 @@ namespace Personal.Manager
 			if (typeof(T) == typeof(ItemType))
 			{
 				ItemType itemType = (ItemType)(object)usedType;
-				Debug.Log(glossaryData.UsedItemDictionary);
 				glossaryData.UsedItemDictionary.AddTo(itemType);
 
 				return glossaryData.UsedItemDictionary[itemType];

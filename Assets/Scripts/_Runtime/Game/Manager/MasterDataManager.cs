@@ -7,6 +7,7 @@ using Personal.GameState;
 using Personal.Item;
 using Personal.Localization;
 using Personal.Quest;
+using Personal.Constant;
 
 namespace Personal.Manager
 {
@@ -56,8 +57,8 @@ namespace Personal.Manager
 		/// <returns></returns>
 		public Type GetEnumType(int id)
 		{
-			if (id.IsWithin(10000, 19999)) return typeof(ItemType);
-			else if (id.IsWithin(20000, 29999)) return typeof(QuestType);
+			if (id.IsWithin(ConstantFixed.ITEM_START, ConstantFixed.ITEM_END)) return typeof(ItemType);
+			else if (id.IsWithin(ConstantFixed.MAIN_QUEST_START, ConstantFixed.SUB_QUEST_END)) return typeof(QuestType);
 			return null;
 		}
 	}

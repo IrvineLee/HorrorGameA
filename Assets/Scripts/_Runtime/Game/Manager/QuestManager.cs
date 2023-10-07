@@ -1,29 +1,30 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using Helper;
+using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Quest;
 using Personal.Save;
-using System.Collections.Generic;
+using Personal.Constant;
+using Personal.Dialogue;
+using QuestState = Personal.Quest.QuestState;
 
 namespace Personal.Manager
 {
 	public class QuestManager : GameInitializeSingleton<QuestManager>
 	{
-		// CAUTION : REMEMBER TO CHANGE MAX_TASK VALUE ACCORDING TO THE NUMBER OF TASKS IN THE MASTERQUEST.
-		public const int MAX_TASK = 3;
-
-		public const int SUB_QUEST_INDEX = 25000;
-		public const int END_QUEST_INDEX = 29999;
+		public DialogueSetup DialogueSetup { get => dialogueSetup; }
 
 		SerializableDictionary<QuestType, QuestInfo> activeDictionary = new();
 		SerializableDictionary<QuestType, QuestInfo> endedDictionary = new();
 
+		DialogueSetup dialogueSetup;
 		QuestData questData;
 
 		protected override void Initialize()
 		{
+			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
 			questData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.QuestData;
 		}
 
@@ -48,7 +49,7 @@ namespace Personal.Manager
 			activeDictionary = questData.ActiveMainQuestDictionary;
 			endedDictionary = questData.EndedMainQuestDictionary;
 
-			if (((int)questType).IsWithin(SUB_QUEST_INDEX, SUB_QUEST_INDEX))
+			if (((int)questType).IsWithin(ConstantFixed.SUB_QUEST_START, ConstantFixed.SUB_QUEST_END))
 			{
 				activeDictionary = questData.ActiveSubQuestDictionary;
 				endedDictionary = questData.EndedSubQuestDictionary;
@@ -70,6 +71,7 @@ namespace Personal.Manager
 		{
 			QuestEntity entity = MasterDataManager.Instance.Quest.Get((int)questType);
 
+			if (entity.prerequisiteKey == 0) return true;
 			if (activeDictionary.ContainsKey((QuestType)entity.prerequisiteKey)) return true;
 			return false;
 		}

@@ -28,5 +28,15 @@ namespace Personal.Constant
 		// UI Gamepad selection
 		public const float UI_SELECTION_DELAY = 0.15f;
 		public const float UI_SCROLLBAR_DURATION = 0.1f;
+
+		// Item
+		public const int ITEM_START = 10000;
+		public const int ITEM_END = 19999;
+
+		// Quest
+		public const int MAIN_QUEST_START = 20000;
+		public const int MAIN_QUEST_END = 24999;
+		public const int SUB_QUEST_START = 25000;
+		public const int SUB_QUEST_END = 29999;
 	}
 }

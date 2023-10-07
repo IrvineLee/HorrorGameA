@@ -16,6 +16,9 @@ namespace Personal.Dialogue
 		[SerializeField] string interactStr = "Interact";
 		[SerializeField] string cancelStr = "Cancel";
 
+		[SerializeField] DialogueResponseListHandler dialogueResponseListHandler = null;
+
+		public DialogueResponseListHandler DialogueResponseListHandler { get => dialogueResponseListHandler; }
 		public bool IsWaitingResponse { get => isWaitingResponse; }
 
 		ActionMapType previousActionMap;
@@ -28,8 +31,11 @@ namespace Personal.Dialogue
 		protected override void Initialize()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
+
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;
 			standardUIMenuPanel = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true).conversationUIElements.defaultMenuPanel;
+
+			dialogueResponseListHandler = GetComponentInChildren<DialogueResponseListHandler>(true);
 
 			uiButtonKeyTrigger = GetComponentInChildren<UIButtonKeyTrigger>(true);
 

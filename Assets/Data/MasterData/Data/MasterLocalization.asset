@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28a0eb195fb1a94faae1dc6e8bd89f4, type: 3}
   m_Name: MasterLocalization
   m_EditorClassIdentifier: 
-  NameTextEntities:
+  NameEntities:
   - id: 10000
     en: Item 1
     jp: "\u30A2\u30A4\u30C6\u30E0\uFF11"
@@ -43,7 +43,7 @@ MonoBehaviour:
   - id: 90000
     en: True End
     jp: "\u771F\u30A8\u30F3\u30C9"
-  DescriptionTextEntities:
+  DescriptionEntities:
   - id: 10000
     en: This is Item 1
     jp: "\u3053\u308C\u306F\u30A2\u30A4\u30C6\u30E0\uFF11"
@@ -74,3 +74,18 @@ MonoBehaviour:
   - id: 90000
     en: Cleared the game!
     jp: "\u30B2\u30FC\u30E0\u30AF\u30EA\u30A2"
+  QuestDescriptionEntities:
+  - id: 20000
+    en01: Call my father?
+    en02: 
+    en03: 
+    jp01: "\u30D1\u30D1\u3092\u9023\u7D61"
+    jp02: 
+    jp03: 
+  - id: 25000
+    en01: Scavenge for coins.
+    en02: Purchase Amulet from the vending machine
+    en03: 
+    jp01: "\u5C0F\u92AD\u3092\u63A2\u305B"
+    jp02: "\u81EA\u52D5\u8CA9\u58F2\u6A5F\u3067\u30A2\u30DF\u30E5\u30EC\u30C3\u30C8\u3092\u8CFC\u5165\u3059\u308B"
+    jp03: 

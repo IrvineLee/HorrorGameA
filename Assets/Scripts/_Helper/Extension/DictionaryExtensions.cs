@@ -33,15 +33,15 @@ namespace Helper
 				return;
 			}
 
-			dic[key] = value;
+			dic[key] += value;
 		}
 
 		static TV GetValue<TDic, TK, TV>(this TDic dic, TK key, TV defaultValue) where TDic : IReadOnlyDictionary<TK, TV>
 		{
 			var value = dic.TryGetValue(key, out var result) ? result : defaultValue;
 
-			if (value == null)
-				Debug.LogError("Key " + key + " is not found.");
+			//if (value == null)
+			//	Debug.LogError("Key " + key + " is not found.");
 
 			return value;
 		}

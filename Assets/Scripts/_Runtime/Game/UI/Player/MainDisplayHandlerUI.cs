@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 using TMPro;
+using Personal.Quest;
 
 namespace Personal.UI
 {
@@ -8,9 +10,11 @@ namespace Personal.UI
 	{
 		[SerializeField] TextMeshProUGUI questTMP = null;
 
-		public void SetQuest(string text)
+		Dictionary<QuestInfo, int> questInfoOrderDictionary = new();
+
+		public void SetQuest(QuestInfo questInfo)
 		{
-			questTMP.text = text;
+			//questTMP.text = text;
 		}
 	}
 }

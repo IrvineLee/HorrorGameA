@@ -116,7 +116,7 @@ namespace Personal.Manager
 				long saveTime = DateTime.Now.Ticks - startTime;
 
 				string typeStr = typeof(T).ToString().SearchBehindRemoveFrontOrEnd('.', true, false);
-				HandleDataPrint("Save Time : <color=red>" + typeStr + "</color> : ", saveTime, data);
+				HandleDataPrint("Save : <color=green>" + typeStr + "</color> Time : ", saveTime, data);
 			}
 			catch (Exception e)
 			{
@@ -159,7 +159,7 @@ namespace Personal.Manager
 				long loadTime = DateTime.Now.Ticks - startTime;
 
 				string typeStr = typeof(T).ToString().SearchBehindRemoveFrontOrEnd('.', true, false);
-				HandleDataPrint("Load Time : <color=yellow>" + typeStr + "</color> : ", loadTime, data);
+				HandleDataPrint("Load : <color=yellow>" + typeStr + "</color> Time : ", loadTime, data);
 
 				onCompleteAction?.Invoke();
 			}

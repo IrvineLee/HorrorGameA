@@ -7,6 +7,7 @@ using PixelCrushers.DialogueSystem;
 using Personal.Item;
 using Personal.Manager;
 using Helper;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Quest
 {
@@ -77,6 +78,8 @@ namespace Personal.Quest
 			{
 				UpdateTask(taskInfo);
 			}
+
+			UIManager.Instance.MainDisplayHandlerUI.SetQuest(this);
 		}
 
 		/// <summary>
@@ -87,23 +90,33 @@ namespace Personal.Quest
 			if (IsQuestCompleted()) QuestState = QuestState.Completed;
 		}
 
-		void UpdateTask(TaskInfo taskInfo)
+		async void UpdateTask(TaskInfo taskInfo)
 		{
 			if (taskInfo.IsComplete) return;
 
 			switch (taskInfo.ActionType)
 			{
-				case ActionType.DialogueResponse: HandleActionTypeDialogueResponse(taskInfo); break;
+				case ActionType.DialogueResponse: await HandleActionTypeDialogueResponse(taskInfo); break;
 				case ActionType.Acquire: HandleActionTypeAcquire(taskInfo); break;
 				case ActionType.Use: HandleActionTypeUse(taskInfo); break;
 			}
 		}
 
-		void HandleActionTypeDialogueResponse(TaskInfo taskInfo)
+		async UniTask HandleActionTypeDialogueResponse(TaskInfo taskInfo)
 		{
 			if (taskInfo.ObjectiveKey != DialogueManager.Instance.LastConversationID) return;
 
-			taskInfo.SetProgress(-1);
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
+
+			int selectedResponse = QuestManager.Instance.DialogueSetup.DialogueResponseListHandler.SelectedResponse;
+			if (taskInfo.RequiredAmount == selectedResponse)
+			{
+				taskInfo.SetProgress(-1);
+				QuestState = QuestState.Completed;
+				return;
+			}
+
+			QuestState = QuestState.Failed;
 		}
 
 		void HandleActionTypeAcquire(TaskInfo taskInfo)
