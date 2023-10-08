@@ -2,7 +2,7 @@
 
 using Personal.GameState;
 using Personal.InteractiveObject;
-using Personal.UI.Debug;
+using Personal.UI.Debugging;
 
 namespace Personal.Manager
 {

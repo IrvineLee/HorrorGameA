@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Personal.Quest;
 using Personal.Manager;
 
@@ -12,7 +13,7 @@ namespace Personal.UI.Quest
 
 		Dictionary<int, QuestContainerUI> questContainerDictionary = new();
 
-		public void UpdateQuest(QuestInfo questInfo)
+		public async UniTask UpdateQuest(QuestInfo questInfo)
 		{
 			int id = questInfo.QuestEntity.id;
 			if (!questContainerDictionary.TryGetValue(id, out QuestContainerUI questContainerUI))
@@ -25,7 +26,7 @@ namespace Personal.UI.Quest
 
 			if (questInfo.IsQuestEnded)
 			{
-				questContainerUI.ResetText();
+				await questContainerUI.FadeAwayResetText();
 
 				PoolManager.Instance.ReturnSpawnedObject(questContainerUI.gameObject);
 				questContainerDictionary.Remove(id);

@@ -1,5 +1,5 @@
 
-namespace Personal.UI.Debug
+namespace Personal.UI.Debugging
 {
 	public class DebugHandlerUI : UIHandlerBase
 	{

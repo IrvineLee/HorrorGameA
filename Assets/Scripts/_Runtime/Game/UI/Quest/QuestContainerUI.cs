@@ -3,6 +3,8 @@ using System.Linq;
 using UnityEngine;
 
 using TMPro;
+using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.Quest;
 
 namespace Personal.UI.Quest
@@ -14,11 +16,17 @@ namespace Personal.UI.Quest
 
 		public bool IsMainQuest { get; private set; }
 
+		Animator animator;
+		string parameter = "IsEnable";
+		int animFade;
+
 		List<TextMeshProUGUI> descriptionTMPList = new();
 
 		public void ShowQuest(QuestInfo questInfo)
 		{
 			Cache();
+			if (string.IsNullOrEmpty(questTitleTMP.text)) animator.SetBool(animFade, true);
+			Debug.Break();
 
 			IsMainQuest = questInfo.QuestEntity.isMainQuest;
 			questTitleTMP.text = questInfo.QuestEntity.name;
@@ -29,8 +37,16 @@ namespace Personal.UI.Quest
 			}
 		}
 
-		public void ResetText()
+		public async UniTask FadeAwayResetText()
 		{
+			animator.SetBool(animFade, false);
+			await UniTask.NextFrame();
+
+			bool isDone = false;
+			CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => isDone = true);
+
+			await UniTask.WaitUntil(() => isDone);
+
 			questTitleTMP.text = "";
 			foreach (var descriptionTMP in descriptionTMPList)
 			{
@@ -40,8 +56,12 @@ namespace Personal.UI.Quest
 
 		void Cache()
 		{
-			if (descriptionTMPList.Count > 0) return;
+			if (animator) return;
+
+			animator = GetComponentInChildren<Animator>();
 			descriptionTMPList = descriptionTMPParent.GetComponentsInChildren<TextMeshProUGUI>().ToList();
+
+			animFade = Animator.StringToHash(parameter);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Personal.Quest;
 using Personal.UI.Quest;
 
@@ -11,7 +12,7 @@ namespace Personal.UI
 
 		public void UpdateQuest(QuestInfo questInfo)
 		{
-			questHandler.UpdateQuest(questInfo);
+			questHandler.UpdateQuest(questInfo).Forget();
 		}
 	}
 }
