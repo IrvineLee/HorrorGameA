@@ -63,8 +63,10 @@ namespace Personal.Quest
 			public void CloseTask() { IsEnded = true; }
 		}
 
+		[SerializeField] QuestState questState = QuestState.Active;
+
 		public QuestEntity QuestEntity { get; private set; }
-		public QuestState QuestState { get; private set; }
+		public QuestState QuestState { get => questState; }
 		public List<TaskInfo> TaskInfoList { get => taskInfoList; }
 		public bool IsQuestEnded { get => QuestState == QuestState.Completed || QuestState == QuestState.Failed; }
 
@@ -83,7 +85,7 @@ namespace Personal.Quest
 			taskInfoList.Add(taskInfo03);
 		}
 
-		public void SetQuestState(QuestState questState) { QuestState = questState; }
+		public void SetQuestState(QuestState questState) { this.questState = questState; }
 
 		/// <summary>
 		/// Update task for DialogueResponse/Acquire
@@ -97,7 +99,7 @@ namespace Personal.Quest
 
 			if (IsQuestCompleted())
 			{
-				QuestState = QuestState.Completed;
+				questState = QuestState.Completed;
 				QuestManager.Instance.TryEndQuest(this);
 			}
 

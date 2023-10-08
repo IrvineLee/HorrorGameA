@@ -6,7 +6,7 @@ namespace Personal.InteractiveObject
 {
 	public class EventTriggerHandler : InteractableObjectEventStateChange
 	{
-		bool isTriggerable;
+		bool isTriggerable = true;
 
 		public void SetIsTriggerable(bool isFlag) { isTriggerable = isFlag; }
 
