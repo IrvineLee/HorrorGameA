@@ -78,6 +78,14 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// Delete profile data.
+		/// </summary>
+		public void DeleteProfileData()
+		{
+			dataService.ClearData(profileDirectory + profileFileName);
+		}
+
+		/// <summary>
 		/// Delete data from indicated slot.
 		/// </summary>
 		public void DeleteSlotData(int slotID = 0)

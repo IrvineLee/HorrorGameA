@@ -1,0 +1,68 @@
+﻿Database
+Name,Version,Author,Description,Emphasis1,Emphasis2,Emphasis3,Emphasis4
+DialogueDatabase,,,,#ffffffff ---,#ff0000ff ---,#00ff00ff ---,#0000ffff ---
+Global User Script
+
+Actors
+ID,Portrait,AltPortraits,SpritePortrait,AltSpritePortraits,Name,Pictures,Description,IsPlayer,Display Name
+Number,Special,Special,Special,Special,Text,Files,Text,Boolean,Text
+1,,[],,[],Player,[],,True,Player
+2,,[],,[],NPC,[],,False,{{omit}}
+Items
+ID
+Number
+Locations
+ID
+Number
+Variables
+ID,Name,Initial Value,Description,InitialValueType
+Number,Text,Text,Text,Text
+1,Alert,,,Text
+2,DialogueIndex,0,,Number
+Conversations
+ID,Title,Description,Actor,Conversant,Overrides
+Number,Text,Text,Actor,Actor,JSON
+1,NPC Cashier 01,,1,2,"{""useOverrides"":false,""overrideSubtitleSettings"":false,""showNPCSubtitlesDuringLine"":true,""showNPCSubtitlesWithResponses"":true,""showPCSubtitlesDuringLine"":false,""skipPCSubtitleAfterResponseMenu"":false,""subtitleCharsPerSecond"":30.0,""minSubtitleSeconds"":2.0,""continueButton"":0,""overrideSequenceSettings"":false,""defaultSequence"":"""",""defaultPlayerSequence"":"""",""defaultResponseMenuSequence"":"""",""overrideInputSettings"":false,""alwaysForceResponseMenu"":true,""includeInvalidEntries"":false,""responseTimeout"":0.0,""emTagForOldResponses"":0,""emTagForInvalidResponses"":0,""cancelSubtitle"":{""key"":27,""buttonName"":""""},""cancelConversation"":{""key"":27,""buttonName"":""""}}"
+2,Day01_Area_01_XBot_01,,1,2,"{""useOverrides"":false,""overrideSubtitleSettings"":false,""showNPCSubtitlesDuringLine"":true,""showNPCSubtitlesWithResponses"":true,""showPCSubtitlesDuringLine"":false,""skipPCSubtitleAfterResponseMenu"":false,""subtitleCharsPerSecond"":30.0,""minSubtitleSeconds"":2.0,""continueButton"":0,""overrideSequenceSettings"":false,""defaultSequence"":"""",""defaultPlayerSequence"":"""",""defaultResponseMenuSequence"":"""",""overrideInputSettings"":false,""alwaysForceResponseMenu"":true,""includeInvalidEntries"":false,""responseTimeout"":0.0,""emTagForOldResponses"":0,""emTagForInvalidResponses"":0,""cancelSubtitle"":{""key"":27,""buttonName"":""""},""cancelConversation"":{""key"":27,""buttonName"":""""}}"
+3,Locked Door,,1,2,"{""useOverrides"":false,""overrideSubtitleSettings"":false,""showNPCSubtitlesDuringLine"":true,""showNPCSubtitlesWithResponses"":true,""showPCSubtitlesDuringLine"":false,""skipPCSubtitleAfterResponseMenu"":false,""subtitleCharsPerSecond"":30.0,""minSubtitleSeconds"":2.0,""continueButton"":0,""overrideSequenceSettings"":false,""defaultSequence"":"""",""defaultPlayerSequence"":"""",""defaultResponseMenuSequence"":"""",""overrideInputSettings"":false,""alwaysForceResponseMenu"":true,""includeInvalidEntries"":false,""responseTimeout"":0.0,""emTagForOldResponses"":0,""emTagForInvalidResponses"":0,""cancelSubtitle"":{""key"":27,""buttonName"":""""},""cancelConversation"":{""key"":27,""buttonName"":""""}}"
+DialogueEntries
+entrytag,ConvID,ID,Actor,Conversant,Title,MenuText,DialogueText,IsGroup,FalseConditionAction,ConditionPriority,Conditions,Script,Sequence,Description,ja,canvasRect
+Text,Number,Number,Number,Number,Text,Text,Text,Boolean,Special,Special,Text,Text,Text,Text,Localization,Text
+Player_1_0,1,0,1,2,START,,,False,Block,Normal,,,None(),,,72;47
+NPC_1_1,1,1,2,1,1,,This is just a test message.,False,Block,Normal,"Variable[""DialogueIndex""] == 0",,,,これはただのテストメッセージです。,36;155
+NPC_1_2,1,2,2,1,,,This is just a test message 2.,False,Block,Normal,,,,,これはただのテストメッセージです。2,36;204
+NPC_1_3,1,3,2,1,,,Test 3.,False,Block,Normal,,,,,これはただのテストメッセージです。3,36;252
+NPC_1_4,1,4,2,1,2,,Second time talking,False,Block,Normal,,,,,２度目,264;156
+NPC_1_5,1,5,2,1,,,Talking meh ha,False,Block,Normal,,,,,へへ,264;204
+NPC_1_6,1,6,2,1,,,End this!,False,Block,Normal,,,,,終わらせて,263;252
+Player_1_7,1,7,1,2,,,I'm just talking to an xBot,False,Block,Normal,,,,,Xbot,36;324
+Player_1_8,1,8,1,2,,,Nothing else to do here lol,False,Block,Normal,,,,,はは,36;372
+Player_2_0,2,0,1,2,START,,,False,Block,Normal,,,None(),,,288;50
+NPC_2_1,2,1,2,1,,,What are you looking at?,False,Block,Normal,,,,,なに見てんだよ！,184;134
+NPC_2_2,2,2,2,1,,,You got a problem or something?,False,Block,Normal,,,,,なんか問題でもあるか！？,184;218
+Player_2_3,2,3,1,2,,,"(Geez, what's wrong with him? Better let him be.)",False,Block,Normal,,,,,（なんだよこいつ。ほっといたほうが。。）,80;301
+Player_2_4,2,4,1,2,,,I'll break your face!,False,Block,Normal,,,,,顔こわしてやる！,196;369
+Player_2_5,2,5,1,2,,,Testing #1,False,Block,Normal,,,,,,326;302
+Player_2_6,2,6,1,2,,,Testing #2,False,Block,Normal,,,,,,462;362
+Player_2_7,2,7,1,2,,,Moar Test,False,Block,Normal,,,,,,557;303
+Player_3_0,3,0,1,2,START,,,False,,Normal,,,None(),,{{omit}},80;50
+Player_3_1,3,1,1,2,,,The door is locked.,False,Block,Normal,,,,,カギかかってるようです。,80;99
+OutgoingLinks
+OriginConvID,OriginID,DestConvID,DestID,ConditionPriority
+Number,Number,Number,Number,Special
+1,0,1,1,Normal
+1,0,1,4,Normal
+1,1,1,2,Normal
+1,2,1,3,Normal
+1,3,1,7,Normal
+1,4,1,5,Normal
+1,5,1,6,Normal
+1,7,1,8,Normal
+2,0,2,1,Normal
+2,1,2,2,Normal
+2,2,2,3,Normal
+2,2,2,4,Normal
+2,2,2,5,Normal
+2,2,2,6,Normal
+2,2,2,7,Normal
+3,0,3,1,Normal

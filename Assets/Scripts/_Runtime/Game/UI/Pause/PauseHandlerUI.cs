@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Personal.Manager;
-
 namespace Personal.UI.Option
 {
 	public class PauseHandlerUI : UIHandlerBase

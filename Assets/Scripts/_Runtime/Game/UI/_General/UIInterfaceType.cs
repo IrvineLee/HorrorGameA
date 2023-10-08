@@ -10,5 +10,6 @@ namespace Personal.UI
 		Dialogue,
 
 		ExtraWindow = 1000,
+		Debug = 9999,
 	}
 }

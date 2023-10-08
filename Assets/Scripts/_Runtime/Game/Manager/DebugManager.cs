@@ -1,55 +1,32 @@
 ﻿using UnityEngine;
 
-using Helper;
 using Personal.GameState;
-using Personal.Save;
-using Personal.FSM;
-using Personal.FSM.Cashier;
-using Personal.InputProcessing;
-using Cysharp.Threading.Tasks;
 using Personal.InteractiveObject;
+using Personal.UI.Debug;
 
 namespace Personal.Manager
 {
 	public class DebugManager : GameInitializeSingleton<DebugManager>
 	{
-		FPSInputController FPSInputController;
+		[SerializeField] DebugHandlerUI debugHandlerUI = null;
 
 		protected override void Initialize()
 		{
-			FPSInputController = InputManager.Instance.FPSInputController;
+			if (!Debug.isDebugBuild)
+			{
+				gameObject.SetActive(false);
+			}
+
+			debugHandlerUI.InitialSetup();
 		}
 
 		void Update()
 		{
-			//if (InputManager.Instance.IsInteract)
-			//{
-			//	//Debug.Log("<color=red> " + InputManager.Instance.IsInteract + " </color>");
-			//	//RumbleManager.Instance.Vibrate(0.5f, 0.5f, 1f);
-			//}
-			if (Input.GetKeyDown(KeyCode.Z))
+			if (Input.GetKeyDown(KeyCode.F9))
 			{
-				//SceneManager.Instance.ChangeLevel(1);
-
-				//SaveManager.Instance.LoadSlotData();
-				//UIManager.Instance.OptionUI.OpenMenuTab(UI.Option.OptionHandlerUI.MenuTab.Graphic);
-			}
-			else if (Input.GetKeyDown(KeyCode.Alpha1))
-			{
-				//StageManager.Instance.SetInteraction(0);
-			}
-			else if (Input.GetKeyDown(KeyCode.Alpha2))
-			{
-				//StageManager.Instance.SetInteraction(1);
-			}
-			else if (Input.GetKeyDown(KeyCode.Alpha9))
-			{
-				//QuestManager.Instance.UpdateSaveData();
 				SaveManager.Instance.SaveSlotData();
-
-				Debug.Log("Save Slot data");
 			}
-			else if (Input.GetKeyDown(KeyCode.Alpha0))
+			else if (Input.GetKeyDown(KeyCode.F12))
 			{
 				SaveManager.Instance.LoadSlotData();
 			}
@@ -69,6 +46,26 @@ namespace Personal.Manager
 			{
 				AchievementManager.Instance.ResetAll();
 			}
+		}
+
+		public void OpenDebugPanel()
+		{
+			debugHandlerUI?.OpenWindow();
+		}
+
+		public void CloseDebugPanel()
+		{
+			debugHandlerUI?.CloseWindow();
+		}
+
+		public void DeleteProfileData()
+		{
+			SaveManager.Instance.DeleteProfileData();
+		}
+
+		public void DeleteSlotData()
+		{
+			SaveManager.Instance.DeleteSlotData();
 		}
 	}
 }

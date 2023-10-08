@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 
 using TMPro;
+using Helper;
 using Personal.Manager;
 using Personal.InteractiveObject;
-using Helper;
+using Personal.Localization;
 using static Personal.Character.Player.PlayerInventory;
 using static Personal.Manager.InputManager;
 
