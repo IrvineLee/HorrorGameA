@@ -51,6 +51,7 @@ namespace Personal.Quest
 
 		public QuestEntity QuestEntity { get; private set; }
 		public QuestState QuestState { get; private set; }
+		public List<TaskInfo> TaskInfoList { get => taskInfoList; }
 
 		List<TaskInfo> taskInfoList = new();
 
