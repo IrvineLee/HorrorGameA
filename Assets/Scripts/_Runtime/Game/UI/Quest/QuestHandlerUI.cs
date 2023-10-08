@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Personal.Quest;
+using Personal.Manager;
 
 namespace Personal.UI.Quest
 {
@@ -11,13 +12,25 @@ namespace Personal.UI.Quest
 
 		Dictionary<int, QuestContainerUI> questContainerDictionary = new();
 
-		public void SetQuest(QuestInfo questInfo)
+		public void UpdateQuest(QuestInfo questInfo)
 		{
 			int id = questInfo.QuestEntity.id;
 			if (!questContainerDictionary.TryGetValue(id, out QuestContainerUI questContainerUI))
 			{
-				questContainerUI = Instantiate(questContainerPrefab, transform);
+				questContainerUI = PoolManager.Instance.GetSpawnedObject(questContainerPrefab.name)?.GetComponentInChildren<QuestContainerUI>();
+				if (!questContainerUI) questContainerUI = Instantiate(questContainerPrefab, transform);
+
 				questContainerDictionary.Add(id, questContainerUI);
+			}
+
+			if (questInfo.IsQuestEnded)
+			{
+				questContainerUI.ResetText();
+
+				PoolManager.Instance.ReturnSpawnedObject(questContainerUI.gameObject);
+				questContainerDictionary.Remove(id);
+
+				return;
 			}
 
 			questContainerUI.ShowQuest(questInfo);

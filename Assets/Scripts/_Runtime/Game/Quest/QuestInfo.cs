@@ -6,7 +6,6 @@ using UnityEngine;
 using PixelCrushers.DialogueSystem;
 using Personal.Item;
 using Personal.Manager;
-using Helper;
 using Cysharp.Threading.Tasks;
 
 namespace Personal.Quest
@@ -20,6 +19,7 @@ namespace Personal.Quest
 	/// </summary>
 	public class QuestInfo
 	{
+		[Serializable]
 		public class TaskInfo
 		{
 			[SerializeField] string description;
@@ -36,7 +36,20 @@ namespace Personal.Quest
 			public int RequiredAmount { get => requiredAmount; }
 
 			public int Progress { get => progress; }
-			public bool IsComplete { get => actionType == ActionType.None || progress >= requiredAmount || progress < 0; }
+
+			/// <summary>
+			/// Did the task complete successfully?
+			/// </summary>
+			public bool IsSuccess
+			{
+				get => actionType == ActionType.None || progress < 0 ||
+					   (actionType != ActionType.DialogueResponse && progress >= requiredAmount);
+			}
+
+			/// <summary>
+			/// Whether the quest can still be progressed.
+			/// </summary>
+			public bool IsEnded { get; private set; }
 
 			public TaskInfo(string description, ActionType actionType, int objectiveKey, int requiredAmount)
 			{
@@ -47,13 +60,15 @@ namespace Personal.Quest
 			}
 
 			public void SetProgress(int value) { progress = value; }
+			public void CloseTask() { IsEnded = true; }
 		}
 
 		public QuestEntity QuestEntity { get; private set; }
 		public QuestState QuestState { get; private set; }
 		public List<TaskInfo> TaskInfoList { get => taskInfoList; }
+		public bool IsQuestEnded { get => QuestState == QuestState.Completed || QuestState == QuestState.Failed; }
 
-		List<TaskInfo> taskInfoList = new();
+		List<TaskInfo> taskInfoList = new List<TaskInfo>();
 
 		public QuestInfo(QuestEntity questEntity)
 		{
@@ -73,27 +88,26 @@ namespace Personal.Quest
 		/// <summary>
 		/// Update task for DialogueResponse/Acquire
 		/// </summary>
-		public void UpdateQuest()
+		public async UniTask UpdateQuest()
 		{
 			foreach (var taskInfo in taskInfoList)
 			{
-				UpdateTask(taskInfo);
+				await UpdateTask(taskInfo);
 			}
 
-			UIManager.Instance.MainDisplayHandlerUI.SetQuest(this);
+			if (IsQuestCompleted())
+			{
+				QuestState = QuestState.Completed;
+				QuestManager.Instance.TryEndQuest(this);
+			}
+
+			// Handle the UI.
+			UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
 		}
 
-		/// <summary>
-		/// Used to check for quest completion.
-		/// </summary>
-		public void CheckCompletion()
+		async UniTask UpdateTask(TaskInfo taskInfo)
 		{
-			if (IsQuestCompleted()) QuestState = QuestState.Completed;
-		}
-
-		async void UpdateTask(TaskInfo taskInfo)
-		{
-			if (taskInfo.IsComplete) return;
+			if (taskInfo.IsSuccess) return;
 
 			switch (taskInfo.ActionType)
 			{
@@ -105,19 +119,22 @@ namespace Personal.Quest
 
 		async UniTask HandleActionTypeDialogueResponse(TaskInfo taskInfo)
 		{
+			UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
+
+			// Wait next frame for the dialogue manager to set it's conversation id.
+			await UniTask.NextFrame();
+
 			if (taskInfo.ObjectiveKey != DialogueManager.Instance.LastConversationID) return;
 
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive);
+			// Wait until the conversation is finished.
+			await UniTask.WaitUntil(() => DialogueManager.Instance?.isConversationActive == false);
 
 			int selectedResponse = QuestManager.Instance.DialogueSetup.DialogueResponseListHandler.SelectedResponse;
 			if (taskInfo.RequiredAmount == selectedResponse)
 			{
 				taskInfo.SetProgress(-1);
-				QuestState = QuestState.Completed;
-				return;
 			}
-
-			QuestState = QuestState.Failed;
+			taskInfo.CloseTask();
 		}
 
 		void HandleActionTypeAcquire(TaskInfo taskInfo)
@@ -147,7 +164,7 @@ namespace Personal.Quest
 		{
 			foreach (var taskInfo in taskInfoList)
 			{
-				if (!taskInfo.IsComplete) return false;
+				if (!taskInfo.IsSuccess && !taskInfo.IsEnded) return false;
 			}
 			return true;
 		}

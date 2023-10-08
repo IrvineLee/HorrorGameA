@@ -9,6 +9,7 @@ using Personal.Save;
 using Personal.Constant;
 using Personal.Dialogue;
 using QuestState = Personal.Quest.QuestState;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -29,6 +30,16 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// See whether the quest has ended.
+		/// </summary>
+		/// <returns></returns>
+		public bool IsQuestEnded(QuestType questType)
+		{
+			RefreshActiveAndEndedQuest(questType);
+			return endedDictionary.ContainsKey(questType);
+		}
+
+		/// <summary>
 		/// This should be called from gameobject with quest ID that has task of ActionType.DialogueResponse/Acquire.
 		/// </summary>
 		/// <param name="questType"></param>
@@ -40,11 +51,40 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// End the quest. 
+		/// </summary>
+		/// <param name="questInfo"></param>
+		public void TryEndQuest(QuestInfo questInfo)
+		{
+			if (questInfo.QuestState == QuestState.Completed || questInfo.QuestState == QuestState.Failed)
+			{
+				QuestType questType = (QuestType)questInfo.QuestEntity.id;
+
+				activeDictionary.Remove(questType);
+				endedDictionary.Add(questType, questInfo);
+			}
+		}
+
+		/// <summary>
 		/// Check to see whether it's able to update this quest.
 		/// </summary>
 		/// <param name="questType"></param>
 		/// <returns></returns>
 		bool IsAbleToUpdateData(QuestType questType)
+		{
+			RefreshActiveAndEndedQuest(questType);
+
+			if (endedDictionary.ContainsKey(questType)) return false;
+			if (!IsAbleToTriggerQuest(activeDictionary, questType)) return false;
+
+			return true;
+		}
+
+		/// <summary>
+		/// Get the correct dictionary for questType. Main quest or Sub quest dictionary.
+		/// </summary>
+		/// <param name="questType"></param>
+		void RefreshActiveAndEndedQuest(QuestType questType)
 		{
 			activeDictionary = questData.ActiveMainQuestDictionary;
 			endedDictionary = questData.EndedMainQuestDictionary;
@@ -54,11 +94,6 @@ namespace Personal.Manager
 				activeDictionary = questData.ActiveSubQuestDictionary;
 				endedDictionary = questData.EndedSubQuestDictionary;
 			}
-
-			if (endedDictionary.ContainsKey(questType)) return false;
-			if (!IsAbleToTriggerQuest(activeDictionary, questType)) return false;
-
-			return true;
 		}
 
 		/// <summary>
@@ -80,9 +115,7 @@ namespace Personal.Manager
 		{
 			// Update the quest.
 			QuestInfo questInfo = GetQuestInfo(questType);
-			questInfo.UpdateQuest();
-
-			CheckQuestCompletion(questType, questInfo);
+			questInfo.UpdateQuest().Forget();
 		}
 
 		QuestInfo GetQuestInfo(QuestType questType)
@@ -97,18 +130,6 @@ namespace Personal.Manager
 				activeDictionary.Add(questType, questInfo);
 			}
 			return questInfo;
-		}
-
-		void CheckQuestCompletion(QuestType questType, QuestInfo questInfo)
-		{
-			questInfo.CheckCompletion();
-
-			// End the quest.
-			if (questInfo.QuestState == QuestState.Completed || questInfo.QuestState == QuestState.Failed)
-			{
-				activeDictionary.Remove(questType);
-				endedDictionary.Add(questType, questInfo);
-			}
 		}
 	}
 }

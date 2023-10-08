@@ -18,10 +18,7 @@ namespace Personal.UI.Quest
 
 		public void ShowQuest(QuestInfo questInfo)
 		{
-			if (descriptionTMPList.Count <= 0)
-			{
-				descriptionTMPList = descriptionTMPParent.GetComponentsInChildren<TextMeshProUGUI>().ToList();
-			}
+			Cache();
 
 			IsMainQuest = questInfo.QuestEntity.isMainQuest;
 			questTitleTMP.text = questInfo.QuestEntity.name;
@@ -30,6 +27,21 @@ namespace Personal.UI.Quest
 			{
 				descriptionTMPList[i].text = questInfo.TaskInfoList[i].Description;
 			}
+		}
+
+		public void ResetText()
+		{
+			questTitleTMP.text = "";
+			foreach (var descriptionTMP in descriptionTMPList)
+			{
+				descriptionTMP.text = "";
+			}
+		}
+
+		void Cache()
+		{
+			if (descriptionTMPList.Count > 0) return;
+			descriptionTMPList = descriptionTMPParent.GetComponentsInChildren<TextMeshProUGUI>().ToList();
 		}
 	}
 }

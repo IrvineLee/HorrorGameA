@@ -631,11 +631,17 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 600
       objectReference: {fileID: 0}
+    - target: {fileID: 4346589017569610635, guid: fbd3c8ef1713a39438798a8b4ad91684, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
     - target: {fileID: 5278844234266571309, guid: fbd3c8ef1713a39438798a8b4ad91684, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 697756815082042585, guid: fbd3c8ef1713a39438798a8b4ad91684, type: 3}
+    - {fileID: 5278844234266571309, guid: fbd3c8ef1713a39438798a8b4ad91684, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -660,8 +666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: 0, y: 0, z: 0, w: 0}
-  m_Softness: {x: 0, y: 50}
+  m_Padding: {x: 0, y: 30, z: 0, w: 0}
+  m_Softness: {x: 0, y: 30}
 --- !u!224 &6774896912680936659 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3650385972074843128, guid: fbd3c8ef1713a39438798a8b4ad91684, type: 3}

@@ -1,12 +1,13 @@
-
-using Personal.Manager;
 using UnityEngine;
+
+using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.Quest
 {
-	public class QuestTypeSet : MonoBehaviour
+	public abstract class QuestTypeSet : GameInitialize
 	{
-		[SerializeField] QuestType questType = QuestType.Main001_CallFather;
+		[SerializeField] protected QuestType questType = QuestType.Main001_CallFather;
 
 		public QuestType QuestType { get => questType; }
 

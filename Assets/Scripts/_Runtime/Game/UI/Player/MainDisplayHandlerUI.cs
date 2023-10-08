@@ -9,9 +9,9 @@ namespace Personal.UI
 	{
 		[SerializeField] QuestHandlerUI questHandler = null;
 
-		public void SetQuest(QuestInfo questInfo)
+		public void UpdateQuest(QuestInfo questInfo)
 		{
-			questHandler.SetQuest(questInfo);
+			questHandler.UpdateQuest(questInfo);
 		}
 	}
 }

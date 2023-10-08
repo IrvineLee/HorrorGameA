@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7818605032049536080}
   - component: {fileID: 2295158134963195969}
   - component: {fileID: 4588401875679324923}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: PhoneBooth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cccd19a74724104cb5fada05f078fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentTrans: {fileID: 0}
+  parentTrans: {fileID: 3728221999345499012}
   interactCrosshairType: 0
   actionMapType: 500
 --- !u!1 &5361494386540373367
@@ -385,7 +385,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 465302006164849156, guid: 61303b30a461f824a94cc59ea3fd5215, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1972491375747424191}
+      addedObject: {fileID: 8270901625648982309}
   m_SourcePrefab: {fileID: 100100000, guid: 61303b30a461f824a94cc59ea3fd5215, type: 3}
 --- !u!4 &552324210599094023 stripped
 Transform:
@@ -397,7 +397,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 465302006164849156, guid: 61303b30a461f824a94cc59ea3fd5215, type: 3}
   m_PrefabInstance: {fileID: 1657835189987078662}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1972491375747424191
+--- !u!114 &8270901625648982309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -406,10 +406,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1257847795325988866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f4ceb6702221534d813f8beeac63e44, type: 3}
+  m_Script: {fileID: 11500000, guid: ca870dfcf4d106240a79016f36de6f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   questType: 20000
+  eventTriggerHandler: {fileID: 1467539344137474867}
 --- !u!1001 &4748605524917090203
 PrefabInstance:
   m_ObjectHideFlags: 0
