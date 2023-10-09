@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using Helper;
 
@@ -9,13 +10,29 @@ namespace Personal.Dialogue
 {
 	public class DialogueResponseListHandler : MonoBehaviour
 	{
+		class ButtonUnityAction
+		{
+			[SerializeField] Button button = null;
+			[SerializeField] UnityAction unityAction = null;
+
+			public Button Button { get => button; }
+			public UnityAction UnityAction { get => unityAction; }
+
+			public ButtonUnityAction(Button button, UnityAction unityAction)
+			{
+				this.button = button;
+				this.unityAction = unityAction;
+			}
+		}
+
 		public int SelectedResponse { get => selectedButton; set => selectedButton = value; }
 
-		List<Button> buttonList = new();
+		List<ButtonUnityAction> buttonActionList = new();
 		int selectedButton = -1;
 
 		void OnEnable()
 		{
+			// You have to wait for the dialogue response to get populated.
 			CoroutineHelper.WaitNextFrame(Cache);
 		}
 
@@ -23,10 +40,13 @@ namespace Personal.Dialogue
 		{
 			ResetButtons();
 
-			buttonList = GetComponentsInChildren<Button>().ToList();
+			var buttonList = GetComponentsInChildren<Button>().ToList();
 			foreach (var button in buttonList)
 			{
-				button.onClick.AddListener(() => selectedButton = button.transform.GetSiblingIndex());
+				UnityAction unityAction = () => selectedButton = button.transform.GetSiblingIndex();
+				buttonActionList.Add(new ButtonUnityAction(button, unityAction));
+
+				button.onClick.AddListener(unityAction);
 			}
 		}
 
@@ -35,12 +55,12 @@ namespace Personal.Dialogue
 		/// </summary>
 		void ResetButtons()
 		{
-			foreach (var button in buttonList)
+			foreach (var buttonAction in buttonActionList)
 			{
-				button.onClick.RemoveAllListeners();
+				buttonAction.Button.onClick.RemoveListener(buttonAction.UnityAction);
 			}
 
-			buttonList.Clear();
+			buttonActionList.Clear();
 			selectedButton = -1;
 		}
 	}
