@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Helper;
+using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Quest;
@@ -9,7 +10,6 @@ using Personal.Save;
 using Personal.Constant;
 using Personal.Dialogue;
 using QuestState = Personal.Quest.QuestState;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Manager
 {
@@ -56,13 +56,22 @@ namespace Personal.Manager
 		/// <param name="questInfo"></param>
 		public void TryEndQuest(QuestInfo questInfo)
 		{
-			if (questInfo.QuestState == QuestState.Completed || questInfo.QuestState == QuestState.Failed)
-			{
-				QuestType questType = (QuestType)questInfo.QuestEntity.id;
+			if (!(questInfo.QuestState == QuestState.Completed || questInfo.QuestState == QuestState.Failed)) return;
 
-				activeDictionary.Remove(questType);
-				endedDictionary.Add(questType, questInfo);
+			var questEntity = questInfo.QuestEntity;
+
+			// Reward.
+			if (questInfo.QuestState == QuestState.Completed)
+			{
+				ObtainReward(questEntity.rewardKey01, questEntity.rewardAmount01);
+				ObtainReward(questEntity.rewardKey02, questEntity.rewardAmount02);
+				ObtainReward(questEntity.rewardKey03, questEntity.rewardAmount03);
 			}
+
+			QuestType questType = (QuestType)questEntity.id;
+
+			activeDictionary.Remove(questType);
+			endedDictionary.Add(questType, questInfo);
 		}
 
 		/// <summary>
@@ -130,6 +139,18 @@ namespace Personal.Manager
 				activeDictionary.Add(questType, questInfo);
 			}
 			return questInfo;
+		}
+
+		void ObtainReward(int rewardKey, int rewardAmount)
+		{
+			if (rewardKey == 0) return;
+
+			if (rewardKey < 0) questData.MainStoryPoints += rewardAmount;
+
+			//Type type = MasterDataManager.Instance.GetEnumType(rewardKey);
+			//if (type == typeof(ItemType))
+			//{
+			//}
 		}
 	}
 }

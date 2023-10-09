@@ -20,13 +20,14 @@ namespace Personal.UI.Quest
 		string parameter = "IsEnable";
 		int animFade;
 
+		PaddingAnimation paddingAnimation;
+
 		List<TextMeshProUGUI> descriptionTMPList = new();
 
 		public void ShowQuest(QuestInfo questInfo)
 		{
 			Cache();
 			if (string.IsNullOrEmpty(questTitleTMP.text)) animator.SetBool(animFade, true);
-			Debug.Break();
 
 			IsMainQuest = questInfo.QuestEntity.isMainQuest;
 			questTitleTMP.text = questInfo.QuestEntity.name;
@@ -40,6 +41,8 @@ namespace Personal.UI.Quest
 		public async UniTask FadeAwayResetText()
 		{
 			animator.SetBool(animFade, false);
+			paddingAnimation.MoveOut();
+
 			await UniTask.NextFrame();
 
 			bool isDone = false;
@@ -59,9 +62,10 @@ namespace Personal.UI.Quest
 			if (animator) return;
 
 			animator = GetComponentInChildren<Animator>();
-			descriptionTMPList = descriptionTMPParent.GetComponentsInChildren<TextMeshProUGUI>().ToList();
-
 			animFade = Animator.StringToHash(parameter);
+
+			descriptionTMPList = descriptionTMPParent.GetComponentsInChildren<TextMeshProUGUI>().ToList();
+			paddingAnimation = GetComponentInChildren<PaddingAnimation>();
 		}
 	}
 }
