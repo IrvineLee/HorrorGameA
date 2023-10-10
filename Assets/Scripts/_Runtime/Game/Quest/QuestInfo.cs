@@ -103,6 +103,8 @@ namespace Personal.Quest
 				QuestManager.Instance.TryEndQuest(this);
 			}
 
+			if (QuestEntity.isHiddenQuest) return;
+
 			// Handle the UI.
 			UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
 		}
@@ -149,13 +151,16 @@ namespace Personal.Quest
 
 		void HandleActionTypeUse(TaskInfo taskInfo)
 		{
-			Type enumType = MasterDataManager.Instance.GetEnumType(taskInfo.ObjectiveKey);
+			Enum enumType = MasterDataManager.Instance.GetEnumType<Enum>(taskInfo.ObjectiveKey);
+			taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(enumType));
 
-			if (enumType == typeof(ItemType))
-			{
-				ItemType itemType = (ItemType)taskInfo.ObjectiveKey;
-				taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(itemType));
-			}
+			//Type enumType = MasterDataManager.Instance.GetEnumType(taskInfo.ObjectiveKey);
+
+			//if (enumType == typeof(ItemType))
+			//{
+			//	ItemType itemType = (ItemType)taskInfo.ObjectiveKey;
+			//	taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(itemType));
+			//}
 		}
 
 		/// <summary>

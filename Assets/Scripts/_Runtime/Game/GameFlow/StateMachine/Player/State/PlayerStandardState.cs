@@ -13,6 +13,12 @@ namespace Personal.FSM.Character
 
 		protected override void HandleOnInteractable(RaycastHit hit)
 		{
+			// You are hitting another object, so off the other object interaction.
+			if (previousInteractable && hit.transform.gameObject != previousInteractable.gameObject)
+			{
+				HandleOffInteractable();
+			}
+
 			// All interactable objects collider should be at least 1 child deep into a gameobject.
 			InteractableObject interactable = hit.transform.GetComponentInParent<InteractableObject>();
 

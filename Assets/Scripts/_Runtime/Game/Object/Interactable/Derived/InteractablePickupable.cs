@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
 
+using Helper;
 using Cysharp.Threading.Tasks;
 using Personal.Item;
 using Personal.Manager;
-using Helper;
+using Personal.Quest;
 
 namespace Personal.InteractiveObject
 {
@@ -30,17 +33,28 @@ namespace Personal.InteractiveObject
 		public Vector3 InventoryRotation { get => inventoryRotation; }
 		public Vector3 InventoryScale { get => inventoryScale; }
 
+		List<QuestTypeSet> questTypeSetList = new();
+
 		protected override void Initialize()
 		{
 			base.Initialize();
 
 			ItemTypeSet = GetComponentInParent<ItemTypeSet>(true);
 			SelfRotate = GetComponentInParent<SelfRotate>(true);
+
+			questTypeSetList = GetComponentsInChildren<QuestTypeSet>().ToList();
 		}
 
 		protected override UniTask HandleInteraction()
 		{
 			HandlePickupable();
+
+			// Update quest info.
+			foreach (var questTypeSet in questTypeSetList)
+			{
+				QuestManager.Instance.TryUpdateData(questTypeSet.QuestType);
+			}
+
 			return UniTask.CompletedTask;
 		}
 
@@ -58,4 +72,3 @@ namespace Personal.InteractiveObject
 		}
 	}
 }
-

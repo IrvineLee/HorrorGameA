@@ -61,5 +61,12 @@ namespace Personal.Manager
 			else if (id.IsWithin(ConstantFixed.MAIN_QUEST_START, ConstantFixed.SUB_QUEST_END)) return typeof(QuestType);
 			return null;
 		}
+
+		public T GetEnumType<T>(int id) where T : Enum
+		{
+			if (id.IsWithin(ConstantFixed.ITEM_START, ConstantFixed.ITEM_END)) return (T)(object)(ItemType)(id);
+			else if (id.IsWithin(ConstantFixed.MAIN_QUEST_START, ConstantFixed.SUB_QUEST_END)) return (T)(object)(QuestType)(id);
+			return default;
+		}
 	}
 }

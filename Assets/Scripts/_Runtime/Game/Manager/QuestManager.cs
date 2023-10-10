@@ -30,6 +30,21 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// Can you start this quest.
+		/// </summary>
+		/// <param name="questType"></param>
+		/// <returns></returns>
+		public bool IsAbleToStartQuest(QuestType questType)
+		{
+			RefreshActiveAndEndedQuest(questType);
+
+			if (endedDictionary.ContainsKey(questType)) return false;
+			if (!IsAbleToTriggerQuest(questType)) return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// See whether the quest has ended.
 		/// </summary>
 		/// <returns></returns>
@@ -45,7 +60,7 @@ namespace Personal.Manager
 		/// <param name="questType"></param>
 		public void TryUpdateData(QuestType questType)
 		{
-			if (!IsAbleToUpdateData(questType)) return;
+			if (!IsAbleToStartQuest(questType)) return;
 
 			UpdateData(questType);
 		}
@@ -75,21 +90,6 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// Check to see whether it's able to update this quest.
-		/// </summary>
-		/// <param name="questType"></param>
-		/// <returns></returns>
-		bool IsAbleToUpdateData(QuestType questType)
-		{
-			RefreshActiveAndEndedQuest(questType);
-
-			if (endedDictionary.ContainsKey(questType)) return false;
-			if (!IsAbleToTriggerQuest(activeDictionary, questType)) return false;
-
-			return true;
-		}
-
-		/// <summary>
 		/// Get the correct dictionary for questType. Main quest or Sub quest dictionary.
 		/// </summary>
 		/// <param name="questType"></param>
@@ -111,12 +111,14 @@ namespace Personal.Manager
 		/// <param name="activeDictionary"></param>
 		/// <param name="questType"></param>
 		/// <returns></returns>
-		bool IsAbleToTriggerQuest(Dictionary<QuestType, QuestInfo> activeDictionary, QuestType questType)
+		bool IsAbleToTriggerQuest(QuestType questType)
 		{
 			QuestEntity entity = MasterDataManager.Instance.Quest.Get((int)questType);
 
 			if (entity.prerequisiteKey == 0) return true;
-			if (activeDictionary.ContainsKey((QuestType)entity.prerequisiteKey)) return true;
+			if (questData.EndedMainQuestDictionary.ContainsKey((QuestType)entity.prerequisiteKey) ||
+				questData.EndedSubQuestDictionary.ContainsKey((QuestType)entity.prerequisiteKey)) return true;
+
 			return false;
 		}
 

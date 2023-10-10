@@ -5,7 +5,7 @@ using Personal.Manager;
 
 namespace Personal.Quest
 {
-	public abstract class QuestTypeSet : GameInitialize
+	public class QuestTypeSet : GameInitialize
 	{
 		[SerializeField] protected QuestType questType = QuestType.Main001_CallFather;
 

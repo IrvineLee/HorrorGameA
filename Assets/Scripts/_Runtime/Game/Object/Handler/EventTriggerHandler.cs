@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 using Personal.FSM;
+using Personal.Quest;
+using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
@@ -13,6 +15,13 @@ namespace Personal.InteractiveObject
 		async void OnTriggerEnter(Collider other)
 		{
 			if (!isTriggerable) return;
+
+			var questSet = GetComponentInChildren<QuestTypeSet>();
+			if (questSet)
+			{
+				QuestType questType = questSet.QuestType;
+				if (!QuestManager.Instance.IsAbleToStartQuest(questType)) return;
+			}
 
 			// Disable the trigger collider.
 			currentCollider.enabled = false;
