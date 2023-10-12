@@ -389,23 +389,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6231185147721356168, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7170625331681140130, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 4350448016973143646}
-    - target: {fileID: 7170625331681140130, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnFastForward
-      objectReference: {fileID: 0}
-    - target: {fileID: 7170625331681140130, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PixelCrushers.DialogueSystem.TextAnimatorContinueButtonFastForward,
-        _PixelCrusher
-      objectReference: {fileID: 0}
     - target: {fileID: 9203667756634867974, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -607,177 +590,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756636457314, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      propertyPath: m_Size
-      value: 0.984127
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203667756636457314, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_Name
       value: Basic Standard Dialogue UI
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4335792001420842871, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-    - {fileID: 2090953633421109711, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8236176991542230519, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      insertIndex: 5
-      addedObject: {fileID: 4350448016973143646}
-    - targetCorrespondingSourceObject: {fileID: 8236176991542230519, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 969112784294588097}
-    - targetCorrespondingSourceObject: {fileID: 9203667756646719538, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8392349310449225109}
-    - targetCorrespondingSourceObject: {fileID: 9203667756646719538, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 84441861249657252}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
---- !u!1 &8639362759985946157 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8236176991542230519, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-  m_PrefabInstance: {fileID: 408114518832309210}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4350448016973143646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639362759985946157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19c58ea7c708fa40b4601341abbdf2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueUI: {fileID: 8795555300282552840}
-  textAnimatorPlayer: {fileID: 84441861249657252}
-  hideContinueButtonOnContinue: 0
---- !u!114 &969112784294588097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639362759985946157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8dc5d87f06d96e49bf15f73454a07f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delayDuration: 0.05
-  isOnEnable: 0
 --- !u!224 &8795555300260988078 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9203667756634974068, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
   m_PrefabInstance: {fileID: 408114518832309210}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8795555300272309224 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9203667756646719538, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-  m_PrefabInstance: {fileID: 408114518832309210}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8392349310449225109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8795555300272309224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  typewriterStartsAutomatically: 1
-  animationLoop: 0
-  timeScale: 0
-  _text: (NPC Subtitle)
-  useDynamicScaling: 1
-  referenceFontSize: 10
-  isResettingTimeOnNewText: 1
-  useDefaultDatabases: 1
-  databaseBehaviors: {fileID: 11400000, guid: 20c04cef6a84d29459e92363d5449f9a, type: 2}
-  databaseAppearances: {fileID: 11400000, guid: 31722ea52d5facc4993cfc7f71eef318, type: 2}
-  databaseActions: {fileID: 11400000, guid: cfdb81b98d67a7647948cd07a31e5fc5, type: 2}
-  defaultAppearancesTags:
-  - size
-  defaultDisappearancesTags:
-  - fade
-  defaultBehaviorsTags: []
-  defaultTagsMode: 0
---- !u!114 &84441861249657252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8795555300272309224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57a6945b90dcd0c4b81619c0d8b5c283, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useTypeWriter: 1
-  startTypewriterMode: 3
-  hideAppearancesOnSkip: 0
-  triggerEventsOnSkip: 0
-  resetTypingSpeedAtStartup: 1
-  disappearanceOrientation: 0
-  onTextShowed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 969112784294588097}
-        m_TargetAssemblyTypeName: Personal.Dialogue.DialogueAllowButtonAfterDelay,
-          Assembly-CSharp
-        m_MethodName: DelayInteractable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onTypewriterStart:
-    m_PersistentCalls:
-      m_Calls: []
-  onTextDisappeared:
-    m_PersistentCalls:
-      m_Calls: []
-  onCharacterVisible:
-    m_PersistentCalls:
-      m_Calls: []
-  onMessage:
-    m_PersistentCalls:
-      m_Calls: []
-  waitForNormalChars: 0.03
-  waitLong: 0.6
-  waitMiddle: 0.2
-  avoidMultiplePunctuactionWait: 0
-  waitForNewLines: 1
-  waitForLastCharacter: 1
-  useTypewriterWaitForDisappearances: 1
-  disappearanceWaitTime: 0.015
-  disappearanceSpeedMultiplier: 1
 --- !u!1 &8795555300272409146 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
   m_PrefabInstance: {fileID: 408114518832309210}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8795555300282552840 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9203667756636484050, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
-  m_PrefabInstance: {fileID: 408114518832309210}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8795555300272409146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9888f0d13032ad4bb14acdba3472d3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
