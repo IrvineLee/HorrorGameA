@@ -133,7 +133,7 @@ namespace Personal.Quest
 			// Wait until the conversation is finished.
 			await UniTask.WaitUntil(() => DialogueManager.Instance?.isConversationActive == false);
 
-			int selectedResponse = QuestManager.Instance.DialogueSetup.DialogueResponseListHandler.SelectedResponse;
+			int selectedResponse = StageManager.Instance.DialogueSetup.DialogueResponseListHandler.SelectedResponse;
 			if (taskInfo.RequiredAmount == selectedResponse)
 			{
 				taskInfo.SetProgress(-1);

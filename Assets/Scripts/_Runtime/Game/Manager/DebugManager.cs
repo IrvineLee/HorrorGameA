@@ -3,6 +3,8 @@
 using Personal.GameState;
 using Personal.InteractiveObject;
 using Personal.UI.Debugging;
+using PixelCrushers.DialogueSystem;
+using Personal.Dialogue;
 
 namespace Personal.Manager
 {
@@ -45,6 +47,14 @@ namespace Personal.Manager
 			else if (Input.GetKeyDown(KeyCode.RightShift))
 			{
 				AchievementManager.Instance.ResetAll();
+			}
+			else if (Input.GetKeyDown(KeyCode.Q))
+			{
+				DialogueManager.Instance.GetComponentInChildren<DialogueSkip>().SkipToResponseMenu(true);
+			}
+			else if (Input.GetKeyUp(KeyCode.Q))
+			{
+				DialogueManager.Instance.GetComponentInChildren<DialogueSkip>().SkipToResponseMenu(false);
 			}
 		}
 

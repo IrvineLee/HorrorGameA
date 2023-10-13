@@ -3,29 +3,23 @@ using UnityEngine;
 
 using Helper;
 using Cysharp.Threading.Tasks;
-using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Quest;
 using Personal.Save;
 using Personal.Constant;
-using Personal.Dialogue;
 using QuestState = Personal.Quest.QuestState;
 
 namespace Personal.Manager
 {
 	public class QuestManager : GameInitializeSingleton<QuestManager>
 	{
-		public DialogueSetup DialogueSetup { get => dialogueSetup; }
-
 		SerializableDictionary<QuestType, QuestInfo> activeDictionary = new();
 		SerializableDictionary<QuestType, QuestInfo> endedDictionary = new();
 
-		DialogueSetup dialogueSetup;
 		QuestData questData;
 
 		protected override void Initialize()
 		{
-			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
 			questData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.QuestData;
 		}
 

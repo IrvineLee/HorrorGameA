@@ -28,6 +28,8 @@ namespace Personal.Dialogue
 
 		UIButtonKeyTrigger uiButtonKeyTrigger;
 
+		bool isChangeActionMap = true;
+
 		protected override void Initialize()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
@@ -66,8 +68,11 @@ namespace Personal.Dialogue
 		/// <param name="actor"></param>
 		void OnConversationStart(Transform actor)
 		{
-			previousActionMap = InputManager.Instance.CurrentActionMapType;
-			InputManager.Instance.EnableActionMap(actionMapType);
+			if (isChangeActionMap)
+			{
+				previousActionMap = InputManager.Instance.CurrentActionMapType;
+				InputManager.Instance.EnableActionMap(actionMapType);
+			}
 
 			HandleCursor();
 		}
@@ -78,8 +83,14 @@ namespace Personal.Dialogue
 		/// <param name="actor"></param>
 		void OnConversationEnd(Transform actor)
 		{
-			InputManager.Instance.EnableActionMap(previousActionMap);
+			if (isChangeActionMap)
+			{
+				InputManager.Instance.EnableActionMap(previousActionMap);
+			}
+
 			isWaitingResponse = false;
+			isChangeActionMap = true;
+
 			InputDeviceManager.instance.alwaysAutoFocus = false;
 		}
 
@@ -90,6 +101,22 @@ namespace Personal.Dialogue
 		public void SwapInteractInput(bool isUSInteract)
 		{
 			uiButtonKeyTrigger.buttonName = isUSInteract ? interactStr : cancelStr;
+		}
+
+		/// <summary>
+		/// Disable input action change when starting conversation. It will automatically reset back to true after conversation ends.
+		/// </summary>
+		public void DisableInputActionChange()
+		{
+			isChangeActionMap = false;
+		}
+
+		/// <summary>
+		/// TODO : This makes the dialogue go to the next dialogue after it ended. Normally used for monologue where the player has no authority over it.
+		/// </summary>
+		public void SetToAutoConversation()
+		{
+
 		}
 
 		void HandleCursor()

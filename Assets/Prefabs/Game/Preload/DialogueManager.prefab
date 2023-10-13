@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5156722668308509776}
   - component: {fileID: 5156722668308459502}
   - component: {fileID: 2810862822089708943}
+  - component: {fileID: 8957667859534474821}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -231,6 +232,19 @@ MonoBehaviour:
   interactStr: Interact
   cancelStr: Cancel
   dialogueResponseListHandler: {fileID: 0}
+--- !u!114 &8957667859534474821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156722668297606938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf3e2c996204a0489bd1bd34cbaed2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSkip: 0
 --- !u!1 &5156722668297606940
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,6 +401,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6231185147721356168, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6231185147721356168, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634867974, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
@@ -590,8 +608,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756636457314, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
+      propertyPath: m_Size
+      value: 0.984127
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203667756636457314, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756646885856, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_Name

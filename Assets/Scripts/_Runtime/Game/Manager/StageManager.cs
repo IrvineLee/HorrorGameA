@@ -10,6 +10,7 @@ using Personal.Transition;
 using Personal.Character;
 using Cinemachine;
 using Helper;
+using Personal.Dialogue;
 
 namespace Personal.Manager
 {
@@ -24,6 +25,7 @@ namespace Personal.Manager
 		public PlayerController PlayerController { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
 		public DialogueSystemController DialogueSystemController { get; private set; }
+		public DialogueSetup DialogueSetup { get; private set; }
 
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
@@ -33,6 +35,7 @@ namespace Personal.Manager
 		{
 			CameraHandler = Camera.main.GetComponentInChildren<CameraHandler>();
 			DialogueSystemController = DialogueManager.Instance.GetComponentInChildren<DialogueSystemController>();
+			DialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
 		}
 
 		public void SetMainCameraTransform(Transform target)
