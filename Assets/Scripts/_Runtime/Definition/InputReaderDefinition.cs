@@ -55,6 +55,11 @@ namespace Personal.Definition
 		// Inventory
 		public event Action<int> OnInventoryNextPreviousEvent;
 		public event Action<int> OnInventoryIndexSelectEvent;
+
+		// Dialogue
+		public event Action OnDialogueUIFastForwardPressed_StartEvent;
+		public event Action OnDialogueUIFastForwardPressed_EndEvent;
+
 		public PlayerActionInput PlayerActionInput { get; private set; }
 		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
@@ -163,12 +168,15 @@ namespace Personal.Definition
 		}
 
 		/// ------------------------------------------------------------
-		/// -----------------------UI-------------------------------
+		/// --------------------UI/DIALOGUE-----------------------------
 		/// ------------------------------------------------------------
 
 		void PlayerActionInput.IUIActions.OnDefault(InputAction.CallbackContext context)
 		{
 			SetButtonEvent(context.started, OnMenuUIDefaultPressedEvent);
+
+			SetButtonEvent(context.started, OnDialogueUIFastForwardPressed_StartEvent);
+			SetButtonEvent(context.canceled, OnDialogueUIFastForwardPressed_EndEvent);
 		}
 
 		void PlayerActionInput.IUIActions.OnTabSwitch(InputAction.CallbackContext context)

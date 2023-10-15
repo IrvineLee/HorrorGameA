@@ -23,6 +23,9 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
 
 			inputReaderDefinition.OnMenuUICancelledEvent += ClosePauseMenu;
+
+			inputReaderDefinition.OnDialogueUIFastForwardPressed_StartEvent += FastForwardStart;
+			inputReaderDefinition.OnDialogueUIFastForwardPressed_EndEvent += FastForwardEnd;
 		}
 
 		void MoveInput(Vector2 newMoveDirection)
@@ -43,6 +46,24 @@ namespace Personal.InputProcessing
 		void CancelInput()
 		{
 			IsCancel = true;
+		}
+
+		/// ------------------------------------------------------------------------
+		/// --------------------------- Dialogue events ----------------------------
+		/// ------------------------------------------------------------------------
+
+		void FastForwardStart()
+		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) return;
+
+			StageManager.Instance.DialogueController.DialogueSkip.SkipToResponseMenu(true);
+		}
+
+		void FastForwardEnd()
+		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) return;
+
+			StageManager.Instance.DialogueController.DialogueSkip.SkipToResponseMenu(false);
 		}
 
 		/// ------------------------------------------------------------------------
@@ -88,12 +109,19 @@ namespace Personal.InputProcessing
 			base.OnDisable();
 
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
+			inputReaderDefinition.OnLookEvent -= LookInput;
+
 			inputReaderDefinition.OnTabSwitchEvent -= TabSwitch;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 			inputReaderDefinition.OnCancelEvent -= CloseMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent -= DefaultOptionMenu;
+
+			inputReaderDefinition.OnMenuUICancelledEvent -= ClosePauseMenu;
+
+			inputReaderDefinition.OnDialogueUIFastForwardPressed_StartEvent -= FastForwardStart;
+			inputReaderDefinition.OnDialogueUIFastForwardPressed_EndEvent -= FastForwardEnd;
 		}
 	}
 }

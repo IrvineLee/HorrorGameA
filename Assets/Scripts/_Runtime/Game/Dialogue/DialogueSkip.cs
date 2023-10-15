@@ -2,13 +2,18 @@ using System.Collections;
 using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
+using Helper;
 
 namespace Personal.Dialogue
 {
 	public class DialogueSkip : MonoBehaviour
 	{
+		[SerializeField] float delay = 0.05f;
+
 		AbstractDialogueUI dialogueUI;
 		bool isSkip;
+
+		CoroutineRun skipCR = new();
 
 		void Awake()
 		{
@@ -17,19 +22,18 @@ namespace Personal.Dialogue
 
 		public void SkipToResponseMenu(bool isFlag)
 		{
+			if (isFlag && !skipCR.IsDone) return;
+
 			isSkip = isFlag;
+			if (!isSkip) return;
+
 			dialogueUI.OnContinue();
 		}
 
 		void OnConversationLine(Subtitle subtitle)
 		{
-			if (isSkip) StartCoroutine(ContinueAtEndOfFrame());
-		}
-
-		IEnumerator ContinueAtEndOfFrame()
-		{
-			yield return new WaitForSeconds(0.05f);
-			dialogueUI.OnContinue();
+			skipCR.StopCoroutine();
+			if (isSkip) skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
 		}
 
 		void OnConversationResponseMenu(Response[] responses)
@@ -40,6 +44,7 @@ namespace Personal.Dialogue
 		void OnConversationEnd(Transform actor)
 		{
 			isSkip = false;
+			skipCR.StopCoroutine();
 		}
 	}
 }
