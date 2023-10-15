@@ -212,7 +212,8 @@ namespace Personal.UI.Option
 			MasterLocalization.SetActiveLanguage(supportedLanguageType);
 
 			// Set the dialogues's localization.
-			StageManager.Instance.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.ToString()));
+			var dialogueController = StageManager.Instance.DialogueController;
+			dialogueController.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.ToString()));
 		}
 
 		void OnApplicationQuit()

@@ -11,7 +11,7 @@ namespace Personal.InteractiveObject
 		{
 			if (!IsTriggerable()) return;
 
-			StageManager.Instance.DialogueSetup.DisableInputActionChange();
+			StageManager.Instance.DialogueController.DialogueSetup.DisableInputActionChange();
 
 			DialogueSystemTrigger dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			if (!dialogueSystemTrigger) return;

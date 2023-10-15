@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5156722668308456862}
   - component: {fileID: 5156722668308509776}
   - component: {fileID: 5156722668308459502}
+  - component: {fileID: 238124011392360936}
   - component: {fileID: 2810862822089708943}
   - component: {fileID: 8957667859534474821}
   m_Layer: 0
@@ -216,6 +217,21 @@ MonoBehaviour:
   onUseTouch:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &238124011392360936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156722668297606938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ca0381e8b94bc498184ea6f2387fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueSetup: {fileID: 2810862822089708943}
+  dialogueSkip: {fileID: 8957667859534474821}
+  dialogueSystemController: {fileID: 5156722668308456862}
 --- !u!114 &2810862822089708943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf3e2c996204a0489bd1bd34cbaed2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSkip: 0
 --- !u!1 &5156722668297606940
 GameObject:
   m_ObjectHideFlags: 0

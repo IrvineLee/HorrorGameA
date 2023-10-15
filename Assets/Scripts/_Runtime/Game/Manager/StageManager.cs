@@ -24,8 +24,7 @@ namespace Personal.Manager
 		public CameraHandler CameraHandler { get; private set; }
 		public PlayerController PlayerController { get; private set; }
 		public CashierNPCSpawner CashierNPCSpawner { get; private set; }
-		public DialogueSystemController DialogueSystemController { get; private set; }
-		public DialogueSetup DialogueSetup { get; private set; }
+		public DialogueController DialogueController { get; private set; }
 
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
@@ -34,8 +33,7 @@ namespace Personal.Manager
 		protected override void Initialize()
 		{
 			CameraHandler = Camera.main.GetComponentInChildren<CameraHandler>();
-			DialogueSystemController = DialogueManager.Instance.GetComponentInChildren<DialogueSystemController>();
-			DialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
+			DialogueController = DialogueManager.Instance.GetComponentInChildren<DialogueController>();
 		}
 
 		public void SetMainCameraTransform(Transform target)
