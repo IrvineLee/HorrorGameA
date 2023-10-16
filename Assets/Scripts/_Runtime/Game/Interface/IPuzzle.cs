@@ -7,6 +7,7 @@ namespace Personal.Puzzle
 	public interface IPuzzle
 	{
 		void ClickedInteractable(Transform trans);
+		void CancelledInteractable(Transform trans) { }
 		void CheckPuzzleAnswer();
 		List<Transform> GetInteractableObjectList();
 	}

@@ -33,7 +33,9 @@ namespace Personal.Puzzle
 
 		void Update()
 		{
-			if (!InputManager.Instance.GetButtonPush(ButtonPush.Submit)) return;
+			if (!InputManager.Instance.GetButtonPush(ButtonPush.Submit) &&
+				!InputManager.Instance.GetButtonPush(ButtonPush.Cancel)) return;
+
 			if (!slideCR.IsDone) return;
 
 			// Check puzzle click.
@@ -49,8 +51,15 @@ namespace Personal.Puzzle
 				target = hit.transform;
 			}
 
-			((IPuzzle)this).ClickedInteractable(target);
-			((IPuzzle)this).CheckPuzzleAnswer();
+			if (InputManager.Instance.GetButtonPush(ButtonPush.Submit))
+			{
+				((IPuzzle)this).ClickedInteractable(target);
+				((IPuzzle)this).CheckPuzzleAnswer();
+			}
+			else
+			{
+				((IPuzzle)this).CancelledInteractable(target);
+			}
 		}
 
 		protected virtual Transform GetActiveSelectionForGamepad() { return null; }

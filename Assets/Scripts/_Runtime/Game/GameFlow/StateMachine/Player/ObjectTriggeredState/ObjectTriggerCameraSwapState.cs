@@ -36,8 +36,9 @@ namespace Personal.FSM.Character
 		{
 			if (isRunning == null) return;
 
-			if (InputManager.Instance.GetButtonPush(ButtonPush.Cancel) ||
-				(iProcessTrans != null && (iProcess.IsCompleted() || iProcess.IsFailed())))
+			if (iProcessTrans != null &&
+				((InputManager.Instance.GetButtonPush(ButtonPush.Cancel) && iProcess.IsExit()) ||
+				(iProcess.IsCompleted() || iProcess.IsFailed())))
 			{
 				isRunning = false;
 			}

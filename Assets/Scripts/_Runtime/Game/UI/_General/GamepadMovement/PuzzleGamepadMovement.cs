@@ -14,17 +14,21 @@ namespace Personal.Puzzle
 		{
 			public EventTrigger EventTrigger { get; private set; }
 			public OutlinableFadeInOut OutlinableFadeInOut { get; private set; }
+			public SpriteRenderer SpriteRenderer { get; private set; }
 
-			public PuzzlePiece(EventTrigger eventTrigger, OutlinableFadeInOut outlinableFadeInOut)
+			public PuzzlePiece(EventTrigger eventTrigger, OutlinableFadeInOut outlinableFadeInOut, SpriteRenderer spriteRenderer)
 			{
 				EventTrigger = eventTrigger;
 				OutlinableFadeInOut = outlinableFadeInOut;
+				SpriteRenderer = spriteRenderer;
 			}
 		}
 
 
 		[SerializeField] int startIndex = 0;
-		[SerializeField] Axis compareAxis = Axis.XY;
+
+		[Tooltip("This should be the opposite rotated angle of the clickable objects parent.")]
+		[SerializeField] float rotatedAngle = 0f;
 
 		[Tooltip("This clamps the selection arc for the supposedly next object. " +
 			"Ex: A value of 1 means the next object should be directly at the direction of input. " +
@@ -45,8 +49,9 @@ namespace Personal.Puzzle
 			{
 				EventTrigger eventTrigger = interactable.GetComponentInChildren<EventTrigger>();
 				OutlinableFadeInOut outlinableFadeInOut = interactable.GetComponentInChildren<OutlinableFadeInOut>();
+				SpriteRenderer spriteRenderer = interactable.GetComponentInChildren<SpriteRenderer>();
 
-				PuzzlePiece puzzlePiece = new(eventTrigger, outlinableFadeInOut);
+				PuzzlePiece puzzlePiece = new(eventTrigger, outlinableFadeInOut, spriteRenderer);
 				puzzlePieceList.Add(puzzlePiece);
 			}
 		}
@@ -75,11 +80,11 @@ namespace Personal.Puzzle
 		{
 			int nextIndex = -1;
 			float shortestSqrMagnitude = float.MaxValue;
-			Vector3 currentPosition = puzzlePieceList[currentActiveIndex].EventTrigger.transform.position;
+			Vector3 currentPosition = puzzlePieceList[currentActiveIndex].EventTrigger.transform.localPosition;
 
 			for (int i = 0; i < puzzlePieceList.Count; i++)
 			{
-				Vector3 triggerPosition = puzzlePieceList[i].EventTrigger.transform.position;
+				Vector3 triggerPosition = puzzlePieceList[i].EventTrigger.transform.localPosition;
 				if (currentActiveIndex == i) continue;
 
 				if (!IsMovementPossible(move, currentPosition, triggerPosition)) continue;
@@ -127,8 +132,9 @@ namespace Personal.Puzzle
 			Vector3 direction = Vector3.Normalize(triggerPosition - currentPosition);
 
 			// Change the input direction into vector3 and normalize it.
-			Vector3 activeFaceDirection = move.normalized;
-			if (compareAxis == Axis.XZ) activeFaceDirection = ((Vector3)move).With(y: 0, z: move.y).normalized;
+			Quaternion quaternion = Quaternion.Euler(0, 0, rotatedAngle);
+			Vector3 adjustedPosition = quaternion * move;
+			Vector3 activeFaceDirection = adjustedPosition.normalized;
 
 			// Get the dot product and checks whether it's between the selection arc.
 			float dotProduct = Vector3.Dot(activeFaceDirection, direction);

@@ -10,45 +10,8 @@ using Helper;
 
 namespace Personal.Puzzle.EightSlide
 {
-	public class EightSlidePuzzle : PuzzleController, IPuzzle, IProcess
+	public class EightSlidePuzzle : TilePuzzleController, IPuzzle, IProcess
 	{
-		[Serializable]
-		class Tile
-		{
-			[TableColumnWidth(200, false)]
-			[ChildGameObjectsOnly(IncludeSelf = false)]
-			[SerializeField] Transform tileTrans;
-
-			[SerializeField] int startIndex;
-			[SerializeField] int endIndex;
-
-			[ReadOnly] [SerializeField] int currentIndex;
-
-			public Transform TileTrans { get => tileTrans; }
-			public int StartIndex { get => startIndex; }
-			public int EndIndex { get => endIndex; }
-			public int CurrentIndex { get => currentIndex; }
-
-			public void SetStartIndex(int value) { startIndex = value; Initialize(); }
-
-			public void SetCurrentIndex(int value) { currentIndex = value; }
-
-			public void Initialize() { SetCurrentIndex(startIndex); }
-
-			public BasicDirection? GetBasicDirection(int emptyIndex)
-			{
-				if (currentIndex - 1 == emptyIndex && currentIndex % 3 != 0) return BasicDirection.Left;
-				else if (currentIndex + 1 == emptyIndex && (currentIndex + 1) % 3 != 0) return BasicDirection.Right;
-				else if (currentIndex - 3 == emptyIndex) return BasicDirection.Up;
-				else if (currentIndex + 3 == emptyIndex) return BasicDirection.Down;
-
-				return null;
-			}
-		}
-
-		[DetailedInfoBox("TileInfo", "Tile index:\n" + "[0,1,2]\n" + "[3,4,5]\n" + "[6,7,8]\n")]
-		[TableList] [SerializeField] List<Tile> tileList = new();
-
 		[SerializeField] SelectionTransformSet selectionTransformSet = null;
 		[SerializeField] float slideDuration = 0.5f;
 
@@ -63,7 +26,7 @@ namespace Personal.Puzzle.EightSlide
 			// Set the current and empty index.
 			foreach (var tile in tileList)
 			{
-				tile.Initialize();
+				tile.SetCurrentIndex(tile.StartIndex);
 				selectionTransformSet.SetInitialTarget(tile.StartIndex, tile.TileTrans);
 
 				tileDictionary.Add(tile.TileTrans, tile);
@@ -78,6 +41,7 @@ namespace Personal.Puzzle.EightSlide
 			}
 
 			emptyIndex = tempList[0];
+
 		}
 
 		protected override Transform GetActiveSelectionForGamepad()
