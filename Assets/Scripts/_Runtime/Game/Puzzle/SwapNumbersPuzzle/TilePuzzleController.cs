@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 using Sirenix.OdinInspector;
 using Helper;
@@ -26,13 +25,7 @@ namespace Personal.Puzzle.EightSlide
 			public int StartIndex { get => startIndex; }
 			public int EndIndex { get => endIndex; }
 			public int CurrentIndex { get => currentIndex; }
-			public SpriteRenderer SpriteRenderer
-			{
-				get
-				{
-					return tileTrans.GetComponentInChildren<SpriteRenderer>();
-				}
-			}
+			public SpriteRenderer SpriteRenderer { get => spriteRenderer = !spriteRenderer ? tileTrans.GetComponentInChildren<SpriteRenderer>() : spriteRenderer; }
 
 			SpriteRenderer spriteRenderer;
 
@@ -43,10 +36,6 @@ namespace Personal.Puzzle.EightSlide
 			}
 
 			public void SetCurrentIndex(int value) { currentIndex = value; }
-			public void SetSpriteRenderer(SpriteRenderer spriteRenderer)
-			{
-				this.spriteRenderer.sprite = spriteRenderer.sprite;
-			}
 
 			public BasicDirection? GetBasicDirection(int emptyIndex)
 			{
