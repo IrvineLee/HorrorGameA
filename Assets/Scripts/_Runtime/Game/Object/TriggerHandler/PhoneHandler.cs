@@ -8,7 +8,7 @@ namespace Personal.InteractiveObject
 {
 	public class PhoneHandler : GameInitialize
 	{
-		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.PhoneRing;
+		[SerializeField] AudioSFXType audioSFXType = AudioSFXType._2150_PhoneRing;
 		[SerializeField] InteractableObject interactableObject = null;
 
 		public void Ring()

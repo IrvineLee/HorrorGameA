@@ -8,7 +8,7 @@ namespace Personal.Item
 {
 	public class ItemTypeSet : GameInitialize, IItem
 	{
-		[SerializeField] ItemType itemType = ItemType.Item_1;
+		[SerializeField] ItemType itemType = ItemType._10000_Item_1;
 
 		public ItemType ItemType { get => itemType; }
 

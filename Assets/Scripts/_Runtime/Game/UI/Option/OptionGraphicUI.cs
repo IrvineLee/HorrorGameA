@@ -160,10 +160,10 @@ namespace Personal.UI.Option
 
 			if (!volume) return;
 
-			vignette.active = graphicData.IsVignette;
-			depthOfField.active = graphicData.IsDepthOfField;
-			motionBlur.active = graphicData.IsMotionBlur;
-			bloom.active = graphicData.IsBloom;
+			if (vignette) vignette.active = graphicData.IsVignette;
+			if (depthOfField) depthOfField.active = graphicData.IsDepthOfField;
+			if (motionBlur) motionBlur.active = graphicData.IsMotionBlur;
+			if (bloom) bloom.active = graphicData.IsBloom;
 		}
 
 		protected override void RegisterChangesMadeEvents()

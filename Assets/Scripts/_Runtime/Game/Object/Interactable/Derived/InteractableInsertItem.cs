@@ -15,7 +15,7 @@ namespace Puzzle.EightSlide
 		[Serializable]
 		class ItemInfo
 		{
-			[SerializeField] ItemType itemType = ItemType.Item_1;
+			[SerializeField] ItemType itemType = ItemType._10000_Item_1;
 
 			[Tooltip("This is the item that should be enabled in scene upon inserting the object.")]
 			[SerializeField] Transform activateObjectTrans = null;

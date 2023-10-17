@@ -8,7 +8,7 @@ namespace Personal.InteractiveObject
 {
 	public class InteractableUseActiveItem : InteractableObject
 	{
-		[SerializeField] protected ItemType itemTypeCompare = ItemType.Item_1;
+		[SerializeField] protected ItemType itemTypeCompare = ItemType._10000_Item_1;
 		[SerializeField] protected Transform placeAt = null;
 
 		protected override UniTask HandleInteraction()
