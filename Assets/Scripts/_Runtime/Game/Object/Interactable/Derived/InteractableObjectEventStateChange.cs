@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
@@ -14,12 +16,16 @@ namespace Personal.InteractiveObject
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
+		protected List<Collider> colliderList = new();
+
 		protected override void Initialize()
 		{
 			base.Initialize();
 
-			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
-			interactionAssign = GetComponentInChildren<InteractionAssign>();
+			orderedStateMachine = ParentTrans.GetComponentInChildren<OrderedStateMachine>();
+			interactionAssign = ParentTrans.GetComponentInChildren<InteractionAssign>();
+
+			colliderList = GetComponentsInChildren<Collider>().ToList();
 		}
 
 		protected override async UniTask HandleInteraction()

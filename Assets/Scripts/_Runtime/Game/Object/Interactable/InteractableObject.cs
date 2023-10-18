@@ -14,6 +14,8 @@ namespace Personal.InteractiveObject
 		[SerializeField] Transform parentTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
 
+		[SerializeField] protected bool isInteractable = true;
+
 		public Transform ParentTrans { get => parentTrans; }
 		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
 		public ActorStateMachine InitiatorStateMachine { get; protected set; }
@@ -31,10 +33,10 @@ namespace Personal.InteractiveObject
 			outlinableFadeInOut = GetComponentInChildren<OutlinableFadeInOut>(true);
 		}
 
-		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
-
 		public async UniTask HandleInteraction(ActorStateMachine initiatorStateMachine, Action doLast = default)
 		{
+			if (!isInteractable) await UniTask.CompletedTask;
+
 			InitiatorStateMachine = initiatorStateMachine;
 
 			await HandleInteraction();
@@ -45,6 +47,8 @@ namespace Personal.InteractiveObject
 		{
 			outlinableFadeInOut?.StartFade(isFlag);
 		}
+
+		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
 	}
 }
 
