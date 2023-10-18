@@ -48,6 +48,8 @@ namespace Personal.InteractiveObject
 			outlinableFadeInOut?.StartFade(isFlag);
 		}
 
+		public void SetIsInteractable(bool isFlag) { isInteractable = isFlag; }
+
 		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
 	}
 }

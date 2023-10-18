@@ -30,9 +30,7 @@ namespace Personal.Manager
 		/// <returns></returns>
 		public bool IsAbleToStartQuest(QuestType questType)
 		{
-			RefreshActiveAndEndedQuest(questType);
-
-			if (endedDictionary.ContainsKey(questType)) return false;
+			if (IsQuestEnded(questType)) return false;
 			if (!IsAbleToTriggerQuest(questType)) return false;
 
 			return true;
@@ -52,11 +50,11 @@ namespace Personal.Manager
 		/// This should be called from gameobject with quest ID that has task of ActionType.DialogueResponse/Acquire.
 		/// </summary>
 		/// <param name="questType"></param>
-		public void TryUpdateData(QuestType questType)
+		public async UniTask TryUpdateData(QuestType questType)
 		{
 			if (!IsAbleToStartQuest(questType)) return;
 
-			UpdateData(questType);
+			await UpdateData(questType);
 		}
 
 		/// <summary>
@@ -116,11 +114,11 @@ namespace Personal.Manager
 			return false;
 		}
 
-		void UpdateData(QuestType questType)
+		async UniTask UpdateData(QuestType questType)
 		{
 			// Update the quest.
 			QuestInfo questInfo = GetQuestInfo(questType);
-			questInfo.UpdateQuest().Forget();
+			await questInfo.UpdateQuest();
 		}
 
 		QuestInfo GetQuestInfo(QuestType questType)

@@ -5383,6 +5383,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1196360296}
     m_Modifications:
+    - target: {fileID: 1112083348800291054, guid: b030a21b9ad44794bb11141c502b4547, type: 3}
+      propertyPath: interactableObjectList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8512452918352826433}
     - target: {fileID: 3728221999345499012, guid: b030a21b9ad44794bb11141c502b4547, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.76
@@ -5784,6 +5788,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdef73f59d93abc4db56bbb80f6adcc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentTrans: {fileID: 4562103447891588056}
+  interactCrosshairType: 0
+  isInteractable: 0
 --- !u!1001 &9103631614565380389
 PrefabInstance:
   m_ObjectHideFlags: 0

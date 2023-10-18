@@ -8,13 +8,9 @@ namespace Personal.InteractiveObject
 {
 	public class EventTriggerHandler : InteractableObjectEventStateChange
 	{
-		bool isTriggerable = true;
-
-		public void SetIsTriggerable(bool isFlag) { isTriggerable = isFlag; }
-
 		async void OnTriggerEnter(Collider other)
 		{
-			if (!isTriggerable) return;
+			if (!isInteractable) return;
 
 			var questSet = GetComponentInChildren<QuestTypeSet>();
 			if (questSet)
