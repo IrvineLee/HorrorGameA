@@ -1,9 +1,7 @@
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Manager;
-using Personal.InteractiveObject;
 
 namespace Personal.Quest
 {
@@ -13,17 +11,9 @@ namespace Personal.Quest
 
 		public QuestType QuestType { get => questType; }
 
-		OnInteractionEnd onInteractionEnded;
-
-		protected override void Initialize()
+		public void TryToInitializeQuest()
 		{
-			onInteractionEnded = GetComponentInChildren<OnInteractionEnd>();
-		}
-
-		public async UniTask TryToInitializeQuest()
-		{
-			await QuestManager.Instance.TryUpdateData(questType);
-			onInteractionEnded?.EnableInteractables();
+			QuestManager.Instance.TryUpdateData(questType);
 		}
 	}
 }

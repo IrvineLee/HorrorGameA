@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Helper;
 using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.GameState;
 using Personal.Quest;
 using Personal.Save;
@@ -50,18 +50,18 @@ namespace Personal.Manager
 		/// This should be called from gameobject with quest ID that has task of ActionType.DialogueResponse/Acquire.
 		/// </summary>
 		/// <param name="questType"></param>
-		public async UniTask TryUpdateData(QuestType questType)
+		public void TryUpdateData(QuestType questType)
 		{
 			if (!IsAbleToStartQuest(questType)) return;
 
-			await UpdateData(questType);
+			UpdateData(questType);
 		}
 
 		/// <summary>
-		/// End the quest. 
+		/// End the quest and get reward. 
 		/// </summary>
 		/// <param name="questInfo"></param>
-		public void TryEndQuest(QuestInfo questInfo)
+		public void TryGetReward(QuestInfo questInfo)
 		{
 			if (!(questInfo.QuestState == QuestState.Completed || questInfo.QuestState == QuestState.Failed)) return;
 
@@ -114,11 +114,11 @@ namespace Personal.Manager
 			return false;
 		}
 
-		async UniTask UpdateData(QuestType questType)
+		void UpdateData(QuestType questType)
 		{
 			// Update the quest.
 			QuestInfo questInfo = GetQuestInfo(questType);
-			await questInfo.UpdateQuest();
+			questInfo.UpdateQuest().Forget();
 		}
 
 		QuestInfo GetQuestInfo(QuestType questType)

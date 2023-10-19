@@ -52,7 +52,7 @@ namespace Personal.InteractiveObject
 			// Update quest info.
 			foreach (var questTypeSet in questTypeSetList)
 			{
-				QuestManager.Instance.TryUpdateData(questTypeSet.QuestType).Forget();
+				QuestManager.Instance.TryUpdateData(questTypeSet.QuestType);
 			}
 
 			return UniTask.CompletedTask;

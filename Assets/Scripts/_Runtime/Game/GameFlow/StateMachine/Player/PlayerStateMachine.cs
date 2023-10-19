@@ -24,7 +24,6 @@ namespace Personal.FSM.Character
 				var stateBase = child.GetComponent<StateBase>();
 
 				stateList.Add(stateBase);
-				stateBase.SetMyFSM(this);
 			}
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());

@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.Quest;
+using Personal.InteractiveObject;
 
 namespace Personal.FSM
 {
@@ -15,9 +16,15 @@ namespace Personal.FSM
 		protected StateMachineBase stateMachine;
 		protected bool isEntered;
 
-		public void SetMyFSM(StateMachineBase stateMachine)
+		protected QuestTypeSet questTypeSet;
+		protected InteractionEnd interactionEnd;
+
+		void Awake()
 		{
-			this.stateMachine = stateMachine;
+			stateMachine = GetComponentInParent<StateMachineBase>(true);
+
+			questTypeSet = GetComponentInChildren<QuestTypeSet>(true);
+			interactionEnd = GetComponentInChildren<InteractionEnd>(true);
 		}
 
 		/// <summary>
@@ -27,7 +34,7 @@ namespace Personal.FSM
 		public virtual UniTask OnEnter()
 		{
 			isEntered = true;
-			GetComponentInChildren<QuestTypeSet>()?.TryToInitializeQuest();
+			questTypeSet?.TryToInitializeQuest();
 
 			return UniTask.CompletedTask;
 		}
@@ -56,6 +63,8 @@ namespace Personal.FSM
 		public virtual UniTask OnExit()
 		{
 			isEntered = false;
+			interactionEnd?.EnableInteractables();
+
 			return UniTask.CompletedTask;
 		}
 

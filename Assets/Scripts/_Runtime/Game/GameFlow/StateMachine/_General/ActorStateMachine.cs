@@ -70,7 +70,6 @@ namespace Personal.FSM
 		{
 			foreach (var state in orderedStateList)
 			{
-				state.SetMyFSM(this);
 				await SetState(state);
 			}
 		}

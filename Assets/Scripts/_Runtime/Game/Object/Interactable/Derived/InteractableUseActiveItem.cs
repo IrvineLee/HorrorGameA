@@ -25,7 +25,7 @@ namespace Personal.InteractiveObject
 			var pickupable = StageManager.Instance.PlayerController.Inventory.ActiveObject?.PickupableObject;
 
 			if (!pickupable) return;
-			if (!itemTypeCompare.HasFlag(pickupable.ItemTypeSet.ItemType)) return;
+			if (itemTypeCompare != pickupable.ItemTypeSet.ItemType) return;
 
 			pickupable.ParentTrans.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);

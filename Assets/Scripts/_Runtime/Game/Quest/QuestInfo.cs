@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
+using Cysharp.Threading.Tasks;
 using Personal.Item;
 using Personal.Manager;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Quest
 {
@@ -97,10 +97,9 @@ namespace Personal.Quest
 				await UpdateTask(taskInfo);
 			}
 
-			if (IsQuestCompleted())
+			if (IsTasksCompleted())
 			{
-				questState = QuestState.Completed;
-				QuestManager.Instance.TryEndQuest(this);
+				QuestManager.Instance.TryGetReward(this);
 			}
 
 			if (QuestEntity.isHiddenQuest) return;
@@ -169,12 +168,14 @@ namespace Personal.Quest
 		/// Check to see whether the quest is completed.
 		/// </summary>
 		/// <returns></returns>
-		bool IsQuestCompleted()
+		bool IsTasksCompleted()
 		{
 			foreach (var taskInfo in taskInfoList)
 			{
 				if (!taskInfo.IsSuccess && !taskInfo.IsEnded) return false;
 			}
+
+			questState = QuestState.Completed;
 			return true;
 		}
 	}

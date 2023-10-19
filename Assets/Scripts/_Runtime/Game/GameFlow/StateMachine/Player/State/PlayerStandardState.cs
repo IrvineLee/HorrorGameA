@@ -23,7 +23,7 @@ namespace Personal.FSM.Character
 			InteractableObject interactable = hit.transform.GetComponentInParent<InteractableObject>();
 
 			if (!interactable) return;
-			if (!interactable.enabled) return;
+			if (!interactable.IsInteractable) return;
 
 			CursorManager.Instance.SetCenterCrosshair(interactable.InteractCrosshairType);
 			interactable.ShowOutline(true);
@@ -31,7 +31,6 @@ namespace Personal.FSM.Character
 			previousInteractable = interactable;
 
 			if (!InputManager.Instance.GetButtonPush(InputManager.ButtonPush.Submit)) return;
-			if (!interactable.enabled) return;
 
 			Debug.Log("Hit interactable");
 			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
