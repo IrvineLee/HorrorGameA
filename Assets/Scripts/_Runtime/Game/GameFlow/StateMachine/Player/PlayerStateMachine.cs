@@ -17,17 +17,7 @@ namespace Personal.FSM.Character
 		protected override void Initialize()
 		{
 			base.Initialize();
-
-			List<StateBase> stateList = new();
-			foreach (Transform child in stateParent)
-			{
-				var stateBase = child.GetComponent<StateBase>();
-
-				stateList.Add(stateBase);
-			}
-
-			StateDictionary = stateList.ToDictionary((state) => state.GetType());
-			SwitchToState(typeof(PlayerStandardState)).Forget();
+			Init().Forget();
 		}
 
 		public override async UniTask SwitchToState(Type type)
@@ -57,7 +47,7 @@ namespace Personal.FSM.Character
 
 		public bool IsPlayerThisState(Type type)
 		{
-			if (CurrentState.GetType() == type) return true;
+			if (CurrentState && CurrentState.GetType() == type) return true;
 			return false;
 		}
 
@@ -66,6 +56,22 @@ namespace Personal.FSM.Character
 			StageManager.Instance.PlayerController.PlayerAnimatorController.ResetAnimationBlend(0.25f);
 		}
 
+		async UniTask Init()
+		{
+			// Wait for the state base to call their Awake first.
+			await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+
+			List<StateBase> stateList = new();
+			foreach (Transform child in stateParent)
+			{
+				var stateBase = child.GetComponent<StateBase>();
+
+				stateList.Add(stateBase);
+			}
+
+			StateDictionary = stateList.ToDictionary((state) => state.GetType());
+			SwitchToState(typeof(PlayerStandardState)).Forget();
+		}
 		void IFSMHandler.OnBegin(Type type)
 		{
 			if (type == null) type = typeof(PlayerIdleState);

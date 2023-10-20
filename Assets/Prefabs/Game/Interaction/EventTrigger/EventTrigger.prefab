@@ -453,7 +453,7 @@ PrefabInstance:
       addedObject: {fileID: 7962921647297206612}
     - targetCorrespondingSourceObject: {fileID: 465302006164849156, guid: 61303b30a461f824a94cc59ea3fd5215, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1112083348800291054}
+      addedObject: {fileID: 7767994071623220258}
   m_SourcePrefab: {fileID: 100100000, guid: 61303b30a461f824a94cc59ea3fd5215, type: 3}
 --- !u!4 &552324210599094023 stripped
 Transform:
@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questType: 20000
---- !u!114 &1112083348800291054
+--- !u!114 &7767994071623220258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -487,12 +487,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1257847795325988866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff23671514957364181648c604e83c6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c9f97bd56dd64f40a3d5898ae581019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableObjectList:
+  enableInteractableObjectList:
   - {fileID: 0}
-  isSetTrue: 1
+  disableInteractableObjectList: []
+  questTypeSet: {fileID: 7962921647297206612}
 --- !u!1001 &3373589723132217868
 PrefabInstance:
   m_ObjectHideFlags: 0

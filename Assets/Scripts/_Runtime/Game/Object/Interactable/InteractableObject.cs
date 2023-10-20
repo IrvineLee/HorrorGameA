@@ -32,6 +32,8 @@ namespace Personal.InteractiveObject
 			meshRenderer = GetComponentInChildren<MeshRenderer>();
 
 			outlinableFadeInOut = GetComponentInChildren<OutlinableFadeInOut>(true);
+
+			SetIsInteractable(isInteractable);
 		}
 
 		public async UniTask HandleInteraction(ActorStateMachine initiatorStateMachine, Action doLast = default)
@@ -49,7 +51,11 @@ namespace Personal.InteractiveObject
 			outlinableFadeInOut?.StartFade(isFlag);
 		}
 
-		public void SetIsInteractable(bool isFlag) { isInteractable = isFlag; }
+		public void SetIsInteractable(bool isFlag)
+		{
+			isInteractable = isFlag;
+			if (currentCollider) currentCollider.enabled = isFlag;
+		}
 
 		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
 	}

@@ -8,23 +8,29 @@ namespace Personal.InteractiveObject
 {
 	public class InteractionEnd : GameInitialize
 	{
-		[SerializeField] List<InteractableObject> interactableObjectList = new();
-		[SerializeField] bool isSetTrue = true;
+		[SerializeField] List<InteractableObject> enableInteractableObjectList = new();
+		[SerializeField] List<InteractableObject> disableInteractableObjectList = new();
 
 		public async UniTask EnableInteractables()
 		{
 			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
 
 			if (!IsEnded()) return;
-			if (interactableObjectList.Count <= 0) return;
+			HandleInteractable();
+		}
 
-			foreach (var interactable in interactableObjectList)
+		protected virtual void HandleInteractable()
+		{
+			foreach (var interactable in enableInteractableObjectList)
 			{
-				interactable.SetIsInteractable(isSetTrue);
+				interactable.SetIsInteractable(true);
+			}
+			foreach (var interactable in disableInteractableObjectList)
+			{
+				interactable.SetIsInteractable(false);
 			}
 		}
 
 		protected virtual bool IsEnded() { return true; }
 	}
 }
-
