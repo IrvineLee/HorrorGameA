@@ -155,6 +155,9 @@ MonoBehaviour:
   parentTrans: {fileID: 6264341000515498153}
   interactCrosshairType: 2
   isInteractable: 1
+  requiredItemTypeDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  requiredItemTypeList: 
   actionMapType: 2000
 --- !u!1 &4712799810723094077
 GameObject:
@@ -594,6 +597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableInteractableObjectList: []
   disableInteractableObjectList: []
+  rewardInteractableObjectList: []
   iProcessTrans: {fileID: 5051477040040588659}
 --- !u!4 &6264341001251700266 stripped
 Transform:

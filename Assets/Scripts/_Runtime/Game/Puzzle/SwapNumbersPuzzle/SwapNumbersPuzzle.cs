@@ -82,12 +82,6 @@ namespace Personal.Puzzle.EightSlide
 			activeSelection.SetCurrentIndex(tile.CurrentIndex);
 			tile.SetCurrentIndex(index);
 
-			//SpriteRenderer spriteRenderer01 = activeSelection.SpriteRenderer;
-			//SpriteRenderer spriteRenderer02 = tile.SpriteRenderer;
-
-			//activeSelection.SetSpriteRenderer(spriteRenderer02);
-			//tile.SetSpriteRenderer(spriteRenderer01);
-
 			// Swap the positions.
 			Vector3 temp = activeSelection.TileTrans.position;
 			activeSelection.TileTrans.position = tile.TileTrans.position;
@@ -113,7 +107,8 @@ namespace Personal.Puzzle.EightSlide
 
 			puzzleState = PuzzleState.Completed;
 			enabled = false;
-			Debug.Log("YOU WIN!");
+
+			GetReward();
 		}
 
 		/// <summary>

@@ -1,21 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
+using Helper;
 using Personal.GameState;
 using Personal.Spawner;
 using Personal.Character.Player;
 using Personal.InteractiveObject;
 using Personal.Transition;
 using Personal.Character;
-using Cinemachine;
-using Helper;
 using Personal.Dialogue;
 
 namespace Personal.Manager
 {
 	/// <summary>
-	/// Handles all the thing that are happening within the stage.
+	/// Handles everything that are happening within the stage.
 	/// </summary>
 	public class StageManager : GameInitializeSingleton<StageManager>
 	{
@@ -65,6 +65,25 @@ namespace Personal.Manager
 		public void SetInteraction(int index)
 		{
 			CashierInteractionIndex = index;
+		}
+
+		public async UniTask GetReward(List<InteractableObject> rewardInteractableObjectList)
+		{
+			// Enable the gameobjects so they can be initialized first(for those that wasn't awake at runtime).
+			foreach (var reward in rewardInteractableObjectList)
+			{
+				reward.gameObject.SetActive(true);
+			}
+
+			await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+
+			foreach (var reward in rewardInteractableObjectList)
+			{
+				if (reward.GetType() == typeof(InteractablePickupable))
+				{
+					PlayerController.Inventory.AddItem((InteractablePickupable)reward);
+				}
+			}
 		}
 
 		public void ResetStage()

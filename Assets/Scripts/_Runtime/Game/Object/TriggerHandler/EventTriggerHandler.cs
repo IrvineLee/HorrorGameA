@@ -10,7 +10,7 @@ namespace Personal.InteractiveObject
 	{
 		async void OnTriggerEnter(Collider other)
 		{
-			if (!isInteractable) return;
+			if (!IsInteractable) return;
 
 			var questSet = GetComponentInChildren<QuestTypeSet>();
 			if (questSet)

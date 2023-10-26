@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b2996ad6b6c041bcafc399abd7695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardInteractableObjectList: []
   tileList:
   - tileTrans: {fileID: 837121303477297727}
     startIndex: 0
@@ -490,6 +491,9 @@ MonoBehaviour:
   parentTrans: {fileID: 3134578445617844375}
   interactCrosshairType: 2
   isInteractable: 1
+  requiredItemTypeDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  requiredItemTypeList: 
   actionMapType: 2000
 --- !u!1 &6196420653928201955
 GameObject:
@@ -1491,6 +1495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableInteractableObjectList: []
   disableInteractableObjectList: []
+  rewardInteractableObjectList: []
   iProcessTrans: {fileID: 9030840522842110054}
 --- !u!114 &8973680925447581878 stripped
 MonoBehaviour:

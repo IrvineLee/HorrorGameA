@@ -161,7 +161,7 @@ namespace Personal.Puzzle.Pinwheel
 			}
 
 			puzzleState = PuzzleState.Completed;
-			Debug.Log("YOU WIN!");
+			GetReward();
 		}
 
 		/// <summary>

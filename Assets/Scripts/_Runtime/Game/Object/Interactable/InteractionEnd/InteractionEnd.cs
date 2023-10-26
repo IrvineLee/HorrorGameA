@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
@@ -10,13 +11,16 @@ namespace Personal.InteractiveObject
 	{
 		[SerializeField] List<InteractableObject> enableInteractableObjectList = new();
 		[SerializeField] List<InteractableObject> disableInteractableObjectList = new();
+		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
 		public async UniTask EnableInteractables()
 		{
 			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
 
 			if (!IsEnded()) return;
+
 			HandleInteractable();
+			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
 		}
 
 		protected virtual void HandleInteractable()

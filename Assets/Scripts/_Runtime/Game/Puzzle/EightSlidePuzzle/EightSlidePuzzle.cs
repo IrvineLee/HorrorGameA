@@ -116,7 +116,8 @@ namespace Personal.Puzzle.EightSlide
 
 			puzzleState = PuzzleState.Completed;
 			enabled = false;
-			Debug.Log("YOU WIN!");
+
+			GetReward();
 		}
 
 		/// <summary>

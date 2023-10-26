@@ -49,6 +49,9 @@ MonoBehaviour:
   parentTrans: {fileID: 3728221999345499012}
   interactCrosshairType: 0
   isInteractable: 1
+  requiredItemTypeDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  requiredItemTypeList: 
   actionMapType: 500
 --- !u!54 &9012655195964369590
 Rigidbody:
@@ -493,6 +496,7 @@ MonoBehaviour:
   enableInteractableObjectList:
   - {fileID: 0}
   disableInteractableObjectList: []
+  rewardInteractableObjectList: []
   questTypeSet: {fileID: 7962921647297206612}
 --- !u!1001 &3373589723132217868
 PrefabInstance:

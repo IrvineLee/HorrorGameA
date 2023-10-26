@@ -153,7 +153,7 @@ namespace Personal.Quest
 		void HandleActionTypeUse(TaskInfo taskInfo)
 		{
 			Enum enumType = MasterDataManager.Instance.GetEnumType<Enum>(taskInfo.ObjectiveKey);
-			taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(enumType));
+			if (enumType.GetType() == typeof(ItemType)) taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(enumType));
 
 			//Type enumType = MasterDataManager.Instance.GetEnumType(taskInfo.ObjectiveKey);
 

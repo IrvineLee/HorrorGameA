@@ -17,7 +17,7 @@ namespace Personal.InteractiveObject
 
 		protected void OnTriggerEnter(Collider other)
 		{
-			if (!isInteractable) return;
+			if (!IsInteractable) return;
 			if (!dialogueSystemTrigger) return;
 
 			StageManager.Instance.DialogueController.DialogueSetup.DisableInputActionChange();

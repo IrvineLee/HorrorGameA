@@ -1,14 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-using Personal.Manager;
+using Cysharp.Threading.Tasks;
 using Helper;
+using Personal.Manager;
+using Personal.InteractiveObject;
 using static Personal.Manager.InputManager;
 
 namespace Personal.Puzzle
 {
 	public class PuzzleController : MonoBehaviour
 	{
+		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
+
 		public enum PuzzleState
 		{
 			None = 0,
@@ -63,6 +68,11 @@ namespace Personal.Puzzle
 		}
 
 		protected virtual Transform GetActiveSelectionForGamepad() { return null; }
+
+		protected virtual void GetReward()
+		{
+			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
+		}
 
 		/// <summary>
 		/// Handles whether to display gamepad movement or mouse movement.
