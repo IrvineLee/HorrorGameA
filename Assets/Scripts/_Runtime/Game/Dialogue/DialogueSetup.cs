@@ -19,13 +19,11 @@ namespace Personal.Dialogue
 		[SerializeField] DialogueResponseListHandler dialogueResponseListHandler = null;
 
 		public DialogueResponseListHandler DialogueResponseListHandler { get => dialogueResponseListHandler; }
-		public bool IsWaitingResponse { get => isWaitingResponse; }
+		public bool IsWaitingResponse { get; private set; }
 
 		ActionMapType previousActionMap;
 
 		StandardUIMenuPanel standardUIMenuPanel;
-		bool isWaitingResponse;
-
 		UIButtonKeyTrigger uiButtonKeyTrigger;
 
 		bool isChangeActionMap = true;
@@ -47,14 +45,14 @@ namespace Personal.Dialogue
 			// For the response window.
 			standardUIMenuPanel.onOpen.AddListener(() =>
 			{
-				isWaitingResponse = true;
+				IsWaitingResponse = true;
 				HandleCursor();
 				CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>
 			{
-				isWaitingResponse = false;
+				IsWaitingResponse = false;
 				CursorManager.Instance.TrySetToMouseCursorForMouseControl(false);
 			});
 
@@ -88,7 +86,7 @@ namespace Personal.Dialogue
 				InputManager.Instance.EnableActionMap(previousActionMap);
 			}
 
-			isWaitingResponse = false;
+			IsWaitingResponse = false;
 			isChangeActionMap = true;
 
 			InputDeviceManager.instance.alwaysAutoFocus = false;
@@ -124,7 +122,7 @@ namespace Personal.Dialogue
 			if (!GameSceneManager.Instance.IsMainScene()) return;
 			if (UIManager.Instance.ActiveInterfaceType != UI.UIInterfaceType.Dialogue) return;
 
-			if (InputManager.Instance.IsCurrentDeviceMouse && isWaitingResponse)
+			if (InputManager.Instance.IsCurrentDeviceMouse && IsWaitingResponse)
 			{
 				ResponseFocus(false);
 				EventSystem.current.SetSelectedGameObject(null);

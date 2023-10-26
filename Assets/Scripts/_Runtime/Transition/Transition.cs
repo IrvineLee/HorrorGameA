@@ -57,11 +57,11 @@ namespace Personal.Transition
 			animatorIn.gameObject.SetActive(true);
 			animatorIn.Play(0, -1, 1f);
 
-			if (actionOrFunc.GetType() == typeof(Action))
+			if (actionOrFunc != null && actionOrFunc.GetType() == typeof(Action))
 			{
 				((Action)(object)actionOrFunc).Invoke();
 			}
-			else if (actionOrFunc.GetType() == typeof(Func<UniTask<bool>>))
+			else if (actionOrFunc != null && actionOrFunc.GetType() == typeof(Func<UniTask<bool>>))
 			{
 				await ((Func<UniTask<bool>>)(object)actionOrFunc).Invoke();
 			}

@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf3e2c996204a0489bd1bd34cbaed2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delay: 0.05
 --- !u!1 &5156722668297606940
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,11 +457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -476,7 +477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -9.999996
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634917154, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMax.y

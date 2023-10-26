@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,19 +17,21 @@ namespace Personal.Transition
 		[SerializeField] CanvasScaler canvasScaler;
 
 		public TransitionManagerSettings TransitionManagerSettings { get => transitionManagerSettings; }
-		public CanvasGroup CanvasGroup { get => canvasGroup; }
-		public bool IsTransitioning { get => isTransitioning; }
-
-		CanvasGroup canvasGroup;
-		bool isTransitioning;
+		public Canvas Canvas { get; private set; }
+		public CanvasGroup CanvasGroup { get; private set; }
+		public bool IsTransitioning { get; private set; }
 
 		Dictionary<TransitionType, Transition> transitionDictionary = new();
 
+		Canvas canvas;
+		int defaultSortOrder;
+
 		protected override UniTask Boot()
 		{
-			canvasGroup = GetComponentInChildren<CanvasGroup>();
-			transitionManagerSettings.Initialize();
+			Canvas = GetComponentInChildren<Canvas>();
+			CanvasGroup = GetComponentInChildren<CanvasGroup>();
 
+			transitionManagerSettings.Initialize();
 			InitialSetup();
 
 			return UniTask.CompletedTask;
@@ -42,25 +43,33 @@ namespace Personal.Transition
 		/// <param name="transitionType"></param>
 		/// <param name="delay"></param>
 		/// <param name="inBetweenAction"></param>
-#nullable enable
-		public void Transition(TransitionType transitionType, TransitionPlayType? transitionPlayType = TransitionPlayType.All,
-							   float? delay = 0, Action? inBetweenAction = default, bool isIgnoreTimescale = false)
+		public void Transition(TransitionType transitionType, TransitionPlayType transitionPlayType = TransitionPlayType.All,
+							   float delay = 0, Action inBetweenAction = default, bool isIgnoreTimescale = false)
 		{
-			if (isTransitioning) return;
+			if (IsTransitioning) return;
 
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
-			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenAction ?? default, isIgnoreTimescale).Forget();
+			HandleTransition(transitionType, transitionPlayType, delay, transitionSettings, inBetweenAction, isIgnoreTimescale).Forget();
 		}
 
-		public void TransitionFunc(TransitionType transitionType, TransitionPlayType? transitionPlayType = TransitionPlayType.All,
-							   float? delay = 0, Func<UniTask<bool>>? inBetweenFunc = default, bool isIgnoreTimescale = false)
+		public void TransitionFunc(TransitionType transitionType, TransitionPlayType transitionPlayType = TransitionPlayType.All,
+							   float delay = 0, Func<UniTask<bool>> inBetweenFunc = default, bool isIgnoreTimescale = false)
 		{
-			if (isTransitioning) return;
+			if (IsTransitioning) return;
 
 			TransitionSettings transitionSettings = TransitionManagerSettings.GetTransitionSetting(transitionType);
-			HandleTransition(transitionType, transitionPlayType ?? TransitionPlayType.All, delay ?? 0, transitionSettings, inBetweenFunc ?? default, isIgnoreTimescale).Forget();
+			HandleTransition(transitionType, transitionPlayType, delay, transitionSettings, inBetweenFunc, isIgnoreTimescale).Forget();
 		}
-#nullable disable
+
+		public void SetCanvasSortOrder(int sortOrder)
+		{
+			canvas.sortingOrder = sortOrder;
+		}
+
+		public void ResetCanvasSortOrder()
+		{
+			canvas.sortingOrder = defaultSortOrder;
+		}
 
 		/// <summary>
 		/// The first fade in will appear when you start the game.
@@ -82,7 +91,7 @@ namespace Personal.Transition
 			Transition transition = await GetTransition(transitionType, delay, isIgnoreTimescale);
 			await TransitionSetup(transition, transitionPlayType, transitionSettings, inBetweenAction, isIgnoreTimescale);
 
-			isTransitioning = false;
+			IsTransitioning = false;
 		}
 
 		async UniTask HandleTransition(TransitionType transitionType, TransitionPlayType transitionPlayType, float delay,
@@ -91,12 +100,12 @@ namespace Personal.Transition
 			Transition transition = await GetTransition(transitionType, delay, isIgnoreTimescale);
 			await TransitionSetupFunc(transition, transitionPlayType, transitionSettings, inBetweenFunc, isIgnoreTimescale);
 
-			isTransitioning = false;
+			IsTransitioning = false;
 		}
 
 		async UniTask<Transition> GetTransition(TransitionType transitionType, float delay, bool isIgnoreTimescale)
 		{
-			isTransitioning = true;
+			IsTransitioning = true;
 			await UniTask.Delay(delay.SecondsToMilliseconds(), isIgnoreTimescale);
 
 			if (!transitionDictionary.TryGetValue(transitionType, out Transition transition))
@@ -133,7 +142,7 @@ namespace Personal.Transition
 		{
 			// Canvas setup.
 			canvasScaler.referenceResolution = transitionSettings.ReferenceResolution;
-			canvasGroup.blocksRaycasts = transitionSettings.BlockRaycasts;
+			CanvasGroup.blocksRaycasts = transitionSettings.BlockRaycasts;
 		}
 	}
 }
