@@ -40,11 +40,7 @@ namespace Personal.Quest
 			/// <summary>
 			/// Did the task complete successfully?
 			/// </summary>
-			public bool IsSuccess
-			{
-				get => actionType == ActionType.None || progress < 0 ||
-					   (actionType != ActionType.DialogueResponse && progress >= requiredAmount);
-			}
+			public bool IsSuccess { get; private set; }
 
 			/// <summary>
 			/// Whether the quest can still be progressed.
@@ -57,9 +53,29 @@ namespace Personal.Quest
 				this.actionType = actionType;
 				this.objectiveKey = objectiveKey;
 				this.requiredAmount = requiredAmount;
+
+				if (actionType == ActionType.None)
+				{
+					IsSuccess = true;
+					CloseTask();
+				}
 			}
 
-			public void SetProgress(int value) { progress = value; }
+			public void SetProgress(int value)
+			{
+				if (IsSuccess) return;
+
+				progress = value;
+
+				if (progress < 0 ||
+					((actionType == ActionType.Acquire || actionType == ActionType.Use ||
+					actionType == ActionType.Kill) && progress >= requiredAmount))
+				{
+					IsSuccess = true;
+					CloseTask();
+				}
+			}
+
 			public void CloseTask() { IsEnded = true; }
 		}
 

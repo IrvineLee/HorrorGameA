@@ -44,9 +44,9 @@ namespace Personal.Manager
 		/// <returns></returns>
 		public int GetUsedType<T>(T usedType) where T : Enum
 		{
-			if (typeof(T) == typeof(ItemType))
+			if (usedType.GetType() == typeof(ItemType))
 			{
-				glossaryData.UsedItemDictionary.GetOrDefault((ItemType)(object)usedType);
+				return glossaryData.UsedItemDictionary.GetOrDefault((ItemType)(object)usedType);
 			}
 			return 0;
 		}

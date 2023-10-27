@@ -11,6 +11,7 @@ using Personal.InteractiveObject;
 using Personal.Transition;
 using Personal.Character;
 using Personal.Dialogue;
+using Personal.Quest;
 
 namespace Personal.Manager
 {
@@ -79,10 +80,16 @@ namespace Personal.Manager
 
 			foreach (var reward in rewardInteractableObjectList)
 			{
+				var interactable = (InteractablePickupable)reward;
+
 				if (reward.GetType() == typeof(InteractablePickupable))
 				{
-					PlayerController.Inventory.AddItem((InteractablePickupable)reward);
+					PlayerController.Inventory.AddItem(interactable);
 				}
+
+				// Update quest after adding items to inventory.
+				QuestTypeSet questTypeSet = interactable.GetComponentInChildren<QuestTypeSet>();
+				questTypeSet?.TryUpdateData();
 			}
 		}
 

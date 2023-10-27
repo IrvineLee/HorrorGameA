@@ -5,10 +5,9 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.Item;
-using Personal.InteractiveObject;
 using Personal.Character.Player;
 
-namespace Puzzle.EightSlide
+namespace Personal.InteractiveObject
 {
 	public class InteractableInsertItem : InteractableObject
 	{
@@ -42,7 +41,7 @@ namespace Puzzle.EightSlide
 
 			foreach (var itemInfo in itemInfoList)
 			{
-				itemInfo.ActivateObjectTrans.gameObject.SetActive(false);
+				if (itemInfo.ActivateObjectTrans) itemInfo.ActivateObjectTrans.gameObject.SetActive(false);
 			}
 		}
 

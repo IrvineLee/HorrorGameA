@@ -24,11 +24,19 @@ namespace Personal.GameState
 				enabled = isInitiallyEnabled;
 			}
 
+			InitializeFirst();
+			await UniTask.Yield(cancellationToken: this.GetCancellationTokenOnDestroy());
+
 			Initialize();
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
 			HandleScene().Forget();
 		}
+
+		/// <summary>
+		/// This gets called earlier than Initialize().
+		/// </summary>
+		protected virtual void InitializeFirst() { }
 
 		/// <summary>
 		/// Treat this as a normal Awake function.

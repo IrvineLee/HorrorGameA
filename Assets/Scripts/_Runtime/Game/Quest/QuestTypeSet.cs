@@ -11,7 +11,7 @@ namespace Personal.Quest
 
 		public QuestType QuestType { get => questType; }
 
-		public void TryToInitializeQuest()
+		public void TryUpdateData()
 		{
 			QuestManager.Instance.TryUpdateData(questType);
 		}

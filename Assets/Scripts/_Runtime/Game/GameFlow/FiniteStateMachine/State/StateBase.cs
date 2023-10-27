@@ -34,7 +34,7 @@ namespace Personal.FSM
 		public virtual UniTask OnEnter()
 		{
 			isEntered = true;
-			questTypeSet?.TryToInitializeQuest();
+			questTypeSet?.TryUpdateData();
 
 			return UniTask.CompletedTask;
 		}

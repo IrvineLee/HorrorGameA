@@ -78,7 +78,7 @@ namespace Personal.InteractiveObject
 			InitiatorStateMachine = initiatorStateMachine;
 
 			await HandleInteraction();
-			GetReward();
+			if (rewardInteractableObjectList.Count > 0) GetReward();
 
 			doLast?.Invoke();
 		}

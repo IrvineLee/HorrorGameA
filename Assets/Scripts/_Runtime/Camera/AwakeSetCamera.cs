@@ -7,7 +7,7 @@ namespace Personal.Character
 {
 	public class AwakeSetCamera : GameInitialize
 	{
-		protected override void Initialize()
+		protected override void InitializeFirst()
 		{
 			StageManager.Instance?.SetMainCameraTransform(transform);
 		}
