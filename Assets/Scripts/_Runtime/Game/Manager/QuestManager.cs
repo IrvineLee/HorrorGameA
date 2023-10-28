@@ -37,6 +37,20 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// See whether the quest passed successfully.
+		/// </summary>
+		/// <param name="questType"></param>
+		/// <returns></returns>
+		public bool IsQuestPassed(QuestType questType)
+		{
+			RefreshActiveAndEndedQuest(questType);
+
+			if (!endedDictionary.ContainsKey(questType)) return false;
+
+			return endedDictionary.GetOrDefault(questType).IsQuestSuccess;
+		}
+
+		/// <summary>
 		/// See whether the quest has ended.
 		/// </summary>
 		/// <returns></returns>
@@ -63,12 +77,12 @@ namespace Personal.Manager
 		/// <param name="questInfo"></param>
 		public void TryGetReward(QuestInfo questInfo)
 		{
-			if (!(questInfo.QuestState == QuestState.Completed || questInfo.QuestState == QuestState.Failed)) return;
+			if (!questInfo.IsQuestEnded) return;
 
 			var questEntity = questInfo.QuestEntity;
 
 			// Reward.
-			if (questInfo.QuestState == QuestState.Completed)
+			if (questInfo.IsQuestSuccess)
 			{
 				ObtainReward(questEntity.rewardKey01, questEntity.rewardAmount01);
 				ObtainReward(questEntity.rewardKey02, questEntity.rewardAmount02);

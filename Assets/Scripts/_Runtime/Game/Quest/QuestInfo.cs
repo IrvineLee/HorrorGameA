@@ -82,9 +82,9 @@ namespace Personal.Quest
 		[SerializeField] QuestState questState = QuestState.Active;
 
 		public QuestEntity QuestEntity { get; private set; }
-		public QuestState QuestState { get => questState; }
 		public List<TaskInfo> TaskInfoList { get => taskInfoList; }
-		public bool IsQuestEnded { get => QuestState == QuestState.Completed || QuestState == QuestState.Failed; }
+		public bool IsQuestSuccess { get => questState == QuestState.Completed; }
+		public bool IsQuestEnded { get => questState == QuestState.Completed || questState == QuestState.Failed; }
 
 		List<TaskInfo> taskInfoList = new List<TaskInfo>();
 
@@ -113,8 +113,9 @@ namespace Personal.Quest
 				await UpdateTask(taskInfo);
 			}
 
-			if (IsTasksCompleted())
+			if (IsTasksEnded())
 			{
+				HandleQuestEnd();
 				QuestManager.Instance.TryGetReward(this);
 			}
 
@@ -181,18 +182,35 @@ namespace Personal.Quest
 		}
 
 		/// <summary>
-		/// Check to see whether the quest is completed.
+		/// Check to see whether the quest has ended.
 		/// </summary>
 		/// <returns></returns>
-		bool IsTasksCompleted()
+		bool IsTasksEnded()
 		{
 			foreach (var taskInfo in taskInfoList)
 			{
-				if (!taskInfo.IsSuccess && !taskInfo.IsEnded) return false;
+				if (!taskInfo.IsEnded) return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Handle quest complete/failed.
+		/// </summary>
+		/// <returns></returns>
+		void HandleQuestEnd()
+		{
+			foreach (var taskInfo in taskInfoList)
+			{
+				if (!taskInfo.IsSuccess)
+				{
+					questState = QuestState.Failed;
+					return;
+				}
 			}
 
 			questState = QuestState.Completed;
-			return true;
 		}
 	}
 }
