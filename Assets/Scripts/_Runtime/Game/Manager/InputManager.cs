@@ -85,13 +85,6 @@ namespace Personal.Manager
 			});
 		}
 
-		protected override async void OnMainScene()
-		{
-			DisableAllActionMap();
-			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
-			EnableActionMap(ActionMapType.Player);
-		}
-
 		/// <summary>
 		/// Get the current active motion.
 		/// </summary>

@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 using Helper;
 
@@ -41,9 +42,14 @@ namespace Personal.Dialogue
 			ResetButtons();
 
 			var buttonList = GetComponentsInChildren<Button>().ToList();
-			foreach (var button in buttonList)
+			for (int i = 0; i < buttonList.Count; i++)
 			{
-				UnityAction unityAction = () => selectedButton = button.transform.GetSiblingIndex();
+				Button button = buttonList[i];
+				int index = i;
+
+				if (i == 0) EventSystem.current.SetSelectedGameObject(button.gameObject);
+
+				UnityAction unityAction = () => selectedButton = index;
 				buttonActionList.Add(new ButtonUnityAction(button, unityAction));
 
 				button.onClick.AddListener(unityAction);

@@ -12,6 +12,7 @@ using Personal.Transition;
 using Personal.Character;
 using Personal.Dialogue;
 using Personal.Quest;
+using Personal.InputProcessing;
 
 namespace Personal.Manager
 {
@@ -35,6 +36,21 @@ namespace Personal.Manager
 		{
 			CameraHandler = Camera.main.GetComponentInChildren<CameraHandler>();
 			DialogueController = DialogueManager.Instance.GetComponentInChildren<DialogueController>();
+		}
+
+		protected async override void OnEarlyMainScene()
+		{
+			// If there is a main scene handler, let that script handle it.
+			var mainSceneHandler = FindObjectOfType<MainSceneHandler>();
+			if (mainSceneHandler) return;
+
+			// Deactivate the black screen.
+			UIManager.Instance.ToolsUI.BlackScreen.gameObject.SetActive(false);
+
+			// Make the player not able to do anything.
+			InputManager.Instance.DisableAllActionMap();
+			await UniTask.WaitUntil(() => !IsBusy);
+			InputManager.Instance.EnableActionMap(ActionMapType.Player);
 		}
 
 		public void SetMainCameraTransform(Transform target)
