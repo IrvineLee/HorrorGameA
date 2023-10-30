@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,28 +35,30 @@ namespace Personal.Transition
 		}
 
 		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
-								   TransitionManagerSettings fullSettings, Action inBetweenAction, bool isIgnoreTimescale)
+								TransitionManagerSettings fullSettings, Action inBetweenAction, bool isIgnoreTimescale, CancellationToken token)
 		{
-			await Initialize(transitionSettings, transitionPlayType, fullSettings, inBetweenAction, isIgnoreTimescale);
+			await Initialize(transitionSettings, transitionPlayType, fullSettings, inBetweenAction, isIgnoreTimescale, token);
 		}
 
 		public async UniTask Begin(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
-								   TransitionManagerSettings fullSettings, Func<UniTask<bool>> inBetweenFunc, bool isIgnoreTimescale)
+								   TransitionManagerSettings fullSettings, Func<UniTask<bool>> inBetweenFunc, bool isIgnoreTimescale, CancellationToken token)
 		{
-			await Initialize(transitionSettings, transitionPlayType, fullSettings, inBetweenFunc, isIgnoreTimescale);
+			await Initialize(transitionSettings, transitionPlayType, fullSettings, inBetweenFunc, isIgnoreTimescale, token);
 		}
 
 		async UniTask Initialize<T>(TransitionSettings transitionSettings, TransitionPlayType transitionPlayType,
-								   TransitionManagerSettings fullSettings, T actionOrFunc, bool isIgnoreTimescale)
+								   TransitionManagerSettings fullSettings, T actionOrFunc, bool isIgnoreTimescale, CancellationToken token)
 		{
 			SetupTransitionAndMaterial(transitionSettings, fullSettings);
 			float speed = transitionSettings.TransitionSpeed;
 
-			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed, isIgnoreTimescale);
+			if (transitionPlayType.HasFlag(TransitionPlayType.In)) await TransitionIn(speed, isIgnoreTimescale, token);
 
 			// Make sure the transition timing is at the end of it.
 			animatorIn.gameObject.SetActive(true);
-			animatorIn.Play(0, -1, 1f);
+			await UniTask.NextFrame();
+
+			if (animatorIn.gameObject.activeInHierarchy) animatorIn.Play(0, -1, 1f);
 
 			if (actionOrFunc != null && actionOrFunc.GetType() == typeof(Action))
 			{
@@ -67,8 +70,8 @@ namespace Personal.Transition
 			}
 
 			// Give it a grace period after changing scene.
-			await UniTask.Delay(1000, isIgnoreTimescale);
-			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed, isIgnoreTimescale);
+			await UniTask.Delay(1000, isIgnoreTimescale, cancellationToken: token);
+			if (transitionPlayType.HasFlag(TransitionPlayType.Out)) await TransitionOut(speed, isIgnoreTimescale, token);
 		}
 
 
@@ -86,33 +89,33 @@ namespace Personal.Transition
 
 		}
 
-		async UniTask TransitionIn(float speed, bool isIgnoreTimescale)
+		async UniTask TransitionIn(float speed, bool isIgnoreTimescale, CancellationToken token)
 		{
 			// Setting up the transition objects
 			transitionPanelOUT.gameObject.SetActive(false);
 			transitionPanelIN.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionIn.transform, animatorIn, animationIn, speed, isIgnoreTimescale);
+			await HandleTransition(transitionSettings.TransitionIn.transform, animatorIn, animationIn, speed, isIgnoreTimescale, token);
 		}
 
-		async UniTask TransitionOut(float speed, bool isIgnoreTimescale)
+		async UniTask TransitionOut(float speed, bool isIgnoreTimescale, CancellationToken token)
 		{
 			// Setting up the transition
 			transitionPanelIN.gameObject.SetActive(false);
 			transitionPanelOUT.gameObject.SetActive(true);
 
-			await HandleTransition(transitionSettings.TransitionOut.transform, animatorOut, animationOut, speed, isIgnoreTimescale);
+			await HandleTransition(transitionSettings.TransitionOut.transform, animatorOut, animationOut, speed, isIgnoreTimescale, token);
 
 			transitionPanelOUT.gameObject.SetActive(false);
 		}
 
-		async UniTask HandleTransition(Transform transition, Animator animator, AnimationClip animationClip, float speed, bool isIgnoreTimescale)
+		async UniTask HandleTransition(Transform transition, Animator animator, AnimationClip animationClip, float speed, bool isIgnoreTimescale, CancellationToken token)
 		{
 			HandleTransitionColor(transition);
 			HandleFlipping(transition);
 			HandleAnimator(animator, speed, isIgnoreTimescale);
 
-			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), isIgnoreTimescale, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await UniTask.Delay(animationClip.length.SecondsToMilliseconds(), isIgnoreTimescale, cancellationToken: token);
 		}
 
 		// Changing the color of the transition

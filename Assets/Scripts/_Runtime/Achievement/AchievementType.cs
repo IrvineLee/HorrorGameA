@@ -20,8 +20,8 @@ namespace Personal.Achievement
 		//Reaching_Level_50 = 5000,
 		//Reaching_Max_Level,
 
-		Clear_Game_Once = 5100,
+		Clear_Game_Once = 90000,
 
-		All_Achievements = 9999,
+		All_Achievements = 99999,
 	}
 }

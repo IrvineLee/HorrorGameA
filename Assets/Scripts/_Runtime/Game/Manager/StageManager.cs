@@ -70,6 +70,8 @@ namespace Personal.Manager
 
 		public async UniTask GetReward(List<InteractableObject> rewardInteractableObjectList)
 		{
+			if (rewardInteractableObjectList.Count <= 0) return;
+
 			// Enable the gameobjects so they can be initialized first(for those that wasn't awake at runtime).
 			foreach (var reward in rewardInteractableObjectList)
 			{

@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
 using Personal.Transition;
+using Personal.CanvasUI;
 
 namespace Personal.FSM.Character
 {
@@ -10,13 +11,13 @@ namespace Personal.FSM.Character
 	{
 		[SerializeField] TransitionType transitionType = TransitionType.Fade;
 		[SerializeField] TransitionPlayType transitionPlayType = TransitionPlayType.All;
-		[SerializeField] int transitionSortOrder = 999;
+		[SerializeField] CanvasSortOrder transitionBelowSortOrder = CanvasSortOrder.Transition;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			TransitionManager.Instance.SetCanvasSortOrder(transitionSortOrder);
+			TransitionManager.Instance.SetCanvasSortOrder(transitionBelowSortOrder);
 			TransitionManager.Instance.Transition(transitionType, transitionPlayType);
 		}
 

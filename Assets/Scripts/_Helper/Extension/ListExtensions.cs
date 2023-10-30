@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+using static Helper.ClassHelper;
+
 namespace Helper
 {
 	public static class ListExtensions
@@ -43,6 +45,71 @@ namespace Helper
 			} while (EqualityComparer<T>.Default.Equals(enumValue, without));
 
 			return enumValue;
+		}
+
+
+		/// <summary>
+		/// Convert the list to a list that combines all the duplicate type into count.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static List<TCount<T>> ConvertToDuplicateCountList<T>(this List<T> list)
+		{
+			List<T> tempList = new();
+			List<TCount<T>> countList = new();
+
+			foreach (var t in list)
+			{
+				// Do not add duplicates to countList.
+				if (tempList.Contains(t)) continue;
+				tempList.Add(t);
+
+				int count = list.GetDuplicateCount(t);
+				countList.Add(new TCount<T>(t, count));
+			}
+			return countList;
+		}
+
+		/// <summary>
+		/// Get the duplicate type count.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <param name="t"></param>
+		/// <returns></returns>
+		public static int GetDuplicateCount<T>(this List<T> list, T t)
+		{
+			int count = 0;
+			foreach (var currentT in list)
+			{
+				if (currentT.GetType() == t.GetType()) count++;
+			}
+			return count;
+		}
+
+		/// <summary>
+		/// Convert the list to a dictionary that combines all the duplicate types to value.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static Dictionary<T, int> ConvertToDuplicateCountDictionary<T>(this List<T> list)
+		{
+			Dictionary<T, int> dictionary = new();
+
+			foreach (var t in list)
+			{
+				// Add to dictionary.
+				if (dictionary.ContainsKey(t))
+				{
+					dictionary.AddTo(t);
+					continue;
+				}
+
+				dictionary.Add(t, 1);
+			}
+			return dictionary;
 		}
 	}
 }

@@ -16,6 +16,12 @@ namespace Personal.InteractiveObject
 {
 	public abstract class InteractableObject : GameInitialize
 	{
+		const string REQUIRED_STRING = "@interactionType == Personal.InteractiveObject.InteractableType.Requirement || " +
+			"interactionType == Personal.InteractiveObject.InteractableType.Requirement_Reward";
+
+		const string REWARD_STRING = "@interactionType == Personal.InteractiveObject.InteractableType.Reward || " +
+			"interactionType == Personal.InteractiveObject.InteractableType.Requirement_Reward";
+
 		[SerializeField] Transform parentTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
 
@@ -35,6 +41,10 @@ namespace Personal.InteractiveObject
 
 		[Header("Reward")]
 		[ShowIf(REWARD_STRING)]
+		[Tooltip("The interaction dialogue when you get the reward.")]
+		[SerializeField] DialogueSystemTrigger rewardDialogue = null;
+
+		[ShowIf(REWARD_STRING)]
 		[Tooltip("The next interaction dialogue after getting the reward. Null means it's not interactable anymore")]
 		[SerializeField] DialogueSystemTrigger afterRewardDialogue = null;
 
@@ -52,13 +62,6 @@ namespace Personal.InteractiveObject
 		protected OutlinableFadeInOut outlinableFadeInOut;
 
 		protected bool isGottenReward;
-
-		const string REQUIRED_STRING = "@interactionType == Personal.InteractiveObject.InteractableType.Requirement || " +
-			"interactionType == Personal.InteractiveObject.InteractableType.Requirement_Reward";
-
-		const string REWARD_STRING = "@interactionType == Personal.InteractiveObject.InteractableType.Reward || " +
-			"interactionType == Personal.InteractiveObject.InteractableType.Requirement_Reward";
-
 
 		protected override void Initialize()
 		{
@@ -92,7 +95,7 @@ namespace Personal.InteractiveObject
 			InitiatorStateMachine = initiatorStateMachine;
 
 			await HandleInteraction();
-			HandleGetReward();
+			await HandleGetReward(initiatorStateMachine);
 
 			doLast?.Invoke();
 		}
@@ -123,12 +126,15 @@ namespace Personal.InteractiveObject
 			return true;
 		}
 
-		protected virtual void HandleGetReward()
+		protected virtual async UniTask HandleGetReward(ActorStateMachine initiatorStateMachine)
 		{
-			if (rewardInteractableObjectList.Count <= 0) return;
-
 			// Return if is Reward/Requirement_Reward.
 			if (interactionType != InteractableType.Reward && interactionType != InteractableType.Requirement_Reward) return;
+
+			rewardDialogue?.OnUse(initiatorStateMachine.transform);
+
+			await UniTask.NextFrame();
+			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
 
 			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
 
