@@ -83,11 +83,7 @@ namespace Personal.Transition
 		public void ResetTransition()
 		{
 			IsTransitioning = false;
-
-			cts.Cancel();
-			cts.Dispose();
-
-			cts = new CancellationTokenSource();
+			cts = cts.Refresh();
 		}
 
 		/// <summary>

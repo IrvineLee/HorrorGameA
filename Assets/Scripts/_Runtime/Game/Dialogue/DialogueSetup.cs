@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
@@ -46,7 +45,6 @@ namespace Personal.Dialogue
 			standardUIMenuPanel.onOpen.AddListener(() =>
 			{
 				IsWaitingResponse = true;
-				HandleCursor();
 				CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
 			});
 
@@ -55,9 +53,6 @@ namespace Personal.Dialogue
 				IsWaitingResponse = false;
 				CursorManager.Instance.TrySetToMouseCursorForMouseControl(false);
 			});
-
-			ResponseFocus(true);
-			InputManager.OnDeviceIconChanged += HandleCursor;
 		}
 
 		/// <summary>
@@ -71,8 +66,6 @@ namespace Personal.Dialogue
 				previousActionMap = InputManager.Instance.CurrentActionMapType;
 				InputManager.Instance.EnableActionMap(actionMapType);
 			}
-
-			HandleCursor();
 		}
 
 		/// <summary>
@@ -117,33 +110,11 @@ namespace Personal.Dialogue
 
 		}
 
-		void HandleCursor()
-		{
-			if (!GameSceneManager.Instance.IsMainScene()) return;
-			if (UIManager.Instance.ActiveInterfaceType != UI.UIInterfaceType.Dialogue) return;
-
-			if (InputManager.Instance.IsCurrentDeviceMouse && IsWaitingResponse)
-			{
-				ResponseFocus(false);
-				EventSystem.current.SetSelectedGameObject(null);
-
-				return;
-			}
-			ResponseFocus(true);
-		}
-
-		void ResponseFocus(bool isFlag)
-		{
-			InputDeviceManager.instance.alwaysAutoFocus = isFlag;
-			standardUIMenuPanel.focusCheckFrequency = isFlag ? 0.1f : 0;
-		}
-
 		void OnApplicationQuit()
 		{
 			standardUIMenuPanel?.onOpen.RemoveAllListeners();
 			standardUIMenuPanel?.onClose.RemoveAllListeners();
 
-			InputManager.OnDeviceIconChanged -= HandleCursor;
 			InputDeviceManager.UnregisterInputAction("Interact");
 		}
 	}
