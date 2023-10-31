@@ -25,16 +25,13 @@ namespace Personal.Manager
 		/// </summary>
 		/// <param name="usedType"></param>
 		/// <returns></returns>
-		public int AddUsedType<T>(T usedType) where T : Enum
+		public void AddUsedType<T>(T usedType) where T : Enum
 		{
 			if (typeof(T) == typeof(ItemType))
 			{
 				ItemType itemType = (ItemType)(object)usedType;
 				glossaryData.UsedItemDictionary.AddTo(itemType);
-
-				return glossaryData.UsedItemDictionary[itemType];
 			}
-			return 0;
 		}
 
 		/// <summary>

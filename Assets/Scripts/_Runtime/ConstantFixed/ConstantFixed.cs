@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Helper;
-
 namespace Personal.Constant
 {
 	public class ConstantFixed : MonoBehaviour
@@ -23,8 +21,6 @@ namespace Personal.Constant
 		public const float FULLY_VISIBLE_REND_VALUE = 2.5f;
 		public const float FULLY_DISAPPEAR_REND_VALUE = -0.5f;
 
-		public static IReadOnlyList<string> MAIN_SCENE_LIST = new List<string> { SceneName.Main };
-
 		// UI Gamepad selection
 		public const float UI_SELECTION_DELAY = 0.15f;
 		public const float UI_SCROLLBAR_DURATION = 0.1f;
@@ -38,5 +34,9 @@ namespace Personal.Constant
 		public const int MAIN_QUEST_END = 24999;
 		public const int SUB_QUEST_START = 25000;
 		public const int SUB_QUEST_END = 29999;
+
+		// Achievement
+		public const int ACHIEVEMENT_START = 90000;
+		public const int ACHIEVEMENT_END = 99999;
 	}
 }

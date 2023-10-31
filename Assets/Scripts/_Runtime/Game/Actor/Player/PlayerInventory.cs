@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Sirenix.OdinInspector;
+using Helper;
 using Personal.InteractiveObject;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Item;
-using Helper;
+using Personal.Achievement;
 
 namespace Personal.Character.Player
 {
@@ -68,7 +69,7 @@ namespace Personal.Character.Player
 				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.ParentTrans.gameObject);
 			}
 
-			GlossaryManager.Instance.AddUsedType(activeObject.PickupableObject.ItemTypeSet.ItemType);
+			UpdateGlossaryAndAchievement(activeObject.PickupableObject);
 
 			// Remove the item from the inventory and the ui view.
 			inventoryList.Remove(activeObject);
@@ -236,6 +237,19 @@ namespace Personal.Character.Player
 
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
+		}
+
+
+		/// <summary>
+		/// Update both the glossary and achievement.
+		/// </summary>
+		/// <param name="pickupable"></param>
+		void UpdateGlossaryAndAchievement(InteractablePickupable pickupable)
+		{
+			GlossaryManager.Instance.AddUsedType(pickupable.ItemTypeSet.ItemType);
+
+			var achievementTypeSet = activeObject.PickupableObject.GetComponentInChildren<AchievementTypeSet>();
+			if (achievementTypeSet) AchievementManager.Instance.UpdateData(achievementTypeSet.AchievementType);
 		}
 	}
 }

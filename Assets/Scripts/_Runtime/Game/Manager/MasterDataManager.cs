@@ -8,6 +8,7 @@ using Personal.Item;
 using Personal.Localization;
 using Personal.Quest;
 using Personal.Constant;
+using Personal.Achievement;
 
 namespace Personal.Manager
 {
@@ -66,6 +67,7 @@ namespace Personal.Manager
 		{
 			if (id.IsWithin(ConstantFixed.ITEM_START, ConstantFixed.ITEM_END)) return (T)(object)(ItemType)(id);
 			else if (id.IsWithin(ConstantFixed.MAIN_QUEST_START, ConstantFixed.SUB_QUEST_END)) return (T)(object)(QuestType)(id);
+			else if (id.IsWithin(ConstantFixed.ACHIEVEMENT_START, ConstantFixed.ACHIEVEMENT_END)) return (T)(object)(AchievementType)(id);
 			return default;
 		}
 	}

@@ -9,6 +9,7 @@ public class AchievementEntity : GenericEntity
 	public int ps4ID = 0;
 	public int xboxID = 0;
 	public string steamID = "";
-	public string nameLocalizationKey = "";
+	public int targetKey = 0;
+	public int targetRequiredAmount = 0;
 	public bool isHidden;
 }

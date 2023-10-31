@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.Transition;
-using Personal.Constant;
 using Helper;
 using UnityEngine;
 
@@ -12,9 +13,18 @@ namespace Personal.Manager
 {
 	public class GameSceneManager : GameInitializeSingleton<GameSceneManager>
 	{
+		[SerializeField] string mainScenePath = "Scenes/MainScenes";
+
+		List<string> mainSceneList = new();
+
+		public void Init()
+		{
+			mainSceneList = Resources.LoadAll(mainScenePath).Select((scene) => scene.name).ToList();
+		}
+
 		public bool IsMainScene()
 		{
-			foreach (var scene in ConstantFixed.MAIN_SCENE_LIST)
+			foreach (var scene in mainSceneList)
 			{
 				if (!string.Equals(scene, SceneManager.GetActiveScene().name)) continue;
 				return true;

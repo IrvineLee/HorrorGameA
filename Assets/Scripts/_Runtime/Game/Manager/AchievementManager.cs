@@ -13,27 +13,34 @@ namespace Personal.Manager
 	/// </summary>
 	public class AchievementManager : GameInitializeSingleton<AchievementManager>
 	{
+		SaveProfile saveProfile;
+
 		protected override void Initialize()
 		{
-			//SteamUserStats.OnAchievementProgress += UnlockSteamData;
+			saveProfile = GameStateBehaviour.Instance.SaveProfile;
 		}
 
-		public void AddData(AchievementType achievementType, int addAmount = 1)
+		public void UpdateData(AchievementType achievementType)
 		{
-			AddLocalData(achievementType, addAmount);
-			AddSteamData(achievementType, addAmount);
-		}
+			if (saveProfile.UnlockedAchievementList.Contains(achievementType)) return;
 
-		public void UpdateData(AchievementType achievementType, int currentProgress)
-		{
-			UpdateLocalData(achievementType, currentProgress);
+			var achievementInfo = MasterDataManager.Instance.Achievement.Get((int)achievementType);
+			if (achievementInfo == null)
+			{
+				Debug.Log("No achievement info for " + achievementType);
+				return;
+			}
+
+			var targetKey = MasterDataManager.Instance.GetEnumType<Enum>(achievementInfo.targetKey);
+			int currentProgress = GlossaryManager.Instance.GetUsedType(targetKey);
+
 			UpdateSteamData(achievementType, currentProgress);
-		}
 
-		public void Unlock(AchievementType achievementType)
-		{
-			UnlockLocalData(achievementType);
-			UnlockSteamData(achievementType);
+			if (achievementInfo.targetKey < 0 || currentProgress >= achievementInfo.targetRequiredAmount)
+			{
+				UnlockData(achievementType);
+				return;
+			}
 		}
 
 		public void ResetAll()
@@ -46,19 +53,9 @@ namespace Personal.Manager
 		/// ------------------------ UPDATE DATA ----------------------------------
 		/// -----------------------------------------------------------------------
 
-		void AddLocalData(AchievementType achievementType, int addAmount)
-		{
-
-		}
-
 		void AddSteamData(AchievementType achievementType, int addAmount)
 		{
-			Steamworks.SteamUserStats.AddStat(achievementType.ToString(), addAmount);
-		}
-
-		void UpdateLocalData(AchievementType achievementType, int progress)
-		{
-
+			SteamUserStats.AddStat(achievementType.ToString(), addAmount);
 		}
 
 		void UpdateSteamData(AchievementType achievementType, int progress)
@@ -70,14 +67,13 @@ namespace Personal.Manager
 		/// --------------------------- UNLOCK ------------------------------------
 		/// -----------------------------------------------------------------------
 
-		void UnlockLocalData(AchievementType achievementType)
+		void UnlockData(AchievementType achievementType)
 		{
-			var saveProfile = GameStateBehaviour.Instance.SaveProfile;
+			saveProfile.AddToAchievement(achievementType);
+			UnlockSteamData(achievementType);
 
-			bool isAdded = saveProfile.AddToAchievement(achievementType);
-			if (!isAdded) return;
+			HandleAllAchievement();
 
-			HandleLocalAllAchievement(saveProfile);
 			SaveManager.Instance.SaveProfileData();
 		}
 
@@ -87,21 +83,16 @@ namespace Personal.Manager
 			achievement.Trigger();
 		}
 
-		//void UnlockSteamData(Steamworks.Data.Achievement achievement, int currentProgress, int max)
-		//{
-		//	if (!achievement.State) return;
-
-		//	Debug.Log($"{achievement.Name} WAS UNLOCKED!");
-		//}
-
-		void HandleLocalAllAchievement(SaveProfile saveProfile)
+		void HandleAllAchievement()
 		{
-			if (saveProfile.UnlockedAchievementList.Contains(AchievementType.All_Achievements)) return;
+			AchievementType allAchievement = AchievementType.All_Achievements;
+			if (saveProfile.UnlockedAchievementList.Contains(allAchievement)) return;
 
 			// Minus 2 because it should not count the Test_Achievement and All_Achievement achievements.
 			if (saveProfile.UnlockedAchievementList.Count >= Enum.GetValues(typeof(AchievementType)).Length - 2)
 			{
-				UnlockLocalData(AchievementType.All_Achievements);
+				saveProfile.AddToAchievement(allAchievement);
+				UnlockSteamData(allAchievement);
 			}
 		}
 
