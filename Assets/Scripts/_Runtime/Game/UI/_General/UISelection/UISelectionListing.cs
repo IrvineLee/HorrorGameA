@@ -9,25 +9,39 @@ namespace Personal.UI
 {
 	public class UISelectionListing : UISelectionBase
 	{
-		[SerializeField] Button leftButton = null;
-		[SerializeField] Button rightButton = null;
-		[SerializeField] TextMeshProUGUI templateTMP = null;
+		[SerializeField] protected Button leftButton = null;
+		[SerializeField] protected Button rightButton = null;
+		[SerializeField] protected TextMeshProUGUI templateTMP = null;
 
 		[Space]
-		[SerializeField] float lerpDuration = 0.25f;
-		[SerializeField] Transform selectionParentTrans = null;
-		[SerializeField] List<string> stringList = new();
+		[SerializeField] protected float lerpDuration = 0.25f;
+		[SerializeField] protected Transform selectionParentTrans = null;
+
+		[Tooltip("Only use this if you have pre-determined string to display to user.")]
+		[SerializeField] protected List<string> stringList = new();
 
 		public List<string> StringList { get => stringList; }
 
 		protected int currentActiveIndex;
+
+		// All the spawned TMP.
 		protected List<TextMeshProUGUI> stringTMPList = new();
 
+		// Currently active TMP.
+		protected List<TextMeshProUGUI> activeTMPList = new();
+
 		float lerpWidth;
+		float spacing;
 
 		CoroutineRun lerpCR = new();
 
 		protected virtual void HandleSelectionValueChangedEvent() { }
+
+		public override void InitialSetup()
+		{
+			var layoutGroup = selectionParentTrans.GetComponentInChildren<HorizontalLayoutGroup>();
+			if (layoutGroup) spacing = layoutGroup.spacing;
+		}
 
 		/// <summary>
 		/// Initialize the pre-defined values in inspector.
@@ -36,16 +50,17 @@ namespace Personal.UI
 		{
 			if (stringList.Count <= 0) return;
 
-			SpawnRequiredSelection();
+			SpawnRequiredSelection(stringList);
 			HandleButtonVisibility();
 		}
 
 		/// <summary>
 		/// This is used to add the selections to the list after starting the game.
+		/// Use this to update the stringList(pre-determined string).
 		/// Useful for screen resolutions etc.
 		/// </summary>
 		/// <param name="stringList"></param>
-		public void AddToListAndInitalize(List<string> stringList)
+		public void UpdateListAndInitalize(List<string> stringList)
 		{
 			this.stringList = new List<string>(stringList);
 			Initialize();
@@ -69,9 +84,9 @@ namespace Personal.UI
 		/// <param name="isNext"></param>
 		public override void NextSelection(bool isNext)
 		{
-			if (stringList.Count <= 0) return;
+			if (stringTMPList.Count <= 0) return;
 			if (!lerpCR.IsDone) return;
-			if ((isNext && currentActiveIndex >= stringList.Count - 1) ||
+			if ((isNext && currentActiveIndex >= activeTMPList.Count - 1) ||
 				(!isNext && currentActiveIndex == 0)) return;
 
 			// Scroll throught the list.
@@ -87,23 +102,12 @@ namespace Personal.UI
 			HandleSelectionValueChangedEvent();
 		}
 
-		void SpawnRequiredSelection()
+		protected void SpawnRequiredSelection(List<string> strList)
 		{
-			// Spawn the required selection to choose from.
-			foreach (var str in stringList)
-			{
-				TextMeshProUGUI tmp = Instantiate(templateTMP, selectionParentTrans);
-				Rect rect = templateTMP.rectTransform.rect;
-
-				tmp.rectTransform.sizeDelta = new Vector2(rect.width, rect.height);
-				tmp.name = str;
-				tmp.text = str;
-
-				stringTMPList.Add(tmp);
-			}
+			SpawnSelectionAddData(strList);
 
 			// Get the lerp width and disable the template.
-			lerpWidth = templateTMP.rectTransform.rect.width;
+			lerpWidth = templateTMP.rectTransform.rect.width + spacing;
 			templateTMP.gameObject.SetActive(false);
 
 			// Set the events.
@@ -111,13 +115,41 @@ namespace Personal.UI
 			rightButton.onClick.AddListener(() => NextSelection(true));
 		}
 
-		void HandleButtonVisibility()
+		protected void SpawnSelectionAddData(List<string> strList)
+		{
+			// Deactivate all tmp.
+			stringTMPList.DisableAllGameObject();
+			activeTMPList.Clear();
+
+			Rect rect = templateTMP.rectTransform.rect;
+			for (int i = 0; i < strList.Count; i++)
+			{
+				if (stringTMPList.Count <= i)
+				{
+					// Spawn the required selection to choose from.
+					TextMeshProUGUI tmp = Instantiate(templateTMP, selectionParentTrans);
+					stringTMPList.Add(tmp);
+				}
+
+				TextMeshProUGUI currentTMP = stringTMPList[i];
+				string currentStr = strList[i];
+
+				currentTMP.rectTransform.sizeDelta = new Vector2(rect.width, rect.height);
+				currentTMP.name = currentStr;
+				currentTMP.text = currentStr;
+				currentTMP.gameObject.SetActive(true);
+
+				activeTMPList.Add(currentTMP);
+			}
+		}
+
+		protected void HandleButtonVisibility()
 		{
 			leftButton.interactable = true;
 			rightButton.interactable = true;
 
 			if (currentActiveIndex == 0) leftButton.interactable = false;
-			else if (currentActiveIndex >= stringList.Count - 1) rightButton.interactable = false;
+			else if (currentActiveIndex >= activeTMPList.Count - 1) rightButton.interactable = false;
 		}
 
 		void OnDestroy()

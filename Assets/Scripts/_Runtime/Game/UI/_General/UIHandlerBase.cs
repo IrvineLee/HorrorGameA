@@ -24,6 +24,12 @@ namespace Personal.UI
 			{
 				selection.InitialSetup();
 			}
+
+			var selectionArray = goParent.GetComponentsInChildren<UISelectionBase>(true);
+			foreach (var selection in selectionArray)
+			{
+				selection.InitialSetup();
+			}
 		}
 	}
 }

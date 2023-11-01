@@ -8,6 +8,7 @@ namespace Personal.UI
 		Option,
 		Inventory,
 		Dialogue,
+		ReadFile,
 
 		ExtraWindow = 1000,
 		Debug = 9999,

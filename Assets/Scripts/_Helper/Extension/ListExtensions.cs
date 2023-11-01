@@ -111,5 +111,18 @@ namespace Helper
 			}
 			return dictionary;
 		}
+
+		/// <summary>
+		/// Disable all gameobject in list.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		public static void DisableAllGameObject<T>(this List<T> list) where T : Component
+		{
+			foreach (var obj in list)
+			{
+				obj.gameObject.SetActive(false);
+			}
+		}
 	}
 }

@@ -8,7 +8,6 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	[Serializable]
 	public class QuestCheckInteractionState : StateBase
 	{
 		[SerializeField] List<QuestType> passedQuestTypeList = new();

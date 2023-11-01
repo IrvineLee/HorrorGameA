@@ -5,7 +5,6 @@ using PixelCrushers.DialogueSystem;
 
 namespace Personal.FSM.Character
 {
-	[Serializable]
 	public class ActorTalkState : ActorStateBase
 	{
 		public override async UniTask OnEnter()

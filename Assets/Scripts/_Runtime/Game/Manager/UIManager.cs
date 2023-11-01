@@ -14,6 +14,7 @@ namespace Personal.Manager
 	{
 		[SerializeField] PauseHandlerUI pauseMenuUI = null;
 		[SerializeField] OptionHandlerUI optionUI = null;
+		[SerializeField] ReadFileHandlerUI readFileUI = null;
 		[SerializeField] InventoryHandlerUI inventoryUI = null;
 		[SerializeField] ToolsHandlerUI toolsHandlerUI = null;
 		[SerializeField] WindowHandlerUI windowHandlerUI = null;
@@ -24,6 +25,7 @@ namespace Personal.Manager
 		public UIInterfaceType ActiveInterfaceType { get => !IsWindowStackEmpty ? WindowStack.Peek().UiInterfaceType : UIInterfaceType.None; }
 		public PauseHandlerUI PauseUI { get => pauseMenuUI; }
 		public OptionHandlerUI OptionUI { get => optionUI; }
+		public ReadFileHandlerUI ReadFileUI { get => readFileUI; }
 		public InventoryHandlerUI InventoryUI { get => inventoryUI; }
 		public ToolsHandlerUI ToolsUI { get => toolsHandlerUI; }
 		public WindowHandlerUI WindowUI { get => windowHandlerUI; }
@@ -39,6 +41,7 @@ namespace Personal.Manager
 
 			pauseMenuUI.InitialSetup();
 			optionUI.InitialSetup();
+			readFileUI.InitialSetup();
 		}
 
 		protected override void OnMainScene()

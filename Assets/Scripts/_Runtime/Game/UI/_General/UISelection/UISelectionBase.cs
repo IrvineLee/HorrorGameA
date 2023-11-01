@@ -4,6 +4,8 @@ namespace Personal.UI
 {
 	public abstract class UISelectionBase : MonoBehaviour
 	{
+		public virtual void InitialSetup() { }
+
 		public virtual void Initialize() { }
 
 		/// <summary>

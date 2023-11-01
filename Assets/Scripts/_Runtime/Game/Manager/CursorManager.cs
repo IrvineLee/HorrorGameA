@@ -128,6 +128,9 @@ namespace Personal.Manager
 
 		async void HandleCursorAndMouseChange()
 		{
+			// You don't want to reset the mouse cursor when the user changed the icon only.
+			if (InputManager.Instance.IsChangeIconOnly) return;
+
 			// Reset the mouse to the center of the screen.
 			Cursor.lockState = CursorLockMode.Locked;
 			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);

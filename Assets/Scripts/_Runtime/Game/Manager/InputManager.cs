@@ -45,6 +45,7 @@ namespace Personal.Manager
 		public ActionMapType CurrentActionMapType { get => currentActionMapType; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
 		public bool IsCurrentDeviceMouse { get => InputDeviceType == InputDeviceType.KeyboardMouse; }
+		public bool IsChangeIconOnly { get; private set; }
 
 		public string IconInitials { get; private set; }
 		public Gamepad CurrentGamepad { get; private set; }
@@ -185,7 +186,10 @@ namespace Personal.Manager
 			this.iconDisplayType = iconDisplayType;
 
 			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
+
+			IsChangeIconOnly = true;
 			HandleIconInitials();
+			IsChangeIconOnly = false;
 		}
 
 		/// <summary>

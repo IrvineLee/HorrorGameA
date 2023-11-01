@@ -6,7 +6,6 @@ using Helper;
 
 namespace Personal.FSM.Character
 {
-	[Serializable]
 	public class ActorWaitState : ActorStateBase
 	{
 		[SerializeField] float waitDuration = 1f;

@@ -10,7 +10,6 @@ using Helper;
 
 namespace Personal.FSM.Character
 {
-	[Serializable]
 	public class ActorMoveState : ActorStateBase
 	{
 		[Tooltip("OnExit, body turn duration towards target")]

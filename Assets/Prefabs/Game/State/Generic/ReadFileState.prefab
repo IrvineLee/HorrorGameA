@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5802316722351391166}
-  - component: {fileID: 6715461392245091709}
+  - component: {fileID: -4742881591867911688}
   m_Layer: 0
-  m_Name: QuestCheckInteractionState
+  m_Name: ReadFileState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6715461392245091709
+--- !u!114 &-4742881591867911688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6033587422068336198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b6967c1cf489a448ab77df9fb67e4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 70baca063fdaab743a97a8f7c24d1a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isWaitForOnExit: 0
-  passedQuestTypeList: 
-  passedInteraction: {fileID: 0}
-  failedInteraction: {fileID: 0}
+  actorAnimationType: 0
+  fileData: {fileID: 11400000, guid: b233abe49ce8e8a43bd8dbf2b7d2a6d6, type: 2}

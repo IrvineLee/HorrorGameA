@@ -234,7 +234,7 @@ namespace Personal.UI.Option
 					currentResolution = resolution;
 				}
 			}
-			screenResolutionDropdown.AddToListAndInitalize(resolutionDisplayList);
+			screenResolutionDropdown.UpdateListAndInitalize(resolutionDisplayList);
 		}
 
 		/// <summary>
@@ -259,7 +259,7 @@ namespace Personal.UI.Option
 					currentFullScreenMode = (int)screenMode;
 				}
 			}
-			screenModeDropdown.AddToListAndInitalize(screenModeDisplayList);
+			screenModeDropdown.UpdateListAndInitalize(screenModeDisplayList);
 		}
 
 		/// <summary>
