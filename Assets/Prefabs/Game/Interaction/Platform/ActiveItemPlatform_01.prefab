@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 7681524061391795016}
   - component: {fileID: 6846547609392235363}
   - component: {fileID: 807970922810759835}
-  - component: {fileID: 2718760011553038746}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: InteractableMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6056832018611281551}
+  - {fileID: 2791175260137253037}
   m_Father: {fileID: 4742531946313592394}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7681524061391795016
@@ -107,22 +107,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2718760011553038746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695370884807210048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5986600dbe918534b9d113081e57d773, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTrans: {fileID: 4742531946313592394}
-  interactCrosshairType: 0
-  itemTypeCompare: 10000
-  placeAt: {fileID: 6056832018611281551}
 --- !u!1 &3928100854904213667
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +119,7 @@ GameObject:
   - component: {fileID: 5255838128406843675}
   - component: {fileID: 5010939129901280590}
   m_Layer: 31
-  m_Name: Plane
+  m_Name: PlaceAt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,6 +199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4742531946313592394}
+  - component: {fileID: 4175068619578160705}
   m_Layer: 0
   m_Name: ActiveItemPlatform_01
   m_TagString: Untagged
@@ -238,3 +223,79 @@ Transform:
   - {fileID: 1222569026147123903}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4175068619578160705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4742531946313592393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5986600dbe918534b9d113081e57d773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderTrans: {fileID: 2791175260137253037}
+  interactCrosshairType: 0
+  isInteractable: 1
+  interactionType: 0
+  requiredItemTypeDialogue: {fileID: 0}
+  requiredItemTypeList: 
+  rewardDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  rewardInteractableObjectList: []
+  itemTypeCompare: 10000
+  placeAt: {fileID: 6056832018611281551}
+--- !u!1 &7493858669698922075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2791175260137253037}
+  - component: {fileID: 3088638711906430700}
+  m_Layer: 31
+  m_Name: InteractableCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2791175260137253037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493858669698922075}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1222569026147123903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3088638711906430700
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493858669698922075}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

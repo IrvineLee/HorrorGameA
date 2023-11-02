@@ -26,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172455280797563875}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.3, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 864981753684381136}
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 6682756452758680194}
   - {fileID: 835822730857774588}
   - {fileID: 8776183973135936981}
-  m_Father: {fileID: 7115644296556500437}
+  m_Father: {fileID: 3843082503003182554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6112612134663188813
 MonoBehaviour:
@@ -73,10 +73,8 @@ GameObject:
   - component: {fileID: 7115644296556500437}
   - component: {fileID: 3198198833000493737}
   - component: {fileID: 2254252772359775148}
-  - component: {fileID: 1649662642539989428}
-  - component: {fileID: 7437522896683973898}
   m_Layer: 9
-  m_Name: InteractableCollider
+  m_Name: InteractableMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +93,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.3, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2415126348776548977}
+  - {fileID: 3666940908291022804}
   m_Father: {fileID: 3843082503003182554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3198198833000493737
@@ -148,49 +146,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1649662642539989428
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795359519247366733}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7437522896683973898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795359519247366733}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTrans: {fileID: 3843082503003182554}
-  interactCrosshairType: 2
-  isInteractable: 1
-  interactionType: 0
-  requiredItemTypeDialogue: {fileID: 0}
-  requiredItemTypeList: 
-  rewardDialogue: {fileID: 0}
-  afterRewardDialogue: {fileID: 0}
-  rewardInteractableObjectList: []
-  actionMapType: 500
 --- !u!1 &4577098199859281299
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3843082503003182554}
+  - component: {fileID: 3568570948659186615}
   - component: {fileID: 1696717499919851360}
   m_Layer: 9
   m_Name: Phone
@@ -222,8 +178,31 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7115644296556500437}
+  - {fileID: 2415126348776548977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3568570948659186615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577098199859281299}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderTrans: {fileID: 3666940908291022804}
+  interactCrosshairType: 2
+  isInteractable: 1
+  interactionType: 0
+  requiredItemTypeDialogue: {fileID: 0}
+  requiredItemTypeList: 
+  rewardDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  rewardInteractableObjectList: []
+  actionMapType: 500
 --- !u!114 &1696717499919851360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +216,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSFXType: 2000
-  interactableObject: {fileID: 7437522896683973898}
+  interactableObject: {fileID: 3568570948659186615}
+--- !u!1 &5187338674076271929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3666940908291022804}
+  - component: {fileID: 4995414264986148048}
+  m_Layer: 9
+  m_Name: InteractableCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3666940908291022804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187338674076271929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7115644296556500437}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4995414264986148048
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5187338674076271929}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1196856308233920776
 PrefabInstance:
   m_ObjectHideFlags: 0

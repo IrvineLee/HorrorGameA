@@ -22,9 +22,9 @@ namespace Personal.Character.Animation
 
 		CoroutineRun speedAnimationBlendCR = new CoroutineRun();
 
-		protected override void Initialize()
+		protected override void EarlyInitialize()
 		{
-			base.Initialize();
+			base.EarlyInitialize();
 			AssignAnimationIDs();
 
 			fpsController = GetComponentInParent<FPSController>();

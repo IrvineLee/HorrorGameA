@@ -22,7 +22,7 @@ namespace Personal.InteractiveObject
 		const string REWARD_STRING = "@interactionType == Personal.InteractiveObject.InteractableType.Reward || " +
 			"interactionType == Personal.InteractiveObject.InteractableType.Requirement_Reward";
 
-		[SerializeField] Transform parentTrans = null;
+		[SerializeField] protected Transform colliderTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
 
 		[SerializeField] bool isInteractable = true;
@@ -51,24 +51,20 @@ namespace Personal.InteractiveObject
 		[ShowIf(REWARD_STRING)]
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
-		public Transform ParentTrans { get => parentTrans; }
+		public Transform ColliderTrans { get => colliderTrans; }
 		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
 		public ActorStateMachine InitiatorStateMachine { get; protected set; }
 		public bool IsInteractable { get => isInteractable; }
 
-		protected Collider currentCollider;
 		protected MeshRenderer meshRenderer;
-
 		protected OutlinableFadeInOut outlinableFadeInOut;
 
 		protected bool isGottenReward;
 
 		protected override void Initialize()
 		{
-			currentCollider = GetComponentInChildren<Collider>(true);
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
-
-			outlinableFadeInOut = GetComponentInChildren<OutlinableFadeInOut>(true);
+			outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
 
 			SetIsInteractable(isInteractable);
 		}
@@ -108,7 +104,7 @@ namespace Personal.InteractiveObject
 		public void SetIsInteractable(bool isFlag)
 		{
 			isInteractable = isFlag;
-			if (currentCollider) currentCollider.enabled = isFlag;
+			if (colliderTrans) colliderTrans.gameObject.SetActive(isFlag);
 		}
 
 		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }

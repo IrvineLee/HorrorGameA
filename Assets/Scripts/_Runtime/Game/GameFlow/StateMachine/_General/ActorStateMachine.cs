@@ -30,18 +30,7 @@ namespace Personal.FSM
 
 		CoroutineRun fadeRendererCR = new CoroutineRun();
 
-		/// <summary>
-		/// Call this to make sure this awake gets called first and initialized.
-		/// </summary>
-		/// <param name="targetInfo"></param>
-		/// <param name="interactionAssign"></param>
-		/// <returns></returns>
-		public virtual async UniTask Begin(StateMachineBase initiatorFSM, TargetInfo targetInfo, InteractionAssign interactionAssign)
-		{
-			await UniTask.NextFrame(PlayerLoopTiming.LastPostLateUpdate);
-		}
-
-		protected override void Initialize()
+		protected override void EarlyInitialize()
 		{
 			HeadModelLookAt = GetComponentInChildren<HeadModelLookAt>(true);
 
@@ -60,6 +49,14 @@ namespace Personal.FSM
 
 			state.OnUpdateRun();
 		}
+
+		/// <summary>
+		/// This begins the interactionAssign.
+		/// </summary>
+		/// <param name="targetInfo"></param>
+		/// <param name="interactionAssign"></param>
+		/// <returns></returns>
+		public virtual UniTask Begin(InteractionAssign interactionAssign, StateMachineBase initiatorFSM = null, TargetInfo targetInfo = null) { return UniTask.CompletedTask; }
 
 		public void SetLookAtTarget(Transform target)
 		{

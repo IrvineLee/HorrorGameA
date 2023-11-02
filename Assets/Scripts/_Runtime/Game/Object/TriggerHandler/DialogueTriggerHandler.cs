@@ -23,8 +23,7 @@ namespace Personal.InteractiveObject
 			StageManager.Instance.DialogueController.DialogueSetup.DisableInputActionChange();
 			dialogueSystemTrigger?.OnUse(other.transform);
 
-			// Disable the trigger collider.
-			currentCollider.enabled = false;
+			colliderTrans.gameObject.SetActive(false);
 		}
 	}
 }

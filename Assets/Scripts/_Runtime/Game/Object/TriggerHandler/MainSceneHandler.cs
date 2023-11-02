@@ -68,7 +68,7 @@ namespace Personal.InteractiveObject
 			if (!orderedStateMachine) return;
 
 			var interactionAssign = orderedStateMachine.GetComponentInChildren<InteractionAssign>();
-			await orderedStateMachine.Begin(playerFSM, null, interactionAssign);
+			await orderedStateMachine.Begin(interactionAssign, playerFSM);
 		}
 	}
 }

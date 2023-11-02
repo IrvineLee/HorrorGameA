@@ -16,16 +16,12 @@ namespace Personal.InteractiveObject
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
-		protected List<Collider> colliderList = new();
-
 		protected override void Initialize()
 		{
 			base.Initialize();
 
-			orderedStateMachine = ParentTrans.GetComponentInChildren<OrderedStateMachine>();
-			interactionAssign = ParentTrans.GetComponentInChildren<InteractionAssign>();
-
-			colliderList = GetComponentsInChildren<Collider>().ToList();
+			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
+			interactionAssign = GetComponentInChildren<InteractionAssign>();
 		}
 
 		protected override async UniTask HandleInteraction()
@@ -38,7 +34,7 @@ namespace Personal.InteractiveObject
 			ifsmHandler?.OnBegin(null);
 			InputManager.Instance.EnableActionMap(actionMapType);
 
-			await orderedStateMachine.Begin(InitiatorStateMachine, null, interactionAssign);
+			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
 
 			InputManager.Instance.SetToDefaultActionMap();
 			ifsmHandler?.OnExit();

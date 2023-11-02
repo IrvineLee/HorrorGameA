@@ -63,7 +63,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5018105502897853501}
-  - {fileID: 8822616205001018041}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2183037214179973121
@@ -78,8 +77,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909dd07ff6c72494da6fe47adc29b833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentTrans: {fileID: 9199219750726606364}
+  colliderTrans: {fileID: 8000232513167057272}
   interactCrosshairType: 0
+  isInteractable: 1
+  interactionType: 0
+  requiredItemTypeDialogue: {fileID: 0}
+  requiredItemTypeList: 
+  rewardDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  rewardInteractableObjectList: []
   doorHingeTrans: {fileID: 5018105502897853501}
   duration: 0.5
   openAngle: -90
@@ -94,7 +100,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8822616205001018041}
-  - component: {fileID: 7195407061705595831}
   - component: {fileID: 8940380134650246244}
   m_Layer: 0
   m_Name: Locked
@@ -111,27 +116,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2693097481206727705}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 0.5, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9199219750726606364}
+  m_Father: {fileID: 8000232513167057272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7195407061705595831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2693097481206727705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7e0bd26a2a6a64ab5ba0387d91e800, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTrans: {fileID: 9199219750726606364}
-  interactCrosshairType: 0
 --- !u!114 &8940380134650246244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +197,60 @@ MonoBehaviour:
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
   selectedDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
+--- !u!1 &7751240375929533046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8000232513167057272}
+  - component: {fileID: 3024290492236043135}
+  m_Layer: 9
+  m_Name: InteractableCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8000232513167057272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7751240375929533046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8822616205001018041}
+  m_Father: {fileID: 1080114662433093092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3024290492236043135
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7751240375929533046}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8976229226007486398
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,9 +262,8 @@ GameObject:
   - component: {fileID: 1080114662433093092}
   - component: {fileID: 843157753480655394}
   - component: {fileID: 2315004436595562410}
-  - component: {fileID: 279947575257802687}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +281,8 @@ Transform:
   m_LocalPosition: {x: -0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8000232513167057272}
   m_Father: {fileID: 5018105502897853501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &843157753480655394
@@ -290,24 +335,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &279947575257802687
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976229226007486398}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

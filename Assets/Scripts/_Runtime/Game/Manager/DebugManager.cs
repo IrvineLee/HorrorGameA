@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.InteractiveObject;
 using Personal.UI.Debugging;
@@ -32,7 +33,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
-				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor();
+				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor().Forget();
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftAlt))
 			{
@@ -44,7 +45,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.RightShift))
 			{
-				AchievementManager.Instance.ResetAll();
+				//AchievementManager.Instance.ResetAll();
 			}
 		}
 

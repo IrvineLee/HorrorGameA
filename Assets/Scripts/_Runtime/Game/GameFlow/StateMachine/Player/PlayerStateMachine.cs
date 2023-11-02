@@ -14,9 +14,9 @@ namespace Personal.FSM.Character
 
 		public IReadOnlyDictionary<Type, StateBase> StateDictionary { get; private set; }
 
-		protected override void Initialize()
+		protected override void EarlyInitialize()
 		{
-			base.Initialize();
+			base.EarlyInitialize();
 			Init().Forget();
 		}
 
@@ -59,7 +59,7 @@ namespace Personal.FSM.Character
 		async UniTask Init()
 		{
 			// Wait for the state base to call their Awake first.
-			await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+			await UniTask.Yield();
 
 			List<StateBase> stateList = new();
 			foreach (Transform child in stateParent)
@@ -72,6 +72,7 @@ namespace Personal.FSM.Character
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
 			SwitchToState(typeof(PlayerStandardState)).Forget();
 		}
+
 		void IFSMHandler.OnBegin(Type type)
 		{
 			if (type == null) type = typeof(PlayerIdleState);

@@ -41,7 +41,7 @@ namespace Personal.Character.Animation
 
 		public Animator Animator { get; private set; }
 
-		protected override void Initialize()
+		protected override void EarlyInitialize()
 		{
 			Animator = GetComponentInChildren<Animator>();
 		}

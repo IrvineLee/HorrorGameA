@@ -26,7 +26,7 @@ namespace Personal.Spawner
 		/// <summary>
 		/// Spawn cashier actor with interactions.
 		/// </summary>
-		public async void SpawnCashierActor()
+		public async UniTask SpawnCashierActor()
 		{
 			StageManager.Instance.NextInteraction();
 
@@ -50,9 +50,12 @@ namespace Personal.Spawner
 			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
 
 			// Set the interaction.
-			InteractionAssign interactionAssign = cashierInteractionDefinition.GetInteraction(sb.ToString());
 			OrderedStateMachine instanceFSM = instance.GetComponentInChildren<OrderedStateMachine>();
-			instanceFSM.Begin(instanceFSM, targetInfo, interactionAssign).Forget();
+
+			var prefabIA = cashierInteractionDefinition.GetInteraction(sb.ToString());
+			var interactionAssign = Instantiate(prefabIA, instanceFSM.transform);
+
+			instanceFSM.Begin(interactionAssign, instanceFSM, targetInfo).Forget();
 		}
 	}
 }

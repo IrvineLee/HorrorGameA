@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4707297386520015838}
   - component: {fileID: 8158691794394784460}
   - component: {fileID: 2052082697914109088}
+  - component: {fileID: 2691142368888359761}
   m_Layer: 9
   m_Name: SubActor_NPC_01_XBot
   m_TagString: Untagged
@@ -25,6 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4010318760355280236}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 4169039455963129776}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8158691794394784460
 MonoBehaviour:
@@ -59,6 +60,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 4862437865523513862}
+--- !u!114 &2691142368888359761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4010318760355280236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7e0bd26a2a6a64ab5ba0387d91e800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderTrans: {fileID: 4169039455963129776}
+  interactCrosshairType: 1
+  isInteractable: 1
+  interactionType: 0
+  requiredItemTypeDialogue: {fileID: 0}
+  requiredItemTypeList: 
+  rewardDialogue: {fileID: 0}
+  afterRewardDialogue: {fileID: 0}
+  rewardInteractableObjectList: []
 --- !u!1 &7727933221542845666
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +93,6 @@ GameObject:
   - component: {fileID: 3137795967590310505}
   - component: {fileID: 5960666320138923348}
   - component: {fileID: 6246579194179749453}
-  - component: {fileID: 1121595796331706122}
   m_Layer: 9
   m_Name: Controller
   m_TagString: Untagged
@@ -86,6 +107,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7727933221542845666}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -93,7 +115,6 @@ Transform:
   m_Children:
   - {fileID: 1519485001433159813}
   m_Father: {fileID: 4707297386520015838}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &3137795967590310505
 NavMeshAgent:
@@ -172,6 +193,7 @@ MonoBehaviour:
   startConversationEntryTitle: 
   exclusive: 0
   replace: 0
+  queue: 0
   skipIfNoValidEntries: 0
   preventRestartOnSameFrameEnded: 0
   stopConversationOnTriggerExit: 0
@@ -213,21 +235,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1121595796331706122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7727933221542845666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7e0bd26a2a6a64ab5ba0387d91e800, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentTrans: {fileID: 4707297386520015838}
-  interactCrosshairType: 1
-  initiatorState: {fileID: 7545301513874734315, guid: b974c7399bddf7f4194ba9edbf8f4063, type: 3}
 --- !u!1001 &8557154851793567994
 PrefabInstance:
   m_ObjectHideFlags: 0

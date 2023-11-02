@@ -14,9 +14,7 @@ namespace Personal.InteractiveObject
 			if (!IsInteractable) return;
 
 			AudioManager.Instance.PlaySFX(audioSFXType);
-
-			// Disable the trigger collider.
-			currentCollider.enabled = false;
+			colliderTrans.gameObject.SetActive(false);
 		}
 	}
 }

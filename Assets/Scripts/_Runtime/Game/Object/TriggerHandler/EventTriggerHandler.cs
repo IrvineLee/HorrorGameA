@@ -21,7 +21,7 @@ namespace Personal.InteractiveObject
 			}
 
 			// Disable the trigger collider.
-			currentCollider.enabled = false;
+			colliderTrans.gameObject.SetActive(false);
 
 			// Set the state machine.
 			InitiatorStateMachine = other.GetComponentInParent<ActorStateMachine>();

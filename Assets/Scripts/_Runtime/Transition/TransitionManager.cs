@@ -25,7 +25,6 @@ namespace Personal.Transition
 
 		Dictionary<TransitionType, Transition> transitionDictionary = new();
 
-		Canvas canvas;
 		int defaultSortOrder;
 
 		// Cancellation token.
@@ -39,7 +38,7 @@ namespace Personal.Transition
 			transitionManagerSettings.Initialize();
 			InitialSetup();
 
-			defaultSortOrder = canvas.sortingOrder;
+			defaultSortOrder = Canvas.sortingOrder;
 
 			return UniTask.CompletedTask;
 		}
@@ -74,12 +73,12 @@ namespace Personal.Transition
 		/// <param name="sortOrder"></param>
 		public void SetCanvasSortOrder(CanvasSortOrder belowSortOrder, int belowValue = 1)
 		{
-			canvas.sortingOrder = (int)belowSortOrder - belowValue;
+			Canvas.sortingOrder = (int)belowSortOrder - belowValue;
 		}
 
 		public void ResetCanvasSortOrder()
 		{
-			canvas.sortingOrder = defaultSortOrder;
+			Canvas.sortingOrder = defaultSortOrder;
 		}
 
 		public void ResetTransition()

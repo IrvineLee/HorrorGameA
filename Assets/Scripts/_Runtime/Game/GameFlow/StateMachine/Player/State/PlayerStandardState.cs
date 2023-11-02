@@ -33,7 +33,7 @@ namespace Personal.FSM.Character
 			if (!InputManager.Instance.GetButtonPush(InputManager.ButtonPush.Submit)) return;
 
 			Debug.Log("Hit interactable");
-			playerFSM.SetLookAtTarget(interactable.ParentTrans.GetComponentInChildren<ActorController>()?.Head);
+			playerFSM.SetLookAtTarget(interactable.ColliderTrans.GetComponentInChildren<ActorController>()?.Head);
 
 			CursorManager.Instance.SetCenterCrosshairToDefault();
 			interactable.HandleInteraction(playerFSM).Forget();

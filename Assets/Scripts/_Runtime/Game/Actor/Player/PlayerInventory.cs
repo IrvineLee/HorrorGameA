@@ -66,7 +66,7 @@ namespace Personal.Character.Player
 			if (isDestroy)
 			{
 				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObject.gameObject);
-				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.ParentTrans.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.ColliderTrans.gameObject);
 			}
 
 			UpdateGlossaryAndAchievement(activeObject.PickupableObject);
@@ -188,8 +188,8 @@ namespace Personal.Character.Player
 		{
 			foreach (var inventory in inventoryList)
 			{
-				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObject.ParentTrans.gameObject);
-				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ParentTrans.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObject.ColliderTrans.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.ColliderTrans.gameObject);
 			}
 		}
 

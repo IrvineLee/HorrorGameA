@@ -65,7 +65,7 @@ namespace Personal.InteractiveObject
 		{
 			StageManager.Instance.PlayerController.Inventory.AddItem(this);
 
-			currentCollider.enabled = false;
+			colliderTrans.gameObject.SetActive(false);
 			meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
 			enabled = false;

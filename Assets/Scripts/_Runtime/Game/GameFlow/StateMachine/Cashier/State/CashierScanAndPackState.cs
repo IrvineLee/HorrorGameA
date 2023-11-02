@@ -25,7 +25,7 @@ namespace Personal.FSM.Cashier
 			// There will always be only 1 child within this transform.
 			Transform itemSelectionParent = transform.GetChild(0);
 
-			CashierItemSet cashierItemSet = itemSelectionParent.GetComponentInChildren<CashierItemSet>();
+			CashierItemSet cashierItemSet = itemSelectionParent.GetComponentInChildren<CashierItemSet>(true);
 			Vector3 position = cashierStateMachine.TargetInfo.PlaceToPutItem.position;
 			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), position);
 
