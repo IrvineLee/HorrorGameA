@@ -132,7 +132,7 @@ namespace Personal.Manager
 		{
 			// Update the quest.
 			QuestInfo questInfo = GetQuestInfo(questType);
-			questInfo.UpdateQuest().Forget();
+			questInfo.UpdateQuest(this.GetCancellationTokenOnDestroy()).Forget();
 		}
 
 		QuestInfo GetQuestInfo(QuestType questType)

@@ -146,7 +146,7 @@ namespace Personal.Puzzle.Pinwheel
 		/// </summary>
 		async void IPuzzle.CheckPuzzleAnswer()
 		{
-			await UniTask.WaitUntil(() => slideCR.IsDone);
+			await UniTask.WaitUntil(() => slideCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			if (turnRemain > 0) return;
 

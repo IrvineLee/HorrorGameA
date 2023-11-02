@@ -24,9 +24,9 @@ namespace Personal.InteractiveObject
 
 		PlayerStateMachine playerFSM;
 
-		protected async override void OnMainScene()
+		protected override async UniTask OnMainSceneAsync()
 		{
-			// Since there is a fade out sequence when you start, put the black screen to begin with it.
+			// You probably need this if you start the game directly in main scene.
 			UIManager.Instance.ToolsUI.BlackScreen.gameObject.SetActive(true);
 
 			// You want to wait other OnMainScene to get called first before this.
@@ -38,16 +38,16 @@ namespace Personal.InteractiveObject
 			InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.UI);
 
 			await HandleBlackScreen();
-			await HandleBlackScreenStateMachine();
+			await HandleStateMachine(blackScreenStateMachine);
 
 			TransitionManager.Instance.Transition(TransitionType.Fade, TransitionPlayType.Out);
 
-			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
+			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 			TransitionManager.Instance.ResetCanvasSortOrder();
 
-			await UniTask.Delay(delayBeforeInit.SecondsToMilliseconds());
+			await UniTask.Delay(delayBeforeInit.SecondsToMilliseconds(), cancellationToken: this.GetCancellationTokenOnDestroy());
 
-			await HandleInitStateMachine();
+			await HandleStateMachine(initStateMachine);
 			InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.Player);
 		}
 
@@ -59,24 +59,16 @@ namespace Personal.InteractiveObject
 			TransitionManager.Instance.Transition(TransitionType.Fade, TransitionPlayType.In);
 
 			// Make sure the transition is fully black before disabling the black screen.
-			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
+			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 			UIManager.Instance.ToolsUI.BlackScreen.enabled = false;
 		}
 
-		async UniTask HandleBlackScreenStateMachine()
+		async UniTask HandleStateMachine(OrderedStateMachine orderedStateMachine)
 		{
-			if (!blackScreenStateMachine) return;
+			if (!orderedStateMachine) return;
 
-			var interactionAssign = blackScreenStateMachine.GetComponentInChildren<InteractionAssign>();
-			await blackScreenStateMachine.Begin(playerFSM, null, interactionAssign);
-		}
-
-		async UniTask HandleInitStateMachine()
-		{
-			if (!initStateMachine) return;
-
-			var interactionAssign = initStateMachine.GetComponentInChildren<InteractionAssign>();
-			await initStateMachine.Begin(playerFSM, null, interactionAssign);
+			var interactionAssign = orderedStateMachine.GetComponentInChildren<InteractionAssign>();
+			await orderedStateMachine.Begin(playerFSM, null, interactionAssign);
 		}
 	}
 }

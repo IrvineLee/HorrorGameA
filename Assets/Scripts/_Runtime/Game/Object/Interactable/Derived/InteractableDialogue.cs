@@ -45,13 +45,13 @@ namespace Personal.InteractiveObject
 			headModelLookAt?.SetLookAtTarget(true);
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending);
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			// Enable POV control state.
 			SetRotationToPOVControl();
 			InitiatorStateMachine.SwitchToState(typeof(PlayerPOVControlState)).Forget();
 
-			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			// Switch back to default standard state.
 			headModelLookAt?.SetLookAtTarget(false);

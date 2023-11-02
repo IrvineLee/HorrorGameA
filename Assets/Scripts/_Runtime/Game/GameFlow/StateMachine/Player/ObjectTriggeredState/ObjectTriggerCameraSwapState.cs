@@ -29,7 +29,7 @@ namespace Personal.FSM.Character
 
 			iProcess.Begin(true);
 			isRunning = true;
-			await UniTask.WaitUntil(() => !(bool)isRunning);
+			await UniTask.WaitUntil(() => !(bool)isRunning, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		public override void OnUpdate()
@@ -68,7 +68,7 @@ namespace Personal.FSM.Character
 
 		async UniTask WaitCameraBlend()
 		{
-			await UniTask.WaitUntil(() => StageManager.Instance && !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending);
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 	}
 }

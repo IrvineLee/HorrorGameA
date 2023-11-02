@@ -48,7 +48,7 @@ namespace Personal.UI.Quest
 			bool isDone = false;
 			CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => isDone = true);
 
-			await UniTask.WaitUntil(() => isDone);
+			await UniTask.WaitUntil(() => isDone, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			questTitleTMP.text = "";
 			foreach (var descriptionTMP in descriptionTMPList)

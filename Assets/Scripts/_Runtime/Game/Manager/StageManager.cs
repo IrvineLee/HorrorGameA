@@ -38,7 +38,7 @@ namespace Personal.Manager
 			DialogueController = DialogueManager.Instance.GetComponentInChildren<DialogueController>();
 		}
 
-		protected async override void OnEarlyMainScene()
+		protected override async UniTask OnEarlyMainSceneAsync()
 		{
 			// If there is a main scene handler, let that script handle it.
 			var mainSceneHandler = FindObjectOfType<MainSceneHandler>();
@@ -49,7 +49,7 @@ namespace Personal.Manager
 
 			// Make the player not able to do anything.
 			InputManager.Instance.DisableAllActionMap();
-			await UniTask.WaitUntil(() => !IsBusy);
+			await UniTask.WaitUntil(() => !IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 			InputManager.Instance.EnableActionMap(ActionMapType.Player);
 		}
 

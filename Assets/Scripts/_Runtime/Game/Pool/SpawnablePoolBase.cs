@@ -72,7 +72,7 @@ namespace Personal.Pool
 		async UniTask<bool> LoadAddressable()
 		{
 			AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(key);
-			await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
+			await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			return handle.Status == AsyncOperationStatus.Succeeded;
 		}

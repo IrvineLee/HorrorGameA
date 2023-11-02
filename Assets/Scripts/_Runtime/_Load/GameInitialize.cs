@@ -24,7 +24,9 @@ namespace Personal.GameState
 				enabled = isInitiallyEnabled;
 			}
 
-			InitializeFirst();
+			EarlyInitialize();
+
+			// The wait here is to ensure all other GameInitialize scripts calls their own EarlyInitialize() first before Initialize().
 			await UniTask.Yield(cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			Initialize();
@@ -34,12 +36,12 @@ namespace Personal.GameState
 		}
 
 		/// <summary>
-		/// This gets called earlier than Initialize().
+		/// Treat this as a normal Awake function.
 		/// </summary>
-		protected virtual void InitializeFirst() { }
+		protected virtual void EarlyInitialize() { }
 
 		/// <summary>
-		/// Treat this as a normal Awake function.
+		/// Treat this as a normal Start function. It gets called after OnEnable() and Start().
 		/// </summary>
 		protected virtual void Initialize() { }
 
@@ -53,6 +55,12 @@ namespace Personal.GameState
 		/// This will get called on the next frame of Initialize.
 		/// </summary>
 		protected virtual void OnMainScene() { }
+
+		/// <summary>
+		/// This will get called on the next frame of Initialize.
+		/// </summary>
+		protected virtual async UniTask OnMainSceneAsync() { await UniTask.CompletedTask; }
+
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
@@ -70,8 +78,10 @@ namespace Personal.GameState
 			}
 
 			// Wait for every GameInitialize script to call its Initialize first before this OnMainScene.
-			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
+			await UniTask.Yield(cancellationToken: this.GetCancellationTokenOnDestroy());
+
 			OnMainScene();
+			OnMainSceneAsync().Forget();
 		}
 
 		void OnDestroy()

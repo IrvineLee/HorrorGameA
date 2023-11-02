@@ -12,7 +12,7 @@ namespace Personal.GameState
 		protected override async UniTask Boot()
 		{
 			if (!GameManager.IsLoadingOver)
-				await UniTask.WaitUntil(() => GameManager.IsLoadingOver);
+				await UniTask.WaitUntil(() => GameManager.IsLoadingOver, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			Initialize();
 
@@ -40,6 +40,12 @@ namespace Personal.GameState
 		protected virtual void OnEarlyMainScene() { }
 
 		/// <summary>
+		/// This gets called when scene is in Main scene/scenes. 
+		/// </summary>
+		/// <returns></returns>
+		protected virtual async UniTask OnEarlyMainSceneAsync() { await UniTask.CompletedTask; }
+
+		/// <summary>
 		/// This will get called on the next frame of OnEarlynMainScene.
 		/// </summary>
 		protected virtual void OnMainScene() { }
@@ -65,6 +71,7 @@ namespace Personal.GameState
 		async UniTask HandleMainScene()
 		{
 			OnEarlyMainScene();
+			OnEarlyMainSceneAsync().Forget();
 
 			await UniTask.NextFrame();
 			OnMainScene();

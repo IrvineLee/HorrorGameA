@@ -15,13 +15,13 @@ namespace Personal.FSM.Character
 
 			if (!stateMachine.InitiatorStateMachine) return;
 
-			if (isFadeActor) HandleFadeInActor(stateMachine.InitiatorStateMachine, false);
-			else HandleFadeInActor(stateMachine.InitiatorStateMachine, true);
+			if (isFadeActor) HandleFadeInActor(false);
+			else HandleFadeInActor(true);
 		}
 
-		void HandleFadeInActor(StateMachineBase initiatorStateMachine, bool isFlag)
+		void HandleFadeInActor(bool isFlag)
 		{
-			initiatorStateMachine.GetComponentInChildren<IRendererDissolve>().FadeInRenderer(isFlag, fadeActorDuration);
+			stateMachine.InitiatorStateMachine.GetComponentInChildren<IRendererDissolve>().FadeInRenderer(isFlag, fadeActorDuration);
 		}
 	}
 }

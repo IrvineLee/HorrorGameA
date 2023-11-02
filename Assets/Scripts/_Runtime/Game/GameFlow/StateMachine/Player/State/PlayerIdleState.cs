@@ -11,7 +11,7 @@ namespace Personal.FSM.Character
 
 			// Somewhere else will change the state of player.
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
-			await UniTask.WaitUntil(() => !playerFSM.IsPlayerThisState(typeof(PlayerIdleState)));
+			await UniTask.WaitUntil(() => !playerFSM.IsPlayerThisState(typeof(PlayerIdleState)), cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 	}
 }

@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
@@ -106,11 +107,11 @@ namespace Personal.Quest
 		/// <summary>
 		/// Update task for DialogueResponse/Acquire
 		/// </summary>
-		public async UniTask UpdateQuest()
+		public async UniTask UpdateQuest(CancellationToken cancellationToken)
 		{
 			foreach (var taskInfo in taskInfoList)
 			{
-				await UpdateTask(taskInfo);
+				await UpdateTask(taskInfo, cancellationToken);
 			}
 
 			if (IsTasksEnded())
@@ -125,19 +126,19 @@ namespace Personal.Quest
 			UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
 		}
 
-		async UniTask UpdateTask(TaskInfo taskInfo)
+		async UniTask UpdateTask(TaskInfo taskInfo, CancellationToken cancellationToken)
 		{
 			if (taskInfo.IsSuccess) return;
 
 			switch (taskInfo.ActionType)
 			{
-				case ActionType.DialogueResponse: await HandleActionTypeDialogueResponse(taskInfo); break;
+				case ActionType.DialogueResponse: await HandleActionTypeDialogueResponse(taskInfo, cancellationToken); break;
 				case ActionType.Acquire: HandleActionTypeAcquire(taskInfo); break;
 				case ActionType.Use: HandleActionTypeUse(taskInfo); break;
 			}
 		}
 
-		async UniTask HandleActionTypeDialogueResponse(TaskInfo taskInfo)
+		async UniTask HandleActionTypeDialogueResponse(TaskInfo taskInfo, CancellationToken cancellationToken)
 		{
 			UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
 
@@ -147,7 +148,7 @@ namespace Personal.Quest
 			if (taskInfo.ObjectiveKey != DialogueManager.Instance.LastConversationID) return;
 
 			// Wait until the conversation is finished.
-			await UniTask.WaitUntil(() => DialogueManager.Instance?.isConversationActive == false);
+			await UniTask.WaitUntil(() => DialogueManager.Instance?.isConversationActive == false, cancellationToken: cancellationToken);
 
 			var dialogueController = StageManager.Instance.DialogueController;
 			int selectedResponse = dialogueController.DialogueSetup.DialogueResponseListHandler.SelectedResponse;

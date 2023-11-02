@@ -37,7 +37,7 @@ namespace Personal.FSM.Character
 
 		public override async UniTask Standby()
 		{
-			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			TransitionManager.Instance.ResetCanvasSortOrder();
 		}

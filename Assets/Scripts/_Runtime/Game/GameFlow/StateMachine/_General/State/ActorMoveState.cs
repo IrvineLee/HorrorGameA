@@ -33,7 +33,7 @@ namespace Personal.FSM.Character
 			navMeshAgent.isStopped = false;
 			navMeshAgent.destination = target.position;
 
-			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.remainingDistance <= distanceBetweenActor);
+			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.remainingDistance <= distanceBetweenActor, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		public override void OnUpdate()

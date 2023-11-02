@@ -18,7 +18,7 @@ namespace Personal.UI.Option
 		protected override async void Initialize()
 		{
 			base.Initialize();
-			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy);
+			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			InitialSetup();
 

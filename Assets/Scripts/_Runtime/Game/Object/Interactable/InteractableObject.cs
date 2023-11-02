@@ -82,7 +82,7 @@ namespace Personal.InteractiveObject
 				requiredItemTypeDialogue?.OnUse(initiatorStateMachine.transform);
 
 				await UniTask.NextFrame();
-				await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+				await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 				return;
 			}
@@ -134,7 +134,7 @@ namespace Personal.InteractiveObject
 			rewardDialogue?.OnUse(initiatorStateMachine.transform);
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => DialogueManager.Instance && !DialogueManager.Instance.isConversationActive);
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
 

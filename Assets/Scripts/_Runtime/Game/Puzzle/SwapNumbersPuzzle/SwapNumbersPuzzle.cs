@@ -103,7 +103,7 @@ namespace Personal.Puzzle.EightSlide
 					return;
 			}
 
-			await UniTask.WaitUntil(() => slideCR.IsDone);
+			await UniTask.WaitUntil(() => slideCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			puzzleState = PuzzleState.Completed;
 			enabled = false;

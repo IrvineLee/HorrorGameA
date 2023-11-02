@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Quest;
 using Personal.Manager;
@@ -8,7 +9,7 @@ namespace Personal.InteractiveObject
 {
 	public class EventTriggerHandler : InteractableObjectEventStateChange
 	{
-		async void OnTriggerEnter(Collider other)
+		void OnTriggerEnter(Collider other)
 		{
 			if (!IsInteractable) return;
 
@@ -24,7 +25,7 @@ namespace Personal.InteractiveObject
 
 			// Set the state machine.
 			InitiatorStateMachine = other.GetComponentInParent<ActorStateMachine>();
-			await base.HandleInteraction();
+			base.HandleInteraction().Forget();
 		}
 	}
 }

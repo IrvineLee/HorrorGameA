@@ -11,7 +11,7 @@ namespace Personal.UI.Option
 
 		SaveProfile saveProfile;
 
-		protected override void Initialize()
+		protected override void EarlyInitialize()
 		{
 			saveProfile = GameStateBehaviour.Instance.SaveProfile;
 		}

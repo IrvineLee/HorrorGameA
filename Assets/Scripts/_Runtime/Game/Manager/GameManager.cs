@@ -16,7 +16,7 @@ namespace Personal.Manager
 		{
 			IsLoadingOver = false;
 
-			await UniTask.WaitUntil(() => IsInitialized());
+			await UniTask.WaitUntil(() => IsInitialized(), cancellationToken: this.GetCancellationTokenOnDestroy());
 			Debug.Log("<Color=#45FF00> ---------- All MANAGERS successfully initiated!! ----------</color>");
 
 			await HandleLoading();

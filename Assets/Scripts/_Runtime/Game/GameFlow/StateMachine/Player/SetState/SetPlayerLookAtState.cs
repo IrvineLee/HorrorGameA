@@ -20,7 +20,7 @@ namespace Personal.FSM.Character
 			playerFSM.SwitchToState(typeof(PlayerLookAtState)).Forget();
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending);
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 	}
 }

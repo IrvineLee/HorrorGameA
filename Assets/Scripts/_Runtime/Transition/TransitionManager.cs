@@ -39,6 +39,8 @@ namespace Personal.Transition
 			transitionManagerSettings.Initialize();
 			InitialSetup();
 
+			defaultSortOrder = canvas.sortingOrder;
+
 			return UniTask.CompletedTask;
 		}
 

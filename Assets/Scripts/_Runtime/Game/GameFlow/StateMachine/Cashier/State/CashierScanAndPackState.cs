@@ -37,7 +37,7 @@ namespace Personal.FSM.Cashier
 				childList.Add(child);
 			}
 
-			await UniTask.WaitUntil(() => IsTakenAllItems());
+			await UniTask.WaitUntil(() => IsTakenAllItems(), cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		bool IsTakenAllItems()
