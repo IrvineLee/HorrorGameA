@@ -25,9 +25,12 @@ namespace Personal.InteractiveObject
 			var pickupable = StageManager.Instance.PlayerController.Inventory.ActiveObject?.PickupableObject;
 
 			if (!pickupable) return;
-			if (itemTypeCompare != pickupable.ItemTypeSet.ItemType) return;
+			if (itemTypeCompare != pickupable.ItemType) return;
 
-			pickupable.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
+			pickupable.transform.position = placeAt.position;
+			pickupable.transform.rotation = Quaternion.identity;
+			pickupable.transform.SetParent(placeAt.parent);
+
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);
 		}
 	}

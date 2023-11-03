@@ -337,7 +337,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7230907837819698501}
-  - component: {fileID: 2258894079438173305}
   - component: {fileID: 2115183405548424503}
   - component: {fileID: 4936059028833100273}
   m_Layer: 9
@@ -363,19 +362,6 @@ Transform:
   - {fileID: 2440326164010192078}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2258894079438173305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8109333162036081941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf89bda9f63a2b49a365c6c053a6781, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 10100
 --- !u!114 &2115183405548424503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +383,7 @@ MonoBehaviour:
   rewardDialogue: {fileID: 0}
   afterRewardDialogue: {fileID: 0}
   rewardInteractableObjectList: []
+  itemType: 10100
   fpsRotation: {x: -90, y: 0, z: 0}
   fpsScale: {x: 0.4, y: 0.4, z: 0.4}
   inventoryRotation: {x: 270, y: 0, z: 0}

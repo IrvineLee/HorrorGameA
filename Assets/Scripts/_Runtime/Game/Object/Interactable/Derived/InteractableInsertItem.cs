@@ -50,7 +50,7 @@ namespace Personal.InteractiveObject
 			var pickupable = playerInventory.ActiveObject?.PickupableObject;
 			if (!pickupable) return UniTask.CompletedTask;
 
-			ItemType activeItemType = pickupable.ItemTypeSet.ItemType;
+			ItemType activeItemType = pickupable.ItemType;
 			foreach (var itemInfo in itemInfoList)
 			{
 				if (itemInfo.ItemType != activeItemType) continue;

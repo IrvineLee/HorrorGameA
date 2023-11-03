@@ -86,7 +86,7 @@ namespace Personal.UI
 
 			if (interactablePickupable)
 			{
-				var entity = interactablePickupable.ItemTypeSet.Entity;
+				var entity = interactablePickupable.Entity;
 
 				titleStr = MasterLocalization.Get(MasterLocalization.TableNameType.NameText, entity.id);
 				descriptionStr = MasterLocalization.Get(MasterLocalization.TableNameType.DescriptionText, entity.id);

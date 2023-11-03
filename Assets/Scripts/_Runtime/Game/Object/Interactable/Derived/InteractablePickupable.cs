@@ -12,6 +12,8 @@ namespace Personal.InteractiveObject
 {
 	public class InteractablePickupable : InteractableObject
 	{
+		[SerializeField] ItemType itemType = ItemType._10000_Item_1;
+
 		[Header("FPS view")]
 		[Tooltip("The rotation of the item in the fps view.")]
 		[SerializeField] Vector3 fpsRotation = Vector3.zero;
@@ -26,7 +28,9 @@ namespace Personal.InteractiveObject
 		[Tooltip("The scale of the item in the inventory view.")]
 		[SerializeField] Vector3 inventoryScale = Vector3.one;
 
-		public ItemTypeSet ItemTypeSet { get; private set; }
+		public ItemType ItemType { get => itemType; }
+		public ItemEntity Entity { get; private set; }
+
 		public SelfRotate SelfRotate { get; private set; }
 		public Vector3 FPSRotation { get => fpsRotation; }
 		public Vector3 FPSScale { get => fpsScale; }
@@ -39,10 +43,11 @@ namespace Personal.InteractiveObject
 		{
 			base.Initialize();
 
-			ItemTypeSet = GetComponentInParent<ItemTypeSet>(true);
 			SelfRotate = GetComponentInParent<SelfRotate>(true);
-
 			questTypeSetList = GetComponentsInChildren<QuestTypeSet>().ToList();
+
+			if (itemType == default) return;
+			Entity = MasterDataManager.Instance.Item.Get((int)itemType);
 		}
 
 		protected override UniTask HandleInteraction()

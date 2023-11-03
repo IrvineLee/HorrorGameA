@@ -101,7 +101,7 @@ namespace Personal.Character.Player
 			CurrentActiveIndex = inventoryList.Count - 1;
 
 			// Add item to inventory ui.
-			ItemType itemType = interactablePickupable.ItemTypeSet.ItemType;
+			ItemType itemType = interactablePickupable.ItemType;
 			UIManager.Instance.InventoryUI.SpawnObject(itemType, inventory);
 
 			HoldItemInHand();
@@ -203,7 +203,7 @@ namespace Personal.Character.Player
 			int count = 0;
 			foreach (var inventory in inventoryList)
 			{
-				if (inventory.PickupableObject.ItemTypeSet.ItemType != itemType) continue;
+				if (inventory.PickupableObject.ItemType != itemType) continue;
 				count++;
 			}
 			return count;
@@ -246,7 +246,7 @@ namespace Personal.Character.Player
 		/// <param name="pickupable"></param>
 		void UpdateGlossaryAndAchievement(InteractablePickupable pickupable)
 		{
-			GlossaryManager.Instance.AddUsedType(pickupable.ItemTypeSet.ItemType);
+			GlossaryManager.Instance.AddUsedType(pickupable.ItemType);
 
 			var achievementTypeSet = activeObject.PickupableObject.GetComponentInChildren<AchievementTypeSet>();
 			if (achievementTypeSet) AchievementManager.Instance.UpdateData(achievementTypeSet.AchievementType);
