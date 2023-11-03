@@ -28,6 +28,7 @@ namespace Helper
 		public void StartFade(bool isFlag)
 		{
 			if (!Outlinable) return;
+			if (isFlag && !fadeCR.IsDone) return;
 
 			Outlinable.enabled = isFlag;
 

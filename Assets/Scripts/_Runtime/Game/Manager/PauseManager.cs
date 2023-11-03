@@ -31,6 +31,10 @@ namespace Personal.Manager
 			Time.timeScale = isFlag ? 0 : 1;
 
 			StageManager.Instance.PlayerController.PauseFSM(isFlag);
+
+			// You don't wanna affect the cursor during dialogue.
+			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Dialogue) return;
+
 			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag, isFlag);
 		}
 

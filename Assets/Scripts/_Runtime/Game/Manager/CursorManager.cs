@@ -8,8 +8,6 @@ using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
 using Personal.Dialogue;
-using Personal.Constant;
-using Helper;
 
 namespace Personal.Manager
 {

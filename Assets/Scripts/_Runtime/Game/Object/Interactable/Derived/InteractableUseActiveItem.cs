@@ -27,7 +27,7 @@ namespace Personal.InteractiveObject
 			if (!pickupable) return;
 			if (itemTypeCompare != pickupable.ItemTypeSet.ItemType) return;
 
-			pickupable.ColliderTrans.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
+			pickupable.GetComponentInChildren<IItem>().PlaceAt(placeAt.position, placeAt);
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);
 		}
 	}

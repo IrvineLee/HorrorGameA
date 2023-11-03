@@ -13,14 +13,15 @@ namespace Personal.FSM.Character
 
 		protected override void HandleOnInteractable(RaycastHit hit)
 		{
+			// All interactable objects collider should be at least 1 child deep into a gameobject.
+			InteractableObject interactable = hit.transform.GetComponentInParent<InteractableObject>();
+
 			// You are hitting another object, so off the other object interaction.
-			if (previousInteractable && hit.transform.gameObject != previousInteractable.gameObject)
+			if (previousInteractable && interactable &&
+				interactable.gameObject != previousInteractable.gameObject)
 			{
 				HandleOffInteractable();
 			}
-
-			// All interactable objects collider should be at least 1 child deep into a gameobject.
-			InteractableObject interactable = hit.transform.GetComponentInParent<InteractableObject>();
 
 			if (!interactable) return;
 			if (!interactable.IsInteractable) return;
@@ -33,7 +34,7 @@ namespace Personal.FSM.Character
 			if (!InputManager.Instance.GetButtonPush(InputManager.ButtonPush.Submit)) return;
 
 			Debug.Log("Hit interactable");
-			playerFSM.SetLookAtTarget(interactable.ColliderTrans.GetComponentInChildren<ActorController>()?.Head);
+			playerFSM.SetLookAtTarget(interactable.GetComponentInChildren<ActorController>()?.Head);
 
 			CursorManager.Instance.SetCenterCrosshairToDefault();
 			interactable.HandleInteraction(playerFSM).Forget();

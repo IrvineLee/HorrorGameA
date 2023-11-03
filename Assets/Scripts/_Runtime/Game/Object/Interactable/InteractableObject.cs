@@ -51,7 +51,6 @@ namespace Personal.InteractiveObject
 		[ShowIf(REWARD_STRING)]
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
-		public Transform ColliderTrans { get => colliderTrans; }
 		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
 		public ActorStateMachine InitiatorStateMachine { get; protected set; }
 		public bool IsInteractable { get => isInteractable; }
@@ -64,7 +63,7 @@ namespace Personal.InteractiveObject
 		protected override void Initialize()
 		{
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
-			outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
+			if (colliderTrans) outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
 
 			SetIsInteractable(isInteractable);
 		}
@@ -111,7 +110,7 @@ namespace Personal.InteractiveObject
 
 		protected virtual bool HasRequiredItems()
 		{
-			// Return if is Requirement/Requirement_Reward.
+			// Return if it's not Requirement/Requirement_Reward.
 			if (interactionType != InteractableType.Requirement && interactionType != InteractableType.Requirement_Reward) return true;
 
 			foreach (var item in requiredItemTypeList)
@@ -124,7 +123,7 @@ namespace Personal.InteractiveObject
 
 		protected virtual async UniTask HandleGetReward(ActorStateMachine initiatorStateMachine)
 		{
-			// Return if is Reward/Requirement_Reward.
+			// Return if it's not Reward/Requirement_Reward.
 			if (interactionType != InteractableType.Reward && interactionType != InteractableType.Requirement_Reward) return;
 
 			rewardDialogue?.OnUse(initiatorStateMachine.transform);
