@@ -30,6 +30,7 @@ namespace Personal.InteractiveObject
 			pickupable.transform.position = placeAt.position;
 			pickupable.transform.rotation = Quaternion.identity;
 			pickupable.transform.SetParent(placeAt.parent);
+			pickupable.gameObject.SetActive(true);
 
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);
 		}

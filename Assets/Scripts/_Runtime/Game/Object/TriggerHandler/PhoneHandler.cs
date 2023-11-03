@@ -14,7 +14,7 @@ namespace Personal.InteractiveObject
 		public void Ring()
 		{
 			AudioManager.Instance.PlaySFXAt(audioSFXType, transform.position, isLoop: true);
-			interactableObject.enabled = true;
+			interactableObject.SetIsInteractable(true);
 		}
 	}
 }

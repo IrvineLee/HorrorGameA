@@ -33,18 +33,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1703038813748895463, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1703038813748895463, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1703038813748895463, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1703038813748895463, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -61,6 +49,14 @@ PrefabInstance:
       value: 10001
       objectReference: {fileID: 0}
     - target: {fileID: 3470825727598336374, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
+      propertyPath: uiPrefab
+      value: 
+      objectReference: {fileID: 5830758798429305110, guid: 2088dba5c6f7357479d1804f5132f14d, type: 3}
+    - target: {fileID: 3470825727598336374, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
+      propertyPath: fpsPrefab
+      value: 
+      objectReference: {fileID: 7084522019849455639, guid: 6efa698280414b4448b07a5571ed7e86, type: 3}
+    - target: {fileID: 3470825727598336374, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
       propertyPath: fpsScale.x
       value: 0.3
       objectReference: {fileID: 0}
@@ -72,6 +68,10 @@ PrefabInstance:
       propertyPath: fpsScale.z
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 3470825727598336374, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
+      propertyPath: inventoryPrefab
+      value: 
+      objectReference: {fileID: 5830758798429305110, guid: 2088dba5c6f7357479d1804f5132f14d, type: 3}
     - target: {fileID: 3736017450362016545, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
       propertyPath: itemType
       value: 2
@@ -80,7 +80,8 @@ PrefabInstance:
       propertyPath: itemType
       value: 10001
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5308975912174277586, guid: ccba0dca045f46c49880eed852ddcfcd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

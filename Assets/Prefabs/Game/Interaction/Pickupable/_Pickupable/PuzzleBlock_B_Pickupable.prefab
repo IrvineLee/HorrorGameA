@@ -21,6 +21,14 @@ PrefabInstance:
       value: 10101
       objectReference: {fileID: 0}
     - target: {fileID: 2115183405548424503, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
+      propertyPath: uiPrefab
+      value: 
+      objectReference: {fileID: 7571094391964645007, guid: 48a12780b5968574599099b9a8f35ab8, type: 3}
+    - target: {fileID: 2115183405548424503, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
+      propertyPath: fpsPrefab
+      value: 
+      objectReference: {fileID: 2424720438405542938, guid: 5f660335bfdae3345958b7cbd010d9e3, type: 3}
+    - target: {fileID: 2115183405548424503, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
       propertyPath: parentTrans
       value: 
       objectReference: {fileID: 5759038633370232488}
@@ -28,37 +36,13 @@ PrefabInstance:
       propertyPath: fpsRotation.x
       value: -100
       objectReference: {fileID: 0}
+    - target: {fileID: 2115183405548424503, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
+      propertyPath: inventoryPrefab
+      value: 
+      objectReference: {fileID: 7571094391964645007, guid: 48a12780b5968574599099b9a8f35ab8, type: 3}
     - target: {fileID: 2258894079438173305, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
       propertyPath: itemType
       value: 10101
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.557
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 6.483
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7230907837819698501, guid: f50e66370b95b3b4ea244a03a663cbbf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -76,7 +60,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuzzleBlock_B_Pickupable
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

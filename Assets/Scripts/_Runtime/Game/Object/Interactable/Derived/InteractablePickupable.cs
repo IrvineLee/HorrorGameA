@@ -12,30 +12,17 @@ namespace Personal.InteractiveObject
 {
 	public class InteractablePickupable : InteractableObject
 	{
+		[Header("Item Setting")]
 		[SerializeField] ItemType itemType = ItemType._10000_Item_1;
 
-		[Header("FPS view")]
-		[Tooltip("The rotation of the item in the fps view.")]
-		[SerializeField] Vector3 fpsRotation = Vector3.zero;
-
-		[Tooltip("The scale of the item in the fps view.")]
-		[SerializeField] Vector3 fpsScale = Vector3.one;
-
-		[Header("Inventory view")]
-		[Tooltip("The scale of the item in the inventory view.")]
-		[SerializeField] Vector3 inventoryRotation = Vector3.zero;
-
-		[Tooltip("The scale of the item in the inventory view.")]
-		[SerializeField] Vector3 inventoryScale = Vector3.one;
+		[SerializeField] Transform fpsPrefab = null;
+		[SerializeField] Transform uiPrefab = null;
 
 		public ItemType ItemType { get => itemType; }
 		public ItemEntity Entity { get; private set; }
 
-		public SelfRotate SelfRotate { get; private set; }
-		public Vector3 FPSRotation { get => fpsRotation; }
-		public Vector3 FPSScale { get => fpsScale; }
-		public Vector3 InventoryRotation { get => inventoryRotation; }
-		public Vector3 InventoryScale { get => inventoryScale; }
+		public Transform FPSPrefab { get => fpsPrefab; }
+		public Transform UIPrefab { get => uiPrefab; }
 
 		List<QuestTypeSet> questTypeSetList = new();
 
@@ -43,7 +30,6 @@ namespace Personal.InteractiveObject
 		{
 			base.Initialize();
 
-			SelfRotate = GetComponentInParent<SelfRotate>(true);
 			questTypeSetList = GetComponentsInChildren<QuestTypeSet>().ToList();
 
 			if (itemType == default) return;

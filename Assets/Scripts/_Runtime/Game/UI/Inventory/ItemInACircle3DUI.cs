@@ -1,11 +1,7 @@
+using System;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
-using Personal.InputProcessing;
 using Personal.Manager;
-using Personal.Item;
-using Personal.System.Handler;
-using Personal.InteractiveObject;
 using Personal.Character.Player;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
@@ -41,17 +37,14 @@ namespace Personal.UI
 		/// <param name="itemType"></param>
 		/// <param name="inventory"></param>
 		/// <returns></returns>
-		public async UniTask SpawnObject(ItemType itemType, Inventory inventory)
+		public void Init(Transform inventoryUI)
 		{
-			GameObject go = PoolManager.Instance.GetSpawnedObject(inventory.PickupableObject.name);
-			if (!go) go = await AddressableHelper.Spawn(itemType.GetStringValue(), Vector3.zero);
+			Quaternion rotation = inventoryUI.localRotation;
+			Vector3 scale = inventoryUI.localScale;
 
-			go.transform.SetParent(contentTrans);
-			go.transform.SetLayerAllChildren((int)LayerType._UI);
-			go.transform.localRotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
-			go.transform.localScale = inventory.PickupableObject.InventoryScale;
-
-			inventory.SetInteractableObjectUI(go.GetComponentInChildren<InteractablePickupable>());
+			inventoryUI.SetParent(contentTrans);
+			inventoryUI.rotation = rotation;
+			inventoryUI.localScale = scale;
 		}
 
 		/// <summary>
@@ -60,7 +53,7 @@ namespace Personal.UI
 		public virtual void PutObjectsIntoACircle()
 		{
 			if (!IsSetIntoACircle()) return;
-			if (playerInventory.ActiveObject == null) return;
+			if (playerInventory.InventoryList.Count <= 0) return;
 
 			// Make sure all rotations are at their default values.
 			ResetAllInventoryRotations();
@@ -74,7 +67,7 @@ namespace Personal.UI
 
 			// Enable the rotation. The reason why you can't use active object is because it might be null.
 			// CurrentIndex will always point to the previous selected object.
-			playerInventory.InventoryList[currentIndex].PickupableObjectUI.SelfRotate.enabled = true;
+			playerInventory.InventoryList[currentIndex].PO_UI_SelfRotate.enabled = true;
 		}
 
 		/// <summary>
@@ -82,20 +75,35 @@ namespace Personal.UI
 		/// </summary>
 		protected virtual void HandleInput()
 		{
+			if (playerInventory.InventoryList.Count <= 0) return;
+
 			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
 
 			if (move == Vector3.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = yAngleToRotate;
-			if (move.x < 0)
+			Action doLast = ReachedAction(false);
+
+			if (move.x < 0 || move.y < 0)
 			{
 				angle = -yAngleToRotate;
+				doLast = ReachedAction(true);
 			}
 
 			Vector3 angleRotation = new Vector3(0, angle, 0);
-			rotateAroundCR = CoroutineHelper.RotateWithinSeconds(contentTrans, angleRotation, rotateDuration, default, false);
+			rotateAroundCR = CoroutineHelper.RotateWithinSeconds(contentTrans, angleRotation, rotateDuration, doLast, false);
+
+			ResetAllInventoryRotations();
 		}
+
+
+		/// <summary>
+		/// The action when it reached the target.
+		/// </summary>
+		/// <param name="isNextItem"></param>
+		/// <returns></returns>
+		protected virtual Action ReachedAction(bool isNextItem) { return default; }
 
 		/// <summary>
 		/// Reset all inventory's rotations.
@@ -104,8 +112,8 @@ namespace Personal.UI
 		{
 			foreach (Inventory inventory in playerInventory.InventoryList)
 			{
-				inventory.PickupableObjectUI.transform.localRotation = Quaternion.Euler(inventory.PickupableObject.InventoryRotation);
-				inventory.PickupableObjectUI.SelfRotate.enabled = false;
+				inventory.PickupableObjectUI.transform.localRotation = inventory.PickupableObject.UIPrefab.transform.localRotation;
+				inventory.PO_UI_SelfRotate.enabled = false;
 			}
 		}
 

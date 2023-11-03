@@ -3,7 +3,6 @@ using UnityEngine;
 using Personal.Manager;
 using Personal.Item;
 using Personal.Character.Player;
-using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
 {
@@ -39,9 +38,9 @@ namespace Personal.UI
 		/// Add item to canvas camera for ui selection.
 		/// </summary>
 		/// <param name="itemTypeStr"></param>
-		public void SpawnObject(ItemType itemType, Inventory inventory)
+		public void Init(Transform inventoryUI)
 		{
-			_ = itemInACircle3DUI.SpawnObject(itemType, inventory);
+			itemInACircle3DUI.Init(inventoryUI);
 		}
 	}
 }

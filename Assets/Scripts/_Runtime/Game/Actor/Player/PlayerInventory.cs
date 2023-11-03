@@ -20,20 +20,22 @@ namespace Personal.Character.Player
 			// This is the real interactable object.
 			[SerializeField] InteractablePickupable pickupableObject = null;
 
-			// This is the interactable object portrayed in the inventory ui.
-			[SerializeField] InteractablePickupable pickupableObjectUI = null;
+			[SerializeField] Transform pickupableObjectFPS = null;
+			[SerializeField] Transform pickupableObjectUI = null;
 
 			public InteractablePickupable PickupableObject { get => pickupableObject; }
-			public InteractablePickupable PickupableObjectUI { get => pickupableObjectUI; }
+			public Transform PickupableObjectFPS { get => pickupableObjectFPS; }
+			public Transform PickupableObjectUI { get => pickupableObjectUI; }
+			public SelfRotate PO_UI_SelfRotate { get; private set; }
 
-			public void SetInteractableObject(InteractablePickupable pickupableObject)
+			public Inventory(InteractablePickupable pickupableObject, Transform pickupableObjectFPS, Transform pickupableObjectUI)
 			{
 				this.pickupableObject = pickupableObject;
-			}
-
-			public void SetInteractableObjectUI(InteractablePickupable pickupableObjectUI)
-			{
+				this.pickupableObjectFPS = pickupableObjectFPS;
 				this.pickupableObjectUI = pickupableObjectUI;
+
+				PO_UI_SelfRotate = pickupableObjectUI.GetComponentInChildren<SelfRotate>();
+				pickupableObject.gameObject.SetActive(false);
 			}
 		}
 
@@ -60,14 +62,16 @@ namespace Personal.Character.Player
 		/// <summary>
 		/// Use/interact/place item on someone or something.
 		/// </summary>
-		/// <param name="isDestroy">If you are interacting with the object somewhere else, put it to false. Otherwise it return to the pool.</param>
-		public void UseActiveItem(bool isDestroy = true)
+		/// <param name="isReturnToPool">If you are interacting with the object somewhere else, put it to false. Otherwise it return to the pool.</param>
+		public void UseActiveItem(bool isReturnToPool = true)
 		{
-			if (isDestroy)
+			if (isReturnToPool)
 			{
 				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObject.gameObject);
-				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.gameObject);
 			}
+
+			PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectFPS.gameObject);
+			PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.gameObject);
 
 			UpdateGlossaryAndAchievement(activeObject.PickupableObject);
 
@@ -91,18 +95,24 @@ namespace Personal.Character.Player
 		/// <param name="interactablePickupable"></param>
 		public void AddItem(InteractablePickupable interactablePickupable)
 		{
-			activeObject?.PickupableObject?.gameObject.SetActive(false);
+			// Disable active pickupable.
+			if (activeObject.PickupableObject)
+			{
+				activeObject.PickupableObject.gameObject.SetActive(false);
+				activeObject.PickupableObjectFPS.gameObject.SetActive(false);
+			}
 
-			Inventory inventory = new Inventory();
-			inventory.SetInteractableObject(interactablePickupable);
+			var instanceFPS = Instantiate(interactablePickupable.FPSPrefab);
+			var instanceUI = Instantiate(interactablePickupable.UIPrefab);
+
+			Inventory inventory = new Inventory(interactablePickupable, instanceFPS, instanceUI);
 			inventoryList.Add(inventory);
 
 			activeObject = inventory;
 			CurrentActiveIndex = inventoryList.Count - 1;
 
 			// Add item to inventory ui.
-			ItemType itemType = interactablePickupable.ItemType;
-			UIManager.Instance.InventoryUI.SpawnObject(itemType, inventory);
+			UIManager.Instance.InventoryUI.Init(instanceUI);
 
 			HoldItemInHand();
 		}
@@ -153,7 +163,7 @@ namespace Personal.Character.Player
 				if (activeObject.PickupableObject.Equals(newActiveObject.PickupableObject)) return;
 
 				// Disable the active gameobject.
-				activeObject.PickupableObject?.gameObject.SetActive(false);
+				activeObject.PickupableObjectFPS?.gameObject.SetActive(false);
 			}
 
 			activeObject = newActiveObject;
@@ -161,25 +171,9 @@ namespace Personal.Character.Player
 		}
 
 		/// <summary>
-		/// Show or hide the active object.
+		/// Hide the active object. As of now, there are no reasons to activate an object outside of this script.
 		/// </summary>
-		/// <param name="isFlag"></param>
-		public void FPS_ShowItem(bool isFlag)
-		{
-			if (activeObject == null || !activeObject.PickupableObject) return;
-
-			autoHideItemCR?.StopCoroutine();
-			if (isFlag)
-			{
-				AnimateActiveItem(Vector3.zero);
-				autoHideItemCR = CoroutineHelper.WaitFor(autoHideItemDuration, () => FPS_ShowItem(false));
-
-				return;
-			}
-
-			AnimateActiveItem(initialPosition);
-			activeObject = null;
-		}
+		public void FPS_HideItem() { FPS_ShowItem(false); }
 
 		/// <summary>
 		/// Remove the object from the inventory.
@@ -188,7 +182,7 @@ namespace Personal.Character.Player
 		{
 			foreach (var inventory in inventoryList)
 			{
-				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObject.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectFPS.gameObject);
 				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.gameObject);
 			}
 		}
@@ -214,17 +208,40 @@ namespace Personal.Character.Player
 		/// </summary>
 		void HoldItemInHand()
 		{
-			var pickupable = activeObject.PickupableObject;
-			Transform activeTrans = pickupable.transform;
+			Transform activeTrans = activeObject.PickupableObjectFPS.transform;
 			Transform fpsCameraView = StageManager.Instance.CameraHandler.PlayerCameraView.FpsInventoryView;
+
+			Quaternion rotation = activeTrans.localRotation;
+			Vector3 scale = activeTrans.localScale;
 
 			activeTrans.SetParent(fpsCameraView);
 			activeTrans.localPosition = initialPosition;
-			activeTrans.localRotation = Quaternion.Euler(pickupable.FPSRotation);
-			activeTrans.localScale = pickupable.FPSScale;
+			activeTrans.localRotation = rotation;
+			activeTrans.localScale = scale;
 
-			pickupable.gameObject.SetActive(true);
+			activeTrans.gameObject.SetActive(true);
 			FPS_ShowItem(true);
+		}
+
+		/// <summary>
+		/// Show or hide the active object.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void FPS_ShowItem(bool isFlag)
+		{
+			if (activeObject == null || !activeObject.PickupableObjectFPS) return;
+
+			autoHideItemCR?.StopCoroutine();
+			if (isFlag)
+			{
+				AnimateActiveItem(Vector3.zero);
+				autoHideItemCR = CoroutineHelper.WaitFor(autoHideItemDuration, () => FPS_ShowItem(false));
+
+				return;
+			}
+
+			AnimateActiveItem(initialPosition);
+			activeObject = null;
 		}
 
 		/// <summary>
@@ -233,7 +250,7 @@ namespace Personal.Character.Player
 		/// <param name="toPosition"></param>
 		void AnimateActiveItem(Vector3 toPosition)
 		{
-			Transform activeTrans = activeObject.PickupableObject.transform;
+			Transform activeTrans = activeObject.PickupableObjectFPS.transform;
 
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);

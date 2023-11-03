@@ -27,7 +27,7 @@ namespace Personal.InteractiveObject
 		protected override async UniTask HandleInteraction()
 		{
 			// When events happened, hide the items.
-			StageManager.Instance.PlayerController.Inventory.FPS_ShowItem(false);
+			StageManager.Instance.PlayerController.Inventory.FPS_HideItem();
 
 			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 

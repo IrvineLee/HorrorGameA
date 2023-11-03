@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using PixelCrushers.DialogueSystem;
 using Personal.Item;
 
 namespace Personal.InteractiveObject
@@ -9,13 +10,13 @@ namespace Personal.InteractiveObject
 	{
 		[SerializeField] ItemType keyItemType = default;
 
-		InteractableDialogue interactableDialogue;
+		DialogueSystemTrigger dialogueSystemTrigger;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 
-			interactableDialogue = GetComponentInChildren<InteractableDialogue>();
+			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 		}
 
 		protected override bool IsAbleToOpenDoor()
@@ -30,7 +31,7 @@ namespace Personal.InteractiveObject
 				return true;
 			}
 
-			interactableDialogue?.HandleInteraction(InitiatorStateMachine).Forget();
+			dialogueSystemTrigger.OnUse(InitiatorStateMachine.transform);
 			return false;
 		}
 	}
