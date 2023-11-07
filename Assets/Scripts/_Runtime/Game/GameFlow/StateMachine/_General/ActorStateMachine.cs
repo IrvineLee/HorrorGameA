@@ -53,8 +53,8 @@ namespace Personal.FSM
 		/// <summary>
 		/// This begins the interactionAssign.
 		/// </summary>
-		/// <param name="targetInfo"></param>
-		/// <param name="interactionAssign"></param>
+		/// <param name="interactionAssign">Most initiator is itself, but in certain cases, it might be the player/other NPCs.</param>
+		/// <param name="targetInfo">This most probably only applies on events/interaction with player.</param>
 		/// <returns></returns>
 		public virtual UniTask Begin(InteractionAssign interactionAssign, StateMachineBase initiatorFSM = null, TargetInfo targetInfo = null) { return UniTask.CompletedTask; }
 

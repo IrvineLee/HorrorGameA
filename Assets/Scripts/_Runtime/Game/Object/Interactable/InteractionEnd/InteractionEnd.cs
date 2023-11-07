@@ -27,11 +27,11 @@ namespace Personal.InteractiveObject
 		{
 			foreach (var interactable in enableInteractableObjectList)
 			{
-				interactable.SetIsInteractable(true);
+				interactable?.SetIsInteractable(true);
 			}
 			foreach (var interactable in disableInteractableObjectList)
 			{
-				interactable.SetIsInteractable(false);
+				interactable?.SetIsInteractable(false);
 			}
 		}
 
