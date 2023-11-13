@@ -23,12 +23,15 @@ namespace Personal.InteractiveObject
 		{
 			if (keyItemType == default) return true;
 
-			var pickupable = playerInventory.ActiveObject?.PickupableObject;
-			if (pickupable && keyItemType == pickupable.ItemType)
+			if (playerInventory.ActiveObject != null)
 			{
-				keyItemType = default;
-				playerInventory.UseActiveItem(true);
-				return true;
+				ItemType itemType = playerInventory.ActiveObject.ItemType;
+				if (keyItemType == itemType)
+				{
+					keyItemType = default;
+					playerInventory.UseActiveItem();
+					return true;
+				}
 			}
 
 			dialogueSystemTrigger.OnUse(InitiatorStateMachine.transform);

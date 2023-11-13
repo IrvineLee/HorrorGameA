@@ -12,9 +12,7 @@ public class AddressableHelper : MonoBehaviour
 	/// </summary>
 	public static async UniTask<GameObject> Spawn(string path, Vector3 position = default, Transform parent = default, bool isWorldPositionStay = false)
 	{
-		AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
-		await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
-
+		await LoadAssetAsync(path);
 		return InstantiateAsync(path, position, parent, isWorldPositionStay);
 	}
 
@@ -23,8 +21,7 @@ public class AddressableHelper : MonoBehaviour
 	/// </summary>
 	public static async UniTask<List<GameObject>> SpawnMultiple(string path, int amount, Vector3 position = default, Transform parent = default, bool isWorldPositionStay = false)
 	{
-		AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
-		await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
+		await LoadAssetAsync(path);
 
 		List<GameObject> goList = new();
 		for (int i = 0; i < amount; i++)
@@ -33,6 +30,24 @@ public class AddressableHelper : MonoBehaviour
 		}
 
 		return goList;
+	}
+
+	/// <summary>
+	/// Get the result of the path. Does NOT instantiate the object!
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	public static async UniTask<GameObject> GetResult(string path)
+	{
+		return await LoadAssetAsync(path);
+	}
+
+	static async UniTask<GameObject> LoadAssetAsync(string path)
+	{
+		AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(path);
+		await UniTask.WaitUntil(() => handle.Status != AsyncOperationStatus.None);
+
+		return handle.Result;
 	}
 
 	static GameObject InstantiateAsync(string path, Vector3 position, Transform parent, bool isWorldPositionStay)

@@ -22,15 +22,19 @@ namespace Personal.InteractiveObject
 		/// </summary>
 		void HandleUseActiveItem()
 		{
-			var pickupable = StageManager.Instance.PlayerController.Inventory.ActiveObject?.PickupableObject;
+			var activeObject = StageManager.Instance.PlayerController.Inventory.ActiveObject;
 
-			if (!pickupable) return;
-			if (itemTypeCompare != pickupable.ItemType) return;
+			if (activeObject == null) return;
+			if (itemTypeCompare != activeObject.ItemType) return;
 
-			pickupable.transform.position = placeAt.position;
-			pickupable.transform.rotation = Quaternion.identity;
-			pickupable.transform.SetParent(placeAt.parent);
-			pickupable.gameObject.SetActive(true);
+			Transform fpsTrans = activeObject.PickupableObjectFPS;
+
+			fpsTrans.position = placeAt.position;
+			fpsTrans.rotation = Quaternion.identity;
+			fpsTrans.localScale = Vector3.one;
+
+			fpsTrans.SetParent(placeAt.parent, true);
+			fpsTrans.gameObject.SetActive(true);
 
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem(false);
 		}

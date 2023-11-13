@@ -1,7 +1,5 @@
 using UnityEngine;
 
-using Personal.Manager;
-
 namespace Personal.Achievement
 {
 	public class AchievementTypeSet : MonoBehaviour
@@ -9,10 +7,5 @@ namespace Personal.Achievement
 		[SerializeField] AchievementType achievementType = AchievementType.Test_Achievement;
 
 		public AchievementType AchievementType { get => achievementType; }
-
-		public void UpdateData()
-		{
-			AchievementManager.Instance.UpdateData(achievementType);
-		}
 	}
 }

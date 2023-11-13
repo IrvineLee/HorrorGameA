@@ -2,8 +2,9 @@ using System;
 using UnityEngine;
 
 using TMPro;
-using Personal.InteractiveObject;
 using Personal.Localization;
+using Personal.Item;
+using Personal.Manager;
 using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.UI
@@ -33,7 +34,7 @@ namespace Personal.UI
 				UpdateText();
 
 				var newActiveObject = playerInventory.InventoryList[playerInventory.CurrentActiveIndex];
-				newActiveObject.PO_UI_SelfRotate.enabled = true;
+				newActiveObject.PickupableObjectRotateUI.enabled = true;
 			};
 
 			return action;
@@ -49,18 +50,17 @@ namespace Personal.UI
 			}
 
 			Inventory currentInventory = playerInventory.InventoryList[playerInventory.CurrentActiveIndex];
-			SetInfoToText(currentInventory.PickupableObject);
+			SetInfoToText(currentInventory.ItemType);
 		}
 
-		void SetInfoToText(InteractablePickupable interactablePickupable)
+		void SetInfoToText(ItemType? itemType)
 		{
 			string titleStr = "";
 			string descriptionStr = "";
 
-			if (interactablePickupable)
+			var entity = MasterDataManager.Instance.Item.Get((int)itemType);
+			if (entity != null)
 			{
-				var entity = interactablePickupable.Entity;
-
 				titleStr = MasterLocalization.Get(MasterLocalization.TableNameType.NameText, entity.id);
 				descriptionStr = MasterLocalization.Get(MasterLocalization.TableNameType.DescriptionText, entity.id);
 			}

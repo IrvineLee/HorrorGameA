@@ -14,9 +14,9 @@ namespace Personal.FSM.Character
 		protected PlayerController pc;
 		protected PlayerAnimatorController playerAnimatorController;
 
-		public override UniTask OnEnter()
+		public override async UniTask OnEnter()
 		{
-			base.OnEnter();
+			await base.OnEnter();
 
 			pc = StageManager.Instance.PlayerController;
 			pc.FPSController.enabled = false;
@@ -30,20 +30,19 @@ namespace Personal.FSM.Character
 				vCam.LookAt = playerFSM.LookAtTarget;
 				vCam.Priority = 20;
 			}
-
-			return UniTask.CompletedTask;
 		}
 
-		public override UniTask OnExit()
+		public override async UniTask OnExit()
 		{
+			await base.OnExit();
+
+			pc.FPSController.enabled = true;
+
 			if (playerFSM.LookAtTarget)
 			{
 				vCam.LookAt = null;
 				vCam.Priority = 0;
 			}
-
-			pc.FPSController.enabled = true;
-			return base.OnExit();
 		}
 	}
 }

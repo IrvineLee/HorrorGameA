@@ -11,9 +11,9 @@ namespace Personal.FSM
 		[ShowInInspector]
 		public StateBase CurrentState { get => state; }
 		public StateMachineBase InitiatorStateMachine { get; protected set; }
+		public bool IsPauseStateMachine { get; protected set; }
 
 		protected StateBase state;
-		protected bool isPauseStateMachine;
 
 		protected async UniTask SetState(StateBase stateBase)
 		{
@@ -29,6 +29,6 @@ namespace Personal.FSM
 
 		public virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
 		public virtual Type GetStateType<T>(T type) where T : Enum { return null; }
-		public void PauseStateMachine(bool isFlag) { isPauseStateMachine = isFlag; }
+		public void PauseStateMachine(bool isFlag) { IsPauseStateMachine = isFlag; }
 	}
 }

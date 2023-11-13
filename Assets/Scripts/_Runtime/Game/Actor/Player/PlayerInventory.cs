@@ -8,7 +8,8 @@ using Personal.InteractiveObject;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Item;
-using Personal.Achievement;
+using Personal.Save;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Character.Player
 {
@@ -17,25 +18,28 @@ namespace Personal.Character.Player
 		[Serializable]
 		public class Inventory
 		{
-			// This is the real interactable object.
-			[SerializeField] InteractablePickupable pickupableObject = null;
-
 			[SerializeField] Transform pickupableObjectFPS = null;
-			[SerializeField] Transform pickupableObjectUI = null;
+			[SerializeField] SelfRotate pickupableObjectRotateUI = null;
 
-			public InteractablePickupable PickupableObject { get => pickupableObject; }
+			public ItemType ItemType { get; private set; }
 			public Transform PickupableObjectFPS { get => pickupableObjectFPS; }
-			public Transform PickupableObjectUI { get => pickupableObjectUI; }
-			public SelfRotate PO_UI_SelfRotate { get; private set; }
+			public SelfRotate PickupableObjectRotateUI { get => pickupableObjectRotateUI; }
 
-			public Inventory(InteractablePickupable pickupableObject, Transform pickupableObjectFPS, Transform pickupableObjectUI)
+			Quaternion defaultRotationUI;
+
+			public Inventory(ItemType itemType, Transform pickupableObjectFPS, SelfRotate pickupableObjectRotateUI)
 			{
-				this.pickupableObject = pickupableObject;
+				ItemType = itemType;
 				this.pickupableObjectFPS = pickupableObjectFPS;
-				this.pickupableObjectUI = pickupableObjectUI;
+				this.pickupableObjectRotateUI = pickupableObjectRotateUI;
 
-				PO_UI_SelfRotate = pickupableObjectUI.GetComponentInChildren<SelfRotate>();
-				pickupableObject.gameObject.SetActive(false);
+				defaultRotationUI = pickupableObjectRotateUI.transform.localRotation;
+			}
+
+			public void ResetPickupableObjectUI()
+			{
+				pickupableObjectRotateUI.transform.localRotation = defaultRotationUI;
+				pickupableObjectRotateUI.enabled = false;
 			}
 		}
 
@@ -54,26 +58,36 @@ namespace Personal.Character.Player
 
 		public int CurrentActiveIndex { get; private set; } = -1;
 
+		public event Action<ItemType> OnUseActiveItem;
+
 		Vector3 initialPosition = new Vector3(0, -0.25f, 0);
 
 		CoroutineRun comeIntoViewCR = new CoroutineRun();
 		CoroutineRun autoHideItemCR = new CoroutineRun();
 
+		InventoryData inventoryData;
+
+		protected override void Initialize()
+		{
+			inventoryData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.InventoryData;
+			InitInventoryData().Forget();
+		}
+
 		/// <summary>
 		/// Use/interact/place item on someone or something.
 		/// </summary>
-		/// <param name="isReturnToPool">If you are interacting with the object somewhere else, put it to false. Otherwise it return to the pool.</param>
+		/// <param name="isReturnToPool">If you are putting the object into the world space, set it to false. Otherwise it return to the pool.</param>
 		public void UseActiveItem(bool isReturnToPool = true)
 		{
+			OnUseActiveItem?.Invoke(activeObject.ItemType);
+			inventoryData.ItemList.Remove(activeObject.ItemType);
+
+			// Return used item to pool.
 			if (isReturnToPool)
 			{
-				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObject.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectFPS.gameObject);
 			}
-
-			PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectFPS.gameObject);
-			PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectUI.gameObject);
-
-			UpdateGlossaryAndAchievement(activeObject.PickupableObject);
+			PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectRotateUI.gameObject);
 
 			// Remove the item from the inventory and the ui view.
 			inventoryList.Remove(activeObject);
@@ -95,26 +109,21 @@ namespace Personal.Character.Player
 		/// <param name="interactablePickupable"></param>
 		public void AddItem(InteractablePickupable interactablePickupable)
 		{
-			// Disable active pickupable.
-			if (activeObject.PickupableObject)
-			{
-				activeObject.PickupableObject.gameObject.SetActive(false);
-				activeObject.PickupableObjectFPS.gameObject.SetActive(false);
-			}
+			// Disable pickupable.
+			interactablePickupable.gameObject.SetActive(false);
+			if (activeObject.PickupableObjectFPS) activeObject.PickupableObjectFPS.gameObject.SetActive(false);
 
-			var instanceFPS = Instantiate(interactablePickupable.FPSPrefab);
-			var instanceUI = Instantiate(interactablePickupable.UIPrefab);
-
-			Inventory inventory = new Inventory(interactablePickupable, instanceFPS, instanceUI);
-			inventoryList.Add(inventory);
+			var inventory = AddItemToInventory(interactablePickupable);
+			inventoryData.ItemList.Add(interactablePickupable.ItemType);
 
 			activeObject = inventory;
 			CurrentActiveIndex = inventoryList.Count - 1;
 
-			// Add item to inventory ui.
-			UIManager.Instance.InventoryUI.Init(instanceUI);
+			// Setup the item transform and show it to the player.
+			FPS_SetupItem();
+			FPS_ShowItem(true);
 
-			HoldItemInHand();
+			UIManager.Instance.InventoryUI.Init(activeObject.PickupableObjectRotateUI);
 		}
 
 		/// <summary>
@@ -150,7 +159,7 @@ namespace Personal.Character.Player
 		}
 
 		/// <summary>
-		/// Update the active object. Used when needs updating the active object.
+		/// Show the CurrentActiveIndex object. Used when needs updating the active object.
 		/// </summary>
 		public void UpdateActiveObject()
 		{
@@ -160,14 +169,16 @@ namespace Personal.Character.Player
 			if (activeObject != null)
 			{
 				// Do nothing if it's the same object.
-				if (activeObject.PickupableObject.Equals(newActiveObject.PickupableObject)) return;
+				if (activeObject.PickupableObjectFPS.Equals(newActiveObject.PickupableObjectFPS)) return;
 
 				// Disable the active gameobject.
 				activeObject.PickupableObjectFPS?.gameObject.SetActive(false);
 			}
 
 			activeObject = newActiveObject;
-			HoldItemInHand();
+
+			FPS_SetupItem();
+			FPS_ShowItem(true);
 		}
 
 		/// <summary>
@@ -176,15 +187,16 @@ namespace Personal.Character.Player
 		public void FPS_HideItem() { FPS_ShowItem(false); }
 
 		/// <summary>
-		/// Remove the object from the inventory.
+		/// Remove all objects from the FPS and UI view.
 		/// </summary>
-		public void ResetInventoryUI()
+		public void ResetInventory()
 		{
 			foreach (var inventory in inventoryList)
 			{
 				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectFPS.gameObject);
-				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectUI.gameObject);
+				PoolManager.Instance.ReturnSpawnedObject(inventory.PickupableObjectRotateUI.gameObject);
 			}
+			inventoryList.Clear();
 		}
 
 		/// <summary>
@@ -197,16 +209,70 @@ namespace Personal.Character.Player
 			int count = 0;
 			foreach (var inventory in inventoryList)
 			{
-				if (inventory.PickupableObject.ItemType != itemType) continue;
+				if (inventory.ItemType != itemType) continue;
 				count++;
 			}
 			return count;
 		}
 
 		/// <summary>
+		/// Load from inventory data.
+		/// </summary>
+		/// <returns></returns>
+		async UniTask InitInventoryData()
+		{
+			// Get the item prefab.
+			var unitaskList = new List<UniTask<GameObject>>();
+			foreach (var itemType in inventoryData.ItemList)
+			{
+				unitaskList.Add(AddressableHelper.GetResult(itemType.GetStringValue()));
+			}
+
+			List<GameObject> goList = new List<GameObject>(await UniTask.WhenAll(unitaskList));
+
+			// Put the spawned objects into inventory.
+			foreach (GameObject go in goList)
+			{
+				var pickupable = go.GetComponentInChildren<InteractablePickupable>();
+				activeObject = AddItemToInventory(pickupable);
+
+				FPS_SetupItem();
+				UIManager.Instance.InventoryUI.Init(activeObject.PickupableObjectRotateUI);
+			}
+
+			if (goList.Count <= 0) return;
+			CurrentActiveIndex = inventoryList.Count - 1;
+		}
+
+		/// <summary>
+		/// Get from pool or instantiate item into inventory.
+		/// </summary>
+		/// <param name="interactablePickupable"></param>
+		/// <returns></returns>
+		Inventory AddItemToInventory(InteractablePickupable interactablePickupable)
+		{
+			// Try to get from pool.
+			GameObject fpsPrefab = PoolManager.Instance.GetSpawnedObject(interactablePickupable.FPSPrefab.name);
+			GameObject uiPrefab = PoolManager.Instance.GetSpawnedObject(interactablePickupable.UIPrefab.name);
+
+			// Spawn the fps and ui version and add it to inventory.
+			var pickupableFPS = fpsPrefab ? fpsPrefab.transform : Instantiate(interactablePickupable.FPSPrefab);
+			var instanceUI = uiPrefab ? uiPrefab.GetComponentInChildren<SelfRotate>() : Instantiate(interactablePickupable.UIPrefab);
+
+			// Update the name without the "clone" attached to them.
+			pickupableFPS.name = interactablePickupable.FPSPrefab.name;
+			instanceUI.name = interactablePickupable.UIPrefab.name;
+
+			Inventory inventory = new Inventory(interactablePickupable.ItemType, pickupableFPS, instanceUI);
+			inventoryList.Add(inventory);
+
+			return inventory;
+		}
+
+		/// <summary>
 		/// Put it near the player's view.
 		/// </summary>
-		void HoldItemInHand()
+		void FPS_SetupItem()
 		{
 			Transform activeTrans = activeObject.PickupableObjectFPS.transform;
 			Transform fpsCameraView = StageManager.Instance.CameraHandler.PlayerCameraView.FpsInventoryView;
@@ -214,13 +280,12 @@ namespace Personal.Character.Player
 			Quaternion rotation = activeTrans.localRotation;
 			Vector3 scale = activeTrans.localScale;
 
-			activeTrans.SetParent(fpsCameraView);
 			activeTrans.localPosition = initialPosition;
 			activeTrans.localRotation = rotation;
 			activeTrans.localScale = scale;
 
+			activeTrans.SetParent(fpsCameraView);
 			activeTrans.gameObject.SetActive(true);
-			FPS_ShowItem(true);
 		}
 
 		/// <summary>
@@ -254,19 +319,6 @@ namespace Personal.Character.Player
 
 			comeIntoViewCR?.StopCoroutine();
 			comeIntoViewCR = CoroutineHelper.LerpFromTo(activeTrans, activeTrans.localPosition, toPosition, 0.3f);
-		}
-
-
-		/// <summary>
-		/// Update both the glossary and achievement.
-		/// </summary>
-		/// <param name="pickupable"></param>
-		void UpdateGlossaryAndAchievement(InteractablePickupable pickupable)
-		{
-			GlossaryManager.Instance.AddUsedType(pickupable.ItemType);
-
-			var achievementTypeSet = activeObject.PickupableObject.GetComponentInChildren<AchievementTypeSet>();
-			if (achievementTypeSet) AchievementManager.Instance.UpdateData(achievementTypeSet.AchievementType);
 		}
 	}
 }

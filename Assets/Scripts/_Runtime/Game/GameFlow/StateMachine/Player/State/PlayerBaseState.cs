@@ -20,13 +20,12 @@ namespace Personal.FSM.Character
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public override UniTask OnEnter()
+		public override async UniTask OnEnter()
 		{
-			base.OnEnter();
+			await base.OnEnter();
 			playerFSM = (PlayerStateMachine)stateMachine;
 
 			cam = StageManager.Instance.CameraHandler.MainCamera;
-			return UniTask.CompletedTask;
 		}
 
 		public override void OnUpdate()

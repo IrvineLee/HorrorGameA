@@ -20,7 +20,10 @@ namespace Personal.Achievement
 		//Reaching_Level_50 = 5000,
 		//Reaching_Max_Level,
 
-		Clear_Game_Once = 90000,
+		Good_Ending = 90000,
+		Bad_Ending = 90001,
+
+		Clear_Game_Once = 99000,
 
 		All_Achievements = 99999,
 	}

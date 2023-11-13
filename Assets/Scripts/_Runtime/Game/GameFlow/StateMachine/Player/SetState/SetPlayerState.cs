@@ -10,16 +10,14 @@ namespace Personal.FSM.Character
 	{
 		[SerializeField] PlayerStateType playerState = PlayerStateType.Idle;
 
-		public override UniTask OnEnter()
+		public override async UniTask OnEnter()
 		{
-			base.OnEnter();
+			await base.OnEnter();
 
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
 
 			Type type = playerFSM.GetStateType(playerState);
 			playerFSM.SwitchToState(type).Forget();
-
-			return UniTask.CompletedTask;
 		}
 	}
 }

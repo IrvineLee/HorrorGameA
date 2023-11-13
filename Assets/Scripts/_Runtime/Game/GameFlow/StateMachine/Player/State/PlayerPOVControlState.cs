@@ -12,9 +12,9 @@ namespace Personal.FSM.Character
 		protected CinemachineVirtualCamera vCam;
 		protected FPSController fpsController;
 
-		public override UniTask OnEnter()
+		public override async UniTask OnEnter()
 		{
-			base.OnEnter();
+			await base.OnEnter();
 
 			fpsController = StageManager.Instance.PlayerController.FPSController;
 			fpsController.enabled = true;
@@ -25,19 +25,16 @@ namespace Personal.FSM.Character
 				vCam.LookAt = playerFSM.LookAtTarget;
 				vCam.Priority = 30;
 			}
-
-			return UniTask.CompletedTask;
 		}
 
-		public override UniTask OnExit()
+		public override async UniTask OnExit()
 		{
-			if (vCam)
-			{
-				vCam.LookAt = null;
-				vCam.Priority = 0;
-			}
+			await base.OnExit();
 
-			return base.OnExit();
+			if (!vCam) return;
+
+			vCam.LookAt = null;
+			vCam.Priority = 0;
 		}
 	}
 }

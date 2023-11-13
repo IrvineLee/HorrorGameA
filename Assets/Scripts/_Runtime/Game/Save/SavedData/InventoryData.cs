@@ -1,16 +1,16 @@
-using UnityEngine;
 using System;
-
 using System.Collections.Generic;
-using static Personal.Character.Player.PlayerInventory;
+using UnityEngine;
+
+using Personal.Item;
 
 namespace Personal.Save
 {
 	[Serializable]
 	public class InventoryData
 	{
-		[SerializeField] List<Inventory> InventoryList = new();
+		[SerializeField] List<ItemType> itemList = new();
 
-		public List<Inventory> InventoryList1 { get => InventoryList; set => InventoryList = value; }
+		public List<ItemType> ItemList { get => itemList; set => itemList = value; }
 	}
 }

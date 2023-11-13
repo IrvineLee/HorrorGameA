@@ -32,19 +32,19 @@ namespace Personal.UI
 		}
 
 		/// <summary>
-		/// Spawn objects from addressable into a parent. Set objects into UI-based.
+		/// Set objects into UI-based.
 		/// </summary>
 		/// <param name="itemType"></param>
 		/// <param name="inventory"></param>
 		/// <returns></returns>
-		public void Init(Transform inventoryUI)
+		public void Init(SelfRotate inventoryUI)
 		{
-			Quaternion rotation = inventoryUI.localRotation;
-			Vector3 scale = inventoryUI.localScale;
+			Quaternion rotation = inventoryUI.transform.localRotation;
+			Vector3 scale = inventoryUI.transform.localScale;
 
-			inventoryUI.SetParent(contentTrans);
-			inventoryUI.rotation = rotation;
-			inventoryUI.localScale = scale;
+			inventoryUI.transform.SetParent(contentTrans);
+			inventoryUI.transform.rotation = rotation;
+			inventoryUI.transform.localScale = scale;
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace Personal.UI
 
 			// Enable the rotation. The reason why you can't use active object is because it might be null.
 			// CurrentIndex will always point to the previous selected object.
-			playerInventory.InventoryList[currentIndex].PO_UI_SelfRotate.enabled = true;
+			playerInventory.InventoryList[currentIndex].PickupableObjectRotateUI.enabled = true;
 		}
 
 		/// <summary>
@@ -112,8 +112,7 @@ namespace Personal.UI
 		{
 			foreach (Inventory inventory in playerInventory.InventoryList)
 			{
-				inventory.PickupableObjectUI.transform.localRotation = inventory.PickupableObject.UIPrefab.transform.localRotation;
-				inventory.PO_UI_SelfRotate.enabled = false;
+				inventory.ResetPickupableObjectUI();
 			}
 		}
 

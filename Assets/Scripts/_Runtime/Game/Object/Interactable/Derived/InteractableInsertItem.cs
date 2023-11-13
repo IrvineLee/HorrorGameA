@@ -47,16 +47,16 @@ namespace Personal.InteractiveObject
 
 		protected override UniTask HandleInteraction()
 		{
-			var pickupable = playerInventory.ActiveObject?.PickupableObject;
-			if (!pickupable) return UniTask.CompletedTask;
+			var activeObject = playerInventory.ActiveObject;
+			if (activeObject == null) return UniTask.CompletedTask;
 
-			ItemType activeItemType = pickupable.ItemType;
+			ItemType activeItemType = activeObject.ItemType;
 			foreach (var itemInfo in itemInfoList)
 			{
 				if (itemInfo.ItemType != activeItemType) continue;
 
 				// Use the active item.
-				playerInventory.UseActiveItem(true);
+				playerInventory.UseActiveItem();
 
 				// Enable the active gameobject and remove it from list.
 				itemInfo.ActivateObjectTrans.gameObject.SetActive(true);

@@ -117,7 +117,7 @@ namespace Personal.Manager
 			PlayerController.gameObject.SetActive(false);
 			CoroutineHelper.WaitEndOfFrame(CameraHandler.ResetPosAndRot);
 
-			PlayerController.Inventory.ResetInventoryUI();
+			PlayerController.Inventory.ResetInventory();
 		}
 	}
 }

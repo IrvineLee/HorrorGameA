@@ -1,7 +1,7 @@
 using UnityEngine;
 
+using Helper;
 using Personal.Manager;
-using Personal.Item;
 using Personal.Character.Player;
 
 namespace Personal.UI
@@ -38,7 +38,7 @@ namespace Personal.UI
 		/// Add item to canvas camera for ui selection.
 		/// </summary>
 		/// <param name="itemTypeStr"></param>
-		public void Init(Transform inventoryUI)
+		public void Init(SelfRotate inventoryUI)
 		{
 			itemInACircle3DUI.Init(inventoryUI);
 		}

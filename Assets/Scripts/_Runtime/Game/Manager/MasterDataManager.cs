@@ -52,17 +52,11 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// The numbers are id defined in the MasterData(.csv).
+		/// Get the correct enum based on inputted id.
 		/// </summary>
+		/// <typeparam name="T"></typeparam>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public Type GetEnumType(int id)
-		{
-			if (id.IsWithin(ConstantFixed.ITEM_START, ConstantFixed.ITEM_END)) return typeof(ItemType);
-			else if (id.IsWithin(ConstantFixed.MAIN_QUEST_START, ConstantFixed.SUB_QUEST_END)) return typeof(QuestType);
-			return null;
-		}
-
 		public T GetEnumType<T>(int id) where T : Enum
 		{
 			if (id.IsWithin(ConstantFixed.ITEM_START, ConstantFixed.ITEM_END)) return (T)(object)(ItemType)(id);

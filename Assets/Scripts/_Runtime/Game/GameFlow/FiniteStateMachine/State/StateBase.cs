@@ -31,12 +31,15 @@ namespace Personal.FSM
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask OnEnter()
+		public virtual async UniTask OnEnter()
 		{
+			if (stateMachine.IsPauseStateMachine)
+			{
+				await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
+			}
+
 			isEntered = true;
 			questTypeSet?.TryUpdateData();
-
-			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
@@ -60,12 +63,15 @@ namespace Personal.FSM
 		/// Called when the state is ended
 		/// </summary>
 		/// <returns></returns>
-		public virtual UniTask OnExit()
+		public virtual async UniTask OnExit()
 		{
+			if (stateMachine.IsPauseStateMachine)
+			{
+				await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
+			}
+
 			isEntered = false;
 			interactionEnd?.EnableInteractables();
-
-			return UniTask.CompletedTask;
 		}
 
 		/// <summary>

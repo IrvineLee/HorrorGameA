@@ -15,22 +15,19 @@ namespace Personal.FSM.Character
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public override UniTask OnEnter()
+		public override async UniTask OnEnter()
 		{
-			base.OnEnter();
+			await base.OnEnter();
 			actorStateMachine = (ActorStateMachine)stateMachine;
-
-			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
 		/// Called when the state is ended
 		/// </summary>
 		/// <returns></returns>
-		public override UniTask OnExit()
+		public override async UniTask OnExit()
 		{
-			base.OnExit();
-			return UniTask.CompletedTask;
+			await base.OnExit();
 		}
 
 		protected virtual void HandleMovement() { }

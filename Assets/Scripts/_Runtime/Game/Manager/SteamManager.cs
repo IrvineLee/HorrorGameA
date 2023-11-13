@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 using Helper;
-using Steamworks;
 using Cysharp.Threading.Tasks;
+using Steamworks;
+using Steamworks.Data;
 
 namespace Personal.Manager
 {
@@ -28,6 +30,21 @@ namespace Personal.Manager
 		void Update()
 		{
 			SteamClient.RunCallbacks();
+		}
+
+		public async UniTask<Image?> GetAvatar()
+		{
+			try
+			{
+				// Get Avatar using await
+				return await SteamFriends.GetLargeAvatarAsync(SteamClient.SteamId);
+			}
+			catch (Exception e)
+			{
+				// If something goes wrong, log it
+				Debug.Log(e);
+				return null;
+			}
 		}
 
 		void OnDestroy()

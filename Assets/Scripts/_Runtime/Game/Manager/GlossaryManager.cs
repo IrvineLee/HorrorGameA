@@ -5,6 +5,8 @@ using Helper;
 using Personal.Save;
 using Personal.GameState;
 using Personal.Item;
+using Personal.Character.Player;
+using Personal.InteractiveObject;
 
 namespace Personal.Manager
 {
@@ -15,9 +17,20 @@ namespace Personal.Manager
 	{
 		GlossaryData glossaryData;
 
+		PlayerInventory playerInventory;
+
 		protected override void Initialize()
 		{
 			glossaryData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.GlossaryData;
+
+		}
+
+		protected override void OnMainScene()
+		{
+			UnsubscribeEvent();
+
+			playerInventory = StageManager.Instance.PlayerController.Inventory;
+			playerInventory.OnUseActiveItem += UseActiveItem;
 		}
 
 		/// <summary>
@@ -46,6 +59,22 @@ namespace Personal.Manager
 				return glossaryData.UsedItemDictionary.GetOrDefault((ItemType)(object)usedType);
 			}
 			return 0;
+		}
+
+		void UseActiveItem(ItemType itemType)
+		{
+			AddUsedType(itemType);
+		}
+
+		void UnsubscribeEvent()
+		{
+			if (!playerInventory) return;
+			playerInventory.OnUseActiveItem -= UseActiveItem;
+		}
+
+		void OnDestroy()
+		{
+			UnsubscribeEvent();
 		}
 	}
 }

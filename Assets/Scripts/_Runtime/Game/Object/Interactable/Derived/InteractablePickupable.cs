@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Helper;
 using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.Item;
 using Personal.Manager;
 using Personal.Quest;
@@ -16,13 +16,12 @@ namespace Personal.InteractiveObject
 		[SerializeField] ItemType itemType = ItemType._10000_Item_1;
 
 		[SerializeField] Transform fpsPrefab = null;
-		[SerializeField] Transform uiPrefab = null;
+		[SerializeField] SelfRotate uiPrefab = null;
 
 		public ItemType ItemType { get => itemType; }
-		public ItemEntity Entity { get; private set; }
 
 		public Transform FPSPrefab { get => fpsPrefab; }
-		public Transform UIPrefab { get => uiPrefab; }
+		public SelfRotate UIPrefab { get => uiPrefab; }
 
 		List<QuestTypeSet> questTypeSetList = new();
 
@@ -33,7 +32,6 @@ namespace Personal.InteractiveObject
 			questTypeSetList = GetComponentsInChildren<QuestTypeSet>().ToList();
 
 			if (itemType == default) return;
-			Entity = MasterDataManager.Instance.Item.Get((int)itemType);
 		}
 
 		protected override UniTask HandleInteraction()
