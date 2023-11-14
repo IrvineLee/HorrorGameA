@@ -2,24 +2,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.Manager;
 using Personal.InteractiveObject;
+using Personal.Save;
 using static Personal.Manager.InputManager;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Personal.Puzzle
 {
-	public class PuzzleController : MonoBehaviour
+	public class PuzzleController : MonoBehaviour, IDataPersistence
 	{
-		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
-
 		public enum PuzzleState
 		{
 			None = 0,
 			Completed,
 			Failed,
 		}
+
+		// This is a unique ID for saving/loading objects in scene.
+		[SerializeField] [ReadOnly] protected string id;
+
+		[SerializeField] InteractableEventBegin interactableEventBegin = null;
+		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
 		protected PuzzleState puzzleState = PuzzleState.None;
 		protected PuzzleGamepadMovement puzzleGamepadMovement;
@@ -101,5 +111,40 @@ namespace Personal.Puzzle
 			InputManager.OnDeviceIconChanged -= HandlePhysicsRaycaster;
 			StageManager.Instance.CameraHandler.PhysicsRaycaster.enabled = false;
 		}
+
+		void IDataPersistence.SaveData(SaveObject data)
+		{
+			data.PuzzleDictionary.AddOrUpdateValue(id, puzzleState);
+		}
+
+		void IDataPersistence.LoadData(SaveObject data)
+		{
+			if (!data.PuzzleDictionary.TryGetValue(id, out PuzzleState value)) return;
+
+			puzzleState = value;
+
+			if (puzzleState != PuzzleState.Completed) return;
+			interactableEventBegin.SetIsInteractable(false);
+		}
+
+		[ContextMenu("GenerateGUID")]
+		void GenerateGUID()
+		{
+			StringHelper.GenerateNewGuid(ref id);
+		}
+
+		[ContextMenu("ResetGUID")]
+		void ResetGUID()
+		{
+			id = "";
+		}
+
+#if UNITY_EDITOR
+		void OnValidate()
+		{
+			if (PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;
+			if (string.IsNullOrEmpty(id) || gameObject.name.IsDuplicatedGameObject()) GenerateGUID();
+		}
+#endif
 	}
 }

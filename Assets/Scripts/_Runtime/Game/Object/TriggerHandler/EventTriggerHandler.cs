@@ -7,7 +7,7 @@ using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
-	public class EventTriggerHandler : InteractableObjectEventStateChange
+	public class EventTriggerHandler : InteractableEventBegin
 	{
 		void OnTriggerEnter(Collider other)
 		{

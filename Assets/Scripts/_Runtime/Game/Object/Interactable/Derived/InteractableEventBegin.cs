@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -9,7 +8,7 @@ using Personal.InputProcessing;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractableObjectEventStateChange : InteractableObject
+	public class InteractableEventBegin : InteractableObject
 	{
 		[SerializeField] protected ActionMapType actionMapType = ActionMapType.Player;
 

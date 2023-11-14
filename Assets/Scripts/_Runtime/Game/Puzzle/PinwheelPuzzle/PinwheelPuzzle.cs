@@ -16,6 +16,7 @@ namespace Personal.Puzzle.Pinwheel
 {
 	public class PinwheelPuzzle : PuzzleController, IPuzzle, IProcess
 	{
+		[Space()]
 		[ChildGameObjectsOnly]
 		[SerializeField] Transform outerPinwheelTrans = null;
 		[ChildGameObjectsOnly]

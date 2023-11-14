@@ -257,10 +257,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6264341000515498157}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
+  m_Script: {fileID: 11500000, guid: ae4a172614ffd624ca690d5c6c76debe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: f1018307-3dfb-4873-942e-963abc0b11af
+  id: d1e56496-7720-4716-8700-91de8b3ee17e
   colliderTrans: {fileID: 3266309408851020891}
   interactCrosshairType: 2
   isInteractable: 1
@@ -270,7 +270,7 @@ MonoBehaviour:
   rewardDialogue: {fileID: 0}
   afterRewardDialogue: {fileID: 0}
   rewardInteractableObjectList: []
-  actionMapType: 2000
+  actionMapType: 500
 --- !u!1 &7345770453051626901
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,6 +712,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EightSlidePuzzle
       objectReference: {fileID: 0}
+    - target: {fileID: 1221913015419282843, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
+      propertyPath: id
+      value: 288909b6-6407-4847-936d-443bba56aa9d
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221913015419282843, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
+      propertyPath: interactableEventBegin
+      value: 
+      objectReference: {fileID: 6187011975244412339}
     - target: {fileID: 3665257249862840319, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
       propertyPath: m_IsActive
       value: 0

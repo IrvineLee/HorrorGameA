@@ -107,10 +107,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5514451692144366120}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
+  m_Script: {fileID: 11500000, guid: ae4a172614ffd624ca690d5c6c76debe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2dc57111-f80f-457a-96b3-583a4cade8da
+  id: ead99d1b-2820-4707-9207-121eed26587f
   colliderTrans: {fileID: 7161914527699717881}
   interactCrosshairType: 2
   isInteractable: 1
@@ -120,7 +120,7 @@ MonoBehaviour:
   rewardDialogue: {fileID: 0}
   afterRewardDialogue: {fileID: 0}
   rewardInteractableObjectList: []
-  actionMapType: 2000
+  actionMapType: 500
 --- !u!1 &6147416161771590659
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,6 +815,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4920424333275366985, guid: ef71a0f849077c8418c1fac077e52a61, type: 3}
+      propertyPath: interactableEventBegin
+      value: 
+      objectReference: {fileID: 5215155678682806331}
     m_RemovedComponents:
     - {fileID: 3163728903916888052, guid: ef71a0f849077c8418c1fac077e52a61, type: 3}
     - {fileID: 2649498306971722850, guid: ef71a0f849077c8418c1fac077e52a61, type: 3}
