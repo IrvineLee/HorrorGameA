@@ -28,5 +28,14 @@ namespace Helper
 
 			return newStr.Remove(newStr.Length - 1);
 		}
+
+		/// <summary>
+		/// Generate a new string guid.
+		/// </summary>
+		/// <param name="source"></param>
+		public static void GenerateNewGuid(ref string source)
+		{
+			source = Guid.NewGuid().ToString();
+		}
 	}
 }

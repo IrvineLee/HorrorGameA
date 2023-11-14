@@ -1,11 +1,13 @@
-﻿using UnityEngine;
-using System;
-using Newtonsoft.Json;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
 
+using Newtonsoft.Json;
 using Helper;
 using Personal.Save;
 using Personal.GameState;
-using System.IO;
 
 namespace Personal.Manager
 {
@@ -30,6 +32,25 @@ namespace Personal.Manager
 		SaveObject saveObject = new SaveObject();
 
 		IDataService dataService = new JsonDataService();
+
+		IEnumerable<IDataPersistence> dataPersistenceObjects;
+
+		protected override void OnTitleScene()
+		{
+			dataPersistenceObjects = null;
+		}
+
+		protected override void OnMainScene()
+		{
+			// Since there might be other main scenes, you want to update their data first before getting the new objects in the new scene.
+			UpdateDataPersistence();
+
+			dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>();
+			foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+			{
+				dataPersistenceObj.LoadData(saveObject);
+			}
+		}
 
 		/// <summary>
 		/// Save the current user data.
@@ -57,7 +78,9 @@ namespace Personal.Manager
 		/// <param name="slotID"></param>
 		public void SaveSlotData(int slotID = 0)
 		{
+			UpdateDataPersistence();
 			SavePath(GetSlotPath(slotID), saveObject);
+
 			UIManager.Instance.ToolsUI.LoadingIconTrans.gameObject.SetActive(true);
 		}
 
@@ -91,6 +114,19 @@ namespace Personal.Manager
 		public void DeleteSlotData(int slotID = 0)
 		{
 			dataService.ClearData(GetSlotPath(slotID));
+		}
+
+		/// <summary>
+		/// This saves data that happened in a scene. Ex: Whether an object has been taken/Has been interacted with/Cleared puzzle.
+		/// </summary>
+		void UpdateDataPersistence()
+		{
+			if (dataPersistenceObjects == null) return;
+
+			foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+			{
+				dataPersistenceObj.SaveData(saveObject);
+			}
 		}
 
 		/// <summary>

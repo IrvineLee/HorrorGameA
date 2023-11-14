@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 using Personal.Pool;
 using Personal.GameState;
+using Personal.Character.Player;
+using Personal.Item;
+using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.Manager
 {
@@ -11,6 +14,8 @@ namespace Personal.Manager
 		Dictionary<PoolType, SpawnablePoolBase> spawnablePoolDictionary = new();
 		Dictionary<string, GameObject> objectDictionary = new();
 
+		PlayerInventory playerInventory;
+
 		void Start()
 		{
 			foreach (Transform child in transform)
@@ -18,6 +23,14 @@ namespace Personal.Manager
 				var spawnablePool = child.GetComponentInChildren<SpawnablePoolBase>();
 				spawnablePoolDictionary.Add(spawnablePool.PoolType, spawnablePool);
 			}
+		}
+
+		protected override void OnMainScene()
+		{
+			UnsubscribeEvent();
+
+			playerInventory = StageManager.Instance.PlayerController.Inventory;
+			playerInventory.OnUseActiveItem += UseActiveItem;
 		}
 
 		public SpawnablePoolBase GetPool(PoolType poolType)
@@ -59,6 +72,23 @@ namespace Personal.Manager
 			{
 				go.transform.SetParent(parentGO.transform);
 			}
+		}
+
+		void UseActiveItem(Inventory inventory)
+		{
+			ReturnSpawnedObject(inventory.PickupableObjectFPS.gameObject);
+			ReturnSpawnedObject(inventory.PickupableObjectRotateUI.gameObject);
+		}
+
+		void UnsubscribeEvent()
+		{
+			if (!playerInventory) return;
+			playerInventory.OnUseActiveItem -= UseActiveItem;
+		}
+
+		void OnDestroy()
+		{
+			UnsubscribeEvent();
 		}
 	}
 }

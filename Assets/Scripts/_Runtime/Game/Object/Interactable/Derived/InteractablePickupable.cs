@@ -7,10 +7,11 @@ using Helper;
 using Personal.Item;
 using Personal.Manager;
 using Personal.Quest;
+using Personal.Save;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractablePickupable : InteractableObject
+	public class InteractablePickupable : InteractableObject, IDataPersistence
 	{
 		[Header("Item Setting")]
 		[SerializeField] ItemType itemType = ItemType._10000_Item_1;
@@ -52,12 +53,22 @@ namespace Personal.InteractiveObject
 		/// </summary>
 		void HandlePickupable()
 		{
+			isInteractionEnded = true;
 			StageManager.Instance.PlayerController.Inventory.AddItem(this);
 
-			colliderTrans.gameObject.SetActive(false);
-			meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+			gameObject.SetActive(false);
+		}
 
-			enabled = false;
+		void IDataPersistence.SaveData(SaveObject data)
+		{
+			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
+		}
+
+		void IDataPersistence.LoadData(SaveObject data)
+		{
+			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
+
+			gameObject.SetActive(!value);
 		}
 	}
 }

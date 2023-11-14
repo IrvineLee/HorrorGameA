@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
+using Helper;
 using Personal.Item;
+using Personal.Save;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractableDoorLock : InteractableDoor
+	public class InteractableDoorLock : InteractableDoor, IDataPersistence
 	{
-		[SerializeField] ItemType keyItemType = default;
+		[SerializeField] ItemType keyItemType = ItemType._10000_Item_1;
 
 		DialogueSystemTrigger dialogueSystemTrigger;
 
@@ -21,21 +22,34 @@ namespace Personal.InteractiveObject
 
 		protected override bool IsAbleToOpenDoor()
 		{
-			if (keyItemType == default) return true;
+			if (isInteractionEnded) return true;
 
 			if (playerInventory.ActiveObject != null)
 			{
 				ItemType itemType = playerInventory.ActiveObject.ItemType;
 				if (keyItemType == itemType)
 				{
-					keyItemType = default;
+					isInteractionEnded = true;
 					playerInventory.UseActiveItem();
+
 					return true;
 				}
 			}
 
 			dialogueSystemTrigger.OnUse(InitiatorStateMachine.transform);
 			return false;
+		}
+
+		void IDataPersistence.SaveData(SaveObject data)
+		{
+			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
+		}
+
+		void IDataPersistence.LoadData(SaveObject data)
+		{
+			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
+
+			isInteractionEnded = value;
 		}
 	}
 }

@@ -6,7 +6,7 @@ using Personal.Save;
 using Personal.GameState;
 using Personal.Item;
 using Personal.Character.Player;
-using Personal.InteractiveObject;
+using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.Manager
 {
@@ -61,9 +61,9 @@ namespace Personal.Manager
 			return 0;
 		}
 
-		void UseActiveItem(ItemType itemType)
+		void UseActiveItem(Inventory inventory)
 		{
-			AddUsedType(itemType);
+			AddUsedType(inventory.ItemType);
 		}
 
 		void UnsubscribeEvent()

@@ -5,6 +5,8 @@ using Steamworks;
 using Personal.GameState;
 using Personal.Achievement;
 using Personal.Save;
+using Personal.Character.Player;
+using static Personal.Character.Player.PlayerInventory;
 
 namespace Personal.Manager
 {
@@ -15,12 +17,22 @@ namespace Personal.Manager
 	{
 		SaveProfile saveProfile;
 
+		PlayerInventory playerInventory;
+
 		protected override void Initialize()
 		{
 			saveProfile = GameStateBehaviour.Instance.SaveProfile;
 		}
 
-		public void UpdateData(AchievementType achievementType)
+		protected override void OnMainScene()
+		{
+			UnsubscribeEvent();
+
+			playerInventory = StageManager.Instance.PlayerController.Inventory;
+			playerInventory.OnUseActiveItem += UseActiveItem;
+		}
+
+		void UpdateData(AchievementType achievementType)
 		{
 			if (saveProfile.UnlockedAchievementList.Contains(achievementType)) return;
 
@@ -47,6 +59,23 @@ namespace Personal.Manager
 		{
 			ResetLocalData();
 			ResetSteamData();
+		}
+
+		void UseActiveItem(Inventory inventory)
+		{
+			var achievementTypeSet = inventory.PickupableObjectFPS.GetComponentInChildren<AchievementTypeSet>();
+			if (achievementTypeSet) UpdateData(achievementTypeSet.AchievementType);
+		}
+
+		void UnsubscribeEvent()
+		{
+			if (!playerInventory) return;
+			playerInventory.OnUseActiveItem -= UseActiveItem;
+		}
+
+		void OnDestroy()
+		{
+			UnsubscribeEvent();
 		}
 
 		/// -----------------------------------------------------------------------

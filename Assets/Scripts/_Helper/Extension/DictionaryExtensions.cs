@@ -36,6 +36,23 @@ namespace Helper
 			dic[key] += value;
 		}
 
+		/// <summary>
+		/// This adds the key and value. If already existed, just update the value.
+		/// </summary>
+		/// <param name="dic"></param>
+		/// <param name="id"></param>
+		/// <param name="newValue"></param>
+		public static void AddOrUpdateValue(this Dictionary<string, bool> dic, string id, bool newValue)
+		{
+			if (dic.TryGetValue(id, out bool value))
+			{
+				dic[id] = newValue;
+				return;
+			}
+
+			dic.Add(id, newValue);
+		}
+
 		static TV GetValue<TDic, TK, TV>(this TDic dic, TK key, TV defaultValue) where TDic : IReadOnlyDictionary<TK, TV>
 		{
 			var value = dic.TryGetValue(key, out var result) ? result : defaultValue;

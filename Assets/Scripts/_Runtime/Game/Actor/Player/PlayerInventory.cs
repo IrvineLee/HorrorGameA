@@ -58,7 +58,7 @@ namespace Personal.Character.Player
 
 		public int CurrentActiveIndex { get; private set; } = -1;
 
-		public event Action<ItemType> OnUseActiveItem;
+		public event Action<Inventory> OnUseActiveItem;
 
 		Vector3 initialPosition = new Vector3(0, -0.25f, 0);
 
@@ -76,18 +76,10 @@ namespace Personal.Character.Player
 		/// <summary>
 		/// Use/interact/place item on someone or something.
 		/// </summary>
-		/// <param name="isReturnToPool">If you are putting the object into the world space, set it to false. Otherwise it return to the pool.</param>
-		public void UseActiveItem(bool isReturnToPool = true)
+		public void UseActiveItem()
 		{
-			OnUseActiveItem?.Invoke(activeObject.ItemType);
+			OnUseActiveItem?.Invoke(activeObject);
 			inventoryData.ItemList.Remove(activeObject.ItemType);
-
-			// Return used item to pool.
-			if (isReturnToPool)
-			{
-				PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectFPS.gameObject);
-			}
-			PoolManager.Instance.ReturnSpawnedObject(activeObject.PickupableObjectRotateUI.gameObject);
 
 			// Remove the item from the inventory and the ui view.
 			inventoryList.Remove(activeObject);
@@ -277,14 +269,9 @@ namespace Personal.Character.Player
 			Transform activeTrans = activeObject.PickupableObjectFPS.transform;
 			Transform fpsCameraView = StageManager.Instance.CameraHandler.PlayerCameraView.FpsInventoryView;
 
-			Quaternion rotation = activeTrans.localRotation;
-			Vector3 scale = activeTrans.localScale;
-
+			activeTrans.SetParent(fpsCameraView, false);
 			activeTrans.localPosition = initialPosition;
-			activeTrans.localRotation = rotation;
-			activeTrans.localScale = scale;
 
-			activeTrans.SetParent(fpsCameraView);
 			activeTrans.gameObject.SetActive(true);
 		}
 

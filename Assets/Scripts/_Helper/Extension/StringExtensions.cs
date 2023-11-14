@@ -205,5 +205,16 @@ namespace Helper
 		{
 			return source?.IndexOf(toCheck, comp) >= 0;
 		}
+
+		/// <summary>
+		/// This checks whether the gameobject is a duplicated object when you Ctrl+D.
+		/// This checks the default (x) naming convention, specifically the last character.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns></returns>
+		public static bool IsDuplicatedGameObject(this string source)
+		{
+			return string.Equals(source[source.Length - 1], ')');
+		}
 	}
 }

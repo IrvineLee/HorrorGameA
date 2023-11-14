@@ -12,6 +12,10 @@ using Personal.GameState;
 using Personal.Manager;
 using Personal.Item;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Personal.InteractiveObject
 {
 	public abstract class InteractableObject : GameInitialize
@@ -21,6 +25,9 @@ namespace Personal.InteractiveObject
 
 		const string REWARD_STRING = "@interactionType == Personal.InteractiveObject.InteractableType.Reward || " +
 			"interactionType == Personal.InteractiveObject.InteractableType.Requirement_Reward";
+
+		// This is a unique ID for saving/loading objects in scene.
+		[SerializeField] [ReadOnly] protected string id;
 
 		[SerializeField] protected Transform colliderTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
@@ -60,8 +67,12 @@ namespace Personal.InteractiveObject
 
 		protected bool isGottenReward;
 
+		// This handles the save/load of whether interaction with this object has ended.
+		protected bool isInteractionEnded;
+
 		protected override void Initialize()
 		{
+
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
 			if (colliderTrans) outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
 
@@ -136,6 +147,26 @@ namespace Personal.InteractiveObject
 			isGottenReward = true;
 			if (!afterRewardDialogue) SetIsInteractable(false);
 		}
+
+		[ContextMenu("GenerateGUID")]
+		void GenerateGUID()
+		{
+			StringHelper.GenerateNewGuid(ref id);
+		}
+
+		[ContextMenu("ResetGUID")]
+		void ResetGUID()
+		{
+			id = "";
+		}
+
+#if UNITY_EDITOR
+		void OnValidate()
+		{
+			if (PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;
+			if (string.IsNullOrEmpty(id) || gameObject.name.IsDuplicatedGameObject()) GenerateGUID();
+		}
+#endif
 	}
 }
 

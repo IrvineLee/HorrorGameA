@@ -37,6 +37,8 @@ namespace Personal.InteractiveObject
 			if (!IsAbleToOpenDoor()) return UniTask.CompletedTask;
 			if (!runCR.IsDone) return UniTask.CompletedTask;
 
+			isInteractionEnded = true;
+
 			if (!isOpened)
 			{
 				// Open the door.
@@ -50,7 +52,7 @@ namespace Personal.InteractiveObject
 
 			// Rotate it to endRotation.
 			Quaternion endRotation = Quaternion.Euler(eulerAngle);
-			runCR = CoroutineHelper.QuaternionLerpWithinSeconds(doorHingeTrans, doorHingeTrans.rotation, endRotation, duration, () =>
+			runCR = CoroutineHelper.QuaternionLerpWithinSeconds(doorHingeTrans, doorHingeTrans.localRotation, endRotation, duration, () =>
 			{
 				isOpened = !isOpened;
 				if (!isOpened)
