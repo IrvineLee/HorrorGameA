@@ -42,9 +42,9 @@ namespace Helper
 		/// <param name="dic"></param>
 		/// <param name="id"></param>
 		/// <param name="newValue"></param>
-		public static void AddOrUpdateValue(this Dictionary<string, bool> dic, string id, bool newValue)
+		public static void AddOrUpdateValue<TV>(this Dictionary<string, TV> dic, string id, TV newValue)
 		{
-			if (dic.TryGetValue(id, out bool value))
+			if (dic.TryGetValue(id, out TV value))
 			{
 				dic[id] = newValue;
 				return;
