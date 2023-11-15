@@ -19,14 +19,10 @@ namespace Personal.Manager
 
 		PlayerInventory playerInventory;
 
-		protected override void Initialize()
+		protected override void OnMainScene()
 		{
 			glossaryData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.GlossaryData;
 
-		}
-
-		protected override void OnMainScene()
-		{
 			UnsubscribeEvent();
 
 			playerInventory = StageManager.Instance.PlayerController.Inventory;

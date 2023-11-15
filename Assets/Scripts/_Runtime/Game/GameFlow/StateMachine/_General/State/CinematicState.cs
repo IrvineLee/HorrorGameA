@@ -12,8 +12,7 @@ namespace Personal.FSM.Character
 		{
 			await base.OnEnter();
 
-			if (isOn) UIManager.Instance.ToolsUI.CinematicBars.Show();
-			else UIManager.Instance.ToolsUI.CinematicBars.Hide();
+			UIManager.Instance.ToolsUI.CinematicBars(isOn);
 		}
 	}
 }

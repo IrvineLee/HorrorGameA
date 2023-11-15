@@ -44,6 +44,7 @@ namespace Personal.InteractiveObject
 
 		void IDataPersistence.SaveData(SaveObject data)
 		{
+			if (!isInteractionEnded) return;
 			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
 		}
 

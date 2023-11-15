@@ -114,6 +114,7 @@ namespace Personal.Puzzle
 
 		void IDataPersistence.SaveData(SaveObject data)
 		{
+			if (puzzleState != PuzzleState.Completed) return;
 			data.PuzzleDictionary.AddOrUpdateValue(id, puzzleState);
 		}
 

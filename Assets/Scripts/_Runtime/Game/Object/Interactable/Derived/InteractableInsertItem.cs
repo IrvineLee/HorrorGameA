@@ -87,7 +87,12 @@ namespace Personal.InteractiveObject
 			List<bool> clearItemList = itemInfoList.Select((x) => x.IsInteractionEnded).ToList();
 			Completed completed = new Completed(clearItemList);
 
-			data.InsertItemDictionary.AddOrUpdateValue(id, completed);
+			if (completed.IsCompletedList.Contains(true))
+			{
+				data.InsertItemDictionary.AddOrUpdateValue(id, completed);
+			}
+
+			if (!isInteractionEnded) return;
 			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
 		}
 

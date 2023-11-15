@@ -45,7 +45,7 @@ namespace Personal.Manager
 			if (mainSceneHandler) return;
 
 			// Deactivate the black screen.
-			UIManager.Instance.ToolsUI.BlackScreen.gameObject.SetActive(false);
+			UIManager.Instance.ToolsUI.BlackScreen(false);
 
 			// Make the player not able to do anything.
 			InputManager.Instance.DisableAllActionMap();

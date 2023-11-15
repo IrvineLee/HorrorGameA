@@ -25,10 +25,12 @@ namespace Personal.Manager
 		{
 			if (Input.GetKeyDown(KeyCode.F9))
 			{
+				if (!GameSceneManager.Instance.IsMainScene()) return;
 				SaveManager.Instance.SaveSlotData();
 			}
 			else if (Input.GetKeyDown(KeyCode.F12))
 			{
+				if (!GameSceneManager.Instance.IsMainScene()) return;
 				SaveManager.Instance.LoadSlotData();
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -37,7 +39,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftAlt))
 			{
-				FindObjectOfType<PhoneHandler>()?.Ring();
+				//FindObjectOfType<PhoneHandler>()?.Ring();
 			}
 			else if (Input.GetKeyDown(KeyCode.RightControl))
 			{

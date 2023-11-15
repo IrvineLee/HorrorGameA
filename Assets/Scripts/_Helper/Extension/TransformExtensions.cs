@@ -4,7 +4,7 @@ namespace Helper
 {
 	public static class TransformExtensions
 	{
-		// Replace with
+		// Destroy all children immediately.
 		public static Transform DestroyAllChildren(this Transform original)
 		{
 			for (int i = original.childCount - 1; i >= 0; i--)
@@ -26,6 +26,21 @@ namespace Helper
 			{
 				child.gameObject.layer = layer;
 			}
+		}
+
+		/// <summary>
+		/// Checks whether this transform is the first active sibling.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <returns></returns>
+		public static bool IsFirstActiveSibling(this Transform original)
+		{
+			foreach (Transform child in original.parent)
+			{
+				if (!child.gameObject.activeSelf) continue;
+				return child == original;
+			}
+			return false;
 		}
 	}
 }

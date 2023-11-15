@@ -1,14 +1,21 @@
 using UnityEngine;
 
+using Personal.GameState;
+
 namespace Personal.Character.Player
 {
-	public class ParentMoveFollowChild : MonoBehaviour
+	public class ParentMoveFollowChild : GameInitialize
 	{
 		[SerializeField] Transform parentTarget = null;
 		[SerializeField] Transform childTarget = null;
 		[SerializeField] bool isFollowPosition = true;
 		[SerializeField] bool isFollowRotation = true;
 		[SerializeField] Vector3 positionOffset = Vector3.zero;
+
+		protected override void EarlyInitialize()
+		{
+			childTarget.localPosition = Vector3.zero;
+		}
 
 		void Update()
 		{

@@ -18,7 +18,7 @@ namespace Personal.UI
 			activeGO.SetActive(isActive);
 		}
 
-		void OnApplicationQuit()
+		void OnDestroy()
 		{
 			button.onClick.RemoveAllListeners();
 		}

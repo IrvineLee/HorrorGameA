@@ -14,6 +14,8 @@ namespace Personal.Preloader
 		const string preloadSceneName = SceneName.PreloadScene;
 		const string startSceneName = SceneName.Title;
 
+		public static string PreviousSceneName { get; private set; }
+
 		static string activeSceneName = BootSceneName;
 
 		// Load the boot and preload scene first.
@@ -43,6 +45,7 @@ namespace Personal.Preloader
 		static async void RuntimeInit()
 		{
 			IsPreloadSceneLoaded = true;
+			PreviousSceneName = activeSceneName;
 
 			// Makes sure all the singletons are ready to go before loading up the active scene.
 			if (!GameManager.IsLoadingOver)

@@ -27,7 +27,7 @@ namespace Personal.InteractiveObject
 		protected override async UniTask OnMainSceneAsync()
 		{
 			// You probably need this if you start the game directly in main scene.
-			UIManager.Instance.ToolsUI.BlackScreen.gameObject.SetActive(true);
+			UIManager.Instance.ToolsUI.BlackScreen(true);
 
 			// You want to wait other OnMainScene to get called first before this.
 			await UniTask.NextFrame();
@@ -60,7 +60,7 @@ namespace Personal.InteractiveObject
 
 			// Make sure the transition is fully black before disabling the black screen.
 			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
-			UIManager.Instance.ToolsUI.BlackScreen.enabled = false;
+			UIManager.Instance.ToolsUI.BlackScreen(false);
 		}
 
 		async UniTask HandleStateMachine(OrderedStateMachine orderedStateMachine)

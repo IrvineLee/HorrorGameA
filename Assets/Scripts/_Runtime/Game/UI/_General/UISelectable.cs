@@ -48,6 +48,9 @@ namespace Personal.UI
 		{
 			if (!isInitialSelection) return;
 
+			// If you are not the first active sibling, do not select it.
+			if (!transform.IsFirstActiveSibling()) return;
+
 			// Make sure it's always on the selected state when starting.
 			EventSystem.current.SetSelectedGameObject(gameObject);
 			menuUIBase?.SetLastSelectedGO(gameObject);
@@ -85,7 +88,8 @@ namespace Personal.UI
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
 		{
-			if (isLockSelection) return;
+			// You most probably don't wanna OnDeselect when it's busy.
+			if (isLockSelection || StageManager.Instance.IsBusy) return;
 
 			// Wait for end of frame to check whether the next active selection is within the ignored list.
 			CoroutineHelper.WaitEndOfFrame(() =>

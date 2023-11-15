@@ -10,9 +10,15 @@ namespace Personal.UI
 		[SerializeField] Image blackScreen = null;
 		[SerializeField] Image inputBlocker = null;
 
-		public Transform LoadingIconTrans { get => loadingIconTrans; }
-		public CinematicBars CinematicBars { get => cinematicBars; }
-		public Image BlackScreen { get => blackScreen; }
-		public Image InputBlocker { get => inputBlocker; }
+		public void LoadingIconTrans(bool isFlag) { loadingIconTrans.gameObject.SetActive(isFlag); }
+
+		public void CinematicBars(bool isFlag)
+		{
+			if (isFlag) cinematicBars.Show();
+			else cinematicBars.Hide();
+		}
+
+		public void BlackScreen(bool isFlag) { blackScreen.gameObject.SetActive(isFlag); }
+		public void BlockInput(bool isFlag) { inputBlocker.gameObject.SetActive(isFlag); }
 	}
 }

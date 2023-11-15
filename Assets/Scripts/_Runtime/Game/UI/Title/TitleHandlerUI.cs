@@ -21,11 +21,12 @@ namespace Personal.UI.Option
 			await UniTask.WaitUntil(() => !StageManager.Instance.IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			InitialSetup();
+			pressAnyButton.gameObject.SetActive(true);
+
+			await UniTask.NextFrame();
 
 			InputManager.Instance.SetToDefaultActionMap();
 			InputManager.OnAnyButtonPressed += Begin;
-
-			pressAnyButton.gameObject.SetActive(true);
 		}
 
 		/// <summary>

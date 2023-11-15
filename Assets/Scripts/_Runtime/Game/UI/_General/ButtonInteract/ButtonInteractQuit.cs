@@ -15,13 +15,9 @@ namespace Personal.UI
 
 		[SerializeField] QuitType quitType = QuitType.TitleScene;
 
-		GameObject inputBlockerGO;
-
 		public override void InitialSetup()
 		{
 			base.InitialSetup();
-
-			inputBlockerGO = UIManager.Instance.ToolsUI.InputBlocker.gameObject;
 			button.onClick.AddListener(Quit);
 		}
 
@@ -45,13 +41,10 @@ namespace Personal.UI
 
 				StageManager.Instance.ResetStage();
 				UIManager.Instance.CloseAllWindowAndUIInterfaceStack();
-				inputBlockerGO.SetActive(false);
 			};
 
-			GameSceneManager.Instance.ChangeLevel(SceneName.Title, inBetweenAction: inBetweenAction, isIgnoreTimescale: true);
-
+			GameSceneManager.Instance.ChangeLevel(SceneName.Title, endTransitionAction: inBetweenAction, isIgnoreTimescale: true);
 			InputManager.Instance.DisableAllActionMap();
-			inputBlockerGO.SetActive(true);
 		}
 
 		void OnDestroy()

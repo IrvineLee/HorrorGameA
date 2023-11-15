@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 491229462111593867, guid: db6e9e7d77f80c24e94010c3c16bba2f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -43.75
+      value: -111.25
       objectReference: {fileID: 0}
     - target: {fileID: 491229462111593867, guid: db6e9e7d77f80c24e94010c3c16bba2f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -120,6 +120,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3201225975636000663, guid: db6e9e7d77f80c24e94010c3c16bba2f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8566593476796128587}
+    - targetCorrespondingSourceObject: {fileID: 3201225975636000663, guid: db6e9e7d77f80c24e94010c3c16bba2f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2469646285161786352}
     - targetCorrespondingSourceObject: {fileID: 2898739006950197442, guid: db6e9e7d77f80c24e94010c3c16bba2f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 636088972259712462}
@@ -142,6 +145,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneType: 1
+--- !u!114 &2469646285161786352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2552607418773674865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da82089961dea9c4d9d858eb9292fcf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2827072238351854628 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2898739006950197442, guid: db6e9e7d77f80c24e94010c3c16bba2f, type: 3}

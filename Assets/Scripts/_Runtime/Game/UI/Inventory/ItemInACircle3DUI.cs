@@ -43,7 +43,7 @@ namespace Personal.UI
 			Vector3 scale = inventoryUI.transform.localScale;
 
 			inventoryUI.transform.SetParent(contentTrans);
-			inventoryUI.transform.rotation = rotation;
+			inventoryUI.transform.localRotation = rotation;
 			inventoryUI.transform.localScale = scale;
 		}
 

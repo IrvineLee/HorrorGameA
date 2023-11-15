@@ -55,10 +55,10 @@ namespace Personal.Manager
 		async UniTask HandleLoading()
 		{
 			SaveManager.Instance.LoadProfileData();
-			SaveManager.Instance.LoadSlotData();
 
 			await UniTask.DelayFrame(10, cancellationToken: this.GetCancellationTokenOnDestroy());
 
+			// The reason you save the profile here is for future cases where you add new fields to the profile data and you need it to be updated.
 			SaveManager.Instance.SaveProfileData();
 		}
 	}

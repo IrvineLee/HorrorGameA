@@ -18,7 +18,7 @@ namespace Personal.Manager
 
 		QuestData questData;
 
-		protected override void Initialize()
+		protected override void OnMainScene()
 		{
 			questData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.QuestData;
 		}

@@ -58,7 +58,7 @@ namespace Personal.UI
 			string titleStr = "";
 			string descriptionStr = "";
 
-			var entity = MasterDataManager.Instance.Item.Get((int)itemType);
+			var entity = itemType == null ? null : MasterDataManager.Instance.Item.Get((int)itemType);
 			if (entity != null)
 			{
 				titleStr = MasterLocalization.Get(MasterLocalization.TableNameType.NameText, entity.id);

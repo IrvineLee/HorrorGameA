@@ -12,10 +12,15 @@ namespace Personal.Save
 	[Serializable]
 	public class SaveProfile : GenericSave
 	{
-		[SerializeField] OptionSavedData optionSavedData = new OptionSavedData();
+		// The latest save slot data. Used for continue button on the title scene. As of now there's only 1 save slot.
+		[SerializeField] int latestSaveSlot = -1;
 
+		[SerializeField] OptionSavedData optionSavedData = new OptionSavedData();
+		[SerializeField] List<AchievementType> unlockedAchievementList = new();
+
+		public int LatestSaveSlot { get => latestSaveSlot; set => latestSaveSlot = value; }
 		public OptionSavedData OptionSavedData { get => optionSavedData; }
-		public List<AchievementType> UnlockedAchievementList { get; } = new List<AchievementType>();
+		public List<AchievementType> UnlockedAchievementList { get => unlockedAchievementList; }
 
 		public bool AddToAchievement(AchievementType achievementType)
 		{

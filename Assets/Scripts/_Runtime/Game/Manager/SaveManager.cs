@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Helper;
 using Personal.Save;
 using Personal.GameState;
+using Personal.Preloader;
 
 namespace Personal.Manager
 {
@@ -37,11 +38,19 @@ namespace Personal.Manager
 
 		protected override void OnTitleScene()
 		{
+			// Reset the slot save data.
+			saveObject = new SaveObject();
 			dataPersistenceObjects = null;
 		}
 
-		protected override void OnMainScene()
+		protected override void OnEarlyMainScene()
 		{
+			// This will only happen in editor mode, when you enter the scene without going through the title scene.
+			if (!PreloadGame.PreviousSceneName.Equals(SceneName.Title))
+			{
+				LoadSlotData();
+			}
+
 			// Since there might be other main scenes, you want to update their data first before getting the new objects in the new scene.
 			UpdateDataPersistence();
 
@@ -58,18 +67,17 @@ namespace Personal.Manager
 		public void SaveProfileData()
 		{
 			SavePath(profileDirectory + profileFileName, saveProfile);
-			UIManager.Instance.ToolsUI.LoadingIconTrans.gameObject.SetActive(true);
+			UIManager.Instance.ToolsUI.LoadingIconTrans(true);
 		}
 
 		/// <summary>
 		/// Load the current user data.
 		/// </summary>
-		public bool LoadProfileData()
+		public void LoadProfileData()
 		{
-			saveProfile = LoadPath<SaveProfile>(profileDirectory + profileFileName, out bool isNewlyCreated);
+			saveProfile = LoadPath<SaveProfile>(profileDirectory + profileFileName);
 
 			GameStateBehaviour.Instance.InitializeProfile(saveProfile);
-			return isNewlyCreated;
 		}
 
 		/// <summary>
@@ -78,10 +86,16 @@ namespace Personal.Manager
 		/// <param name="slotID"></param>
 		public void SaveSlotData(int slotID = 0)
 		{
+			saveObject.PlayerSavedData.SceneName = GameSceneManager.Instance.CurrentSceneName;
 			UpdateDataPersistence();
+
 			SavePath(GetSlotPath(slotID), saveObject);
 
-			UIManager.Instance.ToolsUI.LoadingIconTrans.gameObject.SetActive(true);
+			if (saveProfile.LatestSaveSlot == slotID) return;
+
+			// Update the latest slot data for title scene.
+			saveProfile.LatestSaveSlot = slotID;
+			SaveProfileData();
 		}
 
 		/// <summary>
@@ -90,13 +104,11 @@ namespace Personal.Manager
 		/// <param name="slotID"></param>
 		public void LoadSlotData(int slotID = 0)
 		{
-			if (slotID < 0 || slotID > ID_COUNT)
+			if (slotID >= 0 && slotID < ID_COUNT)
 			{
-				Debug.Log("<Color=Red>Save ID is not within range. Check SaveManager's ID_COUNT.</Color>");
-				return;
+				saveObject = LoadPath<SaveObject>(GetSlotPath(slotID));
 			}
 
-			saveObject = LoadPath<SaveObject>(GetSlotPath(slotID), out bool isNewlyCreated);
 			GameStateBehaviour.Instance.InitializeData(saveObject);
 		}
 
@@ -114,6 +126,9 @@ namespace Personal.Manager
 		public void DeleteSlotData(int slotID = 0)
 		{
 			dataService.ClearData(GetSlotPath(slotID));
+
+			saveProfile.LatestSaveSlot = -1;
+			SaveProfileData();
 		}
 
 		/// <summary>
@@ -160,7 +175,7 @@ namespace Personal.Manager
 				long saveTime = DateTime.Now.Ticks - startTime;
 
 				string typeStr = typeof(T).ToString().SearchBehindRemoveFrontOrEnd('.', true, false);
-				HandleDataPrint("Save : <color=green>" + typeStr + "</color> Time : ", saveTime, data);
+				HandleDataPrint("<color=cyan>Save : " + typeStr + "</color> Time : ", saveTime, data);
 			}
 			catch (Exception e)
 			{
@@ -175,12 +190,11 @@ namespace Personal.Manager
 		/// <param name="path"></param>
 		/// <param name="onCompleteAction"></param>
 		/// <returns></returns>
-		T LoadPath<T>(string path, out bool isNewlyCreated, Action onCompleteAction = default) where T : GenericSave
+		T LoadPath<T>(string path, Action onCompleteAction = default) where T : GenericSave
 		{
 			T data = default(T);
 			long startTime = DateTime.Now.Ticks;
 
-			isNewlyCreated = false;
 			try
 			{
 				string newPath = Application.persistentDataPath + path;
@@ -197,13 +211,12 @@ namespace Personal.Manager
 				if (data == default)
 				{
 					data = GetTConstructor(data);
-					isNewlyCreated = true;
 				}
 
 				long loadTime = DateTime.Now.Ticks - startTime;
 
 				string typeStr = typeof(T).ToString().SearchBehindRemoveFrontOrEnd('.', true, false);
-				HandleDataPrint("Load : <color=yellow>" + typeStr + "</color> Time : ", loadTime, data);
+				HandleDataPrint("<color=yellow>Load : " + typeStr + "</color> Time : ", loadTime, data);
 
 				onCompleteAction?.Invoke();
 			}

@@ -79,6 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b2996ad6b6c041bcafc399abd7695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: d5bc9dc5-2ca7-4bc1-9443-4109f1a44883
+  interactableEventBegin: {fileID: 0}
   rewardInteractableObjectList: []
   tileList:
   - tileTrans: {fileID: 837121303477297727}
@@ -393,9 +395,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1529646034984128741}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe45aa75fb7df6c45a8cc51caf159129, type: 3}
+  m_Script: {fileID: 11500000, guid: ae4a172614ffd624ca690d5c6c76debe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 07f4c693-dd5d-4467-a9e0-1d6acf3a5e0c
   colliderTrans: {fileID: 2211534157745629288}
   interactCrosshairType: 2
   isInteractable: 1
@@ -1530,7 +1533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableInteractableObjectList: []
   disableInteractableObjectList:
-  - {fileID: 8050680161986757513}
+  - {fileID: 0}
   rewardInteractableObjectList: []
   iProcessTrans: {fileID: 9030840522842110054}
 --- !u!114 &8973680925447581878 stripped
