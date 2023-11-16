@@ -120,6 +120,11 @@ namespace Personal.Puzzle.EightSlide
 			GetReward();
 		}
 
+		void IPuzzle.AutoComplete()
+		{
+
+		}
+
 		/// <summary>
 		/// Handle whether the puzzle has started.
 		/// </summary>

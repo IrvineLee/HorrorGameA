@@ -43,6 +43,18 @@ namespace Helper
 		}
 
 		/// <summary>
+		/// Swap the value.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="swap"></param>
+		public static void Swap(this ref int original, ref int swap)
+		{
+			int temp = original;
+			original = swap;
+			swap = temp;
+		}
+
+		/// <summary>
 		/// Convert value from 0~100 to 0~1. 
 		/// </summary>
 		/// <param name="original"></param>

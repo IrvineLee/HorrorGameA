@@ -165,6 +165,11 @@ namespace Personal.Puzzle.Pinwheel
 			GetReward();
 		}
 
+		void IPuzzle.AutoComplete()
+		{
+
+		}
+
 		/// <summary>
 		/// Begin or end the puzzle.
 		/// </summary>

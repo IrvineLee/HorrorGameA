@@ -123,9 +123,10 @@ namespace Personal.Puzzle
 			if (!data.PuzzleDictionary.TryGetValue(id, out PuzzleState value)) return;
 
 			puzzleState = value;
-
 			if (puzzleState != PuzzleState.Completed) return;
+
 			interactableEventBegin.SetIsInteractable(false);
+			GetComponent<IPuzzle>()?.AutoComplete();
 		}
 
 		[ContextMenu("GenerateGUID")]

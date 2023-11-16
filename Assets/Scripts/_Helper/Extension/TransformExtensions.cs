@@ -42,5 +42,17 @@ namespace Helper
 			}
 			return false;
 		}
+
+		/// <summary>
+		/// Swap the position of transform.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="swap"></param>
+		public static void SwapPosition(this Transform original, Transform swap)
+		{
+			Vector3 temp = original.position;
+			original.position = swap.position;
+			swap.position = temp;
+		}
 	}
 }

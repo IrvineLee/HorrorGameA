@@ -9,6 +9,7 @@ namespace Personal.Puzzle
 		void ClickedInteractable(Transform trans);
 		void CancelledInteractable(Transform trans) { }
 		void CheckPuzzleAnswer();
+		void AutoComplete();          // This is typically used when loading the game/debug time.
 		List<Transform> GetInteractableObjectList();
 	}
 }

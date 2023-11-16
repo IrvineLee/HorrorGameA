@@ -112,6 +112,34 @@ namespace Personal.Puzzle.EightSlide
 		}
 
 		/// <summary>
+		/// Complete the puzzle.
+		/// </summary>
+		void IPuzzle.AutoComplete()
+		{
+			Dictionary<int, Tile> indexTileDictionary = new();
+			foreach (var tile in tileList)
+			{
+				indexTileDictionary.Add(tile.StartIndex, tile);
+			}
+
+			foreach (var tile in tileList)
+			{
+				if (!indexTileDictionary.TryGetValue(tile.EndIndex, out Tile endTile)) continue;
+
+				// Update the dictionary.
+				indexTileDictionary[tile.CurrentIndex] = endTile;
+				indexTileDictionary[endTile.CurrentIndex] = tile;
+
+				// Update tile index.
+				int index = endTile.CurrentIndex;
+				endTile.SetCurrentIndex(tile.CurrentIndex);
+				tile.SetCurrentIndex(index);
+
+				tile.TileTrans.SwapPosition(endTile.TileTrans);
+			}
+		}
+
+		/// <summary>
 		/// Cancelled the pick.
 		/// </summary>
 		/// <param name="trans"></param>

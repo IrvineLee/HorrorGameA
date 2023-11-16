@@ -21,7 +21,6 @@ namespace Helper
 		public static Vector3 GetNormalizedDirectionTo(this Vector3 original, Vector3 targetPosition)
 		{
 			return (targetPosition - original).normalized;
-
 		}
 
 		/// <summary>
