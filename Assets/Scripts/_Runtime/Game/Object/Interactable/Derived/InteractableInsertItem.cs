@@ -38,12 +38,15 @@ namespace Personal.InteractiveObject
 		[SerializeField] List<ItemInfo> itemInfoList = new List<ItemInfo>();
 
 		PlayerInventory playerInventory;
+		Completed valueCompleted;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
-
 			playerInventory = StageManager.Instance.PlayerController?.Inventory;
+
+			// Use the loaded data if have.
+			if (valueCompleted != null) return;
 
 			foreach (var itemInfo in itemInfoList)
 			{
@@ -101,7 +104,7 @@ namespace Personal.InteractiveObject
 			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
 			gameObject.SetActive(!value);
 
-			if (!data.InsertItemDictionary.TryGetValue(id, out Completed valueCompleted)) return;
+			if (!data.InsertItemDictionary.TryGetValue(id, out valueCompleted)) return;
 
 			for (int i = 0; i < valueCompleted.IsCompletedList.Count; i++)
 			{

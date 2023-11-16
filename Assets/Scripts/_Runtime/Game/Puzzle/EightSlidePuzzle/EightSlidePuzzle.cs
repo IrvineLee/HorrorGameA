@@ -16,19 +16,24 @@ namespace Personal.Puzzle.EightSlide
 		[SerializeField] float slideDuration = 0.5f;
 
 		int emptyIndex;
+		int defaultEmptyIndex;
+
 		Dictionary<Transform, Tile> tileDictionary = new();
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
+			if (puzzleState == PuzzleState.Completed) return;
+
 			var tempList = new List<int>(new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
 			// Set the current and empty index.
 			foreach (var tile in tileList)
 			{
+				tile.Init();
 				tile.SetCurrentIndex(tile.StartIndex);
-				selectionTransformSet.SetInitialTarget(tile.StartIndex, tile.TileTrans);
 
+				selectionTransformSet.SetInitialTarget(tile.StartIndex, tile.TileTrans);
 				tileDictionary.Add(tile.TileTrans, tile);
 
 				if (!tempList.Contains(tile.StartIndex))
@@ -40,8 +45,8 @@ namespace Personal.Puzzle.EightSlide
 				tempList.Remove(tile.StartIndex);
 			}
 
-			emptyIndex = tempList[0];
-
+			defaultEmptyIndex = emptyIndex = tempList[0];
+			selectionTransformSet.Init();
 		}
 
 		protected override Transform GetActiveSelectionForGamepad()
@@ -120,9 +125,43 @@ namespace Personal.Puzzle.EightSlide
 			GetReward();
 		}
 
+		/// <summary>
+		/// Complete the puzzle.
+		/// </summary>
 		void IPuzzle.AutoComplete()
 		{
+			Dictionary<int, Transform> indexTransformDictionary = new();
+			for (int i = 0; i < selectionTransformSet.SelectionTargetList.Count; i++)
+			{
+				Transform selection = selectionTransformSet.SelectionTargetList[i].Selection;
+				indexTransformDictionary.Add(i, selection);
+			}
 
+			foreach (var tile in tileList)
+			{
+				if (!indexTransformDictionary.TryGetValue(tile.EndIndex, out Transform selection)) continue;
+
+				// Update tile index.
+				tile.SetCurrentIndex(tile.EndIndex);
+				tile.TileTrans.position = selection.position;
+			}
+		}
+
+		/// <summary>
+		/// Reset to default.
+		/// </summary>
+		void IPuzzle.ResetToDefault()
+		{
+			selectionTransformSet.Reset();
+
+			foreach (var tile in tileList)
+			{
+				tile.Reset();
+				selectionTransformSet.SetInitialTarget(tile.StartIndex, tile.TileTrans);
+			}
+
+			emptyIndex = defaultEmptyIndex;
+			selectionTransformSet.Init();
 		}
 
 		/// <summary>

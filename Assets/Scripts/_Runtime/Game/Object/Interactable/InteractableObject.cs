@@ -72,7 +72,6 @@ namespace Personal.InteractiveObject
 
 		protected override void Initialize()
 		{
-
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
 			if (colliderTrans) outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
 

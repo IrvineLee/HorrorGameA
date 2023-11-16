@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using static Helper.ClassHelper;
@@ -122,6 +123,36 @@ namespace Helper
 			foreach (var obj in list)
 			{
 				obj.gameObject.SetActive(false);
+			}
+		}
+
+		/// <summary>
+		/// Get the combination of numbers based on the 'setList' that adds up to 'sum'.
+		/// </summary>
+		/// <param name="setList"></param>
+		/// <param name="sum"></param>
+		/// <param name="values"></param>
+		/// <returns></returns>
+		public static IEnumerable<string> GetCombinations(this List<int> setList, int sum, string values = "")
+		{
+			for (int i = 0; i < setList.Count; i++)
+			{
+				int left = sum - setList[i];
+				string vals = setList[i] + "," + values;
+				if (left == 0)
+				{
+					yield return vals;
+					continue;
+				}
+
+				List<int> possible = setList.Take(i).Where(n => n <= sum).ToList();
+				if (possible.Count > 0)
+				{
+					foreach (string s in GetCombinations(possible, left, vals))
+					{
+						yield return s;
+					}
+				}
 			}
 		}
 	}

@@ -28,6 +28,12 @@ namespace Personal.Puzzle.EightSlide
 			public SpriteRenderer SpriteRenderer { get => spriteRenderer = !spriteRenderer ? tileTrans.GetComponentInChildren<SpriteRenderer>() : spriteRenderer; }
 
 			SpriteRenderer spriteRenderer;
+			Vector3 defaultStartPosition;
+
+			public void Init()
+			{
+				if (tileTrans) defaultStartPosition = tileTrans.position;
+			}
 
 			public void SetStartIndex(int value)
 			{
@@ -45,6 +51,12 @@ namespace Personal.Puzzle.EightSlide
 				else if (currentIndex + 3 == emptyIndex) return BasicDirection.Down;
 
 				return null;
+			}
+
+			public void Reset()
+			{
+				SetStartIndex(startIndex);
+				if (tileTrans) tileTrans.position = defaultStartPosition;
 			}
 		}
 

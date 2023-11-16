@@ -37,6 +37,8 @@ namespace Personal.Puzzle.Pinwheel
 		[ReadOnly]
 		public BasicColor ActiveColor { get => activeIndex < 0 || activeIndex > basicColorList.Count - 1 ? BasicColor.Blue : basicColorList[activeIndex]; }
 
+		public int ActiveIndex { get => activeIndex; }
+
 		[HorizontalGroup("Active Color")]
 		[ShowInInspector]
 		[ReadOnly]
@@ -145,6 +147,33 @@ namespace Personal.Puzzle.Pinwheel
 		{
 			if (ActiveColor == EndColor) return true;
 			return false;
+		}
+
+		/// <summary>
+		/// Whether there are duplicate colors for end color.
+		/// </summary>
+		/// <returns></returns>
+		public bool HasDuplicateEndColor()
+		{
+			int count = 0;
+			foreach (var color in basicColorList)
+			{
+				if (color == EndColor) count++;
+				if (count > 1) return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Rotate until activeIndex is index.
+		/// </summary>
+		/// <param name="index"></param>
+		public void RotateUntilIndex(int index)
+		{
+			while (activeIndex != index)
+			{
+				Turn();
+			}
 		}
 
 #if UNITY_EDITOR

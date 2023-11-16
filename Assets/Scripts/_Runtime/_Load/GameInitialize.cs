@@ -41,7 +41,7 @@ namespace Personal.GameState
 		protected virtual void EarlyInitialize() { }
 
 		/// <summary>
-		/// Treat this as a normal Start function. It gets called after OnEnable() and Start().
+		/// Treat this as a normal Start function but it still gets called even when script is off. It gets called after OnEnable() and Start().
 		/// </summary>
 		protected virtual void Initialize() { }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
@@ -8,7 +9,8 @@ using Helper;
 using Personal.Manager;
 using Personal.InteractiveObject;
 using Personal.Save;
-using static Personal.Manager.InputManager;
+using Personal.GameState;
+using Personal.InputProcessing;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,7 +18,7 @@ using UnityEditor;
 
 namespace Personal.Puzzle
 {
-	public class PuzzleController : MonoBehaviour, IDataPersistence
+	public class PuzzleController : GameInitialize, IDataPersistence, IControlInput
 	{
 		public enum PuzzleState
 		{
@@ -24,6 +26,8 @@ namespace Personal.Puzzle
 			Completed,
 			Failed,
 		}
+
+		public static PuzzleController ActiveController { get; private set; }
 
 		// This is a unique ID for saving/loading objects in scene.
 		[SerializeField] [ReadOnly] protected string id;
@@ -36,23 +40,24 @@ namespace Personal.Puzzle
 
 		protected CoroutineRun slideCR = new CoroutineRun();
 
-		protected virtual void Awake()
+		PhysicsRaycaster physicsRaycaster;
+
+		protected override void Initialize()
 		{
 			puzzleGamepadMovement = GetComponentInChildren<PuzzleGamepadMovement>();
+			physicsRaycaster = StageManager.Instance.CameraHandler.PhysicsRaycaster;
 		}
 
 		void OnEnable()
 		{
 			InputManager.OnDeviceIconChanged += HandlePhysicsRaycaster;
+
+			ActiveController = this;
+			InputManager.Instance.EnableActionMap(ActionMapType.Puzzle);
 		}
 
-		void Update()
+		void IControlInput.Submit()
 		{
-			if (!InputManager.Instance.GetButtonPush(ButtonPush.Submit) &&
-				!InputManager.Instance.GetButtonPush(ButtonPush.Cancel)) return;
-
-			if (!slideCR.IsDone) return;
-
 			// Check puzzle click.
 			Transform target = puzzleGamepadMovement ? GetActiveSelectionForGamepad() : null;
 			if (InputManager.Instance.IsCurrentDeviceMouse)
@@ -66,15 +71,30 @@ namespace Personal.Puzzle
 				target = hit.transform;
 			}
 
-			if (InputManager.Instance.GetButtonPush(ButtonPush.Submit))
-			{
-				((IPuzzle)this).ClickedInteractable(target);
-				((IPuzzle)this).CheckPuzzleAnswer();
-			}
-			else
-			{
-				((IPuzzle)this).CancelledInteractable(target);
-			}
+			((IPuzzle)this).ClickedInteractable(target);
+			((IPuzzle)this).CheckPuzzleAnswer();
+		}
+
+		void IControlInput.Cancel()
+		{
+			((IPuzzle)this).CancelSelected();
+		}
+
+		void IControlInput.ButtonNorth()
+		{
+			if (!slideCR.IsDone) return;
+
+			((IPuzzle)this).ResetToDefault();
+		}
+
+		void IControlInput.R3()
+		{
+			if (!slideCR.IsDone) return;
+
+			((IPuzzle)this).AutoComplete();
+
+			if (puzzleState != PuzzleState.Completed) GetReward();
+			puzzleState = PuzzleState.Completed;
 		}
 
 		protected virtual Transform GetActiveSelectionForGamepad() { return null; }
@@ -98,10 +118,10 @@ namespace Personal.Puzzle
 		{
 			if (InputManager.Instance.IsCurrentDeviceMouse)
 			{
-				StageManager.Instance.CameraHandler.PhysicsRaycaster.enabled = true;
+				physicsRaycaster.enabled = true;
 				return;
 			}
-			StageManager.Instance.CameraHandler.PhysicsRaycaster.enabled = false;
+			physicsRaycaster.enabled = false;
 		}
 
 		void EnableGamepadMovement(bool isFlag) { puzzleGamepadMovement.enabled = isFlag; }
@@ -109,7 +129,9 @@ namespace Personal.Puzzle
 		void OnDisable()
 		{
 			InputManager.OnDeviceIconChanged -= HandlePhysicsRaycaster;
-			StageManager.Instance.CameraHandler.PhysicsRaycaster.enabled = false;
+			physicsRaycaster.enabled = false;
+
+			ActiveController = null;
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)

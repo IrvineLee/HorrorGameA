@@ -31,7 +31,9 @@ namespace Personal.InteractiveObject
 			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 
 			ifsmHandler?.OnBegin(null);
-			InputManager.Instance.EnableActionMap(actionMapType);
+
+			if (actionMapType == ActionMapType.None) InputManager.Instance.DisableAllActionMap();
+			else InputManager.Instance.EnableActionMap(actionMapType);
 
 			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
 

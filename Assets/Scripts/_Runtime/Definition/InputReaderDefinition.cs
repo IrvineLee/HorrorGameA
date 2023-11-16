@@ -60,6 +60,10 @@ namespace Personal.Definition
 		public event Action OnDialogueUIFastForwardPressed_StartEvent;
 		public event Action OnDialogueUIFastForwardPressed_EndEvent;
 
+		// Puzzle
+		public event Action OnPuzzleResetEvent;
+		public event Action OnPuzzleAutoCompleteEvent;
+
 		public PlayerActionInput PlayerActionInput { get; private set; }
 		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
@@ -187,6 +191,20 @@ namespace Personal.Definition
 		void PlayerActionInput.IUIActions.OnCancelOptionMenu(InputAction.CallbackContext context)
 		{
 			SetButtonEvent(context.started, OnMenuUICancelledEvent);
+		}
+
+		/// ------------------------------------------------------------
+		/// -----------------------PUZZLE-------------------------------
+		/// ------------------------------------------------------------
+
+		void PlayerActionInput.IPuzzleActions.OnReset(InputAction.CallbackContext context)
+		{
+			SetButtonEvent(context.started, OnPuzzleResetEvent);
+		}
+
+		void PlayerActionInput.IPuzzleActions.OnAutoComplete(InputAction.CallbackContext context)
+		{
+			SetButtonEvent(context.started, OnPuzzleAutoCompleteEvent);
 		}
 
 		/// ------------------------------------------------------------

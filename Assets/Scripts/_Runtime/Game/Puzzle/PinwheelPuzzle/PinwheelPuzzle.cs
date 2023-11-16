@@ -59,9 +59,11 @@ namespace Personal.Puzzle.Pinwheel
 		List<Collider> colliderList = new();
 
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
+			if (puzzleState == PuzzleState.Completed) return;
+
 			InitialPinwheelSetup();
 			EnableHitCollider(false);
 		}
@@ -165,9 +167,72 @@ namespace Personal.Puzzle.Pinwheel
 			GetReward();
 		}
 
+		/// <summary>
+		/// Complete the puzzle.
+		/// This assumes that pinwheel with only 1 endColor doesn't need to rotate again after reaching it's own endColor.
+		/// In cases where turnRemain does not reach 0, it will try to rotate 1 pinwheel at a time to reach 0 and checks the color.
+		/// This will not do all the possible pinwheel rotation to reach 0. If it does not reach, it will just choose the nearest color.
+		/// </summary>
 		void IPuzzle.AutoComplete()
 		{
+			for (int i = 0; i < turnRemain; i++)
+			{
+				centerPinwheel.Turn();
+			}
 
+			List<Pinwheel> similarColorPinwheelList = new();
+			foreach (var pinwheel in pinwheelList)
+			{
+				if (pinwheel.HasDuplicateEndColor()) similarColorPinwheelList.Add(pinwheel);
+				while (!pinwheel.IsMatchingColor())
+				{
+					pinwheel.Turn();
+					turnRemain--;
+				}
+			}
+
+			if (turnRemain <= 0) return;
+			if (TryRotateOnePinwheelAtATime(similarColorPinwheelList)) return;
+
+			// You will need to do combination calculation for any other possible pinwheel rotation. (Order does not matter)
+		}
+
+		/// <summary>
+		/// Rotate one pinwheel at a time and see whether it can reach turnRemain 0.
+		/// </summary>
+		/// <param name="similarColorPinwheelList"></param>
+		/// <returns></returns>
+		bool TryRotateOnePinwheelAtATime(List<Pinwheel> similarColorPinwheelList)
+		{
+			int turnRemainTemp = turnRemain;
+			foreach (var pinwheel in similarColorPinwheelList)
+			{
+				int index = pinwheel.ActiveIndex;
+				while (turnRemain > 0)
+				{
+					pinwheel.Turn();
+					turnRemain--;
+				}
+
+				// If the pinwheel is not the end color, this pinwheel turn is wrong. Reset and proceed to the next one.
+				if (!pinwheel.IsMatchingColor())
+				{
+					turnRemain = turnRemainTemp;
+					pinwheel.RotateUntilIndex(index);
+
+					continue;
+				}
+				return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Reset to default.
+		/// </summary>
+		void IPuzzle.ResetToDefault()
+		{
+			ResetPuzzle();
 		}
 
 		/// <summary>

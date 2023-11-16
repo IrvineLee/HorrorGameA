@@ -36,9 +36,12 @@ namespace Helper
 		{
 			cr.StopCoroutine();
 
-			if (sr) FadeSetup_SetFullVisibilityWait(sr, waitDuration, doLast);
-			if (image) FadeSetup_SetFullVisibilityWait(image, waitDuration, doLast);
-			if (tmp) FadeSetup_SetFullVisibilityWait(tmp, waitDuration, doLast);
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				if (sr) FadeSetup_SetFullVisibilityWait(sr, waitDuration, doLast);
+				if (image) FadeSetup_SetFullVisibilityWait(image, waitDuration, doLast);
+				if (tmp) FadeSetup_SetFullVisibilityWait(tmp, waitDuration, doLast);
+			});
 		}
 
 		void FadeSetup<T>(T t) where T : Component

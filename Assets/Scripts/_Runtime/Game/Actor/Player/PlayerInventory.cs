@@ -158,7 +158,7 @@ namespace Personal.Character.Player
 			if (CurrentActiveIndex < 0) return;
 
 			var newActiveObject = inventoryList[CurrentActiveIndex];
-			if (activeObject.PickupableObjectFPS != null)
+			if (activeObject != null && activeObject.PickupableObjectFPS != null)
 			{
 				// Do nothing if it's the same object.
 				if (activeObject.PickupableObjectFPS.Equals(newActiveObject.PickupableObjectFPS)) return;

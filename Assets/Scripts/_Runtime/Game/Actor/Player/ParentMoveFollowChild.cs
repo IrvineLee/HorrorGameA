@@ -12,7 +12,7 @@ namespace Personal.Character.Player
 		[SerializeField] bool isFollowRotation = true;
 		[SerializeField] Vector3 positionOffset = Vector3.zero;
 
-		protected override void EarlyInitialize()
+		void Start()
 		{
 			childTarget.localPosition = Vector3.zero;
 		}

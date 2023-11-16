@@ -14,14 +14,17 @@ namespace Personal.Puzzle.EightSlide
 
 		Tile activeSelection;    // This handle the initial selection.
 
-		protected override void Awake()
+		protected override void Initialize()
 		{
-			base.Awake();
+			base.Initialize();
+			if (puzzleState == PuzzleState.Completed) return;
+
 			var tempList = new List<int>(new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 });
 
 			// Set the current and empty index.
 			foreach (var tile in tileList)
 			{
+				tile.Init();
 				tile.SetStartIndex(tile.StartIndex);
 
 				tileDictionary.Add(tile.TileTrans, tile);
@@ -119,6 +122,7 @@ namespace Personal.Puzzle.EightSlide
 			Dictionary<int, Tile> indexTileDictionary = new();
 			foreach (var tile in tileList)
 			{
+				tile.SetStartIndex(tile.StartIndex);
 				indexTileDictionary.Add(tile.StartIndex, tile);
 			}
 
@@ -128,7 +132,7 @@ namespace Personal.Puzzle.EightSlide
 
 				// Update the dictionary.
 				indexTileDictionary[tile.CurrentIndex] = endTile;
-				indexTileDictionary[endTile.CurrentIndex] = tile;
+				indexTileDictionary[tile.EndIndex] = tile;
 
 				// Update tile index.
 				int index = endTile.CurrentIndex;
@@ -142,8 +146,7 @@ namespace Personal.Puzzle.EightSlide
 		/// <summary>
 		/// Cancelled the pick.
 		/// </summary>
-		/// <param name="trans"></param>
-		void IPuzzle.CancelledInteractable(Transform trans)
+		void IPuzzle.CancelSelected()
 		{
 			if (activeSelection == null) return;
 
@@ -153,6 +156,17 @@ namespace Personal.Puzzle.EightSlide
 				activeSelection.SpriteRenderer.color = Color.white;
 				activeSelection = null;
 			});
+		}
+
+		/// <summary>
+		/// Reset to default.
+		/// </summary>
+		void IPuzzle.ResetToDefault()
+		{
+			foreach (var tile in tileDictionary)
+			{
+				tile.Value.Reset();
+			}
 		}
 
 		/// <summary>

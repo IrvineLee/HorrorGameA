@@ -26,17 +26,6 @@ namespace Personal.Puzzle.EightSlide
 
 		SelectionTarget emptySelectionTarget;
 
-		void Start()
-		{
-			foreach (var selectionTarget in selectionTargetList)
-			{
-				if (selectionTarget.Target != null) continue;
-
-				emptySelectionTarget = selectionTarget;
-				break;
-			}
-		}
-
 		/// <summary>
 		/// Automatically set the target for the index.
 		/// </summary>
@@ -45,6 +34,20 @@ namespace Personal.Puzzle.EightSlide
 		public void SetInitialTarget(int index, Transform target)
 		{
 			selectionTargetList[index].SetTarget(target);
+		}
+
+		/// <summary>
+		/// Initialize after setting the initial target.
+		/// </summary>
+		public void Init()
+		{
+			foreach (var selectionTarget in selectionTargetList)
+			{
+				if (selectionTarget.Target != null) continue;
+
+				emptySelectionTarget = selectionTarget;
+				break;
+			}
 		}
 
 		/// <summary>
@@ -57,6 +60,17 @@ namespace Personal.Puzzle.EightSlide
 			emptySelectionTarget.SetTarget(target);
 			emptySelectionTarget = selectionTargetList[fromIndex];
 			emptySelectionTarget.SetTarget(null);
+		}
+
+		/// <summary>
+		/// Reset the selection back to default.
+		/// </summary>
+		public void Reset()
+		{
+			foreach (var selectionTarget in selectionTargetList)
+			{
+				selectionTarget.SetTarget(null);
+			}
 		}
 	}
 }
