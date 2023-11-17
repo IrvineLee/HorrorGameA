@@ -11,13 +11,15 @@ namespace Personal.Dialogue
 		[SerializeField] float delay = 0.05f;
 
 		AbstractDialogueUI dialogueUI;
-		bool isSkip;
+		TextAnimatorContinueButtonFastForward fastForward;
 
+		bool isSkip;
 		CoroutineRun skipCR = new();
 
 		void Awake()
 		{
-			dialogueUI = GetComponentInChildren<AbstractDialogueUI>();
+			dialogueUI = GetComponentInChildren<AbstractDialogueUI>(true);
+			fastForward = GetComponentInChildren<TextAnimatorContinueButtonFastForward>(true);
 		}
 
 		public void SkipToResponseMenu(bool isFlag)
@@ -27,13 +29,21 @@ namespace Personal.Dialogue
 			isSkip = isFlag;
 			if (!isSkip) return;
 
-			dialogueUI.OnContinue();
+			fastForward.OnFastForward();
+			skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
 		}
 
 		void OnConversationLine(Subtitle subtitle)
 		{
 			skipCR.StopCoroutine();
-			if (isSkip) skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
+			if (!isSkip) return;
+
+			// Seems like calling dialogueUI.OnContinue will call this function next, so wait till next frame.
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				fastForward.OnFastForward();
+				skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
+			});
 		}
 
 		void OnConversationResponseMenu(Response[] responses)
