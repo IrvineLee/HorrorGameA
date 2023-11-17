@@ -5,6 +5,7 @@ using Personal.Manager;
 using Personal.Character.Animation;
 using Personal.Save;
 using UnityEngine.SceneManagement;
+using Helper;
 
 namespace Personal.Character.Player
 {
@@ -28,7 +29,9 @@ namespace Personal.Character.Player
 
 		protected override void Initialize()
 		{
-			parentMoveFollowChild.enabled = true;
+			// Sometimes the player does not get set at the right position after loading.
+			// This is to make sure it's properly set at the global position before setting the local position at the "parentMoveFollowChild" script.
+			CoroutineHelper.WaitNextFrame(() => parentMoveFollowChild.enabled = true);
 		}
 
 		public void PauseFSM(bool isFlag)

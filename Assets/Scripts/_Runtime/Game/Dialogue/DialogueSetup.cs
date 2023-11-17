@@ -23,6 +23,7 @@ namespace Personal.Dialogue
 		ActionMapType previousActionMap;
 
 		StandardUIMenuPanel standardUIMenuPanel;
+		StandardUISubtitlePanel[] subtitlePanelArray;
 		UIButtonKeyTrigger uiButtonKeyTrigger;
 
 		bool isChangeActionMap = true;
@@ -30,29 +31,21 @@ namespace Personal.Dialogue
 		protected override void Initialize()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
-
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;
-			standardUIMenuPanel = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true).conversationUIElements.defaultMenuPanel;
+
+			StandardDialogueUI standardDialogueUI = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true);
+			standardUIMenuPanel = standardDialogueUI.conversationUIElements.defaultMenuPanel;
+
+			// Subtitle panels.
+			subtitlePanelArray = ((StandardUIDialogueControls)standardDialogueUI.dialogueControls).subtitlePanels;
 
 			dialogueResponseListHandler = GetComponentInChildren<DialogueResponseListHandler>(true);
-
 			uiButtonKeyTrigger = GetComponentInChildren<UIButtonKeyTrigger>(true);
 
 			var playerActionInput = InputManager.Instance.PlayerActionInput;
 			InputDeviceManager.RegisterInputAction("Interact", playerActionInput.Player.Interact);
 
-			// For the response window.
-			standardUIMenuPanel.onOpen.AddListener(() =>
-			{
-				IsWaitingResponse = true;
-				CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
-			});
-
-			standardUIMenuPanel.onClose.AddListener(() =>
-			{
-				IsWaitingResponse = false;
-				CursorManager.Instance.TrySetToMouseCursorForMouseControl(false);
-			});
+			InitializeResponseWindow();
 		}
 
 		/// <summary>
@@ -61,6 +54,8 @@ namespace Personal.Dialogue
 		/// <param name="actor"></param>
 		void OnConversationStart(Transform actor)
 		{
+			EnableSubtitlePanel(true);
+
 			if (isChangeActionMap)
 			{
 				previousActionMap = InputManager.Instance.CurrentActionMapType;
@@ -74,6 +69,8 @@ namespace Personal.Dialogue
 		/// <param name="actor"></param>
 		void OnConversationEnd(Transform actor)
 		{
+			EnableSubtitlePanel(false);
+
 			if (isChangeActionMap)
 			{
 				InputManager.Instance.EnableActionMap(previousActionMap);
@@ -108,6 +105,39 @@ namespace Personal.Dialogue
 		public void SetToAutoConversation()
 		{
 
+		}
+
+		/// <summary>
+		/// Initialize the response window.
+		/// </summary>
+		void InitializeResponseWindow()
+		{
+			// For the response window.
+			standardUIMenuPanel.onOpen.AddListener(() =>
+			{
+				IsWaitingResponse = true;
+				CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
+			});
+
+			standardUIMenuPanel.onClose.AddListener(() =>
+			{
+				IsWaitingResponse = false;
+				CursorManager.Instance.TrySetToMouseCursorForMouseControl(false);
+			});
+		}
+
+		/// <summary>
+		/// Set active the subtitle panel.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void EnableSubtitlePanel(bool isFlag)
+		{
+			// Somehow these must be started first so it get registered to "OnConversationLine" for the first text.
+			foreach (var panel in subtitlePanelArray)
+			{
+				panel.gameObject.SetActive(isFlag);
+				panel.subtitleText.gameObject.SetActive(isFlag);
+			}
 		}
 
 		void OnApplicationQuit()

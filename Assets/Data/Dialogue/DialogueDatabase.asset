@@ -790,7 +790,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 288
+        x: 496
         y: 50
         width: 160
         height: 30
@@ -825,7 +825,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: ja
-        value: "\u306A\u306B\u898B\u3066\u3093\u3060\u3088\uFF01"
+        value: "\u306A\u306B<r=\u307F>\u898B</r>\u3066\u3093\u3060\u3088\uFF01"
         type: 4
         typeString: CustomFieldType_Localization
       conversationID: 2
@@ -839,7 +839,7 @@ MonoBehaviour:
       - originConversationID: 2
         originDialogueID: 1
         destinationConversationID: 2
-        destinationDialogueID: 2
+        destinationDialogueID: 9
         isConnector: 0
         priority: 2
       conditionsString: 
@@ -849,7 +849,7 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 184
+        x: 496
         y: 134
         width: 160
         height: 30
@@ -884,7 +884,7 @@ MonoBehaviour:
         type: 0
         typeString: CustomFieldType_Text
       - title: ja
-        value: "\u306A\u3093\u304B\u554F\u984C\u3067\u3082\u3042\u308B\u304B\uFF01\uFF1F"
+        value: "\u306A\u3093\u304B<r=\u3082\u3093\u3060\u3044>\u554F\u984C</r>\u3067\u3082\u3042\u308B\u304B\uFF01\uFF1F"
         type: 4
         typeString: CustomFieldType_Localization
       conversationID: 2
@@ -932,8 +932,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 184
-        y: 218
+        x: 496
+        y: 302
         width: 160
         height: 30
     - id: 3
@@ -986,7 +986,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 80
-        y: 301
+        y: 386
         width: 160
         height: 30
     - id: 4
@@ -1038,8 +1038,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 196
-        y: 369
+        x: 288
+        y: 386
         width: 160
         height: 30
     - id: 5
@@ -1091,8 +1091,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 326
-        y: 302
+        x: 496
+        y: 386
         width: 160
         height: 30
     - id: 6
@@ -1144,8 +1144,8 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 462
-        y: 362
+        x: 704
+        y: 386
         width: 160
         height: 30
     - id: 7
@@ -1197,8 +1197,67 @@ MonoBehaviour:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
-        x: 557
-        y: 303
+        x: 912
+        y: 386
+        width: 160
+        height: 30
+    - id: 9
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Description
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Actor
+        value: 1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 2
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: Eh?
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Dialogue Text
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: CustomFieldType_Text
+      - title: ja
+        value: "\u3048\uFF1F"
+        type: 4
+        typeString: CustomFieldType_Localization
+      conversationID: 2
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 2
+        originDialogueID: 9
+        destinationConversationID: 2
+        destinationDialogueID: 2
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 496
+        y: 217
         width: 160
         height: 30
     entryGroups: []

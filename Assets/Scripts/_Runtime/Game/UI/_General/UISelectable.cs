@@ -88,6 +88,8 @@ namespace Personal.UI
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)
 		{
+			if (App.IsQuitting) return;
+
 			// You most probably don't wanna OnDeselect when it's busy.
 			if (isLockSelection || StageManager.Instance.IsBusy) return;
 
