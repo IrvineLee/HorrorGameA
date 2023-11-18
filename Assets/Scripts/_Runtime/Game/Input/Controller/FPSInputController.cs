@@ -65,6 +65,7 @@ namespace Personal.InputProcessing
 
 		void OpenInventory()
 		{
+			if (!UIManager.IsWindowStackEmpty) return;
 			UIManager.Instance.InventoryUI.OpenWindow();
 		}
 
