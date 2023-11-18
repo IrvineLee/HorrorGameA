@@ -2,6 +2,7 @@ using UnityEngine;
 
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
+using Helper;
 using Personal.Manager;
 using Personal.InputProcessing;
 using Personal.GameState;
@@ -118,7 +119,12 @@ namespace Personal.Dialogue
 			standardUIMenuPanel.onOpen.AddListener(() =>
 			{
 				IsWaitingResponse = true;
-				CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
+
+				// Wait for the response to be selected first before setting mouse cursor.
+				CoroutineHelper.WaitNextFrame(() =>
+				{
+					CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
+				}, false, true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>

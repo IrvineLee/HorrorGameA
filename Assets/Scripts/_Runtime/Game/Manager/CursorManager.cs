@@ -34,7 +34,7 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			dialogueSetup = DialogueManager.Instance.GetComponentInChildren<DialogueSetup>();
+			dialogueSetup = StageManager.Instance.DialogueController.DialogueSetup;
 
 			cursorDefinition.Initialize();
 			mouseCursorHandler.SetImage(cursorDefinition.MouseCursor);
@@ -73,7 +73,7 @@ namespace Personal.Manager
 		{
 			if (isCrosshairNothing)
 			{
-				SetCenterCrosshairToNothing();
+				SetCenterCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
 			}
 			else
 			{
@@ -101,14 +101,6 @@ namespace Personal.Manager
 			SetCenterCrosshairSprite(defaultCrosshairType);
 		}
 
-		/// <summary>
-		/// Set the center crosshair to nothing.
-		/// </summary>
-		public void SetCenterCrosshairToNothing()
-		{
-			SetCenterCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
-		}
-
 		void SetCenterCrosshairSprite(CursorDefinition.CrosshairType compareCrosshair)
 		{
 			if (currentCrosshairType == compareCrosshair) return;
@@ -130,6 +122,7 @@ namespace Personal.Manager
 			// You don't want to reset the mouse cursor when the user changed the icon only.
 			if (InputManager.Instance.IsChangeIconOnly) return;
 
+			// Handle the dialogue response.
 			if (dialogueSetup.IsWaitingResponse)
 			{
 				Vector2 screenPosition = Vector2.zero;
