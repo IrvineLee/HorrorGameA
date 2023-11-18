@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fae48d8ea5bc74a96b2dee490b90fe, type: 3}
   m_Name: ButtonIconDefinition
   m_EditorClassIdentifier: 
-  ui_ButtonIconInfoList:
+  uiOption_ButtonIconInfoList:
   - genericButtonIconType: 21
     textDisplay: Default
-    onDialogBox_Title: 
-    onDialogBox_Description: 
-  - genericButtonIconType: 31
+  - genericButtonIconType: 23
     textDisplay: Save & Exit
-    onDialogBox_Title: Confirmation
-    onDialogBox_Description: Do you want to reset current tab back to default values?
+  uiDialogue_ButtonIconInfoList:
+  - genericButtonIconType: 21
+    textDisplay: FFWD
+  - genericButtonIconType: 22
+    textDisplay: Confirm

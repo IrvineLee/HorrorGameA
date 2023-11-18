@@ -5,12 +5,12 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.Utilities;
 
 using Sirenix.OdinInspector;
-using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.Definition;
 using Personal.Setting.Game;
-using Helper;
+using Personal.UI.Option;
 using static Personal.Definition.InputReaderDefinition;
 
 namespace Personal.Manager
@@ -84,6 +84,8 @@ namespace Personal.Manager
 				OnAnyButtonPressed?.Invoke();
 				HandleInputDeviceCompare(ctrl.device);
 			});
+
+			OptionGameUI.OnXInteractEvent += SwapInteractInput;
 		}
 
 		/// <summary>
@@ -190,25 +192,6 @@ namespace Personal.Manager
 			IsChangeIconOnly = true;
 			HandleIconInitials();
 			IsChangeIconOnly = false;
-		}
-
-		/// <summary>
-		/// Used when changing the interact button between x/o and a/b.
-		/// </summary>
-		/// <param name="isUSInteract"></param>
-		public void SwapInteractInput(bool isUSInteract)
-		{
-			inputReaderDefinition.SwapInteractInput(isUSInteract);
-
-			if (isUSInteract)
-			{
-				inputSystemUIInputModule.submit = submitActionReference;
-				inputSystemUIInputModule.cancel = cancelActionReference;
-				return;
-			}
-
-			inputSystemUIInputModule.submit = cancelActionReference;
-			inputSystemUIInputModule.cancel = submitActionReference;
 		}
 
 		/// <summary>
@@ -329,13 +312,35 @@ namespace Personal.Manager
 				SwapInteractInput(true);
 				return;
 			}
-			SwapInteractInput(gameData.IsUSInteractButton);
+			SwapInteractInput(gameData.IsXInteractButton);
+		}
+
+
+		/// <summary>
+		/// Used when changing the interact button between x/o and a/b.
+		/// </summary>
+		/// <param name="isXInteract"></param>
+		void SwapInteractInput(bool isXInteract)
+		{
+			inputReaderDefinition.SwapInteractInput(isXInteract);
+
+			if (isXInteract)
+			{
+				inputSystemUIInputModule.submit = submitActionReference;
+				inputSystemUIInputModule.cancel = cancelActionReference;
+				return;
+			}
+
+			inputSystemUIInputModule.submit = cancelActionReference;
+			inputSystemUIInputModule.cancel = submitActionReference;
 		}
 
 		void OnApplicationQuit()
 		{
 			InputSystem.onActionChange -= HandleInputDeviceType;
 			iDisposableAnyButtonPressed?.Dispose();
+
+			OptionGameUI.OnXInteractEvent -= SwapInteractInput;
 		}
 	}
 }

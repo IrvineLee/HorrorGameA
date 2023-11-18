@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Personal.GameState;
 using Personal.Manager;
+using Personal.UI.Option;
 
 namespace Personal.UI
 {
@@ -11,22 +12,14 @@ namespace Personal.UI
 	{
 		[SerializeField] TextMeshProUGUI iconWithTMP = null;
 		[SerializeField] Transform layoutGroupTrans = null;
-		[SerializeField] int initialSpawnCount = 3;
 
 		List<TextMeshProUGUI> iconWithTMPList = new();
 
 		protected override void Initialize()
 		{
-			// Using normal instantiate for fast display.
-			for (int i = 0; i < initialSpawnCount; i++)
-			{
-				var tmp = Instantiate(iconWithTMP, layoutGroupTrans);
-				iconWithTMPList.Add(tmp);
-			}
-
-			DisableAllTmp();
-
 			InputManager.OnDeviceIconChanged += UpdateIcons;
+			OptionGameUI.OnXInteractEvent += UpdateInteractIcon;
+
 			UpdateIcons();
 		}
 
@@ -35,11 +28,19 @@ namespace Personal.UI
 			UpdateIcons();
 		}
 
+		public void Begin(bool isFlag)
+		{
+			gameObject.SetActive(isFlag);
+		}
+
+		void UpdateInteractIcon(bool isXInteract)
+		{
+			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetCurrentInterfaceText(UIManager.Instance.ActiveInterfaceType, isXInteract));
+		}
+
 		void UpdateIcons()
 		{
-			if (!UIManager.Instance.OptionUI.gameObject.activeSelf) return;
-
-			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetAllText());
+			DisplayIcons(InputManager.Instance.ButtonIconDefinition.GetCurrentInterfaceText(UIManager.Instance.ActiveInterfaceType));
 		}
 
 		void DisplayIcons(List<string> textList)
@@ -85,6 +86,7 @@ namespace Personal.UI
 		void OnApplicationQuit()
 		{
 			InputManager.OnDeviceIconChanged -= UpdateIcons;
+			OptionGameUI.OnXInteractEvent -= UpdateInteractIcon;
 		}
 	}
 }

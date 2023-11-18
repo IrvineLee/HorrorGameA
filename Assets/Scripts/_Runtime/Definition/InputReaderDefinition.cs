@@ -68,7 +68,7 @@ namespace Personal.Definition
 		public IReadOnlyDictionary<ActionMapType, InputControllerInfo> InputActionMapDictionary { get => inputActionMapDictionary; }
 
 		Dictionary<ActionMapType, InputControllerInfo> inputActionMapDictionary = new Dictionary<ActionMapType, InputControllerInfo>();
-		bool isUSInteract = true;
+		bool isXInteract = true;
 
 		public void Initialize()
 		{
@@ -89,9 +89,9 @@ namespace Personal.Definition
 			}
 		}
 
-		public void SwapInteractInput(bool isUSInteract)
+		public void SwapInteractInput(bool isXInteract)
 		{
-			this.isUSInteract = isUSInteract;
+			this.isXInteract = isXInteract;
 		}
 
 		/// ------------------------------------------------------------
@@ -112,7 +112,7 @@ namespace Personal.Definition
 		{
 			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
 
-			if (isMouse || (!isMouse && isUSInteract))
+			if (isMouse || (!isMouse && isXInteract))
 			{
 				SetButtonEvent(context.started, OnInteractEvent);
 				return;
@@ -124,7 +124,7 @@ namespace Personal.Definition
 		{
 			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
 
-			if (isMouse || (!isMouse && isUSInteract))
+			if (isMouse || (!isMouse && isXInteract))
 			{
 				SetButtonEvent(context.started, OnCancelEvent);
 				return;

@@ -54,6 +54,7 @@ namespace Personal.Dialogue
 		/// <param name="actor"></param>
 		void OnConversationStart(Transform actor)
 		{
+			UIManager.Instance.FooterIconDisplay.Begin(true);
 			EnableSubtitlePanel(true);
 
 			if (isChangeActionMap)
@@ -69,6 +70,7 @@ namespace Personal.Dialogue
 		/// <param name="actor"></param>
 		void OnConversationEnd(Transform actor)
 		{
+			UIManager.Instance.FooterIconDisplay.Begin(false);
 			EnableSubtitlePanel(false);
 
 			if (isChangeActionMap)
@@ -85,10 +87,10 @@ namespace Personal.Dialogue
 		/// <summary>
 		/// Swap interact input.
 		/// </summary>
-		/// <param name="isUSInteract"></param>
-		public void SwapInteractInput(bool isUSInteract)
+		/// <param name="isXInteract"></param>
+		public void SwapInteractInput(bool isXInteract)
 		{
-			uiButtonKeyTrigger.buttonName = isUSInteract ? interactStr : cancelStr;
+			uiButtonKeyTrigger.buttonName = isXInteract ? interactStr : cancelStr;
 		}
 
 		/// <summary>

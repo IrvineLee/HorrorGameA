@@ -54,7 +54,7 @@ namespace Personal.UI.Option
 		{
 			base.OpenWindow();
 
-			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(true);
+			UIManager.Instance.FooterIconDisplay.Begin(true);
 
 			DisableAllTabs(startMenuTab);
 			if (!tabDictionary.TryGetValue(startMenuTab, out Tab tab)) return;
@@ -69,7 +69,7 @@ namespace Personal.UI.Option
 			base.CloseWindow(isInstant);
 
 			currentMenuTab = startMenuTab;
-			UIManager.Instance.FooterIconDisplay.gameObject.SetActive(false);
+			UIManager.Instance.FooterIconDisplay.Begin(false);
 
 			foreach (var tab in tabList)
 			{

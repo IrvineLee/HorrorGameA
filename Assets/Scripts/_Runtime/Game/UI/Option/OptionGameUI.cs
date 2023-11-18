@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-using Personal.GameState;
 using PixelCrushers.DialogueSystem;
+using TMPro;
+using Lean.Localization;
+using Helper;
 using Personal.Manager;
 using Personal.Setting.Game;
 using Personal.InputProcessing;
 using Personal.Localization;
 using Personal.Dialogue;
-using Helper;
-using TMPro;
-using Lean.Localization;
+using Personal.GameState;
 
 namespace Personal.UI.Option
 {
@@ -25,10 +26,12 @@ namespace Personal.UI.Option
 		[SerializeField] Slider cameraSensitivitySlider = null;
 		[SerializeField] UISelectionToggle isInvertLookHorizontal = null;
 		[SerializeField] UISelectionToggle isInvertLookVertical = null;
-		[SerializeField] UISelectionToggle isUSInteractButton = null;
+		[SerializeField] UISelectionToggle isXInteractButton = null;
 		[SerializeField] UISelectionDropdown gamepadIconDropdown = null;
 		[SerializeField] UISelectionDropdown fontSizeDropdown = null;
 		[SerializeField] UISelectionDropdown languageDropdown = null;
+
+		public static event Action<bool> OnXInteractEvent;
 
 		GameData gameData;
 
@@ -76,7 +79,7 @@ namespace Personal.UI.Option
 			gameData.CameraSensitivity = cameraSensitivitySlider.value;
 			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.IsOn;
 			gameData.IsInvertLookVertical = isInvertLookVertical.IsOn;
-			gameData.IsUSInteractButton = isUSInteractButton.IsOn;
+			gameData.IsXInteractButton = isXInteractButton.IsOn;
 			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.Value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.Value;
 			gameData.SelectedLanguage = (SupportedLanguageType)languageDropdown.Value;
@@ -108,9 +111,9 @@ namespace Personal.UI.Option
 				colorAdjustments.postExposure.value = currentBrightness01;
 			});
 
-			isUSInteractButton.OnValueChanged.AddListener((value) =>
+			isXInteractButton.OnValueChanged.AddListener((value) =>
 			{
-				InputManager.Instance.SwapInteractInput(value);
+				OnXInteractEvent?.Invoke(value);
 				dialogueSetup.SwapInteractInput(value);
 			});
 
@@ -130,7 +133,7 @@ namespace Personal.UI.Option
 			isInvertLookHorizontal.SetCurrentIndex(gameData.IsInvertLookHorizontal ? 1 : 0);
 			isInvertLookVertical.SetCurrentIndex(gameData.IsInvertLookVertical ? 1 : 0);
 
-			isUSInteractButton.SetCurrentIndex(gameData.IsUSInteractButton ? 1 : 0);
+			isXInteractButton.SetCurrentIndex(gameData.IsXInteractButton ? 1 : 0);
 
 			gamepadIconDropdown.SetCurrentIndex((int)gameData.IconDisplayType);
 			fontSizeDropdown.SetCurrentIndex((int)gameData.FontSizeType);
@@ -142,8 +145,8 @@ namespace Personal.UI.Option
 		{
 			colorAdjustments.postExposure.value = gameData.Brightness;
 
-			InputManager.Instance.SwapInteractInput(gameData.IsUSInteractButton);
-			dialogueSetup.SwapInteractInput(gameData.IsUSInteractButton);
+			OnXInteractEvent?.Invoke(gameData.IsXInteractButton);
+			dialogueSetup.SwapInteractInput(gameData.IsXInteractButton);
 
 			InputManager.Instance.SetGamepadIconIndex(gameData.IconDisplayType);
 			HandleFontSizeChanged(gameData.FontSizeType);
@@ -159,7 +162,7 @@ namespace Personal.UI.Option
 			unityEventBoolList.Add(isInvertLookHorizontal.OnValueChanged);
 			unityEventBoolList.Add(isInvertLookVertical.OnValueChanged);
 
-			unityEventBoolList.Add(isUSInteractButton.OnValueChanged);
+			unityEventBoolList.Add(isXInteractButton.OnValueChanged);
 			unityEventIntList.Add(gamepadIconDropdown.OnValueChanged);
 			unityEventIntList.Add(fontSizeDropdown.OnValueChanged);
 			unityEventIntList.Add(languageDropdown.OnValueChanged);
