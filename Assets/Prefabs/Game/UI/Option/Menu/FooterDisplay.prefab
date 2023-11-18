@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3142100598042021020}
   - component: {fileID: 7979205308947400063}
+  - component: {fileID: 313283644625931817}
+  - component: {fileID: 8201213773088034253}
   m_Layer: 5
   m_Name: FooterDisplay
   m_TagString: Untagged
@@ -50,9 +52,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1938bc6f1487c742827127199b51168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 313283644625931817}
+  animationName: IsEnable
   iconWithTMP: {fileID: 6321140765117633073, guid: d61b2cc565aa3594f8ae4470dc83bc58, type: 3}
   layoutGroupTrans: {fileID: 6685608845129372259}
-  initialSpawnCount: 3
+--- !u!95 &313283644625931817
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874015240481128818}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f46d7d1ccd58c8948ac45fe7dcbb017e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &8201213773088034253
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874015240481128818}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3592928194466974749
 GameObject:
   m_ObjectHideFlags: 0

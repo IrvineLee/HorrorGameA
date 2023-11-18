@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
-using Personal.GameState;
 using Personal.Manager;
 using Personal.UI.Option;
 
 namespace Personal.UI
 {
-	public class FooterIconDisplay : GameInitialize
+	public class FooterIconDisplay : GameObjectAnimatorHandler
 	{
 		[SerializeField] TextMeshProUGUI iconWithTMP = null;
 		[SerializeField] Transform layoutGroupTrans = null;
@@ -26,11 +25,6 @@ namespace Personal.UI
 		void OnEnable()
 		{
 			UpdateIcons();
-		}
-
-		public void Begin(bool isFlag)
-		{
-			gameObject.SetActive(isFlag);
 		}
 
 		void UpdateInteractIcon(bool isXInteract)
