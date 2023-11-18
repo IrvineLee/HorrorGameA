@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-using Cysharp.Threading.Tasks;
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Personal.GameState;
@@ -124,14 +125,20 @@ namespace Personal.Manager
 			}
 		}
 
-		async void HandleCursorAndMouseChange()
+		void HandleCursorAndMouseChange()
 		{
 			// You don't want to reset the mouse cursor when the user changed the icon only.
 			if (InputManager.Instance.IsChangeIconOnly) return;
 
-			// Reset the mouse to the center of the screen.
-			Cursor.lockState = CursorLockMode.Locked;
-			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
+			if (dialogueSetup.IsWaitingResponse)
+			{
+				Vector2 screenPosition = Vector2.zero;
+				if (InputManager.Instance.IsCurrentDeviceMouse && EventSystem.current.currentSelectedGameObject)
+				{
+					screenPosition = EventSystem.current.currentSelectedGameObject.transform.position;
+				}
+				Mouse.current.WarpCursorPosition(screenPosition);
+			}
 
 			Cursor.lockState = CursorLockMode.Confined;
 
@@ -147,11 +154,6 @@ namespace Personal.Manager
 		void OnApplicationQuit()
 		{
 			InputManager.OnDeviceIconChanged -= HandleCursorAndMouseChange;
-		}
-
-		void OnApplicationFocus(bool hasFocus)
-		{
-			HandleCursorAndMouseChange();
 		}
 	}
 }
