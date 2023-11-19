@@ -662,7 +662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -325, y: 150}
+  m_AnchoredPosition: {x: -325, y: 175}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &481654913501931603
@@ -1853,7 +1853,6 @@ GameObject:
   - component: {fileID: 175682374805272792}
   - component: {fileID: 5681430754478582215}
   - component: {fileID: 5954396860873859217}
-  - component: {fileID: 1792047435011934753}
   m_Layer: 5
   m_Name: Continue Button
   m_TagString: Untagged
@@ -1877,8 +1876,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 209.60498}
-  m_SizeDelta: {x: 0, y: 419.20996}
+  m_AnchoredPosition: {x: 0, y: 200}
+  m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2898410376038045972
 CanvasRenderer:
@@ -2028,20 +2027,6 @@ MonoBehaviour:
   skipIfBeingClickedBySubmit: 1
   simulateButtonClick: 1
   simulateButtonDownDuration: 0.1
---- !u!114 &1792047435011934753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8236176991542230519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8dc5d87f06d96e49bf15f73454a07f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delayDuration: 0.1
-  isOnEnable: 0
 --- !u!1 &8411031696285341832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,8 +2138,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 222.9707, y: 150}
-  m_SizeDelta: {x: -535.7, y: 40}
+  m_AnchoredPosition: {x: 165.5, y: 190}
+  m_SizeDelta: {x: -569, y: 40}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &9203667756635212402
 CanvasRenderer:
@@ -2429,8 +2414,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 195257211879285227}
   m_HandleRect: {fileID: 6231185147721356168}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.984127
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2509,8 +2494,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 45.00006, y: -149.99998}
-  m_SizeDelta: {x: 120, y: 20}
+  m_AnchoredPosition: {x: 21.3, y: -30}
+  m_SizeDelta: {x: 70, y: 20}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &9203667756635228832
 CanvasRenderer:
@@ -3557,10 +3542,10 @@ RectTransform:
   m_Father: {fileID: 9203667756634980880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 125, y: 52.5}
-  m_SizeDelta: {x: 125, y: 22.5}
-  m_Pivot: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 60}
+  m_SizeDelta: {x: -300, y: 22.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9203667756635207184
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3701,11 +3686,12 @@ GameObject:
   m_Component:
   - component: {fileID: 9203667756634917398}
   - component: {fileID: 9203667756635252222}
-  - component: {fileID: 4189311019855304265}
+  - component: {fileID: 3036954071482612032}
   - component: {fileID: 9203667756636566004}
   - component: {fileID: 9140091387624585512}
   - component: {fileID: 5558941933257125518}
   - component: {fileID: 4030229051963388774}
+  - component: {fileID: 578939547523007674}
   m_Layer: 5
   m_Name: Subtitle Text
   m_TagString: Untagged
@@ -3729,8 +3715,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -17.5}
-  m_SizeDelta: {x: -300, y: -55}
+  m_AnchoredPosition: {x: 0, y: -12.5}
+  m_SizeDelta: {x: -350, y: -65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9203667756635252222
 CanvasRenderer:
@@ -3740,7 +3726,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9203667756646719538}
   m_CullTransparentMesh: 0
---- !u!114 &4189311019855304265
+--- !u!114 &3036954071482612032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3749,7 +3735,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9203667756646719538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d07049f6d216504ca6e1d9c13e6d41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -3760,7 +3746,23 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (NPC Subtitle)
+  m_text: <nobr>(NPC Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr><nobr>(NPC
+    Subtitle)<space=-67.0175><voffset=1em><size=65%>test</size></voffset><space=48.1025></nobr>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3787,8 +3789,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3805,7 +3807,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -3830,6 +3832,16 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+  rubyVerticalOffset: 1em
+  rubyScale: 0.65
+  rubyShowType: 0
+  rubyLineHeight: 
+  _uneditedText: <r=test>(NPC Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC
+    Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC
+    Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC
+    Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC
+    Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC
+    Subtitle)</r><r=test>(NPC Subtitle)</r><r=test>(NPC Subtitle)</r>
 --- !u!114 &9203667756636566004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3912,7 +3924,7 @@ MonoBehaviour:
   onTextShowed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1792047435011934753}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Personal.Dialogue.DialogueAllowButtonAfterDelay,
           Assembly-CSharp
         m_MethodName: DelayInteractable
@@ -3946,6 +3958,18 @@ MonoBehaviour:
   useTypewriterWaitForDisappearances: 1
   disappearanceWaitTime: 0.015
   disappearanceSpeedMultiplier: 1
+--- !u!114 &578939547523007674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9203667756646719538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f294a123a8ed1249b6d35c22b2a0493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9203667756646720080
 GameObject:
   m_ObjectHideFlags: 0
@@ -4335,8 +4359,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 476.22882, y: 0}
-  m_SizeDelta: {x: 476.22882, y: 0}
+  m_AnchoredPosition: {x: 442.92883, y: 0}
+  m_SizeDelta: {x: 442.92883, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &9203667756635061048
 CanvasRenderer:
@@ -4835,8 +4859,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_AnchoredPosition: {x: 0, y: 35}
+  m_SizeDelta: {x: 0, y: 175}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &9203667756635221416
 CanvasRenderer:
@@ -4949,7 +4973,7 @@ MonoBehaviour:
     m_textMeshProUGUI: {fileID: 4335792001420842872}
   subtitleText:
     m_uiText: {fileID: 0}
-    m_textMeshProUGUI: {fileID: 4189311019855304265}
+    m_textMeshProUGUI: {fileID: 3036954071482612032}
   addSpeakerName: 0
   addSpeakerNameFormat: '{0}: {1}'
   accumulateText: 0
@@ -5039,17 +5063,16 @@ MonoBehaviour:
   conversationUIElements:
     mainPanel: {fileID: 9203667756636453490}
     dontDeactivateMainPanel: 0
-    waitForMainPanelOpen: 0
+    waitForMainPanelOpen: 1
     subtitlePanels:
     - {fileID: 9203667756636443692}
-    - {fileID: 9203667756636490738}
     defaultNPCSubtitlePanel: {fileID: 9203667756636443692}
     defaultPCSubtitlePanel: {fileID: 9203667756636443692}
     allowOpenSubtitlePanelsOnStartConversation: 1
     menuPanels:
     - {fileID: 9203667756636503426}
     defaultMenuPanel: {fileID: 9203667756636503426}
-    useFirstResponseForMenuPortrait: 0
+    useFirstResponseForMenuPortrait: 1
     waitForClose: 0
   QTEIndicatorElements:
     QTEIndicators: []

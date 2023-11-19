@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
@@ -8,12 +7,15 @@ namespace Personal.Dialogue
 {
 	public class DialogueSkip : MonoBehaviour
 	{
+		[SerializeField] float initialWaitDuration = 0.5f;
 		[SerializeField] float delay = 0.05f;
 
 		AbstractDialogueUI dialogueUI;
 		TextAnimatorContinueButtonFastForward fastForward;
 
 		bool isSkip;
+
+		CoroutineRun initialWaitCR = new();
 		CoroutineRun skipCR = new();
 
 		void Awake()
@@ -22,15 +24,33 @@ namespace Personal.Dialogue
 			fastForward = GetComponentInChildren<TextAnimatorContinueButtonFastForward>(true);
 		}
 
-		public void SkipToResponseMenu(bool isFlag)
+		public void Begin(bool isFlag)
 		{
-			if (isFlag && !skipCR.IsDone) return;
+			// Reset back to default if button is released.
+			if (!isFlag)
+			{
+				StopSkip();
+				return;
+			}
 
-			isSkip = isFlag;
-			if (!isSkip) return;
+			SkipDialogue();
+			initialWaitCR = CoroutineHelper.WaitFor(initialWaitDuration, SkipDialogue);
+		}
+
+		void SkipDialogue()
+		{
+			isSkip = true;
 
 			fastForward.OnFastForward();
 			skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
+		}
+
+		void StopSkip()
+		{
+			isSkip = false;
+
+			initialWaitCR.StopCoroutine();
+			skipCR.StopCoroutine();
 		}
 
 		void OnConversationLine(Subtitle subtitle)
@@ -39,7 +59,7 @@ namespace Personal.Dialogue
 			if (!isSkip) return;
 
 			// Seems like calling dialogueUI.OnContinue will call this function next, so wait till next frame.
-			CoroutineHelper.WaitNextFrame(() =>
+			skipCR = CoroutineHelper.WaitNextFrame(() =>
 			{
 				fastForward.OnFastForward();
 				skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
@@ -48,13 +68,12 @@ namespace Personal.Dialogue
 
 		void OnConversationResponseMenu(Response[] responses)
 		{
-			isSkip = false;
+			StopSkip();
 		}
 
 		void OnConversationEnd(Transform actor)
 		{
-			isSkip = false;
-			skipCR.StopCoroutine();
+			StopSkip();
 		}
 	}
 }

@@ -49,7 +49,7 @@ namespace Personal.Dialogue
 
 				if (i == 0)
 				{
-					CoroutineHelper.WaitEndOfFrame(() => EventSystem.current.SetSelectedGameObject(button.gameObject));
+					CoroutineHelper.WaitNextFrame(() => EventSystem.current.SetSelectedGameObject(button.gameObject), isWaitNextEndOfFrame: true);
 				}
 
 				UnityAction unityAction = () => selectedButton = index;

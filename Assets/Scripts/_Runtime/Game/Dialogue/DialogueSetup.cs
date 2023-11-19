@@ -29,7 +29,7 @@ namespace Personal.Dialogue
 
 		bool isChangeActionMap = true;
 
-		protected override void Initialize()
+		protected override void EarlyInitialize()
 		{
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;

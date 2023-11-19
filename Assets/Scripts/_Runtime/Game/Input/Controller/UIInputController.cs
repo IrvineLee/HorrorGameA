@@ -56,14 +56,14 @@ namespace Personal.InputProcessing
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) return;
 
-			StageManager.Instance.DialogueController.DialogueSkip.SkipToResponseMenu(true);
+			StageManager.Instance.DialogueController.DialogueSkip.Begin(true);
 		}
 
 		void FastForwardEnd()
 		{
 			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) return;
 
-			StageManager.Instance.DialogueController.DialogueSkip.SkipToResponseMenu(false);
+			StageManager.Instance.DialogueController.DialogueSkip.Begin(false);
 		}
 
 		/// ------------------------------------------------------------------------
