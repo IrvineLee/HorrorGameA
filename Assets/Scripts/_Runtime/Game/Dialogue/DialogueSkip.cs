@@ -2,26 +2,30 @@ using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
 using Helper;
+using Personal.Manager;
+using Personal.GameState;
 
 namespace Personal.Dialogue
 {
-	public class DialogueSkip : MonoBehaviour
+	public class DialogueSkip : GameInitialize
 	{
 		[SerializeField] float initialWaitDuration = 0.5f;
 		[SerializeField] float delay = 0.05f;
 
 		AbstractDialogueUI dialogueUI;
 		TextAnimatorContinueButtonFastForward fastForward;
+		DialogueSetup dialogueSetup;
 
 		bool isSkip;
 
 		CoroutineRun initialWaitCR = new();
 		CoroutineRun skipCR = new();
 
-		void Awake()
+		protected override void Initialize()
 		{
 			dialogueUI = GetComponentInChildren<AbstractDialogueUI>(true);
 			fastForward = GetComponentInChildren<TextAnimatorContinueButtonFastForward>(true);
+			dialogueSetup = StageManager.Instance.DialogueController.DialogueSetup;
 		}
 
 		public void Begin(bool isFlag)
@@ -30,6 +34,8 @@ namespace Personal.Dialogue
 			if (!isFlag)
 			{
 				StopSkip();
+				dialogueSetup.SubtitleSetting.continueButton = DisplaySettings.SubtitleSettings.ContinueButtonMode.Always;
+
 				return;
 			}
 
@@ -40,6 +46,7 @@ namespace Personal.Dialogue
 		void SkipDialogue()
 		{
 			isSkip = true;
+			dialogueSetup.SubtitleSetting.continueButton = DisplaySettings.SubtitleSettings.ContinueButtonMode.Never;
 
 			fastForward.OnFastForward();
 			skipCR = CoroutineHelper.WaitFor(delay, dialogueUI.OnContinue);
@@ -48,9 +55,11 @@ namespace Personal.Dialogue
 		void StopSkip()
 		{
 			isSkip = false;
+			dialogueSetup.ContinueButton.gameObject.SetActive(!dialogueSetup.IsWaitingResponse);
 
 			initialWaitCR.StopCoroutine();
 			skipCR.StopCoroutine();
+
 		}
 
 		void OnConversationLine(Subtitle subtitle)

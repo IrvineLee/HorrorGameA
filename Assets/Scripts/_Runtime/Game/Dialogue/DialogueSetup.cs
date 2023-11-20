@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 using PixelCrushers;
 using PixelCrushers.DialogueSystem;
@@ -21,6 +22,9 @@ namespace Personal.Dialogue
 		public DialogueResponseListHandler DialogueResponseListHandler { get => dialogueResponseListHandler; }
 		public bool IsWaitingResponse { get; private set; }
 
+		public DisplaySettings.SubtitleSettings SubtitleSetting { get; private set; }
+		public Button ContinueButton { get; private set; }
+
 		ActionMapType previousActionMap;
 
 		StandardUIMenuPanel standardUIMenuPanel;
@@ -36,6 +40,10 @@ namespace Personal.Dialogue
 
 			StandardDialogueUI standardDialogueUI = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true);
 			standardUIMenuPanel = standardDialogueUI.conversationUIElements.defaultMenuPanel;
+
+			// Continue button.
+			SubtitleSetting = dialogueSystemController.displaySettings.subtitleSettings;
+			ContinueButton = standardDialogueUI.conversationUIElements.defaultNPCSubtitlePanel.continueButton;
 
 			// Subtitle panels.
 			subtitlePanelArray = ((StandardUIDialogueControls)standardDialogueUI.dialogueControls).subtitlePanels;
