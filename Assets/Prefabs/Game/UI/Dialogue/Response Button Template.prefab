@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 1221471522762349994}
   - component: {fileID: 5699161774120312619}
   - component: {fileID: 1255404569004741839}
-  - component: {fileID: 8121622171676858788}
   m_Layer: 5
   m_Name: Response Button Template
   m_TagString: Untagged
@@ -276,7 +275,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.627451, g: 0.627451, b: 0.627451, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 1, g: 0, b: 0, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.627451, g: 0.627451, b: 0.627451, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -364,17 +363,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInitialSelection: 0
---- !u!114 &8121622171676858788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1221471522756866910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8dc5d87f06d96e49bf15f73454a07f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delayDuration: 0.2
-  isOnEnable: 1
