@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1383893705972530943, guid: 732420c6efe13934b94c189872a2f108, type: 3}
       propertyPath: m_Name
-      value: DropdownSelectionList Variant
+      value: DropdownSelectionList_Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1946709092376866600, guid: 732420c6efe13934b94c189872a2f108, type: 3}
       propertyPath: m_AnchorMax.y
@@ -51,6 +51,22 @@ PrefabInstance:
     - target: {fileID: 3910075559487482982, guid: 732420c6efe13934b94c189872a2f108, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4009898678732572682, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4009898678732572682, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525201421555964030, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525201421555964030, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4539321688007824118, guid: 732420c6efe13934b94c189872a2f108, type: 3}
       propertyPath: m_Pivot.x
@@ -156,6 +172,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7603100825757033426, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603100825757033426, guid: 732420c6efe13934b94c189872a2f108, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 317268066809882834, guid: 732420c6efe13934b94c189872a2f108, type: 3}
     m_RemovedGameObjects: []
@@ -212,7 +236,6 @@ MonoBehaviour:
   leftButton: {fileID: 3125804995687363746}
   rightButton: {fileID: 9167381024418333135}
   templateTMP: {fileID: 2057847467179625137}
-  sameUISelectableList: []
   lerpDuration: 0.15
   selectionParentTrans: {fileID: 4328325461517214448}
   stringList:
