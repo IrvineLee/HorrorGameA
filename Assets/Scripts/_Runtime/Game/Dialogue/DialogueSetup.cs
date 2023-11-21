@@ -5,7 +5,6 @@ using PixelCrushers;
 using PixelCrushers.DialogueSystem;
 using Helper;
 using Personal.Manager;
-using Personal.InputProcessing;
 using Personal.GameState;
 using UIButtonKeyTrigger = PixelCrushers.UIButtonKeyTrigger;
 
@@ -13,7 +12,6 @@ namespace Personal.Dialogue
 {
 	public class DialogueSetup : GameInitialize
 	{
-		[SerializeField] ActionMapType actionMapType = ActionMapType.UI;
 		[SerializeField] string interactStr = "Interact";
 		[SerializeField] string cancelStr = "Cancel";
 

@@ -1,7 +1,10 @@
-using UnityEngine;
-
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Events;
+
+using Helper;
+using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
@@ -16,6 +19,20 @@ namespace Personal.UI.Option
 		protected List<UnityEvent<int>> unityEventIntList = new();
 		protected List<UnityEvent<float>> unityEventFloatList = new();
 		protected List<UnityEvent<bool>> unityEventBoolList = new();
+
+		protected List<UISelectable> uiSelectableList = new();
+		protected AutoScrollRect autoScrollRect;
+
+		protected override void OnEnabled()
+		{
+			((BasicInputUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
+		}
+
+		public override void InitialSetup()
+		{
+			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
+			autoScrollRect = GetComponentInChildren<AutoScrollRect>(true);
+		}
 
 		/// <summary>
 		/// Pressing the OK button.

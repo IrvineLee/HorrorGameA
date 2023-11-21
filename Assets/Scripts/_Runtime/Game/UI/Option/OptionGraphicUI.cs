@@ -54,8 +54,9 @@ namespace Personal.UI.Option
 		MotionBlur motionBlur;
 		Bloom bloom;
 
-		void OnEnable()
+		protected override void OnEnabled()
 		{
+			base.OnEnabled();
 			lastSelectedGO = screenResolutionDropdown.gameObject;
 		}
 
@@ -65,6 +66,8 @@ namespace Personal.UI.Option
 		/// <returns></returns>
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
+
 			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
 
 			universalCameraData = StageManager.Instance.CameraHandler.UniversalAdditionalCameraData;

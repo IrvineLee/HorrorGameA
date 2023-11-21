@@ -121,8 +121,10 @@ namespace Personal.Puzzle
 
 		void EnableGamepadMovement(bool isFlag) { puzzleGamepadMovement.enabled = isFlag; }
 
-		void OnDisable()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
+
 			InputManager.OnDeviceIconChanged -= HandlePhysicsRaycaster;
 			physicsRaycaster.enabled = false;
 

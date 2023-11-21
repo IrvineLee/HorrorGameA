@@ -15,6 +15,11 @@ namespace Personal.InputProcessing
 			ActiveControlInput = this;
 		}
 
+		protected virtual void OnDisable()
+		{
+			ActiveControlInput = null;
+		}
+
 		void IControlInput.Move(Vector2 direction) { Move(direction); }
 		void IControlInput.Next(bool isFlag) { Next(isFlag); }
 

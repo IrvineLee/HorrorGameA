@@ -4174,6 +4174,7 @@ GameObject:
   - component: {fileID: 9203667756636453490}
   - component: {fileID: 8560976700793520404}
   - component: {fileID: 3826387579570392773}
+  - component: {fileID: 7799975129261614693}
   m_Layer: 5
   m_Name: Dialogue Panel
   m_TagString: Untagged
@@ -4335,6 +4336,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionMapType: 1000
+--- !u!114 &7799975129261614693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9203667756646724796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a8b8118eb88d846b59785da8463ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9203667756646726520
 GameObject:
   m_ObjectHideFlags: 0
@@ -4348,8 +4361,6 @@ GameObject:
   - component: {fileID: 9203667756636539616}
   - component: {fileID: 9203667756636486106}
   - component: {fileID: 9203667756636476562}
-  - component: {fileID: 6072864704351592248}
-  - component: {fileID: 7388969290920404649}
   m_Layer: 5
   m_Name: Scroll Content
   m_TagString: Untagged
@@ -4454,30 +4465,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &6072864704351592248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9203667756646726520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cce330fff4554124298edf6e86659b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7388969290920404649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9203667756646726520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 907d6210c6bc0ae4bbbc0faecd4e02bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9203667756646787238
 GameObject:
   m_ObjectHideFlags: 0
@@ -5104,6 +5091,7 @@ GameObject:
   - component: {fileID: 9203667756635199176}
   - component: {fileID: 9203667756636461248}
   - component: {fileID: 8978217211692951615}
+  - component: {fileID: 2291797139649889154}
   m_Layer: 5
   m_Name: Scroll Rect
   m_TagString: Untagged
@@ -5184,3 +5172,15 @@ MonoBehaviour:
   viewportRectTransform: {fileID: 6858010311742642049}
   contentRectTransform: {fileID: 9203667756634909728}
   duration: 0.1
+--- !u!114 &2291797139649889154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9203667756646885974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907d6210c6bc0ae4bbbc0faecd4e02bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

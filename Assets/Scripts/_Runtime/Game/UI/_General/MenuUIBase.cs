@@ -60,12 +60,15 @@ namespace Personal.UI
 			if (!IsWindowAnimationDone && !isInstant) return;
 
 			EnableGO(false, isInstant);
-			CoroutineHelper.WaitNextFrame(() => UIManager.WindowStack.Pop());
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				UIManager.WindowStack.Pop();
 
-			if (!UIManager.IsWindowStackEmpty) return;
+				if (!UIManager.IsWindowStackEmpty) return;
 
-			InputManager.Instance.SetToDefaultActionMap();
-			OnPause(false);
+				InputManager.Instance.SetToDefaultActionMap();
+				OnPause(false);
+			});
 		}
 
 		/// <summary>

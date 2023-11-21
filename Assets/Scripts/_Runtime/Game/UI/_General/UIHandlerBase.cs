@@ -1,16 +1,27 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+using Helper;
 using Personal.UI.Window;
+using Personal.InputProcessing;
 
 namespace Personal.UI
 {
 	public abstract class UIHandlerBase : MenuUIBase
 	{
+		[SerializeField] bool isHandleSelectables = true;
+
+		protected List<UISelectable> uiSelectableList = new();
+		protected AutoScrollRect autoScrollRect;
+
 		/// <summary>
 		/// This is used for setting up the buttons and selection animation.
 		/// </summary>
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
+
 			Transform goParent = windowUIAnimator != null ? windowUIAnimator.transform : transform;
 
 			var buttonInteractArray = goParent.GetComponentsInChildren<ButtonInteractBase>(true);
@@ -30,6 +41,18 @@ namespace Personal.UI
 			{
 				selection.InitialSetup();
 			}
+
+			if (!isHandleSelectables) return;
+
+			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
+			autoScrollRect = GetComponentInChildren<AutoScrollRect>(true);
 		}
+
+		protected override void OnEnabled()
+		{
+			if (!isHandleSelectables) return;
+			((BasicInputUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
+		}
+
 	}
 }

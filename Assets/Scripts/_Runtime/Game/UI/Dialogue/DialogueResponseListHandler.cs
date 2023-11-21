@@ -6,6 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 using Helper;
+using Personal.InputProcessing;
+using Personal.UI;
 
 namespace Personal.Dialogue
 {
@@ -31,6 +33,15 @@ namespace Personal.Dialogue
 		List<ButtonUnityAction> buttonActionList = new();
 		int selectedButton = -1;
 
+		Transform contentRectTransform;
+		AutoScrollRect autoScrollRect;
+
+		void Awake()
+		{
+			contentRectTransform = GetComponentInChildren<ScrollRect>().content;
+			autoScrollRect = GetComponentInChildren<AutoScrollRect>(true);
+		}
+
 		void OnEnable()
 		{
 			// You have to wait for the dialogue response to get populated.
@@ -39,9 +50,11 @@ namespace Personal.Dialogue
 
 		void Cache()
 		{
+			if (contentRectTransform.childCount <= 0) return;
+
 			ResetButtons();
 
-			var buttonList = GetComponentsInChildren<Button>().ToList();
+			var buttonList = contentRectTransform.GetComponentsInChildren<Button>().ToList();
 			for (int i = 0; i < buttonList.Count; i++)
 			{
 				Button button = buttonList[i];
@@ -57,6 +70,9 @@ namespace Personal.Dialogue
 
 				button.onClick.AddListener(unityAction);
 			}
+
+			var uiSelectableList = contentRectTransform.GetComponentsInChildren<UISelectable>().ToList();
+			((BasicInputUI)ControlInputBase.ActiveControlInput).SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
 		/// <summary>

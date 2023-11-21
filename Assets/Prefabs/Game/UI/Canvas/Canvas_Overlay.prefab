@@ -404,7 +404,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8648991943999299742, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+      propertyPath: isHandleSelectables
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6865496258890539446, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+    - {fileID: 4579198164866850989, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+    - {fileID: 6399278089806831635, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
+    - {fileID: 6733457108698274399, guid: cdf3d83dd9bdf31469a9c9578a16f8e8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -506,11 +514,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2972334381192445593, guid: a5e969e9374b7ee4292907fe3b2a8e4f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6401275243240861731, guid: a5e969e9374b7ee4292907fe3b2a8e4f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 662323794386415821}
   m_SourcePrefab: {fileID: 100100000, guid: a5e969e9374b7ee4292907fe3b2a8e4f, type: 3}
+--- !u!1 &479426476659316258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6401275243240861731, guid: a5e969e9374b7ee4292907fe3b2a8e4f, type: 3}
+  m_PrefabInstance: {fileID: 6805684764409701889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &662323794386415821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479426476659316258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20629ce978b5e14f849762fe756f908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2671835690353392041 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8892043397818539944, guid: a5e969e9374b7ee4292907fe3b2a8e4f, type: 3}
@@ -524,6 +553,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8813871060680811718}
     m_Modifications:
+    - target: {fileID: 3204872182179471529, guid: b76aeb7ffed450942999c5358a77292d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3204872182179471529, guid: b76aeb7ffed450942999c5358a77292d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4757544196852126862, guid: b76aeb7ffed450942999c5358a77292d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -607,6 +644,10 @@ PrefabInstance:
     - target: {fileID: 7040593572489132805, guid: b76aeb7ffed450942999c5358a77292d, type: 3}
       propertyPath: m_Name
       value: WindowPauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272410277257841457, guid: b76aeb7ffed450942999c5358a77292d, type: 3}
+      propertyPath: isHandleSelectables
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

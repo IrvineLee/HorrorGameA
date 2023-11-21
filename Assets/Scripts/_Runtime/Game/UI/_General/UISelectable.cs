@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using Helper;
 using Personal.Manager;
 using Personal.UI.Window;
-using Helper;
 
 namespace Personal.UI
 {
@@ -20,7 +20,7 @@ namespace Personal.UI
 
 		public UISelectionBase UISelectionBase { get; private set; }
 
-		protected UIGamepadMovement uiGamepadMovement;
+		protected ControlInput controlInputUI;
 
 		protected MenuUIBase menuUIBase = null;
 		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
@@ -32,7 +32,7 @@ namespace Personal.UI
 
 		void Awake()
 		{
-			uiGamepadMovement = GetComponentInParent<UIGamepadMovement>(true);
+			controlInputUI = GetComponentInParent<ControlInput>(true);
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
 			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
@@ -83,7 +83,7 @@ namespace Personal.UI
 			SetSelectableColor(true);
 
 			menuUIBase?.SetLastSelectedGO(gameObject);
-			uiGamepadMovement?.UpdateCurrentSelection(gameObject);
+			controlInputUI?.UpdateCurrentSelection(gameObject);
 		}
 
 		void IDeselectHandler.OnDeselect(BaseEventData eventData)

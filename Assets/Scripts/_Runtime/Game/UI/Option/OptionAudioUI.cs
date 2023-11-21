@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
+using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.Setting.Audio;
-using Helper;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
@@ -34,8 +34,9 @@ namespace Personal.UI.Option
 			AudioSpeakerMode.Mono,
 		};
 
-		void OnEnable()
+		protected override void OnEnabled()
 		{
+			base.OnEnabled();
 			lastSelectedGO = speakerModeDropdown.gameObject;
 		}
 
@@ -45,6 +46,7 @@ namespace Personal.UI.Option
 		/// <returns></returns>
 		public override void InitialSetup()
 		{
+			base.InitialSetup();
 			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
 
 			HandleLoadDataToUI();

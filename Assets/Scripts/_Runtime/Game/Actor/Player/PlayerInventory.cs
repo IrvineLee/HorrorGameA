@@ -103,7 +103,7 @@ namespace Personal.Character.Player
 		{
 			// Disable pickupable.
 			interactablePickupable.gameObject.SetActive(false);
-			if (activeObject.PickupableObjectFPS) activeObject.PickupableObjectFPS.gameObject.SetActive(false);
+			if (activeObject != null && activeObject.PickupableObjectFPS) activeObject.PickupableObjectFPS.gameObject.SetActive(false);
 
 			var inventory = AddItemToInventory(interactablePickupable);
 			inventoryData.ItemList.Add(interactablePickupable.ItemType);
