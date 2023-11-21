@@ -35,6 +35,20 @@ namespace Personal.GameState
 			HandleScene().Forget();
 		}
 
+		void OnEnable()
+		{
+			if (!Preload.IsLoaded) return;
+
+			OnEnabled();
+		}
+
+		void OnDisable()
+		{
+			if (!Preload.IsLoaded) return;
+
+			OnDisabled();
+		}
+
 		/// <summary>
 		/// Treat this as a normal Awake function.
 		/// </summary>
@@ -44,6 +58,16 @@ namespace Personal.GameState
 		/// Treat this as a normal Start function but it still gets called even when script is off. It gets called after OnEnable() and Start().
 		/// </summary>
 		protected virtual void Initialize() { }
+
+		/// <summary>
+		/// Treat this as OnEnable.
+		/// </summary>
+		protected virtual void OnEnabled() { }
+
+		/// <summary>
+		/// Treat this as OnDisable.
+		/// </summary>
+		protected virtual void OnDisabled() { }
 
 		/// <summary>
 		/// This gets called when scene is in Title scene. 

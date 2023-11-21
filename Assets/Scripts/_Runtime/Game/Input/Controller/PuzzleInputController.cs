@@ -1,16 +1,13 @@
 using UnityEngine;
 
-using Helper;
-using Personal.Puzzle;
-
 namespace Personal.InputProcessing
 {
 	public class PuzzleInputController : InputControllerBase
 	{
-		IControlInput iControlInput;
-
-		void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
+
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
@@ -18,36 +15,33 @@ namespace Personal.InputProcessing
 
 			inputReaderDefinition.OnPuzzleResetEvent += PuzzleReset;
 			inputReaderDefinition.OnPuzzleAutoCompleteEvent += AutoComplete;
-
-			// PuzzleController will always sets it's ActiveController first before activating this input controller.
-			iControlInput = PuzzleController.ActiveController?.GetComponent<IControlInput>();
 		}
 
-		void MoveInput(Vector2 newMoveDirection)
+		void MoveInput(Vector2 direction)
 		{
-			Move = newMoveDirection;
+			Move = direction;
 		}
 
 		void InteractInput()
 		{
 			IsInteract = true;
-			iControlInput?.Submit();
+			IControlInput?.ButtonSouth_Submit();
 		}
 
 		void CancelInput()
 		{
 			IsCancel = true;
-			iControlInput?.Cancel();
+			IControlInput?.ButtonEast_Cancel();
 		}
 
 		void PuzzleReset()
 		{
-			iControlInput?.ButtonNorth();
+			IControlInput?.ButtonNorth();
 		}
 
 		void AutoComplete()
 		{
-			iControlInput?.R3();
+			IControlInput?.R3();
 		}
 
 		protected override void OnDisable()
@@ -61,8 +55,6 @@ namespace Personal.InputProcessing
 
 			inputReaderDefinition.OnPuzzleResetEvent -= PuzzleReset;
 			inputReaderDefinition.OnPuzzleAutoCompleteEvent -= AutoComplete;
-
-			iControlInput = null;
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace Personal.UI
 			}
 			if (!waitCR.IsDone) return;
 
-			HandleMovement(GetHorizontalVericalMovement(move));
+			HandleMovement(GetHorizontalVerticalMovement(move));
 			IsHold = true;
 
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
@@ -52,7 +52,7 @@ namespace Personal.UI
 
 		protected virtual void HandleMovement(Vector2 move) { }
 
-		protected virtual Vector2 GetHorizontalVericalMovement(Vector2 move)
+		protected virtual Vector2 GetHorizontalVerticalMovement(Vector2 move)
 		{
 			if (MathF.Abs(move.x) > MathF.Abs(move.y))
 			{

@@ -3,8 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Personal.UI;
 using Helper;
+using Personal.UI;
 
 namespace Personal.Puzzle
 {
@@ -106,7 +106,7 @@ namespace Personal.Puzzle
 		/// </summary>
 		/// <param name="move"></param>
 		/// <returns></returns>
-		protected override Vector2 GetHorizontalVericalMovement(Vector2 move)
+		protected override Vector2 GetHorizontalVerticalMovement(Vector2 move)
 		{
 			if (move.x > 0.1f)
 			{

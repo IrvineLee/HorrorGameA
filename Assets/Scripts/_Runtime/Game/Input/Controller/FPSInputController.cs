@@ -9,8 +9,10 @@ namespace Personal.InputProcessing
 		public bool IsJump { get; private set; }
 		public bool IsSprint { get; private set; }
 
-		void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
+
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnLookEvent += LookInput;
 
@@ -27,14 +29,14 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnInventoryIndexSelectEvent += InventoryIndexSelect;
 		}
 
-		void MoveInput(Vector2 newMoveDirection)
+		void MoveInput(Vector2 direction)
 		{
-			Move = newMoveDirection;
+			Move = direction;
 		}
 
-		void LookInput(Vector2 newLookDirection)
+		void LookInput(Vector2 direction)
 		{
-			Look = newLookDirection;
+			Look = direction;
 		}
 
 		void JumpInput(bool isFlag)

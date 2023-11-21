@@ -9,7 +9,6 @@ using Helper;
 using Personal.Manager;
 using Personal.InteractiveObject;
 using Personal.Save;
-using Personal.GameState;
 using Personal.InputProcessing;
 
 #if UNITY_EDITOR
@@ -18,7 +17,7 @@ using UnityEditor;
 
 namespace Personal.Puzzle
 {
-	public class PuzzleController : GameInitialize, IDataPersistence, IControlInput
+	public class PuzzleController : ControlInputBase, IDataPersistence
 	{
 		public enum PuzzleState
 		{
@@ -26,8 +25,6 @@ namespace Personal.Puzzle
 			Completed,
 			Failed,
 		}
-
-		public static PuzzleController ActiveController { get; private set; }
 
 		// This is a unique ID for saving/loading objects in scene.
 		[SerializeField] [ReadOnly] protected string id;
@@ -48,15 +45,13 @@ namespace Personal.Puzzle
 			physicsRaycaster = StageManager.Instance.CameraHandler.PhysicsRaycaster;
 		}
 
-		void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
 			InputManager.OnDeviceIconChanged += HandlePhysicsRaycaster;
-
-			ActiveController = this;
-			InputManager.Instance.EnableActionMap(ActionMapType.Puzzle);
 		}
 
-		void IControlInput.Submit()
+		protected override void ButtonSouth_Submit()
 		{
 			// Check puzzle click.
 			Transform target = puzzleGamepadMovement ? GetActiveSelectionForGamepad() : null;
@@ -75,19 +70,19 @@ namespace Personal.Puzzle
 			((IPuzzle)this).CheckPuzzleAnswer();
 		}
 
-		void IControlInput.Cancel()
+		protected override void ButtonEast_Cancel()
 		{
 			((IPuzzle)this).CancelSelected();
 		}
 
-		void IControlInput.ButtonNorth()
+		protected override void ButtonNorth()
 		{
 			if (!slideCR.IsDone) return;
 
 			((IPuzzle)this).ResetToDefault();
 		}
 
-		void IControlInput.R3()
+		protected override void R3()
 		{
 			if (!slideCR.IsDone) return;
 
@@ -131,7 +126,7 @@ namespace Personal.Puzzle
 			InputManager.OnDeviceIconChanged -= HandlePhysicsRaycaster;
 			physicsRaycaster.enabled = false;
 
-			ActiveController = null;
+			ActiveControlInput = null;
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)
@@ -151,6 +146,7 @@ namespace Personal.Puzzle
 			GetComponent<IPuzzle>()?.AutoComplete();
 		}
 
+#if UNITY_EDITOR
 		[ContextMenu("GenerateGUID")]
 		void GenerateGUID()
 		{
@@ -163,7 +159,6 @@ namespace Personal.Puzzle
 			id = "";
 		}
 
-#if UNITY_EDITOR
 		void OnValidate()
 		{
 			if (PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;

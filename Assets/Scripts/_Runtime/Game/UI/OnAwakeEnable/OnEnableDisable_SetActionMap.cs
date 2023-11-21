@@ -1,26 +1,34 @@
 using UnityEngine;
 
+using Helper;
 using Personal.Manager;
 using Personal.InputProcessing;
+using Personal.GameState;
 
 namespace Personal.UI
 {
-	public class OnEnableDisable_SetActionMap : MonoBehaviour
+	public class OnEnableDisable_SetActionMap : GameInitialize
 	{
 		[SerializeField] ActionMapType actionMapType = ActionMapType.UI;
 
 		ActionMapType previousActionMap;
 
-		void OnEnable()
+		protected override void OnEnabled()
 		{
-			previousActionMap = InputManager.Instance.CurrentActionMapType;
-			InputManager.Instance.EnableActionMap(actionMapType);
+			CoroutineHelper.WaitEndOfFrame(() =>
+			{
+				previousActionMap = InputManager.Instance.CurrentActionMapType;
+				InputManager.Instance.EnableActionMap(actionMapType);
+			});
 		}
 
-		void OnDisable()
+		protected override void OnDisabled()
 		{
-			if (previousActionMap == ActionMapType.None) return;
-			InputManager.Instance?.EnableActionMap(previousActionMap);
+			CoroutineHelper.WaitEndOfFrame(() =>
+			{
+				if (previousActionMap == ActionMapType.None) return;
+				InputManager.Instance?.EnableActionMap(previousActionMap);
+			});
 		}
 	}
 }

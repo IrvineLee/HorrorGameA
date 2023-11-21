@@ -25,13 +25,9 @@ namespace Personal.Dialogue
 		public DisplaySettings.SubtitleSettings SubtitleSetting { get; private set; }
 		public Button ContinueButton { get; private set; }
 
-		ActionMapType previousActionMap;
-
 		StandardUIMenuPanel standardUIMenuPanel;
 		StandardUISubtitlePanel[] subtitlePanelArray;
 		UIButtonKeyTrigger uiButtonKeyTrigger;
-
-		bool isChangeActionMap = true;
 
 		protected override void EarlyInitialize()
 		{
@@ -65,12 +61,6 @@ namespace Personal.Dialogue
 		{
 			UIManager.Instance.FooterIconDisplay.Begin(true);
 			EnableSubtitlePanel(true);
-
-			if (isChangeActionMap)
-			{
-				previousActionMap = InputManager.Instance.CurrentActionMapType;
-				InputManager.Instance.EnableActionMap(actionMapType);
-			}
 		}
 
 		/// <summary>
@@ -82,13 +72,7 @@ namespace Personal.Dialogue
 			UIManager.Instance.FooterIconDisplay.Begin(false);
 			EnableSubtitlePanel(false);
 
-			if (isChangeActionMap)
-			{
-				InputManager.Instance.EnableActionMap(previousActionMap);
-			}
-
 			IsWaitingResponse = false;
-			isChangeActionMap = true;
 
 			InputDeviceManager.instance.alwaysAutoFocus = false;
 		}
@@ -100,14 +84,6 @@ namespace Personal.Dialogue
 		public void SwapInteractInput(bool isXInteract)
 		{
 			uiButtonKeyTrigger.buttonName = isXInteract ? interactStr : cancelStr;
-		}
-
-		/// <summary>
-		/// Disable input action change when starting conversation. It will automatically reset back to true after conversation ends.
-		/// </summary>
-		public void DisableInputActionChange()
-		{
-			isChangeActionMap = false;
 		}
 
 		/// <summary>

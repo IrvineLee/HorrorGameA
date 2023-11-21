@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using Helper;
 using Personal.GameState;
 using Personal.Manager;
 using Personal.UI.Window;
@@ -58,8 +59,8 @@ namespace Personal.UI
 		{
 			if (!IsWindowAnimationDone && !isInstant) return;
 
-			UIManager.WindowStack.Pop();
 			EnableGO(false, isInstant);
+			CoroutineHelper.WaitNextFrame(() => UIManager.WindowStack.Pop());
 
 			if (!UIManager.IsWindowStackEmpty) return;
 

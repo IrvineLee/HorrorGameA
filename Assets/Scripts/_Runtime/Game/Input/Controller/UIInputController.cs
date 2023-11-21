@@ -2,16 +2,15 @@ using UnityEngine;
 
 using Personal.Manager;
 using Personal.UI;
-using Helper;
 
 namespace Personal.InputProcessing
 {
 	public class UIInputController : InputControllerBase
 	{
-		bool isPressedCancel;
-
-		void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
+
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnLookEvent += LookInput;
 
@@ -28,24 +27,28 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnDialogueUIFastForwardPressed_EndEvent += FastForwardEnd;
 		}
 
-		void MoveInput(Vector2 newMoveDirection)
+		void MoveInput(Vector2 direction)
 		{
-			Move = newMoveDirection;
+			Move = direction;
+			IControlInput?.Move(direction);
 		}
 
-		void LookInput(Vector2 newLookDirection)
+		void LookInput(Vector2 direction)
 		{
-			Look = newLookDirection;
+			Look = direction;
+			IControlInput?.RightAnalog_Look(direction);
 		}
 
 		void InteractInput()
 		{
 			IsInteract = true;
+			IControlInput?.ButtonSouth_Submit();
 		}
 
 		void CancelInput()
 		{
 			IsCancel = true;
+			IControlInput?.ButtonEast_Cancel();
 		}
 
 		/// ------------------------------------------------------------------------
@@ -54,55 +57,72 @@ namespace Personal.InputProcessing
 
 		void FastForwardStart()
 		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) return;
-
-			StageManager.Instance.DialogueController.DialogueSkip.Begin(true);
+			ButtonNorth(UIInterfaceType.Dialogue);
 		}
 
 		void FastForwardEnd()
 		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) return;
+			ButtonNorth_Released(UIInterfaceType.Dialogue);
+		}
 
-			StageManager.Instance.DialogueController.DialogueSkip.Begin(false);
+		/// ------------------------------------------------------------------------
+		/// --------------------------- Generic events -----------------------------
+		/// ------------------------------------------------------------------------
+
+		/// <summary>
+		/// This handles the close button.
+		/// </summary>
+		protected override void CloseMenu()
+		{
+			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Pause) return;
+			base.CloseMenu();
+		}
+
+		/// <summary>
+		/// This handles the pause menu button. (PS Option button)
+		/// </summary>
+		void ClosePauseMenu()
+		{
+			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Pause) return;
+			base.CloseMenu();
 		}
 
 		/// ------------------------------------------------------------------------
 		/// ---------------------------- Option events -----------------------------
 		/// ------------------------------------------------------------------------
 
-		protected override void CloseMenu()
-		{
-			// Since gamepad uses the start button to open/close the initial pause menu, do not allow the cancel button to close it.
-			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Pause && !InputManager.Instance.IsCurrentDeviceMouse) return;
-
-			base.CloseMenu();
-
-			// Since the escape button closses both the option and pause menu, prevent it from closing both at the same time.
-			isPressedCancel = true;
-			CoroutineHelper.WaitNextFrame(() => isPressedCancel = false);
-		}
-
-		void ClosePauseMenu()
-		{
-			if (isPressedCancel) return;
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Pause) return;
-
-			base.CloseMenu();
-		}
-
 		void TabSwitch(bool isNext)
 		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
-
-			UIManager.Instance.OptionUI.NextTab(isNext);
+			Next(isNext, UIInterfaceType.Option);
 		}
 
 		void DefaultOptionMenu()
 		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Option) return;
-
-			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
+			ButtonNorth(UIInterfaceType.Option);
 		}
+
+		/// ------------------------------------------------------------------------
+		/// ------------------------------- Generic --------------------------------
+		/// ------------------------------------------------------------------------
+
+		void Next(bool isNext, UIInterfaceType uiInterfaceType)
+		{
+			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
+			IControlInput?.Next(isNext);
+		}
+
+		void ButtonNorth(UIInterfaceType uiInterfaceType)
+		{
+			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
+			IControlInput?.ButtonNorth();
+		}
+
+		void ButtonNorth_Released(UIInterfaceType uiInterfaceType)
+		{
+			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
+			IControlInput?.ButtonNorth_Released();
+		}
+
 
 		protected override void OnDisable()
 		{

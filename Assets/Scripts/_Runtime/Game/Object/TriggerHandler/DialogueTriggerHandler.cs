@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
-using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
@@ -20,7 +19,7 @@ namespace Personal.InteractiveObject
 			if (!IsInteractable) return;
 			if (!dialogueSystemTrigger) return;
 
-			StageManager.Instance.DialogueController.DialogueSetup.DisableInputActionChange();
+			// TODO: This is a trigger where the player still can move while the dialogue is happening...
 			dialogueSystemTrigger?.OnUse(other.transform);
 
 			colliderTrans.gameObject.SetActive(false);
