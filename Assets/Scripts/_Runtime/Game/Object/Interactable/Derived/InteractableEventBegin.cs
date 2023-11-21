@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Manager;
-using Personal.InputProcessing;
 
 namespace Personal.InteractiveObject
 {
 	public class InteractableEventBegin : InteractableObject
 	{
-		[SerializeField] protected ActionMapType actionMapType = ActionMapType.Player;
-
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
@@ -29,11 +25,7 @@ namespace Personal.InteractiveObject
 			StageManager.Instance.PlayerController.Inventory.FPS_HideItem();
 
 			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
-
 			ifsmHandler?.OnBegin(null);
-
-			if (actionMapType == ActionMapType.None) InputManager.Instance.DisableAllActionMap();
-			else InputManager.Instance.EnableActionMap(actionMapType);
 
 			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
 

@@ -72,7 +72,7 @@ namespace Personal.Dialogue
 			}
 
 			var uiSelectableList = contentRectTransform.GetComponentsInChildren<UISelectable>().ToList();
-			((BasicInputUI)ControlInputBase.ActiveControlInput).SetUIValues(uiSelectableList, autoScrollRect);
+			((BasicControllerUI)ControlInputBase.ActiveControlInput).SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
 		/// <summary>

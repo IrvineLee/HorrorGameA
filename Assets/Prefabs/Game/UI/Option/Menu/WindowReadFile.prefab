@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiInterfaceType: 5
   windowUIAnimator: {fileID: -1795437725177491454}
+  isHandleSelectables: 1
   uISelectionListingPage: {fileID: 2792176595290523562}
 --- !u!1 &7631824077768633652
 GameObject:
@@ -342,6 +343,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5546630869629790033, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
       insertIndex: -1
       addedObject: {fileID: -1795437725177491454}
+    - targetCorrespondingSourceObject: {fileID: 5546630869629790033, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6436100184927581562}
   m_SourcePrefab: {fileID: 100100000, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
 --- !u!1 &6401275243240861731 stripped
 GameObject:
@@ -375,6 +379,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 9052056151572304864}
   animationName: IsEnable
+--- !u!114 &6436100184927581562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6401275243240861731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8776b35ab13bc1a45b1356f0be647200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8892043397818539944 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
@@ -586,6 +602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3832063523735565907, guid: ec83add461dd5b44fafc2fe0f0cde87d, type: 3}
+    - {fileID: 7506025745465944283, guid: ec83add461dd5b44fafc2fe0f0cde87d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

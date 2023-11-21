@@ -4,7 +4,7 @@ using Personal.Manager;
 
 namespace Personal.UI
 {
-	public class DialogueControllerUI : BasicInputUI
+	public class DialogueControllerUI : BasicControllerUI
 	{
 		protected override void ButtonNorth()
 		{

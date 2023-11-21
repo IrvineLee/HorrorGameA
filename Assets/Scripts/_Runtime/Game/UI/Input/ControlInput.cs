@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 using Helper;
@@ -39,7 +40,25 @@ namespace Personal.UI
 
 		protected virtual void HandleMovement(Vector2 move) { }
 
-		protected virtual Vector2 GetHorizontalVerticalMovement(Vector2 move) { return Vector2.zero; }
+		/// <summary>
+		/// Handle the analog input so it gives concrete value for a smoother experience. DPad has no problem.
+		/// </summary>
+		/// <param name="move"></param>
+		/// <returns></returns>
+		protected virtual Vector2 GetHorizontalVerticalMovement(Vector2 move)
+		{
+			if (MathF.Abs(move.x) > MathF.Abs(move.y))
+			{
+				move.x = move.x > 0 ? 1 : -1;
+				move.y = 0;
+			}
+			else
+			{
+				move.x = 0;
+				move.y = move.y > 0 ? 1 : -1;
+			}
+			return move;
+		}
 
 		protected override void OnDisable()
 		{

@@ -16,19 +16,13 @@ namespace Personal.UI
 		[SerializeField] protected float rotateDuration = 0.25f;
 
 		protected PlayerInventory playerInventory;
+		protected float yAngleToRotate;
 
 		protected CoroutineRun rotateAroundCR = new CoroutineRun();
-
-		protected float yAngleToRotate;
 
 		public override void InitialSetup()
 		{
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
-		}
-
-		void Update()
-		{
-			HandleInput();
 		}
 
 		/// <summary>
@@ -70,33 +64,18 @@ namespace Personal.UI
 			playerInventory.InventoryList[currentIndex].PickupableObjectRotateUI.enabled = true;
 		}
 
-		/// <summary>
-		/// Handle the movement of items within a circle.
-		/// </summary>
-		protected virtual void HandleInput()
+		public void HandleInput(bool isNext)
 		{
-			if (playerInventory.InventoryList.Count <= 0) return;
-
-			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
-
-			if (move == Vector3.zero) return;
 			if (!rotateAroundCR.IsDone) return;
 
-			float angle = yAngleToRotate;
-			Action doLast = ReachedAction(false);
-
-			if (move.x < 0 || move.y < 0)
-			{
-				angle = -yAngleToRotate;
-				doLast = ReachedAction(true);
-			}
+			float angle = isNext ? -yAngleToRotate : yAngleToRotate;
+			Action doLast = ReachedAction(isNext);
 
 			Vector3 angleRotation = new Vector3(0, angle, 0);
 			rotateAroundCR = CoroutineHelper.RotateWithinSeconds(contentTrans, angleRotation, rotateDuration, doLast, false);
 
 			ResetAllInventoryRotations();
 		}
-
 
 		/// <summary>
 		/// The action when it reached the target.
@@ -133,7 +112,6 @@ namespace Personal.UI
 				Transform child = contentTrans.GetChild(i);
 				Vector2 direction = -directionList[i] * radius; // Negative direction so it to spawns at 6 o'clock rather than 12 o'clock.
 
-				//child.transform.SetParent(contentTrans);
 				child.position = contentTrans.position;
 				child.localPosition = child.localPosition.With(x: direction.x, y: 0, z: direction.y);
 			}

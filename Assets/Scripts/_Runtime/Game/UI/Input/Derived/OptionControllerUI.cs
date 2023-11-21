@@ -4,7 +4,7 @@ using Personal.Manager;
 
 namespace Personal.UI.Option
 {
-	public class OptionControllerUI : BasicInputUI
+	public class OptionControllerUI : BasicControllerUI
 	{
 		protected override void Next(bool isFlag)
 		{

@@ -51,7 +51,7 @@ namespace Personal.UI
 		protected override void OnEnabled()
 		{
 			if (!isHandleSelectables) return;
-			((BasicInputUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
+			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
 	}

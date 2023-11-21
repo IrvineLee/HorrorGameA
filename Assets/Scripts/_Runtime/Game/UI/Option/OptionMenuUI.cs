@@ -25,7 +25,7 @@ namespace Personal.UI.Option
 
 		protected override void OnEnabled()
 		{
-			((BasicInputUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
+			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
 		public override void InitialSetup()
