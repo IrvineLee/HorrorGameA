@@ -3,15 +3,16 @@ using UnityEngine;
 
 using Helper;
 using Personal.Manager;
-using Personal.InputProcessing;
 using Personal.Constant;
 using static Personal.Manager.InputManager;
 
-namespace Personal.UI
+namespace Personal.InputProcessing
 {
 	public abstract class ControlInput : ControlInputBase
 	{
 		public static bool IsHold { get; private set; }
+
+		public int CurrentActiveIndex { get; protected set; }
 
 		CoroutineRun waitCR = new CoroutineRun();
 
@@ -60,9 +61,9 @@ namespace Personal.UI
 			return move;
 		}
 
-		protected override void OnDisable()
+		protected override void OnDisabled()
 		{
-			base.OnDisable();
+			base.OnDisabled();
 			waitCR.StopCoroutine();
 		}
 	}

@@ -2,16 +2,16 @@ using UnityEngine;
 
 using Personal.Manager;
 
-namespace Personal.UI
+namespace Personal.InputProcessing
 {
-	public class DialogueControllerUI : BasicControllerUI
+	public class InputMovement_DialogueController : BasicControllerUI, IControlInput
 	{
-		protected override void ButtonNorth()
+		void IControlInput.ButtonNorth()
 		{
 			StageManager.Instance.DialogueController.DialogueSkip.Begin(true);
 		}
 
-		protected override void ButtonNorth_Released()
+		void IControlInput.ButtonNorth_Released()
 		{
 			StageManager.Instance.DialogueController.DialogueSkip.Begin(false);
 		}

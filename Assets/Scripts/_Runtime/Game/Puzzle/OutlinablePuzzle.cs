@@ -1,21 +1,19 @@
 ﻿using UnityEngine;
 
-using Personal.UI;
 using Personal.Puzzle;
 using Personal.Manager;
+using Personal.InputProcessing;
 
 namespace Helper
 {
 	public class OutlinablePuzzle : OutlinableFadeInOut
 	{
-		GamepadMovement gamepadMovement;
 		PuzzleController puzzleController;
 
 		protected override void Awake()
 		{
 			base.Awake();
 
-			gamepadMovement = GetComponentInParent<GamepadMovement>(true);
 			puzzleController = GetComponentInParent<PuzzleController>(true);
 		}
 
@@ -28,7 +26,7 @@ namespace Helper
 			if (!puzzleController.enabled) return;
 
 			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
-			gamepadMovement.UpdateCurrentSelection(gameObject);
+			((ControlInput)ControlInputBase.ActiveControlInput).UpdateCurrentSelection(gameObject);
 		}
 	}
 }

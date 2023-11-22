@@ -2194,7 +2194,6 @@ GameObject:
   - component: {fileID: 5329723293634980695}
   - component: {fileID: 7237317851428989070}
   - component: {fileID: 6004608980203177827}
-  - component: {fileID: 2649498306971722850}
   m_Layer: 5
   m_Name: Pinwheel_Center
   m_TagString: Untagged
@@ -2294,21 +2293,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &2649498306971722850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4726806084717872783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6702dca85f9144d40aca58089e9ea2fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 0.5
-  waitForDuration: 0.2
-  minimumAlpha: 0.4
 --- !u!1 &4810624238204742539
 GameObject:
   m_ObjectHideFlags: 0
@@ -2351,7 +2335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4920424333275366984}
   - component: {fileID: 4920424333275366985}
-  - component: {fileID: 3321056054423868403}
+  - component: {fileID: 5347556957803468716}
   m_Layer: 5
   m_Name: PinwheelPuzzle
   m_TagString: Untagged
@@ -2369,7 +2353,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -7.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4920424333345768661}
@@ -2387,6 +2371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c6fd6b65b746f4fa1019eb78f645fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
+  interactableEventBegin: {fileID: 0}
+  rewardInteractableObjectList: []
   outerPinwheelTrans: {fileID: 6504587986141394898}
   centerPinwheelAt: {fileID: 8214920332679693936}
   pinwheelPrefab: {fileID: 7000215843796477233, guid: 2cef80719abad7f4b8c7fb327bbc6e45, type: 3}
@@ -2448,7 +2435,7 @@ MonoBehaviour:
     basicColorList: 00000000010000000200000003000000
     faceCenterIndex: 0
   isDisplayDebug: 0
---- !u!114 &3321056054423868403
+--- !u!114 &5347556957803468716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2457,11 +2444,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4920424333275366983}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83a99d8fce956c5449170f382bc54fe8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3389d60d353e7b544a7d348441201d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startIndex: 0
-  compareAxis: 1
+  rotatedAngle: 45
   selectionArcDotProduct: 0.85
 --- !u!1 &4920424333345768660
 GameObject:

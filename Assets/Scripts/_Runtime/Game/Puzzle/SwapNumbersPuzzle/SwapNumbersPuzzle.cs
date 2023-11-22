@@ -5,6 +5,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Personal.Interface;
 using Helper;
+using Personal.InputProcessing;
 
 namespace Personal.Puzzle.EightSlide
 {
@@ -38,11 +39,12 @@ namespace Personal.Puzzle.EightSlide
 			}
 		}
 
-		protected override Transform GetActiveSelectionForGamepad()
+		public override Transform GetActiveSelectionForGamepad()
 		{
 			foreach (Tile tile in tileDictionary.Values)
 			{
-				if (tile.StartIndex == puzzleGamepadMovement.CurrentActiveIndex) return tile.TileTrans;
+				int index = ((ControlInput)(ControlInputBase.ActiveControlInput)).CurrentActiveIndex;
+				if (tile.StartIndex == index) return tile.TileTrans;
 			}
 			return null;
 		}
@@ -90,7 +92,7 @@ namespace Personal.Puzzle.EightSlide
 			activeSelection.TileTrans.position = tile.TileTrans.position;
 			tile.TileTrans.position = temp;
 
-			puzzleGamepadMovement.UpdateCurrentSelection(activeSelection.TileTrans.gameObject);
+			((ControlInput)ControlInputBase.ActiveControlInput).UpdateCurrentSelection(activeSelection.TileTrans.gameObject);
 
 			activeSelection = null;
 		}
@@ -111,7 +113,7 @@ namespace Personal.Puzzle.EightSlide
 			puzzleState = PuzzleState.Completed;
 			enabled = false;
 
-			GetReward();
+			EndAndGetReward();
 		}
 
 		/// <summary>
@@ -141,6 +143,8 @@ namespace Personal.Puzzle.EightSlide
 
 				tile.TileTrans.SwapPosition(endTile.TileTrans);
 			}
+
+			EndAndGetReward();
 		}
 
 		/// <summary>
@@ -176,7 +180,7 @@ namespace Personal.Puzzle.EightSlide
 		void IProcess.Begin(bool isFlag)
 		{
 			enabled = isFlag;
-			HandleMouseOrGamepadDisplay(isFlag);
+			EnableMovement(isFlag);
 
 			if (puzzleState == PuzzleState.Completed) return;
 			puzzleState = PuzzleState.None;

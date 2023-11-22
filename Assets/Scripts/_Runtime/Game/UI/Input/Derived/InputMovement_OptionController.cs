@@ -1,17 +1,18 @@
 using UnityEngine;
 
 using Personal.Manager;
+using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
-	public class OptionControllerUI : BasicControllerUI
+	public class InputMovement_OptionController : BasicControllerUI, IControlInput
 	{
-		protected override void Next(bool isFlag)
+		void IControlInput.Next(bool isFlag)
 		{
 			UIManager.Instance.OptionUI.NextTab(isFlag);
 		}
 
-		protected override void ButtonNorth()
+		void IControlInput.R3()
 		{
 			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
 		}

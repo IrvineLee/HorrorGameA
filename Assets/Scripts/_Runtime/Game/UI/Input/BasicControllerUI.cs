@@ -1,21 +1,19 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Helper;
+using Personal.UI;
 
-namespace Personal.UI
+namespace Personal.InputProcessing
 {
 	/// <summary>
 	/// Use this for UI input controls. This should handle the movement of selections.
 	/// </summary>
 	public class BasicControllerUI : ControlInput
 	{
-		public int CurrentActiveIndex { get; private set; }
-		public AutoScrollRect AutoScrollRect { get; private set; }
-
 		List<UISelectable> uiSelectableList = new();
+		AutoScrollRect autoScrollRect;
 
 		/// <summary>
 		/// Set the ui values for the currently opened UI's.
@@ -27,9 +25,9 @@ namespace Personal.UI
 			CurrentActiveIndex = 0;
 
 			this.uiSelectableList = uiSelectableList;
-			AutoScrollRect = autoScrollRect;
+			this.autoScrollRect = autoScrollRect;
 
-			AutoScrollRect?.SetSelectionToTop();
+			this.autoScrollRect?.SetSelectionToTop();
 		}
 
 		/// <summary>
@@ -59,7 +57,7 @@ namespace Personal.UI
 				CurrentActiveIndex = CurrentActiveIndex.WithinCount(uiSelectableList.Count);
 
 				EventSystem.current.SetSelectedGameObject(uiSelectableList[CurrentActiveIndex].gameObject);
-				AutoScrollRect?.ScrollToSelected();
+				autoScrollRect?.ScrollToSelected();
 			}
 			if (move.x != 0)
 			{

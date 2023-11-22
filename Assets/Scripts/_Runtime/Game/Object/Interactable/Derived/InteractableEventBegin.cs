@@ -3,11 +3,14 @@
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Manager;
+using Personal.InputProcessing;
 
 namespace Personal.InteractiveObject
 {
 	public class InteractableEventBegin : InteractableObject
 	{
+		[SerializeField] ActionMapType actionMapType = ActionMapType.None;
+
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 
@@ -27,6 +30,7 @@ namespace Personal.InteractiveObject
 			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 			ifsmHandler?.OnBegin(null);
 
+			InputManager.Instance.EnableActionMap(actionMapType);
 			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
 
 			InputManager.Instance.SetToDefaultActionMap();

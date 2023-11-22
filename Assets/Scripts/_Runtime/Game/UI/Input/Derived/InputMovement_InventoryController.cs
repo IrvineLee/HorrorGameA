@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
 
-namespace Personal.UI
+using Personal.UI;
+
+namespace Personal.InputProcessing
 {
-	public class InventoryControllerUI : ControlInput
+	public class InputMovement_InventoryController : ControlInput
 	{
 		protected ItemInACircle3DUI itemInACircle3DUI;
 

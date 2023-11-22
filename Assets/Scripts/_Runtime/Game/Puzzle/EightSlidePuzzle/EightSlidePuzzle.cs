@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.Interface;
 using Helper;
+using Personal.InputProcessing;
 
 namespace Personal.Puzzle.EightSlide
 {
@@ -49,10 +50,11 @@ namespace Personal.Puzzle.EightSlide
 			selectionTransformSet.Init();
 		}
 
-		protected override Transform GetActiveSelectionForGamepad()
+		public override Transform GetActiveSelectionForGamepad()
 		{
 			// The reason why you don't wanna return back the Target as selection is because it needs to handle the mouse control as well.
-			return selectionTransformSet.SelectionTargetList[puzzleGamepadMovement.CurrentActiveIndex].Selection;
+			int index = ((ControlInput)ControlInputBase.ActiveControlInput).CurrentActiveIndex;
+			return selectionTransformSet.SelectionTargetList[index].Selection;
 		}
 
 		public List<Transform> GetInteractableObjectList()
@@ -119,10 +121,7 @@ namespace Personal.Puzzle.EightSlide
 
 			await UniTask.WaitUntil(() => slideCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());
 
-			puzzleState = PuzzleState.Completed;
-			enabled = false;
-
-			GetReward();
+			EndAndGetReward();
 		}
 
 		/// <summary>
@@ -145,6 +144,7 @@ namespace Personal.Puzzle.EightSlide
 				tile.SetCurrentIndex(tile.EndIndex);
 				tile.TileTrans.position = selection.position;
 			}
+			EndAndGetReward();
 		}
 
 		/// <summary>
@@ -171,7 +171,7 @@ namespace Personal.Puzzle.EightSlide
 		void IProcess.Begin(bool isFlag)
 		{
 			enabled = isFlag;
-			HandleMouseOrGamepadDisplay(isFlag);
+			EnableMovement(isFlag);
 			selectionTransformSet.gameObject.SetActive(isFlag);
 
 			if (puzzleState == PuzzleState.Completed) return;

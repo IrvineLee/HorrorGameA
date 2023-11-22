@@ -5,8 +5,9 @@ using Sirenix.OdinInspector;
 using TMPro;
 
 using Cysharp.Threading.Tasks;
-using Personal.Interface;
 using Helper;
+using Personal.Interface;
+using Personal.InputProcessing;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -68,9 +69,10 @@ namespace Personal.Puzzle.Pinwheel
 			EnableHitCollider(false);
 		}
 
-		protected override Transform GetActiveSelectionForGamepad()
+		public override Transform GetActiveSelectionForGamepad()
 		{
-			return pinwheelList[puzzleGamepadMovement.CurrentActiveIndex].PinwheelTrans;
+			int index = ((ControlInput)ControlInputBase.ActiveControlInput).CurrentActiveIndex;
+			return pinwheelList[index].PinwheelTrans;
 		}
 
 		public List<Transform> GetInteractableObjectList()
@@ -163,8 +165,7 @@ namespace Personal.Puzzle.Pinwheel
 				return;
 			}
 
-			puzzleState = PuzzleState.Completed;
-			GetReward();
+			EndAndGetReward();
 		}
 
 		/// <summary>
@@ -191,8 +192,11 @@ namespace Personal.Puzzle.Pinwheel
 				}
 			}
 
-			if (turnRemain <= 0) return;
-			if (TryRotateOnePinwheelAtATime(similarColorPinwheelList)) return;
+			if (turnRemain <= 0 || TryRotateOnePinwheelAtATime(similarColorPinwheelList))
+			{
+				EndAndGetReward();
+				return;
+			}
 
 			// You will need to do combination calculation for any other possible pinwheel rotation. (Order does not matter)
 		}
@@ -243,7 +247,7 @@ namespace Personal.Puzzle.Pinwheel
 		{
 			enabled = isFlag;
 			EnableHitCollider(isFlag);
-			HandleMouseOrGamepadDisplay(isFlag);
+			EnableMovement(isFlag);
 
 			if (isFlag)
 			{

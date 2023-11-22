@@ -1,15 +1,18 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 using Helper;
-using Personal.UI;
+using Personal.Manager;
+using Personal.Puzzle;
 
-namespace Personal.Puzzle
+namespace Personal.InputProcessing
 {
-	public class PuzzleGamepadMovement : GamepadMovement
+	public class InputMovement_PuzzleController : ControlInput, IControlInput
 	{
+		[Serializable]
 		class PuzzlePiece
 		{
 			public EventTrigger EventTrigger { get; private set; }
@@ -23,7 +26,6 @@ namespace Personal.Puzzle
 				SpriteRenderer = spriteRenderer;
 			}
 		}
-
 
 		[SerializeField] int startIndex = 0;
 
@@ -39,11 +41,15 @@ namespace Personal.Puzzle
 
 		List<PuzzlePiece> puzzlePieceList = new();
 
+		PuzzleController puzzleController;
+		IPuzzle iPuzzle;
+
 		protected override void Initialize()
 		{
-			base.Initialize();
+			puzzleController = GetComponentInChildren<PuzzleController>(true);
+			iPuzzle = GetComponentInChildren<IPuzzle>(true);
 
-			List<Transform> interactableObjectList = GetComponentInChildren<IPuzzle>().GetInteractableObjectList();
+			List<Transform> interactableObjectList = iPuzzle.GetInteractableObjectList();
 
 			foreach (var interactable in interactableObjectList)
 			{
@@ -56,11 +62,11 @@ namespace Personal.Puzzle
 			}
 		}
 
-		protected override void OnEnable()
+		protected override void OnEnabled()
 		{
-			base.OnEnable();
+			base.OnEnabled();
 
-			currentActiveIndex = startIndex;
+			CurrentActiveIndex = startIndex;
 			SetSelectionActive(startIndex, true);
 		}
 
@@ -72,7 +78,7 @@ namespace Personal.Puzzle
 				bool isFade = puzzlePiece.EventTrigger.gameObject.Equals(go);
 
 				SetSelectionActive(i, isFade);
-				if (isFade) currentActiveIndex = i;
+				if (isFade) CurrentActiveIndex = i;
 			}
 		}
 
@@ -80,12 +86,12 @@ namespace Personal.Puzzle
 		{
 			int nextIndex = -1;
 			float shortestSqrMagnitude = float.MaxValue;
-			Vector3 currentPosition = puzzlePieceList[currentActiveIndex].EventTrigger.transform.localPosition;
+			Vector3 currentPosition = puzzlePieceList[CurrentActiveIndex].EventTrigger.transform.localPosition;
 
 			for (int i = 0; i < puzzlePieceList.Count; i++)
 			{
 				Vector3 triggerPosition = puzzlePieceList[i].EventTrigger.transform.localPosition;
-				if (currentActiveIndex == i) continue;
+				if (CurrentActiveIndex == i) continue;
 
 				if (!IsMovementPossible(move, currentPosition, triggerPosition)) continue;
 				if (!IsDistanceShorterThan(ref shortestSqrMagnitude, triggerPosition, currentPosition)) continue;
@@ -95,10 +101,10 @@ namespace Personal.Puzzle
 
 			if (nextIndex < 0) return;
 
-			SetSelectionActive(currentActiveIndex, false);
+			SetSelectionActive(CurrentActiveIndex, false);
 			SetSelectionActive(nextIndex, true);
 
-			currentActiveIndex = nextIndex;
+			CurrentActiveIndex = nextIndex;
 		}
 
 		/// <summary>
@@ -166,10 +172,52 @@ namespace Personal.Puzzle
 			puzzlePieceList[index].OutlinableFadeInOut.StartFade(isFlag);
 		}
 
-		protected override void OnDisable()
+		void IControlInput.ButtonSouth_Submit()
 		{
-			base.OnDisable();
-			SetSelectionActive(currentActiveIndex, false);
+			if (!puzzleController.IsBusy) return;
+
+			// Check puzzle click.
+			Transform target = puzzleController.GetActiveSelectionForGamepad();
+			if (InputManager.Instance.IsCurrentDeviceMouse)
+			{
+				RaycastHit hit;
+
+				Vector2 mousePosition = Mouse.current.position.ReadValue();
+				Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
+				if (!Physics.Raycast(ray, out hit)) return;
+				target = hit.transform;
+			}
+
+			iPuzzle.ClickedInteractable(target);
+			iPuzzle.CheckPuzzleAnswer();
+		}
+
+		void IControlInput.ButtonEast_Cancel()
+		{
+			if (!puzzleController.IsBusy) return;
+
+			iPuzzle.CancelSelected();
+		}
+
+		void IControlInput.ButtonNorth()
+		{
+			if (!puzzleController.IsBusy) return;
+
+			iPuzzle.ResetToDefault();
+		}
+
+		void IControlInput.R3()
+		{
+			if (!puzzleController.IsBusy) return;
+
+			iPuzzle.AutoComplete();
+		}
+
+		protected override void OnDisabled()
+		{
+			base.OnDisabled();
+			SetSelectionActive(CurrentActiveIndex, false);
 		}
 	}
 }

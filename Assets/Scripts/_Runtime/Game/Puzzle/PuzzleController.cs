@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 using Sirenix.OdinInspector;
@@ -9,6 +8,7 @@ using Helper;
 using Personal.Manager;
 using Personal.InteractiveObject;
 using Personal.Save;
+using Personal.GameState;
 using Personal.InputProcessing;
 
 #if UNITY_EDITOR
@@ -17,7 +17,7 @@ using UnityEditor;
 
 namespace Personal.Puzzle
 {
-	public class PuzzleController : ControlInputBase, IDataPersistence
+	public class PuzzleController : GameInitialize, IDataPersistence
 	{
 		public enum PuzzleState
 		{
@@ -32,81 +32,43 @@ namespace Personal.Puzzle
 		[SerializeField] InteractableEventBegin interactableEventBegin = null;
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
-		protected PuzzleState puzzleState = PuzzleState.None;
-		protected PuzzleGamepadMovement puzzleGamepadMovement;
+		public bool IsBusy { get => slideCR.IsDone; }
 
-		protected CoroutineRun slideCR = new CoroutineRun();
+		protected PuzzleState puzzleState;
+		protected CoroutineRun slideCR = new();
 
 		PhysicsRaycaster physicsRaycaster;
+		InputMovement_PuzzleController inputMovement;
 
 		protected override void Initialize()
 		{
-			puzzleGamepadMovement = GetComponentInChildren<PuzzleGamepadMovement>();
 			physicsRaycaster = StageManager.Instance.CameraHandler.PhysicsRaycaster;
+			inputMovement = GetComponentInChildren<InputMovement_PuzzleController>();
 		}
 
-		protected override void OnEnable()
+		protected override void OnEnabled()
 		{
-			base.OnEnable();
 			InputManager.OnDeviceIconChanged += HandlePhysicsRaycaster;
 		}
 
-		protected override void ButtonSouth_Submit()
+		public virtual Transform GetActiveSelectionForGamepad() { return null; }
+
+		protected virtual void EndAndGetReward()
 		{
-			// Check puzzle click.
-			Transform target = puzzleGamepadMovement ? GetActiveSelectionForGamepad() : null;
-			if (InputManager.Instance.IsCurrentDeviceMouse)
-			{
-				RaycastHit hit;
-
-				Vector2 mousePosition = Mouse.current.position.ReadValue();
-				Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-				if (!Physics.Raycast(ray, out hit)) return;
-				target = hit.transform;
-			}
-
-			((IPuzzle)this).ClickedInteractable(target);
-			((IPuzzle)this).CheckPuzzleAnswer();
-		}
-
-		protected override void ButtonEast_Cancel()
-		{
-			((IPuzzle)this).CancelSelected();
-		}
-
-		protected override void ButtonNorth()
-		{
-			if (!slideCR.IsDone) return;
-
-			((IPuzzle)this).ResetToDefault();
-		}
-
-		protected override void R3()
-		{
-			if (!slideCR.IsDone) return;
-
-			((IPuzzle)this).AutoComplete();
-
-			if (puzzleState != PuzzleState.Completed) GetReward();
+			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
 			puzzleState = PuzzleState.Completed;
 		}
 
-		protected virtual Transform GetActiveSelectionForGamepad() { return null; }
-
-		protected virtual void GetReward()
-		{
-			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
-		}
-
 		/// <summary>
-		/// Handles whether to display gamepad movement or mouse movement.
+		/// Enable/disable movement.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		protected void HandleMouseOrGamepadDisplay(bool isFlag)
+		protected void EnableMovement(bool isFlag)
 		{
 			HandlePhysicsRaycaster();
-			EnableGamepadMovement(isFlag);
+
+			inputMovement.enabled = isFlag;
+			InputManager.Instance.EnableActionMap(isFlag ? ActionMapType.Puzzle : ActionMapType.Player);
 		}
 
 		void HandlePhysicsRaycaster()
@@ -119,16 +81,10 @@ namespace Personal.Puzzle
 			physicsRaycaster.enabled = false;
 		}
 
-		void EnableGamepadMovement(bool isFlag) { puzzleGamepadMovement.enabled = isFlag; }
-
-		protected override void OnDisable()
+		protected override void OnDisabled()
 		{
-			base.OnDisable();
-
 			InputManager.OnDeviceIconChanged -= HandlePhysicsRaycaster;
 			physicsRaycaster.enabled = false;
-
-			ActiveControlInput = null;
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)
