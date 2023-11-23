@@ -30,25 +30,25 @@ namespace Personal.InputProcessing
 		void MoveInput(Vector2 direction)
 		{
 			Move = direction;
-			((IUIControlInput)controlInput)?.Move(direction);
+			(controlInput as IUIControlInput)?.Move(direction);
 		}
 
 		void LookInput(Vector2 direction)
 		{
 			Look = direction;
-			((IUIControlInput)controlInput)?.Look(direction);
+			(controlInput as IUIControlInput)?.Look(direction);
 		}
 
 		void InteractInput()
 		{
 			IsInteract = true;
-			((IUIControlInput)controlInput)?.Submit();
+			(controlInput as IUIControlInput)?.Submit();
 		}
 
 		void CancelInput()
 		{
 			IsCancel = true;
-			((IUIControlInput)controlInput)?.Cancel();
+			(controlInput as IUIControlInput)?.Cancel();
 		}
 
 		/// ------------------------------------------------------------------------

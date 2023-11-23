@@ -59,7 +59,6 @@ namespace Personal.Manager
 		public void CloseDebugPanel()
 		{
 			debugHandlerUI?.CloseWindow();
-			PauseManager.Instance.ResumeTime();
 		}
 
 		public void DeleteProfileData()

@@ -21,7 +21,18 @@ namespace Personal.InputProcessing
 		void Submit() { }                                   // Submit and Cancel are interchangable(Button South and Button East)
 		void Cancel() { }                                   // Submit and Cancel are interchangable(Button South and Button East)
 
-		void ButtonSouth_Submit_Released() { }              // Submit and Cancel are interchangable(Button South and Button East)
-		void ButtonEast_Cancel_Released() { }               // Submit and Cancel are interchangable(Button South and Button East)
+		void SubmitReleased() { }                           // Submit and Cancel are interchangable(Button South and Button East)
+		void CancelReleased() { }                           // Submit and Cancel are interchangable(Button South and Button East)
+
+		/// <summary>
+		/// Pause Menu
+		/// </summary>
+		void OpenPauseMenu() { }
+
+		/// <summary>
+		/// Inventory
+		/// </summary>
+		void OpenInventory() { }
+		void InventoryIndexSelect(int number) { }
 	}
 }

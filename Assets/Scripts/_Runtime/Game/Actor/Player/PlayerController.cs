@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+using Helper;
 using Personal.FSM.Character;
 using Personal.Manager;
 using Personal.Character.Animation;
 using Personal.Save;
-using UnityEngine.SceneManagement;
-using Helper;
+using Personal.InputProcessing;
 
 namespace Personal.Character.Player
 {
@@ -21,10 +22,12 @@ namespace Personal.Character.Player
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
 		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
+		public InputMovement_FPSController InputMovement_FPSController { get; private set; }
 
 		protected override void EarlyInitialize()
 		{
 			StageManager.Instance.RegisterPlayer(this);
+			InputMovement_FPSController = GetComponentInChildren<InputMovement_FPSController>();
 		}
 
 		protected override void Initialize()

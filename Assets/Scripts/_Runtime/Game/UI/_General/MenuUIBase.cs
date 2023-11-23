@@ -46,7 +46,7 @@ namespace Personal.UI
 		/// OnPauseEvent for derived class.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		protected virtual void OnPause(bool isFlag)
+		protected void OnPause(bool isFlag)
 		{
 			OnPauseEvent?.Invoke(isFlag);
 		}

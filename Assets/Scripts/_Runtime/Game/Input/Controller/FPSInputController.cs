@@ -27,6 +27,9 @@ namespace Personal.InputProcessing
 
 			inputReaderDefinition.OnInventoryNextPreviousEvent += InventoryNextPrevious;
 			inputReaderDefinition.OnInventoryIndexSelectEvent += InventoryIndexSelect;
+
+			// This is the default input movement when in the main scene.
+			controlInput = StageManager.Instance?.PlayerController?.InputMovement_FPSController;
 		}
 
 		void MoveInput(Vector2 direction)
@@ -61,25 +64,23 @@ namespace Personal.InputProcessing
 
 		void OpenPauseMenu()
 		{
-			if (!UIManager.IsWindowStackEmpty) return;
-			UIManager.Instance.PauseUI.OpenWindow();
+			(controlInput as IFPSControlInput)?.OpenPauseMenu();
 		}
 
 		void OpenInventory()
 		{
-			if (!UIManager.IsWindowStackEmpty) return;
-			UIManager.Instance.InventoryUI.OpenWindow();
+			(controlInput as IFPSControlInput)?.OpenInventory();
 		}
 
 		void InventoryNextPrevious(int value)
 		{
 			if (value == 0) return;
-			StageManager.Instance.PlayerController.Inventory.NextItem(value > 0);
+			(controlInput as IFPSControlInput)?.Next(value > 0);
 		}
 
 		void InventoryIndexSelect(int number)
 		{
-			StageManager.Instance.PlayerController.Inventory.KeyboardButtonSelect(number - 1);
+			(controlInput as IFPSControlInput)?.InventoryIndexSelect(number - 1);
 		}
 
 		protected override void OnDisable()
