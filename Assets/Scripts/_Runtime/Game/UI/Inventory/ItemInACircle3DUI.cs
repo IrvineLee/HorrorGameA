@@ -5,7 +5,6 @@ using Personal.Manager;
 using Personal.Character.Player;
 using Helper;
 using static Personal.Character.Player.PlayerInventory;
-using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
@@ -46,8 +45,8 @@ namespace Personal.UI
 		/// </summary>
 		public virtual void PutObjectsIntoACircle()
 		{
-			if (!IsSetIntoACircle()) return;
 			if (playerInventory.InventoryList.Count <= 0) return;
+			if (!IsSetIntoACircle()) return;
 
 			// Make sure all rotations are at their default values.
 			ResetAllInventoryRotations();
@@ -66,6 +65,7 @@ namespace Personal.UI
 
 		public void HandleInput(bool isNext)
 		{
+			if (playerInventory.InventoryList.Count <= 0) return;
 			if (!rotateAroundCR.IsDone) return;
 
 			float angle = isNext ? -yAngleToRotate : yAngleToRotate;

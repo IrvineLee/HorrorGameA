@@ -24,6 +24,9 @@ namespace Personal.InputProcessing
 		void SubmitReleased() { }                           // Submit and Cancel are interchangable(Button South and Button East)
 		void CancelReleased() { }                           // Submit and Cancel are interchangable(Button South and Button East)
 
+		void Sprint(bool isFlag) { }
+		void Jump(bool isFlag) { }
+
 		/// <summary>
 		/// Pause Menu
 		/// </summary>

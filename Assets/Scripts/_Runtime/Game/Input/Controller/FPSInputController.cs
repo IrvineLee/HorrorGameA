@@ -6,9 +6,6 @@ namespace Personal.InputProcessing
 {
 	public class FPSInputController : InputControllerBase
 	{
-		public bool IsJump { get; private set; }
-		public bool IsSprint { get; private set; }
-
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -42,16 +39,6 @@ namespace Personal.InputProcessing
 			Look = direction;
 		}
 
-		void JumpInput(bool isFlag)
-		{
-			IsJump = isFlag;
-		}
-
-		void SprintInput(bool isFlag)
-		{
-			IsSprint = isFlag;
-		}
-
 		void InteractInput()
 		{
 			IsInteract = true;
@@ -60,6 +47,16 @@ namespace Personal.InputProcessing
 		void CancelInput()
 		{
 			IsCancel = true;
+		}
+
+		void JumpInput(bool isFlag)
+		{
+			(controlInput as IFPSControlInput)?.Jump(isFlag);
+		}
+
+		void SprintInput(bool isFlag)
+		{
+			(controlInput as IFPSControlInput)?.Sprint(isFlag);
 		}
 
 		void OpenPauseMenu()

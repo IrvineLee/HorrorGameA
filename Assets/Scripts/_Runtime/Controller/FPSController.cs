@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
@@ -26,7 +27,7 @@ namespace Personal.Character.Player
 		[SerializeField] float horizontalSpeed = 2.0f;
 
 		[Tooltip("Rotation speed of the character")]
-		[SerializeField] float rotationSpeed = 1.0f;
+		[SerializeField] [ReadOnly] float rotationSpeed = 1.0f;
 
 		[Tooltip("Acceleration and deceleration")]
 		[SerializeField] float speedChangeRate = 10.0f;
@@ -99,6 +100,9 @@ namespace Personal.Character.Player
 		GameData gameData;
 		bool isCurrentInvertedLookVertical;
 
+		bool isSprint;
+		bool isJump;
+
 		protected override void Initialize()
 		{
 			input = InputManager.Instance.FPSInputController;
@@ -131,6 +135,9 @@ namespace Personal.Character.Player
 
 			CameraRotation();
 		}
+
+		public void Sprint(bool isFlag) { isSprint = isFlag; }
+		public void Jump(bool isFlag) { isJump = isFlag; }
 
 		void GroundedCheck()
 		{
@@ -177,7 +184,7 @@ namespace Personal.Character.Player
 			if (inputDirection.z != 0)
 			{
 				// set target speed based on move speed, sprint speed and if sprint is pressed
-				velocity.z = input.IsSprint ? sprintSpeed : moveSpeed;
+				velocity.z = isSprint ? sprintSpeed : moveSpeed;
 				if (inputDirection.z < 0) velocity.z = backSpeed;
 			}
 
@@ -236,7 +243,7 @@ namespace Personal.Character.Player
 				}
 
 				// Jump
-				if (input.IsJump && jumpTimeoutDelta <= 0.0f)
+				if (isJump && jumpTimeoutDelta <= 0.0f)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
