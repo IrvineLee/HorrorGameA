@@ -5,7 +5,7 @@ using Personal.UI;
 
 namespace Personal.InputProcessing
 {
-	public class InputMovement_InventoryController : ControlInput
+	public class InputMovement_InventoryController : ControlInput, IUIControlInput
 	{
 		protected ItemInACircle3DUI itemInACircle3DUI;
 

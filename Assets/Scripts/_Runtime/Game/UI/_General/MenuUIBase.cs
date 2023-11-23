@@ -2,15 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using Helper;
 using Personal.GameState;
-using Personal.Manager;
 using Personal.UI.Window;
+using Personal.Manager;
 
 namespace Personal.UI
 {
 	[Serializable]
-	public class MenuUIBase : GameInitialize
+	public abstract class MenuUIBase : GameInitialize
 	{
 		[SerializeField] protected UIInterfaceType uiInterfaceType = UIInterfaceType.None;
 		[SerializeField] protected WindowSelectionUIAnimator windowUIAnimator = null;
@@ -23,7 +22,6 @@ namespace Personal.UI
 		public static event Action<bool> OnPauseEvent;
 
 		protected GameObject lastSelectedGO;
-		protected Action disableAction;
 
 		void Update()
 		{
@@ -41,47 +39,8 @@ namespace Personal.UI
 		/// <returns></returns>
 		public virtual void InitialSetup() { }
 
-		public virtual void OpenWindow()
-		{
-			if (!IsWindowAnimationDone) return;
-
-			UIManager.WindowStack.Push(this);
-			EnableGO(true, false);
-
-			OnPause(true);
-		}
-
-		/// <summary>
-		/// Close the window. Returns true if it's the final window.
-		/// </summary>
-		/// <returns></returns>
-		public virtual void CloseWindow(bool isInstant = false)
-		{
-			if (!IsWindowAnimationDone && !isInstant) return;
-
-			EnableGO(false, isInstant);
-			CoroutineHelper.WaitNextFrame(() =>
-			{
-				UIManager.WindowStack.Pop();
-
-				if (!UIManager.IsWindowStackEmpty) return;
-
-				InputManager.Instance.SetToDefaultActionMap();
-				OnPause(false);
-			});
-		}
-
-		/// <summary>
-		/// Set the last selected gameobject. Typically for mouse.
-		/// </summary>
-		/// <param name="go"></param>
-		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
-
-		/// <summary>
-		/// Action that will be called OnDisable.
-		/// </summary>
-		/// <param name="action"></param>
-		public virtual void SetOnDisableAction(Action action) { disableAction = action; }
+		public virtual void OpenWindow() { }
+		public virtual void CloseWindow(bool isInstant = false) { }
 
 		/// <summary>
 		/// OnPauseEvent for derived class.
@@ -93,10 +52,16 @@ namespace Personal.UI
 		}
 
 		/// <summary>
+		/// Set the last selected gameobject. Typically for mouse.
+		/// </summary>
+		/// <param name="go"></param>
+		public void SetLastSelectedGO(GameObject go) { lastSelectedGO = go; }
+
+		/// <summary>
 		/// Enable/Disable the window.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		void EnableGO(bool isFlag, bool isInstant)
+		protected void EnableGO(bool isFlag, bool isInstant)
 		{
 			if (windowUIAnimator)
 			{
@@ -106,12 +71,6 @@ namespace Personal.UI
 				return;
 			}
 			gameObject.SetActive(isFlag);
-		}
-
-		protected virtual void OnDisable()
-		{
-			disableAction?.Invoke();
-			disableAction = default;
 		}
 	}
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace Personal.UI.Window
 {
-	public class WindowMenuUIBase : MenuUIBase
+	public class WindowMenuUIBase : MenuUI
 	{
 		protected WindowHandlerUI windowHandlerUI;
 

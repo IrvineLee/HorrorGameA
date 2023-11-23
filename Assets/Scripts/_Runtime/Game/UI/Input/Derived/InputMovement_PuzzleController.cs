@@ -10,7 +10,7 @@ using Personal.Puzzle;
 
 namespace Personal.InputProcessing
 {
-	public class InputMovement_PuzzleController : ControlInput, IControlInput
+	public class InputMovement_PuzzleController : ControlInput, IPuzzleControlInput
 	{
 		[Serializable]
 		class PuzzlePiece
@@ -172,7 +172,7 @@ namespace Personal.InputProcessing
 			puzzlePieceList[index].OutlinableFadeInOut.StartFade(isFlag);
 		}
 
-		void IControlInput.ButtonSouth_Submit()
+		void IPuzzleControlInput.Submit()
 		{
 			if (!puzzleController.IsBusy) return;
 
@@ -193,21 +193,21 @@ namespace Personal.InputProcessing
 			iPuzzle.CheckPuzzleAnswer();
 		}
 
-		void IControlInput.ButtonEast_Cancel()
+		void IPuzzleControlInput.Cancel()
 		{
 			if (!puzzleController.IsBusy) return;
 
 			iPuzzle.CancelSelected();
 		}
 
-		void IControlInput.ButtonNorth()
+		void IPuzzleControlInput.Reset()
 		{
 			if (!puzzleController.IsBusy) return;
 
 			iPuzzle.ResetToDefault();
 		}
 
-		void IControlInput.R3()
+		void IPuzzleControlInput.AutoComplete()
 		{
 			if (!puzzleController.IsBusy) return;
 

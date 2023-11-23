@@ -19,7 +19,7 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			MenuUIBase.OnPauseEvent += Pause;
+			MenuUI.OnPauseEvent += Pause;
 		}
 
 		void Pause(bool isFlag)
@@ -40,7 +40,7 @@ namespace Personal.Manager
 
 		void OnApplicationQuit()
 		{
-			MenuUIBase.OnPauseEvent -= Pause;
+			MenuUI.OnPauseEvent -= Pause;
 		}
 	}
 }

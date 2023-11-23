@@ -5,14 +5,14 @@ using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
-	public class InputMovement_OptionController : BasicControllerUI, IControlInput
+	public class InputMovement_OptionController : BasicControllerUI, IUIControlInput
 	{
-		void IControlInput.Next(bool isFlag)
+		void IUIControlInput.Next(bool isFlag)
 		{
 			UIManager.Instance.OptionUI.NextTab(isFlag);
 		}
 
-		void IControlInput.R3()
+		void IUIControlInput.Default()
 		{
 			UIManager.Instance.OptionUI.IDefaultHandler.ResetToDefault();
 		}

@@ -152,7 +152,7 @@ namespace Personal.UI.Option
 			if (!tabDictionary.TryGetValue(currentMenuTab, out Tab tab)) return;
 
 			Action yesAction = () => tab.OptionMenuUI.Default_Inspector();
-			_ = UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction);
+			UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction).Forget();
 		}
 
 		/// <summary>
@@ -170,10 +170,8 @@ namespace Personal.UI.Option
 			}
 		}
 
-		protected override void OnDisable()
+		void OnDisable()
 		{
-			base.OnDisable();
-
 			currentMenuIndex = 0;
 			EventSystem.current?.SetSelectedGameObject(null);
 		}

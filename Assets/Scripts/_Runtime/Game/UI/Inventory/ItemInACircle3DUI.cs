@@ -9,7 +9,7 @@ using static Personal.Manager.InputManager;
 
 namespace Personal.UI
 {
-	public class ItemInACircle3DUI : MenuUIBase, IAngleDirection
+	public class ItemInACircle3DUI : MenuUI, IAngleDirection
 	{
 		[SerializeField] protected Transform contentTrans = null;
 		[SerializeField] protected float radius = 5f;

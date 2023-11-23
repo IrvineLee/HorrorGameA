@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 using Personal.Manager;
 using Personal.Definition;
+using Personal.UI;
 
 namespace Personal.InputProcessing
 {
@@ -18,7 +20,7 @@ namespace Personal.InputProcessing
 		public bool IsInteract { get; protected set; }
 		public bool IsCancel { get; protected set; }
 
-		protected IControlInput IControlInput;
+		protected ControlInputBase controlInput;
 
 		public void Initialize()
 		{
@@ -27,7 +29,7 @@ namespace Personal.InputProcessing
 
 		protected virtual void OnEnable()
 		{
-			IControlInput = ControlInputBase.ActiveControlInput?.IControlInput;
+			controlInput = ControlInputBase.ActiveControlInput;
 		}
 
 		void LateUpdate()
@@ -44,6 +46,12 @@ namespace Personal.InputProcessing
 		{
 			IsInteract = false;
 			IsCancel = false;
+		}
+
+		protected virtual void CheckInterfaceTypeAndAct(UIInterfaceType uiInterfaceType, Action action)
+		{
+			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
+			action?.Invoke();
 		}
 
 		protected virtual void OnDisable()

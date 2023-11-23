@@ -4,14 +4,14 @@ using Personal.Manager;
 
 namespace Personal.InputProcessing
 {
-	public class InputMovement_DialogueController : BasicControllerUI, IControlInput
+	public class InputMovement_DialogueController : BasicControllerUI, IUIControlInput
 	{
-		void IControlInput.ButtonNorth()
+		void IUIControlInput.FastForward()
 		{
 			StageManager.Instance.DialogueController.DialogueSkip.Begin(true);
 		}
 
-		void IControlInput.ButtonNorth_Released()
+		void IUIControlInput.FastForwardReleased()
 		{
 			StageManager.Instance.DialogueController.DialogueSkip.Begin(false);
 		}

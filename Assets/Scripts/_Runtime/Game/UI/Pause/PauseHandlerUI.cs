@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,18 +10,6 @@ namespace Personal.UI.Option
 		protected override void Initialize()
 		{
 			resumeButton.onClick.AddListener(ResumeButton);
-		}
-
-		public override void OpenWindow()
-		{
-			base.OpenWindow();
-			OnPause(true);
-		}
-
-		public override void CloseWindow(bool isInstant = false)
-		{
-			base.CloseWindow(isInstant);
-			OnPause(false);
 		}
 
 		void ResumeButton()

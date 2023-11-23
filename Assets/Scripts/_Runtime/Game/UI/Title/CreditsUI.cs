@@ -10,7 +10,7 @@ using Personal.Manager;
 
 namespace Personal.UI.Option
 {
-	public class CreditsUI : MenuUIBase
+	public class CreditsUI : MenuUI
 	{
 		[SerializeField] Transform specialThanksTrans = null;
 		[SerializeField] TextMeshProUGUI playerNameTMP = null;

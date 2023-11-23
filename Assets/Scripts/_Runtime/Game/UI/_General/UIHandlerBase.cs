@@ -8,7 +8,7 @@ using Personal.InputProcessing;
 
 namespace Personal.UI
 {
-	public abstract class UIHandlerBase : MenuUIBase
+	public abstract class UIHandlerBase : MenuUI
 	{
 		[SerializeField] bool isHandleSelectables = true;
 

@@ -4,11 +4,9 @@ using Personal.GameState;
 
 namespace Personal.InputProcessing
 {
-	public abstract class ControlInputBase : GameInitialize, IControlInput
+	public abstract class ControlInputBase : GameInitialize
 	{
 		public static ControlInputBase ActiveControlInput { get; protected set; }
-
-		public IControlInput IControlInput { get => this; }
 
 		protected override void OnEnabled()
 		{

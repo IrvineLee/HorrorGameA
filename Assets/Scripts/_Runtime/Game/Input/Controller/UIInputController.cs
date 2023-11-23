@@ -30,25 +30,25 @@ namespace Personal.InputProcessing
 		void MoveInput(Vector2 direction)
 		{
 			Move = direction;
-			IControlInput?.Move(direction);
+			((IUIControlInput)controlInput)?.Move(direction);
 		}
 
 		void LookInput(Vector2 direction)
 		{
 			Look = direction;
-			IControlInput?.RightAnalog_Look(direction);
+			((IUIControlInput)controlInput)?.Look(direction);
 		}
 
 		void InteractInput()
 		{
 			IsInteract = true;
-			IControlInput?.ButtonSouth_Submit();
+			((IUIControlInput)controlInput)?.Submit();
 		}
 
 		void CancelInput()
 		{
 			IsCancel = true;
-			IControlInput?.ButtonEast_Cancel();
+			((IUIControlInput)controlInput)?.Cancel();
 		}
 
 		/// ------------------------------------------------------------------------
@@ -57,12 +57,12 @@ namespace Personal.InputProcessing
 
 		void FastForwardStart()
 		{
-			ButtonNorth(UIInterfaceType.Dialogue);
+			CheckInterfaceTypeAndAct(UIInterfaceType.Dialogue, () => ((IUIControlInput)controlInput)?.FastForward());
 		}
 
 		void FastForwardEnd()
 		{
-			ButtonNorth_Released(UIInterfaceType.Dialogue);
+			CheckInterfaceTypeAndAct(UIInterfaceType.Dialogue, () => ((IUIControlInput)controlInput)?.FastForwardReleased());
 		}
 
 		/// ------------------------------------------------------------------------
@@ -83,8 +83,7 @@ namespace Personal.InputProcessing
 		/// </summary>
 		void ClosePauseMenu()
 		{
-			if (UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Pause) return;
-			base.CloseMenu();
+			CheckInterfaceTypeAndAct(UIInterfaceType.Pause, base.CloseMenu);
 		}
 
 		/// ------------------------------------------------------------------------
@@ -93,36 +92,13 @@ namespace Personal.InputProcessing
 
 		void TabSwitch(bool isNext)
 		{
-			Next(isNext, UIInterfaceType.Option);
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.Next(isNext));
 		}
 
 		void DefaultOptionMenu()
 		{
-			ButtonNorth(UIInterfaceType.Option);
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.Default());
 		}
-
-		/// ------------------------------------------------------------------------
-		/// ------------------------------- Generic --------------------------------
-		/// ------------------------------------------------------------------------
-
-		void Next(bool isNext, UIInterfaceType uiInterfaceType)
-		{
-			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
-			IControlInput?.Next(isNext);
-		}
-
-		void ButtonNorth(UIInterfaceType uiInterfaceType)
-		{
-			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
-			IControlInput?.ButtonNorth();
-		}
-
-		void ButtonNorth_Released(UIInterfaceType uiInterfaceType)
-		{
-			if (UIManager.Instance.ActiveInterfaceType != uiInterfaceType) return;
-			IControlInput?.ButtonNorth_Released();
-		}
-
 
 		protected override void OnDisable()
 		{

@@ -8,7 +8,7 @@ using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
-	public class OptionMenuUI : MenuUIBase
+	public class OptionMenuUI : MenuUI
 	{
 		[SerializeField] OptionHandlerUI.MenuTab menuTab = OptionHandlerUI.MenuTab.Graphic;
 
