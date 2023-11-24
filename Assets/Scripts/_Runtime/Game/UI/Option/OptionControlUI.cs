@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using System.Linq;
 using TMPro;
 
 using Personal.GameState;
 using Personal.Manager;
+using Personal.Constant;
 using Helper;
 using Cysharp.Threading.Tasks;
 
@@ -20,7 +21,10 @@ namespace Personal.UI.Option
 		/// <returns></returns>
 		public override void InitialSetup()
 		{
-			HandleLoadDataToUI();
+			base.InitialSetup();
+
+			ResetDataToTarget();
+			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
 		}
 
 		/// <summary>
@@ -29,14 +33,21 @@ namespace Personal.UI.Option
 		public override void Save_Inspector()
 		{
 			base.Save_Inspector();
+
+			string rebinds = InputManager.Instance.PlayerActionInput.asset.SaveBindingOverridesAsJson();
+			PlayerPrefs.SetString(ConstantFixed.CONTROL_MAPPING_PREF_NAME, rebinds);
 		}
 
 		/// <summary>
 		/// Display the correct UI from save data.
 		/// </summary>
-		protected override void HandleLoadDataToUI()
+		protected override void ResetDataToTarget()
 		{
-			//audioData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.AudioData;
+			string rebinds = PlayerPrefs.GetString(ConstantFixed.CONTROL_MAPPING_PREF_NAME);
+			if (string.IsNullOrEmpty(rebinds)) return;
+
+			InputManager.Instance.PlayerActionInput.asset.LoadBindingOverridesFromJson(rebinds);
+			Debug.Log(" LOADED!!!");
 		}
 	}
 }

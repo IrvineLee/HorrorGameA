@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Personal.Constant
@@ -9,6 +8,9 @@ namespace Personal.Constant
 
 		public const string DEFINITION_AUDIO_PATH = DEFINITION_PATH + "Audio/";
 		public const string DEFINITION_CASHIER_PATH = DEFINITION_PATH + "Cashier/";
+
+		// Control input mapping
+		public const string CONTROL_MAPPING_PREF_NAME = "Rebind";
 
 		// Audio
 		public const string BGM_PATH = "BGM/";

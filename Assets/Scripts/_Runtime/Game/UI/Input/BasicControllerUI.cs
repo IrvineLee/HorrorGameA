@@ -12,8 +12,8 @@ namespace Personal.InputProcessing
 	/// </summary>
 	public class BasicControllerUI : ControlInput
 	{
-		List<UISelectable> uiSelectableList = new();
-		AutoScrollRect autoScrollRect;
+		protected List<UISelectable> uiSelectableList = new();
+		protected AutoScrollRect autoScrollRect;
 
 		/// <summary>
 		/// Set the ui values for the currently opened UI's.

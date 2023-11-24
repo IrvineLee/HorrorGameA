@@ -13,5 +13,15 @@ namespace Personal.UI
 		/// </summary>
 		/// <param name="isNext"></param>
 		public virtual void NextSelection(bool isNext) { }
+
+		/// <summary>
+		/// Submit pressed.
+		/// </summary>
+		public virtual void Submit() { }
+
+		/// <summary>
+		/// Cancel pressed.
+		/// </summary>
+		public virtual void Cancel() { }
 	}
 }

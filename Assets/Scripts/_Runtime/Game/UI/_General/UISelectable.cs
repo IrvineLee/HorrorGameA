@@ -13,7 +13,6 @@ namespace Personal.UI
 {
 	/// <summary>
 	/// This is put on selectable objects like buttons, toggle, slider etc under ScrollView content.
-	/// This works in conjunction with UIKeyboardAndGamepadMovement script.
 	/// </summary>
 	public class UISelectable : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 	{

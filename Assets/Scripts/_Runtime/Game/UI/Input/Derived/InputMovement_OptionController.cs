@@ -7,6 +7,12 @@ namespace Personal.UI.Option
 {
 	public class InputMovement_OptionController : BasicControllerUI, IUIControlInput
 	{
+		void IUIControlInput.Submit()
+		{
+			UISelectionBase currentSelection = uiSelectableList[CurrentActiveIndex].UISelectionBase;
+			currentSelection?.Submit();
+		}
+
 		void IUIControlInput.Next(bool isFlag)
 		{
 			UIManager.Instance.OptionUI.NextTab(isFlag);

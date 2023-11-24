@@ -40,7 +40,7 @@ namespace Personal.Manager
 		// Different actions maps for different situations.
 		public FPSInputController FPSInputController { get; private set; }
 		public UIInputController UIInputController { get; private set; }
-		public InputProcessing.PuzzleInputController PuzzleInputController { get; private set; }
+		public PuzzleInputController PuzzleInputController { get; private set; }
 
 		public ActionMapType CurrentActionMapType { get => currentActionMapType; }
 		public InputDeviceType InputDeviceType { get; private set; } = InputDeviceType.None;
@@ -68,7 +68,7 @@ namespace Personal.Manager
 		{
 			FPSInputController = GetComponentInChildren<FPSInputController>(true);
 			UIInputController = GetComponentInChildren<UIInputController>(true);
-			PuzzleInputController = GetComponentInChildren<InputProcessing.PuzzleInputController>(true);
+			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
 			inputSystemUIInputModule = GetComponentInChildren<InputSystemUIInputModule>(true);
 
 			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;

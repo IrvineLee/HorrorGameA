@@ -35,7 +35,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
-				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor().Forget();
+				//StageManager.Instance.CashierNPCSpawner.SpawnCashierActor().Forget();
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftAlt))
 			{
