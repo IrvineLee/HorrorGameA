@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 using TMPro;
 using Personal.Manager;
+using UnityEngine.InputSystem.Utilities;
 
 namespace Personal.UI
 {
@@ -28,14 +29,21 @@ namespace Personal.UI
 
 			NameTMP.text = InputControlPath.ToHumanReadableString(effectivePath, humanReadableOption);
 
-			//InputAction = InputActionReference.Create(inputAct);
-			Debug.Log("Test " + InputAction);
-			Debug.Log("Test " + InputManager.Instance.PlayerActionInput.Player.Sprint);
+			foreach (var control in InputAction.controls)
+			{
+				Debug.Log("Control " + control);
+			}
+
+			////InputAction = InputActionReference.Create(inputAct);
+			//foreach (var binding in InputAction.bindings)
+			//{
+			//	Debug.Log("Binding  " + binding);
+			//}
+			//Debug.Log("Test " + InputManager.Instance.PlayerActionInput.Player.Sprint);
 		}
 
 		public override void Submit()
 		{
-			Debug.Log("ADSD");
 			controlRebind.StartRebind(this);
 		}
 

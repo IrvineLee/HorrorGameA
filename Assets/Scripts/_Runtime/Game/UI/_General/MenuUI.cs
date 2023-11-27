@@ -28,9 +28,11 @@ namespace Personal.UI
 			EnableGO(false, isInstant);
 			CoroutineHelper.WaitNextFrame(() =>
 			{
-				UIManager.WindowStack.Pop();
-
-				if (!UIManager.IsWindowStackEmpty) return;
+				if (!UIManager.IsWindowStackEmpty)
+				{
+					UIManager.WindowStack.Pop();
+					if (!UIManager.IsWindowStackEmpty) return;
+				}
 
 				InputManager.Instance.SetToDefaultActionMap();
 				OnPause(false);

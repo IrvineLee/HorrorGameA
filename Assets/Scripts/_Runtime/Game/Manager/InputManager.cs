@@ -51,6 +51,7 @@ namespace Personal.Manager
 		public Gamepad CurrentGamepad { get; private set; }
 
 		public static event Action OnAnyButtonPressed;
+		public static event Action<InputDevice> OnDeviceDisconnected;
 		public static event Action OnDeviceIconChanged;
 
 		InputSystemUIInputModule inputSystemUIInputModule;
@@ -79,6 +80,8 @@ namespace Personal.Manager
 			inputReaderDefinition.Initialize();
 
 			InputSystem.onActionChange += HandleInputDeviceType;
+			InputSystem.onDeviceChange += HandleDisconnectedDevice;
+
 			iDisposableAnyButtonPressed = InputSystem.onAnyButtonPress.Call(ctrl =>
 			{
 				OnAnyButtonPressed?.Invoke();
@@ -193,6 +196,17 @@ namespace Personal.Manager
 			IsChangeIconOnly = true;
 			HandleIconInitials();
 			IsChangeIconOnly = false;
+		}
+
+		/// <summary>
+		/// Handle disconnected device.
+		/// </summary>
+		/// <param name="inputDevice"></param>
+		/// <param name="inputDeviceChange"></param>
+		void HandleDisconnectedDevice(InputDevice inputDevice, InputDeviceChange change)
+		{
+			if (change != InputDeviceChange.Disconnected) return;
+			OnDeviceDisconnected?.Invoke(inputDevice);
 		}
 
 		/// <summary>
@@ -339,8 +353,9 @@ namespace Personal.Manager
 		void OnApplicationQuit()
 		{
 			InputSystem.onActionChange -= HandleInputDeviceType;
-			iDisposableAnyButtonPressed?.Dispose();
+			InputSystem.onDeviceChange -= HandleDisconnectedDevice;
 
+			iDisposableAnyButtonPressed?.Dispose();
 			OptionGameUI.OnXInteractEvent -= SwapInteractInput;
 		}
 	}

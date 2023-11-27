@@ -23,6 +23,7 @@ namespace Personal.UI.Option
 		{
 			base.InitialSetup();
 
+			PlayerPrefs.DeleteAll();
 			ResetDataToTarget();
 			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
 		}
@@ -34,8 +35,8 @@ namespace Personal.UI.Option
 		{
 			base.Save_Inspector();
 
-			string rebinds = InputManager.Instance.PlayerActionInput.asset.SaveBindingOverridesAsJson();
-			PlayerPrefs.SetString(ConstantFixed.CONTROL_MAPPING_PREF_NAME, rebinds);
+			//string rebinds = InputManager.Instance.PlayerActionInput.asset.SaveBindingOverridesAsJson();
+			//PlayerPrefs.SetString(ConstantFixed.CONTROL_MAPPING_PREF_NAME, rebinds);
 		}
 
 		/// <summary>

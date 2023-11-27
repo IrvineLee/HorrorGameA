@@ -218,6 +218,17 @@
                 },
                 {
                     "name": "",
+                    "id": "809bc941-0142-453c-9bd9-4a0191210de0",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ed66cbff-2900-4a62-8896-696503cfcd31",
                     "path": "<Pointer>/delta",
                     "interactions": "",
@@ -523,6 +534,105 @@
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Analog",
+                    "id": "e72a2b2a-08be-4803-b776-abb0cdaca254",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "ebed444f-a975-402d-ad85-d287fef81e04",
+                    "path": "<Joystick>/rz",
+                    "interactions": "",
+                    "processors": "Scale(factor=300)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "b489411e-e991-4f7b-a367-4c817b504a9b",
+                    "path": "<Joystick>/z",
+                    "interactions": "",
+                    "processors": "Scale(factor=300)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b61d1576-0275-4469-9fb6-87ff7cc1e7e2",
+                    "path": "<Joystick>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8051065c-4e8d-4d2a-bf0f-83186adc0590",
+                    "path": "<Joystick>/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cd6d0257-b3d4-40db-a3ee-05108196e6b4",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3203b5de-8cde-4032-864d-c0eaff7cf8b2",
+                    "path": "<Joystick>/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46423744-fc35-45a0-ac61-56ab746756cc",
+                    "path": "<Joystick>/button4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "InventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c9b10105-25d0-4e62-88e1-203760a7ba9e",
+                    "path": "<Joystick>/button12",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "OptionMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -811,6 +921,50 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "up",
+                    "id": "b504299d-27a7-48ae-bcc0-0bc44569171b",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9b551b7e-d297-4fbb-a3b7-0f5d4b7ed0b1",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "ffd8fbae-e72d-47b8-a589-de5e5d7684ae",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e73fe261-6ab6-4deb-b4a8-ff88a31b0470",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "f8e03910-5dc1-479a-a1dc-adeb1572717c",
                     "path": "<Gamepad>/leftStick",
@@ -888,9 +1042,31 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "negative",
+                    "id": "badfe4b9-0521-43f7-910e-0f4fb6a323af",
+                    "path": "<Joystick>/button7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TabSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "positive",
                     "id": "e748a1fe-f06d-4ff0-862e-8632bee4c507",
                     "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TabSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "3b733e26-0862-42ed-91ef-d7bf8dd5de91",
+                    "path": "<Joystick>/button8",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -1087,6 +1263,72 @@
                 },
                 {
                     "name": "",
+                    "id": "1fd21f06-42e2-449f-ae87-d7d585e3e4d7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "CancelOptionMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f84d4da7-5843-4d75-8e09-8400c1732ee3",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b82bd1f5-deb1-4303-8720-320c8c6774c2",
+                    "path": "<Joystick>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Analog",
+                    "id": "b508fe68-987c-478a-809e-a0eeb0733765",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "f0b366b5-c4f4-4a84-ab95-e6e7cc46c7ed",
+                    "path": "<Joystick>/rz",
+                    "interactions": "",
+                    "processors": "Scale(factor=300)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "ab699244-fdef-441e-a89d-98600d09858f",
+                    "path": "<Joystick>/z",
+                    "interactions": "",
+                    "processors": "Scale(factor=300)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
                     "id": "586e70f4-4675-4935-a886-d7604bc8d432",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -1098,12 +1340,45 @@
                 },
                 {
                     "name": "",
-                    "id": "1fd21f06-42e2-449f-ae87-d7d585e3e4d7",
-                    "path": "<Keyboard>/escape",
+                    "id": "b254f71c-8c64-421b-b2fe-d524138d9579",
+                    "path": "<Joystick>/button12",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": "Gamepad",
                     "action": "CancelOptionMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0e64f2b-21ce-4135-82c1-382a3cd72a7e",
+                    "path": "<Joystick>/button4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Default",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6af41866-f3af-4946-a061-c92d00591dd4",
+                    "path": "<Joystick>/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f9ab661-4e29-4411-986a-17319dc7ad27",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1324,6 +1599,50 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "up",
+                    "id": "2e79dbfb-ed90-4acd-87d1-0adfd139b78d",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "b1e36d86-8774-4dea-a7c6-15b517fff7f3",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "99422e9a-3206-494f-83ed-d53d56b393c9",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "093afb8b-c202-40eb-b922-e709a7226f98",
+                    "path": "<HID::8Bitdo SF30 Pro   8BitDo SN30 Pro+>/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "d204ae54-ed55-40dc-9922-a61e198d17c2",
                     "path": "<Gamepad>/leftStick",
@@ -1441,6 +1760,105 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "AutoComplete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc536418-c92b-4d8d-bda6-f5e639e0bf81",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbd0bee5-0e25-4b3f-b9e2-ebeaeb30efe1",
+                    "path": "<Joystick>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2edaaf31-0f07-487f-9d90-4ef119b48fc2",
+                    "path": "<Joystick>/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Analog",
+                    "id": "80f45f94-6589-4f7a-ae96-4871d96ff738",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "3c0d40f3-d35e-44bf-b7bb-e53d45d9bd35",
+                    "path": "<Joystick>/rz",
+                    "interactions": "",
+                    "processors": "Scale(factor=300)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "018d016d-0084-44d5-be7c-98448bfb3a26",
+                    "path": "<Joystick>/z",
+                    "interactions": "",
+                    "processors": "Scale(factor=300)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "c5b22dee-2f54-44af-817b-b749875a0842",
+                    "path": "<Joystick>/button4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b0af329-f55e-463e-9b8b-016375f90c28",
+                    "path": "<Joystick>/button15",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AutoComplete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0491f05e-3ba9-4f55-8912-a529febc4bd0",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
