@@ -240,17 +240,6 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""809bc941-0142-453c-9bd9-4a0191210de0"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""ed66cbff-2900-4a62-8896-696503cfcd31"",
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
@@ -574,7 +563,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/rz"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=300)"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -585,7 +574,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/z"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=300)"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -596,7 +585,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button2"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -607,7 +596,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button3"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -618,7 +607,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/trigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -629,7 +618,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button9"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -640,7 +629,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button4"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""InventoryMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -651,8 +640,19 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button12"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""OptionMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2af3805f-00d6-4152-a8e9-2399c5763eef"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1069,7 +1069,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button7"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""TabSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -1091,7 +1091,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button8"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""TabSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -1300,7 +1300,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/stick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1311,7 +1311,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button2"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1333,7 +1333,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/rz"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=300)"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -1344,7 +1344,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/z"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=300)"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -1366,7 +1366,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button12"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""CancelOptionMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1377,7 +1377,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button4"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Default"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1388,7 +1388,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button3"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1399,7 +1399,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/trigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1791,7 +1791,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/stick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1802,7 +1802,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button2"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1813,7 +1813,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button3"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1835,7 +1835,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/rz"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=300)"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -1846,7 +1846,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/z"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=300)"",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -1857,7 +1857,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button4"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1868,7 +1868,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/button15"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""AutoComplete"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1879,7 +1879,7 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Joystick>/trigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1933,6 +1933,11 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         {
             ""name"": ""PS4 Controller"",
             ""bindingGroup"": ""PS4 Controller"",
+            ""devices"": []
+        },
+        {
+            ""name"": ""Joystick"",
+            ""bindingGroup"": ""Joystick"",
             ""devices"": []
         }
     ]
@@ -2436,6 +2441,15 @@ public partial class @PlayerActionInput: IInputActionCollection2, IDisposable
         {
             if (m_PS4ControllerSchemeIndex == -1) m_PS4ControllerSchemeIndex = asset.FindControlSchemeIndex("PS4 Controller");
             return asset.controlSchemes[m_PS4ControllerSchemeIndex];
+        }
+    }
+    private int m_JoystickSchemeIndex = -1;
+    public InputControlScheme JoystickScheme
+    {
+        get
+        {
+            if (m_JoystickSchemeIndex == -1) m_JoystickSchemeIndex = asset.FindControlSchemeIndex("Joystick");
+            return asset.controlSchemes[m_JoystickSchemeIndex];
         }
     }
     public interface IPlayerActions

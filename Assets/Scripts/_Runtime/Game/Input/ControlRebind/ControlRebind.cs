@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 
 using Personal.Manager;
 using Personal.GameState;
@@ -12,7 +13,7 @@ namespace Personal.UI
 		[SerializeField] GameObject waitingForInputGO = null;
 		[SerializeField] List<string> cancelThroughStrList = null;
 
-		InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+		RebindingOperation rebindingOperation;
 
 		UISelectionSubmit_ControlRebind currentSelection;
 		InputAction inputAction;
@@ -33,57 +34,37 @@ namespace Personal.UI
 			waitingForInputGO.SetActive(true);
 			InputManager.Instance.DisableAllActionMap();
 
+			// Stash the overridePath to reset it in case of cancelling through with different keys.
 			overridePathList.Clear();
-			for (int i = 0; i < inputAction.controls.Count; i++)
+			foreach (var binding in inputAction.bindings)
 			{
-				int bindingIndex = inputAction.GetBindingIndexForControl(inputAction.controls[i]);
-				string overridePath = inputAction.bindings[bindingIndex].overridePath;
-
-				overridePathList.Add(overridePath);
+				overridePathList.Add(binding.overridePath);
 			}
 
 			rebindingOperation = inputAction.PerformInteractiveRebinding()
+				.WithBindingGroup(currentSelection.BindingGroup)
 				.WithControlsExcluding("Mouse")
+				.WithControlsHavingToMatchPath("<" + currentSelection.BindingGroup + ">")
 				.OnMatchWaitForAnother(0.1f)
 				.WithCancelingThrough("<Keyboard>/escape")
 				.OnCancel((operation) => EndRebind())
-				.OnComplete((operation) => RebindComplete())
+				.OnComplete((operation) => RebindComplete(operation))
 				.Start();
 
 		}
 
-		void RebindComplete()
+		void RebindComplete(RebindingOperation operation)
 		{
-			int bindingIndex = inputAction.GetBindingIndexForControl(inputAction.controls[0]);
+			// This gets the pressed button input for the correct device index.
+			int bindingIndex = inputAction.GetBindingIndexForControl(operation.selectedControl);
 			var binding = inputAction.bindings[bindingIndex];
 			var humanReadableType = InputControlPath.HumanReadableStringOptions.OmitDevice;
 
 			Debug.Log("binding.overridePath " + binding.overridePath);
-			if (IsCancellingThrough(binding)) return;
-
-			currentSelection.NameTMP.text = InputControlPath.ToHumanReadableString(binding.effectivePath, humanReadableType);
-			EndRebind();
-
-			Debug.Log("REBIND Complete!");
-		}
-
-		bool IsCancellingThrough(InputBinding binding)
-		{
-			bool isCancel = false;
-			foreach (var str in cancelThroughStrList)
+			if (!IsCancellingThrough(binding))
 			{
-				if (!string.Equals(str, binding.overridePath)) continue;
-
-				isCancel = true;
-				break;
-			}
-
-			if (isCancel)
-			{
-				for (int i = 0; i < overridePathList.Count; i++)
-				{
-					InputActionRebindingExtensions.ApplyBindingOverride(inputAction, i, new InputBinding { overridePath = overridePathList[i] });
-				}
+				currentSelection.NameTMP.text = InputControlPath.ToHumanReadableString(binding.effectivePath, humanReadableType);
+				Debug.Log("Override Complete!");
 			}
 
 			foreach (var b in inputAction.bindings)
@@ -92,7 +73,30 @@ namespace Personal.UI
 			}
 
 			EndRebind();
-			return isCancel;
+		}
+
+		bool IsCancellingThrough(InputBinding binding)
+		{
+			// If it's not part of keyboard or gamepad, assume it's a joystick.
+			string overridePath = binding.overridePath;
+			if (!overridePath.Contains("Keyboard") || !overridePath.Contains("Gamepad"))
+			{
+				overridePath = "<Joystick>" + overridePath.Substring(overridePath.IndexOf('>') + 1);
+			}
+
+			foreach (var str in cancelThroughStrList)
+			{
+				if (!string.Equals(str, overridePath)) continue;
+
+				// Reset the override.
+				for (int i = 0; i < overridePathList.Count; i++)
+				{
+					InputActionRebindingExtensions.ApplyBindingOverride(inputAction, i, new InputBinding { overridePath = overridePathList[i] });
+				}
+				return true;
+			}
+
+			return false;
 		}
 
 		void EndRebind()

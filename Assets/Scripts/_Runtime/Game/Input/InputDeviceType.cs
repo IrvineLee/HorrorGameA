@@ -6,6 +6,7 @@ namespace Personal.InputProcessing
 		None = 0,
 		KeyboardMouse,
 		Gamepad,
+		Joystick,
 	}
 }
 

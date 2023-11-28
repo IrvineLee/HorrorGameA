@@ -1989,6 +1989,8 @@ MonoBehaviour:
   cancelThroughStrList:
   - <Gamepad>/select
   - <Gamepad>/start
+  - <Joystick>/button11
+  - <Joystick>/button12
 --- !u!1 &6228118581907442660
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,8 +2814,9 @@ GameObject:
   - component: {fileID: 6164421911530193213}
   - component: {fileID: 6571054673750357420}
   - component: {fileID: 1899799727306225174}
+  - component: {fileID: 5026901725284255797}
   m_Layer: 5
-  m_Name: LayoutGroup
+  m_Name: GamepadLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2882,6 +2885,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &5026901725284255797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9005408852982467735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6230c4d69454e7c4d96dc4cc5f0a4a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputDeviceType: 3
 --- !u!1001 &1970895759631077116
 PrefabInstance:
   m_ObjectHideFlags: 0
