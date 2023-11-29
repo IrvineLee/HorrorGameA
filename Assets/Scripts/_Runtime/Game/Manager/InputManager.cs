@@ -54,6 +54,8 @@ namespace Personal.Manager
 		public static event Action<InputDevice> OnDeviceDisconnected;
 		public static event Action OnDeviceIconChanged;
 
+		string currentControllerName;
+
 		InputSystemUIInputModule inputSystemUIInputModule;
 		InputActionReference submitActionReference;
 		InputActionReference cancelActionReference;
@@ -235,12 +237,10 @@ namespace Personal.Manager
 
 			// Get the input type.
 			InputDeviceType inputType = InputDeviceType.Gamepad;
-			if (inputDevice.name.Equals("Mouse") || inputDevice.name.Equals("Keyboard"))
+			if (inputDevice.name.ContainsIgnoreCase("Mouse") || inputDevice.name.ContainsIgnoreCase("Keyboard"))
 			{
 				inputType = InputDeviceType.KeyboardMouse;
 			}
-
-			if (inputType == InputDeviceType) return;
 
 			// Check for gamepads.
 			InputDeviceType = inputType;
@@ -254,19 +254,38 @@ namespace Personal.Manager
 
 		/// <summary>
 		/// Make sure the active gamepad is registered.
-		/// Gamepad.current does not always return the used, active gamepad.
+		/// Gamepad.current/Joystick.current does not always return the used, active gamepad.
 		/// </summary>
 		/// <param name="currentDeviceName"></param>
 		void HandleCurrentGamepad(string currentDeviceName)
 		{
 			CurrentGamepad = null;
-			foreach (var gamepad in Gamepad.all)
+			UpdateCurrentController(currentDeviceName, Gamepad.all);
+			UpdateCurrentController(currentDeviceName, Joystick.all);
+		}
+
+		/// <summary>
+		/// Check between gamepad and joystick.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="currentDeviceName"></param>
+		/// <param name="array"></param>
+		void UpdateCurrentController<T>(string currentDeviceName, ReadOnlyArray<T> array) where T : InputDevice
+		{
+			foreach (var controller in array)
 			{
-				if (gamepad.name.Contains(currentDeviceName))
+				if (!controller.name.Contains(currentDeviceName)) continue;
+
+				if (typeof(T) == typeof(Gamepad))
 				{
-					CurrentGamepad = gamepad;
-					break;
+					CurrentGamepad = (Gamepad)(object)controller;
 				}
+				else
+				{
+					InputDeviceType = InputDeviceType.Joystick;
+				}
+				currentControllerName = controller.name;
+				break;
 			}
 		}
 
@@ -298,17 +317,19 @@ namespace Personal.Manager
 				return;
 			}
 
-			if (CurrentGamepad == null) return;
+			if (string.IsNullOrEmpty(currentControllerName)) return;
 
-			// Check for gamepad...
+			// Check for gamepad/joystick...
 			if (SetInitialsWhenGamepadContains("DualShock", IconDisplayType.Dualshock.GetStringValue())) return;
 			else if (SetInitialsWhenGamepadContains("DualSense", IconDisplayType.Dualshock.GetStringValue())) return;
-			else if (SetInitialsWhenGamepadContains("XBox", IconDisplayType.Xbox.GetStringValue())) return;
+
+			// When all else fail, revert back to XBox layout.
+			SetInitialsAndHandleGamepadInteractInput(IconDisplayType.Xbox.GetStringValue());
 		}
 
 		bool SetInitialsWhenGamepadContains(string subset, string initials)
 		{
-			if (CurrentGamepad.name.Contains(subset, StringComparison.OrdinalIgnoreCase))
+			if (currentControllerName.Contains(subset, StringComparison.OrdinalIgnoreCase))
 			{
 				SetInitialsAndHandleGamepadInteractInput(initials);
 				return true;

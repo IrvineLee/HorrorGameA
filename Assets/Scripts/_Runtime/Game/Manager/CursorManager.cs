@@ -119,7 +119,7 @@ namespace Personal.Manager
 
 		void HandleCursorAndMouseChange()
 		{
-			// You don't want to reset the mouse cursor when the user changed the icon only.
+			// You don't want to reset the mouse cursor when the user changed the icon only. This only happens in option.
 			if (InputManager.Instance.IsChangeIconOnly) return;
 
 			// Handle the dialogue response.

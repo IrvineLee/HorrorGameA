@@ -10,13 +10,13 @@ namespace Personal.Preloader
 {
 	public class PreloadGame : Preload
 	{
-		const string BootSceneName = SceneName.Boot;
-		const string preloadSceneName = SceneName.PreloadScene;
-		const string startSceneName = SceneName.Title;
+		const string BOOT_SCENE_NAME = SceneName.Boot;
+		const string PRELOAD_SCENE_NAME = SceneName.PreloadScene;
+		const string START_SCENE_NAME = SceneName.Title;
 
 		public static string PreviousSceneName { get; private set; }
 
-		static string activeSceneName = BootSceneName;
+		static string activeSceneName = BOOT_SCENE_NAME;
 
 		// Load the boot and preload scene first.
 		// Start up the current active scene when in the editor.
@@ -28,17 +28,17 @@ namespace Personal.Preloader
 			activeSceneName = SceneManager.GetActiveScene().name;
 #endif
 
-			if (!activeSceneName.Equals(BootSceneName))
+			if (!activeSceneName.Equals(BOOT_SCENE_NAME))
 			{
-				SceneManager.LoadScene(BootSceneName);
+				SceneManager.LoadScene(BOOT_SCENE_NAME);
 				await UniTask.NextFrame();
 			}
 			else
 			{
-				activeSceneName = startSceneName;
+				activeSceneName = START_SCENE_NAME;
 			}
 
-			SceneManager.LoadScene(preloadSceneName, LoadSceneMode.Additive);
+			SceneManager.LoadScene(PRELOAD_SCENE_NAME, LoadSceneMode.Additive);
 		}
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

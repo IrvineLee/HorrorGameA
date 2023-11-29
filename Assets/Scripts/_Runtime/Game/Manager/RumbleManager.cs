@@ -17,7 +17,7 @@ namespace Personal.Manager
 			if (InputManager.Instance.InputDeviceType != InputDeviceType.Gamepad) return;
 
 			Gamepad gamepad = InputManager.Instance.CurrentGamepad;
-			gamepad.SetMotorSpeeds(lowfrequency, highFrequency);
+			gamepad?.SetMotorSpeeds(lowfrequency, highFrequency);
 
 			rumbleCR?.StopCoroutine();
 			rumbleCR = CoroutineHelper.WaitFor(duration, () => gamepad.SetMotorSpeeds(0, 0), default, true);

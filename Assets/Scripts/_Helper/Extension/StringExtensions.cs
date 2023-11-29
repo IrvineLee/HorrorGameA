@@ -195,15 +195,14 @@ namespace Helper
 		}
 
 		/// <summary>
-		/// See whether it contains the 'toCheck' string.
+		/// Contains with ordinal ignore case
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="toCheck"></param>
-		/// <param name="comp"></param>
 		/// <returns></returns>
-		public static bool Contains(this string source, string toCheck, StringComparison comp)
+		public static bool ContainsIgnoreCase(this string source, string toCheck)
 		{
-			return source?.IndexOf(toCheck, comp) >= 0;
+			return source.Contains(toCheck, StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
