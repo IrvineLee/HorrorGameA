@@ -215,5 +215,16 @@ namespace Helper
 		{
 			return string.Equals(source[source.Length - 1], ')');
 		}
+
+		/// <summary>
+		/// Enclose string within sprite name for icon showing in text.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="addStr"></param>
+		/// <returns></returns>
+		public static string SpriteEnclose(this string source)
+		{
+			return "<sprite name=" + source + ">";
+		}
 	}
 }

@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Helper;
 using Personal.InputProcessing;
 using Personal.Manager;
-using Helper;
-using System.Text;
 using Personal.UI;
-using Personal.UI.Option;
 
 namespace Personal.Definition
 {

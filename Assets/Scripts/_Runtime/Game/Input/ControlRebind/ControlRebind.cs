@@ -3,8 +3,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 
+using Helper;
 using Personal.Manager;
 using Personal.GameState;
+using Personal.InputProcessing;
+using Lean.Localization;
 
 namespace Personal.UI
 {
@@ -29,10 +32,25 @@ namespace Personal.UI
 			currentSelection = uiSelectionSubmit;
 			inputAction = currentSelection.InputAction;
 
-			Debug.Log("REBINDING! " + currentSelection + "     " + currentSelection.InputAction);
-
 			waitingForInputGO.SetActive(true);
 			InputManager.Instance.DisableAllActionMap();
+
+			InitRebind();
+		}
+
+		void InitRebind()
+		{
+			// Set the cancel token.
+			string inputDeviceTypeStr = "Keyboard";
+			string cancelStr = "Esc";
+
+			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
+			if (inputDeviceType == InputDeviceType.Gamepad || inputDeviceType == InputDeviceType.Joystick)
+			{
+				inputDeviceTypeStr = inputDeviceType.ToString();
+				cancelStr = (InputManager.Instance.IconInitials + GenericButtonIconType.Button_Option).SpriteEnclose();
+			}
+			LeanLocalization.SetToken("CANCEL", cancelStr);
 
 			// Stash the overridePath to reset it in case of cancelling through with different keys.
 			overridePathList.Clear();
@@ -41,16 +59,16 @@ namespace Personal.UI
 				overridePathList.Add(binding.overridePath);
 			}
 
+			// Rebinding operation.
 			rebindingOperation = inputAction.PerformInteractiveRebinding()
-				.WithBindingGroup(currentSelection.BindingGroup)
 				.WithControlsExcluding("Mouse")
-				.WithControlsHavingToMatchPath("<" + currentSelection.BindingGroup + ">")
+				.WithBindingGroup(inputDeviceTypeStr)                                       // Makes sure to only override 1 binding in an action
+				.WithControlsHavingToMatchPath("<" + inputDeviceTypeStr + ">")              // Makes sure to only allow input from specific device/control
 				.OnMatchWaitForAnother(0.1f)
-				.WithCancelingThrough("<Keyboard>/escape")
+				.WithCancelingThrough("<Keyboard>/escape")                                  // This only allow for 1 cancel key. Other keys are checked within RebindComplete
 				.OnCancel((operation) => EndRebind())
 				.OnComplete((operation) => RebindComplete(operation))
 				.Start();
-
 		}
 
 		void RebindComplete(RebindingOperation operation)
@@ -79,7 +97,7 @@ namespace Personal.UI
 		{
 			// If it's not part of keyboard or gamepad, assume it's a joystick.
 			string overridePath = binding.overridePath;
-			if (!overridePath.Contains("Keyboard") || !overridePath.Contains("Gamepad"))
+			if (!overridePath.Contains("Keyboard") && !overridePath.Contains("Gamepad"))
 			{
 				overridePath = "<Joystick>" + overridePath.Substring(overridePath.IndexOf('>') + 1);
 			}
@@ -104,7 +122,7 @@ namespace Personal.UI
 			rebindingOperation.Dispose();
 			waitingForInputGO.SetActive(false);
 
-			InputManager.Instance.EnableActionMap(InputProcessing.ActionMapType.UI);
+			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 
 			Debug.Log("REBIND End!");
 		}
