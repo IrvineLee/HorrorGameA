@@ -52,8 +52,9 @@ namespace Personal.UI
 			InputDeviceType inputDeviceType = currentSelection.InputDeviceTypeSet.InputDeviceType;
 			if (inputDeviceType == InputDeviceType.Gamepad)
 			{
-				// Get from InputManager to see whether it's gamepad/joystick.
-				inputDeviceTypeStr = InputManager.Instance.InputDeviceType.ToString();
+				// Get from InputManager to see whether it's gamepad/joystick. Assume it's a gamepad when user start with mouse.
+				// It is only a joystick when you start it with the joystick.
+				inputDeviceTypeStr = InputManager.Instance.IsCurrentDeviceMouse ? "Gamepad" : InputManager.Instance.InputDeviceType.ToString();
 				cancelStr = (currentSelection.IconInitials + GenericButtonIconType.Button_Option).SpriteEnclose();
 			}
 			LeanLocalization.SetToken("CANCEL", cancelStr);

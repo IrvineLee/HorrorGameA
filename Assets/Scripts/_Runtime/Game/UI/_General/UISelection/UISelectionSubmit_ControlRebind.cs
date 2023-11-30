@@ -33,6 +33,11 @@ namespace Personal.UI
 			controlRebind.OnRemapped += IconChange;
 		}
 
+		void OnEnable()
+		{
+			IconChange();
+		}
+
 		public override void Submit()
 		{
 			controlRebind.StartRebind(this);
@@ -47,7 +52,7 @@ namespace Personal.UI
 		/// </summary>
 		void IconChange()
 		{
-			if (!gameObject.activeSelf) return;
+			if (!gameObject.activeInHierarchy) return;
 
 			string displayStr = "";
 			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
@@ -59,8 +64,11 @@ namespace Personal.UI
 				bindDevice = bindDevice.SearchBehindRemoveFrontOrEnd(']', true);
 
 				// Get the correct binding.
-				if (bindDevice.Equals(inputDeviceType.ToString()) ||
-					(!bindDevice.Equals("Keyboard") && !bindDevice.Equals("Gamepad") && inputDeviceType == InputDeviceType.Joystick))
+				string activeInputDeviceStr = inputDeviceType.ToString();
+				bool condition01 = InputDeviceTypeSet.GetBindingGroupStr().Equals(activeInputDeviceStr) && bindDevice.Equals(activeInputDeviceStr);
+				bool condition02 = (!bindDevice.Equals("Keyboard") && !bindDevice.Equals("Gamepad") && inputDeviceType == InputDeviceType.Joystick);
+
+				if (condition01 || condition02)
 				{
 					displayStr = GetDisplayString(binding, inputDeviceType);
 					break;
@@ -70,7 +78,7 @@ namespace Personal.UI
 			IconInitials = InputManager.Instance.IconInitials;
 			if (InputDeviceTypeSet.InputDeviceType == InputDeviceType.Gamepad) IconInitials = InputManager.Instance.GamepadIconInitials;
 
-			NameTMP.text = (IconInitials + displayStr).SpriteEnclose();
+			NameTMP.text = string.IsNullOrEmpty(displayStr) ? NameTMP.text : (IconInitials + displayStr).SpriteEnclose();
 			Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
 		}
 
