@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,8 +14,10 @@ namespace Personal.UI
 {
 	public class ControlRebind : GameInitialize
 	{
-		[SerializeField] GameObject waitingForInputGO = null;
+		[SerializeField] MenuUI waitingForInputMenu = null;
 		[SerializeField] List<string> cancelThroughStrList = null;
+
+		public event Action OnRemapped;
 
 		RebindingOperation rebindingOperation;
 
@@ -32,7 +35,7 @@ namespace Personal.UI
 			currentSelection = uiSelectionSubmit;
 			inputAction = currentSelection.InputAction;
 
-			waitingForInputGO.SetActive(true);
+			waitingForInputMenu.OpenWindow();
 			InputManager.Instance.DisableAllActionMap();
 
 			InitRebind();
@@ -40,15 +43,18 @@ namespace Personal.UI
 
 		void InitRebind()
 		{
+			UISelectable.LockSelection(true);
+
 			// Set the cancel token.
 			string inputDeviceTypeStr = "Keyboard";
 			string cancelStr = "Esc";
 
-			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
-			if (inputDeviceType == InputDeviceType.Gamepad || inputDeviceType == InputDeviceType.Joystick)
+			InputDeviceType inputDeviceType = currentSelection.InputDeviceTypeSet.InputDeviceType;
+			if (inputDeviceType == InputDeviceType.Gamepad)
 			{
-				inputDeviceTypeStr = inputDeviceType.ToString();
-				cancelStr = (InputManager.Instance.IconInitials + GenericButtonIconType.Button_Option).SpriteEnclose();
+				// Get from InputManager to see whether it's gamepad/joystick.
+				inputDeviceTypeStr = InputManager.Instance.InputDeviceType.ToString();
+				cancelStr = (currentSelection.IconInitials + GenericButtonIconType.Button_Option).SpriteEnclose();
 			}
 			LeanLocalization.SetToken("CANCEL", cancelStr);
 
@@ -66,7 +72,7 @@ namespace Personal.UI
 				.WithControlsHavingToMatchPath("<" + inputDeviceTypeStr + ">")              // Makes sure to only allow input from specific device/control
 				.OnMatchWaitForAnother(0.1f)
 				.WithCancelingThrough("<Keyboard>/escape")                                  // This only allow for 1 cancel key. Other keys are checked within RebindComplete
-				.OnCancel((operation) => EndRebind())
+				.OnCancel((operation) => EndRebind(false))
 				.OnComplete((operation) => RebindComplete(operation))
 				.Start();
 		}
@@ -79,10 +85,12 @@ namespace Personal.UI
 			var humanReadableType = InputControlPath.HumanReadableStringOptions.OmitDevice;
 
 			Debug.Log("binding.overridePath " + binding.overridePath);
+
+			bool isOverriden = false;
 			if (!IsCancellingThrough(binding))
 			{
 				currentSelection.NameTMP.text = InputControlPath.ToHumanReadableString(binding.effectivePath, humanReadableType);
-				Debug.Log("Override Complete!");
+				isOverriden = true;
 			}
 
 			foreach (var b in inputAction.bindings)
@@ -90,7 +98,7 @@ namespace Personal.UI
 				Debug.Log("Binding  " + b);
 			}
 
-			EndRebind();
+			EndRebind(isOverriden);
 		}
 
 		bool IsCancellingThrough(InputBinding binding)
@@ -117,14 +125,19 @@ namespace Personal.UI
 			return false;
 		}
 
-		void EndRebind()
+		void EndRebind(bool isOverriden)
 		{
 			rebindingOperation.Dispose();
-			waitingForInputGO.SetActive(false);
+
+			// If the user cancelled the process(ESC), UIManager will handle the closing of window.
+			// If rebind is successful or using gamepad, close the window here. (ESC key also closes other window)
+			if (isOverriden || !InputManager.Instance.IsCurrentDeviceMouse) waitingForInputMenu.CloseWindow();
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
+			UISelectable.LockSelection(false);
+			OnRemapped?.Invoke();
 
-			Debug.Log("REBIND End!");
+			Debug.Log("REBIND End! " + isOverriden);
 		}
 
 		void OnDeviceDisconnected(InputDevice inputDevice)

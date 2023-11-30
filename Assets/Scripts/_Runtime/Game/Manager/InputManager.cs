@@ -47,7 +47,8 @@ namespace Personal.Manager
 		public bool IsCurrentDeviceMouse { get => InputDeviceType == InputDeviceType.KeyboardMouse; }
 		public bool IsChangeIconOnly { get; private set; }
 
-		public string IconInitials { get; private set; }
+		public string IconInitials { get; private set; }                    // This gets the currently active device (KeyboardMouse, DS4, XBox, etc)
+		public string GamepadIconInitials { get; private set; }             // This always gets the gamepad/joystick icon initials, doesn't matter if active or not.
 		public Gamepad CurrentGamepad { get; private set; }
 
 		public static event Action OnAnyButtonPressed;
@@ -74,6 +75,7 @@ namespace Personal.Manager
 			PuzzleInputController = GetComponentInChildren<PuzzleInputController>(true);
 			inputSystemUIInputModule = GetComponentInChildren<InputSystemUIInputModule>(true);
 
+			GamepadIconInitials = IconDisplayType.Xbox.GetStringValue();
 			gameData = GameStateBehaviour.Instance.SaveProfile.OptionSavedData.GameData;
 
 			submitActionReference = inputSystemUIInputModule.submit;
@@ -242,6 +244,8 @@ namespace Personal.Manager
 				inputType = InputDeviceType.KeyboardMouse;
 			}
 
+			if (InputDeviceType == inputType) return;
+
 			// Check for gamepads.
 			InputDeviceType = inputType;
 			previousDevice = inputDevice;
@@ -340,6 +344,8 @@ namespace Personal.Manager
 		void SetInitialsAndHandleGamepadInteractInput(string initials)
 		{
 			IconInitials = initials;
+			if (!initials.Contains(IconDisplayType.KeyboardMouse.GetStringValue())) GamepadIconInitials = initials;
+
 			OnDeviceIconChanged?.Invoke();
 
 			// You don't wanna swap the interact input when in mouse mode.

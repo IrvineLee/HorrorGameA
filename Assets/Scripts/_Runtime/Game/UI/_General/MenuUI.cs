@@ -9,7 +9,7 @@ namespace Personal.UI
 	/// This is typically for menu window UI.
 	/// </summary>
 	[Serializable]
-	public abstract class MenuUI : MenuUIBase
+	public class MenuUI : MenuUIBase
 	{
 		public override void OpenWindow()
 		{

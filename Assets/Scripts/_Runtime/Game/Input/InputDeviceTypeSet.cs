@@ -9,7 +9,7 @@ namespace Personal.InputProcessing
 
 		public InputDeviceType InputDeviceType { get => inputDeviceType; }
 
-		public string GetBindingGroup()
+		public string GetBindingGroupStr()
 		{
 			string str = "Keyboard";
 			if (inputDeviceType == InputDeviceType.Gamepad) str = "Gamepad";

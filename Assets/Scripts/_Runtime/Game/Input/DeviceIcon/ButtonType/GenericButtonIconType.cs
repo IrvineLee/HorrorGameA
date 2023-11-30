@@ -1,5 +1,4 @@
-﻿
-using Helper;
+﻿using Helper;
 
 namespace Personal.InputProcessing
 {
@@ -34,11 +33,11 @@ namespace Personal.InputProcessing
 		[StringValue("Button_East")] Button_East,                   // Circle
 		[StringValue("Button_West")] Button_West,                   // Square
 
-		[StringValue("LeftBumper")] LeftBumper,                     // L1
+		[StringValue("LeftShoulder")] LeftShoulder,                 // L1
 		[StringValue("LeftTrigger")] LeftTrigger,                   // L2
 		[StringValue("LeftStickPress")] LeftStickPress,             // L3
 
-		[StringValue("RightBumper")] RightBumper,                   // R1
+		[StringValue("RightShoulder")] RightShoulder,               // R1
 		[StringValue("RightTrigger")] RightTrigger,                 // R2
 		[StringValue("RightStickPress")] RightStickPress,           // R3
 

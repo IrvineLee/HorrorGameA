@@ -15,6 +15,8 @@ namespace Personal.UI
 
 		public InputAction InputAction { get; private set; }
 		public TextMeshProUGUI NameTMP { get; private set; }
+		public InputDeviceTypeSet InputDeviceTypeSet { get; private set; }
+		public string IconInitials { get; private set; }
 
 		ControlRebind controlRebind;
 
@@ -22,10 +24,13 @@ namespace Personal.UI
 		{
 			controlRebind = GetComponentInParent<ControlRebind>(true);
 			NameTMP = GetComponentInChildren<TextMeshProUGUI>(true);
+			InputDeviceTypeSet = GetComponentInParent<InputDeviceTypeSet>(true);
 
 			// Get the 'player' action map and find the current action ex: Sprint.
 			InputAction = InputManager.Instance.PlayerActionInput.asset.FindActionMap("Player").FindAction(inputAction.action.name);
+
 			InputManager.OnDeviceIconChanged += IconChange;
+			controlRebind.OnRemapped += IconChange;
 		}
 
 		public override void Submit()
@@ -37,30 +42,59 @@ namespace Personal.UI
 		{
 		}
 
+		/// <summary>
+		/// Only handle the icon change.
+		/// </summary>
 		void IconChange()
 		{
+			if (!gameObject.activeSelf) return;
+
 			string displayStr = "";
+			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
+
 			foreach (var binding in InputAction.bindings)
 			{
-				// You only want the value within the square braces.
-				string device = binding.ToDisplayString(InputBinding.DisplayStringOptions.DontOmitDevice).SearchBehindRemoveFrontOrEnd('[', true, false);
-				device = device.SearchBehindRemoveFrontOrEnd(']', true);
+				// You only want the value within the square braces. [Keyboard][Gamepad][Joystick]
+				string bindDevice = binding.ToDisplayString(InputBinding.DisplayStringOptions.DontOmitDevice).SearchBehindRemoveFrontOrEnd('[', true, false);
+				bindDevice = bindDevice.SearchBehindRemoveFrontOrEnd(']', true);
 
-				Debug.Log(binding);
-				if (!device.Equals("Gamepad")) continue;
-
-				displayStr = binding.ToDisplayString(InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
-				break;
+				// Get the correct binding.
+				if (bindDevice.Equals(inputDeviceType.ToString()) ||
+					(!bindDevice.Equals("Keyboard") && !bindDevice.Equals("Gamepad") && inputDeviceType == InputDeviceType.Joystick))
+				{
+					displayStr = GetDisplayString(binding, inputDeviceType);
+					break;
+				}
 			}
 
+			IconInitials = InputManager.Instance.IconInitials;
+			if (InputDeviceTypeSet.InputDeviceType == InputDeviceType.Gamepad) IconInitials = InputManager.Instance.GamepadIconInitials;
+
+			NameTMP.text = (IconInitials + displayStr).SpriteEnclose();
+			Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
+		}
+
+		string GetDisplayString(InputBinding binding, InputDeviceType inputDeviceType)
+		{
 			// You might want to add more restrictions here for other possible naming.
-			displayStr = displayStr.Contains("Button") ? displayStr.Replace(" ", "_") : displayStr.RemoveAllWhiteSpaces();
-			NameTMP.text = (InputManager.Instance.IconInitials + displayStr).SpriteEnclose();
+			string displayStr = binding.ToDisplayString(InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
+
+			bool isKeyboardOrGamepad = (inputDeviceType != InputDeviceType.Joystick && displayStr.Contains("Button"));
+			displayStr = isKeyboardOrGamepad ? displayStr.Replace(" ", "_") : displayStr.RemoveAllWhiteSpaces();
+
+			// If it's joystick, try parse it to button icon type.
+			if (inputDeviceType == InputDeviceType.Joystick &&
+				Enum.TryParse(displayStr, true, out JoystickToGenericButtonIcon parsedIcon))
+			{
+				displayStr = parsedIcon.GetStringValue();
+			}
+			return displayStr;
 		}
 
 		void OnDestroy()
 		{
 			InputManager.OnDeviceIconChanged -= IconChange;
+			controlRebind.OnRemapped -= IconChange;
 		}
 	}
 }
