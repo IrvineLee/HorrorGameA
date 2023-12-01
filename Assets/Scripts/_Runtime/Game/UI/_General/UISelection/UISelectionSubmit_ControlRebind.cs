@@ -11,14 +11,15 @@ namespace Personal.UI
 {
 	public class UISelectionSubmit_ControlRebind : UISelectionBase
 	{
-		[SerializeField] InputActionReference inputAction = null;
+		[SerializeField] InputActionReference inputActionReference = null;
 
 		public InputAction InputAction { get; private set; }
+		public InputBinding InputBinding { get; private set; }
 		public TextMeshProUGUI NameTMP { get; private set; }
-		public InputDeviceTypeSet InputDeviceTypeSet { get; private set; }
+		public InputDeviceTypeSet InputDeviceTypeSet { get; private set; }          // InputDeviceType here can only be Keyboard/Gamepad only. Joystick is treated as Gamepad.
 		public string IconInitials { get; private set; }
 
-		ControlRebind controlRebind;
+		protected ControlRebind controlRebind;
 
 		public override void Initialize()
 		{
@@ -27,10 +28,10 @@ namespace Personal.UI
 			InputDeviceTypeSet = GetComponentInParent<InputDeviceTypeSet>(true);
 
 			// Get the 'player' action map and find the current action ex: Sprint.
-			InputAction = InputManager.Instance.PlayerActionInput.asset.FindActionMap("Player").FindAction(inputAction.action.name);
+			InputAction = controlRebind.InputActionMap.FindAction(inputActionReference.action.name);
 
 			InputManager.OnDeviceIconChanged += IconChange;
-			controlRebind.OnRemapped += IconChange;
+			controlRebind.OnRebinded += IconChange;
 		}
 
 		void OnEnable()
@@ -43,8 +44,10 @@ namespace Personal.UI
 			controlRebind.StartRebind(this);
 		}
 
-		public override void Cancel()
+		public void RefreshUI()
 		{
+			IconChange();
+			//Debug.Log("Refresh UI");
 		}
 
 		/// <summary>
@@ -64,28 +67,32 @@ namespace Personal.UI
 				bindDevice = bindDevice.SearchBehindRemoveFrontOrEnd(']', true);
 
 				// Get the correct binding.
-				string activeInputDeviceStr = inputDeviceType.ToString();
-				bool condition01 = InputDeviceTypeSet.GetBindingGroupStr().Equals(activeInputDeviceStr) && bindDevice.Equals(activeInputDeviceStr);
+				string currentInputDeviceStr = InputDeviceTypeSet.GetBindingGroupStr();
+
+				bool condition01 = inputDeviceType != InputDeviceType.Joystick && bindDevice.Equals(currentInputDeviceStr);
 				bool condition02 = (!bindDevice.Equals("Keyboard") && !bindDevice.Equals("Gamepad") && inputDeviceType == InputDeviceType.Joystick);
 
-				if (condition01 || condition02)
-				{
-					displayStr = GetDisplayString(binding, inputDeviceType);
-					break;
-				}
+				if (!condition01 && !condition02) continue;
+
+				if (condition02) inputDeviceType = InputDeviceType.Joystick;
+
+				InputBinding = binding;
+				displayStr = GetDisplayString(binding, inputDeviceType);
+				break;
 			}
 
 			IconInitials = InputManager.Instance.IconInitials;
 			if (InputDeviceTypeSet.InputDeviceType == InputDeviceType.Gamepad) IconInitials = InputManager.Instance.GamepadIconInitials;
 
 			NameTMP.text = string.IsNullOrEmpty(displayStr) ? NameTMP.text : (IconInitials + displayStr).SpriteEnclose();
-			Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
+			//Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
 		}
 
 		string GetDisplayString(InputBinding binding, InputDeviceType inputDeviceType)
 		{
 			// You might want to add more restrictions here for other possible naming.
-			string displayStr = binding.ToDisplayString(InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
+			var displayStringOption = InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
+			string displayStr = !binding.isComposite ? binding.ToDisplayString(displayStringOption) : HandleCompositeBinding(InputAction);
 
 			bool isKeyboardOrGamepad = (inputDeviceType != InputDeviceType.Joystick && displayStr.Contains("Button"));
 			displayStr = isKeyboardOrGamepad ? displayStr.Replace(" ", "_") : displayStr.RemoveAllWhiteSpaces();
@@ -99,10 +106,12 @@ namespace Personal.UI
 			return displayStr;
 		}
 
+		protected virtual string HandleCompositeBinding(InputAction inputAction) { return ""; }
+
 		void OnDestroy()
 		{
 			InputManager.OnDeviceIconChanged -= IconChange;
-			controlRebind.OnRemapped -= IconChange;
+			controlRebind.OnRebinded -= IconChange;
 		}
 	}
 }

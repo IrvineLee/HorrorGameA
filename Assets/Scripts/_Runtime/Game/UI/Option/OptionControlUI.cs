@@ -1,19 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
-using TMPro;
+using System.Collections.Generic;
 
-using Personal.GameState;
 using Personal.Manager;
 using Personal.Constant;
-using Helper;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Option
 {
 	public class OptionControlUI : OptionMenuUI
 	{
-		//[SerializeField] Slider masterSlider = null;
+		ControlRebind controlRebind;
+		List<UISelectionBase> uiSelectionBaseList = new();
 
 		/// <summary>
 		/// Initialize.
@@ -23,9 +21,13 @@ namespace Personal.UI.Option
 		{
 			base.InitialSetup();
 
-			PlayerPrefs.DeleteAll();
+			controlRebind = GetComponentInChildren<ControlRebind>();
+			controlRebind.InitialSetup();
+
 			ResetDataToTarget();
-			GetComponentsInChildren<UISelectionBase>()?.ToList().ForEach(result => result.Initialize());
+
+			uiSelectionBaseList = GetComponentsInChildren<UISelectionBase>()?.ToList();
+			uiSelectionBaseList.ForEach(result => result.Initialize());
 		}
 
 		/// <summary>
@@ -35,8 +37,20 @@ namespace Personal.UI.Option
 		{
 			base.Save_Inspector();
 
-			//string rebinds = InputManager.Instance.PlayerActionInput.asset.SaveBindingOverridesAsJson();
-			//PlayerPrefs.SetString(ConstantFixed.CONTROL_MAPPING_PREF_NAME, rebinds);
+			string rebinds = InputManager.Instance.PlayerActionInput.asset.SaveBindingOverridesAsJson();
+			PlayerPrefs.SetString(ConstantFixed.CONTROL_MAPPING_PREF_NAME, rebinds);
+		}
+
+		public override void Default_Inspector()
+		{
+			// Reset data.
+			PlayerPrefs.DeleteKey(ConstantFixed.CONTROL_MAPPING_PREF_NAME);
+
+			controlRebind.InputActionMap.RemoveAllBindingOverrides();
+			uiSelectionBaseList.ForEach(result => ((UISelectionSubmit_ControlRebind)result).RefreshUI());
+
+			base.Default_Inspector();
+			Debug.Log(" Default inspector!!!");
 		}
 
 		/// <summary>

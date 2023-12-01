@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 
 using Helper;
+using Lean.Localization;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
-using Lean.Localization;
 
 namespace Personal.UI
 {
@@ -16,32 +16,48 @@ namespace Personal.UI
 	{
 		[SerializeField] MenuUI waitingForInputMenu = null;
 		[SerializeField] List<string> cancelThroughStrList = null;
+		[SerializeField] List<string> ignoreThroughStrList = null;
 
-		public event Action OnRemapped;
+		public InputActionMap InputActionMap { get; private set; }
+
+		public event Action OnRebinded;
 
 		RebindingOperation rebindingOperation;
 
 		UISelectionSubmit_ControlRebind currentSelection;
 		InputAction inputAction;
+
 		List<string> overridePathList = new();
+		string previousOverride;
 
 		protected override void OnEnabled()
 		{
 			InputManager.OnDeviceDisconnected += OnDeviceDisconnected;
 		}
 
-		public void StartRebind(UISelectionSubmit_ControlRebind uiSelectionSubmit)
+		public void InitialSetup()
+		{
+			InputActionMap = InputManager.Instance.PlayerActionInput.asset.FindActionMap("Player");
+		}
+
+		/// <summary>
+		/// Start the rebind process.
+		/// </summary>
+		/// <param name="uiSelectionSubmit"></param>
+		/// <param name="compositeBindIndex">If it's not part of composite binding, you can safely ignore this.</param>
+		public void StartRebind(UISelectionSubmit_ControlRebind uiSelectionSubmit, int compositeBindIndex = -1)
 		{
 			currentSelection = uiSelectionSubmit;
 			inputAction = currentSelection.InputAction;
+			previousOverride = currentSelection.InputBinding.overridePath;
 
 			waitingForInputMenu.OpenWindow();
 			InputManager.Instance.DisableAllActionMap();
 
-			InitRebind();
+			InitRebind(compositeBindIndex);
 		}
 
-		void InitRebind()
+		void InitRebind(int compositeBindIndex = -1)
 		{
 			UISelectable.LockSelection(true);
 
@@ -74,10 +90,16 @@ namespace Personal.UI
 				.OnMatchWaitForAnother(0.1f)
 				.WithCancelingThrough("<Keyboard>/escape")                                  // This only allow for 1 cancel key. Other keys are checked within RebindComplete
 				.OnCancel((operation) => EndRebind(false))
-				.OnComplete((operation) => RebindComplete(operation))
-				.Start();
+				.OnComplete((operation) => RebindComplete(operation));
+
+			if (compositeBindIndex >= 0) rebindingOperation.WithTargetBinding(compositeBindIndex);
+			rebindingOperation.Start();
 		}
 
+		/// <summary>
+		/// Rebind is done.
+		/// </summary>
+		/// <param name="operation"></param>
 		void RebindComplete(RebindingOperation operation)
 		{
 			// This gets the pressed button input for the correct device index.
@@ -85,8 +107,16 @@ namespace Personal.UI
 			var binding = inputAction.bindings[bindingIndex];
 			var humanReadableType = InputControlPath.HumanReadableStringOptions.OmitDevice;
 
-			Debug.Log("binding.overridePath " + binding.overridePath);
+			Debug.Log("--------binding.overridePath " + binding.overridePath);
 
+			// Check for ignore bindings.
+			if (IsIgnoreThrough(binding))
+			{
+				InitRebind();
+				return;
+			}
+
+			// Check for cancel bindings.
 			bool isOverriden = false;
 			if (!IsCancellingThrough(binding))
 			{
@@ -94,22 +124,70 @@ namespace Personal.UI
 				isOverriden = true;
 			}
 
-			foreach (var b in inputAction.bindings)
+			//Debug.Log("--------------------------------");
+			//Debug.Log("EDITING BIND : " + binding.action + "  " + binding.path + "   " + binding.effectivePath + "   " + binding.overridePath);
+			//Debug.Log("--------------------------------");
+
+			for (int i = 0; i < InputActionMap.bindings.Count; i++)
 			{
-				Debug.Log("Binding  " + b);
+				InputBinding bind = InputActionMap.bindings[i];
+				if (bind == binding) continue;
+
+				string path = "";
+				if (string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath))
+				{
+					//Debug.Log("All binding : " + bind.action + "  " + bind.path + "   " + bind.effectivePath + "   " + bind.overridePath);
+					path = binding.path;
+					//Debug.Log("    TOP   Action " + InputActionMap.bindings[i] + "Index " + i + " Set to : " + path);
+
+				}
+				else if (bind.effectivePath.Equals(binding.effectivePath))
+				{
+					//Debug.Log("All binding : " + bind.action + "  " + bind.path + "   " + bind.effectivePath + "   " + bind.overridePath);
+					//Debug.Log("   " + bind.effectivePath + "  similar check  " + binding.effectivePath + "   " + bind.effectivePath.Equals(binding.effectivePath));
+					path = !bind.effectivePath.Equals(binding.effectivePath) ? bind.path : previousOverride;
+					//Debug.Log("    BTM   Action " + InputActionMap.bindings[i] + "Index " + i + " Set to : " + path);
+				}
+
+				if (!string.IsNullOrEmpty(path))
+				{
+					InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = path });
+					break;
+				}
 			}
+
+			//foreach (var b in inputAction.bindings)
+			//{
+			//	Debug.Log("Binding  " + b);
+			//}
 
 			EndRebind(isOverriden);
 		}
 
+		/// <summary>
+		/// Check ignore buttons.
+		/// </summary>
+		/// <param name="binding"></param>
+		/// <returns></returns>
+		bool IsIgnoreThrough(InputBinding binding)
+		{
+			string overridePath = GetTrueOverridePath(binding.overridePath);
+
+			foreach (var str in ignoreThroughStrList)
+			{
+				if (string.Equals(str, overridePath)) return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Check cancel button.
+		/// </summary>
+		/// <param name="binding"></param>
+		/// <returns></returns>
 		bool IsCancellingThrough(InputBinding binding)
 		{
-			// If it's not part of keyboard or gamepad, assume it's a joystick.
-			string overridePath = binding.overridePath;
-			if (!overridePath.Contains("Keyboard") && !overridePath.Contains("Gamepad"))
-			{
-				overridePath = "<Joystick>" + overridePath.Substring(overridePath.IndexOf('>') + 1);
-			}
+			string overridePath = GetTrueOverridePath(binding.overridePath);
 
 			foreach (var str in cancelThroughStrList)
 			{
@@ -118,6 +196,7 @@ namespace Personal.UI
 				// Reset the override.
 				for (int i = 0; i < overridePathList.Count; i++)
 				{
+					Debug.Log("   " + overridePathList[i]);
 					InputActionRebindingExtensions.ApplyBindingOverride(inputAction, i, new InputBinding { overridePath = overridePathList[i] });
 				}
 				return true;
@@ -126,6 +205,25 @@ namespace Personal.UI
 			return false;
 		}
 
+		/// <summary>
+		/// Get the override path with the type of controller.
+		/// </summary>
+		/// <param name="overridePath"></param>
+		/// <returns></returns>
+		string GetTrueOverridePath(string overridePath)
+		{
+			// If it's not part of keyboard or gamepad, assume it's a joystick.
+			if (!overridePath.Contains("Keyboard") && !overridePath.Contains("Gamepad"))
+			{
+				overridePath = "<Joystick>" + overridePath.Substring(overridePath.IndexOf('>') + 1);
+			}
+			return overridePath;
+		}
+
+		/// <summary>
+		/// End the rebind session.
+		/// </summary>
+		/// <param name="isOverriden"></param>
 		void EndRebind(bool isOverriden)
 		{
 			rebindingOperation.Dispose();
@@ -136,7 +234,8 @@ namespace Personal.UI
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 			UISelectable.LockSelection(false);
-			OnRemapped?.Invoke();
+
+			OnRebinded?.Invoke();
 
 			Debug.Log("REBIND End! " + isOverriden);
 		}

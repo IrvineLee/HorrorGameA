@@ -4,6 +4,7 @@ namespace Personal.InputProcessing
 {
 	/// <summary>
 	/// This will not apply for every generic/third-party joystick controller because the buttons aren't standardized/bound towards the same path.
+	/// Tested working on 8BitDo SN30pro+ (Joystick).
 	/// </summary>
 	public enum JoystickToGenericButtonIcon
 	{
