@@ -203,7 +203,13 @@ namespace Personal.UI
 			// If it's not part of keyboard or gamepad, assume it's a joystick.
 			if (!overridePath.Contains("Keyboard") && !overridePath.Contains("Gamepad"))
 			{
-				overridePath = "<Joystick>" + overridePath.Substring(overridePath.IndexOf('>') + 1);
+				string deviceStr = "<Gamepad>";
+				if (!overridePath.Contains("SwitchProController"))
+				{
+					deviceStr = "<Joystick>";
+				}
+
+				overridePath = deviceStr + overridePath.Substring(overridePath.IndexOf('>') + 1);
 			}
 			return overridePath;
 		}

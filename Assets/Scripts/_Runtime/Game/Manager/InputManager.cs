@@ -234,7 +234,7 @@ namespace Personal.Manager
 		/// <param name="inputDevice"></param>
 		void HandleInputDeviceCompare(InputDevice inputDevice)
 		{
-			// Return if it's the same.
+			// Return if it's the same device.
 			if (previousDevice == inputDevice) return;
 
 			// Get the input type.
@@ -245,7 +245,6 @@ namespace Personal.Manager
 			}
 
 			HandleCurrentGamepad(inputDevice.name);
-			HandleIconInitials();
 
 			if (InputDeviceType != inputType ||
 				(inputType != InputDeviceType.KeyboardMouse && previousDevice != inputDevice))
@@ -253,7 +252,7 @@ namespace Personal.Manager
 				InputDeviceType = inputType;
 				previousDevice = inputDevice;
 
-				OnDeviceIconChanged?.Invoke();
+				HandleIconInitials();
 				Debug.Log("DeviceType : " + (InputDeviceType == InputDeviceType.KeyboardMouse ? InputDeviceType.ToString() : inputDevice.name));
 			}
 		}
@@ -301,9 +300,8 @@ namespace Personal.Manager
 		void HandleIconInitials()
 		{
 			if (iconDisplayType == IconDisplayType.KeyboardMouse || iconDisplayType == IconDisplayType.Dualshock ||
-				iconDisplayType == IconDisplayType.Xbox || iconDisplayType == IconDisplayType.NintendoSwitch)
+			iconDisplayType == IconDisplayType.Xbox || iconDisplayType == IconDisplayType.NintendoSwitch)
 			{
-
 				SetInitialsAndHandleGamepadInteractInput(iconDisplayType.GetStringValue());
 				return;
 			}
@@ -341,6 +339,8 @@ namespace Personal.Manager
 			IconInitials = initials;
 			if (!initials.Contains(IconDisplayType.KeyboardMouse.GetStringValue())) GamepadIconInitials = initials;
 
+			OnDeviceIconChanged?.Invoke();
+
 			// You don't wanna swap the interact input when in mouse mode.
 			if (IsCurrentDeviceMouse)
 			{
@@ -349,7 +349,6 @@ namespace Personal.Manager
 			}
 			SwapInteractInput(gameData.IsXInteractButton);
 		}
-
 
 		/// <summary>
 		/// Used when changing the interact button between x/o and a/b.
