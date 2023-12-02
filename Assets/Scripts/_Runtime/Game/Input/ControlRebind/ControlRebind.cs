@@ -53,6 +53,12 @@ namespace Personal.UI
 			string overridePath = currentSelection.InputBinding.overridePath;
 			previousPath = string.IsNullOrEmpty(overridePath) ? currentSelection.InputBinding.path : overridePath;
 
+			if (compositeBindIndex >= 0)
+			{
+				var inputBind = inputAction.bindings[compositeBindIndex];
+				previousPath = string.IsNullOrEmpty(inputBind.overridePath) ? inputBind.path : inputBind.overridePath;
+			}
+
 			waitingForInputMenu.OpenWindow();
 			InputManager.Instance.DisableAllActionMap();
 
@@ -127,14 +133,14 @@ namespace Personal.UI
 			}
 
 			//Debug.Log("--------------------------------");
-			//Debug.Log("EDITING BIND : " + binding.action + "  " + binding.path + "   " + binding.effectivePath + "   " + binding.overridePath);
+			//Debug.Log("EDITING BIND : " + binding.action + "  " + binding.path + "   " + binding.effectivePath + "   " + binding.overridePath + " id " + binding.id);
 			//Debug.Log("--------------------------------");
 
 			// Handle swapping.
 			for (int i = 0; i < InputActionMap.bindings.Count; i++)
 			{
 				InputBinding bind = InputActionMap.bindings[i];
-				if (bind == binding) continue;
+				if (bind == binding && bind.id == binding.id) continue;
 
 				if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
 					bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
