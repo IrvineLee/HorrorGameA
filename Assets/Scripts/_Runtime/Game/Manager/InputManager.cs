@@ -244,16 +244,18 @@ namespace Personal.Manager
 				inputType = InputDeviceType.KeyboardMouse;
 			}
 
-			// Check for gamepads.
-			InputDeviceType = inputType;
-			previousDevice = inputDevice;
-
 			HandleCurrentGamepad(inputDevice.name);
 			HandleIconInitials();
 
-			if (InputDeviceType == inputType) return;
+			if (InputDeviceType != inputType ||
+				(inputType != InputDeviceType.KeyboardMouse && previousDevice != inputDevice))
+			{
+				InputDeviceType = inputType;
+				previousDevice = inputDevice;
 
-			Debug.Log("DeviceType : " + (InputDeviceType == InputDeviceType.KeyboardMouse ? InputDeviceType.ToString() : inputDevice.name));
+				OnDeviceIconChanged?.Invoke();
+				Debug.Log("DeviceType : " + (InputDeviceType == InputDeviceType.KeyboardMouse ? InputDeviceType.ToString() : inputDevice.name));
+			}
 		}
 
 		/// <summary>
@@ -298,27 +300,14 @@ namespace Personal.Manager
 		/// </summary>
 		void HandleIconInitials()
 		{
-			if (iconDisplayType == IconDisplayType.KeyboardMouse)
+			if (iconDisplayType == IconDisplayType.KeyboardMouse || iconDisplayType == IconDisplayType.Dualshock ||
+				iconDisplayType == IconDisplayType.Xbox || iconDisplayType == IconDisplayType.NintendoSwitch)
 			{
-				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.KeyboardMouse.GetStringValue());
-				return;
-			}
-			else if (iconDisplayType == IconDisplayType.Dualshock)
-			{
-				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.Dualshock.GetStringValue());
-				return;
-			}
-			else if (iconDisplayType == IconDisplayType.Xbox)
-			{
-				SetInitialsAndHandleGamepadInteractInput(IconDisplayType.Xbox.GetStringValue());
+
+				SetInitialsAndHandleGamepadInteractInput(iconDisplayType.GetStringValue());
 				return;
 			}
 
-			HandleAutoCheckIconInitials();
-		}
-
-		void HandleAutoCheckIconInitials()
-		{
 			// All condition-checks below are auto check...
 			if (InputDeviceType == InputDeviceType.KeyboardMouse)
 			{
@@ -331,6 +320,7 @@ namespace Personal.Manager
 			// Check for gamepad/joystick...
 			if (SetInitialsWhenGamepadContains("DualShock", IconDisplayType.Dualshock.GetStringValue())) return;
 			else if (SetInitialsWhenGamepadContains("DualSense", IconDisplayType.Dualshock.GetStringValue())) return;
+			else if (SetInitialsWhenGamepadContains("SwitchProController", IconDisplayType.NintendoSwitch.GetStringValue())) return;
 
 			// When all else fail, revert back to XBox layout.
 			SetInitialsAndHandleGamepadInteractInput(IconDisplayType.Xbox.GetStringValue());
@@ -350,8 +340,6 @@ namespace Personal.Manager
 		{
 			IconInitials = initials;
 			if (!initials.Contains(IconDisplayType.KeyboardMouse.GetStringValue())) GamepadIconInitials = initials;
-
-			OnDeviceIconChanged?.Invoke();
 
 			// You don't wanna swap the interact input when in mouse mode.
 			if (IsCurrentDeviceMouse)

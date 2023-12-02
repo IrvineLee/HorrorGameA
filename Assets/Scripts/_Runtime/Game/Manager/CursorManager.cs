@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 using PixelCrushers;
-using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;

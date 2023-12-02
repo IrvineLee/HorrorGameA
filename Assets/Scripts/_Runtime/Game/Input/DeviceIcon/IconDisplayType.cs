@@ -15,6 +15,9 @@ namespace Personal.InputProcessing
 
 		[StringValue("XBox_")]
 		Xbox,
+
+		[StringValue("NS_")]
+		NintendoSwitch,
 	}
 }
 
