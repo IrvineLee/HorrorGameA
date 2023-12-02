@@ -58,7 +58,7 @@ namespace Personal.UI
 			if (!gameObject.activeInHierarchy) return;
 
 			string displayStr = "";
-			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
+			InputDeviceType currentInputDeviceType = InputManager.Instance.InputDeviceType;
 
 			foreach (var binding in InputAction.bindings)
 			{
@@ -67,35 +67,31 @@ namespace Personal.UI
 				bindDevice = bindDevice.SearchBehindRemoveFrontOrEnd(']', true);
 
 				// Get the correct binding.
-				string currentInputDeviceStr = InputDeviceTypeSet.GetBindingGroupStr();
+				string groupInputDeviceStr = InputDeviceTypeSet.GetBindingGroupStr();
 
-				bool condition01 = inputDeviceType != InputDeviceType.Joystick && bindDevice.Equals(currentInputDeviceStr);
-				bool condition02 = (!bindDevice.Equals("Keyboard") && !bindDevice.Equals("Gamepad") && inputDeviceType == InputDeviceType.Joystick);
+				if (groupInputDeviceStr.Equals("Gamepad") && bindDevice.Equals(groupInputDeviceStr))
+				{
+					InputBinding = binding;
+					displayStr = GetDisplayString(binding, currentInputDeviceType);
 
-				if (!condition01 && !condition02) continue;
-
-				if (condition02) inputDeviceType = InputDeviceType.Joystick;
-
-				InputBinding = binding;
-				displayStr = GetDisplayString(binding, inputDeviceType);
-				break;
+					break;
+				}
 			}
 
 			IconInitials = InputManager.Instance.IconInitials;
 			if (InputDeviceTypeSet.InputDeviceType == InputDeviceType.Gamepad) IconInitials = InputManager.Instance.GamepadIconInitials;
 
 			NameTMP.text = string.IsNullOrEmpty(displayStr) ? NameTMP.text : (IconInitials + displayStr).SpriteEnclose();
-			//Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
+			Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
 		}
 
 		string GetDisplayString(InputBinding binding, InputDeviceType inputDeviceType)
 		{
 			// You might want to add more restrictions here for other possible naming.
 			var displayStringOption = InputBinding.DisplayStringOptions.DontUseShortDisplayNames;
-			string displayStr = !binding.isComposite ? binding.ToDisplayString(displayStringOption) : HandleCompositeBinding(InputAction);
+			string displayStr = !binding.isPartOfComposite ? binding.ToDisplayString(displayStringOption) : HandleCompositeBinding(InputAction);
 
-			bool isKeyboardOrGamepad = (inputDeviceType != InputDeviceType.Joystick && displayStr.Contains("Button"));
-			displayStr = isKeyboardOrGamepad ? displayStr.Replace(" ", "_") : displayStr.RemoveAllWhiteSpaces();
+			displayStr = displayStr.Contains("Button") ? displayStr.Replace(" ", "_") : displayStr.RemoveAllWhiteSpaces();
 
 			// If it's joystick, try parse it to button icon type.
 			if (inputDeviceType == InputDeviceType.Joystick &&

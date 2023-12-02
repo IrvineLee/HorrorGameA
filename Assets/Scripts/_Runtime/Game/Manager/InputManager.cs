@@ -244,14 +244,14 @@ namespace Personal.Manager
 				inputType = InputDeviceType.KeyboardMouse;
 			}
 
-			if (InputDeviceType == inputType) return;
-
 			// Check for gamepads.
 			InputDeviceType = inputType;
 			previousDevice = inputDevice;
 
 			HandleCurrentGamepad(inputDevice.name);
 			HandleIconInitials();
+
+			if (InputDeviceType == inputType) return;
 
 			Debug.Log("DeviceType : " + (InputDeviceType == InputDeviceType.KeyboardMouse ? InputDeviceType.ToString() : inputDevice.name));
 		}
