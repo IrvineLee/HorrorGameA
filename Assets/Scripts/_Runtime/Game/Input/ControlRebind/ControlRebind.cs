@@ -28,7 +28,7 @@ namespace Personal.UI
 		InputAction inputAction;
 
 		List<string> overridePathList = new();
-		string previousOverride;
+		string previousPath;
 
 		protected override void OnEnabled()
 		{
@@ -49,7 +49,9 @@ namespace Personal.UI
 		{
 			currentSelection = uiSelectionSubmit;
 			inputAction = currentSelection.InputAction;
-			previousOverride = currentSelection.InputBinding.overridePath;
+
+			string overridePath = currentSelection.InputBinding.overridePath;
+			previousPath = string.IsNullOrEmpty(overridePath) ? currentSelection.InputBinding.path : overridePath;
 
 			waitingForInputMenu.OpenWindow();
 			InputManager.Instance.DisableAllActionMap();
@@ -128,30 +130,16 @@ namespace Personal.UI
 			//Debug.Log("EDITING BIND : " + binding.action + "  " + binding.path + "   " + binding.effectivePath + "   " + binding.overridePath);
 			//Debug.Log("--------------------------------");
 
+			// Handle swapping.
 			for (int i = 0; i < InputActionMap.bindings.Count; i++)
 			{
 				InputBinding bind = InputActionMap.bindings[i];
 				if (bind == binding) continue;
 
-				string path = "";
-				if (string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath))
+				if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
+					bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
 				{
-					//Debug.Log("All binding : " + bind.action + "  " + bind.path + "   " + bind.effectivePath + "   " + bind.overridePath);
-					path = binding.path;
-					//Debug.Log("    TOP   Action " + InputActionMap.bindings[i] + "Index " + i + " Set to : " + path);
-
-				}
-				else if (bind.effectivePath.Equals(binding.effectivePath))
-				{
-					//Debug.Log("All binding : " + bind.action + "  " + bind.path + "   " + bind.effectivePath + "   " + bind.overridePath);
-					//Debug.Log("   " + bind.effectivePath + "  similar check  " + binding.effectivePath + "   " + bind.effectivePath.Equals(binding.effectivePath));
-					path = !bind.effectivePath.Equals(binding.effectivePath) ? bind.path : previousOverride;
-					//Debug.Log("    BTM   Action " + InputActionMap.bindings[i] + "Index " + i + " Set to : " + path);
-				}
-
-				if (!string.IsNullOrEmpty(path))
-				{
-					InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = path });
+					InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = previousPath });
 					break;
 				}
 			}

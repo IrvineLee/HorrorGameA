@@ -314,6 +314,11 @@ namespace Personal.Manager
 				return;
 			}
 
+			HandleAutoCheckIconInitials();
+		}
+
+		void HandleAutoCheckIconInitials()
+		{
 			// All condition-checks below are auto check...
 			if (InputDeviceType == InputDeviceType.KeyboardMouse)
 			{

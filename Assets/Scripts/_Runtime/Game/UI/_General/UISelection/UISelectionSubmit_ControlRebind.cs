@@ -69,7 +69,8 @@ namespace Personal.UI
 				// Get the correct binding.
 				string groupInputDeviceStr = InputDeviceTypeSet.GetBindingGroupStr();
 
-				if (groupInputDeviceStr.Equals("Gamepad") && bindDevice.Equals(groupInputDeviceStr))
+				if ((groupInputDeviceStr.Equals("Keyboard") || groupInputDeviceStr.Equals("Gamepad")) &&
+					bindDevice.Equals(groupInputDeviceStr))
 				{
 					InputBinding = binding;
 					displayStr = GetDisplayString(binding, currentInputDeviceType);
@@ -82,7 +83,7 @@ namespace Personal.UI
 			if (InputDeviceTypeSet.InputDeviceType == InputDeviceType.Gamepad) IconInitials = InputManager.Instance.GamepadIconInitials;
 
 			NameTMP.text = string.IsNullOrEmpty(displayStr) ? NameTMP.text : (IconInitials + displayStr).SpriteEnclose();
-			Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
+			//Debug.Log("displayStr " + (IconInitials + displayStr) + "    " + NameTMP.text);
 		}
 
 		string GetDisplayString(InputBinding binding, InputDeviceType inputDeviceType)
