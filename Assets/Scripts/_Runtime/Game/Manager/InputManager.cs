@@ -48,8 +48,9 @@ namespace Personal.Manager
 		public bool IsChangeIconOnly { get; private set; }
 
 		public string IconInitials { get; private set; }                    // This gets the currently active device (KeyboardMouse, DS4, XBox, etc)
+		public string KeyboardIconInitials { get; private set; } = "KM_";   // This always gets the keyboar icon initials, doesn't matter if active or not.
 		public string GamepadIconInitials { get; private set; }             // This always gets the gamepad/joystick icon initials, doesn't matter if active or not.
-		public Gamepad CurrentGamepad { get; private set; }
+		public Gamepad CurrentGamepad { get; private set; }                 // This is always the gamepad with rumbling function.
 
 		public static event Action OnAnyButtonPressed;
 		public static event Action<InputDevice> OnDeviceDisconnected;
@@ -238,13 +239,11 @@ namespace Personal.Manager
 			if (previousDevice == inputDevice) return;
 
 			// Get the input type.
-			InputDeviceType inputType = InputDeviceType.Gamepad;
+			InputDeviceType inputType = GetCurrentController(inputDevice.name);
 			if (inputDevice.name.ContainsIgnoreCase("Mouse") || inputDevice.name.ContainsIgnoreCase("Keyboard"))
 			{
 				inputType = InputDeviceType.KeyboardMouse;
 			}
-
-			HandleCurrentGamepad(inputDevice.name);
 
 			if (InputDeviceType != inputType ||
 				(inputType != InputDeviceType.KeyboardMouse && previousDevice != inputDevice))
@@ -258,15 +257,18 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// Make sure the active gamepad is registered.
-		/// Gamepad.current/Joystick.current does not always return the used, active gamepad.
+		/// Get the current gamepad/joystick.
 		/// </summary>
 		/// <param name="currentDeviceName"></param>
-		void HandleCurrentGamepad(string currentDeviceName)
+		InputDeviceType GetCurrentController(string currentDeviceName)
 		{
 			CurrentGamepad = null;
-			UpdateCurrentController(currentDeviceName, Gamepad.all);
-			UpdateCurrentController(currentDeviceName, Joystick.all);
+			currentControllerName = "";
+
+			InputDeviceType inputDeviceType = UpdateCurrentController(currentDeviceName, Gamepad.all);
+			if (inputDeviceType == InputDeviceType.None) inputDeviceType = UpdateCurrentController(currentDeviceName, Joystick.all);
+
+			return inputDeviceType;
 		}
 
 		/// <summary>
@@ -275,23 +277,24 @@ namespace Personal.Manager
 		/// <typeparam name="T"></typeparam>
 		/// <param name="currentDeviceName"></param>
 		/// <param name="array"></param>
-		void UpdateCurrentController<T>(string currentDeviceName, ReadOnlyArray<T> array) where T : InputDevice
+		InputDeviceType UpdateCurrentController<T>(string currentDeviceName, ReadOnlyArray<T> array) where T : InputDevice
 		{
 			foreach (var controller in array)
 			{
 				if (!controller.name.Contains(currentDeviceName)) continue;
 
+				currentControllerName = controller.name;
 				if (typeof(T) == typeof(Gamepad))
 				{
 					CurrentGamepad = (Gamepad)(object)controller;
+					return InputDeviceType.Gamepad;
 				}
 				else
 				{
-					InputDeviceType = InputDeviceType.Joystick;
+					return InputDeviceType.Joystick;
 				}
-				currentControllerName = controller.name;
-				break;
 			}
+			return InputDeviceType.None;
 		}
 
 		/// <summary>

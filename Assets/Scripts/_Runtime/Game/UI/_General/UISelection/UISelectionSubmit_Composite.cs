@@ -11,6 +11,7 @@ namespace Personal.UI
 
 		public override void Submit()
 		{
+			if (!IsSubmittable()) return;
 			controlRebind.StartRebind(this, index);
 		}
 

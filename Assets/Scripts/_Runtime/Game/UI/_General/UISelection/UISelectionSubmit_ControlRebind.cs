@@ -41,13 +41,26 @@ namespace Personal.UI
 
 		public override void Submit()
 		{
+			if (!IsSubmittable()) return;
 			controlRebind.StartRebind(this);
 		}
 
 		public void RefreshUI()
 		{
 			IconChange();
-			//Debug.Log("Refresh UI");
+		}
+
+		protected bool IsSubmittable()
+		{
+			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
+			InputDeviceType rebindDeviceType = InputDeviceTypeSet.InputDeviceType;
+
+			if ((inputDeviceType == InputDeviceType.KeyboardMouse && rebindDeviceType == InputDeviceType.KeyboardMouse) ||
+				(inputDeviceType != InputDeviceType.KeyboardMouse && rebindDeviceType == InputDeviceType.Gamepad))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -58,7 +71,7 @@ namespace Personal.UI
 			if (!gameObject.activeInHierarchy) return;
 
 			string displayStr = "";
-			InputDeviceType currentInputDeviceType = InputManager.Instance.InputDeviceType;
+			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
 
 			foreach (var binding in InputAction.bindings)
 			{
@@ -73,13 +86,13 @@ namespace Personal.UI
 					bindDevice.Equals(groupInputDeviceStr))
 				{
 					InputBinding = binding;
-					displayStr = GetDisplayString(binding, currentInputDeviceType);
+					displayStr = GetDisplayString(binding, inputDeviceType);
 
 					break;
 				}
 			}
 
-			IconInitials = InputManager.Instance.IconInitials;
+			IconInitials = InputManager.Instance.KeyboardIconInitials;
 			if (InputDeviceTypeSet.InputDeviceType == InputDeviceType.Gamepad) IconInitials = InputManager.Instance.GamepadIconInitials;
 
 			NameTMP.text = string.IsNullOrEmpty(displayStr) ? NameTMP.text : (IconInitials + displayStr).SpriteEnclose();

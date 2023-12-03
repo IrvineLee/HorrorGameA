@@ -98,7 +98,7 @@ namespace Personal.UI
 				.OnMatchWaitForAnother(0.1f)
 				.WithCancelingThrough("<Keyboard>/escape")                                  // This only allow for 1 cancel key. Other keys are checked within RebindComplete
 				.OnCancel((operation) => EndRebind(false))
-				.OnComplete((operation) => RebindComplete(operation));
+				.OnComplete((operation) => RebindComplete(operation, compositeBindIndex));
 
 			if (compositeBindIndex >= 0) rebindingOperation.WithTargetBinding(compositeBindIndex);
 			rebindingOperation.Start();
@@ -108,7 +108,7 @@ namespace Personal.UI
 		/// Rebind is done.
 		/// </summary>
 		/// <param name="operation"></param>
-		void RebindComplete(RebindingOperation operation)
+		void RebindComplete(RebindingOperation operation, int compositeBindIndex = -1)
 		{
 			// This gets the pressed button input for the correct device index.
 			int bindingIndex = inputAction.GetBindingIndexForControl(operation.selectedControl);
@@ -120,7 +120,8 @@ namespace Personal.UI
 			// Check for ignore bindings.
 			if (IsIgnoreThrough(binding))
 			{
-				InitRebind();
+				InputActionRebindingExtensions.ApplyBindingOverride(inputAction, bindingIndex, new InputBinding { overridePath = previousPath });
+				InitRebind(compositeBindIndex);
 				return;
 			}
 
@@ -132,19 +133,19 @@ namespace Personal.UI
 				isOverriden = true;
 			}
 
-			// Handle swapping.
-			for (int i = 0; i < InputActionMap.bindings.Count; i++)
-			{
-				InputBinding bind = InputActionMap.bindings[i];
-				if (bind.id == binding.id) continue;
+			//// Handle swapping.
+			//for (int i = 0; i < InputActionMap.bindings.Count; i++)
+			//{
+			//	InputBinding bind = InputActionMap.bindings[i];
+			//	if (bind.id == binding.id) continue;
 
-				if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
-					bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
-				{
-					InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = previousPath });
-					break;
-				}
-			}
+			//	if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
+			//		bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
+			//	{
+			//		InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = previousPath });
+			//		break;
+			//	}
+			//}
 
 			EndRebind(isOverriden);
 		}
@@ -215,8 +216,12 @@ namespace Personal.UI
 		{
 			rebindingOperation.Dispose();
 
+			InputDeviceType inputDeviceType = InputManager.Instance.InputDeviceType;
+			InputDeviceType rebindDeviceType = currentSelection.InputDeviceTypeSet.InputDeviceType;
+
 			if (isOverriden ||
-				(currentSelection.InputDeviceTypeSet.InputDeviceType == InputManager.Instance.InputDeviceType))
+				(rebindDeviceType == inputDeviceType) ||
+				(rebindDeviceType == InputDeviceType.Gamepad && inputDeviceType == InputDeviceType.Joystick))
 			{
 				waitingForInputMenu.CloseWindow();
 			}
