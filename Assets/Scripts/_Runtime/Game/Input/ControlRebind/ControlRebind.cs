@@ -131,21 +131,22 @@ namespace Personal.UI
 			{
 				currentSelection.NameTMP.text = InputControlPath.ToHumanReadableString(binding.effectivePath, humanReadableType);
 				isOverriden = true;
+
+				// Handle swapping.
+				for (int i = 0; i < InputActionMap.bindings.Count; i++)
+				{
+					InputBinding bind = InputActionMap.bindings[i];
+					if (bind.id == binding.id) continue;
+
+					if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
+						bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
+					{
+						Debug.Log("--------Swapped : " + bind.action + " Path : " + bind.path + " Eff Path : " + bind.effectivePath + " Over Path : " + bind.overridePath);
+						InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = previousPath });
+						break;
+					}
+				}
 			}
-
-			//// Handle swapping.
-			//for (int i = 0; i < InputActionMap.bindings.Count; i++)
-			//{
-			//	InputBinding bind = InputActionMap.bindings[i];
-			//	if (bind.id == binding.id) continue;
-
-			//	if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
-			//		bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
-			//	{
-			//		InputActionRebindingExtensions.ApplyBindingOverride(InputActionMap, i, new InputBinding { overridePath = previousPath });
-			//		break;
-			//	}
-			//}
 
 			EndRebind(isOverriden);
 		}
