@@ -13,9 +13,14 @@ namespace Personal.UI.Option
 			currentSelection?.Submit();
 		}
 
-		void IUIControlInput.Next(bool isFlag)
+		void IUIControlInput.NextShoulder(bool isFlag)
 		{
-			UIManager.Instance.OptionUI.NextTab(isFlag);
+			UIManager.Instance.OptionUI.NextTopTab(isFlag);
+		}
+
+		void IUIControlInput.NextTrigger(bool isFlag)
+		{
+			UIManager.Instance.OptionUI.NextBottomTab(isFlag);
 		}
 
 		void IUIControlInput.Default()

@@ -26,7 +26,7 @@ namespace Personal.UI.Option
 
 			ResetDataToTarget();
 
-			uiSelectionBaseList = GetComponentsInChildren<UISelectionBase>()?.ToList();
+			uiSelectionBaseList = GetComponentsInChildren<UISelectionBase>(true)?.ToList();
 			uiSelectionBaseList.ForEach(result => result.Initialize());
 		}
 

@@ -115,7 +115,7 @@ namespace Personal.UI
 			var binding = inputAction.bindings[bindingIndex];
 			var humanReadableType = InputControlPath.HumanReadableStringOptions.OmitDevice;
 
-			Debug.Log("--------binding.overridePath " + binding.overridePath);
+			Debug.Log("--------Action : " + binding.action + " Path : " + binding.path + " Eff Path : " + binding.effectivePath + " Over Path : " + binding.overridePath);
 
 			// Check for ignore bindings.
 			if (IsIgnoreThrough(binding))
@@ -132,15 +132,11 @@ namespace Personal.UI
 				isOverriden = true;
 			}
 
-			//Debug.Log("--------------------------------");
-			//Debug.Log("EDITING BIND : " + binding.action + "  " + binding.path + "   " + binding.effectivePath + "   " + binding.overridePath + " id " + binding.id);
-			//Debug.Log("--------------------------------");
-
 			// Handle swapping.
 			for (int i = 0; i < InputActionMap.bindings.Count; i++)
 			{
 				InputBinding bind = InputActionMap.bindings[i];
-				if (bind == binding && bind.id == binding.id) continue;
+				if (bind.id == binding.id) continue;
 
 				if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
 					bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
@@ -149,11 +145,6 @@ namespace Personal.UI
 					break;
 				}
 			}
-
-			//foreach (var b in inputAction.bindings)
-			//{
-			//	Debug.Log("Binding  " + b);
-			//}
 
 			EndRebind(isOverriden);
 		}
@@ -190,7 +181,6 @@ namespace Personal.UI
 				// Reset the override.
 				for (int i = 0; i < overridePathList.Count; i++)
 				{
-					Debug.Log("   " + overridePathList[i]);
 					InputActionRebindingExtensions.ApplyBindingOverride(inputAction, i, new InputBinding { overridePath = overridePathList[i] });
 				}
 				return true;
@@ -210,10 +200,7 @@ namespace Personal.UI
 			if (!overridePath.Contains("Keyboard") && !overridePath.Contains("Gamepad"))
 			{
 				string deviceStr = "<Gamepad>";
-				if (!overridePath.Contains("SwitchProController"))
-				{
-					deviceStr = "<Joystick>";
-				}
+				if (!overridePath.Contains("SwitchProController")) deviceStr = "<Joystick>";
 
 				overridePath = deviceStr + overridePath.Substring(overridePath.IndexOf('>') + 1);
 			}
@@ -228,9 +215,11 @@ namespace Personal.UI
 		{
 			rebindingOperation.Dispose();
 
-			// If the user cancelled the process(ESC), UIManager will handle the closing of window.
-			// If rebind is successful or using gamepad, close the window here. (ESC key also closes other window)
-			if (isOverriden || !InputManager.Instance.IsCurrentDeviceMouse) waitingForInputMenu.CloseWindow();
+			if (isOverriden ||
+				(currentSelection.InputDeviceTypeSet.InputDeviceType == InputManager.Instance.InputDeviceType))
+			{
+				waitingForInputMenu.CloseWindow();
+			}
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);
 			UISelectable.LockSelection(false);

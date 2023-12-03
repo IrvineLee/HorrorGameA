@@ -11,7 +11,8 @@ namespace Personal.InputProcessing
 		/// This handles left and right. True is right.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		void Next(bool isFlag) { }
+		void NextShoulder(bool isFlag) { }
+		void NextTrigger(bool isFlag) { }
 
 		void Submit() { }                       // Submit and Cancel are interchangable(Button South and Button East)
 		void Cancel() { }                       // Submit and Cancel are interchangable(Button South and Button East)

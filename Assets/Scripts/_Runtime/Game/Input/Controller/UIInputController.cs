@@ -14,7 +14,8 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnMoveEvent += MoveInput;
 			inputReaderDefinition.OnLookEvent += LookInput;
 
-			inputReaderDefinition.OnTabSwitchEvent += TabSwitch;
+			inputReaderDefinition.OnTopTabSwitchEvent += TopTabSwitch;
+			inputReaderDefinition.OnBottomTabSwitchEvent += BottomTabSwitch;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
 			inputReaderDefinition.OnCancelEvent += CloseMenu;
@@ -90,9 +91,20 @@ namespace Personal.InputProcessing
 		/// ---------------------------- Option events -----------------------------
 		/// ------------------------------------------------------------------------
 
-		void TabSwitch(bool isNext)
+		/// <summary>
+		/// This handles the top tabs in the option menu.
+		/// </summary>
+		void TopTabSwitch(bool isNext)
 		{
-			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.Next(isNext));
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.NextShoulder(isNext));
+		}
+
+		/// <summary>
+		/// This handles the bottom tabs in the option menu, if applicable.
+		/// </summary>
+		void BottomTabSwitch(bool isNext)
+		{
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.NextTrigger(isNext));
 		}
 
 		void DefaultOptionMenu()
@@ -107,7 +119,8 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnMoveEvent -= MoveInput;
 			inputReaderDefinition.OnLookEvent -= LookInput;
 
-			inputReaderDefinition.OnTabSwitchEvent -= TabSwitch;
+			inputReaderDefinition.OnTopTabSwitchEvent -= TopTabSwitch;
+			inputReaderDefinition.OnBottomTabSwitchEvent -= BottomTabSwitch;
 
 			inputReaderDefinition.OnInteractEvent -= InteractInput;
 			inputReaderDefinition.OnCancelEvent -= CloseMenu;

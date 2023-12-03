@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using static Personal.UI.Window.WindowEnum;
@@ -25,14 +26,17 @@ namespace Personal.UI.Option
 		public class Tab
 		{
 			[SerializeField] Button selectButton = null;
+			[SerializeField] GameObject displayGameObject = null;
 			[SerializeField] OptionMenuUI optionMenuUI = null;
 
 			public Button SelectButton { get => selectButton; }
+			public GameObject DisplayGameObject { get => displayGameObject; }
 			public OptionMenuUI OptionMenuUI { get => optionMenuUI; }
 		}
 
 		[SerializeField] MenuTab startMenuTab = MenuTab.Game;
 		[SerializeField] List<Tab> tabList = new();
+		[SerializeField] [ReadOnly] List<Tab> bottomTabList = new();
 
 		public IReadOnlyDictionary<MenuTab, Tab> TabDictionary { get => tabDictionary; }
 
@@ -40,6 +44,7 @@ namespace Personal.UI.Option
 
 		MenuTab currentMenuTab;
 		int currentMenuIndex;
+		int currentBottomMenuIndex;
 
 		public override void InitialSetup()
 		{
@@ -86,15 +91,49 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
+		/// Update the active bottom tab, if applicable.
+		/// </summary>
+		/// <param name="bottomTabList"></param>
+		public void UpdateBottomTab(List<Tab> bottomTabList)
+		{
+			currentBottomMenuIndex = 0;
+			this.bottomTabList = null;
+
+			if (bottomTabList.Count <= 0) return;
+			this.bottomTabList = bottomTabList;
+		}
+
+		/// <summary>
 		/// Open next/previous tab. 
 		/// </summary>
 		/// <param name="menuTab"></param>
-		public void NextTab(bool isNextTab)
+		public void NextTopTab(bool isNextTab)
+		{
+			ToNextTab(isNextTab, tabList, ref currentMenuIndex);
+		}
+
+		/// <summary>
+		/// Open next/previous bottom tab, if applicable. 
+		/// </summary>
+		/// <param name="isNextTab"></param>
+		public void NextBottomTab(bool isNextTab)
+		{
+			if (bottomTabList == null || bottomTabList.Count <= 0) return;
+			ToNextTab(isNextTab, bottomTabList, ref currentBottomMenuIndex);
+		}
+
+		/// <summary>
+		/// Handle the switching of tabs.
+		/// </summary>
+		/// <param name="isNextTab"></param>
+		/// <param name="selectedTabList"></param>
+		/// <param name="currentMenuIndex"></param>
+		void ToNextTab(bool isNextTab, List<Tab> selectedTabList, ref int currentMenuIndex)
 		{
 			int index = isNextTab ? currentMenuIndex + 1 : currentMenuIndex - 1;
-			if (index < 0 || index > tabList.Count - 1) return;
+			if (index < 0 || index > selectedTabList.Count - 1) return;
 
-			tabList[index].SelectButton.onClick.Invoke();
+			selectedTabList[index].SelectButton.onClick.Invoke();
 			currentMenuIndex = index;
 		}
 

@@ -48,7 +48,8 @@ namespace Personal.Definition
 		public event Action OnInventoryUIPressedEvent;
 		public event Action OnMenuUIPressedEvent;
 		public event Action OnMenuUIDefaultPressedEvent;
-		public event Action<bool> OnTabSwitchEvent;
+		public event Action<bool> OnTopTabSwitchEvent;
+		public event Action<bool> OnBottomTabSwitchEvent;
 
 		public event Action OnMenuUICancelledEvent;
 
@@ -183,9 +184,14 @@ namespace Personal.Definition
 			SetButtonEvent(context.canceled, OnDialogueUIFastForwardPressed_EndEvent);
 		}
 
-		void PlayerActionInput.IUIActions.OnTabSwitch(InputAction.CallbackContext context)
+		void PlayerActionInput.IUIActions.OnTopTabSwitch(InputAction.CallbackContext context)
 		{
-			SetButtonEvent(context.started, () => OnTabSwitchEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
+			SetButtonEvent(context.started, () => OnTopTabSwitchEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
+		}
+
+		void PlayerActionInput.IUIActions.OnBottomTabSwitch(InputAction.CallbackContext context)
+		{
+			SetButtonEvent(context.started, () => OnBottomTabSwitchEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
 		}
 
 		void PlayerActionInput.IUIActions.OnCancelOptionMenu(InputAction.CallbackContext context)
