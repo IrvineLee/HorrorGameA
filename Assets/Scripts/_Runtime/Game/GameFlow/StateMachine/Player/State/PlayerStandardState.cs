@@ -37,7 +37,9 @@ namespace Personal.FSM.Character
 			playerFSM.SetLookAtTarget(interactable.GetComponentInChildren<ActorController>()?.Head);
 
 			CursorManager.Instance.SetCenterCrosshairToDefault();
-			interactable.HandleInteraction(playerFSM).Forget();
+
+			ifsmHandler.OnBegin(typeof(PlayerIdleState));
+			interactable.HandleInteraction(playerFSM, ifsmHandler.OnExit).Forget();
 		}
 
 		protected override void HandleOffInteractable()

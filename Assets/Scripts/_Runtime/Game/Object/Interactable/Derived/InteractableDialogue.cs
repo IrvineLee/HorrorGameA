@@ -32,8 +32,6 @@ namespace Personal.InteractiveObject
 		/// <summary>
 		/// Handle dialogue talking with interactables.
 		/// </summary>
-		/// <param name="ifsmHandler"></param>
-		/// <returns></returns>
 		async UniTask HandleDialogue()
 		{
 			dialogueSystemTrigger.OnUse(transform);

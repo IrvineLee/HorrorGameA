@@ -12,6 +12,7 @@ namespace Personal.FSM.Character
 		protected PlayerStateMachine playerFSM;
 
 		protected Camera cam;
+		protected IFSMHandler ifsmHandler;
 
 		float radius = ConstantFixed.PLAYER_LOOK_SPHERECAST_RADIUS;
 		float length = ConstantFixed.PLAYER_LOOK_SPHERECAST_LENGTH;
@@ -26,6 +27,7 @@ namespace Personal.FSM.Character
 			playerFSM = (PlayerStateMachine)stateMachine;
 
 			cam = StageManager.Instance.CameraHandler.MainCamera;
+			ifsmHandler = playerFSM.GetComponent<IFSMHandler>();
 		}
 
 		public override void OnUpdate()

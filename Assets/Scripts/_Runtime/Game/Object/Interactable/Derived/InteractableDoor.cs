@@ -6,6 +6,7 @@ using Personal.System.Handler;
 using Helper;
 using Personal.Character.Player;
 using Personal.Manager;
+using PixelCrushers.DialogueSystem;
 
 namespace Personal.InteractiveObject
 {
@@ -32,10 +33,14 @@ namespace Personal.InteractiveObject
 			playerInventory = StageManager.Instance.PlayerController?.Inventory;
 		}
 
-		protected override UniTask HandleInteraction()
+		protected override async UniTask HandleInteraction()
 		{
-			if (!IsAbleToOpenDoor()) return UniTask.CompletedTask;
-			if (!runCR.IsDone) return UniTask.CompletedTask;
+			if (!IsAbleToOpenDoor())
+			{
+				await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
+				return;
+			}
+			if (!runCR.IsDone) return;
 
 			isInteractionEnded = true;
 
@@ -63,7 +68,7 @@ namespace Personal.InteractiveObject
 				}
 			});
 
-			return UniTask.CompletedTask;
+			return;
 		}
 
 		protected virtual bool IsAbleToOpenDoor() { return true; }

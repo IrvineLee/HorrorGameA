@@ -246,7 +246,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactStr: Interact
   cancelStr: Cancel
-  dialogueResponseListHandler: {fileID: 0}
 --- !u!114 &8957667859534474821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,11 +452,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -473,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634909728, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203667756634917154, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -627,7 +626,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic Standard Dialogue UI
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3826387579570392773, guid: 83c8a9391c7c62b459b1cb912415417c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

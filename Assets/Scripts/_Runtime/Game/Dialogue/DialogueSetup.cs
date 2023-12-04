@@ -6,6 +6,7 @@ using PixelCrushers.DialogueSystem;
 using Helper;
 using Personal.Manager;
 using Personal.GameState;
+using Personal.InputProcessing;
 using UIButtonKeyTrigger = PixelCrushers.UIButtonKeyTrigger;
 
 namespace Personal.Dialogue
@@ -14,8 +15,6 @@ namespace Personal.Dialogue
 	{
 		[SerializeField] string interactStr = "Interact";
 		[SerializeField] string cancelStr = "Cancel";
-
-		[SerializeField] DialogueResponseListHandler dialogueResponseListHandler = null;
 
 		public DialogueResponseListHandler DialogueResponseListHandler { get => dialogueResponseListHandler; }
 		public bool IsWaitingResponse { get; private set; }
@@ -27,13 +26,22 @@ namespace Personal.Dialogue
 		StandardUISubtitlePanel[] subtitlePanelArray;
 		UIButtonKeyTrigger uiButtonKeyTrigger;
 
+		DialogueResponseListHandler dialogueResponseListHandler = null;
+		ActionMapType previousActionMap;
+
 		protected override void EarlyInitialize()
 		{
+			dialogueResponseListHandler = GetComponentInChildren<DialogueResponseListHandler>(true);
+			uiButtonKeyTrigger = GetComponentInChildren<UIButtonKeyTrigger>(true);
+
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;
 
 			StandardDialogueUI standardDialogueUI = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true);
 			standardUIMenuPanel = standardDialogueUI.conversationUIElements.defaultMenuPanel;
+
+			InitMainPanel(standardDialogueUI);
+			InitializeResponseWindow();
 
 			// Continue button.
 			SubtitleSetting = dialogueSystemController.displaySettings.subtitleSettings;
@@ -42,13 +50,8 @@ namespace Personal.Dialogue
 			// Subtitle panels.
 			subtitlePanelArray = ((StandardUIDialogueControls)standardDialogueUI.dialogueControls).subtitlePanels;
 
-			dialogueResponseListHandler = GetComponentInChildren<DialogueResponseListHandler>(true);
-			uiButtonKeyTrigger = GetComponentInChildren<UIButtonKeyTrigger>(true);
-
 			var playerActionInput = InputManager.Instance.PlayerActionInput;
 			InputDeviceManager.RegisterInputAction("Interact", playerActionInput.Player.Interact);
-
-			InitializeResponseWindow();
 		}
 
 		/// <summary>
@@ -90,6 +93,22 @@ namespace Personal.Dialogue
 		public void SetToAutoConversation()
 		{
 
+		}
+
+		void InitMainPanel(StandardDialogueUI standardDialogueUI)
+		{
+			UIPanel mainPanel = standardDialogueUI.conversationUIElements.mainPanel;
+			mainPanel.onOpen.AddListener(() =>
+			{
+				previousActionMap = InputManager.Instance.CurrentActionMapType;
+				InputManager.Instance.EnableActionMap(ActionMapType.UI);
+			});
+
+			mainPanel.onClose.AddListener(() =>
+			{
+				if (previousActionMap == ActionMapType.None) return;
+				InputManager.Instance?.EnableActionMap(previousActionMap);
+			});
 		}
 
 		/// <summary>
