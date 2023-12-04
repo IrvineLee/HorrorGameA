@@ -6,19 +6,15 @@ namespace Personal.UI
 {
 	public class ButtonInteractOption : ButtonInteractBase
 	{
-		UISelectable uiSelectable;
-
 		public override void InitialSetup()
 		{
 			base.InitialSetup();
-
-			uiSelectable = GetComponentInChildren<UISelectable>();
 			button.onClick.AddListener(Option);
 		}
 
 		void Option()
 		{
-			UISelectable.AppearSelected(uiSelectable);
+			UISelectable.CurrentAppearSelected();
 			UIManager.Instance.OptionUI.OpenWindow();
 		}
 

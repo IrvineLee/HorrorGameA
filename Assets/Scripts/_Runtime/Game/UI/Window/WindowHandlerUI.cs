@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -34,8 +35,11 @@ namespace Personal.UI.Window
 			if (!windowUIDictionary.TryGetValue(windowUIType, out WindowMenuUI windowMenuUI))
 			{
 				GameObject go = await AddressableHelper.Spawn(entity.windowDisplayType.GetStringValue(), Vector3.zero, transform);
-				windowMenuUI = go.GetComponentInChildren<WindowMenuUI>();
 
+				var windowSelectionAnimator = go.GetComponentInChildren<WindowSelectionUIAnimator>(true);
+				windowSelectionAnimator.InitialSetup();
+
+				windowMenuUI = go.GetComponentInChildren<WindowMenuUI>();
 				windowMenuUI.InitialSetup();
 				windowMenuUI.SetSize(new Vector2(entity.widthRatio * Screen.width, entity.heightRatio * Screen.height));
 
@@ -57,8 +61,14 @@ namespace Personal.UI.Window
 			string title = entity.title_EN;
 			string description = entity.description_EN;
 
-			GameObject go = await AddressableHelper.Spawn(entity.buttonDisplayType.GetStringValue(), Vector3.zero, windowMenuUI.transform);
-			WindowButtonPress buttonPress = go.GetComponentInChildren<WindowButtonPress>();
+			GameObject buttonGO = await AddressableHelper.Spawn(entity.buttonDisplayType.GetStringValue(), Vector3.zero, windowMenuUI.transform);
+			WindowButtonPress buttonPress = buttonGO.GetComponentInChildren<WindowButtonPress>();
+
+			var selectionList = buttonGO.GetComponentsInChildren<WindowSelectionUIAnimator>(true).ToList();
+			foreach (var selection in selectionList)
+			{
+				selection.InitialSetup();
+			}
 
 			if (buttonDisplayType == ButtonDisplayType.One_Ok)
 			{
@@ -73,6 +83,7 @@ namespace Personal.UI.Window
 				windowMenuUI.SetThreeButton(buttonPress, title, description, action01, action02, action03);
 			}
 
+			buttonGO.SetActive(true);
 			ActivateWindow(windowMenuUI);
 		}
 

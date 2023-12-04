@@ -190,6 +190,8 @@ namespace Personal.UI.Option
 		{
 			if (!tabDictionary.TryGetValue(currentMenuTab, out Tab tab)) return;
 
+			UISelectable.CurrentAppearSelected();
+
 			Action yesAction = () => tab.OptionMenuUI.Default_Inspector();
 			UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction).Forget();
 		}

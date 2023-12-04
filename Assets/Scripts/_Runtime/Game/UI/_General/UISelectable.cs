@@ -29,7 +29,9 @@ namespace Personal.UI
 		protected List<GameObject> ignoredGOList = new();
 
 		static bool isLockSelection;
+
 		bool isAppearSelected;
+		static List<UISelectable> appearSelectedList = new();
 
 		void Awake()
 		{
@@ -67,7 +69,14 @@ namespace Personal.UI
 		/// Since technically there can only be 1 selected gameobject, call this to display it as selected (UI).
 		/// The real selection can be somewhere else.
 		/// </summary>
-		public static void AppearSelected(UISelectable uiSelectable) { if (uiSelectable) uiSelectable.isAppearSelected = true; }
+		public static void CurrentAppearSelected()
+		{
+			var uiSelectable = EventSystem.current.currentSelectedGameObject?.GetComponentInChildren<UISelectable>();
+			if (!uiSelectable) return;
+
+			uiSelectable.isAppearSelected = true;
+			appearSelectedList.Add(uiSelectable);
+		}
 
 		public void AddIgnoredSelection(List<GameObject> goList)
 		{
@@ -79,6 +88,14 @@ namespace Personal.UI
 			if (isLockSelection) return;
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
 			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
+
+			// Remove the last appeared selected when mouse-over, so it does not remain on when mouse-overing other selectables.
+			if (appearSelectedList.Count > 0)
+			{
+				int lastIndex = appearSelectedList.Count - 1;
+				appearSelectedList[lastIndex].isAppearSelected = false;
+				appearSelectedList.RemoveAt(lastIndex);
+			}
 
 			eventData.selectedObject = gameObject;
 		}
@@ -104,22 +121,24 @@ namespace Personal.UI
 			if (isLockSelection || StageManager.Instance.IsBusy) return;
 
 			// Wait for end of frame to check whether the next active selection is within the ignored list.
-			CoroutineHelper.WaitEndOfFrame(() =>
+			CoroutineHelper.WaitEndOfFrame(Deselect);
+		}
+
+		void Deselect()
+		{
+			if (isAppearSelected) return;
+
+			foreach (var ignoredGO in ignoredGOList)
 			{
-				if (isAppearSelected) return;
-
-				foreach (var ignoredGO in ignoredGOList)
+				if (EventSystem.current.currentSelectedGameObject == ignoredGO)
 				{
-					if (EventSystem.current.currentSelectedGameObject == ignoredGO)
-					{
-						EventSystem.current.SetSelectedGameObject(gameObject);
-						return;
-					}
+					EventSystem.current.SetSelectedGameObject(gameObject);
+					return;
 				}
+			}
 
-				windowSelectionUIAnimator?.Run(false);
-				SetSelectableColor(false);
-			});
+			windowSelectionUIAnimator?.Run(false);
+			SetSelectableColor(false);
 		}
 
 		void SetSelectableColor(bool isSelectedColor)

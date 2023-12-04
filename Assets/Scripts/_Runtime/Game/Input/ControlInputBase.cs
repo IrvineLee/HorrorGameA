@@ -8,6 +8,10 @@ namespace Personal.InputProcessing
 	{
 		public static ControlInputBase ActiveControlInput { get; protected set; }
 
+		protected static bool isStop;
+
+		public static void StopControl(bool isFlag) { isStop = isFlag; }
+
 		protected override void OnEnabled()
 		{
 			ActiveControlInput = this;

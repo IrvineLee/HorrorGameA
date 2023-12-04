@@ -18,6 +18,8 @@ namespace Personal.InputProcessing
 
 		void Update()
 		{
+			if (isStop) return;
+
 			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
 
 			if (move == Vector3.zero)
