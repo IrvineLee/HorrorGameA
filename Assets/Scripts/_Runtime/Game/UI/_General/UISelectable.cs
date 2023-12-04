@@ -29,6 +29,7 @@ namespace Personal.UI
 		protected List<GameObject> ignoredGOList = new();
 
 		static bool isLockSelection;
+		bool isAppearSelected;
 
 		void Awake()
 		{
@@ -62,6 +63,12 @@ namespace Personal.UI
 		/// <param name="isFlag"></param>
 		public static void LockSelection(bool isFlag) { isLockSelection = isFlag; }
 
+		/// <summary>
+		/// Since technically there can only be 1 selected gameobject, call this to display it as selected (UI).
+		/// The real selection can be somewhere else.
+		/// </summary>
+		public static void AppearSelected(UISelectable uiSelectable) { if (uiSelectable) uiSelectable.isAppearSelected = true; }
+
 		public void AddIgnoredSelection(List<GameObject> goList)
 		{
 			ignoredGOList.AddRange(goList);
@@ -79,6 +86,9 @@ namespace Personal.UI
 		void ISelectHandler.OnSelect(BaseEventData eventData)
 		{
 			if (isLockSelection) return;
+
+			isAppearSelected = false;
+
 			windowSelectionUIAnimator?.Run(true);
 			SetSelectableColor(true);
 
@@ -96,6 +106,8 @@ namespace Personal.UI
 			// Wait for end of frame to check whether the next active selection is within the ignored list.
 			CoroutineHelper.WaitEndOfFrame(() =>
 			{
+				if (isAppearSelected) return;
+
 				foreach (var ignoredGO in ignoredGOList)
 				{
 					if (EventSystem.current.currentSelectedGameObject == ignoredGO)

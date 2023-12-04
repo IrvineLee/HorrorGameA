@@ -31,7 +31,7 @@ namespace Personal.InputProcessing
 		}
 
 		/// <summary>
-		/// Update the current selection.
+		/// Update the current selection. Set the active index in the selectableList based on the gameobject.
 		/// </summary>
 		/// <param name="go"></param>
 		public override void UpdateCurrentSelection(GameObject go)

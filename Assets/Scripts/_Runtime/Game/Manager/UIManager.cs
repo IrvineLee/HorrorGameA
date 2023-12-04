@@ -51,6 +51,9 @@ namespace Personal.Manager
 
 		public void CloseWindowStack()
 		{
+			// You want the user to select the button.
+			if (ActiveInterfaceType == UIInterfaceType.ExtraWindow) return;
+
 			// Dialogue will close by itself and pop from the stack.
 			if (ActiveInterfaceType == UIInterfaceType.Dialogue) return;
 
