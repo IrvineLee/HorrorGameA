@@ -33,10 +33,6 @@ namespace Personal.UI.Option
 			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 
 			UIManager.Instance.OptionUI.UpdateBottomTab(bottomTabList);
-			if (bottomTabList.Count <= 0) return;
-
-			// This makes sure the first bottom tab is always selected.
-			bottomTabList[0].SelectButton.onClick?.Invoke();
 		}
 
 		public override void InitialSetup()

@@ -201,7 +201,7 @@ namespace Personal.Manager
 
 				if (isFastSaveLoad)
 				{
-					data = JsonUtility.FromJson<T>(File.ReadAllText(newPath));
+					data = !File.Exists(newPath) ? default : JsonUtility.FromJson<T>(File.ReadAllText(newPath));
 				}
 				else
 				{

@@ -50,7 +50,6 @@ namespace Personal.UI.Option
 			uiSelectionBaseList.ForEach(result => ((UISelectionSubmit_ControlRebind)result).RefreshUI());
 
 			base.Default_Inspector();
-			Debug.Log(" Default inspector!!!");
 		}
 
 		/// <summary>
@@ -62,7 +61,6 @@ namespace Personal.UI.Option
 			if (string.IsNullOrEmpty(rebinds)) return;
 
 			InputManager.Instance.PlayerActionInput.asset.LoadBindingOverridesFromJson(rebinds);
-			Debug.Log(" LOADED!!!");
 		}
 	}
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using Sirenix.OdinInspector;
@@ -20,18 +19,6 @@ namespace Personal.UI.Option
 			Graphic,
 			Audio,
 			Control,
-		}
-
-		[Serializable]
-		public class Tab
-		{
-			[SerializeField] Button selectButton = null;
-			[SerializeField] GameObject displayGameObject = null;
-			[SerializeField] OptionMenuUI optionMenuUI = null;
-
-			public Button SelectButton { get => selectButton; }
-			public GameObject DisplayGameObject { get => displayGameObject; }
-			public OptionMenuUI OptionMenuUI { get => optionMenuUI; }
 		}
 
 		[SerializeField] MenuTab startMenuTab = MenuTab.Game;
@@ -61,11 +48,10 @@ namespace Personal.UI.Option
 
 			UIManager.Instance.FooterIconDisplay.Begin(true);
 
-			DisableAllTabs(startMenuTab);
+			DisableAllTabs();
 			if (!tabDictionary.TryGetValue(startMenuTab, out Tab tab)) return;
 
 			// Activate current menu tab.
-			tab.SelectButton.interactable = false;
 			tab.OptionMenuUI.gameObject.SetActive(true);
 		}
 
@@ -78,12 +64,7 @@ namespace Personal.UI.Option
 
 			foreach (var tab in tabList)
 			{
-				tab.SelectButton.interactable = true;
 				tab.OptionMenuUI.Save_Inspector();
-
-				// Set the start menu tab.
-				if (tab.OptionMenuUI.MenuTab != startMenuTab) continue;
-				tab.SelectButton.interactable = false;
 			}
 
 			if (!OptionMenuUI.IsChangesMade) return;
@@ -156,17 +137,11 @@ namespace Personal.UI.Option
 					currentMenuIndex = index;
 
 					DisableAllTabs();
-
-					tab.SelectButton.interactable = false;
 					tab.OptionMenuUI.gameObject.SetActive(true);
 				});
 
 				tabDictionary.Add(tab.OptionMenuUI.MenuTab, tab);
 			}
-
-			// Set game tab to be in a pressed state.
-			tabDictionary.TryGetValue(MenuTab.Game, out Tab gameTab);
-			gameTab.SelectButton.interactable = false;
 		}
 
 		/// <summary>
@@ -200,13 +175,10 @@ namespace Personal.UI.Option
 		/// Disable all tabs which is not in ignoredTab (typically starting tab).
 		/// </summary>
 		/// <param name="ignoredMenuTab"></param>
-		void DisableAllTabs(MenuTab? ignoredTab = null)
+		void DisableAllTabs()
 		{
 			foreach (var tab in tabList)
 			{
-				if (ignoredTab != null && ignoredTab == tab.OptionMenuUI.MenuTab) continue;
-
-				tab.SelectButton.interactable = true;
 				tab.OptionMenuUI.gameObject.SetActive(false);
 			}
 		}
