@@ -684,6 +684,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3822677261445089742, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
+      propertyPath: m_VerticalAxis.m_InvertInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822677261445089742, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Mouse Y-XInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822677261445089742, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: HorizontalTest
+      objectReference: {fileID: 0}
     - target: {fileID: 5061082990633118837, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -772,6 +784,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1635895510641266253, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3501824814298630021}
+    - targetCorrespondingSourceObject: {fileID: 3230460884394398649, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5412708818150756945}
   m_SourcePrefab: {fileID: 100100000, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
 --- !u!114 &4937908809840473140 stripped
 MonoBehaviour:
@@ -806,6 +821,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c048fde29ad2024d9bde50f5ede37b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7975682710384461561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3230460884394398649, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
+  m_PrefabInstance: {fileID: 4790622894553011520}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5412708818150756945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975682710384461561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerIndex: -1
+  AutoEnableInputs: 1
+  XYAxis: {fileID: 8773247734160848115, guid: 2d1c326e221632148a1ed627cede10e5, type: 3}
+  ZAxis: {fileID: 0}
 --- !u!114 &8593537841668148793 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3835332982649805689, guid: 5cb466935d9a31945bc7c19cd9afa0c2, type: 3}
