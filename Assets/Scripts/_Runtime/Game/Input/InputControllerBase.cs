@@ -20,17 +20,12 @@ namespace Personal.InputProcessing
 		public bool IsInteract { get; protected set; }
 		public bool IsCancel { get; protected set; }
 
-		protected ControlInputBase controlInput;
-
 		public void Initialize()
 		{
 			inputReaderDefinition = InputManager.Instance.InputReaderDefinition;
 		}
 
-		protected virtual void OnEnable()
-		{
-			controlInput = ControlInputBase.ActiveControlInput;
-		}
+		protected virtual void OnEnable() { }
 
 		void LateUpdate()
 		{

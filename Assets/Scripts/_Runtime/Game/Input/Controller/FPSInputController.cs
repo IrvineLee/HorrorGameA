@@ -6,6 +6,8 @@ namespace Personal.InputProcessing
 {
 	public class FPSInputController : InputControllerBase
 	{
+		InputMovement_FPSController inputMovement;
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -26,7 +28,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnInventoryIndexSelectEvent += InventoryIndexSelect;
 
 			// This is the default input movement when in the main scene.
-			controlInput = StageManager.Instance?.PlayerController?.InputMovement_FPSController;
+			inputMovement = StageManager.Instance?.PlayerController?.InputMovement_FPSController;
 		}
 
 		void MoveInput(Vector2 direction)
@@ -51,33 +53,33 @@ namespace Personal.InputProcessing
 
 		void JumpInput(bool isFlag)
 		{
-			(controlInput as IFPSControlInput)?.Jump(isFlag);
+			(inputMovement as IFPSControlInput)?.Jump(isFlag);
 		}
 
 		void SprintInput(bool isFlag)
 		{
-			(controlInput as IFPSControlInput)?.Sprint(isFlag);
+			(inputMovement as IFPSControlInput)?.Sprint(isFlag);
 		}
 
 		void OpenPauseMenu()
 		{
-			(controlInput as IFPSControlInput)?.OpenPauseMenu();
+			(inputMovement as IFPSControlInput)?.OpenPauseMenu();
 		}
 
 		void OpenInventory()
 		{
-			(controlInput as IFPSControlInput)?.OpenInventory();
+			(inputMovement as IFPSControlInput)?.OpenInventory();
 		}
 
 		void InventoryNextPrevious(int value)
 		{
 			if (value == 0) return;
-			(controlInput as IFPSControlInput)?.Next(value > 0);
+			(inputMovement as IFPSControlInput)?.Next(value > 0);
 		}
 
 		void InventoryIndexSelect(int number)
 		{
-			(controlInput as IFPSControlInput)?.InventoryIndexSelect(number - 1);
+			(inputMovement as IFPSControlInput)?.InventoryIndexSelect(number - 1);
 		}
 
 		protected override void OnDisable()

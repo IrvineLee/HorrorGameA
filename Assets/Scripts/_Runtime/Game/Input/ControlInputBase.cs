@@ -8,9 +8,7 @@ namespace Personal.InputProcessing
 	{
 		public static ControlInputBase ActiveControlInput { get; protected set; }
 
-		protected static bool isStop;
-
-		public static void StopControl(bool isFlag) { isStop = isFlag; }
+		static ControlInputBase previousActiveControl;
 
 		protected override void OnEnabled()
 		{
@@ -20,6 +18,24 @@ namespace Personal.InputProcessing
 		protected override void OnDisabled()
 		{
 			ActiveControlInput = null;
+		}
+
+		public static void DisableSaveActiveControl()
+		{
+			previousActiveControl = ActiveControlInput;
+			ActiveControlInput = null;
+		}
+
+		public static void EnableLoadActiveControl()
+		{
+			if (!previousActiveControl)
+			{
+				Debug.Log("No Previous Action Control");
+				return;
+			}
+
+			ActiveControlInput = previousActiveControl;
+			previousActiveControl = null;
 		}
 	}
 }

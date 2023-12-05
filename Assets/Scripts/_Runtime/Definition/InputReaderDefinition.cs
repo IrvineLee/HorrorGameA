@@ -191,7 +191,7 @@ namespace Personal.Definition
 
 		void PlayerActionInput.IUIActions.OnBottomTabSwitch(InputAction.CallbackContext context)
 		{
-			SetButtonEvent(context.started, () => OnBottomTabSwitchEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
+			SetButtonEvent(context.performed, () => OnBottomTabSwitchEvent?.Invoke(context.ReadValue<float>().ConvertToBool()));
 		}
 
 		void PlayerActionInput.IUIActions.OnCancelOptionMenu(InputAction.CallbackContext context)

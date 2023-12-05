@@ -25,23 +25,23 @@ namespace Personal.InputProcessing
 		void InteractInput()
 		{
 			IsInteract = true;
-			(controlInput as IPuzzleControlInput)?.Submit();
+			(ControlInputBase.ActiveControlInput as IPuzzleControlInput)?.Submit();
 		}
 
 		void CancelInput()
 		{
 			IsCancel = true;
-			(controlInput as IPuzzleControlInput)?.Cancel();
+			(ControlInputBase.ActiveControlInput as IPuzzleControlInput)?.Cancel();
 		}
 
 		void PuzzleReset()
 		{
-			(controlInput as IPuzzleControlInput)?.Reset();
+			(ControlInputBase.ActiveControlInput as IPuzzleControlInput)?.Reset();
 		}
 
 		void AutoComplete()
 		{
-			(controlInput as IPuzzleControlInput)?.AutoComplete();
+			(ControlInputBase.ActiveControlInput as IPuzzleControlInput)?.AutoComplete();
 		}
 
 		protected override void OnDisable()

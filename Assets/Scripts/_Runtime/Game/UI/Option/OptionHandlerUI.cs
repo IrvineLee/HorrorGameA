@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using static Personal.UI.Window.WindowEnum;
+using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {

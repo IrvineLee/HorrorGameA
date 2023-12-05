@@ -30,6 +30,8 @@ namespace Personal.UI
 		List<string> overridePathList = new();
 		string previousPath;
 
+		InputMovement_OptionController inputMovement;
+
 		protected override void OnEnabled()
 		{
 			InputManager.OnDeviceDisconnected += OnDeviceDisconnected;
@@ -38,6 +40,7 @@ namespace Personal.UI
 		public void InitialSetup()
 		{
 			InputActionMap = InputManager.Instance.PlayerActionInput.asset.FindActionMap("Player");
+			inputMovement = GetComponentInParent<InputMovement_OptionController>(true);
 		}
 
 		/// <summary>
@@ -47,6 +50,8 @@ namespace Personal.UI
 		/// <param name="compositeBindIndex">If it's not part of composite binding, you can safely ignore this.</param>
 		public void StartRebind(UISelectionSubmit_ControlRebind uiSelectionSubmit, int compositeBindIndex = -1)
 		{
+			inputMovement.enabled = false;
+
 			currentSelection = uiSelectionSubmit;
 			inputAction = currentSelection.InputAction;
 
@@ -188,7 +193,7 @@ namespace Personal.UI
 			for (int i = 0; i < InputActionMap.bindings.Count; i++)
 			{
 				InputBinding bind = InputActionMap.bindings[i];
-				if (bind.id == binding.id) continue;
+				if (bind == binding && bind.id == binding.id) continue;
 
 				if ((string.IsNullOrEmpty(bind.overridePath) && bind.path.Equals(binding.effectivePath)) ||     // If still original bind and bind path == binding effective path or
 					bind.effectivePath.Equals(binding.effectivePath))                                           // both the effective path are the same
@@ -240,6 +245,7 @@ namespace Personal.UI
 			UISelectable.LockSelection(false);
 
 			OnRebinded?.Invoke();
+			inputMovement.enabled = true;
 
 			Debug.Log("REBIND End! " + isOverriden);
 		}

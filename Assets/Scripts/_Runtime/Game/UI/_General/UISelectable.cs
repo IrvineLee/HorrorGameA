@@ -89,15 +89,22 @@ namespace Personal.UI
 			if (UIManager.Instance.ActiveInterfaceType != menuUIBase.UiInterfaceType) return;
 			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
 
+			eventData.selectedObject = gameObject;
+
 			// Remove the last appeared selected when mouse-over, so it does not remain on when mouse-overing other selectables.
 			if (appearSelectedList.Count > 0)
 			{
 				int lastIndex = appearSelectedList.Count - 1;
-				appearSelectedList[lastIndex].isAppearSelected = false;
+				var lastAppearSelected = appearSelectedList[lastIndex];
+
+				// Only remove when it's in the same category.
+				if (UIManager.Instance.ActiveInterfaceType != lastAppearSelected.menuUIBase.UiInterfaceType) return;
+
+				lastAppearSelected.isAppearSelected = false;
+				lastAppearSelected.Deselect();
+
 				appearSelectedList.RemoveAt(lastIndex);
 			}
-
-			eventData.selectedObject = gameObject;
 		}
 
 		void ISelectHandler.OnSelect(BaseEventData eventData)

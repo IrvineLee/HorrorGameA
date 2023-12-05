@@ -31,25 +31,25 @@ namespace Personal.InputProcessing
 		void MoveInput(Vector2 direction)
 		{
 			Move = direction;
-			(controlInput as IUIControlInput)?.Move(direction);
+			(ControlInputBase.ActiveControlInput as IUIControlInput)?.Move(direction);
 		}
 
 		void LookInput(Vector2 direction)
 		{
 			Look = direction;
-			(controlInput as IUIControlInput)?.Look(direction);
+			(ControlInputBase.ActiveControlInput as IUIControlInput)?.Look(direction);
 		}
 
 		void InteractInput()
 		{
 			IsInteract = true;
-			(controlInput as IUIControlInput)?.Submit();
+			(ControlInputBase.ActiveControlInput as IUIControlInput)?.Submit();
 		}
 
 		void CancelInput()
 		{
 			IsCancel = true;
-			(controlInput as IUIControlInput)?.Cancel();
+			(ControlInputBase.ActiveControlInput as IUIControlInput)?.Cancel();
 		}
 
 		/// ------------------------------------------------------------------------
@@ -58,12 +58,12 @@ namespace Personal.InputProcessing
 
 		void FastForwardStart()
 		{
-			CheckInterfaceTypeAndAct(UIInterfaceType.Dialogue, () => ((IUIControlInput)controlInput)?.FastForward());
+			CheckInterfaceTypeAndAct(UIInterfaceType.Dialogue, () => ((IUIControlInput)ControlInputBase.ActiveControlInput)?.FastForward());
 		}
 
 		void FastForwardEnd()
 		{
-			CheckInterfaceTypeAndAct(UIInterfaceType.Dialogue, () => ((IUIControlInput)controlInput)?.FastForwardReleased());
+			CheckInterfaceTypeAndAct(UIInterfaceType.Dialogue, () => ((IUIControlInput)ControlInputBase.ActiveControlInput)?.FastForwardReleased());
 		}
 
 		/// ------------------------------------------------------------------------
@@ -96,7 +96,7 @@ namespace Personal.InputProcessing
 		/// </summary>
 		void TopTabSwitch(bool isNext)
 		{
-			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.NextShoulder(isNext));
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)ControlInputBase.ActiveControlInput)?.NextShoulder(isNext));
 		}
 
 		/// <summary>
@@ -104,12 +104,12 @@ namespace Personal.InputProcessing
 		/// </summary>
 		void BottomTabSwitch(bool isNext)
 		{
-			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.NextTrigger(isNext));
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)ControlInputBase.ActiveControlInput)?.NextTrigger(isNext));
 		}
 
 		void DefaultOptionMenu()
 		{
-			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)controlInput)?.Default());
+			CheckInterfaceTypeAndAct(UIInterfaceType.Option, () => ((IUIControlInput)ControlInputBase.ActiveControlInput)?.Default());
 		}
 
 		protected override void OnDisable()

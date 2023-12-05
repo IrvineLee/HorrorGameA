@@ -9,12 +9,12 @@ namespace Personal.UI
 	{
 		protected override void OnEnabled()
 		{
-			ControlInputBase.StopControl(true);
+			ControlInputBase.DisableSaveActiveControl();
 		}
 
 		protected override void OnDisabled()
 		{
-			ControlInputBase.StopControl(false);
+			ControlInputBase.EnableLoadActiveControl();
 		}
 	}
 }

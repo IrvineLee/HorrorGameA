@@ -1,9 +1,9 @@
 using UnityEngine;
 
 using Personal.Manager;
-using Personal.InputProcessing;
+using Personal.UI;
 
-namespace Personal.UI.Option
+namespace Personal.InputProcessing
 {
 	public class InputMovement_OptionController : BasicControllerUI, IUIControlInput
 	{
