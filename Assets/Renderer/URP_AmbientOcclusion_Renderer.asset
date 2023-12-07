@@ -35,6 +35,23 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
   - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
+--- !u!114 &-3411921185534929352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15c3bed367adf64da6316ae42ef95dc, type: 3}
+  m_Name: BetterFogFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    Event: 550
+    _UseCustomDepthTexture: 0
+    _UseFogOffsetTexture: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,7 +70,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -4126123778879326202}
   - {fileID: 1123035818710550837}
-  m_RendererFeatureMap: 06f89ac44810bdc63549488420d3950f
+  - {fileID: -3411921185534929352}
+  m_RendererFeatureMap: 06f89ac44810bdc63549488420d3950f38968f46c26ba6d0
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
