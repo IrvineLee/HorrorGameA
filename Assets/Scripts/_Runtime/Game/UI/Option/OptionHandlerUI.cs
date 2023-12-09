@@ -27,6 +27,7 @@ namespace Personal.UI.Option
 		[SerializeField] [ReadOnly] List<Tab> bottomTabList = new();
 
 		public IReadOnlyDictionary<MenuTab, Tab> TabDictionary { get => tabDictionary; }
+		public InputMovement_OptionController InputMovement { get; private set; }
 
 		Dictionary<MenuTab, Tab> tabDictionary = new Dictionary<MenuTab, Tab>();
 
@@ -37,7 +38,9 @@ namespace Personal.UI.Option
 		public override void InitialSetup()
 		{
 			base.InitialSetup();
+
 			IDefaultHandler = this;
+			InputMovement = GetComponentInParent<InputMovement_OptionController>(true);
 
 			InitializeTabs();
 			InitializeIgnoredSelection();
@@ -166,10 +169,15 @@ namespace Personal.UI.Option
 		{
 			if (!tabDictionary.TryGetValue(currentMenuTab, out Tab tab)) return;
 
+			InputMovement.enabled = false;
 			UISelectable.CurrentAppearSelected();
 
-			Action yesAction = () => tab.OptionMenuUI.Default_Inspector();
-			UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction).Forget();
+			Action yesAction = () =>
+			{
+				tab.OptionMenuUI.Default_Inspector();
+				InputMovement.enabled = true;
+			};
+			UIManager.Instance.WindowUI.OpenWindow(WindowUIType.DefaultButton, yesAction, () => InputMovement.enabled = true).Forget();
 		}
 
 		/// <summary>

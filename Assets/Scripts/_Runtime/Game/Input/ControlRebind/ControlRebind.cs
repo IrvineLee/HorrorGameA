@@ -9,6 +9,7 @@ using Lean.Localization;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
+using Personal.UI.Option;
 
 namespace Personal.UI
 {
@@ -30,7 +31,7 @@ namespace Personal.UI
 		List<string> overridePathList = new();
 		string previousPath;
 
-		InputMovement_OptionController inputMovement;
+		OptionHandlerUI optionHandlerUI;
 
 		protected override void OnEnabled()
 		{
@@ -40,7 +41,7 @@ namespace Personal.UI
 		public void InitialSetup()
 		{
 			InputActionMap = InputManager.Instance.PlayerActionInput.asset.FindActionMap("Player");
-			inputMovement = GetComponentInParent<InputMovement_OptionController>(true);
+			optionHandlerUI = GetComponentInParent<OptionHandlerUI>(true);
 		}
 
 		/// <summary>
@@ -50,7 +51,7 @@ namespace Personal.UI
 		/// <param name="compositeBindIndex">If it's not part of composite binding, you can safely ignore this.</param>
 		public void StartRebind(UISelectionSubmit_ControlRebind uiSelectionSubmit, int compositeBindIndex = -1)
 		{
-			inputMovement.enabled = false;
+			optionHandlerUI.InputMovement.enabled = false;
 
 			currentSelection = uiSelectionSubmit;
 			inputAction = currentSelection.InputAction;
@@ -245,7 +246,7 @@ namespace Personal.UI
 			UISelectable.LockSelection(false);
 
 			OnRebinded?.Invoke();
-			inputMovement.enabled = true;
+			optionHandlerUI.InputMovement.enabled = true;
 
 			Debug.Log("REBIND End! " + isOverriden);
 		}

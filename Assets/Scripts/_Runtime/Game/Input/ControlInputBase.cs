@@ -28,11 +28,7 @@ namespace Personal.InputProcessing
 
 		public static void EnableLoadActiveControl()
 		{
-			if (!previousActiveControl)
-			{
-				Debug.Log("No Previous Action Control");
-				return;
-			}
+			if (!previousActiveControl) return;
 
 			ActiveControlInput = previousActiveControl;
 			previousActiveControl = null;
