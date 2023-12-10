@@ -79,6 +79,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInitialSelection: 0
+  windowSelectionUIAnimator: {fileID: 7977432891057488433}
+  textSelectionUIAnimator: {fileID: 0}
 --- !u!1 &7113653559647729790
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,3 +552,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2291739496037307146, guid: 22f29b56d9e1dcd4a89f0b193fd88eec, type: 3}
   m_PrefabInstance: {fileID: 9146711339171498528}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7977432891057488433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1178304223660804113, guid: 22f29b56d9e1dcd4a89f0b193fd88eec, type: 3}
+  m_PrefabInstance: {fileID: 9146711339171498528}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a19982f6f8c2174886cf4469f82b375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

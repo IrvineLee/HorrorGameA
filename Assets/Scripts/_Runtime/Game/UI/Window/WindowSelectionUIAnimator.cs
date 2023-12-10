@@ -19,7 +19,12 @@ namespace Personal.UI.Window
 			animIsEnable = Animator.StringToHash(animationName);
 		}
 
-		public void Run(bool isFlag)
+		/// <summary>
+		/// Run the animation.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		/// <param name="isDisableGOEndOfAnim">This only works if isFlag is false. Whether to disable gameobject at the end of animation.</param>
+		public void Run(bool isFlag, bool isDeactivateGOWhenIsFlagFalse = true)
 		{
 			windowAnimatorCR.StopCoroutine();
 
@@ -37,6 +42,7 @@ namespace Personal.UI.Window
 			if (!animator.gameObject.activeSelf) return;
 			animator.SetBool(animIsEnable, false);
 
+			if (!isDeactivateGOWhenIsFlagFalse) return;
 			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false), true);
 		}
 

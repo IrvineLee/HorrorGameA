@@ -53,7 +53,7 @@ PlayerSettings:
   mipStripping: 0
   numberOfMipsStripped: 0
   numberOfMipsStrippedPerMipmapLimitGroup: {}
-  m_StackTraceTypes: 010000000100000001000000010000000100000001000000
+  m_StackTraceTypes: fe0000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   iosUseCustomAppBackgroundBehavior: 0
@@ -149,7 +149,7 @@ PlayerSettings:
   enableOpenGLProfilerGPURecorders: 1
   useHDRDisplay: 0
   hdrBitDepth: 0
-  m_ColorGamuts: 00000000
+  m_ColorGamuts: 
   targetPixelDensity: 30
   resolutionScalingMode: 0
   resetResolutionOnWindowResize: 0
@@ -595,7 +595,7 @@ PlayerSettings:
   switchEnableFileSystemTrace: 0
   switchUseGOLDLinker: 0
   switchLTOSetting: 0
-  switchApplicationID: 0x01004b9000490000
+  switchApplicationID: 72140675890085890
   switchNSODependencies: 
   switchCompilerFlags: 
   switchTitleNames_0: 
@@ -736,8 +736,8 @@ PlayerSettings:
   ps4ParentalLevel: 11
   ps4ContentID: ED1633-NPXX51362_00-0000000000000000
   ps4Category: 0
-  ps4MasterVersion: 01.00
-  ps4AppVersion: 01.00
+  ps4MasterVersion: 1
+  ps4AppVersion: 1
   ps4AppType: 0
   ps4ParamSfxPath: 
   ps4VideoOutPixelFormat: 0
@@ -834,7 +834,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY_POST_PROCESSING_STACK_V2;TMP_PRESENT;USE_ADDRESSABLES;USE_CINEMACHINE;USE_NEW_INPUT;EPO_DOTWEEN;URP_OUTLINE
+    Android: '>- UNITY_POST_PROCESSING_STACK_V2;TMP_PRESENT;USE_ADDRESSABLES;USE_CINEMACHINE;USE_NEW_INPUT;EPO_DOTWEEN;URP_OUTLINE'
     EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
     GameCoreScarlett: EPO_DOTWEEN;URP_OUTLINE
     GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
@@ -844,11 +844,11 @@ PlayerSettings:
     PS4: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
     PS5: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
     Stadia: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
-    Standalone: ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;UNITY_POST_PROCESSING_STACK_V2;TMP_PRESENT;USE_ADDRESSABLES;USE_CINEMACHINE;USE_NEW_INPUT;URP_OUTLINE;UNITY_PIPELINE_URP
+    Standalone: '>-;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;UNITY_POST_PROCESSING_STACK_V2;TMP_PRESENT;USE_ADDRESSABLES;USE_CINEMACHINE;USE_NEW_INPUT;URP_OUTLINE;UNITY_PIPELINE_URP;ODIN_INSPECTOR'
     WebGL: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
     Windows Store Apps: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
     XboxOne: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
-    iPhone: TMP_PRESENT;USE_ADDRESSABLES;USE_CINEMACHINE;USE_NEW_INPUT;EPO_DOTWEEN;URP_OUTLINE
+    iPhone: '>- TMP_PRESENT;USE_ADDRESSABLES;USE_CINEMACHINE;USE_NEW_INPUT;EPO_DOTWEEN;URP_OUTLINE'
     tvOS: UNITY_POST_PROCESSING_STACK_V2;EPO_DOTWEEN;URP_OUTLINE
   additionalCompilerArguments: {}
   platformArchitecture: {}
@@ -886,7 +886,7 @@ PlayerSettings:
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateNotAfter: daf06edb8a9952ca
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: 
@@ -956,11 +956,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 5338dd6a-71db-4b70-b013-ff9808849de8
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: HorrorGame
+  organizationId: irvinelee
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

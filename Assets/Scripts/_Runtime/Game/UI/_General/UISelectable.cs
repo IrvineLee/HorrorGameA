@@ -18,12 +18,17 @@ namespace Personal.UI
 	{
 		[SerializeField] bool isInitialSelection = false;
 
+		[Tooltip("This window selection gameobject will get activated/deactivated.")]
+		[SerializeField] WindowSelectionUIAnimator windowSelectionUIAnimator = null;
+
+		[Tooltip("This selection will NOT get activated/deactivated.")]
+		[SerializeField] WindowSelectionUIAnimator activeSelectionUIAnimator = null;
+
 		public UISelectionBase UISelectionBase { get; private set; }
 
 		protected ControlInput controlInputUI;
 
 		protected MenuUIBase menuUIBase = null;
-		protected WindowSelectionUIAnimator windowSelectionUIAnimator;
 
 		protected List<Selectable> selectableList = new();
 		protected List<GameObject> ignoredGOList = new();
@@ -37,7 +42,6 @@ namespace Personal.UI
 		{
 			controlInputUI = GetComponentInParent<ControlInput>(true);
 			menuUIBase = GetComponentInParent<MenuUIBase>(true);
-			windowSelectionUIAnimator = GetComponentInChildren<WindowSelectionUIAnimator>(true);
 
 			UISelectionBase = GetComponentInChildren<UISelectionBase>(true);
 			selectableList = GetComponentsInChildren<Selectable>(true).ToList();
@@ -112,9 +116,10 @@ namespace Personal.UI
 			if (isLockSelection) return;
 
 			isAppearSelected = false;
+			SetSelectableColor(true);
 
 			windowSelectionUIAnimator?.Run(true);
-			SetSelectableColor(true);
+			activeSelectionUIAnimator?.Run(true);
 
 			menuUIBase?.SetLastSelectedGO(gameObject);
 			controlInputUI?.UpdateCurrentSelection(gameObject);
@@ -144,8 +149,10 @@ namespace Personal.UI
 				}
 			}
 
-			windowSelectionUIAnimator?.Run(false);
 			SetSelectableColor(false);
+
+			windowSelectionUIAnimator?.Run(false);
+			activeSelectionUIAnimator?.Run(false, false);
 		}
 
 		void SetSelectableColor(bool isSelectedColor)
@@ -160,8 +167,10 @@ namespace Personal.UI
 		{
 			EventSystem.current?.SetSelectedGameObject(null);
 
-			windowSelectionUIAnimator?.StopAnimation();
 			SetSelectableColor(false);
+
+			windowSelectionUIAnimator?.StopAnimation();
+			activeSelectionUIAnimator?.StopAnimation();
 		}
 	}
 }

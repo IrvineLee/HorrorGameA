@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cda3ace5c00dd4197ed12078b1a682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction: {fileID: -8750674506638915993, guid: 2d1c326e221632148a1ed627cede10e5, type: 3}
+  inputActionReference: {fileID: 0}
 --- !u!1 &7479075229015177056
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +637,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInitialSelection: 1
+  windowSelectionUIAnimator: {fileID: 3098234261671991212}
+  textSelectionUIAnimator: {fileID: 0}
 --- !u!1001 &4225800144173555645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -747,3 +749,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2291739496037307146, guid: 22f29b56d9e1dcd4a89f0b193fd88eec, type: 3}
   m_PrefabInstance: {fileID: 4225800144173555645}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3098234261671991212 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1178304223660804113, guid: 22f29b56d9e1dcd4a89f0b193fd88eec, type: 3}
+  m_PrefabInstance: {fileID: 4225800144173555645}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a19982f6f8c2174886cf4469f82b375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
