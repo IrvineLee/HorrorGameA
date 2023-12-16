@@ -7,10 +7,8 @@ using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractionEnd : GameInitialize
+	public abstract class InteractionEnd : GameInitialize
 	{
-		[SerializeField] List<InteractableObject> enableInteractableObjectList = new();
-		[SerializeField] List<InteractableObject> disableInteractableObjectList = new();
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
 		public async UniTask EnableInteractables()
@@ -23,17 +21,7 @@ namespace Personal.InteractiveObject
 			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
 		}
 
-		protected virtual void HandleInteractable()
-		{
-			foreach (var interactable in enableInteractableObjectList)
-			{
-				interactable?.SetIsInteractable(true);
-			}
-			foreach (var interactable in disableInteractableObjectList)
-			{
-				interactable?.SetIsInteractable(false);
-			}
-		}
+		protected virtual void HandleInteractable() { }
 
 		protected virtual bool IsEnded() { return true; }
 	}
