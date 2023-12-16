@@ -3,7 +3,7 @@ using System;
 using Personal.Entity;
 
 [Serializable]
-public class LocalizationQuestTextEntity : GenericEntity
+public class LocalizationQuestTextEntity : LocalizationTextEntity
 {
 	public string en01;
 	public string en02;

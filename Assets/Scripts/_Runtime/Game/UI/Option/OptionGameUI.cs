@@ -32,6 +32,7 @@ namespace Personal.UI.Option
 		[SerializeField] UISelectionDropdown languageDropdown = null;
 
 		public static event Action<bool> OnXInteractEvent;
+		public static event Action<SupportedLanguageType> OnLanguageChangedEvent;
 
 		GameData gameData;
 
@@ -217,9 +218,7 @@ namespace Personal.UI.Option
 			// Set the data's localization.
 			MasterLocalization.SetActiveLanguage(supportedLanguageType);
 
-			// Set the dialogues's localization.
-			var dialogueController = StageManager.Instance.DialogueController;
-			dialogueController.DialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.ToString()));
+			OnLanguageChangedEvent?.Invoke(supportedLanguageType);
 		}
 
 		void OnApplicationQuit()

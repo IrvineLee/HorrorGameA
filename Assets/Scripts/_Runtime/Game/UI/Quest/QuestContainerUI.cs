@@ -6,10 +6,14 @@ using TMPro;
 using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.Quest;
+using Personal.Manager;
+using Personal.Localization;
+using Personal.GameState;
+using Personal.UI.Option;
 
 namespace Personal.UI.Quest
 {
-	public class QuestContainerUI : MonoBehaviour
+	public class QuestContainerUI : GameInitialize
 	{
 		[SerializeField] TextMeshProUGUI questTitleTMP = null;
 		[SerializeField] Transform descriptionTMPParent = null;
@@ -21,8 +25,14 @@ namespace Personal.UI.Quest
 		int animFade;
 
 		PaddingAnimation paddingAnimation;
-
 		List<TextMeshProUGUI> descriptionTMPList = new();
+
+		QuestEntity questEntity;
+
+		protected override void Initialize()
+		{
+			OptionGameUI.OnLanguageChangedEvent += OnLanguageChanged;
+		}
 
 		public void ShowQuest(QuestInfo questInfo)
 		{
@@ -30,12 +40,9 @@ namespace Personal.UI.Quest
 			if (string.IsNullOrEmpty(questTitleTMP.text)) animator.SetBool(animFade, true);
 
 			IsMainQuest = questInfo.QuestEntity.isMainQuest;
-			questTitleTMP.text = questInfo.QuestEntity.name;
 
-			for (int i = 0; i < descriptionTMPList.Count; i++)
-			{
-				descriptionTMPList[i].text = questInfo.TaskInfoList[i].Description;
-			}
+			questEntity = MasterDataManager.Instance.Quest.Get(questInfo.QuestEntity.id);
+			DisplayQuestAndDescription();
 		}
 
 		public async UniTask FadeAwayResetText()
@@ -66,6 +73,31 @@ namespace Personal.UI.Quest
 
 			descriptionTMPList = descriptionTMPParent.GetComponentsInChildren<TextMeshProUGUI>().ToList();
 			paddingAnimation = GetComponentInChildren<PaddingAnimation>();
+		}
+
+		void DisplayQuestAndDescription()
+		{
+			if (questEntity == null) return;
+
+			var questName = MasterLocalization.Get(MasterLocalization.TableNameType.QuestName, questEntity.id);
+			var descriptionList = MasterLocalization.GetList(MasterLocalization.TableNameType.QuestDescriptionText, questEntity.id);
+
+			questTitleTMP.text = questName;
+
+			for (int i = 0; i < descriptionTMPList.Count; i++)
+			{
+				descriptionTMPList[i].text = descriptionList[i];
+			}
+		}
+
+		void OnLanguageChanged(SupportedLanguageType supportedLanguageType)
+		{
+			DisplayQuestAndDescription();
+		}
+
+		void OnDestroy()
+		{
+			OptionGameUI.OnLanguageChangedEvent -= OnLanguageChanged;
 		}
 	}
 }

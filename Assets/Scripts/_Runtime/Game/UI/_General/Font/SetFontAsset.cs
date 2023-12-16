@@ -2,6 +2,8 @@ using UnityEngine;
 
 using Lean.Localization;
 using TMPro;
+using Personal.Localization;
+using Personal.UI.Option;
 
 namespace Personal.UI
 {
@@ -12,9 +14,15 @@ namespace Personal.UI
 		void Awake()
 		{
 			tmp = GetComponent<TextMeshProUGUI>();
+			OptionGameUI.OnLanguageChangedEvent += OnLanguageChanged;
 		}
 
 		void OnEnable()
+		{
+			HandleChange();
+		}
+
+		void OnLanguageChanged(SupportedLanguageType supportedLanguageType)
 		{
 			HandleChange();
 		}
@@ -27,6 +35,11 @@ namespace Personal.UI
 				if (language.FontAsset == null) return;
 				tmp.font = language.FontAsset;
 			}
+		}
+
+		void OnDestroy()
+		{
+			OptionGameUI.OnLanguageChangedEvent -= OnLanguageChanged;
 		}
 	}
 }
