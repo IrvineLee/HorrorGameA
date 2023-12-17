@@ -13,14 +13,12 @@ namespace Personal.InteractiveObject
 {
 	public class InteractableDialogue : InteractableObject
 	{
-		protected DialogueSystemTrigger dialogueSystemTrigger;
 		protected HeadModelLookAt headModelLookAt;
 
 		protected override void Initialize()
 		{
 			base.Initialize();
 
-			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();
 		}
 

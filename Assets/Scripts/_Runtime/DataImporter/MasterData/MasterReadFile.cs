@@ -35,7 +35,6 @@ namespace Personal.Localization
 		public static void SetActiveLanguage(SupportedLanguageType language)
 		{
 			activeLocalizedDictionary = localizationDictionary.GetOrDefault(language);
-			Debug.Log(language + "   " + activeLocalizedDictionary);
 		}
 
 		void InitDictionary(SupportedLanguageType language, List<ReadFileEntity> readFileList, Dictionary<int, ReadFileEntity> dictionary)

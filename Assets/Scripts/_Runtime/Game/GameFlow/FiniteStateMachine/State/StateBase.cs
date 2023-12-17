@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -17,14 +19,14 @@ namespace Personal.FSM
 		protected bool isEntered;
 
 		protected QuestTypeSet questTypeSet;
-		protected InteractionEnd interactionEnd;
+		protected List<InteractionEnd> interactionEndList = new();
 
 		void Awake()
 		{
 			stateMachine = GetComponentInParent<StateMachineBase>(true);
 
 			questTypeSet = GetComponentInChildren<QuestTypeSet>(true);
-			interactionEnd = GetComponentInChildren<InteractionEnd>(true);
+			interactionEndList = GetComponentsInChildren<InteractionEnd>(true).ToList();
 		}
 
 		/// <summary>
@@ -71,7 +73,11 @@ namespace Personal.FSM
 			}
 
 			isEntered = false;
-			interactionEnd?.EnableInteractables();
+
+			foreach (var interactionEnd in interactionEndList)
+			{
+				interactionEnd.EnableInteractables().Forget();
+			}
 		}
 
 		/// <summary>

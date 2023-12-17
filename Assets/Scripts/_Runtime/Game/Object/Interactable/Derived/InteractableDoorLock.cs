@@ -11,13 +11,9 @@ namespace Personal.InteractiveObject
 	{
 		[SerializeField] ItemType keyItemType = ItemType._10000_Item_1;
 
-		DialogueSystemTrigger dialogueSystemTrigger;
-
 		protected override void Initialize()
 		{
 			base.Initialize();
-
-			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 		}
 
 		protected override bool IsAbleToOpenDoor()

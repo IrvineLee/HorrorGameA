@@ -1,17 +1,12 @@
 ﻿using UnityEngine;
 
-using PixelCrushers.DialogueSystem;
-
 namespace Personal.InteractiveObject
 {
 	public class DialogueTriggerHandler : InteractableObject
 	{
-		DialogueSystemTrigger dialogueSystemTrigger;
-
 		protected override void Initialize()
 		{
 			base.Initialize();
-			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 		}
 
 		protected void OnTriggerEnter(Collider other)
