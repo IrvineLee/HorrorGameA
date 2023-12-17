@@ -2,18 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Personal.Manager;
-using static Personal.Data.FileData;
+using Personal.Data;
 
-namespace Personal.UI.Option
+namespace Personal.UI
 {
 	public class ReadFileHandlerUI : UIHandlerBase
 	{
 		[SerializeField] UISelectionListingPage uISelectionListingPage = null;
 
-		public void Read(List<Page> pageList)
+		public void Read(FileData fileData)
 		{
 			UIManager.Instance.ReadFileUI.OpenWindow();
-			uISelectionListingPage.UpdateSpawnedTMPText(pageList);
+			uISelectionListingPage.UpdateSpawnedTMPText(fileData);
 		}
 	}
 }

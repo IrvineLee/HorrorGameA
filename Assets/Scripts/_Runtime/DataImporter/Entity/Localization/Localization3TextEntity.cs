@@ -1,9 +1,7 @@
 using System;
 
-using Personal.Entity;
-
 [Serializable]
-public class LocalizationQuestTextEntity : LocalizationTextEntity
+public class Localization3TextEntity : LocalizationTextEntity
 {
 	public string en01;
 	public string en02;

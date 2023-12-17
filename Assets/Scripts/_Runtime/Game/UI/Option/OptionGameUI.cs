@@ -217,6 +217,7 @@ namespace Personal.UI.Option
 
 			// Set the data's localization.
 			MasterLocalization.SetActiveLanguage(supportedLanguageType);
+			MasterReadFile.SetActiveLanguage(supportedLanguageType);
 
 			OnLanguageChangedEvent?.Invoke(supportedLanguageType);
 		}

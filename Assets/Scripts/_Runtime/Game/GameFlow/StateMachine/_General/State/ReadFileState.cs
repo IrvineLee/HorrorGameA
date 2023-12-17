@@ -16,7 +16,7 @@ namespace Personal.FSM.Character
 		{
 			await base.OnEnter();
 
-			UIManager.Instance.ReadFileUI.Read(fileData.PageList);
+			UIManager.Instance.ReadFileUI.Read(fileData);
 			await UniTask.WaitUntil(() => UIManager.Instance.ActiveInterfaceType != UIInterfaceType.ReadFile, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 	}

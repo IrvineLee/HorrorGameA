@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class LocalizationNameTextEntity : LocalizationTextEntity
+public class Localization1TextEntity : LocalizationTextEntity
 {
 	public string en;
 	public string jp;

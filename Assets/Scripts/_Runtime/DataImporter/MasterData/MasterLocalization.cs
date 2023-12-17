@@ -18,17 +18,17 @@ namespace Personal.Localization
 			QuestDescriptionText,
 		}
 
-		public List<LocalizationNameTextEntity> NameEntities;
-		public List<LocalizationNameTextEntity> DescriptionEntities;
+		public List<Localization1TextEntity> NameEntities;
+		public List<Localization1TextEntity> DescriptionEntities;
 
-		public List<LocalizationNameTextEntity> QuestNameEntities;
-		public List<LocalizationQuestTextEntity> QuestDescriptionEntities;
+		public List<Localization1TextEntity> QuestNameEntities;
+		public List<Localization3TextEntity> QuestDescriptionEntities;
 
-		protected Dictionary<int, LocalizationNameTextEntity> nameTextDictionary = new();
-		protected Dictionary<int, LocalizationNameTextEntity> descriptionTextDictionary = new();
+		protected Dictionary<int, Localization1TextEntity> nameTextDictionary = new();
+		protected Dictionary<int, Localization1TextEntity> descriptionTextDictionary = new();
 
-		protected Dictionary<int, LocalizationNameTextEntity> questNameTextDictionary = new();
-		protected Dictionary<int, LocalizationQuestTextEntity> questDescriptionTextDictionary = new();
+		protected Dictionary<int, Localization1TextEntity> questNameTextDictionary = new();
+		protected Dictionary<int, Localization3TextEntity> questDescriptionTextDictionary = new();
 
 		static Dictionary<SupportedLanguageType, Dictionary<int, Localization>> localizationDictionary = new();
 		static Dictionary<int, Localization> activeLocalizedDictionary;
@@ -39,29 +39,12 @@ namespace Personal.Localization
 
 		public void OnAfterDeserialize()
 		{
-			nameTextDictionary.Clear();
-			foreach (var entity in NameEntities)
-			{
-				nameTextDictionary.Add(entity.id, entity);
-			}
+			localizationDictionary.Clear();
 
-			descriptionTextDictionary.Clear();
-			foreach (var entity in DescriptionEntities)
-			{
-				descriptionTextDictionary.Add(entity.id, entity);
-			}
-
-			questNameTextDictionary.Clear();
-			foreach (var entity in QuestNameEntities)
-			{
-				questNameTextDictionary.Add(entity.id, entity);
-			}
-
-			questDescriptionTextDictionary.Clear();
-			foreach (var entity in QuestDescriptionEntities)
-			{
-				questDescriptionTextDictionary.Add(entity.id, entity);
-			}
+			InitDictionary(NameEntities, nameTextDictionary);
+			InitDictionary(DescriptionEntities, descriptionTextDictionary);
+			InitDictionary(QuestNameEntities, questNameTextDictionary);
+			InitDictionary(QuestDescriptionEntities, questDescriptionTextDictionary);
 		}
 
 		/// <summary>
@@ -76,7 +59,7 @@ namespace Personal.Localization
 			{
 				Dictionary<int, Localization> idLocalizationDictionary = new();
 
-				InitializeID(language, idLocalizationDictionary);
+				InitID(language, idLocalizationDictionary);
 				localizationDictionary.Add(language, idLocalizationDictionary);
 			}
 		}
@@ -124,9 +107,24 @@ namespace Personal.Localization
 		}
 
 		/// <summary>
+		/// Initialize the dictionary.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="textEntity"></param>
+		/// <param name="dictionary"></param>
+		void InitDictionary<T>(List<T> textEntity, Dictionary<int, T> dictionary) where T : LocalizationTextEntity
+		{
+			dictionary.Clear();
+			foreach (var entity in textEntity)
+			{
+				dictionary.Add(entity.id, entity);
+			}
+		}
+
+		/// <summary>
 		/// Initialize the IDs for specified language.
 		/// </summary>
-		void InitializeID(SupportedLanguageType language, Dictionary<int, Localization> idLocalizationDictionary)
+		void InitID(SupportedLanguageType language, Dictionary<int, Localization> idLocalizationDictionary)
 		{
 			var singleStrFunc = LocalizeSingleStr();
 
@@ -241,8 +239,8 @@ namespace Personal.Localization
 		{
 			List<Func<LocalizationTextEntity, string>> funcList = new();
 
-			funcList.Add((entity) => { return ((LocalizationNameTextEntity)entity).en; });
-			funcList.Add((entity) => { return ((LocalizationNameTextEntity)entity).jp; });
+			funcList.Add((entity) => { return ((Localization1TextEntity)entity).en; });
+			funcList.Add((entity) => { return ((Localization1TextEntity)entity).jp; });
 
 			return funcList;
 		}
@@ -272,8 +270,8 @@ namespace Personal.Localization
 		/// <returns></returns>
 		List<Func<LocalizationTextEntity, List<string>>> LocalizeQuest(List<string> strList, List<Func<LocalizationTextEntity, List<string>>> funcList)
 		{
-			funcList.Add((entity) => { return strList = new() { ((LocalizationQuestTextEntity)entity).en01, ((LocalizationQuestTextEntity)entity).en02, ((LocalizationQuestTextEntity)entity).en03 }; });
-			funcList.Add((entity) => { return strList = new() { ((LocalizationQuestTextEntity)entity).jp01, ((LocalizationQuestTextEntity)entity).jp02, ((LocalizationQuestTextEntity)entity).jp03 }; });
+			funcList.Add((entity) => { return strList = new() { ((Localization3TextEntity)entity).en01, ((Localization3TextEntity)entity).en02, ((Localization3TextEntity)entity).en03 }; });
+			funcList.Add((entity) => { return strList = new() { ((Localization3TextEntity)entity).jp01, ((Localization3TextEntity)entity).jp02, ((Localization3TextEntity)entity).jp03 }; });
 
 			return funcList;
 		}

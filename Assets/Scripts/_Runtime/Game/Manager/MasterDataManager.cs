@@ -24,6 +24,7 @@ namespace Personal.Manager
 		[SerializeField] MasterCashierNPC cashierNPC = null;
 		[SerializeField] MasterWindowUI windowUI = null;
 		[SerializeField] MasterLocalization localization = null;
+		[SerializeField] MasterReadFile readFile = null;
 		[SerializeField] MasterAchievement achievement = null;
 
 		public MasterBGM Bgm { get => bgm; }
@@ -33,6 +34,7 @@ namespace Personal.Manager
 		public MasterCashierNPC CashierNPC { get => cashierNPC; }
 		public MasterWindowUI WindowUI { get => windowUI; }
 		public MasterLocalization Localization { get => localization; }
+		public MasterReadFile ReadFile { get => readFile; }
 		public MasterAchievement Achievement { get => achievement; }
 
 		public static void CreateInstance()
@@ -49,6 +51,7 @@ namespace Personal.Manager
 
 			Instance.Localization.InitializeAllLanguages();
 			MasterLocalization.SetActiveLanguage(language);
+			MasterReadFile.SetActiveLanguage(language);
 		}
 
 		/// <summary>
