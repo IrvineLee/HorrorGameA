@@ -199,7 +199,7 @@ namespace Personal.InteractiveObject
 
 		protected virtual async UniTask HandleGetReward(ActorStateMachine initiatorStateMachine)
 		{
-			if (!isOnlyOnceBeforeUseEnded && interactionType.HasFlag(InteractableType.AchieveRequirement_BeforeEvent))
+			if ((isOnlyOnceBeforeUse && !isOnlyOnceBeforeUseEnded) && interactionType.HasFlag(InteractableType.AchieveRequirement_BeforeEvent))
 			{
 				await SetDialogue(achievedRequiredBeforeUseDialogue, initiatorStateMachine.transform);
 				isOnlyOnceBeforeUseEnded = true;

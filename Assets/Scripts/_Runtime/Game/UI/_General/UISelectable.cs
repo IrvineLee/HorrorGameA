@@ -13,6 +13,7 @@ namespace Personal.UI
 {
 	/// <summary>
 	/// This is put on selectable objects like buttons, toggle, slider etc under ScrollView content.
+	/// Only handles the selection display UI.
 	/// </summary>
 	public class UISelectable : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 	{
@@ -170,7 +171,7 @@ namespace Personal.UI
 			SetSelectableColor(false);
 
 			windowSelectionUIAnimator?.StopAnimation();
-			activeSelectionUIAnimator?.StopAnimation();
+			activeSelectionUIAnimator?.StopAnimation(false);
 		}
 	}
 }

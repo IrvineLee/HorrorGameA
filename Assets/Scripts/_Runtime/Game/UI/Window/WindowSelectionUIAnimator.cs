@@ -49,12 +49,10 @@ namespace Personal.UI.Window
 		/// <summary>
 		/// Typically called when needing to disable/reset the animation when the parent is closed.
 		/// </summary>
-		public void StopAnimation()
+		public void StopAnimation(bool isDeactivateAnimatorGO = true)
 		{
-			animator.gameObject.SetActive(false);
-
-			if (!animator.gameObject.activeSelf) return;
-			animator.SetBool(animIsEnable, false);
+			if (isDeactivateAnimatorGO) animator.gameObject.SetActive(false);
+			animator.WriteDefaultValues();
 		}
 	}
 }
