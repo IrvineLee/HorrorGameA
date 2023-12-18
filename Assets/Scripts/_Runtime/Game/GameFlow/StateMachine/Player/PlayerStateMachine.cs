@@ -13,6 +13,7 @@ namespace Personal.FSM.Character
 		[SerializeField] Transform stateParent = null;
 
 		public IReadOnlyDictionary<Type, StateBase> StateDictionary { get; private set; }
+		public IFSMHandler IFSMHandler { get => this; }
 
 		protected override void EarlyInitialize()
 		{

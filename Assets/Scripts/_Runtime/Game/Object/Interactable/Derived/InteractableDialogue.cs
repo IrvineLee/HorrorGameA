@@ -47,7 +47,7 @@ namespace Personal.InteractiveObject
 			SetRotationToPOVControl();
 			InitiatorStateMachine.SwitchToState(typeof(PlayerPOVControlState)).Forget();
 
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await StageManager.Instance.DialogueController.WaitDialogueEnd();
 
 			// Switch back to default standard state.
 			headModelLookAt?.SetLookAtTarget(false);

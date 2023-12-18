@@ -23,7 +23,7 @@ namespace Personal.InteractiveObject
 
 			foreach (var interactable in activateKeyEventObjectList)
 			{
-				interactable?.SetIsActivatedKeyEvent(true);
+				interactable?.EndExaminableDialogue();
 			}
 		}
 	}

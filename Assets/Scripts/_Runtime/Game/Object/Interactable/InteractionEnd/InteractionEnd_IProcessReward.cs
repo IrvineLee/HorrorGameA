@@ -5,7 +5,7 @@ using Personal.Interface;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractionEnd_IProcess : InteractionEnd
+	public class InteractionEnd_IProcessReward : InteractionEnd
 	{
 		[SerializeField] Transform iProcessTrans = null;
 

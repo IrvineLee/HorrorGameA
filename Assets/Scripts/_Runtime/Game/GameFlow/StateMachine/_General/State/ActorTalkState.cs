@@ -2,6 +2,7 @@ using System;
 
 using Cysharp.Threading.Tasks;
 using PixelCrushers.DialogueSystem;
+using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
@@ -15,7 +16,7 @@ namespace Personal.FSM.Character
 			dialogueSystemTrigger.OnUse(actorStateMachine.transform);
 
 			RunActorAnimation();
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await StageManager.Instance.DialogueController.WaitDialogueEnd();
 		}
 	}
 }

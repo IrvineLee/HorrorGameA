@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using PixelCrushers.DialogueSystem;
 using Personal.Transition;
 using Personal.CanvasUI;
 using Personal.Manager;
@@ -37,8 +36,7 @@ namespace Personal.FSM.Character
 
 		public override async UniTask Standby()
 		{
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
-
+			await StageManager.Instance.DialogueController.WaitDialogueEnd();
 			TransitionManager.Instance.ResetCanvasSortOrder();
 		}
 	}

@@ -37,7 +37,7 @@ namespace Personal.InteractiveObject
 		{
 			if (!IsAbleToOpenDoor())
 			{
-				await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
+				await StageManager.Instance.DialogueController.WaitDialogueEnd();
 				return;
 			}
 			if (!runCR.IsDone) return;

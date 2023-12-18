@@ -4,6 +4,7 @@ using PixelCrushers.DialogueSystem;
 using Personal.GameState;
 using Personal.UI.Option;
 using Personal.Localization;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.Dialogue
 {
@@ -25,6 +26,12 @@ namespace Personal.Dialogue
 		void OnLanguageChanged(SupportedLanguageType supportedLanguageType)
 		{
 			dialogueSystemController.SetLanguage(LanguageShorthand.Get(supportedLanguageType.ToString()));
+		}
+
+		public async UniTask WaitDialogueEnd()
+		{
+			await UniTask.NextFrame();
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
 		}
 
 		void OnDestroy()

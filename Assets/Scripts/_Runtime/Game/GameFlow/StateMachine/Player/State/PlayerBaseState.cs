@@ -27,7 +27,7 @@ namespace Personal.FSM.Character
 			playerFSM = (PlayerStateMachine)stateMachine;
 
 			cam = StageManager.Instance.CameraHandler.MainCamera;
-			ifsmHandler = playerFSM.GetComponent<IFSMHandler>();
+			ifsmHandler = playerFSM.IFSMHandler;
 		}
 
 		public override void OnUpdate()
