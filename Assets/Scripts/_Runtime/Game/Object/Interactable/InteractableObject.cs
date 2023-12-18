@@ -37,7 +37,7 @@ namespace Personal.InteractiveObject
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 
 		// This handles the save/load state of this object.
-		protected bool isEndExaminableDialogue;
+		protected bool isExaminableDialogueEnded;
 		protected bool isOnlyOnce_BeforeInteractEnded;
 		protected bool isMainInteractionCompleted;                      // Will be true after passing the reward phase(even when there is no reward).
 		protected bool isInteractionEnded;
@@ -52,7 +52,7 @@ namespace Personal.InteractiveObject
 
 			if (interactDialogueDefinition == null || !IsDefinitionHasFlag(InteractableType.ExaminableBeforeKeyEvent))
 			{
-				isEndExaminableDialogue = true;
+				isExaminableDialogueEnded = true;
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace Personal.InteractiveObject
 			if (!isInteractable) return;
 
 			Transform actor = initiatorStateMachine.transform;
-			if (!isEndExaminableDialogue)
+			if (!isExaminableDialogueEnded)
 			{
 				await HandleInteractionDialogue(InteractableType.ExaminableBeforeKeyEvent, interactDialogueDefinition.ExaminableDialogue, actor, doLast);
 				return;
@@ -105,7 +105,7 @@ namespace Personal.InteractiveObject
 		/// </summary>
 		public void EndExaminableDialogue()
 		{
-			isEndExaminableDialogue = true;
+			isExaminableDialogueEnded = true;
 		}
 
 		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
@@ -143,7 +143,7 @@ namespace Personal.InteractiveObject
 		{
 			if (!dialogueSystemTrigger) return;
 			if (!interactDialogueDefinition) return;
-			if (interactDialogueDefinition.InteractableType.HasFlag(interactableType) == false) return;
+			if (interactDialogueDefinition.InteractionType.HasFlag(interactableType) == false) return;
 
 			dialogueSystemTrigger.conversation = dialogue;
 			dialogueSystemTrigger?.OnUse(actor);
@@ -179,12 +179,12 @@ namespace Personal.InteractiveObject
 
 		bool IsDefinitionHasFlag(InteractableType interactableType)
 		{
-			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractableType.HasFlag(interactableType) == true);
+			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionType.HasFlag(interactableType) == true);
 		}
 
 		bool IsDefinitionHasFlag(InteractableCompleteType interactableCompleteType)
 		{
-			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractableCompleteType.HasFlag(interactableCompleteType) == true);
+			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionCompleteType.HasFlag(interactableCompleteType) == true);
 		}
 
 		[ContextMenu("GenerateGUID")]

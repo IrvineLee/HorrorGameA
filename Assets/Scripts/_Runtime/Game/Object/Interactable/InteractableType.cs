@@ -15,6 +15,6 @@ namespace Personal.InteractiveObject
 		Reward = 1 << 5,                                // After getting the reward, show dialogue D.
 		End = 1 << 10,                                  // After getting the reward, ended the interaction, interacting with this object again displays the final dialogue.
 
-		All = Requirement | AchieveRequirement_BeforeInteract | AchieveRequirement_AfterInteract | Reward | End,
+		All = ExaminableBeforeKeyEvent | Requirement | AchieveRequirement_BeforeInteract | AchieveRequirement_AfterInteract | Reward | End,
 	}
 }

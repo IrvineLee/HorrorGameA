@@ -14,18 +14,18 @@ namespace Personal.Definition
 	public class InteractableDialogueDefinition : ScriptableObject
 	{
 		#region Constants
-		const string EXAMINABLE_BEFORE_KEY_EVENT_STRING = "@interactionType.HasFlag(InteractableType.ExaminableBeforeKeyEvent)";
+		const string EXAMINABLE_BEFORE_KEY_EVENT_STRING = "@interactableType.HasFlag(InteractableType.ExaminableBeforeKeyEvent)";
 
-		const string REQUIRED_STRING = "@interactionType.HasFlag(InteractableType.Requirement)";
-		const string ACHIEVED_REQUIRED_BEFORE_USE_STRING = "@interactionType.HasFlag(InteractableType.Requirement) && interactionType.HasFlag(InteractableType.AchieveRequirement_BeforeInteract)";
-		const string ACHIEVED_REQUIRED_AFTER_USE_STRING = "@interactionType.HasFlag(InteractableType.Requirement) && interactionType.HasFlag(InteractableType.AchieveRequirement_AfterInteract)";
+		const string REQUIRED_STRING = "@interactableType.HasFlag(InteractableType.Requirement)";
+		const string ACHIEVED_REQUIRED_BEFORE_USE_STRING = "@interactableType.HasFlag(InteractableType.Requirement) && interactableType.HasFlag(InteractableType.AchieveRequirement_BeforeInteract)";
+		const string ACHIEVED_REQUIRED_AFTER_USE_STRING = "@interactableType.HasFlag(InteractableType.Requirement) && interactableType.HasFlag(InteractableType.AchieveRequirement_AfterInteract)";
 
-		const string REWARD_STRING = "@interactionType.HasFlag(InteractableType.Reward)";
-		const string END_STRING = "@interactionType.HasFlag(InteractableType.End)";
+		const string REWARD_STRING = "@interactableType.HasFlag(InteractableType.Reward)";
+		const string END_STRING = "@interactableType.HasFlag(InteractableType.End)";
 		#endregion
 
 		[SerializeField] InteractableType interactableType;
-		[SerializeField] InteractableCompleteType interactableCompleteType = InteractableCompleteType.NotInteractable;
+		[SerializeField] InteractableCompleteType interactionCompleteType = InteractableCompleteType.NotInteractable;
 
 		#region Examinable
 
@@ -94,8 +94,8 @@ namespace Personal.Definition
 		#endregion
 
 
-		public InteractableType InteractableType { get => interactableType; }
-		public InteractableCompleteType InteractableCompleteType { get => interactableCompleteType; }
+		public InteractableType InteractionType { get => interactableType; }
+		public InteractableCompleteType InteractionCompleteType { get => interactionCompleteType; }
 
 		public string ExaminableDialogue { get => examinableDialogue; }
 
