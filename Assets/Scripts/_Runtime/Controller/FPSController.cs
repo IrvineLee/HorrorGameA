@@ -187,6 +187,10 @@ namespace Personal.Character.Player
 				velocity.z = isSprint ? sprintSpeed : moveSpeed;
 				if (inputDirection.z < 0) velocity.z = backSpeed;
 			}
+			else
+			{
+				velocity.z = 0;
+			}
 
 			if (inputDirection == Vector3.zero) velocity = Vector3.zero;
 

@@ -5,7 +5,7 @@ using Personal.Entity;
 [Serializable]
 public class AchievementEntity : GenericEntity
 {
-	public string achievementName = "";
+	public string name = "";
 	public int ps4ID = 0;
 	public int xboxID = 0;
 	public string steamID = "";
