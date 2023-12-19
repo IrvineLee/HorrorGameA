@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using PixelCrushers.DialogueSystem;
 using Sirenix.OdinInspector;
 using Personal.Item;
 using Personal.InteractiveObject;
+using PixelCrushers.DialogueSystem;
 
 namespace Personal.Definition
 {
-	[CreateAssetMenu(fileName = "InteractableDialogueDefinition", menuName = "ScriptableObjects/InteractableObject/Dialogue", order = 0)]
+	[CreateAssetMenu(fileName = "InteractableDefinition", menuName = "ScriptableObjects/Definition/Interactable", order = 0)]
 	[Serializable]
-	public class InteractableDialogueDefinition : ScriptableObject
+	public class InteractableDefinition : ScriptableObject
 	{
 		#region Constants
 		const string EXAMINABLE_BEFORE_KEY_EVENT_STRING = "@interactableType.HasFlag(InteractableType.ExaminableBeforeKeyEvent)";
@@ -27,12 +27,18 @@ namespace Personal.Definition
 		[SerializeField] InteractableType interactableType;
 		[SerializeField] InteractableCompleteType interactionCompleteType = InteractableCompleteType.NotInteractable;
 
+		[SerializeField] bool isAllSameDatabase = false;
+		[ShowIf("@isAllSameDatabase")] [SerializeField] DialogueDatabase dialogueDatabase = null;
+
 		#region Examinable
 
 		[ShowIf(EXAMINABLE_BEFORE_KEY_EVENT_STRING)]
 		[Header("Examinable")]
-		[Tooltip("The dialogue when the key event has not enable this object to be interactable.")]
-		[SerializeField] [ConversationPopup(true, true)] string examinableDialogue = null;
+		[Tooltip("The dialogue when the key event has not started and make this object truly interactable.(Have to call EndExaminableDialogue() to make it truly interactable)")]
+		[SerializeField] InteractDialogue examinableDialogue = null;
+
+		[Tooltip("Key event to disable the examinable state.")]
+		[SerializeField] KeyEventType keyEventEndType = KeyEventType._200000_ReadBookA;
 
 		#endregion
 
@@ -41,7 +47,7 @@ namespace Personal.Definition
 		[ShowIf(REQUIRED_STRING)]
 		[Header("Requirement")]
 		[Tooltip("The dialogue when the player does not have the required items to enable interaction.")]
-		[SerializeField] [ConversationPopup(true, true)] string requiredItemDialogue = null;
+		[SerializeField] InteractDialogue requiredItemDialogue = null;
 
 		[ShowIf(REQUIRED_STRING)]
 		[Tooltip("The item needed to enable/trigger the interaction." +
@@ -50,25 +56,25 @@ namespace Personal.Definition
 
 		#endregion
 
-		#region Achieved Required Before Use
+		#region Achieved Required Before Interact
 
 		[ShowIf(ACHIEVED_REQUIRED_BEFORE_USE_STRING)]
-		[Header("Achieved requirement, before use")]
+		[Header("Achieved requirement, before interact")]
 		[Tooltip("Does it happen only once?")]
 		[SerializeField] bool isOnlyOnce_BeforeUse = false;
 
 		[ShowIf(ACHIEVED_REQUIRED_BEFORE_USE_STRING)]
 		[Tooltip("The dialogue when you have the required item, but before using them.")]
-		[SerializeField] [ConversationPopup(true, true)] string achievedRequiredBeforeUseDialogue = null;
+		[SerializeField] InteractDialogue achievedRequiredBeforeDialogue = null;
 
 		#endregion
 
-		#region Achieved Required After Use
+		#region Achieved Required After Interact
 
 		[ShowIf(ACHIEVED_REQUIRED_AFTER_USE_STRING)]
-		[Header("Achieved requirement, after use")]
+		[Header("Achieved requirement, after interact")]
 		[Tooltip("The dialogue when you have the required item and after using them.")]
-		[SerializeField] [ConversationPopup(true, true)] string achievedRequiredAfterUseDialogue = null;
+		[SerializeField] InteractDialogue achievedRequiredAfterDialogue = null;
 
 		#endregion
 
@@ -77,7 +83,7 @@ namespace Personal.Definition
 		[ShowIf(REWARD_STRING)]
 		[Header("Reward")]
 		[Tooltip("The interaction dialogue when you get the reward.")]
-		[SerializeField] [ConversationPopup(true, true)] string rewardDialogue = null;
+		[SerializeField] InteractDialogue rewardDialogue = null;
 
 		[ShowIf(REWARD_STRING)]
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
@@ -89,7 +95,7 @@ namespace Personal.Definition
 		[ShowIf(END_STRING)]
 		[Header("End")]
 		[Tooltip("The next interaction dialogue after getting the reward.")]
-		[SerializeField] [ConversationPopup(true, true)] string endedDialogue = null;
+		[SerializeField] InteractDialogue endedDialogue = null;
 
 		#endregion
 
@@ -97,19 +103,41 @@ namespace Personal.Definition
 		public InteractableType InteractionType { get => interactableType; }
 		public InteractableCompleteType InteractionCompleteType { get => interactionCompleteType; }
 
-		public string ExaminableDialogue { get => examinableDialogue; }
+		public string ExaminableDialogue { get => examinableDialogue.conversation; }
+		public KeyEventType KeyEventType { get => keyEventEndType; }
 
-		public string RequiredItemDialogue { get => requiredItemDialogue; }
+		public string RequiredItemDialogue { get => requiredItemDialogue.conversation; }
 		public List<ItemType> RequiredItemTypeList { get => requiredItemTypeList; }
 
 		public bool IsOnlyOnce_BeforeUse { get => isOnlyOnce_BeforeUse; }
-		public string AchievedRequiredBeforeUseDialogue { get => achievedRequiredBeforeUseDialogue; }
+		public string AchievedRequiredBeforeUseDialogue { get => achievedRequiredBeforeDialogue.conversation; }
 
-		public string AchievedRequiredAfterUseDialogue { get => achievedRequiredAfterUseDialogue; }
+		public string AchievedRequiredAfterUseDialogue { get => achievedRequiredAfterDialogue.conversation; }
 
-		public string RewardDialogue { get => rewardDialogue; }
+		public string RewardDialogue { get => rewardDialogue.conversation; }
 		public List<InteractableObject> RewardInteractableObjectList { get => rewardInteractableObjectList; }
 
-		public string EndedDialogue { get => endedDialogue; }
+		public string EndedDialogue { get => endedDialogue.conversation; }
+
+		void OnValidate()
+		{
+			if (!isAllSameDatabase)
+			{
+				dialogueDatabase = null;
+				return;
+			}
+
+			UpdateAllDialogueDatabase();
+		}
+
+		void UpdateAllDialogueDatabase()
+		{
+			examinableDialogue.dialogueDatabase = dialogueDatabase;
+			requiredItemDialogue.dialogueDatabase = dialogueDatabase;
+			achievedRequiredBeforeDialogue.dialogueDatabase = dialogueDatabase;
+			achievedRequiredAfterDialogue.dialogueDatabase = dialogueDatabase;
+			rewardDialogue.dialogueDatabase = dialogueDatabase;
+			endedDialogue.dialogueDatabase = dialogueDatabase;
+		}
 	}
 }

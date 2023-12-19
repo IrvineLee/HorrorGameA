@@ -25,7 +25,7 @@ namespace Personal.InteractiveObject
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
 
 		[SerializeField] bool isInteractable = true;
-		[SerializeField] InteractableDialogueDefinition interactDialogueDefinition = null;
+		[SerializeField] InteractableDefinition interactDialogueDefinition = null;
 
 		public CursorDefinition.CrosshairType InteractCrosshairType { get => interactCrosshairType; }
 		public ActorStateMachine InitiatorStateMachine { get; protected set; }
@@ -54,6 +54,10 @@ namespace Personal.InteractiveObject
 			{
 				isExaminableDialogueEnded = true;
 			}
+			else if (IsDefinitionHasFlag(InteractableType.ExaminableBeforeKeyEvent))
+			{
+				InteractionEnd_CompleteKeyEvent.OnKeyEventCompleted += OnKeyEventCompleted;
+			}
 		}
 
 		public async UniTask HandleInteraction(ActorStateMachine initiatorStateMachine, Action doLast = default)
@@ -65,18 +69,21 @@ namespace Personal.InteractiveObject
 			Transform actor = initiatorStateMachine.transform;
 			if (!isExaminableDialogueEnded)
 			{
-				await HandleInteractionDialogue(InteractableType.ExaminableBeforeKeyEvent, interactDialogueDefinition.ExaminableDialogue, actor, doLast);
+				await HandleInteractionDialogue(InteractableType.ExaminableBeforeKeyEvent, interactDialogueDefinition.ExaminableDialogue, actor);
+				doLast?.Invoke();
 				return;
 			}
 
 			if (!isMainInteractionCompleted && !HasRequiredItems() && IsDefinitionHasFlag(InteractableType.Reward))
 			{
-				await HandleInteractionDialogue(InteractableType.Requirement, interactDialogueDefinition.RequiredItemDialogue, actor, doLast);
+				await HandleInteractionDialogue(InteractableType.Requirement, interactDialogueDefinition.RequiredItemDialogue, actor);
+				doLast?.Invoke();
 				return;
 			}
 			else if (isMainInteractionCompleted && IsDefinitionHasFlag(InteractableCompleteType.EndDialogue))
 			{
-				await HandleInteractionDialogue(InteractableType.End, interactDialogueDefinition.EndedDialogue, actor, doLast);
+				await HandleInteractionDialogue(InteractableType.End, interactDialogueDefinition.EndedDialogue, actor);
+				doLast?.Invoke();
 				return;
 			}
 
@@ -97,15 +104,6 @@ namespace Personal.InteractiveObject
 		{
 			isInteractable = isFlag;
 			if (colliderTrans) colliderTrans.gameObject.SetActive(isFlag);
-		}
-
-		/// <summary>
-		/// This only handles for the flag of InteractableType.ExaminableBeforeKeyEvent. After calling this, it will no longer enter that dialogue.
-		/// Nothing happens if the flag is not selected.
-		/// </summary>
-		public void EndExaminableDialogue()
-		{
-			isExaminableDialogueEnded = true;
 		}
 
 		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
@@ -130,7 +128,7 @@ namespace Personal.InteractiveObject
 				await HandleInteractionDialogue(InteractableType.Reward, interactDialogueDefinition.RewardDialogue, actor);
 			}
 
-			StageManager.Instance.GetReward(interactDialogueDefinition.RewardInteractableObjectList).Forget();
+			if (interactDialogueDefinition) StageManager.Instance.GetReward(interactDialogueDefinition.RewardInteractableObjectList).Forget();
 
 			isMainInteractionCompleted = true;
 			if (interactDialogueDefinition == null || IsDefinitionHasFlag(InteractableCompleteType.NotInteractable)) SetIsInteractable(false);
@@ -139,17 +137,16 @@ namespace Personal.InteractiveObject
 		/// <summary>
 		/// This checks whether the correct InteractionType is selected before playing the dialogue.
 		/// </summary>
-		protected async UniTask HandleInteractionDialogue(InteractableType interactableType, string dialogue, Transform actor, Action doLast = default)
+		protected async UniTask HandleInteractionDialogue(InteractableType interactableType, string dialogue, Transform actor)
 		{
-			if (!dialogueSystemTrigger) return;
 			if (!interactDialogueDefinition) return;
 			if (interactDialogueDefinition.InteractionType.HasFlag(interactableType) == false) return;
+			if (!dialogueSystemTrigger) { Debug.LogWarning(name + " has no Dialogue System Trigger"); return; }
 
 			dialogueSystemTrigger.conversation = dialogue;
 			dialogueSystemTrigger?.OnUse(actor);
 
 			await StageManager.Instance.DialogueController.WaitDialogueEnd();
-			doLast?.Invoke();
 		}
 
 		protected async UniTask HandleAchieveRequirement_BeforeInteract(Transform actor)
@@ -179,12 +176,24 @@ namespace Personal.InteractiveObject
 
 		bool IsDefinitionHasFlag(InteractableType interactableType)
 		{
-			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionType.HasFlag(interactableType) == true);
+			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionType.HasFlag(interactableType));
 		}
 
 		bool IsDefinitionHasFlag(InteractableCompleteType interactableCompleteType)
 		{
-			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionCompleteType.HasFlag(interactableCompleteType) == true);
+			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionCompleteType.HasFlag(interactableCompleteType));
+		}
+
+
+		void OnKeyEventCompleted(KeyEventType keyEventType)
+		{
+			if (interactDialogueDefinition.KeyEventType != keyEventType) return;
+			isExaminableDialogueEnded = true;
+		}
+
+		void OnDestroy()
+		{
+			InteractionEnd_CompleteKeyEvent.OnKeyEventCompleted -= OnKeyEventCompleted;
 		}
 
 		[ContextMenu("GenerateGUID")]

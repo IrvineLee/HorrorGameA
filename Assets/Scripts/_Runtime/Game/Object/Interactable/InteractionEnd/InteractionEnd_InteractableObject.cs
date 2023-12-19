@@ -8,8 +8,6 @@ namespace Personal.InteractiveObject
 		[SerializeField] List<InteractableObject> enableInteractableObjectList = new();
 		[SerializeField] List<InteractableObject> disableInteractableObjectList = new();
 
-		[SerializeField] List<InteractableObject> activateKeyEventObjectList = new();
-
 		protected override void HandleInteractable()
 		{
 			foreach (var interactable in enableInteractableObjectList)
@@ -19,11 +17,6 @@ namespace Personal.InteractiveObject
 			foreach (var interactable in disableInteractableObjectList)
 			{
 				interactable?.SetIsInteractable(false);
-			}
-
-			foreach (var interactable in activateKeyEventObjectList)
-			{
-				interactable?.EndExaminableDialogue();
 			}
 		}
 	}

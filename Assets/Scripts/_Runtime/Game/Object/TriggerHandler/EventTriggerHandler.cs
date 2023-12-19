@@ -1,46 +1,32 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
-using Personal.Quest;
-using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
+	/// <summary>
+	/// All event trigger will end after triggering them.
+	/// </summary>
 	public class EventTriggerHandler : InteractableEventBegin
 	{
-		protected List<Collider> allColliderList = new();
-
-		protected override void Initialize()
-		{
-			base.Initialize();
-
-			allColliderList = GetComponentsInChildren<Collider>().ToList();
-		}
-
-		void OnTriggerEnter(Collider other)
+		async void OnTriggerEnter(Collider other)
 		{
 			if (!IsInteractable) return;
 
-			var questSet = GetComponentInChildren<QuestTypeSet>();
-			if (questSet)
-			{
-				QuestType questType = questSet.QuestType;
-				if (!QuestManager.Instance.IsAbleToStartQuest(questType)) return;
-			}
+			bool isPassed = await HandleTrigger();
 
-			// Disable all the trigger collider.
-			foreach (var collider in allColliderList)
-			{
-				collider.enabled = false;
-			}
+			if (!isPassed) return;
+
+			isInteractionEnded = true;
+			gameObject.SetActive(false);
 
 			// Set the state machine.
 			InitiatorStateMachine = other.GetComponentInParent<ActorStateMachine>();
 			base.HandleInteraction().Forget();
 		}
+
+		protected virtual UniTask<bool> HandleTrigger() { return new UniTask<bool>(true); }
 	}
 }
 
