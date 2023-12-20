@@ -34,7 +34,7 @@ namespace Personal.Definition
 
 		[ShowIf(EXAMINABLE_BEFORE_KEY_EVENT_STRING)]
 		[Header("Examinable")]
-		[Tooltip("The dialogue when the key event has not started and make this object truly interactable.(Have to call EndExaminableDialogue() to make it truly interactable)")]
+		[Tooltip("The dialogue when the key event has not started and make this object truly interactable.")]
 		[SerializeField] InteractDialogue examinableDialogue = null;
 
 		[Tooltip("Key event to disable the examinable state.")]

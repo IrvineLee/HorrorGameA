@@ -29,6 +29,13 @@ namespace Personal.UI.Option
 		[SerializeField] UISelectionToggle isBloom = null;
 		[SerializeField] UISelectionToggle isAmbientOcclusion = null;
 
+		// CAUTION : This value follows the index of the dropdown list. If it gets changed in the future, change here too.
+		const int FXAAIndex = 1;
+		const int SMAAIndex = 2;
+		const int MSAAIndex2 = 3;
+		const int MSAAIndex4 = 4;
+		const int MSAAIndex8 = 5;
+
 		GraphicData graphicData;
 		VolumeProfile volumeProfile;
 
@@ -316,25 +323,40 @@ namespace Personal.UI.Option
 			// 1 means disabled in URP.
 			UniversalRenderPipeline.asset.msaaSampleCount = 1;
 
-			if (index == 3) UniversalRenderPipeline.asset.msaaSampleCount = 2;
-			else if (index == 4) UniversalRenderPipeline.asset.msaaSampleCount = 4;
-			else if (index == 5) UniversalRenderPipeline.asset.msaaSampleCount = 8;
+			if (index == MSAAIndex2) UniversalRenderPipeline.asset.msaaSampleCount = 2;
+			else if (index == MSAAIndex4) UniversalRenderPipeline.asset.msaaSampleCount = 4;
+			else if (index == MSAAIndex8) UniversalRenderPipeline.asset.msaaSampleCount = 8;
 
 			universalCameraData.antialiasing = AntialiasingMode.None;
 
-			if (index == 1) universalCameraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
-			else if (index == 2) universalCameraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
+			if (index == FXAAIndex) universalCameraData.antialiasing = AntialiasingMode.FastApproximateAntialiasing;
+			else if (index == SMAAIndex) universalCameraData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
 
 			antiAliasingDropdown.SetCurrentIndex(index);
 			currentAntiAliasIndex = index;
+
+			HandleAmbientOcclusion(isAmbientOcclusion.IsOn);
 		}
 
+		/// <summary>
+		/// Following the rendering list. If the list changes, update here.
+		/// 0. URP_Renderer (default)
+		/// 1. URP_Renderer_Forward
+		/// 2. URP_AmbientOcclusion
+		/// 3. URP_AmbientOcclusion_Forward
+		/// </summary>
+		/// <param name="isFlag"></param>
 		void HandleAmbientOcclusion(bool isFlag)
 		{
-			universalCameraData.SetRenderer(0);
+			bool isMSAAAntiAlias = currentAntiAliasIndex >= MSAAIndex2 && currentAntiAliasIndex <= MSAAIndex8;
 
 			if (isFlag)
-				universalCameraData.SetRenderer(1);
+			{
+				universalCameraData.SetRenderer(isMSAAAntiAlias ? 3 : 2); // URP_AmbientOcclusion_Forward/URP_AmbientOcclusion
+				return;
+			}
+
+			universalCameraData.SetRenderer(isMSAAAntiAlias ? 1 : 0); //  URP_Renderer_Forward/URP_Renderer (default)
 		}
 
 		void ResetDropdownUI()
