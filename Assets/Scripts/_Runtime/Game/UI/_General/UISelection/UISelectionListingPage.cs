@@ -1,13 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Personal.Data;
 using Personal.Localization;
+using Personal.Manager;
 
 namespace Personal.UI
 {
 	public class UISelectionListingPage : UISelectionListing
 	{
+		[SerializeField] Button endButton = null;
+
+		void OnEnable()
+		{
+			EnableEndButton(false);
+		}
+
+		public override void InitialSetup()
+		{
+			base.InitialSetup();
+			endButton.onClick.AddListener(() => UIManager.Instance.CloseWindowStack());
+		}
+
 		/// <summary>
 		/// This will use the spawned TMP to display the string. If not enough TMP, it will spawn it in.
 		/// Typically use this if you don't want to update the stringList(pre-determined string).
@@ -40,9 +55,24 @@ namespace Personal.UI
 			}
 		}
 
+		protected override void HandleButtonVisibility()
+		{
+			leftButton.interactable = true;
+			EnableEndButton(false);
+
+			if (currentActiveIndex == 0) leftButton.interactable = false;
+			else if (currentActiveIndex >= activeTMPList.Count - 1) EnableEndButton(true);
+		}
+
 		void AddToList(string s, List<string> strList)
 		{
 			if (!string.IsNullOrEmpty(s)) strList.Add(s);
+		}
+
+		void EnableEndButton(bool isFlag)
+		{
+			rightButton.gameObject.SetActive(!isFlag);
+			endButton.gameObject.SetActive(isFlag);
 		}
 
 		void OnDisable()

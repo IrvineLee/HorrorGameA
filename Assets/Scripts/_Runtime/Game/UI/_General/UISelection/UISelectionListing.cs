@@ -143,7 +143,7 @@ namespace Personal.UI
 			}
 		}
 
-		protected void HandleButtonVisibility()
+		protected virtual void HandleButtonVisibility()
 		{
 			leftButton.interactable = true;
 			rightButton.interactable = true;

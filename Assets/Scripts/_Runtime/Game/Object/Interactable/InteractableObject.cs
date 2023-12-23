@@ -131,7 +131,7 @@ namespace Personal.InteractiveObject
 			if (interactDialogueDefinition) StageManager.Instance.GetReward(interactDialogueDefinition.RewardInteractableObjectList).Forget();
 
 			isMainInteractionCompleted = true;
-			if (interactDialogueDefinition == null || IsDefinitionHasFlag(InteractableCompleteType.NotInteractable)) SetIsInteractable(false);
+			if (interactDialogueDefinition == null) SetIsInteractable(!IsDefinitionHasFlag(InteractableCompleteType.NotInteractable));
 		}
 
 		/// <summary>

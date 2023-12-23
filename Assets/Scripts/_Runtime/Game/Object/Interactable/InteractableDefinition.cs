@@ -38,7 +38,7 @@ namespace Personal.Definition
 		[SerializeField] InteractDialogue examinableDialogue = null;
 
 		[Tooltip("Key event to disable the examinable state.")]
-		[SerializeField] KeyEventType keyEventEndType = KeyEventType._200000_ReadBookA;
+		[SerializeField] KeyEventType keyEventEndType = KeyEventType._200000_None;
 
 		#endregion
 

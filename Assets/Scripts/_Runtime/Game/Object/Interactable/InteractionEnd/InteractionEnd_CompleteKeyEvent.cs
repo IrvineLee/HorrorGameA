@@ -5,7 +5,7 @@ namespace Personal.InteractiveObject
 {
 	public class InteractionEnd_CompleteKeyEvent : InteractionEnd
 	{
-		[SerializeField] KeyEventType keyEventType = KeyEventType._200000_ReadBookA;
+		[SerializeField] KeyEventType keyEventType = KeyEventType._200000_None;
 
 		public static event Action<KeyEventType> OnKeyEventCompleted;
 
