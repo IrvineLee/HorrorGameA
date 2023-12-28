@@ -31,7 +31,7 @@ namespace Personal.Dialogue
 		public async UniTask WaitDialogueEnd()
 		{
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
+			await UniTask.WaitUntil(() => !DialogueManager.Instance.isConversationActive, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		void OnDestroy()

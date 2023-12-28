@@ -10,6 +10,7 @@ namespace Personal.FSM.Character
 	public class PlayerStandardState : PlayerBaseState
 	{
 		InteractableObject previousInteractable;
+		LookAtInfo lookAtInfo = new LookAtInfo();
 
 		protected override void HandleOnInteractable(RaycastHit hit)
 		{
@@ -34,7 +35,12 @@ namespace Personal.FSM.Character
 			if (!InputManager.Instance.GetButtonPush(InputManager.ButtonPush.Submit)) return;
 
 			Debug.Log("Hit interactable");
-			playerFSM.SetLookAtTarget(interactable.GetComponentInChildren<ActorController>()?.Head);
+			var hitActorController = interactable.GetComponentInChildren<ActorController>();
+			if (hitActorController)
+			{
+				lookAtInfo.LookAt = hitActorController.Head;
+				playerFSM.SetLookAtInfo(lookAtInfo);
+			}
 
 			CursorManager.Instance.SetCenterCrosshairToDefault();
 

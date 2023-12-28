@@ -5,12 +5,13 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.GameState;
 using Personal.Character;
 using Personal.Character.NPC;
 using Personal.Character.Animation;
 using Personal.Constant;
-using Helper;
+using Personal.FSM.Character;
 
 namespace Personal.FSM
 {
@@ -23,7 +24,7 @@ namespace Personal.FSM
 		public NavMeshAgent NavMeshAgent { get; protected set; }
 		public ActorController ActorController { get; protected set; }
 		public AnimatorController AnimatorController { get; protected set; }
-		public Transform LookAtTarget { get; protected set; }
+		public LookAtInfo LookAtInfo { get; protected set; }
 
 		protected List<StateBase> orderedStateList = new List<StateBase>();
 		protected List<Material> materialList = new List<Material>();
@@ -58,9 +59,9 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public virtual UniTask Begin(InteractionAssign interactionAssign, StateMachineBase initiatorFSM = null, TargetInfo targetInfo = null) { return UniTask.CompletedTask; }
 
-		public void SetLookAtTarget(Transform target)
+		public void SetLookAtInfo(LookAtInfo lookAtInfo)
 		{
-			LookAtTarget = target;
+			LookAtInfo = lookAtInfo;
 		}
 
 		protected async UniTask PlayOrderedState()

@@ -139,6 +139,19 @@ namespace Personal.Character.Player
 		public void Sprint(bool isFlag) { isSprint = isFlag; }
 		public void Jump(bool isFlag) { isJump = isFlag; }
 
+		/// <summary>
+		/// Call this when you need to update the camera y value outside of normal mouse movement. Ex: During an lookat event.
+		/// </summary>
+		/// <param name="toValue"></param>
+		/// <param name="targetY"></param>
+		public void UpdateTargetPitch(float toValue)
+		{
+			if (toValue > 180) toValue -= 360;
+
+			cinemachineTargetPitch = toValue;
+			cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(!gameData.IsInvertLookVertical ? cinemachineTargetPitch : -cinemachineTargetPitch, 0.0f, 0.0f);
+		}
+
 		void GroundedCheck()
 		{
 			// set sphere position, with offset

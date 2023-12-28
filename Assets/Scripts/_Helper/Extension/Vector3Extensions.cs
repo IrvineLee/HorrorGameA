@@ -32,14 +32,6 @@ namespace Helper
 		}
 
 		/// <summary>
-		/// DirectionTo
-		/// </summary>
-		public static Vector3 DirectionTo(this Vector3 source, Vector3 destination)
-		{
-			return Vector3.Normalize(destination - source);
-		}
-
-		/// <summary>
 		/// SpanTo
 		/// </summary>
 		public static Vector3 SpanTo(this Vector3 source, Vector3 destination)

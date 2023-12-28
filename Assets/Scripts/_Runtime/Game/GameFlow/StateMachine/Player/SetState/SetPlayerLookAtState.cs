@@ -9,6 +9,12 @@ namespace Personal.FSM.Character
 	{
 		[SerializeField] Transform lookAtTarget = null;
 
+		[Tooltip("Does the player remain looking at target after state end?")]
+		[SerializeField] bool isPersist = false;
+
+		[Tooltip("Does the turn by animation or instantly?")]
+		[SerializeField] bool isInstant = true;
+
 		PlayerStateMachine playerFSM;
 
 		public override async UniTask OnEnter()
@@ -16,7 +22,9 @@ namespace Personal.FSM.Character
 			await base.OnEnter();
 
 			playerFSM = StageManager.Instance.PlayerController.FSM;
-			playerFSM.SetLookAtTarget(lookAtTarget);
+			var lookAtInfo = new LookAtInfo(lookAtTarget, isPersist, isInstant);
+
+			playerFSM.SetLookAtInfo(lookAtInfo);
 			playerFSM.SwitchToState(typeof(PlayerLookAtState)).Forget();
 
 			await UniTask.NextFrame();

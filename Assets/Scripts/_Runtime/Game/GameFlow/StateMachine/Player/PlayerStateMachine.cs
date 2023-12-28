@@ -85,7 +85,7 @@ namespace Personal.FSM.Character
 		{
 			// You need to set it to the next state first so the previous OnExit gets called.
 			SwitchToState(typeof(PlayerStandardState)).Forget();
-			SetLookAtTarget(null);
+			SetLookAtInfo(null);
 		}
 	}
 }

@@ -19,12 +19,11 @@ namespace Personal.FSM.Character
 			fpsController = StageManager.Instance.PlayerController.FPSController;
 			fpsController.enabled = true;
 
-			if (playerFSM.LookAtTarget)
-			{
-				vCam = GetComponentInChildren<CinemachineVirtualCamera>();
-				vCam.LookAt = playerFSM.LookAtTarget;
-				vCam.Priority = 30;
-			}
+			if (playerFSM.LookAtInfo == null) return;
+
+			vCam = GetComponentInChildren<CinemachineVirtualCamera>();
+			vCam.LookAt = playerFSM.LookAtInfo.LookAt;
+			vCam.Priority = 30;
 		}
 
 		public override async UniTask OnExit()
