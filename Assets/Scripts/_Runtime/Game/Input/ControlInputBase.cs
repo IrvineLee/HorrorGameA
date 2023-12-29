@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 using Personal.GameState;
+using Helper;
 
 namespace Personal.InputProcessing
 {
@@ -8,30 +10,20 @@ namespace Personal.InputProcessing
 	{
 		public static ControlInputBase ActiveControlInput { get; protected set; }
 
-		static ControlInputBase previousActiveControl;
+		static Stack<ControlInputBase> activeControlStack = new();
 
 		protected override void OnEnabled()
 		{
-			ActiveControlInput = this;
+			activeControlStack.Push(this);
+			ActiveControlInput = activeControlStack.Peek();
 		}
 
 		protected override void OnDisabled()
 		{
-			ActiveControlInput = null;
-		}
+			if (App.IsQuitting) return;
 
-		public static void DisableSaveActiveControl()
-		{
-			previousActiveControl = ActiveControlInput;
-			ActiveControlInput = null;
-		}
-
-		public static void EnableLoadActiveControl()
-		{
-			if (!previousActiveControl) return;
-
-			ActiveControlInput = previousActiveControl;
-			previousActiveControl = null;
+			activeControlStack.Pop();
+			ActiveControlInput = activeControlStack.Peek();
 		}
 	}
 }

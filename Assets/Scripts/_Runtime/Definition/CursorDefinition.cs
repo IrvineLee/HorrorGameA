@@ -14,7 +14,7 @@ namespace Personal.Definition
 			Talk,
 			Search,
 
-			UI_Nothing = 100,
+			Nothing = 999,
 		}
 
 		[Serializable]

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.InteractiveObject;
 using Personal.UI.Debugging;
+using Personal.UI;
 
 namespace Personal.Manager
 {
@@ -54,12 +55,12 @@ namespace Personal.Manager
 		public void OpenDebugPanel()
 		{
 			debugHandlerUI?.OpenWindow();
+			UISelectable.CurrentAppearSelected();
 		}
 
 		public void CloseDebugPanel()
 		{
 			debugHandlerUI?.CloseWindow();
-			PauseManager.Instance.ResumeTime();
 		}
 
 		public void DeleteProfileData()

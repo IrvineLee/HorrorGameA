@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.InteractiveObject;
 using Personal.Character;
+using Personal.Definition;
 
 namespace Personal.FSM.Character
 {
@@ -42,7 +43,7 @@ namespace Personal.FSM.Character
 				playerFSM.SetLookAtInfo(lookAtInfo);
 			}
 
-			CursorManager.Instance.SetCenterCrosshairToDefault();
+			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 
 			ifsmHandler.OnBegin(typeof(PlayerIdleState));
 			interactable.HandleInteraction(playerFSM, ifsmHandler.OnExit).Forget();

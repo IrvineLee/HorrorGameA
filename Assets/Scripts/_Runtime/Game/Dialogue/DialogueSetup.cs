@@ -7,6 +7,7 @@ using Helper;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
+using Personal.Definition;
 using UIButtonKeyTrigger = PixelCrushers.UIButtonKeyTrigger;
 
 namespace Personal.Dialogue
@@ -124,14 +125,14 @@ namespace Personal.Dialogue
 				// Wait for the response to be selected first before setting mouse cursor.
 				CoroutineHelper.WaitNextFrame(() =>
 				{
-					CursorManager.Instance.TrySetToMouseCursorForMouseControl(true);
+					CursorManager.Instance.SetToMouseCursor(true, true, CursorDefinition.CrosshairType.Nothing);
 				}, false, true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>
 			{
 				IsWaitingResponse = false;
-				CursorManager.Instance.TrySetToMouseCursorForMouseControl(false);
+				CursorManager.Instance.SetToMouseCursor(false);
 			});
 		}
 

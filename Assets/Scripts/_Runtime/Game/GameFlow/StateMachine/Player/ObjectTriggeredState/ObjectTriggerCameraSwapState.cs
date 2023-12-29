@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Cinemachine;
 using Personal.Interface;
 using Personal.Manager;
+using Personal.Definition;
 using static Personal.Manager.InputManager;
 
 namespace Personal.FSM.Character
@@ -60,7 +61,7 @@ namespace Personal.FSM.Character
 		async UniTask ActivateCamera(bool isFlag)
 		{
 			virtualCam.gameObject.SetActive(isFlag);
-			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag, true);
+			CursorManager.Instance.SetToMouseCursor(isFlag, true, CursorDefinition.CrosshairType.Nothing);
 
 			isRunning = isFlag;
 			await WaitCameraBlend();

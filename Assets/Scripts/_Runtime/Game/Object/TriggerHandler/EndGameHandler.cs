@@ -33,7 +33,7 @@ namespace Personal.InteractiveObject
 			StageManager.Instance.PlayerController.PauseFSM(true);
 			InputManager.Instance.DisableAllActionMap();
 
-			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.UI_Nothing);
+			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.Nothing);
 			TransitionManager.Instance.SetCanvasSortOrder(transitionBelowSortOrder);
 
 			await ShowEnding();

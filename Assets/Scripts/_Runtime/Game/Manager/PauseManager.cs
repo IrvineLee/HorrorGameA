@@ -1,7 +1,9 @@
 using UnityEngine;
 
+using Helper;
 using Personal.GameState;
 using Personal.UI;
+using Personal.Definition;
 
 namespace Personal.Manager
 {
@@ -32,10 +34,15 @@ namespace Personal.Manager
 
 			StageManager.Instance.PlayerController.PauseFSM(isFlag);
 
-			// You don't wanna affect the cursor during dialogue.
+			// You don't wanna affect the cursor during dialogue/when not using mouse.
 			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Dialogue) return;
+			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Debug) return;
+			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
 
-			CursorManager.Instance.TrySetToMouseCursorForMouseControl(isFlag, isFlag);
+			CoroutineHelper.WaitEndOfFrame(() =>
+			{
+				CursorManager.Instance.SetToMouseCursor(isFlag, true, isFlag ? CursorDefinition.CrosshairType.Nothing : CursorDefinition.CrosshairType.FPS);
+			});
 		}
 
 		void OnApplicationQuit()

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Personal.Constant;
 using Personal.Manager;
 using Personal.System.Handler;
+using Personal.Definition;
 
 namespace Personal.FSM.Character
 {
@@ -44,7 +45,7 @@ namespace Personal.FSM.Character
 				return;
 			}
 
-			CursorManager.Instance.SetCenterCrosshairToDefault();
+			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 			HandleOffInteractable();
 		}
 

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-using PixelCrushers;
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
@@ -26,8 +25,7 @@ namespace Personal.Manager
 				  InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle;
 		}
 
-		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.FPS;
-		CursorDefinition.CrosshairType defaultCrosshairType = CursorDefinition.CrosshairType.FPS;
+		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.Nothing;
 
 		DialogueSetup dialogueSetup;
 
@@ -38,49 +36,49 @@ namespace Personal.Manager
 			cursorDefinition.Initialize();
 			mouseCursorHandler.SetImage(cursorDefinition.MouseCursor);
 
+			Cursor.visible = false;
 			InputManager.OnDeviceIconChanged += HandleCursorAndMouseChange;
 		}
 
 		protected override void OnTitleScene()
 		{
 			HandleCursorAndMouseChange();
-			SetCenterCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
+			SetCenterCrosshair(CursorDefinition.CrosshairType.Nothing);
 		}
 
 		protected override void OnEarlyMainScene()
 		{
-			SetToMouseCursor(false);
-			SetCenterCrosshairToDefault();
+			HandleCursorAndMouseChange();
+			SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 		}
 
 		/// <summary>
 		/// This changes the control from gamepad to mouse and vice-versa.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		public void SetToMouseCursor(bool isFlag)
+		/// <param name="isOnlyActiveIfMouse">Whether to only activate the mouse when you are currently using mouse</param>
+		/// <param name="crosshairType"></param>
+		public void SetToMouseCursor(bool isFlag, bool isOnlyActiveIfMouse = false, CursorDefinition.CrosshairType crosshairType = CursorDefinition.CrosshairType.FPS)
 		{
-			InputDeviceManager.instance.SetCursorConfined();
+			Cursor.visible = false;
 
-			centerCrosshairImage.gameObject.SetActive(!isFlag);
-			mouseCursorHandler.gameObject.SetActive(isFlag);
-		}
-
-		/// <summary>
-		/// This checks whether the user is using mouse first before setting it to mouse cursor.
-		/// </summary>
-		public void TrySetToMouseCursorForMouseControl(bool isFlag, bool isCrosshairNothing = false)
-		{
-			if (isCrosshairNothing)
+			if (InputManager.Instance.IsCurrentDeviceMouse)
 			{
-				SetCenterCrosshairSprite(CursorDefinition.CrosshairType.UI_Nothing);
-			}
-			else
-			{
-				SetCenterCrosshairToDefault();
+				Cursor.lockState = CursorLockMode.Confined;
 			}
 
-			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
-			SetToMouseCursor(isFlag);
+			if (InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Player)
+			{
+				Cursor.lockState = CursorLockMode.Locked;
+			}
+
+			SetCenterCrosshair(crosshairType);
+
+			if (!isOnlyActiveIfMouse ||
+				(isOnlyActiveIfMouse && InputManager.Instance.IsCurrentDeviceMouse))
+			{
+				mouseCursorHandler.gameObject.SetActive(isFlag);
+			}
 		}
 
 		/// <summary>
@@ -89,31 +87,13 @@ namespace Personal.Manager
 		/// <param name="crosshairType"></param>
 		public void SetCenterCrosshair(CursorDefinition.CrosshairType crosshairType)
 		{
-			SetCenterCrosshairSprite(crosshairType);
-		}
+			if (currentCrosshairType == crosshairType) return;
 
-		/// <summary>
-		/// Set the center crosshair back to it's default state.
-		/// </summary>
-		public void SetCenterCrosshairToDefault()
-		{
-			SetCenterCrosshairSprite(defaultCrosshairType);
-		}
+			cursorDefinition.CrosshairDictionary.TryGetValue(crosshairType, out Sprite sprite);
 
-		void SetCenterCrosshairSprite(CursorDefinition.CrosshairType compareCrosshair)
-		{
-			if (currentCrosshairType == compareCrosshair) return;
-
-			cursorDefinition.CrosshairDictionary.TryGetValue(compareCrosshair, out Sprite sprite);
-
-			currentCrosshairType = compareCrosshair;
+			currentCrosshairType = crosshairType;
 			centerCrosshairImage.sprite = sprite;
-			centerCrosshairImage.enabled = true;
-
-			if (compareCrosshair == CursorDefinition.CrosshairType.UI_Nothing)
-			{
-				centerCrosshairImage.enabled = false;
-			}
+			centerCrosshairImage.gameObject.SetActive(crosshairType != CursorDefinition.CrosshairType.Nothing);
 		}
 
 		void HandleCursorAndMouseChange()
@@ -132,15 +112,7 @@ namespace Personal.Manager
 				Mouse.current.WarpCursorPosition(screenPosition);
 			}
 
-			Cursor.lockState = CursorLockMode.Confined;
-
-			if (InputManager.Instance.IsCurrentDeviceMouse && IsCanChangeToMouse)
-			{
-				SetToMouseCursor(true);
-				return;
-			}
-
-			SetToMouseCursor(false);
+			SetToMouseCursor(IsCanChangeToMouse, true);
 		}
 
 		void OnApplicationQuit()
