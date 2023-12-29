@@ -55,7 +55,8 @@ namespace Personal.Spawner
 			var prefabIA = cashierInteractionDefinition.GetInteraction(sb.ToString());
 			var interactionAssign = Instantiate(prefabIA, instanceFSM.transform);
 
-			instanceFSM.Begin(interactionAssign, instanceFSM, targetInfo).Forget();
+			instanceFSM.SetTargetInfo(targetInfo);
+			instanceFSM.Begin(interactionAssign, instanceFSM).Forget();
 		}
 	}
 }

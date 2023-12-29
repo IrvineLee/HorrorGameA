@@ -51,6 +51,8 @@ namespace Personal.UI
 		protected override void OnEnabled()
 		{
 			if (!isHandleSelectables) return;
+			if (ControlInputBase.ActiveControlInput.GetType() == typeof(InputMovement_FPSController)) return;
+
 			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 		}
 

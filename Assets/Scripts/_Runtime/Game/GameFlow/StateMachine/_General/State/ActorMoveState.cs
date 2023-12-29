@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
-using Personal.Manager;
 using Personal.GameState;
 using Helper;
 
@@ -58,19 +57,21 @@ namespace Personal.FSM.Character
 
 		protected virtual Transform GetTarget()
 		{
-			Transform target = actorStateMachine.TargetInfo.SpawnAtFirst;
+			OrderedStateMachine orderedStateMachine = (OrderedStateMachine)actorStateMachine;
+
+			Transform target = orderedStateMachine.TargetInfo.SpawnAtFirst;
 
 			if (targetType == TargetInfo.TargetType.MoveTo)
 			{
-				target = actorStateMachine.TargetInfo.MoveToFirst;
+				target = orderedStateMachine.TargetInfo.MoveToFirst;
 			}
 			else if (targetType == TargetInfo.TargetType.Leave)
 			{
-				target = actorStateMachine.TargetInfo.LeaveAtFirst;
+				target = orderedStateMachine.TargetInfo.LeaveAtFirst;
 			}
 			else if (targetType == TargetInfo.TargetType.Player)
 			{
-				target = actorStateMachine.TargetInfo.Player;
+				target = orderedStateMachine.TargetInfo.Player;
 			}
 
 			return target;

@@ -11,7 +11,9 @@ namespace Personal.FSM.Cashier
 {
 	public class CashierScanAndPackState : StateBase
 	{
-		OrderedStateMachine cashierStateMachine;
+		[SerializeField] Transform itemSelectionParent = null;
+
+		OrderedStateMachine orderedStateMachine;
 		GameObject spawnedObject;
 
 		List<Transform> childList = new();
@@ -20,13 +22,13 @@ namespace Personal.FSM.Cashier
 		{
 			await base.OnEnter();
 
-			cashierStateMachine = (OrderedStateMachine)stateMachine;
+			orderedStateMachine = (OrderedStateMachine)stateMachine;
 
 			// There will always be only 1 child within this transform.
-			Transform itemSelectionParent = transform.GetChild(0);
+			//Transform itemSelectionParent = transform.GetChild(0);
 
 			CashierItemSet cashierItemSet = itemSelectionParent.GetComponentInChildren<CashierItemSet>(true);
-			Vector3 position = cashierStateMachine.TargetInfo.PlaceToPutItem.position;
+			Vector3 position = orderedStateMachine.TargetInfo.PlaceToPutItem.position;
 			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), position);
 
 			StageManager.Instance.PlayerController.FSM.SwitchToState(typeof(PlayerCashierState)).Forget();
