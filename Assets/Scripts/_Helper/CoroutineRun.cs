@@ -14,6 +14,9 @@ namespace Helper
 
 		public CoroutineRun() { }
 
+		// Typically used for coroutine that does not start immediately.
+		public CoroutineRun(bool isDone) { IsDone = isDone; }
+
 		public CoroutineRun Initialize(IEnumerator act, Action doLast = default)
 		{
 			IsAbort = IsDone = IsPause = false;

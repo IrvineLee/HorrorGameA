@@ -32,7 +32,7 @@ namespace Helper
 				scrollRect.verticalNormalizedPosition = 1;
 				EventSystem.current.SetSelectedGameObject(scrollRect.content.transform.GetChild(0).gameObject);
 
-			}, isWaitNextEndOfFrame: true);
+			}, isEndOfFrame: true);
 		}
 
 		public void ScrollToSelected()

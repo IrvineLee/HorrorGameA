@@ -23,7 +23,7 @@ namespace Personal.UI
 
 			if (!isFlag)
 			{
-				animatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false), true);
+				animatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false));
 			}
 		}
 	}

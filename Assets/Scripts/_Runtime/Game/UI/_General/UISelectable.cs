@@ -26,6 +26,7 @@ namespace Personal.UI
 		[SerializeField] WindowSelectionUIAnimator activeSelectionUIAnimator = null;
 
 		public UISelectionBase UISelectionBase { get; private set; }
+		public WindowSelectionUIAnimator WindowSelectionUIAnimator { get => windowSelectionUIAnimator; }
 
 		protected ControlInput controlInputUI;
 

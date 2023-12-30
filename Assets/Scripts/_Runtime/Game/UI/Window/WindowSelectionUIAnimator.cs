@@ -30,12 +30,10 @@ namespace Personal.UI.Window
 
 			if (isFlag)
 			{
-				// Make sure to stop the coroutine, as stopping it when it started on the same frame does not work.
-				CoroutineHelper.WaitNextFrame(() => windowAnimatorCR.StopCoroutine());
-
 				animator.gameObject.SetActive(true);
 				animator.SetBool(animIsEnable, true);
 
+				windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, default);
 				return;
 			}
 
@@ -43,7 +41,7 @@ namespace Personal.UI.Window
 			animator.SetBool(animIsEnable, false);
 
 			if (!isDeactivateGOWhenIsFlagFalse) return;
-			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false), true);
+			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false));
 		}
 
 		/// <summary>

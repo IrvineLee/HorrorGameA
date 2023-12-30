@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using Helper;
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.UI;
-using Personal.Definition;
 
 namespace Personal.Manager
 {
@@ -37,12 +38,33 @@ namespace Personal.Manager
 			// You don't wanna affect the cursor during dialogue/when not using mouse.
 			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Dialogue) return;
 			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Debug) return;
-			if (!InputManager.Instance.IsCurrentDeviceMouse) return;
 
-			CoroutineHelper.WaitEndOfFrame(() =>
+			// When pausing the game, make sure the appearing window animation is complete before setting the mouse cursor.
+			if (isFlag)
 			{
-				CursorManager.Instance.SetToMouseCursor(isFlag, true, isFlag ? CursorDefinition.CrosshairType.Nothing : CursorDefinition.CrosshairType.FPS);
-			});
+				HandleWindowAnimation();
+				return;
+			}
+
+			CursorManager.Instance.HandleMouse();
+		}
+
+		void HandleWindowAnimation()
+		{
+			CoroutineHelper.WaitNextFrame(async () =>
+			{
+				Transform trans = EventSystem.current.currentSelectedGameObject.transform;
+
+				// Set the cursor to the selected response or center of the screen.
+				var uiSelectable = trans.GetComponentInChildren<UISelectable>();
+				if (uiSelectable)
+				{
+					await UniTask.WaitUntil(() => uiSelectable.WindowSelectionUIAnimator.IsDone);
+				}
+
+				CursorManager.Instance.HandleMouse();
+			}, isEndOfFrame: true);
+
 		}
 
 		void OnApplicationQuit()

@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
 using Personal.Dialogue;
+using Helper;
 
 namespace Personal.Manager
 {
@@ -18,7 +17,7 @@ namespace Personal.Manager
 		[SerializeField] CursorDefinition cursorDefinition = null;
 		[SerializeField] Image centerCrosshairImage = null;
 
-		bool IsCanChangeToMouse
+		public bool IsCanChangeToMouse
 		{
 			get => GameSceneManager.Instance.IsScene(SceneName.Title) || dialogueSetup.IsWaitingResponse ||
 				  (!UIManager.IsWindowStackEmpty && UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) ||
@@ -55,30 +54,31 @@ namespace Personal.Manager
 		/// <summary>
 		/// This changes the control from gamepad to mouse and vice-versa.
 		/// </summary>
-		/// <param name="isFlag"></param>
-		/// <param name="isOnlyActiveIfMouse">Whether to only activate the mouse when you are currently using mouse</param>
-		/// <param name="crosshairType"></param>
-		public void SetToMouseCursor(bool isFlag, bool isOnlyActiveIfMouse = false, CursorDefinition.CrosshairType crosshairType = CursorDefinition.CrosshairType.FPS)
+		public void HandleMouse()
 		{
 			Cursor.visible = false;
 
-			if (InputManager.Instance.IsCurrentDeviceMouse)
+			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
+			bool isFPSMode = UIManager.Instance.ActiveInterfaceType == UIInterfaceType.None;
+
+			bool isShowMouseCursor = IsCanChangeToMouse && isMouse && !isFPSMode;
+
+			Cursor.lockState = CursorLockMode.Confined;
+			if (isFPSMode) Cursor.lockState = CursorLockMode.Locked;
+
+			if (isShowMouseCursor)
 			{
+				// Somehow when it's confined, you can't set the cursor position for the first time.
+				Cursor.lockState = CursorLockMode.None;
+				mouseCursorHandler.SetToCurrentSelectedGO();
 				Cursor.lockState = CursorLockMode.Confined;
 			}
 
-			if (InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Player)
+			CoroutineHelper.WaitNextFrame(() =>
 			{
-				Cursor.lockState = CursorLockMode.Locked;
-			}
-
-			SetCenterCrosshair(crosshairType);
-
-			if (!isOnlyActiveIfMouse ||
-				(isOnlyActiveIfMouse && InputManager.Instance.IsCurrentDeviceMouse))
-			{
-				mouseCursorHandler.gameObject.SetActive(isFlag);
-			}
+				mouseCursorHandler.gameObject.SetActive(isShowMouseCursor);
+				SetCenterCrosshair(isFPSMode ? CursorDefinition.CrosshairType.FPS : CursorDefinition.CrosshairType.Nothing);
+			}, isEndOfFrame: true);
 		}
 
 		/// <summary>
@@ -101,18 +101,7 @@ namespace Personal.Manager
 			// You don't want to reset the mouse cursor when the user changed the icon only. This only happens in option.
 			if (InputManager.Instance.IsChangeIconOnly) return;
 
-			// Handle the dialogue response.
-			if (dialogueSetup.IsWaitingResponse)
-			{
-				Vector2 screenPosition = Vector2.zero;
-				if (InputManager.Instance.IsCurrentDeviceMouse && EventSystem.current.currentSelectedGameObject)
-				{
-					screenPosition = EventSystem.current.currentSelectedGameObject.transform.position;
-				}
-				Mouse.current.WarpCursorPosition(screenPosition);
-			}
-
-			SetToMouseCursor(IsCanChangeToMouse, true);
+			HandleMouse();
 		}
 
 		void OnApplicationQuit()

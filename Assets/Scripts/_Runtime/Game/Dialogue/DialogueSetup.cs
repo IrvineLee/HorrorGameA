@@ -125,14 +125,14 @@ namespace Personal.Dialogue
 				// Wait for the response to be selected first before setting mouse cursor.
 				CoroutineHelper.WaitNextFrame(() =>
 				{
-					CursorManager.Instance.SetToMouseCursor(true, true, CursorDefinition.CrosshairType.Nothing);
+					CursorManager.Instance.HandleMouse();
 				}, false, true);
 			});
 
 			standardUIMenuPanel.onClose.AddListener(() =>
 			{
 				IsWaitingResponse = false;
-				CursorManager.Instance.SetToMouseCursor(false);
+				CursorManager.Instance.HandleMouse();
 			});
 		}
 

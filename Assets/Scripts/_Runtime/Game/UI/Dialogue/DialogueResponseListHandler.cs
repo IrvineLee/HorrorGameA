@@ -54,18 +54,26 @@ namespace Personal.Dialogue
 
 			ResetButtons();
 
-			var buttonList = contentRectTransform.GetComponentsInChildren<Button>().ToList();
+			var buttonList = contentRectTransform.GetComponentsInChildren<Button>(true).ToList();
 			for (int i = 0; i < buttonList.Count; i++)
 			{
 				Button button = buttonList[i];
 				int index = i;
 
-				if (i == 0) EventSystem.current.SetSelectedGameObject(button.gameObject);
+				if (i == 0)
+				{
+					EventSystem.current.SetSelectedGameObject(button.gameObject);
+				}
 
 				UnityAction unityAction = () => selectedButton = index;
 				buttonActionList.Add(new ButtonUnityAction(button, unityAction));
 
 				button.onClick.AddListener(unityAction);
+
+				// The reason why you can't set the button to be enabled in prefab is because
+				// the PixelCrusher? Dialogue weirdly sets the first to be selected on the first spawn.
+				// Changing the color back to default in inspector does not change the selected color(eventhough it's changed in inspector)
+				button.enabled = true;
 			}
 
 			var uiSelectableList = contentRectTransform.GetComponentsInChildren<UISelectable>().ToList();

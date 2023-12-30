@@ -22,9 +22,9 @@ namespace Helper
 		/// <summary>
 		/// Wait next frame before doing action. 'isRealTime' deals with whether the timescale is 0 or 1.
 		/// </summary>
-		public static CoroutineRun WaitNextFrame(Action doLast, bool isRealTime = true, bool isWaitNextEndOfFrame = false)
+		public static CoroutineRun WaitNextFrame(Action doLast, bool isRealTime = true, bool isEndOfFrame = false)
 		{
-			return new CoroutineRun().Initialize(IEWaitNextFrame(isRealTime, isWaitNextEndOfFrame), doLast);
+			return new CoroutineRun().Initialize(IEWaitNextFrame(isRealTime, isEndOfFrame), doLast);
 		}
 
 		/// <summary>
@@ -46,16 +46,11 @@ namespace Helper
 		/// <summary>
 		/// Wait until current animation ends.
 		/// </summary>
-		public static CoroutineRun WaitUntilCurrentAnimationEnds(Animator animator, Action doLast, bool isWaitEndOfFrame = false)
+		public static CoroutineRun WaitUntilCurrentAnimationEnds(Animator animator, Action doLast)
 		{
-			CoroutineRun cr = new CoroutineRun();
-			if (isWaitEndOfFrame)
-			{
-				WaitEndOfFrame(() => cr.Initialize(IEWaitUntilCurrentAnimationEnds(cr, animator), doLast));
-				return cr;
-			}
-
-			return cr.Initialize(IEWaitUntilCurrentAnimationEnds(cr, animator), doLast);
+			CoroutineRun cr = new CoroutineRun(false);
+			WaitEndOfFrame(() => cr.Initialize(IEWaitUntilCurrentAnimationEnds(cr, animator), doLast));
+			return cr;
 		}
 
 		/// <summary>
