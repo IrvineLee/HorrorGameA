@@ -60,10 +60,7 @@ namespace Personal.Dialogue
 				Button button = buttonList[i];
 				int index = i;
 
-				if (i == 0)
-				{
-					EventSystem.current.SetSelectedGameObject(button.gameObject);
-				}
+				if (i == 0) EventSystem.current.SetSelectedGameObject(button.gameObject);
 
 				UnityAction unityAction = () => selectedButton = index;
 				buttonActionList.Add(new ButtonUnityAction(button, unityAction));

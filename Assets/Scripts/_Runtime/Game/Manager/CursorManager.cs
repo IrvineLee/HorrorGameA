@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using Helper;
 using Personal.GameState;
 using Personal.Definition;
 using Personal.UI;
 using Personal.Dialogue;
-using Helper;
 
 namespace Personal.Manager
 {

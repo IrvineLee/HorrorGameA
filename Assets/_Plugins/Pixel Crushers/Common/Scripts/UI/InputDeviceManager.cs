@@ -409,31 +409,24 @@ namespace PixelCrushers
 
 		public void SetCursor(bool visible)
 		{
-			//if (!controlCursorState) return;
-			//ForceCursor(visible);
+			if (!controlCursorState) return;
+			ForceCursor(visible);
 		}
 
 		public void ForceCursor(bool visible)
 		{
-			//Cursor.visible = visible;
-			//Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-			//m_lastMousePosition = GetMousePosition();
-			//StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
-		}
-
-		public void SetCursorConfined()
-		{
-			Cursor.visible = false;
-			Cursor.lockState = CursorLockMode.Confined;
+			Cursor.visible = visible;
+			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
 			m_lastMousePosition = GetMousePosition();
+			StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
 		}
 
-		//private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)
-		//{
-		//    yield return CoroutineUtility.endOfFrame;
-		//    Cursor.visible = visible;
-		//    Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-		//}
+		private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)
+		{
+			yield return CoroutineUtility.endOfFrame;
+			Cursor.visible = visible;
+			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+		}
 
 #if USE_NEW_INPUT
 		public static Dictionary<string, InputAction> inputActionDict = new Dictionary<string, InputAction>();
