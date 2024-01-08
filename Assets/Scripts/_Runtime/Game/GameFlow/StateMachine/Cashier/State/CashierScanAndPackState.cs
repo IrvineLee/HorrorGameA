@@ -24,14 +24,11 @@ namespace Personal.FSM.Cashier
 
 			orderedStateMachine = (OrderedStateMachine)stateMachine;
 
-			// There will always be only 1 child within this transform.
-			//Transform itemSelectionParent = transform.GetChild(0);
-
 			CashierItemSet cashierItemSet = itemSelectionParent.GetComponentInChildren<CashierItemSet>(true);
 			Vector3 position = orderedStateMachine.TargetInfo.PlaceToPutItem.position;
 			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), position);
 
-			StageManager.Instance.PlayerController.FSM.SwitchToState(typeof(PlayerCashierState)).Forget();
+			StageManager.Instance.PlayerController.FSM.IFSMHandler?.OnBegin(typeof(PlayerCashierState));
 
 			childList.Clear();
 			foreach (Transform child in spawnedObject.transform)
@@ -58,7 +55,7 @@ namespace Personal.FSM.Cashier
 		{
 			await base.OnExit();
 
-			StageManager.Instance.PlayerController.FSM.SwitchToState(typeof(PlayerStandardState)).Forget();
+			StageManager.Instance.PlayerController.FSM.IFSMHandler?.OnExit();
 			Addressables.Release(spawnedObject);
 		}
 	}

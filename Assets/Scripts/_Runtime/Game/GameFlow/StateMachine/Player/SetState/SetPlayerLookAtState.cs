@@ -5,14 +5,14 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class SetPlayerLookAtState : ActorStateBase
+	public class SetPlayerLookAtState : StateBase
 	{
 		[SerializeField] Transform lookAtTarget = null;
 
 		[Tooltip("Does the player remain looking at target after state end?")]
 		[SerializeField] bool isPersist = false;
 
-		[Tooltip("Does the turn by animation or instantly?")]
+		[Tooltip("Does it turn by animation or instantly?")]
 		[SerializeField] bool isInstant = true;
 
 		PlayerStateMachine playerFSM;
@@ -25,10 +25,16 @@ namespace Personal.FSM.Character
 			var lookAtInfo = new LookAtInfo(lookAtTarget, isPersist, isInstant);
 
 			playerFSM.SetLookAtInfo(lookAtInfo);
-			playerFSM.SwitchToState(typeof(PlayerLookAtState)).Forget();
+			playerFSM.IFSMHandler?.OnBegin(typeof(PlayerLookAtState));
 
 			await UniTask.NextFrame();
 			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+		}
+
+		public override async UniTask OnExit()
+		{
+			await base.OnExit();
+			playerFSM.SetLookAtInfo(null);
 		}
 	}
 }

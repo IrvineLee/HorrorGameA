@@ -21,18 +21,6 @@ namespace Personal.FSM.Character
 			Init().Forget();
 		}
 
-		public override async UniTask SwitchToState(Type type)
-		{
-			StateDictionary.TryGetValue(type, out StateBase state);
-
-			if (state == null)
-			{
-				Debug.Log("Couldn't find state of type " + type.Name);
-				return;
-			}
-			await SetState(state);
-		}
-
 		public override Type GetStateType<T>(T type)
 		{
 			switch (type)
@@ -71,7 +59,7 @@ namespace Personal.FSM.Character
 			}
 
 			StateDictionary = stateList.ToDictionary((state) => state.GetType());
-			SwitchToState(typeof(PlayerStandardState)).Forget();
+			((IFSMHandler)this).OnBegin(typeof(PlayerStandardState));
 		}
 
 		void IFSMHandler.OnBegin(Type type)
@@ -86,6 +74,18 @@ namespace Personal.FSM.Character
 			// You need to set it to the next state first so the previous OnExit gets called.
 			SwitchToState(typeof(PlayerStandardState)).Forget();
 			SetLookAtInfo(null);
+		}
+
+		async UniTask SwitchToState(Type type)
+		{
+			StateDictionary.TryGetValue(type, out StateBase state);
+
+			if (state == null)
+			{
+				Debug.Log("Couldn't find state of type " + type.Name);
+				return;
+			}
+			await SetState(state);
 		}
 	}
 }

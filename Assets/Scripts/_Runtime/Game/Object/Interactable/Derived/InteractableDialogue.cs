@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
 using Personal.FSM.Character;
 using Personal.Character.NPC;
@@ -45,7 +44,7 @@ namespace Personal.InteractiveObject
 
 			// Enable POV control state.
 			SetRotationToPOVControl();
-			InitiatorStateMachine.SwitchToState(typeof(PlayerPOVControlState)).Forget();
+			ifsmHandler.OnBegin(typeof(PlayerPOVControlState));
 
 			await StageManager.Instance.DialogueController.WaitDialogueEnd();
 

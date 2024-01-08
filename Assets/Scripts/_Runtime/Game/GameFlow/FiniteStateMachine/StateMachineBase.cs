@@ -27,7 +27,6 @@ namespace Personal.FSM
 			await state.OnEnter();
 		}
 
-		public virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
 		public virtual Type GetStateType<T>(T type) where T : Enum { return null; }
 		public void PauseStateMachine(bool isFlag) { IsPauseStateMachine = isFlag; }
 	}

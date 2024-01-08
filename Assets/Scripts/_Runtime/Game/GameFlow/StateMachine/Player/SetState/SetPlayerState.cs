@@ -17,7 +17,7 @@ namespace Personal.FSM.Character
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
 
 			Type type = playerFSM.GetStateType(playerState);
-			playerFSM.SwitchToState(type).Forget();
+			playerFSM.IFSMHandler?.OnBegin(type);
 		}
 	}
 }

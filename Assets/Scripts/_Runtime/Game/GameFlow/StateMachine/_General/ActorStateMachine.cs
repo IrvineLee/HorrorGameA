@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 using Cysharp.Threading.Tasks;
 using Helper;
-using Personal.GameState;
 using Personal.Character;
 using Personal.Character.NPC;
 using Personal.Character.Animation;
