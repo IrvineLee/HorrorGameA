@@ -10,16 +10,11 @@ using Personal.Definition;
 using Personal.GameState;
 using Personal.Manager;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace Personal.InteractiveObject
 {
 	public abstract class InteractableObject : GameInitialize
 	{
-		// This is a unique ID for saving/loading objects in scene.
-		[SerializeField] [ReadOnly] protected string id;
+		[SerializeField] [ReadOnly] protected string guid = Guid.NewGuid().ToString();
 
 		[SerializeField] protected Transform colliderTrans = null;
 		[SerializeField] CursorDefinition.CrosshairType interactCrosshairType = CursorDefinition.CrosshairType.FPS;
@@ -37,10 +32,7 @@ namespace Personal.InteractiveObject
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 
 		// This handles the save/load state of this object.
-		protected bool isExaminableDialogueEnded;
-		protected bool isOnlyOnce_BeforeInteractEnded;
-		protected bool isMainInteractionCompleted;                      // Will be true after passing the reward phase(even when there is no reward).
-		protected bool isInteractionEnded;
+		protected InteractableState interactableState = InteractableState.Interactable;
 
 		protected override void Initialize()
 		{
@@ -50,14 +42,11 @@ namespace Personal.InteractiveObject
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
 			SetIsInteractable(isInteractable);
 
-			if (interactDialogueDefinition == null || !IsDefinitionHasFlag(InteractableType.ExaminableBeforeKeyEvent))
-			{
-				isExaminableDialogueEnded = true;
-			}
-			else if (IsDefinitionHasFlag(InteractableType.ExaminableBeforeKeyEvent))
-			{
-				InteractionEnd_CompleteKeyEvent.OnKeyEventCompleted += OnKeyEventCompleted;
-			}
+			bool isExaminable = IsDefinitionHasFlag(InteractableType.ExaminableBeforeKeyEvent);
+			if (!isExaminable) return;
+
+			interactableState = InteractableState.Examinable;
+			StageManager.OnKeyEventCompleted += OnKeyEventCompleted;
 		}
 
 		public async UniTask HandleInteraction(ActorStateMachine initiatorStateMachine, Action doLast = default)
@@ -67,22 +56,22 @@ namespace Personal.InteractiveObject
 			if (!isInteractable) return;
 
 			Transform actor = initiatorStateMachine.transform;
-			if (!isExaminableDialogueEnded)
+			if (interactableState == InteractableState.Examinable)
 			{
 				await HandleInteractionDialogue(InteractableType.ExaminableBeforeKeyEvent, interactDialogueDefinition.ExaminableDialogue, actor);
 				doLast?.Invoke();
 				return;
 			}
 
-			if (!isMainInteractionCompleted && !HasRequiredItems() && IsDefinitionHasFlag(InteractableType.Reward))
+			if (interactableState == InteractableState.Requirement && !HasRequiredItems() && IsDefinitionHasFlag(InteractableType.Reward))
 			{
 				await HandleInteractionDialogue(InteractableType.Requirement, interactDialogueDefinition.RequiredItemDialogue, actor);
 				doLast?.Invoke();
 				return;
 			}
-			else if (isMainInteractionCompleted && IsDefinitionHasFlag(InteractableCompleteType.EndDialogue))
+			else if (interactableState == InteractableState.EndRemainInteractable && IsDefinitionHasFlag(InteractableCompleteType.RemainInteractable))
 			{
-				await HandleInteractionDialogue(InteractableType.End, interactDialogueDefinition.EndedDialogue, actor);
+				await HandleInteractionDialogue(InteractableType.EndRemainInteractable, interactDialogueDefinition.EndedDialogue, actor);
 				doLast?.Invoke();
 				return;
 			}
@@ -128,10 +117,16 @@ namespace Personal.InteractiveObject
 				await HandleInteractionDialogue(InteractableType.Reward, interactDialogueDefinition.RewardDialogue, actor);
 			}
 
-			if (interactDialogueDefinition) StageManager.Instance.GetReward(interactDialogueDefinition.RewardInteractableObjectList).Forget();
+			interactableState = InteractableState.EndNonInteractable;
+			if (interactDialogueDefinition)
+			{
+				StageManager.Instance.GetReward(interactDialogueDefinition.RewardInteractableObjectList).Forget();
 
-			isMainInteractionCompleted = true;
-			if (interactDialogueDefinition == null) SetIsInteractable(!IsDefinitionHasFlag(InteractableCompleteType.NotInteractable));
+				bool isRemainInteractable = interactDialogueDefinition.InteractionCompleteType == InteractableCompleteType.RemainInteractable;
+				if (isRemainInteractable) interactableState = InteractableState.EndRemainInteractable;
+			}
+
+			SetIsInteractable(interactableState == InteractableState.EndRemainInteractable);
 		}
 
 		/// <summary>
@@ -152,25 +147,22 @@ namespace Personal.InteractiveObject
 		protected async UniTask HandleAchieveRequirement_BeforeInteract(Transform actor)
 		{
 			if (!interactDialogueDefinition) return;
+			if (interactableState == InteractableState.InteractableBeforeInteractFinished) return;
 
-			bool isOnlyOnce = interactDialogueDefinition.IsOnlyOnce_BeforeUse;
-			if ((isOnlyOnce && !isOnlyOnce_BeforeInteractEnded) || !isOnlyOnce)
+			await HandleInteractionDialogue(InteractableType.AchieveRequirement_BeforeInteract, interactDialogueDefinition.AchievedRequiredBeforeUseDialogue, actor);
+			await interactDialogueDefinition.SpawnAndPlayAnimator(interactDialogueDefinition.BeforeInteractPrefab, StageManager.Instance.CameraHandler.MainCamera.transform);
+
+			if (interactDialogueDefinition.IsOnlyOnce_BeforeUse)
 			{
-				await HandleInteractionDialogue(InteractableType.AchieveRequirement_BeforeInteract, interactDialogueDefinition.AchievedRequiredBeforeUseDialogue, actor);
+				interactableState = InteractableState.InteractableBeforeInteractFinished;
 			}
-
-			// TODO : Supposedly an animation/sound effect or a wait period to show to player what is happening. Probably in another class .Play().
-			await UniTask.Delay(0, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
-			if (interactDialogueDefinition.IsOnlyOnce_BeforeUse == true) isOnlyOnce_BeforeInteractEnded = true;
 		}
 
 		protected async UniTask HandleAchieveRequirement_AfterInteract(Transform actor)
 		{
 			if (!interactDialogueDefinition) return;
 
-			// TODO : Supposedly an animation/sound effect after finishing the interaction. Probably in another class .Play().
-			await UniTask.Delay(0, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
-
+			await interactDialogueDefinition.SpawnAndPlayAnimator(interactDialogueDefinition.AfterInteractPrefab, StageManager.Instance.CameraHandler.MainCamera.transform);
 			await HandleInteractionDialogue(InteractableType.AchieveRequirement_AfterInteract, interactDialogueDefinition.AchievedRequiredAfterUseDialogue, actor);
 		}
 
@@ -184,37 +176,25 @@ namespace Personal.InteractiveObject
 			return (interactDialogueDefinition != null && interactDialogueDefinition.InteractionCompleteType.HasFlag(interactableCompleteType));
 		}
 
-
 		void OnKeyEventCompleted(KeyEventType keyEventType)
 		{
 			if (interactDialogueDefinition.KeyEventType != keyEventType) return;
-			isExaminableDialogueEnded = true;
+			interactableState = InteractableState.Interactable;
 		}
 
 		void OnDestroy()
 		{
-			InteractionEnd_CompleteKeyEvent.OnKeyEventCompleted -= OnKeyEventCompleted;
+			StageManager.OnKeyEventCompleted -= OnKeyEventCompleted;
 		}
 
-		[ContextMenu("GenerateGUID")]
-		void GenerateGUID()
-		{
-			StringHelper.GenerateNewGuid(ref id);
-		}
-
-		[ContextMenu("ResetGUID")]
-		void ResetGUID()
-		{
-			id = "";
-		}
-
-#if UNITY_EDITOR
 		void OnValidate()
 		{
-			if (PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;
-			if (string.IsNullOrEmpty(id) || gameObject.name.IsDuplicatedGameObject()) GenerateGUID();
+			if (string.IsNullOrEmpty(guid) || gameObject.name.IsDuplicatedGameObject())
+			{
+				name = name.SearchBehindRemoveFrontOrEnd('(', true);
+				guid = Guid.NewGuid().ToString();
+			}
 		}
-#endif
 	}
 }
 

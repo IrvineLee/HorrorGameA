@@ -42,7 +42,7 @@ namespace Personal.InteractiveObject
 			}
 			if (!runCR.IsDone) return;
 
-			isInteractionEnded = true;
+			interactableState = InteractableState.EndNonInteractable;
 
 			if (!isOpened)
 			{

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -31,6 +32,9 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 		public bool IsBusy { get => TransitionManager.Instance.IsTransitioning; }
+		public List<KeyEventType> keyEventCompletedList { get; private set; } = new();
+
+		public static event Action<KeyEventType> OnKeyEventCompleted;
 
 		protected override void Initialize()
 		{
@@ -82,6 +86,14 @@ namespace Personal.Manager
 		public void SetInteraction(int index)
 		{
 			CashierInteractionIndex = index;
+		}
+
+		public void RegisterKeyEvent(KeyEventType keyEventType)
+		{
+			if (keyEventCompletedList.Contains(keyEventType)) return;
+
+			keyEventCompletedList.Add(keyEventType);
+			OnKeyEventCompleted?.Invoke(keyEventType);
 		}
 
 		public async UniTask GetReward(List<InteractableObject> rewardInteractableObjectList)

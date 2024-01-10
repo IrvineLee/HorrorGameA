@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 using Personal.Item;
 using Personal.InteractiveObject;
 using PixelCrushers.DialogueSystem;
+using Cysharp.Threading.Tasks;
+using Helper;
 
 namespace Personal.Definition
 {
@@ -21,7 +23,7 @@ namespace Personal.Definition
 		const string ACHIEVED_REQUIRED_AFTER_USE_STRING = "@interactableType.HasFlag(InteractableType.Requirement) && interactableType.HasFlag(InteractableType.AchieveRequirement_AfterInteract)";
 
 		const string REWARD_STRING = "@interactableType.HasFlag(InteractableType.Reward)";
-		const string END_STRING = "@interactableType.HasFlag(InteractableType.End)";
+		const string END_STRING = "@interactableType.HasFlag(InteractableType.EndRemainInteractable)";
 		#endregion
 
 		[SerializeField] InteractableType interactableType;
@@ -67,6 +69,10 @@ namespace Personal.Definition
 		[Tooltip("The dialogue when you have the required item, but before using them.")]
 		[SerializeField] InteractDialogue achievedRequiredBeforeDialogue = null;
 
+		[ShowIf(ACHIEVED_REQUIRED_BEFORE_USE_STRING)]
+		[Tooltip("After dialogue, instantiate animator if have any. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
+		[SerializeField] Animator beforeInteractPrefab = null;
+
 		#endregion
 
 		#region Achieved Required After Interact
@@ -75,6 +81,10 @@ namespace Personal.Definition
 		[Header("Achieved requirement, after interact")]
 		[Tooltip("The dialogue when you have the required item and after using them.")]
 		[SerializeField] InteractDialogue achievedRequiredAfterDialogue = null;
+
+		[ShowIf(ACHIEVED_REQUIRED_AFTER_USE_STRING)]
+		[Tooltip("After dialogue, instantiate animator if have any. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
+		[SerializeField] Animator afterInteractPrefab = null;
 
 		#endregion
 
@@ -93,12 +103,11 @@ namespace Personal.Definition
 		#region End
 
 		[ShowIf(END_STRING)]
-		[Header("End")]
+		[Header("End Remain Interactable")]
 		[Tooltip("The next interaction dialogue after getting the reward.")]
 		[SerializeField] InteractDialogue endedDialogue = null;
 
 		#endregion
-
 
 		public InteractableType InteractionType { get => interactableType; }
 		public InteractableCompleteType InteractionCompleteType { get => interactionCompleteType; }
@@ -111,13 +120,33 @@ namespace Personal.Definition
 
 		public bool IsOnlyOnce_BeforeUse { get => isOnlyOnce_BeforeUse; }
 		public string AchievedRequiredBeforeUseDialogue { get => achievedRequiredBeforeDialogue.conversation; }
+		public Animator BeforeInteractPrefab { get => beforeInteractPrefab; }
 
 		public string AchievedRequiredAfterUseDialogue { get => achievedRequiredAfterDialogue.conversation; }
+		public Animator AfterInteractPrefab { get => afterInteractPrefab; }
 
 		public string RewardDialogue { get => rewardDialogue.conversation; }
 		public List<InteractableObject> RewardInteractableObjectList { get => rewardInteractableObjectList; }
 
 		public string EndedDialogue { get => endedDialogue.conversation; }
+
+		public async UniTask SpawnAndPlayAnimator(Animator prefab, Transform parent, bool isEndDestroy = true)
+		{
+			if (!prefab) return;
+
+			var instance = Instantiate(prefab, parent);
+
+			string clipName = instance.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+			instance.Play(clipName);
+
+			bool isDone = false;
+
+			CoroutineHelper.WaitUntilCurrentAnimationEnds(instance, () => isDone = true);
+			await UniTask.WaitUntil(() => isDone, cancellationToken: instance.GetCancellationTokenOnDestroy());
+
+			if (!isEndDestroy) return;
+			Destroy(instance.gameObject);
+		}
 
 		void OnValidate()
 		{

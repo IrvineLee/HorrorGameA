@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using PixelCrushers.DialogueSystem;
 using Helper;
 using Personal.Item;
 using Personal.Save;
@@ -18,14 +17,14 @@ namespace Personal.InteractiveObject
 
 		protected override bool IsAbleToOpenDoor()
 		{
-			if (isInteractionEnded) return true;
+			if (interactableState == InteractableState.EndNonInteractable) return true;
 
 			if (playerInventory.ActiveObject != null)
 			{
 				ItemType itemType = playerInventory.ActiveObject.ItemType;
 				if (keyItemType == itemType)
 				{
-					isInteractionEnded = true;
+					interactableState = InteractableState.EndNonInteractable;
 					playerInventory.UseActiveItem();
 
 					return true;
@@ -38,15 +37,12 @@ namespace Personal.InteractiveObject
 
 		void IDataPersistence.SaveData(SaveObject data)
 		{
-			if (!isInteractionEnded) return;
-			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
+			data.SceneObjectSavedData.PickupableDictionary.AddOrUpdateValue(guid, interactableState);
 		}
 
 		void IDataPersistence.LoadData(SaveObject data)
 		{
-			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
-
-			isInteractionEnded = value;
+			if (!data.SceneObjectSavedData.PickupableDictionary.TryGetValue(guid, out interactableState)) return;
 		}
 	}
 }

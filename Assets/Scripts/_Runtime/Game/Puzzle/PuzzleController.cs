@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,10 +12,6 @@ using Personal.Save;
 using Personal.GameState;
 using Personal.InputProcessing;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace Personal.Puzzle
 {
 	public class PuzzleController : GameInitialize, IDataPersistence
@@ -26,8 +23,7 @@ namespace Personal.Puzzle
 			Failed,
 		}
 
-		// This is a unique ID for saving/loading objects in scene.
-		[SerializeField] [ReadOnly] protected string id;
+		[SerializeField] [ReadOnly] string guid = Guid.NewGuid().ToString();
 
 		[SerializeField] InteractableEventBegin interactableEventBegin = null;
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
@@ -90,12 +86,12 @@ namespace Personal.Puzzle
 		void IDataPersistence.SaveData(SaveObject data)
 		{
 			if (puzzleState != PuzzleState.Completed) return;
-			data.PuzzleDictionary.AddOrUpdateValue(id, puzzleState);
+			data.SceneObjectSavedData.PuzzleDictionary.AddOrUpdateValue(guid, puzzleState);
 		}
 
 		void IDataPersistence.LoadData(SaveObject data)
 		{
-			if (!data.PuzzleDictionary.TryGetValue(id, out PuzzleState value)) return;
+			if (!data.SceneObjectSavedData.PuzzleDictionary.TryGetValue(guid, out PuzzleState value)) return;
 
 			puzzleState = value;
 			if (puzzleState != PuzzleState.Completed) return;
@@ -104,24 +100,13 @@ namespace Personal.Puzzle
 			GetComponent<IPuzzle>()?.AutoComplete();
 		}
 
-#if UNITY_EDITOR
-		[ContextMenu("GenerateGUID")]
-		void GenerateGUID()
-		{
-			StringHelper.GenerateNewGuid(ref id);
-		}
-
-		[ContextMenu("ResetGUID")]
-		void ResetGUID()
-		{
-			id = "";
-		}
-
 		void OnValidate()
 		{
-			if (PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;
-			if (string.IsNullOrEmpty(id) || gameObject.name.IsDuplicatedGameObject()) GenerateGUID();
+			if (string.IsNullOrEmpty(guid) || gameObject.name.IsDuplicatedGameObject())
+			{
+				name = name.SearchBehindRemoveFrontOrEnd('(', true);
+				guid = Guid.NewGuid().ToString();
+			}
 		}
-#endif
 	}
 }

@@ -53,7 +53,7 @@ namespace Personal.InteractiveObject
 		/// </summary>
 		void HandlePickupable()
 		{
-			isInteractionEnded = true;
+			interactableState = InteractableState.EndNonInteractable;
 			StageManager.Instance.PlayerController.Inventory.AddItem(this);
 
 			gameObject.SetActive(false);
@@ -61,15 +61,14 @@ namespace Personal.InteractiveObject
 
 		void IDataPersistence.SaveData(SaveObject data)
 		{
-			if (!isInteractionEnded) return;
-			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
+			data.SceneObjectSavedData.PickupableDictionary.AddOrUpdateValue(guid, interactableState);
 		}
 
 		void IDataPersistence.LoadData(SaveObject data)
 		{
-			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
+			if (!data.SceneObjectSavedData.PickupableDictionary.TryGetValue(guid, out interactableState)) return;
 
-			gameObject.SetActive(!value);
+			gameObject.SetActive(interactableState != InteractableState.EndNonInteractable);
 		}
 	}
 }

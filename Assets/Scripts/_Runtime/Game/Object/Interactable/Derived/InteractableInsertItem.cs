@@ -4,11 +4,11 @@ using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.Manager;
 using Personal.Item;
 using Personal.Character.Player;
 using Personal.Save;
-using Helper;
 
 namespace Personal.InteractiveObject
 {
@@ -79,7 +79,7 @@ namespace Personal.InteractiveObject
 				if (!itemInfo.IsInteractionEnded) return UniTask.CompletedTask;
 			}
 
-			isInteractionEnded = true;
+			interactableState = InteractableState.EndNonInteractable;
 			gameObject.SetActive(false);
 
 			return UniTask.CompletedTask;
@@ -92,19 +92,18 @@ namespace Personal.InteractiveObject
 
 			if (completed.IsCompletedList.Contains(true))
 			{
-				data.InsertItemDictionary.AddOrUpdateValue(id, completed);
+				data.SceneObjectSavedData.InsertItemDictionary.AddOrUpdateValue(guid, completed);
 			}
 
-			if (!isInteractionEnded) return;
-			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
+			data.SceneObjectSavedData.PickupableDictionary.AddOrUpdateValue(guid, interactableState);
 		}
 
 		void IDataPersistence.LoadData(SaveObject data)
 		{
-			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
-			gameObject.SetActive(!value);
+			if (!data.SceneObjectSavedData.PickupableDictionary.TryGetValue(guid, out interactableState)) return;
+			gameObject.SetActive(interactableState != InteractableState.EndNonInteractable);
 
-			if (!data.InsertItemDictionary.TryGetValue(id, out valueCompleted)) return;
+			if (!data.SceneObjectSavedData.InsertItemDictionary.TryGetValue(guid, out valueCompleted)) return;
 
 			for (int i = 0; i < valueCompleted.IsCompletedList.Count; i++)
 			{

@@ -1,5 +1,4 @@
 
-
 namespace Personal.Save
 {
 	public interface IDataPersistence

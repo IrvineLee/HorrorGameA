@@ -53,10 +53,11 @@ namespace Personal.Manager
 		{
 			CoroutineHelper.WaitNextFrame(async () =>
 			{
-				Transform trans = EventSystem.current.currentSelectedGameObject.transform;
+				var currentGO = EventSystem.current.currentSelectedGameObject;
+				if (!currentGO) return;
 
 				// Set the cursor to the selected response or center of the screen.
-				var uiSelectable = trans.GetComponentInChildren<UISelectable>();
+				var uiSelectable = currentGO.GetComponentInChildren<UISelectable>();
 				if (uiSelectable)
 				{
 					await UniTask.WaitUntil(() => uiSelectable.WindowSelectionUIAnimator.IsDone);

@@ -35,7 +35,7 @@ namespace Personal.InteractiveObject
 
 		async UniTask SpawnItem()
 		{
-			isInteractionEnded = true;
+			interactableState = InteractableState.EndNonInteractable;
 			var instance = await AddressableHelper.Spawn(itemTypeCompare.GetStringValue(), placeAt.position, placeAt.parent, true);
 
 			var collider = instance.GetComponentInChildren<Collider>();
@@ -44,14 +44,13 @@ namespace Personal.InteractiveObject
 
 		void IDataPersistence.SaveData(SaveObject data)
 		{
-			if (!isInteractionEnded) return;
-			data.PickupableDictionary.AddOrUpdateValue(id, isInteractionEnded);
+			data.SceneObjectSavedData.PickupableDictionary.AddOrUpdateValue(guid, interactableState);
 		}
 
 		void IDataPersistence.LoadData(SaveObject data)
 		{
-			if (!data.PickupableDictionary.TryGetValue(id, out bool value)) return;
-			if (!value) return;
+			if (!data.SceneObjectSavedData.PickupableDictionary.TryGetValue(guid, out interactableState)) return;
+			if (interactableState == InteractableState.EndNonInteractable) return;
 
 			SpawnItem().Forget();
 		}

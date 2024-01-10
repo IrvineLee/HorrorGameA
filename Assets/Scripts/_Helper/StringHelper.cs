@@ -33,9 +33,9 @@ namespace Helper
 		/// Generate a new string guid.
 		/// </summary>
 		/// <param name="source"></param>
-		public static void GenerateNewGuid(ref string source)
+		public static string GenerateNewGuid()
 		{
-			source = Guid.NewGuid().ToString();
+			return Guid.NewGuid().ToString();
 		}
 	}
 }

@@ -1,5 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+
+using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
@@ -7,12 +8,10 @@ namespace Personal.InteractiveObject
 	{
 		[SerializeField] KeyEventType keyEventType = KeyEventType._200000_None;
 
-		public static event Action<KeyEventType> OnKeyEventCompleted;
-
 		protected override void HandleInteractable()
 		{
 			base.HandleInteractable();
-			OnKeyEventCompleted?.Invoke(keyEventType);
+			StageManager.Instance.RegisterKeyEvent(keyEventType);
 		}
 	}
 }

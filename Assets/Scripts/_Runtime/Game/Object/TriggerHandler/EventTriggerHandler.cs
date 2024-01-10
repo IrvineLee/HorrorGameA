@@ -18,7 +18,7 @@ namespace Personal.InteractiveObject
 
 			if (!isPassed) return;
 
-			isInteractionEnded = true;
+			interactableState = InteractableState.EndNonInteractable;
 			gameObject.SetActive(false);
 
 			// Set the state machine.
