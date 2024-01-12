@@ -42,7 +42,7 @@ namespace Personal.InteractiveObject
 			}
 			if (!runCR.IsDone) return;
 
-			interactableState = InteractableState.EndNonInteractable;
+			interactableState = InteractableState.EndRemainInteractable;
 
 			if (!isOpened)
 			{
@@ -51,6 +51,13 @@ namespace Personal.InteractiveObject
 				OnDoorOpened?.Invoke();
 			}
 
+			MoveDoor();
+		}
+
+		protected virtual bool IsAbleToOpenDoor() { return true; }
+
+		void MoveDoor()
+		{
 			// Get the end euler angle.
 			Vector3 eulerAngle = doorHingeTrans.localEulerAngles;
 			eulerAngle = eulerAngle.With(y: eulerAngle.y + GetDoorMoveAngle());
@@ -67,11 +74,7 @@ namespace Personal.InteractiveObject
 					OnDoorClosed?.Invoke();
 				}
 			});
-
-			return;
 		}
-
-		protected virtual bool IsAbleToOpenDoor() { return true; }
 
 		float GetDoorMoveAngle()
 		{

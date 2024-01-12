@@ -6,7 +6,7 @@ namespace Personal.InteractiveObject
 	public enum InteractableState
 	{
 		Interactable = 0,
-		InteractableBeforeInteractFinished,
+		Interactable_BeforeInteractFinished,
 		Examinable,
 		Requirement,
 		EndNonInteractable,

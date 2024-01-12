@@ -6,8 +6,12 @@ using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
-	public class EventTriggerHandler_Quest : EventTriggerHandler
+	public class EventTriggerHandler_QuestStart : EventTriggerHandler
 	{
+		/// <summary>
+		/// Check to see whether you are able to start the quest.
+		/// </summary>
+		/// <returns></returns>
 		protected override UniTask<bool> HandleTrigger()
 		{
 			var questSet = GetComponentInChildren<QuestTypeSet>();

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Cinemachine;
+using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.FSM.Character;
 using Personal.Manager;
@@ -24,6 +26,8 @@ namespace Personal.Character.Player
 		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
 		public InputMovement_FPSController InputMovement_FPSController { get; private set; }
 
+		CoroutineRun lookAtCR = new();
+
 		protected override void EarlyInitialize()
 		{
 			StageManager.Instance.RegisterPlayer(this);
@@ -41,6 +45,65 @@ namespace Personal.Character.Player
 		{
 			FSM.PauseStateMachine(isFlag);
 			FPSController.enabled = !isFlag;
+		}
+
+		/// <summary>
+		/// Look at target.
+		/// </summary>
+		/// <param name="lookAtInfo"></param>
+		/// <returns></returns>
+		public async UniTask LookAt(LookAtInfo lookAtInfo)
+		{
+			fsm.SetLookAtInfo(lookAtInfo);
+			fsm.IFSMHandler?.OnBegin(typeof(PlayerLookAtState));
+
+			await UniTask.NextFrame();
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			fsm.SetLookAtInfo(null);
+			fsm.IFSMHandler?.OnExit();
+		}
+
+		/// <summary>
+		/// Main camera will stay looking at target position(from virtual camera position/rotation) even after changing back to default state.
+		/// </summary>
+		/// <param name="vCam">Should be the virtual camera within the player state</param>
+		/// <param name="lookAtInfo"></param>
+		/// <returns></returns>
+		public async UniTask HandlePersistantLook(CinemachineVirtualCamera vCam, LookAtInfo lookAtInfo)
+		{
+			var parent = vCam.transform.parent;
+			vCam.transform.SetParent(null);
+
+			lookAtCR?.StopCoroutine();
+
+			// Make sure the vCam is out of it's parent.
+			await UniTask.NextFrame();
+
+			if (!lookAtInfo.IsInstant) RotateByAnimation(lookAtInfo.LookAt.position);
+
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			// Rotate the player's transform to look at target, on the horizontal axis.
+			Vector3 lookAtPos = lookAtInfo.LookAt.position;
+			lookAtPos.y = 0;
+
+			transform.LookAt(lookAtPos);
+			vCam.transform.SetParent(parent);
+
+			FPSController.UpdateTargetPitch(vCam.transform.eulerAngles.x);
+		}
+
+		void RotateByAnimation(Vector3 lookAtPosition)
+		{
+			var cinemachineBrain = StageManager.Instance.CameraHandler.CinemachineBrain;
+			float duration = cinemachineBrain.m_DefaultBlend.BlendTime;
+
+			var direction = transform.position.GetNormalizedDirectionTo(lookAtPosition);
+			direction.y = 0;
+
+			var endRotation = Quaternion.LookRotation(direction);
+			lookAtCR = CoroutineHelper.QuaternionLerpWithinSeconds(transform, transform.rotation, endRotation, duration, space: Space.World);
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)

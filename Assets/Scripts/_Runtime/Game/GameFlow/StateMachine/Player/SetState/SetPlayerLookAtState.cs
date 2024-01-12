@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
+using Personal.Character.Player;
 
 namespace Personal.FSM.Character
 {
@@ -15,26 +16,16 @@ namespace Personal.FSM.Character
 		[Tooltip("Does it turn by animation or instantly?")]
 		[SerializeField] bool isInstant = true;
 
-		PlayerStateMachine playerFSM;
+		PlayerController playerController;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			playerFSM = StageManager.Instance.PlayerController.FSM;
+			playerController = StageManager.Instance.PlayerController;
 			var lookAtInfo = new LookAtInfo(lookAtTarget, isPersist, isInstant);
 
-			playerFSM.SetLookAtInfo(lookAtInfo);
-			playerFSM.IFSMHandler?.OnBegin(typeof(PlayerLookAtState));
-
-			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
-		}
-
-		public override async UniTask OnExit()
-		{
-			await base.OnExit();
-			playerFSM.SetLookAtInfo(null);
+			await playerController.LookAt(lookAtInfo);
 		}
 	}
 }

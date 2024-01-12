@@ -415,10 +415,11 @@ namespace PixelCrushers
 
 		public void ForceCursor(bool visible)
 		{
-			Cursor.visible = visible;
-			Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-			m_lastMousePosition = GetMousePosition();
-			StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
+			// Commented by someone other than this tool developer!
+			//Cursor.visible = visible;
+			//Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+			//m_lastMousePosition = GetMousePosition();
+			//StartCoroutine(ForceCursorAfterOneFrameCoroutine(visible));
 		}
 
 		private IEnumerator ForceCursorAfterOneFrameCoroutine(bool visible)

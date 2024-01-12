@@ -15,15 +15,15 @@ namespace Personal.InteractiveObject
 			if (!IsInteractable) return;
 
 			bool isPassed = await HandleTrigger();
-
 			if (!isPassed) return;
-
-			interactableState = InteractableState.EndNonInteractable;
-			gameObject.SetActive(false);
 
 			// Set the state machine.
 			InitiatorStateMachine = other.GetComponentInParent<ActorStateMachine>();
-			base.HandleInteraction().Forget();
+
+			await HandleInteraction();
+
+			interactableState = InteractableState.EndNonInteractable;
+			gameObject.SetActive(false);
 		}
 
 		protected virtual UniTask<bool> HandleTrigger() { return new UniTask<bool>(true); }

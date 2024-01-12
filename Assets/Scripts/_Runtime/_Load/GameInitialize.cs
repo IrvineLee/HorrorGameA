@@ -56,6 +56,7 @@ namespace Personal.GameState
 
 		/// <summary>
 		/// Treat this as a normal Start function but it still gets called even when script is off. It gets called after OnEnable() and Start().
+		/// Gets called after loading persistant data.
 		/// </summary>
 		protected virtual void Initialize() { }
 

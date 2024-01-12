@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Sirenix.OdinInspector;
-using Personal.Item;
-using Personal.InteractiveObject;
 using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
 using Helper;
+using Personal.Item;
+using Personal.InteractiveObject;
 
 namespace Personal.Definition
 {
@@ -23,11 +23,11 @@ namespace Personal.Definition
 		const string ACHIEVED_REQUIRED_AFTER_USE_STRING = "@interactableType.HasFlag(InteractableType.Requirement) && interactableType.HasFlag(InteractableType.AchieveRequirement_AfterInteract)";
 
 		const string REWARD_STRING = "@interactableType.HasFlag(InteractableType.Reward)";
-		const string END_STRING = "@interactableType.HasFlag(InteractableType.EndRemainInteractable)";
+		const string END_STRING = "@interactableType.HasFlag(InteractableType.EndDialogue)";
 		#endregion
 
 		[SerializeField] InteractableType interactableType;
-		[SerializeField] InteractableCompleteType interactionCompleteType = InteractableCompleteType.NotInteractable;
+		[SerializeField] InteractableCompleteType interactableCompleteType = InteractableCompleteType.NotInteractable;
 
 		[SerializeField] bool isAllSameDatabase = false;
 		[ShowIf("@isAllSameDatabase")] [SerializeField] DialogueDatabase dialogueDatabase = null;
@@ -110,7 +110,7 @@ namespace Personal.Definition
 		#endregion
 
 		public InteractableType InteractionType { get => interactableType; }
-		public InteractableCompleteType InteractionCompleteType { get => interactionCompleteType; }
+		public InteractableCompleteType InteractableCompleteType { get => interactableCompleteType; }
 
 		public string ExaminableDialogue { get => examinableDialogue.conversation; }
 		public KeyEventType KeyEventType { get => keyEventEndType; }
@@ -129,6 +129,19 @@ namespace Personal.Definition
 		public List<InteractableObject> RewardInteractableObjectList { get => rewardInteractableObjectList; }
 
 		public string EndedDialogue { get => endedDialogue.conversation; }
+
+		public bool HasFlag<T>(T enumType) where T : Enum
+		{
+			if (typeof(T) == typeof(InteractableType))
+			{
+				return interactableType.HasFlag(enumType);
+			}
+			else if (typeof(T) == typeof(InteractableCompleteType))
+			{
+				return interactableCompleteType.HasFlag(enumType);
+			}
+			return false;
+		}
 
 		public async UniTask SpawnAndPlayAnimator(Animator prefab, Transform parent, bool isEndDestroy = true)
 		{

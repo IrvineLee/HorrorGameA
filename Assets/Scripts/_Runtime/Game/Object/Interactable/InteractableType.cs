@@ -13,8 +13,8 @@ namespace Personal.InteractiveObject
 		AchieveRequirement_BeforeInteract = 1 << 2,     // After collecting the required item, before interact, before animation, show dialogue C1.
 		AchieveRequirement_AfterInteract = 1 << 3,      // After collecting the required item, after interact, after animation ended, show dialogue C2.
 		Reward = 1 << 5,                                // After getting the reward, show dialogue D.
-		EndRemainInteractable = 1 << 10,                // After getting the reward, ended the interaction, interacting with this object again displays the end dialogue.
+		EndDialogue = 1 << 10,                          // After getting the reward, ended the interaction, interacting with this object again displays the end dialogue.
 
-		All = ExaminableBeforeKeyEvent | Requirement | AchieveRequirement_BeforeInteract | AchieveRequirement_AfterInteract | Reward | EndRemainInteractable,
+		All = ExaminableBeforeKeyEvent | Requirement | AchieveRequirement_BeforeInteract | AchieveRequirement_AfterInteract | Reward | EndDialogue,
 	}
 }

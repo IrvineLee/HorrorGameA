@@ -3,6 +3,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.GameState;
+using UnityEngine;
 
 namespace Personal.FSM
 {
@@ -17,14 +18,15 @@ namespace Personal.FSM
 
 		protected async UniTask SetState(StateBase stateBase)
 		{
-			if (state != null)
+			if (state != null && !state.IsWaitForOnExit)
 			{
-				if (state.IsWaitForOnExit) await state.OnExit();
-				else state.OnExit().Forget();
+				state.OnExit().Forget();
 			}
 
 			state = stateBase;
 			await state.OnEnter();
+
+			if (state.IsWaitForOnExit) await state.OnExit();
 		}
 
 		public virtual Type GetStateType<T>(T type) where T : Enum { return null; }
