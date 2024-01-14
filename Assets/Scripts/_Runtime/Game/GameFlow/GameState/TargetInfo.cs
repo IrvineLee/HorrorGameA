@@ -1,7 +1,7 @@
-using Personal.Manager;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
+
+using Personal.Manager;
 
 namespace Personal.GameState
 {
@@ -20,19 +20,16 @@ namespace Personal.GameState
 			Player,
 		}
 
-		[SerializeField] List<Transform> spawnAtList = null;
-		[SerializeField] List<Transform> moveToList = null;
-		[SerializeField] List<Transform> leaveList = null;
+		[SerializeField] Transform spawnTarget = null;
+		[SerializeField] Transform moveToTarget = null;
+		[SerializeField] Transform leaveTarget = null;
 
 		[SerializeField] Transform placeToPutItem = null;
 
-		public Transform SpawnAtFirst { get => spawnAtList[0]; }
-		public Transform MoveToFirst { get => moveToList[0]; }
-		public Transform LeaveAtFirst { get => leaveList[0]; }
+		public Transform SpawnTarget { get => spawnTarget; }
+		public Transform MoveToTarget { get => moveToTarget; }
+		public Transform LeaveTarget { get => leaveTarget; }
 		public Transform Player { get => StageManager.Instance.PlayerController.transform; }
-
-		public List<Transform> SpawnAtList { get => spawnAtList; }
-		public List<Transform> MoveToList { get => moveToList; }
 
 		public Transform PlaceToPutItem { get => placeToPutItem; }
 	}

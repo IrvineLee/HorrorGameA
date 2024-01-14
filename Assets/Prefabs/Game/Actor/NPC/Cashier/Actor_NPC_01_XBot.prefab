@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 421768941547504016}
-  - component: {fileID: -8599894918339549832}
+  - component: {fileID: -2070927451091980117}
   - component: {fileID: -1952921318963031389}
   - component: {fileID: 7415343085410279965}
   m_Layer: 0
@@ -26,6 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421768941547504015}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,9 +34,8 @@ Transform:
   m_Children:
   - {fileID: 421768943009836711}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8599894918339549832
+--- !u!114 &-2070927451091980117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 421768941547504015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc764dd9e8927ed4db966c625404e2c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 5706f3fe950c0fa419bb7fc45e9f3007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-1952921318963031389
@@ -102,6 +102,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421768943009836710}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -109,7 +110,6 @@ Transform:
   m_Children:
   - {fileID: 6351845841392117742}
   m_Father: {fileID: 421768941547504016}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &3407780444775709194
 NavMeshAgent:
@@ -188,6 +188,7 @@ MonoBehaviour:
   startConversationEntryTitle: 
   exclusive: 0
   replace: 0
+  queue: 0
   skipIfNoValidEntries: 0
   preventRestartOnSameFrameEnded: 0
   stopConversationOnTriggerExit: 0
@@ -214,18 +215,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 421768943009836711}
     m_Modifications:
-    - target: {fileID: 3488639909035038726, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
-      propertyPath: realAnimatorStateList.Array.data[0].realAnimatorState.normalizedTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3488639909035038726, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
-      propertyPath: realAnimatorStateList.Array.data[1].realAnimatorState.normalizedTime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7194312874018183295, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7194312874018183295, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -269,10 +258,6 @@ PrefabInstance:
     - target: {fileID: 7538047062700442309, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
       propertyPath: m_Name
       value: X Bot Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 7538047062700442309, guid: af4fca66c340fe948b564ed252d74a30, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

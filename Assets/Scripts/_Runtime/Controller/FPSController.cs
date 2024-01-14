@@ -75,6 +75,7 @@ namespace Personal.Character.Player
 		public Vector3 Velocity { get => velocity; }
 		public float SpeedChangeRate { get => speedChangeRate; }
 		public CharacterController Controller { get; private set; }
+		public GameObject CinemachineCameraGO { get => cinemachineCameraTarget; }
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnFreeFallEvent;
@@ -240,6 +241,7 @@ namespace Personal.Character.Player
 			}
 
 			// move the player
+			if (!Controller.enabled) return;
 			Controller.Move(inputDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 		}
 

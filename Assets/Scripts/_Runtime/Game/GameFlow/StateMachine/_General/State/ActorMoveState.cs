@@ -1,82 +1,73 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
-using Personal.GameState;
 using Helper;
 
 namespace Personal.FSM.Character
 {
 	public class ActorMoveState : ActorStateBase
 	{
-		[Tooltip("OnExit, body turn duration towards target")]
-		[SerializeField] float exitBodyRotateDuration = 0.25f;
+		[Tooltip("Distance between the actors")]
+		[SerializeField] protected float distanceBetweenActor = 0;
 
-		[SerializeField] TargetInfo.TargetType targetType = TargetInfo.TargetType.MoveTo;
+		[Tooltip("Body turn towards target speed")]
+		[SerializeField] protected float turnTowardsSpeed = 5f;
 
-		[ShowIf("@targetType == Personal.GameState.TargetInfo.TargetType.Player")]
-		[SerializeField] float distanceBetweenActor = 0;
+		public bool IsReached { get; private set; }
 
 		protected NavMeshAgent navMeshAgent;
-		protected Transform target;
+		protected Transform moveToTarget;
+
+		protected bool isNavMeshEnabled;
+		protected Quaternion endRotation;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 			RunActorAnimation();
 
-			target = GetTarget();
+			moveToTarget = GetTarget();
+
 			navMeshAgent = actorStateMachine.NavMeshAgent;
+
+			isNavMeshEnabled = navMeshAgent.enabled;
+			navMeshAgent.enabled = true;
 			navMeshAgent.isStopped = false;
-			navMeshAgent.destination = target.position;
+			navMeshAgent.destination = moveToTarget.position;
+
+			IsReached = false;
 
 			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.remainingDistance <= distanceBetweenActor, cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			IsReached = true;
+			transform.rotation = endRotation;
+
+			navMeshAgent.enabled = isNavMeshEnabled;
 		}
 
 		public override void OnUpdate()
 		{
-			navMeshAgent.destination = target.position;
+			if (IsReached) return;
+
+			navMeshAgent.destination = moveToTarget.position;
+			TurnTowardsTarget();
 		}
 
-		public override async UniTask OnExit()
-		{
-			await base.OnExit();
-			navMeshAgent.isStopped = true;
+		protected virtual Transform GetTarget() { return null; }
 
+		protected virtual Transform GetTurnTowardsTarget() { return null; }
+
+		void TurnTowardsTarget()
+		{
 			// Rotate the actor so it's facing the target.
-			Transform target = GetLookAtTarget();
+			Transform target = GetTurnTowardsTarget();
 
 			Vector3 direction = navMeshAgent.transform.position.GetNormalizedDirectionTo(target.position);
-			Quaternion endRotation = Quaternion.LookRotation(direction);
+			endRotation = Quaternion.LookRotation(direction);
 
 			Transform actorController = actorStateMachine.ActorController.transform;
-			CoroutineHelper.QuaternionLerpWithinSeconds(actorController, actorController.rotation, endRotation, exitBodyRotateDuration);
+			transform.rotation = Quaternion.Slerp(actorController.rotation, endRotation, Time.deltaTime * turnTowardsSpeed);
 		}
-
-		protected virtual Transform GetTarget()
-		{
-			OrderedStateMachine orderedStateMachine = (OrderedStateMachine)actorStateMachine;
-
-			Transform target = orderedStateMachine.TargetInfo.SpawnAtFirst;
-
-			if (targetType == TargetInfo.TargetType.MoveTo)
-			{
-				target = orderedStateMachine.TargetInfo.MoveToFirst;
-			}
-			else if (targetType == TargetInfo.TargetType.Leave)
-			{
-				target = orderedStateMachine.TargetInfo.LeaveAtFirst;
-			}
-			else if (targetType == TargetInfo.TargetType.Player)
-			{
-				target = orderedStateMachine.TargetInfo.Player;
-			}
-
-			return target;
-		}
-
-		protected virtual Transform GetLookAtTarget() { return null; }
 	}
 }

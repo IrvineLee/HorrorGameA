@@ -2,11 +2,12 @@ using UnityEngine;
 using System.Text;
 
 using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.Manager;
 using Personal.Definition;
 using Personal.GameState;
 using Personal.FSM;
-using Helper;
+using Personal.FSM.Character;
 
 namespace Personal.Spawner
 {
@@ -47,10 +48,10 @@ namespace Personal.Spawner
 
 			// Spawn the actor.
 			GameObject instance = PoolManager.Instance.GetSpawnedObject(entity.characterPath);
-			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnAtFirst.position);
+			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnTarget.position);
 
 			// Set the interaction.
-			OrderedStateMachine instanceFSM = instance.GetComponentInChildren<OrderedStateMachine>();
+			var instanceFSM = instance.GetComponentInChildren<NPCStateMachine>();
 
 			var prefabIA = cashierInteractionDefinition.GetInteraction(sb.ToString());
 			var interactionAssign = Instantiate(prefabIA, instanceFSM.transform);

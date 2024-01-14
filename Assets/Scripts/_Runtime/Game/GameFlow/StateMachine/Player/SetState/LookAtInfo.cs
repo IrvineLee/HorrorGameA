@@ -8,7 +8,7 @@ namespace Personal.FSM.Character
 		[SerializeField] bool isPersist = false;
 		[SerializeField] bool isInstant = false;
 
-		public Transform LookAt { get => lookAt; set => lookAt = value; }
+		public Transform LookAt { get => lookAt; }
 		public bool IsPersist { get => isPersist; }                         // Does the player remain looking at lookAt after state end?
 		public bool IsInstant { get => isInstant; }                         // Does it turn instantly or by animation?
 
@@ -20,5 +20,7 @@ namespace Personal.FSM.Character
 			this.isPersist = isPersist;
 			this.isInstant = isInstant;
 		}
+
+		public void SetLookAt(Transform lookAt) { this.lookAt = lookAt; }
 	}
 }

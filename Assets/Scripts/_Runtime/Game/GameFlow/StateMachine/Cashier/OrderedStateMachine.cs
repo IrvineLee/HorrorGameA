@@ -1,16 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
-using Personal.GameState;
 
 namespace Personal.FSM
 {
 	public class OrderedStateMachine : ActorStateMachine
 	{
-		public TargetInfo TargetInfo { get; protected set; }
-
 		protected List<StateBase> orderedStateList = new List<StateBase>();
 
 		/// <summary>
@@ -25,12 +22,6 @@ namespace Personal.FSM
 			orderedStateList = interactionAssign.OrderedStateList;
 
 			await PlayOrderedState();
-			TargetInfo = null;
-		}
-
-		public void SetTargetInfo(TargetInfo targetInfo)
-		{
-			TargetInfo = targetInfo;
 		}
 
 		protected async UniTask PlayOrderedState()

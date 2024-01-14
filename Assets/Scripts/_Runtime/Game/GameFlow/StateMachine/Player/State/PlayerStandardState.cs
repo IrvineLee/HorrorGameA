@@ -39,7 +39,7 @@ namespace Personal.FSM.Character
 			var hitActorController = interactable.GetComponentInChildren<ActorController>();
 			if (hitActorController)
 			{
-				lookAtInfo.LookAt = hitActorController.Head;
+				lookAtInfo.SetLookAt(hitActorController.Head);
 				playerFSM.SetLookAtInfo(lookAtInfo);
 			}
 

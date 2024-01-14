@@ -371,7 +371,7 @@ MonoBehaviour:
   realAnimatorStateList:
   - actorAnimationType: 1
     realAnimatorState:
-      realAnimationType: 1
+      realAnimationType: 0
       normalizedTime: 0.1
   - actorAnimationType: 1000
     realAnimatorState:
@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389ec895394f4af4f982c7953e2fab19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultTargetTrans: {fileID: 0}
   isLookAtTarget: 0
   lookAtSpeed: 1
   maxLookAtWeight: 0.5

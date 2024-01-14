@@ -1,11 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 using Cysharp.Threading.Tasks;
+using Helper;
 using Personal.FSM.Character;
 using Personal.Manager;
-using Helper;
-using System.Collections.Generic;
 
 namespace Personal.FSM.Cashier
 {
@@ -13,7 +13,7 @@ namespace Personal.FSM.Cashier
 	{
 		[SerializeField] Transform itemSelectionParent = null;
 
-		OrderedStateMachine orderedStateMachine;
+		NPCStateMachine npcStateMachine;
 		GameObject spawnedObject;
 
 		List<Transform> childList = new();
@@ -22,10 +22,10 @@ namespace Personal.FSM.Cashier
 		{
 			await base.OnEnter();
 
-			orderedStateMachine = (OrderedStateMachine)stateMachine;
+			npcStateMachine = (NPCStateMachine)stateMachine;
 
 			CashierItemSet cashierItemSet = itemSelectionParent.GetComponentInChildren<CashierItemSet>(true);
-			Vector3 position = orderedStateMachine.TargetInfo.PlaceToPutItem.position;
+			Vector3 position = npcStateMachine.TargetInfo.PlaceToPutItem.position;
 			spawnedObject = await AddressableHelper.Spawn(cashierItemSet.CashierItemType.GetStringValue(), position);
 
 			StageManager.Instance.PlayerController.FSM.IFSMHandler?.OnBegin(typeof(PlayerCashierState));

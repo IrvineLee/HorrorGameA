@@ -54,10 +54,7 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public virtual UniTask Begin(InteractionAssign interactionAssign, StateMachineBase initiatorFSM = null) { return UniTask.CompletedTask; }
 
-		public void SetLookAtInfo(LookAtInfo lookAtInfo)
-		{
-			LookAtInfo = lookAtInfo;
-		}
+		public void SetLookAtInfo(LookAtInfo lookAtInfo) { LookAtInfo = lookAtInfo; }
 
 		/// <summary>
 		/// Fade in/out the renderer.

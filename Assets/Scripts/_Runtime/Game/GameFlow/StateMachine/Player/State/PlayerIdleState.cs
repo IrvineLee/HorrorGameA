@@ -8,6 +8,7 @@ namespace Personal.FSM.Character
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
+			RunActorAnimation();
 
 			// Somewhere else will change the state of player.
 			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;

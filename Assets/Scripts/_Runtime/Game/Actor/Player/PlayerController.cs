@@ -9,6 +9,7 @@ using Personal.Manager;
 using Personal.Character.Animation;
 using Personal.Save;
 using Personal.InputProcessing;
+using Personal.FSM;
 
 namespace Personal.Character.Player
 {
@@ -26,12 +27,18 @@ namespace Personal.Character.Player
 		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
 		public InputMovement_FPSController InputMovement_FPSController { get; private set; }
 
+		CharacterController characterController;
 		CoroutineRun lookAtCR = new();
 
 		protected override void EarlyInitialize()
 		{
 			StageManager.Instance.RegisterPlayer(this);
+
 			InputMovement_FPSController = GetComponentInChildren<InputMovement_FPSController>();
+			characterController = GetComponentInChildren<CharacterController>();
+
+			var animator = GetComponentInChildren<Animator>();
+			animator.enabled = false;
 		}
 
 		protected override void Initialize()
@@ -45,6 +52,39 @@ namespace Personal.Character.Player
 		{
 			FSM.PauseStateMachine(isFlag);
 			FPSController.enabled = !isFlag;
+		}
+
+		/// <summary>
+		/// Call this when you need to move the player by animation/timeline. Otherwise the movement might look weird.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		public void MoveStart(bool isFlag)
+		{
+			parentMoveFollowChild.enabled = !isFlag;
+			characterController.enabled = !isFlag;
+		}
+
+		/// <summary>
+		/// Move to target location and turn towards target.
+		/// </summary>
+		/// <param name="moveToTarget"></param>
+		/// <param name="turnTowardsTarget"></param>
+		/// <returns></returns>
+		public async UniTask MoveTo(PlayerMoveToInfo playerMoveToInfo)
+		{
+			MoveStart(true);
+			fsm.StateDictionary.TryGetValue(typeof(PlayerMoveToState), out StateBase stateBase);
+
+			var playerMoveToState = (PlayerMoveToState)stateBase;
+			playerMoveToState.SetTarget(playerMoveToInfo);
+
+			fsm.IFSMHandler?.OnBegin(typeof(PlayerMoveToState));
+
+			await UniTask.NextFrame();
+			await UniTask.WaitUntil(() => playerMoveToState.IsReached, cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			fsm.IFSMHandler?.OnExit();
+			MoveStart(false);
 		}
 
 		/// <summary>

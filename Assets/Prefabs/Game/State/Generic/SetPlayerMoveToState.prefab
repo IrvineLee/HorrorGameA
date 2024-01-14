@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5802316722351391166}
-  - component: {fileID: -1032763800361541703}
+  - component: {fileID: -2891321584438130294}
   m_Layer: 0
-  m_Name: FadeState
+  m_Name: SetPlayerMoveState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1032763800361541703
+--- !u!114 &-2891321584438130294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6033587422068336198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a923987f720084db4aa65f0a003cb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 461565844cee78b478cb900834d2acb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isWaitForOnExit: 0
-  transitionType: 0
-  transitionPlayType: 3
-  transitionBelowSortOrder: 999
+  moveToTarget: {fileID: 0}
+  turnTowardsTarget: {fileID: 0}

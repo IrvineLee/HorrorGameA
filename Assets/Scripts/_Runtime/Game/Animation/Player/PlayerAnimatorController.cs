@@ -5,7 +5,13 @@ using Helper;
 
 namespace Personal.Character.Animation
 {
-	public class PlayerAnimatorController : AnimatorController
+	public enum PlayerAnimationType
+	{
+		[StringValue("IdleWalkRunBlend")] Idle = 0,
+		[StringValue("Walk_N")] Walk_N = 1000,
+	}
+
+	public class PlayerAnimatorController : ActorAnimatorController<PlayerAnimationType>
 	{
 		// Animation IDs
 		int animIDVelozityX;
@@ -25,6 +31,7 @@ namespace Personal.Character.Animation
 		protected override void EarlyInitialize()
 		{
 			base.EarlyInitialize();
+
 			AssignAnimationIDs();
 
 			fpsController = GetComponentInParent<FPSController>();

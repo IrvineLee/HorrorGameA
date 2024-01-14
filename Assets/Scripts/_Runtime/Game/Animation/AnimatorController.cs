@@ -6,7 +6,7 @@ using Personal.GameState;
 
 namespace Personal.Character.Animation
 {
-	public class AnimatorController : GameInitialize
+	public abstract class AnimatorController : GameInitialize
 	{
 		[Serializable]
 		public class AnimatorState<T> where T : Enum
