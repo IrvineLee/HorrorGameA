@@ -22,7 +22,6 @@ namespace Personal.FSM.Character
 			playerController.MoveStart(true);
 
 			playableDirector.gameObject.SetActive(true);
-			Debug.Break();
 			float duration = (float)(playableDirector.duration + playableDirector.initialTime);
 
 			await UniTask.NextFrame();

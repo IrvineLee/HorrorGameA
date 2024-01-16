@@ -19,6 +19,15 @@ namespace Personal.Manager
 			StageManager.Instance.PlayerController.LookAt(lookAtInfo).Forget();
 		}
 
+		/// <summary>
+		/// Call this to make the camera's rotation persist after the timeline is finished.
+		/// </summary>
+		/// <param name="value"></param>
+		public void SetCameraTargetPitch(float value)
+		{
+			StageManager.Instance.PlayerController.FPSController.UpdateTargetPitch(value);
+		}
+
 		public void EnableGO(Transform target)
 		{
 			target.gameObject.SetActive(true);

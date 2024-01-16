@@ -34,7 +34,7 @@ namespace Personal.FSM.Character
 			vCam.LookAt = lookAtInfo.LookAt;
 
 			if (!lookAtInfo.IsPersist) return;
-			pc.HandlePersistantLook(vCam, lookAtInfo).Forget();
+			pc.HandleVCamPersistantLook(vCam, lookAtInfo).Forget();
 		}
 
 		public override async UniTask OnExit()

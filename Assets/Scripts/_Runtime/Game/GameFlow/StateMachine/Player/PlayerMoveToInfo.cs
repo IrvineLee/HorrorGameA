@@ -6,14 +6,13 @@ namespace Personal.FSM.Character
 	{
 		[SerializeField] Transform moveToTarget = null;
 		[SerializeField] Transform turnTowardsTarget = null;
-		[SerializeField] Transform lookAtTarget = null;
-		[SerializeField] float turnTowardsSpeed = 5f;
+		[SerializeField] float turnTowardsSpeed = 1f;
 
 		public Transform MoveToTarget { get => moveToTarget; }
 		public Transform TurnTowardsTarget { get => turnTowardsTarget; }
-		public float TurnTowardsSpeed { get => turnTowardsSpeed; }
+		public float UpdateTurnTowardsSpeed { get => turnTowardsSpeed; }
 
-		public PlayerMoveToInfo(Transform moveToTarget, Transform turnTowardsTarget, float turnTowardsSpeed = 5f)
+		public PlayerMoveToInfo(Transform moveToTarget, Transform turnTowardsTarget, float turnTowardsSpeed)
 		{
 			this.moveToTarget = moveToTarget;
 			this.turnTowardsTarget = turnTowardsTarget;

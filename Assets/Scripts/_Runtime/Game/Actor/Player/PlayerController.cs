@@ -110,7 +110,7 @@ namespace Personal.Character.Player
 		/// <param name="vCam">Should be the virtual camera within the player state</param>
 		/// <param name="lookAtInfo"></param>
 		/// <returns></returns>
-		public async UniTask HandlePersistantLook(CinemachineVirtualCamera vCam, LookAtInfo lookAtInfo)
+		public async UniTask HandleVCamPersistantLook(CinemachineVirtualCamera vCam, LookAtInfo lookAtInfo)
 		{
 			var parent = vCam.transform.parent;
 			vCam.transform.SetParent(null);

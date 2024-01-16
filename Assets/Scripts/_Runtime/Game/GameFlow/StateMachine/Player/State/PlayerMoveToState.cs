@@ -8,7 +8,7 @@ namespace Personal.FSM.Character
 		{
 			moveToTarget = playerMoveToInfo.MoveToTarget;
 			turnTowardsTarget = playerMoveToInfo.TurnTowardsTarget;
-			turnTowardsSpeed = playerMoveToInfo.TurnTowardsSpeed;
+			updateTurnTowardsSpeed = playerMoveToInfo.UpdateTurnTowardsSpeed;
 		}
 
 		Transform turnTowardsTarget;

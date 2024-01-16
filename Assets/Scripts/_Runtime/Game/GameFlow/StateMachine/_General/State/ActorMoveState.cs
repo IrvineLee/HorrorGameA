@@ -1,47 +1,50 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-using Cysharp.Threading.Tasks;
 using Helper;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.FSM.Character
 {
+	/// <summary>
+	/// Move towards the target while turning to look at it.
+	/// Upon reaching, make the final rotation towards target to ensure it's always ends at the same value.
+	/// Does not affect the camera, only the body.
+	/// </summary>
 	public class ActorMoveState : ActorStateBase
 	{
 		[Tooltip("Distance between the actors")]
 		[SerializeField] protected float distanceBetweenActor = 0;
 
-		[Tooltip("Body turn towards target speed")]
-		[SerializeField] protected float turnTowardsSpeed = 5f;
+		[Tooltip("The speed of turning when walking towards target")]
+		[SerializeField] protected float updateTurnTowardsSpeed = 2f;
 
-		public bool IsReached { get; private set; }
+		[Tooltip("Upon reaching the target, body turn towards target duration")]
+		[SerializeField] protected float endTurnTowardsDuration = 0.5f;
+
+		public bool IsReached { get; private set; } = true;
 
 		protected NavMeshAgent navMeshAgent;
 		protected Transform moveToTarget;
+		protected Transform turnToTarget;
 
 		protected bool isNavMeshEnabled;
-		protected Quaternion endRotation;
+
+		Quaternion startQuaternion;
+		Quaternion endQuaternion;
+		float timer;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
-			RunActorAnimation();
-
-			moveToTarget = GetTarget();
 
 			navMeshAgent = actorStateMachine.NavMeshAgent;
+			if (!navMeshAgent) return;
 
-			isNavMeshEnabled = navMeshAgent.enabled;
-			navMeshAgent.enabled = true;
-			navMeshAgent.isStopped = false;
-			navMeshAgent.destination = moveToTarget.position;
+			RunActorAnimation();
+			Initialize();
 
-			IsReached = false;
-
-			await UniTask.WaitUntil(() => navMeshAgent && navMeshAgent.remainingDistance <= distanceBetweenActor, cancellationToken: this.GetCancellationTokenOnDestroy());
-
-			IsReached = true;
-			transform.rotation = endRotation;
+			await UniTask.WaitUntil(() => IsReached, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			navMeshAgent.enabled = isNavMeshEnabled;
 		}
@@ -51,23 +54,68 @@ namespace Personal.FSM.Character
 			if (IsReached) return;
 
 			navMeshAgent.destination = moveToTarget.position;
-			TurnTowardsTarget();
+			TurnTowardsTargetByUpdate();
 		}
 
 		protected virtual Transform GetTarget() { return null; }
 
 		protected virtual Transform GetTurnTowardsTarget() { return null; }
 
-		void TurnTowardsTarget()
+		void Initialize()
 		{
-			// Rotate the actor so it's facing the target.
-			Transform target = GetTurnTowardsTarget();
+			moveToTarget = GetTarget();
+			turnToTarget = GetTurnTowardsTarget();
 
-			Vector3 direction = navMeshAgent.transform.position.GetNormalizedDirectionTo(target.position);
-			endRotation = Quaternion.LookRotation(direction);
+			isNavMeshEnabled = navMeshAgent.enabled;
+			navMeshAgent.enabled = true;
+			navMeshAgent.isStopped = false;
+			navMeshAgent.destination = moveToTarget.position;
 
+			IsReached = false;
+			timer = 0;
+		}
+
+		void TurnTowardsTargetByUpdate()
+		{
 			Transform actorController = actorStateMachine.ActorController.transform;
-			transform.rotation = Quaternion.Slerp(actorController.rotation, endRotation, Time.deltaTime * turnTowardsSpeed);
+
+			if (navMeshAgent.remainingDistance > distanceBetweenActor)
+			{
+				endQuaternion = GetEndRotation(actorController);
+
+				actorController.rotation = Quaternion.Slerp(actorController.rotation, endQuaternion, Time.deltaTime * updateTurnTowardsSpeed);
+				actorController.localRotation = Quaternion.Euler(actorController.localRotation.eulerAngles.With(x: 0, z: 0));
+
+				return;
+			}
+
+			HandleEndTurn(actorController);
+		}
+
+		void HandleEndTurn(Transform actor)
+		{
+			if (timer == 0)
+			{
+				if (distanceBetweenActor == 0) actor.position = moveToTarget.position;
+
+				startQuaternion = actor.rotation;
+				endQuaternion = GetEndRotation(actor);
+			}
+
+			timer += Time.deltaTime;
+			float ratio = timer / endTurnTowardsDuration;
+
+			actor.rotation = Quaternion.Slerp(startQuaternion, endQuaternion, ratio);
+
+			if (ratio >= 1) IsReached = true;
+		}
+
+		Quaternion GetEndRotation(Transform actor)
+		{
+			Vector3 direction = actor.transform.position.GetNormalizedDirectionTo(turnToTarget.position);
+			Quaternion endRotation = Quaternion.LookRotation(direction);
+
+			return endRotation;
 		}
 	}
 }
