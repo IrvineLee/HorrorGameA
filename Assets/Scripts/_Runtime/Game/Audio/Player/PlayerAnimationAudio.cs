@@ -31,7 +31,7 @@ namespace Personal.Character.Animation
 		void OnFootstep(AnimationEvent animationEvent)
 		{
 			// Surprisingly timeline will call this even in editor mode.
-			if (Application.isEditor) return;
+			if (!Application.isPlaying) return;
 
 			if (animationEvent.animatorClipInfo.weight <= footstepWeight) return;
 			if (footstepSFXTypes.Count <= 0) return;

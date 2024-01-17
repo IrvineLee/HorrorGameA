@@ -62,6 +62,8 @@ namespace Personal.Character.Player
 		{
 			parentMoveFollowChild.enabled = !isFlag;
 			characterController.enabled = !isFlag;
+
+			characterController.transform.localPosition = Vector3.zero;
 		}
 
 		/// <summary>
@@ -81,7 +83,7 @@ namespace Personal.Character.Player
 			fsm.IFSMHandler?.OnBegin(typeof(PlayerMoveToState));
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => playerMoveToState.IsReached, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await UniTask.WaitUntil(() => playerMoveToState.IsCompleted, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			fsm.IFSMHandler?.OnExit();
 			MoveStart(false);
@@ -115,14 +117,16 @@ namespace Personal.Character.Player
 			var parent = vCam.transform.parent;
 			vCam.transform.SetParent(null);
 
-			lookAtCR?.StopCoroutine();
+			if (!lookAtInfo.IsInstant)
+			{
+				lookAtCR?.StopCoroutine();
 
-			// Make sure the vCam is out of it's parent.
-			await UniTask.NextFrame();
+				// Make sure the vCam is out of it's parent.
+				await UniTask.NextFrame();
 
-			if (!lookAtInfo.IsInstant) RotateByAnimation(lookAtInfo.LookAt.position);
-
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+				RotateByAnimation(lookAtInfo.LookAt.position);
+				await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending && lookAtCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());
+			}
 
 			// Rotate the player's transform to look at target, on the horizontal axis.
 			Vector3 lookAtPos = lookAtInfo.LookAt.position;

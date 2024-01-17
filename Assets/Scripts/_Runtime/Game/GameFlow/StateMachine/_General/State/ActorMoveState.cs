@@ -44,6 +44,10 @@ namespace Personal.FSM.Character
 			RunActorAnimation();
 			Initialize();
 
+			// You need to wait for the nav mesh to calculate the remaining distance first.
+			await UniTask.NextFrame();
+
+			IsReached = false;
 			await UniTask.WaitUntil(() => IsReached, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			navMeshAgent.enabled = isNavMeshEnabled;
@@ -71,7 +75,6 @@ namespace Personal.FSM.Character
 			navMeshAgent.isStopped = false;
 			navMeshAgent.destination = moveToTarget.position;
 
-			IsReached = false;
 			timer = 0;
 		}
 
@@ -89,6 +92,7 @@ namespace Personal.FSM.Character
 				return;
 			}
 
+			if (distanceBetweenActor == 0 && navMeshAgent.remainingDistance > 0) return;
 			HandleEndTurn(actorController);
 		}
 

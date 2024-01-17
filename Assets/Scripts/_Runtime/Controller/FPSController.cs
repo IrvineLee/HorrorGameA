@@ -76,6 +76,7 @@ namespace Personal.Character.Player
 		public float SpeedChangeRate { get => speedChangeRate; }
 		public CharacterController Controller { get; private set; }
 		public GameObject CinemachineCameraGO { get => cinemachineCameraTarget; }
+		public float CinemachineTargetPitch { get => cinemachineTargetPitch; }
 
 		public event Action<bool> OnJumpEvent;
 		public event Action<bool> OnFreeFallEvent;

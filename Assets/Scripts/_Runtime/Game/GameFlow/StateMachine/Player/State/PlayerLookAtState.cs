@@ -4,26 +4,23 @@ using Cysharp.Threading.Tasks;
 using Cinemachine;
 using Personal.Character.Player;
 using Personal.Manager;
-using Personal.Character.Animation;
 
 namespace Personal.FSM.Character
 {
 	public class PlayerLookAtState : PlayerBaseState
 	{
-		protected CinemachineVirtualCamera vCam;
-		protected PlayerController pc;
-		protected PlayerAnimatorController playerAnimatorController;
+		CinemachineVirtualCamera vCam;
+		PlayerController playerController;
 
-		protected LookAtInfo lookAtInfo;
-		protected Transform parent;
+		LookAtInfo lookAtInfo;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
-			pc = StageManager.Instance.PlayerController;
-			pc.FPSController.enabled = false;
-			pc.PlayerAnimatorController.ResetAnimationBlend(0.25f);
+			playerController = StageManager.Instance.PlayerController;
+			playerController.FPSController.enabled = false;
+			playerController.PlayerAnimatorController.ResetAnimationBlend(0.25f);
 
 			if (playerFSM.LookAtInfo == null) return;
 
@@ -34,15 +31,16 @@ namespace Personal.FSM.Character
 			vCam.LookAt = lookAtInfo.LookAt;
 
 			if (!lookAtInfo.IsPersist) return;
-			pc.HandleVCamPersistantLook(vCam, lookAtInfo).Forget();
+			playerController.HandleVCamPersistantLook(vCam, lookAtInfo).Forget();
 		}
 
 		public override async UniTask OnExit()
 		{
 			await base.OnExit();
 
-			pc.FPSController.enabled = true;
+			playerController.FPSController.enabled = true;
 
+			vCam.transform.localRotation = Quaternion.identity;
 			vCam.LookAt = null;
 			vCam.Priority = 0;
 		}
