@@ -26,6 +26,7 @@ namespace Personal.Character.Player
 		public PlayerInventory Inventory { get => inventory; }
 		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
 		public InputMovement_FPSController InputMovement_FPSController { get; private set; }
+		public Animator Animator { get; private set; }
 
 		CharacterController characterController;
 		CoroutineRun lookAtCR = new();
@@ -35,6 +36,7 @@ namespace Personal.Character.Player
 			StageManager.Instance.RegisterPlayer(this);
 
 			InputMovement_FPSController = GetComponentInChildren<InputMovement_FPSController>();
+			Animator = GetComponentInChildren<Animator>();
 			characterController = GetComponentInChildren<CharacterController>();
 
 			var animator = GetComponentInChildren<Animator>();

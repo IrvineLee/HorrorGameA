@@ -21,6 +21,8 @@ namespace Personal.FSM.Character
 			playerController = StageManager.Instance.PlayerController;
 			playerController.MoveStart(true);
 
+			playerController.Animator.enabled = true;
+
 			playableDirector.gameObject.SetActive(true);
 			float duration = (float)(playableDirector.duration + playableDirector.initialTime);
 
@@ -35,6 +37,8 @@ namespace Personal.FSM.Character
 		public override async UniTask OnExit()
 		{
 			await base.OnExit();
+
+			playerController.Animator.enabled = false;
 			playerController.MoveStart(false);
 		}
 	}
