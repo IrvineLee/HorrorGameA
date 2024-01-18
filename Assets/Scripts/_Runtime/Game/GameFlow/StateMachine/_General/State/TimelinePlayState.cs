@@ -26,6 +26,10 @@ namespace Personal.FSM.Character
 
 			await UniTask.NextFrame();
 			await UniTask.Delay(duration.SecondsToMilliseconds(), cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			FPSController fpsController = playerController.FPSController;
+			float pitch = fpsController.CinemachineCameraGO.transform.rotation.eulerAngles.x;
+			fpsController.UpdateTargetPitch(pitch);
 		}
 
 		public override async UniTask OnExit()
