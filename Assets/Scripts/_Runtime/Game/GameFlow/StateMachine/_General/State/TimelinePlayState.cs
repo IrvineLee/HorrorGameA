@@ -10,13 +10,14 @@ namespace Personal.FSM.Character
 {
 	public class TimelinePlayState : StateBase
 	{
-		[SerializeField] PlayableDirector playableDirector = null;
-
+		PlayableDirector playableDirector = null;
 		PlayerController playerController;
 
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
+
+			playableDirector = GetComponentInChildren<PlayableDirector>(true);
 
 			playerController = StageManager.Instance.PlayerController;
 			playerController.MoveStart(true);
