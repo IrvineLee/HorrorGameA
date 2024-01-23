@@ -4,8 +4,6 @@ using UnityEngine;
 
 using Sirenix.OdinInspector;
 using PixelCrushers.DialogueSystem;
-using Cysharp.Threading.Tasks;
-using Helper;
 using Personal.Item;
 using Personal.InteractiveObject;
 
@@ -26,6 +24,14 @@ namespace Personal.Definition
 		const string END_STRING = "@interactableType.HasFlag(InteractableType.EndDialogue)";
 		#endregion
 
+		[Header("Key Event")]
+		[Tooltip("The required key events for this object to be interactable.")]
+		[SerializeField] List<KeyEventType> requiredKeyEventTypeList = new();
+
+		[Tooltip("The key event upon completion of this object, after the reward dialogue(even if it's empty).")]
+		[SerializeField] KeyEventType completeKeyEventType = KeyEventType.None;
+
+		[Header("Interactable")]
 		[SerializeField] InteractableType interactableType;
 		[SerializeField] InteractableCompleteType interactableCompleteType = InteractableCompleteType.NotInteractable;
 
@@ -39,8 +45,9 @@ namespace Personal.Definition
 		[Tooltip("The dialogue when the key event has not started and make this object truly interactable.")]
 		[SerializeField] InteractDialogue examinableDialogue = null;
 
+		[ShowIf(EXAMINABLE_BEFORE_KEY_EVENT_STRING)]
 		[Tooltip("Key event to disable the examinable state.")]
-		[SerializeField] KeyEventType keyEventEndType = KeyEventType._200000_None;
+		[SerializeField] KeyEventType keyEventEndExaminableType = KeyEventType.None;
 
 		#endregion
 
@@ -54,7 +61,7 @@ namespace Personal.Definition
 		[ShowIf(REQUIRED_STRING)]
 		[Tooltip("The item needed to enable/trigger the interaction." +
 			" Some object might be interactable(pre-talk) but cannot be used/triggered/picked up until you get other items first.")]
-		[SerializeField] List<ItemType> requiredItemTypeList = new();
+		[SerializeField] List<ItemData> requiredItemList = new();
 
 		#endregion
 
@@ -69,10 +76,6 @@ namespace Personal.Definition
 		[Tooltip("The dialogue when you have the required item, but before using them.")]
 		[SerializeField] InteractDialogue achievedRequiredBeforeDialogue = null;
 
-		[ShowIf(ACHIEVED_REQUIRED_BEFORE_USE_STRING)]
-		[Tooltip("After dialogue, instantiate animator if have any. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
-		[SerializeField] Animator beforeInteractPrefab = null;
-
 		#endregion
 
 		#region Achieved Required After Interact
@@ -81,10 +84,6 @@ namespace Personal.Definition
 		[Header("Achieved requirement, after interact")]
 		[Tooltip("The dialogue when you have the required item and after using them.")]
 		[SerializeField] InteractDialogue achievedRequiredAfterDialogue = null;
-
-		[ShowIf(ACHIEVED_REQUIRED_AFTER_USE_STRING)]
-		[Tooltip("After dialogue, instantiate animator if have any. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
-		[SerializeField] Animator afterInteractPrefab = null;
 
 		#endregion
 
@@ -96,7 +95,8 @@ namespace Personal.Definition
 		[SerializeField] InteractDialogue rewardDialogue = null;
 
 		[ShowIf(REWARD_STRING)]
-		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
+		[Tooltip("The reward you get after the dialogue.")]
+		[SerializeField] List<ItemData> rewardItemList = new();
 
 		#endregion
 
@@ -109,24 +109,25 @@ namespace Personal.Definition
 
 		#endregion
 
+		public List<KeyEventType> RequiredKeyEventTypeList { get => requiredKeyEventTypeList; }
+		public KeyEventType CompleteKeyEventType { get => completeKeyEventType; }
+
 		public InteractableType InteractionType { get => interactableType; }
 		public InteractableCompleteType InteractableCompleteType { get => interactableCompleteType; }
 
 		public string ExaminableDialogue { get => examinableDialogue.conversation; }
-		public KeyEventType KeyEventType { get => keyEventEndType; }
+		public KeyEventType KeyEventType { get => keyEventEndExaminableType; }
 
 		public string RequiredItemDialogue { get => requiredItemDialogue.conversation; }
-		public List<ItemType> RequiredItemTypeList { get => requiredItemTypeList; }
+		public List<ItemData> RequiredItemTypeList { get => requiredItemList; }
 
 		public bool IsOnlyOnce_BeforeUse { get => isOnlyOnce_BeforeUse; }
 		public string AchievedRequiredBeforeUseDialogue { get => achievedRequiredBeforeDialogue.conversation; }
-		public Animator BeforeInteractPrefab { get => beforeInteractPrefab; }
 
 		public string AchievedRequiredAfterUseDialogue { get => achievedRequiredAfterDialogue.conversation; }
-		public Animator AfterInteractPrefab { get => afterInteractPrefab; }
 
 		public string RewardDialogue { get => rewardDialogue.conversation; }
-		public List<InteractableObject> RewardInteractableObjectList { get => rewardInteractableObjectList; }
+		public List<ItemData> RewardItemList { get => rewardItemList; }
 
 		public string EndedDialogue { get => endedDialogue.conversation; }
 
@@ -141,24 +142,6 @@ namespace Personal.Definition
 				return interactableCompleteType.HasFlag(enumType);
 			}
 			return false;
-		}
-
-		public async UniTask SpawnAndPlayAnimator(Animator prefab, Transform parent, bool isEndDestroy = true)
-		{
-			if (!prefab) return;
-
-			var instance = Instantiate(prefab, parent);
-
-			string clipName = instance.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-			instance.Play(clipName);
-
-			bool isDone = false;
-
-			CoroutineHelper.WaitUntilCurrentAnimationEnds(instance, () => isDone = true);
-			await UniTask.WaitUntil(() => isDone, cancellationToken: instance.GetCancellationTokenOnDestroy());
-
-			if (!isEndDestroy) return;
-			Destroy(instance.gameObject);
 		}
 
 		void OnValidate()

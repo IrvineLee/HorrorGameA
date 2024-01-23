@@ -197,8 +197,13 @@ MonoBehaviour:
   colliderTrans: {fileID: 3666940908291022804}
   interactCrosshairType: 2
   isInteractable: 1
-  interactDialogueDefinition: {fileID: 0}
+  interactDefinition: {fileID: 0}
   actionMapType: 0
+  interactableAnimatorType: 0
+  beforeInteractBeforeTalkAnimator: {fileID: 0}
+  beforeInteractAfterTalkAnimator: {fileID: 0}
+  afterInteractBeforeTalkAnimator: {fileID: 0}
+  afterInteractAfterTalkAnimator: {fileID: 0}
 --- !u!114 &1696717499919851360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSFXType: 2000
-  interactableObject: {fileID: 0}
+  endKeyEventType: 0
 --- !u!1 &5187338674076271929
 GameObject:
   m_ObjectHideFlags: 0

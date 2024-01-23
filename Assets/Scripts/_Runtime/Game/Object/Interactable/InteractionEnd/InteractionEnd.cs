@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
@@ -9,7 +8,7 @@ namespace Personal.InteractiveObject
 {
 	public abstract class InteractionEnd : GameInitialize
 	{
-		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
+		[SerializeField] KeyEventType completeKeyEventType = KeyEventType.None;
 
 		public async UniTask EnableInteractables()
 		{
@@ -18,7 +17,7 @@ namespace Personal.InteractiveObject
 			if (!IsEnded()) return;
 
 			HandleInteractable();
-			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
+			StageManager.Instance.RegisterKeyEvent(completeKeyEventType);
 		}
 
 		protected virtual void HandleInteractable() { }

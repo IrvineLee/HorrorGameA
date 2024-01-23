@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guid: 1b2d1e51-92e5-4991-81a0-5a2cf7641345
-  interactableEventBegin: {fileID: 8050680161986757513}
+  parentInteractableObject: {fileID: 8050680161986757513}
   rewardInteractableObjectList: []
   tileList:
   - tileTrans: {fileID: 837121303477297727}
@@ -402,8 +402,13 @@ MonoBehaviour:
   colliderTrans: {fileID: 2211534157745629288}
   interactCrosshairType: 2
   isInteractable: 1
-  interactDialogueDefinition: {fileID: 0}
+  interactDefinition: {fileID: 0}
   actionMapType: 0
+  interactableAnimatorType: 0
+  beforeInteractBeforeTalkAnimator: {fileID: 0}
+  beforeInteractAfterTalkAnimator: {fileID: 0}
+  afterInteractBeforeTalkAnimator: {fileID: 0}
+  afterInteractAfterTalkAnimator: {fileID: 0}
 --- !u!1 &2122070912852740191
 GameObject:
   m_ObjectHideFlags: 0

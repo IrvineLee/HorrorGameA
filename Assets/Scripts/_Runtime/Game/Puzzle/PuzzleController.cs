@@ -25,7 +25,8 @@ namespace Personal.Puzzle
 
 		[SerializeField] [ReadOnly] string guid = Guid.NewGuid().ToString();
 
-		[SerializeField] InteractableEventBegin interactableEventBegin = null;
+		[SerializeField] KeyEventType completeKeyEventType = KeyEventType.None;
+		[SerializeField] InteractableObject parentInteractableObject = null;
 		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
 		public bool IsBusy { get => slideCR.IsDone; }
@@ -51,7 +52,9 @@ namespace Personal.Puzzle
 
 		protected virtual void EndAndGetReward()
 		{
-			StageManager.Instance.GetReward(rewardInteractableObjectList).Forget();
+			parentInteractableObject.enabled = false;
+
+			StageManager.Instance.RegisterKeyEvent(completeKeyEventType);
 			puzzleState = PuzzleState.Completed;
 		}
 
@@ -96,7 +99,7 @@ namespace Personal.Puzzle
 			puzzleState = value;
 			if (puzzleState != PuzzleState.Completed) return;
 
-			interactableEventBegin.SetIsInteractable(false);
+			parentInteractableObject.enabled = false;
 			GetComponent<IPuzzle>()?.AutoComplete();
 		}
 

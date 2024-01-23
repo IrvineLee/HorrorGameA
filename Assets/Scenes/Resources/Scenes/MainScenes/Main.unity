@@ -2144,8 +2144,13 @@ MonoBehaviour:
   colliderTrans: {fileID: 1211729423}
   interactCrosshairType: 0
   isInteractable: 1
-  interactDialogueDefinition: {fileID: 0}
+  interactDefinition: {fileID: 0}
   actionMapType: 0
+  interactableAnimatorType: 0
+  beforeInteractBeforeTalkAnimator: {fileID: 0}
+  beforeInteractAfterTalkAnimator: {fileID: 0}
+  afterInteractBeforeTalkAnimator: {fileID: 0}
+  afterInteractAfterTalkAnimator: {fileID: 0}
 --- !u!1001 &869602519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4447,8 +4452,13 @@ MonoBehaviour:
   colliderTrans: {fileID: 1439020641}
   interactCrosshairType: 0
   isInteractable: 1
-  interactDialogueDefinition: {fileID: 0}
+  interactDefinition: {fileID: 0}
   actionMapType: 0
+  interactableAnimatorType: 0
+  beforeInteractBeforeTalkAnimator: {fileID: 0}
+  beforeInteractAfterTalkAnimator: {fileID: 0}
+  afterInteractBeforeTalkAnimator: {fileID: 0}
+  afterInteractAfterTalkAnimator: {fileID: 0}
 --- !u!1 &1494535414
 GameObject:
   m_ObjectHideFlags: 0
@@ -5736,8 +5746,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardInteractableObjectList: []
-  enableInteractableObjectList: []
-  disableInteractableObjectList: []
 --- !u!1 &1977082736
 GameObject:
   m_ObjectHideFlags: 0
@@ -7124,10 +7132,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1977082737}
     m_Modifications:
-    - target: {fileID: 5051477040040588668, guid: c6b3ffe68c587f649bd60aaa6fe78f11, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6264341000515498153, guid: c6b3ffe68c587f649bd60aaa6fe78f11, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

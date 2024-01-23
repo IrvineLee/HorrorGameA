@@ -46,7 +46,7 @@ namespace Personal.GameState
 		protected virtual async UniTask OnEarlyMainSceneAsync() { await UniTask.CompletedTask; }
 
 		/// <summary>
-		/// This will get called on the next frame of OnEarlynMainScene.
+		/// This will get called on the next frame of OnEarlyMainScene.
 		/// </summary>
 		protected virtual void OnMainScene() { }
 

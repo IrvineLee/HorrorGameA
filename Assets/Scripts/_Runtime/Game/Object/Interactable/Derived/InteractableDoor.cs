@@ -6,7 +6,6 @@ using Personal.System.Handler;
 using Helper;
 using Personal.Character.Player;
 using Personal.Manager;
-using PixelCrushers.DialogueSystem;
 
 namespace Personal.InteractiveObject
 {

@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
 using Personal.Setting.Audio;
 
 namespace Personal.InteractiveObject
 {
-	public class AudioTriggerHandler : InteractableObject
+	public class AudioTriggerHandler : EventTriggerHandler
 	{
 		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
 
-		void OnTriggerEnter(Collider other)
+		protected override UniTask<bool> HandleTrigger()
 		{
-			if (!IsInteractable) return;
+			if (!IsInteractable) return new UniTask<bool>(false);
 
 			AudioManager.Instance.PlaySFX(audioSFXType);
 			colliderTrans.gameObject.SetActive(false);
+
+			return new UniTask<bool>(true);
 		}
 	}
 }

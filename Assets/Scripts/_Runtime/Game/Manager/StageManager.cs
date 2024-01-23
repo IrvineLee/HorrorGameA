@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -14,6 +15,8 @@ using Personal.Character;
 using Personal.Dialogue;
 using Personal.Quest;
 using Personal.InputProcessing;
+using Personal.Item;
+using Personal.Save;
 
 namespace Personal.Manager
 {
@@ -32,9 +35,11 @@ namespace Personal.Manager
 		public int DayIndex { get; private set; }
 		public int CashierInteractionIndex { get; private set; }
 		public bool IsBusy { get => TransitionManager.Instance.IsTransitioning; }
-		public List<KeyEventType> keyEventCompletedList { get; private set; } = new();
+		public List<KeyEventType> KeyEventCompletedList { get => keyEventData.KeyEventList; }
 
 		public static event Action<KeyEventType> OnKeyEventCompleted;
+
+		KeyEventData keyEventData;
 
 		protected override void Initialize()
 		{
@@ -55,6 +60,11 @@ namespace Personal.Manager
 			InputManager.Instance.DisableAllActionMap();
 			await UniTask.WaitUntil(() => !IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 			InputManager.Instance.EnableActionMap(ActionMapType.Player);
+		}
+
+		protected override void OnMainScene()
+		{
+			keyEventData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.KeyEventData;
 		}
 
 		public void SetMainCameraTransform(Transform target)
@@ -90,36 +100,36 @@ namespace Personal.Manager
 
 		public void RegisterKeyEvent(KeyEventType keyEventType)
 		{
-			if (keyEventCompletedList.Contains(keyEventType)) return;
+			if (KeyEventCompletedList.Contains(keyEventType)) return;
 
-			keyEventCompletedList.Add(keyEventType);
+			KeyEventCompletedList.Add(keyEventType);
+			keyEventData.KeyEventList.Add(keyEventType);
+
 			OnKeyEventCompleted?.Invoke(keyEventType);
 		}
 
-		public async UniTask GetReward(List<InteractableObject> rewardInteractableObjectList)
+		/// <summary>
+		/// Get the item reward.
+		/// </summary>
+		/// <param name="rewardItemList"></param>
+		/// <returns></returns>
+		public async UniTask GetReward(List<ItemData> rewardItemList)
 		{
-			if (rewardInteractableObjectList.Count <= 0) return;
+			if (rewardItemList.Count <= 0) return;
 
-			// Enable the gameobjects so they can be initialized first(for those that wasn't awake at runtime).
-			foreach (var reward in rewardInteractableObjectList)
+			foreach (var reward in rewardItemList)
 			{
-				reward.gameObject.SetActive(true);
-			}
+				var itemList = await AddressableHelper.SpawnMultiple(reward.ItemType.GetStringValue(), reward.Amount);
+				var interactableList = itemList.Select(x => x.GetComponentInChildren<InteractableObject>()).ToList();
 
-			await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
-
-			foreach (var reward in rewardInteractableObjectList)
-			{
-				var interactable = (InteractablePickupable)reward;
-
-				if (reward.GetType() == typeof(InteractablePickupable))
+				foreach (var item in interactableList)
 				{
-					PlayerController.Inventory.AddItem(interactable);
-				}
+					PlayerController.Inventory.AddItem((InteractablePickupable)item);
 
-				// Update quest after adding items to inventory.
-				QuestTypeSet questTypeSet = interactable.GetComponentInChildren<QuestTypeSet>();
-				questTypeSet?.TryUpdateData();
+					// Update quest after adding items to inventory.
+					QuestTypeSet questTypeSet = item.GetComponentInChildren<QuestTypeSet>();
+					questTypeSet?.TryUpdateData();
+				}
 			}
 		}
 

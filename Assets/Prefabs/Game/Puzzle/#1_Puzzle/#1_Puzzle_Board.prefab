@@ -264,8 +264,13 @@ MonoBehaviour:
   colliderTrans: {fileID: 3266309408851020891}
   interactCrosshairType: 2
   isInteractable: 1
-  interactDialogueDefinition: {fileID: 0}
+  interactDefinition: {fileID: 0}
   actionMapType: 0
+  interactableAnimatorType: 0
+  beforeInteractBeforeTalkAnimator: {fileID: 0}
+  beforeInteractAfterTalkAnimator: {fileID: 0}
+  afterInteractBeforeTalkAnimator: {fileID: 0}
+  afterInteractAfterTalkAnimator: {fileID: 0}
 --- !u!1 &7345770453051626901
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,6 +715,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1221913015419282843, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
       propertyPath: interactableEventBegin
+      value: 
+      objectReference: {fileID: 6187011975244412339}
+    - target: {fileID: 1221913015419282843, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
+      propertyPath: parentInteractableObject
       value: 
       objectReference: {fileID: 6187011975244412339}
     - target: {fileID: 3665257249862840319, guid: 6f75b873e7379364fa79fbd622833940, type: 3}
