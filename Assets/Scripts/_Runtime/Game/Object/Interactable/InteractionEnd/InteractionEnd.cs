@@ -2,14 +2,11 @@
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
-using Personal.Manager;
 
 namespace Personal.InteractiveObject
 {
 	public abstract class InteractionEnd : GameInitialize
 	{
-		[SerializeField] KeyEventType completeKeyEventType = KeyEventType.None;
-
 		public async UniTask EnableInteractables()
 		{
 			await UniTask.Yield(PlayerLoopTiming.LastTimeUpdate);
@@ -17,7 +14,6 @@ namespace Personal.InteractiveObject
 			if (!IsEnded()) return;
 
 			HandleInteractable();
-			StageManager.Instance.RegisterKeyEvent(completeKeyEventType);
 		}
 
 		protected virtual void HandleInteractable() { }

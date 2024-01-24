@@ -107,23 +107,21 @@ namespace Personal.Quest
 		/// <summary>
 		/// Update task for DialogueResponse/Acquire
 		/// </summary>
-		public async UniTask UpdateQuest(CancellationToken cancellationToken)
+		public async UniTask<QuestInfo> UpdateQuest(CancellationToken cancellationToken)
 		{
 			foreach (var taskInfo in taskInfoList)
 			{
 				await UpdateTask(taskInfo, cancellationToken);
 			}
 
-			if (IsTasksEnded())
+			if (!QuestEntity.isHiddenQuest)
 			{
-				HandleQuestEnd();
-				QuestManager.Instance.TryGetReward(this);
+				// Handle the UI.
+				UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
 			}
 
-			if (QuestEntity.isHiddenQuest) return;
-
-			// Handle the UI.
-			UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
+			if (IsTasksEnded()) HandleQuestEnd();
+			return this;
 		}
 
 		async UniTask UpdateTask(TaskInfo taskInfo, CancellationToken cancellationToken)
@@ -172,14 +170,6 @@ namespace Personal.Quest
 		{
 			Enum enumType = MasterDataManager.Instance.GetEnumType<Enum>(taskInfo.ObjectiveKey);
 			if (enumType.GetType() == typeof(ItemType)) taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(enumType));
-
-			//Type enumType = MasterDataManager.Instance.GetEnumType(taskInfo.ObjectiveKey);
-
-			//if (enumType == typeof(ItemType))
-			//{
-			//	ItemType itemType = (ItemType)taskInfo.ObjectiveKey;
-			//	taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(itemType));
-			//}
 		}
 
 		/// <summary>

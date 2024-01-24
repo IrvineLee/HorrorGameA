@@ -2145,12 +2145,11 @@ MonoBehaviour:
   interactCrosshairType: 0
   isInteractable: 1
   interactDefinition: {fileID: 0}
-  actionMapType: 0
   interactableAnimatorType: 0
-  beforeInteractBeforeTalkAnimator: {fileID: 0}
-  beforeInteractAfterTalkAnimator: {fileID: 0}
-  afterInteractBeforeTalkAnimator: {fileID: 0}
-  afterInteractAfterTalkAnimator: {fileID: 0}
+  beforeInteractBeforeTalkParam: 
+  beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
+  afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
+  afterInteractAfterTalkParam: AfterInteract_AfterTalk
 --- !u!1001 &869602519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2243,11 +2242,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 893539072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9e99b666d3872428fb724cce106b96, type: 3}
+  m_Script: {fileID: 11500000, guid: a437a39f1296e2b44b400681bf887246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardInteractableObjectList: []
-  keyEventType: 200000
+  keyEventType: 200001
 --- !u!1 &941609124
 GameObject:
   m_ObjectHideFlags: 0
@@ -4453,12 +4451,11 @@ MonoBehaviour:
   interactCrosshairType: 0
   isInteractable: 1
   interactDefinition: {fileID: 0}
-  actionMapType: 0
   interactableAnimatorType: 0
-  beforeInteractBeforeTalkAnimator: {fileID: 0}
-  beforeInteractAfterTalkAnimator: {fileID: 0}
-  afterInteractBeforeTalkAnimator: {fileID: 0}
-  afterInteractAfterTalkAnimator: {fileID: 0}
+  beforeInteractBeforeTalkParam: 
+  beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
+  afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
+  afterInteractAfterTalkParam: AfterInteract_AfterTalk
 --- !u!1 &1494535414
 GameObject:
   m_ObjectHideFlags: 0
@@ -5745,7 +5742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb97cea98f54f64b9601e74ba6f694f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardInteractableObjectList: []
 --- !u!1 &1977082736
 GameObject:
   m_ObjectHideFlags: 0
@@ -7132,6 +7128,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1977082737}
     m_Modifications:
+    - target: {fileID: 5051477040040588668, guid: c6b3ffe68c587f649bd60aaa6fe78f11, type: 3}
+      propertyPath: rewardInteractableObjectList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6264341000515498153, guid: c6b3ffe68c587f649bd60aaa6fe78f11, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

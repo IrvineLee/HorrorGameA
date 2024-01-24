@@ -24,19 +24,6 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// Can you start this quest.
-		/// </summary>
-		/// <param name="questType"></param>
-		/// <returns></returns>
-		public bool IsAbleToStartQuest(QuestType questType)
-		{
-			if (IsQuestEnded(questType)) return false;
-			if (!IsAbleToTriggerQuest(questType)) return false;
-
-			return true;
-		}
-
-		/// <summary>
 		/// See whether the quest passed successfully.
 		/// </summary>
 		/// <param name="questType"></param>
@@ -64,18 +51,22 @@ namespace Personal.Manager
 		/// This should be called from gameobject with quest ID that has task of ActionType.DialogueResponse/Acquire.
 		/// </summary>
 		/// <param name="questType"></param>
-		public void TryUpdateData(QuestType questType)
+		public async UniTask<bool> TryUpdateData(QuestType questType)
 		{
-			if (!IsAbleToStartQuest(questType)) return;
+			if (!IsAbleToStartQuest(questType)) return false;
 
-			UpdateData(questType);
+			// Update the quest.
+			QuestInfo questInfo = await GetQuestInfo(questType).UpdateQuest(this.GetCancellationTokenOnDestroy());
+			if (questInfo.IsQuestSuccess) GetReward(questInfo);
+
+			return true;
 		}
 
 		/// <summary>
 		/// End the quest and get reward. 
 		/// </summary>
 		/// <param name="questInfo"></param>
-		public void TryGetReward(QuestInfo questInfo)
+		void GetReward(QuestInfo questInfo)
 		{
 			if (!questInfo.IsQuestEnded) return;
 
@@ -93,6 +84,19 @@ namespace Personal.Manager
 
 			activeDictionary.Remove(questType);
 			endedDictionary.Add(questType, questInfo);
+		}
+
+		/// <summary>
+		/// Can you start this quest.
+		/// </summary>
+		/// <param name="questType"></param>
+		/// <returns></returns>
+		bool IsAbleToStartQuest(QuestType questType)
+		{
+			if (IsQuestEnded(questType)) return false;
+			if (!IsAbleToTriggerQuest(questType)) return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -126,13 +130,6 @@ namespace Personal.Manager
 				questData.EndedSubQuestDictionary.ContainsKey((QuestType)entity.prerequisiteKey)) return true;
 
 			return false;
-		}
-
-		void UpdateData(QuestType questType)
-		{
-			// Update the quest.
-			QuestInfo questInfo = GetQuestInfo(questType);
-			questInfo.UpdateQuest(this.GetCancellationTokenOnDestroy()).Forget();
 		}
 
 		QuestInfo GetQuestInfo(QuestType questType)

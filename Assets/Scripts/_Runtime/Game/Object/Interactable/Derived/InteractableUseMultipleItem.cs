@@ -12,7 +12,7 @@ using Personal.Save;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractableInsertItem : InteractableObject, IDataPersistence
+	public class InteractableUseMultipleItem : InteractableObject, IDataPersistence
 	{
 		[Serializable]
 		class ItemInfo
@@ -24,15 +24,9 @@ namespace Personal.InteractiveObject
 
 			public ItemType ItemType { get => itemType; }
 			public Transform ActivateObjectTrans { get => activateObjectTrans; }
-			public bool IsInteractionEnded { get; private set; }
+			public bool IsCompleted { get; private set; }
 
-			public ItemInfo(ItemType itemType, Transform activateObjectTrans)
-			{
-				this.itemType = itemType;
-				this.activateObjectTrans = activateObjectTrans;
-			}
-
-			public void SetInteractionEnded() { IsInteractionEnded = true; }
+			public void SetCompleted() { IsCompleted = true; }
 		}
 
 		[SerializeField] List<ItemInfo> itemInfoList = new List<ItemInfo>();
@@ -69,14 +63,14 @@ namespace Personal.InteractiveObject
 
 				// Enable the active gameobject and remove it from list.
 				itemInfo.ActivateObjectTrans.gameObject.SetActive(true);
-				itemInfo.SetInteractionEnded();
+				itemInfo.SetCompleted();
 
 				break;
 			}
 
 			foreach (var itemInfo in itemInfoList)
 			{
-				if (!itemInfo.IsInteractionEnded) return UniTask.CompletedTask;
+				if (!itemInfo.IsCompleted) return UniTask.CompletedTask;
 			}
 
 			interactableState = InteractableState.EndNonInteractable;
@@ -87,7 +81,7 @@ namespace Personal.InteractiveObject
 
 		void IDataPersistence.SaveData(SaveObject data)
 		{
-			List<bool> clearItemList = itemInfoList.Select((x) => x.IsInteractionEnded).ToList();
+			List<bool> clearItemList = itemInfoList.Select((x) => x.IsCompleted).ToList();
 			Completed completed = new Completed(clearItemList);
 
 			if (completed.IsCompletedList.Contains(true))
@@ -112,7 +106,7 @@ namespace Personal.InteractiveObject
 				ItemInfo currentItem = itemInfoList[i];
 
 				currentItem.ActivateObjectTrans.gameObject.SetActive(true);
-				currentItem.SetInteractionEnded();
+				currentItem.SetCompleted();
 			}
 		}
 	}

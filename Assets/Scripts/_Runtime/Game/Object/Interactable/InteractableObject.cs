@@ -31,17 +31,25 @@ namespace Personal.InteractiveObject
 
 		protected DialogueSystemTrigger dialogueSystemTrigger;
 
+		Animator animator;
+
+		int befInteractBefTalkID;
+		int befInteractAftTalkID;
+		int aftInteractBefTalkID;
+		int aftInteractAftTalkID;
+
 		// This handles the save/load state of this object.
 		protected InteractableState interactableState = InteractableState.Interactable;
 
 		protected override void Initialize()
 		{
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
-			if (colliderTrans) outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
-
 			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
+
+			if (colliderTrans) outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
 			SetIsInteractable(isInteractable);
 
+			InitAnimator();
 			HandleExaminable();
 
 			// Set the persistant data.
@@ -117,8 +125,6 @@ namespace Personal.InteractiveObject
 
 			HandleEnd();
 		}
-
-		protected virtual async UniTask HandleAnimator(InteractableAnimatorType interactableAnimatorType) { await UniTask.CompletedTask; }
 
 		/// <summary>
 		/// This checks whether the correct InteractionType is selected before playing the dialogue.
@@ -201,6 +207,43 @@ namespace Personal.InteractiveObject
 		{
 			isInteractable = isFlag;
 			if (colliderTrans) colliderTrans.gameObject.SetActive(isFlag);
+		}
+
+		void InitAnimator()
+		{
+			if (!interactDefinition) return;
+			animator = GetComponentInChildren<Animator>();
+
+			befInteractBefTalkID = Animator.StringToHash(interactDefinition.BeforeInteractBeforeTalkParam);
+			befInteractAftTalkID = Animator.StringToHash(interactDefinition.BeforeInteractAfterTalkParam);
+			aftInteractBefTalkID = Animator.StringToHash(interactDefinition.AfterInteractBeforeTalkParam);
+			aftInteractAftTalkID = Animator.StringToHash(interactDefinition.AfterInteractAfterTalkParam);
+		}
+
+		async UniTask HandleAnimator(InteractableAnimatorType interactableAnimatorType)
+		{
+			if (!animator) return;
+
+			int hashID = GetHashID(interactableAnimatorType);
+			if (hashID <= 0) return;
+
+			animator.Play(hashID);
+			bool isDone = false;
+
+			CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => isDone = true);
+			await UniTask.WaitUntil(() => isDone, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
+		}
+
+		int GetHashID(InteractableAnimatorType interactableAnimatorType)
+		{
+			switch (interactableAnimatorType)
+			{
+				case InteractableAnimatorType.BeforeInteract_BeforeTalk: return befInteractBefTalkID;
+				case InteractableAnimatorType.BeforeInteract_AfterTalk: return befInteractAftTalkID;
+				case InteractableAnimatorType.AfterInteract_BeforeTalk: return aftInteractBefTalkID;
+				case InteractableAnimatorType.AfterInteract_AfterTalk: return aftInteractAftTalkID;
+			}
+			return -1;
 		}
 
 		void OnDestroy()

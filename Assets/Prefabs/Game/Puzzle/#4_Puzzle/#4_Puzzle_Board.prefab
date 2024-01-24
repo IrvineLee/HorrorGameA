@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guid: 1b2d1e51-92e5-4991-81a0-5a2cf7641345
+  completeKeyEventType: 0
   parentInteractableObject: {fileID: 8050680161986757513}
   rewardInteractableObjectList: []
   tileList:
@@ -403,12 +404,11 @@ MonoBehaviour:
   interactCrosshairType: 2
   isInteractable: 1
   interactDefinition: {fileID: 0}
-  actionMapType: 0
   interactableAnimatorType: 0
-  beforeInteractBeforeTalkAnimator: {fileID: 0}
-  beforeInteractAfterTalkAnimator: {fileID: 0}
-  afterInteractBeforeTalkAnimator: {fileID: 0}
-  afterInteractAfterTalkAnimator: {fileID: 0}
+  beforeInteractBeforeTalkParam: BeforeInteract_BeforeTalk
+  beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
+  afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
+  afterInteractAfterTalkParam: AfterInteract_AfterTalk
 --- !u!1 &2122070912852740191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,7 +1531,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60982fe1752652b47bc97e4b5650a2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardInteractableObjectList: []
   iProcessTrans: {fileID: 9030840522842110054}
 --- !u!114 &8973680925447581878 stripped
 MonoBehaviour:

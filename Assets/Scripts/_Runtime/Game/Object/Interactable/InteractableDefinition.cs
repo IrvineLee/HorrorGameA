@@ -22,6 +22,12 @@ namespace Personal.Definition
 
 		const string REWARD_STRING = "@interactableType.HasFlag(InteractableType.Reward)";
 		const string END_STRING = "@interactableType.HasFlag(InteractableType.EndDialogue)";
+
+		const string BEFORE_INTERACT_BEFORE_TALK_STRING = "@interactableAnimatorType.HasFlag(InteractableAnimatorType.BeforeInteract_BeforeTalk)";
+		const string BEFORE_INTERACT_AFTER_TALK_STRING = "@interactableAnimatorType.HasFlag(InteractableAnimatorType.BeforeInteract_AfterTalk)";
+		const string After_INTERACT_BEFORE_TALK_STRING = "@interactableAnimatorType.HasFlag(InteractableAnimatorType.AfterInteract_BeforeTalk)";
+		const string After_INTERACT_AFTER_TALK_STRING = "@interactableAnimatorType.HasFlag(InteractableAnimatorType.AfterInteract_AfterTalk)";
+
 		#endregion
 
 		[Header("Key Event")]
@@ -34,6 +40,28 @@ namespace Personal.Definition
 		[Header("Interactable")]
 		[SerializeField] InteractableType interactableType;
 		[SerializeField] InteractableCompleteType interactableCompleteType = InteractableCompleteType.NotInteractable;
+
+		#region Animation Parameter
+
+		[SerializeField] InteractableAnimatorType interactableAnimatorType;
+
+		[ShowIf(BEFORE_INTERACT_BEFORE_TALK_STRING)]
+		[Tooltip("Before interaction, before dialogue, play parameter in animator. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
+		[SerializeField] string beforeInteractBeforeTalkParam = "BeforeInteract_BeforeTalk";
+
+		[ShowIf(BEFORE_INTERACT_AFTER_TALK_STRING)]
+		[Tooltip("Before interaction, after dialogue, play parameter in animator. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
+		[SerializeField] string beforeInteractAfterTalkParam = "BeforeInteract_AfterTalk";
+
+		[ShowIf(After_INTERACT_BEFORE_TALK_STRING)]
+		[Tooltip("After interaction, before dialogue, play parameter in animator. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
+		[SerializeField] string afterInteractBeforeTalkParam = "AfterInteract_BeforeTalk";
+
+		[ShowIf(After_INTERACT_AFTER_TALK_STRING)]
+		[Tooltip("After interaction, after dialogue, play parameter in animator. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
+		[SerializeField] string afterInteractAfterTalkParam = "AfterInteract_AfterTalk";
+
+		#endregion
 
 		[SerializeField] bool isAllSameDatabase = false;
 		[ShowIf("@isAllSameDatabase")] [SerializeField] DialogueDatabase dialogueDatabase = null;
@@ -114,6 +142,11 @@ namespace Personal.Definition
 
 		public InteractableType InteractionType { get => interactableType; }
 		public InteractableCompleteType InteractableCompleteType { get => interactableCompleteType; }
+
+		public string BeforeInteractBeforeTalkParam { get => beforeInteractBeforeTalkParam; }
+		public string BeforeInteractAfterTalkParam { get => beforeInteractAfterTalkParam; }
+		public string AfterInteractBeforeTalkParam { get => afterInteractBeforeTalkParam; }
+		public string AfterInteractAfterTalkParam { get => afterInteractAfterTalkParam; }
 
 		public string ExaminableDialogue { get => examinableDialogue.conversation; }
 		public KeyEventType KeyEventType { get => keyEventEndExaminableType; }

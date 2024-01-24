@@ -100,6 +100,7 @@ namespace Personal.Manager
 
 		public void RegisterKeyEvent(KeyEventType keyEventType)
 		{
+			if (keyEventType == KeyEventType.None) return;
 			if (KeyEventCompletedList.Contains(keyEventType)) return;
 
 			KeyEventCompletedList.Add(keyEventType);

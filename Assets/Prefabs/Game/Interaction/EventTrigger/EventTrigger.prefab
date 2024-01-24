@@ -136,12 +136,11 @@ MonoBehaviour:
   interactCrosshairType: 0
   isInteractable: 1
   interactDefinition: {fileID: 0}
-  actionMapType: 0
   interactableAnimatorType: 0
-  beforeInteractBeforeTalkAnimator: {fileID: 0}
-  beforeInteractAfterTalkAnimator: {fileID: 0}
-  afterInteractBeforeTalkAnimator: {fileID: 0}
-  afterInteractAfterTalkAnimator: {fileID: 0}
+  beforeInteractBeforeTalkParam: BeforeInteract_BeforeTalk
+  beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
+  afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
+  afterInteractAfterTalkParam: AfterInteract_AfterTalk
 --- !u!54 &8306479203939084069
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -497,7 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9f97bd56dd64f40a3d5898ae581019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardInteractableObjectList: []
   questTypeSet: {fileID: 7962921647297206612}
 --- !u!1001 &3373589723132217868
 PrefabInstance:

@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Quest;
 using Personal.InteractiveObject;
 
 namespace Personal.FSM
@@ -15,17 +15,16 @@ namespace Personal.FSM
 
 		public bool IsWaitForOnExit { get => isWaitForOnExit; }
 
+		public event Action OnEnterEvent;
+
 		protected StateMachineBase stateMachine;
 		protected bool isEntered;
 
-		protected QuestTypeSet questTypeSet;
 		protected List<InteractionEnd> interactionEndList = new();
 
 		void Awake()
 		{
 			stateMachine = GetComponentInParent<StateMachineBase>(true);
-
-			questTypeSet = GetComponentInChildren<QuestTypeSet>(true);
 			interactionEndList = GetComponentsInChildren<InteractionEnd>(true).ToList();
 		}
 
@@ -35,13 +34,10 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public virtual async UniTask OnEnter()
 		{
-			if (stateMachine.IsPauseStateMachine)
-			{
-				await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
-			}
+			await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
 
 			isEntered = true;
-			questTypeSet?.TryUpdateData();
+			OnEnterEvent?.Invoke();
 		}
 
 		/// <summary>
@@ -67,17 +63,13 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public virtual async UniTask OnExit()
 		{
-			if (stateMachine.IsPauseStateMachine)
-			{
-				await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
-			}
-
-			isEntered = false;
+			await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
 
 			foreach (var interactionEnd in interactionEndList)
 			{
 				interactionEnd.EnableInteractables().Forget();
 			}
+			isEntered = false;
 		}
 
 		/// <summary>
