@@ -178,6 +178,8 @@ namespace Personal.InteractiveObject
 				{
 					interactableState = InteractableState.EndRemainInteractable;
 				}
+
+				StageManager.Instance.RegisterKeyEvent(interactDefinition.CompleteKeyEventType);
 			}
 
 			SetIsInteractable(interactableState == InteractableState.EndRemainInteractable);
@@ -199,7 +201,7 @@ namespace Personal.InteractiveObject
 
 		void OnKeyEventCompleted(KeyEventType keyEventType)
 		{
-			if (interactDefinition.KeyEventType != keyEventType) return;
+			if (interactDefinition.KeyEventEndExaminableType != keyEventType) return;
 			interactableState = InteractableState.Interactable;
 		}
 

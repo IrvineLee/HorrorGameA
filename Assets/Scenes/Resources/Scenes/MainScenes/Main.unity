@@ -875,6 +875,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
   m_PrefabInstance: {fileID: 235472473}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &247017938
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8813195862428945054}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 718e88495f32ea0468c16f104fe6667e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!95 &261779736 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5624421453505091494, guid: 87eeb349f3a5d1d45b0e7e1e69e81aa7, type: 3}
@@ -1687,7 +1708,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4975615520106892348}
-  - {fileID: 1134007737}
+  - {fileID: 6279383103149644085}
   - {fileID: 4055034959386729790}
   - {fileID: 878003621526295812}
   - {fileID: 1659994488}
@@ -2145,11 +2166,6 @@ MonoBehaviour:
   interactCrosshairType: 0
   isInteractable: 1
   interactDefinition: {fileID: 0}
-  interactableAnimatorType: 0
-  beforeInteractBeforeTalkParam: 
-  beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
-  afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
-  afterInteractAfterTalkParam: AfterInteract_AfterTalk
 --- !u!1001 &869602519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3216,6 +3232,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
     - target: {fileID: 2019442561061573110, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      propertyPath: interactDefinition
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b747071f9498804690377b3b4222424, type: 2}
+    - target: {fileID: 2019442561061573110, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
       propertyPath: interactableDefinition
       value: 
       objectReference: {fileID: 11400000, guid: 2b747071f9498804690377b3b4222424, type: 2}
@@ -3286,12 +3306,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8609550961532942402, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1732042358}
+    - targetCorrespondingSourceObject: {fileID: 8813195861414813478, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 247017938}
   m_SourcePrefab: {fileID: 100100000, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
---- !u!4 &1134007737 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
-  m_PrefabInstance: {fileID: 1134007736}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1153699069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3300,6 +3318,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 624793398}
     m_Modifications:
+    - target: {fileID: 3502243926043551917, guid: 17de5fbace46eee49a147dcb54ebb4ec, type: 3}
+      propertyPath: interactDefinition
+      value: 
+      objectReference: {fileID: 11400000, guid: aa368ef6e18bbb645adad773cbb6f737, type: 2}
     - target: {fileID: 3843082503003182554, guid: 17de5fbace46eee49a147dcb54ebb4ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.285
@@ -4451,11 +4473,6 @@ MonoBehaviour:
   interactCrosshairType: 0
   isInteractable: 1
   interactDefinition: {fileID: 0}
-  interactableAnimatorType: 0
-  beforeInteractBeforeTalkParam: 
-  beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
-  afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
-  afterInteractAfterTalkParam: AfterInteract_AfterTalk
 --- !u!1 &1494535414
 GameObject:
   m_ObjectHideFlags: 0
@@ -4920,18 +4937,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
   m_PrefabInstance: {fileID: 1701529053}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1732042357 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8609550961532942402, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
-  m_PrefabInstance: {fileID: 1134007736}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1732042358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732042357}
+  m_GameObject: {fileID: 8609550960468733434}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
@@ -7051,6 +7063,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4742531946313592394, guid: bd5c29dc0eb4e3c4da86485fbce3d85d, type: 3}
   m_PrefabInstance: {fileID: 6047898904166372441}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6279383103149644085 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6279383104163712141, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+  m_PrefabInstance: {fileID: 1134007736}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6782834790172814813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7376,6 +7393,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e4b57bae33d90c4cbf97c63a37a8e19, type: 3}
+--- !u!1 &8609550960468733434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8609550961532942402, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+  m_PrefabInstance: {fileID: 1134007736}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8813195862428945054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8813195861414813478, guid: 4c419bc8489d9204f85b815b4987f7ae, type: 3}
+  m_PrefabInstance: {fileID: 1134007736}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9103631614565380389
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -41,8 +41,12 @@ namespace Personal.Definition
 		[SerializeField] InteractableType interactableType;
 		[SerializeField] InteractableCompleteType interactableCompleteType = InteractableCompleteType.NotInteractable;
 
+		[SerializeField] bool isAllSameDatabase = false;
+		[ShowIf("@isAllSameDatabase")] [SerializeField] DialogueDatabase dialogueDatabase = null;
+
 		#region Animation Parameter
 
+		[Space]
 		[SerializeField] InteractableAnimatorType interactableAnimatorType;
 
 		[ShowIf(BEFORE_INTERACT_BEFORE_TALK_STRING)]
@@ -62,9 +66,6 @@ namespace Personal.Definition
 		[SerializeField] string afterInteractAfterTalkParam = "AfterInteract_AfterTalk";
 
 		#endregion
-
-		[SerializeField] bool isAllSameDatabase = false;
-		[ShowIf("@isAllSameDatabase")] [SerializeField] DialogueDatabase dialogueDatabase = null;
 
 		#region Examinable
 
@@ -149,7 +150,7 @@ namespace Personal.Definition
 		public string AfterInteractAfterTalkParam { get => afterInteractAfterTalkParam; }
 
 		public string ExaminableDialogue { get => examinableDialogue.conversation; }
-		public KeyEventType KeyEventType { get => keyEventEndExaminableType; }
+		public KeyEventType KeyEventEndExaminableType { get => keyEventEndExaminableType; }
 
 		public string RequiredItemDialogue { get => requiredItemDialogue.conversation; }
 		public List<ItemData> RequiredItemTypeList { get => requiredItemList; }
