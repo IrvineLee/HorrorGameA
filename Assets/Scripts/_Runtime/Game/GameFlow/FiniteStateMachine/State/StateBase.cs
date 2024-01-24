@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.InteractiveObject;
 
 namespace Personal.FSM
 {
@@ -16,16 +13,14 @@ namespace Personal.FSM
 		public bool IsWaitForOnExit { get => isWaitForOnExit; }
 
 		public event Action OnEnterEvent;
+		public event Action OnExitEvent;
 
 		protected StateMachineBase stateMachine;
 		protected bool isEntered;
 
-		protected List<InteractionEnd> interactionEndList = new();
-
 		void Awake()
 		{
 			stateMachine = GetComponentInParent<StateMachineBase>(true);
-			interactionEndList = GetComponentsInChildren<InteractionEnd>(true).ToList();
 		}
 
 		/// <summary>
@@ -65,10 +60,7 @@ namespace Personal.FSM
 		{
 			await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
 
-			foreach (var interactionEnd in interactionEndList)
-			{
-				interactionEnd.EnableInteractables().Forget();
-			}
+			OnExitEvent?.Invoke();
 			isEntered = false;
 		}
 
