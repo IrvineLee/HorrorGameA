@@ -1,30 +1,28 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 using Helper;
+using Personal.Data;
 
 namespace Personal.Localization
 {
 	[ExcelAsset(AssetPath = "Data/MasterData/Data")]
-	public class MasterReadFile : ScriptableObject, ISerializationCallbackReceiver
+	public class MasterReadFile : MasterGeneric<ReadFileEntity, int>
 	{
-		public List<ReadFileEntity> En;
 		public List<ReadFileEntity> Jp;
 
-		protected Dictionary<int, ReadFileEntity> enDictionary = new();
 		protected Dictionary<int, ReadFileEntity> jpDictionary = new();
 
 		static Dictionary<SupportedLanguageType, Dictionary<int, ReadFileEntity>> localizationDictionary = new();
 		static Dictionary<int, ReadFileEntity> activeLocalizedDictionary;
 
-		public void OnBeforeSerialize() { }
+		public override void OnBeforeSerialize() { }
 
-		public void OnAfterDeserialize()
+		public override void OnAfterDeserialize()
 		{
 			localizationDictionary.Clear();
 
-			InitDictionary(SupportedLanguageType.English, En, enDictionary);
+			InitDictionary(SupportedLanguageType.English, Entities, dictionary);
 			InitDictionary(SupportedLanguageType.Japanese, Jp, jpDictionary);
 		}
 
@@ -53,7 +51,7 @@ namespace Personal.Localization
 		/// </summary>
 		/// <param name="language"></param>
 		/// <returns></returns>
-		public static ReadFileEntity Get(int id)
+		public override ReadFileEntity Get(int id)
 		{
 			if (!activeLocalizedDictionary.TryGetValue(id, out ReadFileEntity localization)) return null;
 			return localization;

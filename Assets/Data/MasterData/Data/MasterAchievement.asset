@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entities:
   - id: 90000
-    name: GoodEnding
+    name: Good_Ending
     ps4ID: -1
     xboxID: -1
     steamID: goodEnding_90000
@@ -22,7 +22,7 @@ MonoBehaviour:
     targetRequiredAmount: 0
     isHidden: 0
   - id: 90001
-    name: BadEnding
+    name: Bad_Ending
     ps4ID: -1
     xboxID: -1
     steamID: badEnding_90001
@@ -30,10 +30,18 @@ MonoBehaviour:
     targetRequiredAmount: 0
     isHidden: 0
   - id: 99000
-    name: ClearGameOnce
+    name: Clear_Game_Once
     ps4ID: -1
     xboxID: -1
     steamID: clearGame_99000
+    targetKey: -1
+    targetRequiredAmount: 0
+    isHidden: 0
+  - id: 99999
+    name: All_Achievements
+    ps4ID: -1
+    xboxID: -1
+    steamID: allAchievement_99999
     targetKey: -1
     targetRequiredAmount: 0
     isHidden: 0

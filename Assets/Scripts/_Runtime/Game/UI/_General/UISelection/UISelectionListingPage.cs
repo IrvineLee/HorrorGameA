@@ -30,7 +30,7 @@ namespace Personal.UI
 		/// </summary>
 		public void UpdateSpawnedTMPText(FileData fileData)
 		{
-			var entity = MasterReadFile.Get((int)fileData.ReadFileType);
+			var entity = MasterDataManager.Instance.ReadFile.Get((int)fileData.ReadFileType);
 			List<string> strList = new();
 
 			AddToList(entity.page01, strList);

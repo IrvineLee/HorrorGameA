@@ -3,9 +3,8 @@ using Personal.Entity;
 using Personal.Quest;
 
 [Serializable]
-public class QuestEntity : GenericEntity
+public class QuestEntity : GenericNameEntity
 {
-	public string name;
 	public bool isMainQuest;
 	public bool isHiddenQuest;
 	public int prerequisiteKey;

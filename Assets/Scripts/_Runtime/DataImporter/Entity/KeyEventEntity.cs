@@ -3,7 +3,6 @@ using System;
 using Personal.Entity;
 
 [Serializable]
-public class KeyEventEntity : GenericEntity
+public class KeyEventEntity : GenericNameEntity
 {
-	public string name = "";
 }

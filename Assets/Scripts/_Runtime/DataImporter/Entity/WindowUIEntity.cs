@@ -4,9 +4,8 @@ using Personal.Entity;
 using static Personal.UI.Window.WindowEnum;
 
 [Serializable]
-public class WindowUIEntity : GenericEntity
+public class WindowUIEntity : GenericNameEntity
 {
-	public WindowUIType windowUIType;
 	public WindowDisplayType windowDisplayType;
 	public ButtonDisplayType buttonDisplayType;
 	public string buttonAText;

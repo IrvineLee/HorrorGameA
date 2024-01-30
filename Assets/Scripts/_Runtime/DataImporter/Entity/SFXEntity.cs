@@ -3,7 +3,6 @@ using System;
 using Personal.Entity;
 
 [Serializable]
-public class SFXEntity : GenericEntity
+public class SFXEntity : GenericNameEntity
 {
-	public string name;
 }

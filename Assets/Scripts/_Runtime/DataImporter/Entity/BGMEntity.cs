@@ -2,7 +2,6 @@ using System;
 using Personal.Entity;
 
 [Serializable]
-public class BGMEntity : GenericEntity
+public class BGMEntity : GenericNameEntity
 {
-	public string name;
 }

@@ -1,7 +1,7 @@
 using AltoLib;
 using UnityEditor;
 
-namespace Lizard.Editor
+namespace Personal.CustomEdit
 {
 	public class GenerateSymbolCode
 	{

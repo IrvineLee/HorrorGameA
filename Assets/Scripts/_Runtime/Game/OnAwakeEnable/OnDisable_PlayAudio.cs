@@ -9,7 +9,7 @@ namespace Personal.UI
 {
 	public class OnDisable_PlayAudio : GameInitialize
 	{
-		[SerializeField] AudioSFXType sfxType = AudioSFXType.None;
+		[SerializeField] AudioSFXType sfxType = AudioSFXType.SFX_1;
 		[SerializeField] float volume = 1;
 
 		protected override void OnDisabled()

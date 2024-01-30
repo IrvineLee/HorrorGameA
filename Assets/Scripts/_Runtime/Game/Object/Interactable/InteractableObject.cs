@@ -225,6 +225,7 @@ namespace Personal.InteractiveObject
 		async UniTask HandleAnimator(InteractableAnimatorType interactableAnimatorType)
 		{
 			if (!animator) return;
+			if (!animator.gameObject.activeInHierarchy) return;
 
 			int hashID = GetHashID(interactableAnimatorType);
 			if (hashID <= 0) return;

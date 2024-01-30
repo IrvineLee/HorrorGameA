@@ -10,7 +10,7 @@ namespace Personal.UI.Window
 		/// </summary>
 		public enum WindowUIType
 		{
-			DefaultButton = 0,
+			DefaultButton = 1,
 		}
 
 		/// <summary>

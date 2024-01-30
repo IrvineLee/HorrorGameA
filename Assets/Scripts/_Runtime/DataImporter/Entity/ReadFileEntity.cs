@@ -4,7 +4,7 @@ using UnityEngine;
 using Personal.Entity;
 
 [Serializable]
-public class ReadFileEntity : GenericEntity
+public class ReadFileEntity : GenericNameEntity
 {
 	[TextArea(1, 20)]
 	public string page01;

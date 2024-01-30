@@ -7,8 +7,8 @@ namespace Personal.Setting.Audio
 {
 	public class PlayAnimationAudio : GameInitialize
 	{
-		[SerializeField] AudioBGMType audioBGMType = AudioBGMType.None;
-		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
+		[SerializeField] AudioBGMType audioBGMType = AudioBGMType.BGM_Boss_01;
+		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.SFX_1;
 
 		public void PlayBGM()
 		{

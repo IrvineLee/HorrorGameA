@@ -14,7 +14,7 @@ public class MasterWindowUI : MasterGeneric<WindowUIEntity, WindowUIType>
 		// Somehow using Linq to change it to dictionary makes the comparing results not work.
 		foreach (var entity in Entities)
 		{
-			dictionary.Add(entity.windowUIType, entity);
+			dictionary.Add((WindowUIType)entity.id, entity);
 		}
 	}
 

@@ -8,7 +8,7 @@ namespace Personal.InteractiveObject
 {
 	public class AudioTriggerHandler : EventTriggerHandler
 	{
-		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
+		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.SFX_1;
 
 		protected override UniTask<bool> HandleTrigger()
 		{

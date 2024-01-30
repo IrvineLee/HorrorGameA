@@ -13,10 +13,10 @@ namespace Personal.FSM.Character
 		[SerializeField] AudioSourceType audioSourceType = AudioSourceType.SFX;
 
 		[ShowIf("@audioSourceType == AudioSourceType.BGM")]
-		[SerializeField] AudioBGMType audioBGMType = AudioBGMType.None;
+		[SerializeField] AudioBGMType audioBGMType = AudioBGMType.BGM_Boss_01;
 
 		[ShowIf("@audioSourceType == AudioSourceType.SFX")]
-		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
+		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.SFX_1;
 
 		[ShowIf("@audioSourceType == AudioSourceType.SFX")]
 		[SerializeField] Transform target = null;

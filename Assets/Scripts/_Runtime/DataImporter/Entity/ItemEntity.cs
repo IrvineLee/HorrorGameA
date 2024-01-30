@@ -3,7 +3,6 @@ using System;
 using Personal.Entity;
 
 [Serializable]
-public class ItemEntity : GenericEntity
+public class ItemEntity : GenericNameEntity
 {
-	public string name;
 }

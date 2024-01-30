@@ -31,7 +31,7 @@ namespace Personal.Data
 			}
 		}
 
-		[SerializeField] ReadFileType readFileType = ReadFileType._100000_File01;
+		[SerializeField] ReadFileType readFileType = ReadFileType.Public_Phone_Maintenance_Book;
 		[SerializeField] List<Page> pageList = new();
 
 		public ReadFileType ReadFileType { get => readFileType; }
