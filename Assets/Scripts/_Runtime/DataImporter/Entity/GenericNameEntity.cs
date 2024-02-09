@@ -6,5 +6,6 @@ namespace Personal.Entity
 	public class GenericNameEntity : GenericEntity
 	{
 		public string name;
+		public string assetAddress;
 	}
 }

@@ -11,7 +11,7 @@ namespace Personal.Character.Animation
 	public class PlayerAnimationAudio : AnimatorController
 	{
 		[SerializeField] List<AudioSFXType> footstepSFXTypes = new List<AudioSFXType>();
-		[SerializeField] AudioSFXType landSFXType = AudioSFXType.SFX_1;
+		[SerializeField] AudioSFXType landSFXType = AudioSFXType.None;
 
 		[SerializeField] float footstepWeight = 0.02f;
 		[SerializeField] float footstepVolume = 0.5f;

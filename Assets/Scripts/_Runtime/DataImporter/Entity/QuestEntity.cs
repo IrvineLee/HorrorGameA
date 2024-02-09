@@ -5,6 +5,7 @@ using Personal.Quest;
 [Serializable]
 public class QuestEntity : GenericNameEntity
 {
+	public string title;
 	public bool isMainQuest;
 	public bool isHiddenQuest;
 	public int prerequisiteKey;

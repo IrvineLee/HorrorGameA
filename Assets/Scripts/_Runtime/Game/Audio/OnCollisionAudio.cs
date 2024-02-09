@@ -8,7 +8,7 @@ namespace Personal.Setting.Audio
 {
 	public class OnCollisionAudio : GameInitialize
 	{
-		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.SFX_1;
+		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
 
 		[Tooltip("The wait duration before being able to play the next audio. To prevent repetitive playing when colliding with multiple objects.")]
 		[SerializeField] float nextWaitBeforeAllow = 0.1f;

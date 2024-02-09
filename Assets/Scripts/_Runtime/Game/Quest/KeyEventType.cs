@@ -1,11 +1,10 @@
 
-namespace Personal
+namespace Personal.KeyEvent
 {
 	public enum KeyEventType
 	{
-		None = 0,
-
-		_200000_ReadBookA = 200000,
-		_200001_HitSuspiciousTrigger = 200001,
+		None = 200000,
+		ReadBookA = 200001,
+		HitSuspiciousTrigger = 200002,
 	}
 }

@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Sirenix.OdinInspector;
-using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.Manager;
 using Personal.InteractiveObject;
 using Personal.Save;
 using Personal.GameState;
 using Personal.InputProcessing;
+using Personal.KeyEvent;
 
 namespace Personal.Puzzle
 {

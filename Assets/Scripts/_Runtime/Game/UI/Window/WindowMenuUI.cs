@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 
 using TMPro;
-using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Window
 {

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entities:
   - id: 20000
-    name: An unknown presence..
+    name: _20000_Main001_CallFather
     isMainQuest: 1
     isHiddenQuest: 0
     prerequisiteKey: 0
@@ -37,10 +37,10 @@ MonoBehaviour:
     rewardKey03: 0
     rewardAmount03: 0
   - id: 25000
-    name: Economic hardship
+    name: _25000_Sub001_CallCoin
     isMainQuest: 0
-    isHiddenQuest: 1
-    prerequisiteKey: 20000
+    isHiddenQuest: 0
+    prerequisiteKey: 0
     taskDescription01: Scavenge for coins.
     taskActionType01: 3
     taskObjectiveKey01: 10304

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -13,15 +13,22 @@ namespace Personal.Manager
 {
 	public class GameSceneManager : GameInitializeSingleton<GameSceneManager>
 	{
-		[SerializeField] string mainScenePath = "Scenes/MainScenes";
-
+		[SerializeField] string mainScenePath = "Assets/Resources/MainScenes";
 		public string CurrentSceneName { get => SceneManager.GetActiveScene().name; }
 
 		List<string> mainSceneList = new();
 
 		public void Init()
 		{
-			mainSceneList = Resources.LoadAll(mainScenePath).Select((scene) => scene.name).ToList();
+			DirectoryInfo dir = new DirectoryInfo(mainScenePath);
+			var fileArray = dir.GetFiles("*.unity");
+
+			foreach (var file in fileArray)
+			{
+				string sceneName = file.Name.SearchBehindRemoveFrontOrEnd('.', true);
+				mainSceneList.Add(sceneName);
+				Debug.Log(sceneName);
+			}
 		}
 
 		public bool IsMainScene()

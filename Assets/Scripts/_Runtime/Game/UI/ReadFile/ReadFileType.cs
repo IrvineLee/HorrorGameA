@@ -3,6 +3,7 @@ namespace Personal.UI
 {
 	public enum ReadFileType
 	{
-		Public_Phone_Maintenance_Book = 100000,
+		None = 100000,
+		Public_Phone_Maintenance_Book = 100001,
 	}
 }

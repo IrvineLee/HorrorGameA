@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Personal.Manager;
+using Personal.KeyEvent;
 
 namespace Personal.InteractiveObject
 {

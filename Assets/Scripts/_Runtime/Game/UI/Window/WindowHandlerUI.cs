@@ -6,7 +6,6 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.Manager;
-using static Personal.UI.Window.WindowEnum;
 
 namespace Personal.UI.Window
 {
@@ -15,10 +14,10 @@ namespace Personal.UI.Window
 		[Serializable]
 		public class ButtonInfo
 		{
-			[SerializeField] ButtonDisplayType buttonType = ButtonDisplayType.One_Ok;
+			[SerializeField] WindowButtonDisplayType buttonType = WindowButtonDisplayType.One_Ok;
 			[SerializeField] WindowButtonPress buttonPress = null;
 
-			public ButtonDisplayType ButtonType { get => buttonType; }
+			public WindowButtonDisplayType ButtonType { get => buttonType; }
 			public WindowButtonPress ButtonPress { get => buttonPress; }
 		}
 
@@ -57,7 +56,7 @@ namespace Personal.UI.Window
 		/// </summary>
 		async void SetWindowButton(WindowMenuUI windowMenuUI, WindowUIEntity entity, Action action01, Action action02, Action action03)
 		{
-			ButtonDisplayType buttonDisplayType = entity.buttonDisplayType;
+			WindowButtonDisplayType buttonDisplayType = entity.buttonDisplayType;
 			string title = entity.title_EN;
 			string description = entity.description_EN;
 
@@ -70,15 +69,15 @@ namespace Personal.UI.Window
 				selection.InitialSetup();
 			}
 
-			if (buttonDisplayType == ButtonDisplayType.One_Ok)
+			if (buttonDisplayType == WindowButtonDisplayType.One_Ok)
 			{
 				windowMenuUI.SetOneButtonOk(buttonPress, title, description, action01);
 			}
-			else if (buttonDisplayType == ButtonDisplayType.Two_YesNo)
+			else if (buttonDisplayType == WindowButtonDisplayType.Two_YesNo)
 			{
 				windowMenuUI.SetTwoButtonYesNo(buttonPress, title, description, action01, action02);
 			}
-			else if (buttonDisplayType == ButtonDisplayType.Three)
+			else if (buttonDisplayType == WindowButtonDisplayType.Three)
 			{
 				windowMenuUI.SetThreeButton(buttonPress, title, description, action01, action02, action03);
 			}

@@ -5,6 +5,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using PixelCrushers.DialogueSystem;
 using Personal.Item;
+using Personal.KeyEvent;
 using Personal.InteractiveObject;
 
 namespace Personal.Definition

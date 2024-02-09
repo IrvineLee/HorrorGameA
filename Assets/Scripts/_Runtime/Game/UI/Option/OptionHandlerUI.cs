@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using Personal.Manager;
-using static Personal.UI.Window.WindowEnum;
 using Personal.InputProcessing;
+using Personal.UI.Window;
 
 namespace Personal.UI.Option
 {

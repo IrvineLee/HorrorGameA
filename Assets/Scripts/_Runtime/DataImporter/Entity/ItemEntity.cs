@@ -5,4 +5,5 @@ using Personal.Entity;
 [Serializable]
 public class ItemEntity : GenericNameEntity
 {
+	public string title;
 }

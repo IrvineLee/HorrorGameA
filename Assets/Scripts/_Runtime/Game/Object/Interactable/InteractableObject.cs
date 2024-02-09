@@ -9,6 +9,7 @@ using Personal.FSM;
 using Personal.Definition;
 using Personal.GameState;
 using Personal.Manager;
+using Personal.KeyEvent;
 
 namespace Personal.InteractiveObject
 {

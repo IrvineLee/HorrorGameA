@@ -3,12 +3,13 @@
 using Personal.Manager;
 using Personal.Setting.Audio;
 using Personal.GameState;
+using Personal.KeyEvent;
 
 namespace Personal.InteractiveObject
 {
 	public class PhoneHandler : GameInitialize
 	{
-		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.SFX_1;
+		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
 		[SerializeField] KeyEventType endKeyEventType = KeyEventType.None;
 
 		public void Ring()

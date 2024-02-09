@@ -1,13 +1,13 @@
 using System;
 
 using Personal.Entity;
-using static Personal.UI.Window.WindowEnum;
+using Personal.UI.Window;
 
 [Serializable]
 public class WindowUIEntity : GenericNameEntity
 {
 	public WindowDisplayType windowDisplayType;
-	public ButtonDisplayType buttonDisplayType;
+	public WindowButtonDisplayType buttonDisplayType;
 	public string buttonAText;
 	public string buttonBText;
 	public string buttonCText;

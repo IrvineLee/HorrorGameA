@@ -12,7 +12,7 @@ namespace Helper
 {
 	public class CSVDeleteLastLine
 	{
-		[MenuItem("Tools/CSV Delete Empty Lines")]
+		[MenuItem("Tools/Localization: CSV Delete Empty Lines")]
 		public static void DeleteLastLineIfEmpty()
 		{
 			string assetFolder = Application.dataPath + "/Data/UILocalization";

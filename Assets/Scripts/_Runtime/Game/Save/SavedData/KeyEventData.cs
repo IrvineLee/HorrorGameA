@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Personal.KeyEvent;
+
 namespace Personal.Save
 {
 	[Serializable]
