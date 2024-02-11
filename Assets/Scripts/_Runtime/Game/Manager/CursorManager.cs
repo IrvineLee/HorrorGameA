@@ -59,7 +59,7 @@ namespace Personal.Manager
 			Cursor.visible = false;
 
 			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
-			bool isFPSMode = UIManager.Instance.ActiveInterfaceType == UIInterfaceType.None;
+			bool isFPSMode = GameSceneManager.Instance.IsMainScene() && UIManager.Instance.ActiveInterfaceType == UIInterfaceType.None;
 
 			bool isShowMouseCursor = IsCanChangeToMouse && isMouse && !isFPSMode;
 

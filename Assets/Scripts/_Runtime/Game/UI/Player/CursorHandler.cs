@@ -19,6 +19,8 @@ namespace Personal.UI
 
 		public void SetToCurrentSelectedGO()
 		{
+			if (!EventSystem.current.currentSelectedGameObject) return;
+
 			Transform trans = EventSystem.current.currentSelectedGameObject.transform;
 			Mouse.current.WarpCursorPosition(trans.position);
 

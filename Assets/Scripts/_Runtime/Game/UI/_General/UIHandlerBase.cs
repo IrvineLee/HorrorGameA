@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.UI.Window;
 using Personal.InputProcessing;
@@ -51,6 +52,7 @@ namespace Personal.UI
 		protected override void OnEnabled()
 		{
 			if (!isHandleSelectables) return;
+			if (!ControlInputBase.ActiveControlInput) return;
 			if (ControlInputBase.ActiveControlInput.GetType() == typeof(InputMovement_FPSController)) return;
 
 			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);

@@ -743,6 +743,7 @@ GameObject:
   - component: {fileID: 1397387304809921099}
   - component: {fileID: 1143473163821062382}
   - component: {fileID: 7310340842598481944}
+  - component: {fileID: 2466540701846045814}
   m_Layer: 5
   m_Name: TitleMenu
   m_TagString: Untagged
@@ -804,6 +805,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed036d860c5bd264cb67ce8e50240699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2466540701846045814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8396764382202047519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8776b35ab13bc1a45b1356f0be647200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8559975766928035571
@@ -1171,6 +1184,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2050050677490534845, guid: 36684f13e723e0e41902690e70c698e8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2552607418773674865, guid: 36684f13e723e0e41902690e70c698e8, type: 3}
       propertyPath: m_Name
       value: ButtonStartGame
@@ -1330,6 +1347,10 @@ PrefabInstance:
     - target: {fileID: 6296239739679761736, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
       propertyPath: m_Name
       value: ButtonQuitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529786003345127300, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9069269059292905300, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
       propertyPath: m_Pivot.x
@@ -1647,6 +1668,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3356139371241065405, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265136071425573741, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6570400099404552170, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}

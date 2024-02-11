@@ -48,7 +48,7 @@ namespace Personal.Manager
 		public bool IsChangeIconOnly { get; private set; }
 
 		public string IconInitials { get; private set; }                    // This gets the currently active device (KeyboardMouse, DS4, XBox, etc)
-		public string KeyboardIconInitials { get; private set; } = "KM_";   // This always gets the keyboar icon initials, doesn't matter if active or not.
+		public string KeyboardIconInitials { get; private set; } = "KM_";   // This always gets the keyboard icon initials, doesn't matter if active or not.
 		public string GamepadIconInitials { get; private set; }             // This always gets the gamepad/joystick icon initials, doesn't matter if active or not.
 		public Gamepad CurrentGamepad { get; private set; }                 // This is always the gamepad with rumbling function.
 
