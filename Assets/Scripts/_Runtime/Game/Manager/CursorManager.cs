@@ -53,6 +53,7 @@ namespace Personal.Manager
 
 		/// <summary>
 		/// This changes the control from gamepad to mouse and vice-versa if gamepad/mouse is being used.
+		/// Might enable/disable mouse after it completes.
 		/// </summary>
 		public void HandleMouse()
 		{
@@ -82,7 +83,7 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// Hide the mouse cursor.
+		/// Disable the mouse cursor. Sometime you might wanna disable the mouse earlier when a window starts closing.
 		/// </summary>
 		public void HideMouseCursor()
 		{
