@@ -154,7 +154,7 @@ namespace Personal.UI
 			SetSelectableColor(false);
 
 			windowSelectionUIAnimator?.Run(false);
-			activeSelectionUIAnimator?.Run(false, false);
+			activeSelectionUIAnimator?.Run(false);
 		}
 
 		void SetSelectableColor(bool isSelectedColor)
@@ -171,8 +171,8 @@ namespace Personal.UI
 
 			SetSelectableColor(false);
 
-			windowSelectionUIAnimator?.StopAnimation();
-			activeSelectionUIAnimator?.StopAnimation(false);
+			windowSelectionUIAnimator?.StopAndResetAnimation();
+			activeSelectionUIAnimator?.StopAndResetAnimation();
 		}
 	}
 }

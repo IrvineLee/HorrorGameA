@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Helper;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Window
 {
@@ -23,9 +24,9 @@ namespace Personal.UI.Window
 		/// Run the animation.
 		/// </summary>
 		/// <param name="isFlag"></param>
-		/// <param name="isDisableGOEndOfAnim">This only works if isFlag is false. Whether to disable gameobject at the end of animation.</param>
-		public void Run(bool isFlag, bool isDeactivateGOWhenIsFlagFalse = true)
+		public void Run(bool isFlag)
 		{
+			animator.StopPlayback();
 			windowAnimatorCR.StopCoroutine();
 
 			if (isFlag)
@@ -39,17 +40,14 @@ namespace Personal.UI.Window
 
 			if (!animator.gameObject.activeSelf) return;
 			animator.SetBool(animIsEnable, false);
-
-			if (!isDeactivateGOWhenIsFlagFalse) return;
-			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, () => animator.gameObject.SetActive(false));
 		}
 
 		/// <summary>
 		/// Typically called when needing to disable/reset the animation when the parent is closed.
 		/// </summary>
-		public void StopAnimation(bool isDeactivateAnimatorGO = true)
+		public void StopAndResetAnimation()
 		{
-			if (isDeactivateAnimatorGO) animator.gameObject.SetActive(false);
+			animator.gameObject.SetActive(false);
 			animator.WriteDefaultValues();
 		}
 	}

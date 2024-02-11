@@ -27,7 +27,6 @@ namespace Personal.Manager
 			{
 				string sceneName = file.Name.SearchBehindRemoveFrontOrEnd('.', true);
 				mainSceneList.Add(sceneName);
-				Debug.Log(sceneName);
 			}
 		}
 

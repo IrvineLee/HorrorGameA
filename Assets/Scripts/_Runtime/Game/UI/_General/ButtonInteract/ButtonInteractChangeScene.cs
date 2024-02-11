@@ -19,7 +19,6 @@ namespace Personal.UI
 		{
 			GameSceneManager.Instance.ChangeLevel(sceneType.ToString(), isIgnoreTimescale: false);
 			InputManager.Instance.DisableAllActionMap();
-			CursorManager.Instance.HandleMouse();
 		}
 
 		void OnDestroy()

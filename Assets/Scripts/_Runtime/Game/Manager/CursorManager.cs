@@ -52,7 +52,7 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// This changes the control from gamepad to mouse and vice-versa.
+		/// This changes the control from gamepad to mouse and vice-versa if gamepad/mouse is being used.
 		/// </summary>
 		public void HandleMouse()
 		{

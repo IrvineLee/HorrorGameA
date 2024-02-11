@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Personal.GameState;
 using Helper;
+using Personal.GameState;
 
 namespace Personal.InputProcessing
 {
@@ -23,6 +23,8 @@ namespace Personal.InputProcessing
 			if (App.IsQuitting) return;
 
 			activeControlStack.Pop();
+			if (activeControlStack.Count <= 0) return;
+
 			ActiveControlInput = activeControlStack.Peek();
 		}
 	}
