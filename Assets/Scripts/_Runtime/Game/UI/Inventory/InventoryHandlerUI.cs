@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.Manager;
 using Personal.Character.Player;
@@ -27,9 +28,9 @@ namespace Personal.UI
 			itemInACircle3DUI.PutObjectsIntoACircle();
 		}
 
-		public override void CloseWindow(bool isInstant)
+		public override async UniTask CloseWindow(bool isInstant = false)
 		{
-			base.CloseWindow(isInstant);
+			await base.CloseWindow(isInstant);
 
 			pc.Inventory.UpdateActiveObject();
 		}

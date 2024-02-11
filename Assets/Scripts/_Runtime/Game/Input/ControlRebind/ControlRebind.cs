@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 
+using Cysharp.Threading.Tasks;
 using Helper;
 using Lean.Localization;
 using Personal.Manager;
@@ -239,7 +240,7 @@ namespace Personal.UI
 				(rebindDeviceType == inputDeviceType) ||
 				(rebindDeviceType == InputDeviceType.Gamepad && inputDeviceType == InputDeviceType.Joystick))
 			{
-				waitingForInputMenu.CloseWindow();
+				waitingForInputMenu.CloseWindow().Forget();
 			}
 
 			InputManager.Instance.EnableActionMap(ActionMapType.UI);

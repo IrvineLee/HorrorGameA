@@ -82,6 +82,14 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
+		/// Hide the mouse cursor.
+		/// </summary>
+		public void HideMouseCursor()
+		{
+			mouseCursorHandler.gameObject.SetActive(false);
+		}
+
+		/// <summary>
 		/// This is the center crosshair when in FPS mode, NOT when the mouse cursor is enabled,
 		/// </summary>
 		/// <param name="crosshairType"></param>

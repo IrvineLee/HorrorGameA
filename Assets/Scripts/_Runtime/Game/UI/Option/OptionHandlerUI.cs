@@ -49,19 +49,16 @@ namespace Personal.UI.Option
 		public override void OpenWindow()
 		{
 			base.OpenWindow();
-
 			UIManager.Instance.FooterIconDisplay.Begin(true);
 
-			DisableAllTabs();
-			if (!tabDictionary.TryGetValue(startMenuTab, out Tab tab)) return;
-
 			// Activate current menu tab.
+			if (!tabDictionary.TryGetValue(startMenuTab, out Tab tab)) return;
 			tab.OptionMenuUI.gameObject.SetActive(true);
 		}
 
-		public override void CloseWindow(bool isInstant)
+		public override async UniTask CloseWindow(bool isInstant = false)
 		{
-			base.CloseWindow(isInstant);
+			await base.CloseWindow(isInstant);
 
 			currentMenuTab = startMenuTab;
 			UIManager.Instance.FooterIconDisplay.Begin(false);
@@ -70,6 +67,7 @@ namespace Personal.UI.Option
 			{
 				tab.OptionMenuUI.Save_Inspector();
 			}
+			DisableAllTabs();
 
 			if (!OptionMenuUI.IsChangesMade) return;
 			SaveManager.Instance.SaveProfileData();
@@ -149,7 +147,7 @@ namespace Personal.UI.Option
 		}
 
 		/// <summary>
-		/// Initialize ignored selections for UI hightlight selection.
+		/// Initialize ignored selections for UI highlight selection.
 		/// </summary>
 		void InitializeIgnoredSelection()
 		{

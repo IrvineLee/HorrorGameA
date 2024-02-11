@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.UI.Window;
 using Personal.Manager;
@@ -40,7 +41,7 @@ namespace Personal.UI
 		public virtual void InitialSetup() { }
 
 		public virtual void OpenWindow() { }
-		public virtual void CloseWindow(bool isInstant = false) { }
+		public virtual UniTask CloseWindow(bool isInstant = false) { return UniTask.CompletedTask; }
 
 		/// <summary>
 		/// OnPauseEvent for derived class.

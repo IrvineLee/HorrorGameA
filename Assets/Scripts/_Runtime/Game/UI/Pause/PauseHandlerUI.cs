@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using Cysharp.Threading.Tasks;
+
 namespace Personal.UI.Option
 {
 	public class PauseHandlerUI : UIHandlerBase
@@ -14,7 +16,7 @@ namespace Personal.UI.Option
 
 		void ResumeButton()
 		{
-			CloseWindow();
+			CloseWindow().Forget();
 		}
 
 		void OnApplicationQuit()

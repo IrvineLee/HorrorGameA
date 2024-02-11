@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using Helper;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Window
 {
@@ -26,28 +25,28 @@ namespace Personal.UI.Window
 		/// <param name="isFlag"></param>
 		public void Run(bool isFlag)
 		{
+			animator.gameObject.SetActive(true);
+
 			animator.StopPlayback();
 			windowAnimatorCR.StopCoroutine();
 
-			if (isFlag)
-			{
-				animator.gameObject.SetActive(true);
-				animator.SetBool(animIsEnable, true);
-
-				windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, default);
-				return;
-			}
-
-			if (!animator.gameObject.activeSelf) return;
-			animator.SetBool(animIsEnable, false);
+			animator.SetBool(animIsEnable, isFlag);
+			windowAnimatorCR = CoroutineHelper.WaitUntilCurrentAnimationEnds(animator, default);
 		}
 
 		/// <summary>
 		/// Typically called when needing to disable/reset the animation when the parent is closed.
 		/// </summary>
-		public void StopAndResetAnimation()
+		public void StopAndResetAnimation(bool isDeactivateAnimatorGO = true)
 		{
-			animator.gameObject.SetActive(false);
+			if (isDeactivateAnimatorGO)
+			{
+				CoroutineHelper.WaitEndOfFrame(() =>
+				{
+					// Check whether the reference is still there in case you changed scene.
+					if (animator) animator.gameObject.SetActive(false);
+				});
+			}
 			animator.WriteDefaultValues();
 		}
 	}

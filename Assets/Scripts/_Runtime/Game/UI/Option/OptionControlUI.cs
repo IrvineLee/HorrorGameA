@@ -1,17 +1,29 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
+using Helper;
 using Personal.Manager;
 using Personal.Constant;
+using Personal.InputProcessing;
 
 namespace Personal.UI.Option
 {
 	public class OptionControlUI : OptionMenuUI
 	{
+		[Tooltip("If applicable")]
+		[SerializeField] List<Tab> bottomTabList = new();
+
+
 		ControlRebind controlRebind;
 		List<UISelectionBase> uiSelectionBaseList = new();
+
+		protected override void OnEnabled()
+		{
+			base.OnEnabled();
+			UIManager.Instance.OptionUI.UpdateBottomTab(bottomTabList);
+		}
 
 		/// <summary>
 		/// Initialize.
@@ -28,6 +40,25 @@ namespace Personal.UI.Option
 
 			uiSelectionBaseList = GetComponentsInChildren<UISelectionBase>(true)?.ToList();
 			uiSelectionBaseList.ForEach(result => result.Initialize());
+		}
+
+
+		/// <summary>
+		/// Inspector : Only call this when there are bottom tab list.
+		/// </summary>
+		/// <param name="uiSelectables"></param>
+		public void RefreshBottomTabForActiveGO()
+		{
+			foreach (Tab tab in bottomTabList)
+			{
+				if (!tab.DisplayGameObject.activeSelf) continue;
+
+				uiSelectableList = tab.DisplayGameObject.GetComponentsInChildren<UISelectable>(true).ToList();
+				autoScrollRect = tab.DisplayGameObject.GetComponentInChildren<AutoScrollRect>(true);
+
+				break;
+			}
+			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
 		/// <summary>

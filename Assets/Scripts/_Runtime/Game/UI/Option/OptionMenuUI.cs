@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 using Helper;
 using Personal.InputProcessing;
-using Personal.Manager;
 using static Personal.UI.Option.OptionHandlerUI;
 
 namespace Personal.UI.Option
@@ -13,9 +12,6 @@ namespace Personal.UI.Option
 	public class OptionMenuUI : MenuUI
 	{
 		[SerializeField] MenuTab menuTab = MenuTab.Graphic;
-
-		[Tooltip("If applicable")]
-		[SerializeField] List<Tab> bottomTabList = new();
 
 		public MenuTab MenuTab { get => menuTab; }
 
@@ -31,32 +27,12 @@ namespace Personal.UI.Option
 		protected override void OnEnabled()
 		{
 			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
-
-			UIManager.Instance.OptionUI.UpdateBottomTab(bottomTabList);
 		}
 
 		public override void InitialSetup()
 		{
 			uiSelectableList = GetComponentsInChildren<UISelectable>(true).ToList();
 			autoScrollRect = GetComponentInChildren<AutoScrollRect>(true);
-		}
-
-		/// <summary>
-		/// Inspector : Only call this when there are bottom tab list.
-		/// </summary>
-		/// <param name="uiSelectables"></param>
-		public void RefreshBottomTabForActiveGO()
-		{
-			foreach (Tab tab in bottomTabList)
-			{
-				if (!tab.DisplayGameObject.activeSelf) continue;
-
-				uiSelectableList = tab.DisplayGameObject.GetComponentsInChildren<UISelectable>(true).ToList();
-				autoScrollRect = tab.DisplayGameObject.GetComponentInChildren<AutoScrollRect>(true);
-
-				break;
-			}
-			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
 		/// <summary>

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 namespace Personal.UI.Window
 {
@@ -78,7 +79,7 @@ namespace Personal.UI.Window
 			return () =>
 			{
 				action?.Invoke();
-				CloseWindow();
+				CloseWindow().Forget();
 			};
 		}
 	}

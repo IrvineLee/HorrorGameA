@@ -1,6 +1,6 @@
 using System;
 
-using Helper;
+using Cysharp.Threading.Tasks;
 using Personal.Manager;
 
 namespace Personal.UI
@@ -21,23 +21,31 @@ namespace Personal.UI
 			OnPause(true);
 		}
 
-		public override void CloseWindow(bool isInstant = false)
+		public override async UniTask CloseWindow(bool isInstant = false)
 		{
 			if (!IsWindowAnimationDone && !isInstant) return;
 
 			EnableGO(false, isInstant);
-
 			if (isInstant)
 			{
 				RevertToDefaultState();
 				return;
 			}
-			CoroutineHelper.WaitNextFrame(RevertToDefaultState);
+
+			await UniTask.NextFrame();
+
+			// Pop the window stack here so other script can handle their own assessment.
+			UIManager.WindowStack.Pop();
+			CursorManager.Instance.HideMouseCursor();
+
+			await UniTask.WaitUntil(() => IsWindowAnimationDone);
+			RevertToDefaultState();
 		}
 
 		void RevertToDefaultState()
 		{
-			UIManager.WindowStack.Pop();
+			windowUIAnimator.gameObject.SetActive(false);
+
 			if (!UIManager.IsWindowStackEmpty) return;
 
 			InputManager.Instance.SetToDefaultActionMap();

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.UI.Window;
 using Personal.InputProcessing;

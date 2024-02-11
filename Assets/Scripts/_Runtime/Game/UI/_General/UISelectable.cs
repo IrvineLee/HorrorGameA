@@ -172,7 +172,7 @@ namespace Personal.UI
 			SetSelectableColor(false);
 
 			windowSelectionUIAnimator?.StopAndResetAnimation();
-			activeSelectionUIAnimator?.StopAndResetAnimation();
+			activeSelectionUIAnimator?.StopAndResetAnimation(false);
 		}
 	}
 }
