@@ -6,7 +6,6 @@ using TMPro;
 
 using Cysharp.Threading.Tasks;
 using Helper;
-using Personal.Interface;
 using Personal.InputProcessing;
 
 #if UNITY_EDITOR
@@ -15,7 +14,7 @@ using UnityEditor;
 
 namespace Personal.Puzzle.Pinwheel
 {
-	public class PinwheelPuzzle : PuzzleController, IPuzzle, IProcess
+	public class PinwheelPuzzle : PuzzleController, IPuzzle
 	{
 		[Space()]
 		[ChildGameObjectsOnly]
@@ -147,6 +146,14 @@ namespace Personal.Puzzle.Pinwheel
 		}
 
 		/// <summary>
+		/// Cancelled the puzzle.
+		/// </summary>
+		void IPuzzle.CancelSelected()
+		{
+			puzzleState = PuzzleState.Failed;
+		}
+
+		/// <summary>
 		/// Check puzzle answer.
 		/// </summary>
 		async void IPuzzle.CheckPuzzleAnswer()
@@ -239,15 +246,10 @@ namespace Personal.Puzzle.Pinwheel
 			ResetPuzzle();
 		}
 
-		/// <summary>
-		/// Begin or end the puzzle.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		void IProcess.Begin(bool isFlag)
+		protected override void OnBegin(bool isFlag)
 		{
-			enabled = isFlag;
+			base.OnBegin(isFlag);
 			EnableHitCollider(isFlag);
-			EnableMovement(isFlag);
 
 			if (isFlag)
 			{
@@ -261,24 +263,6 @@ namespace Personal.Puzzle.Pinwheel
 				if (puzzleState == PuzzleState.Completed) return;
 				ResetPuzzle();
 			});
-		}
-
-		/// <summary>
-		/// Return if the puzzle has been completed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsCompleted()
-		{
-			return puzzleState == PuzzleState.Completed;
-		}
-
-		/// <summary>
-		/// Return when failed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsFailed()
-		{
-			return puzzleState == PuzzleState.Failed;
 		}
 
 		/// <summary>

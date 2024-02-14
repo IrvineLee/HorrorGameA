@@ -1,9 +1,9 @@
 using System;
+using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Personal.GameState;
-using UnityEngine;
 
 namespace Personal.FSM
 {
@@ -31,5 +31,7 @@ namespace Personal.FSM
 
 		public virtual Type GetStateType<T>(T type) where T : Enum { return null; }
 		public void PauseStateMachine(bool isFlag) { IsPauseStateMachine = isFlag; }
+
+		protected virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
 	}
 }

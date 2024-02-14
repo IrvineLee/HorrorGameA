@@ -10,38 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a715b9b9ddbf4014aa8fa109525051a0, type: 3}
-  m_Name: InteractableDefinition_KeyA
+  m_Name: ID_Generic_RemainInteractable
   m_EditorClassIdentifier: 
   requiredKeyEventTypeList: 
-  completeKeyEventType: 0
-  interactableType: -1
-  interactableCompleteType: 0
-  isAllSameDatabase: 1
-  dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-  interactableAnimatorType: 1
+  completeKeyEventType: 200000
+  interactableType: 0
+  interactableCompleteType: 2
+  isAllSameDatabase: 0
+  dialogueDatabase: {fileID: 0}
+  interactableAnimatorType: 0
   beforeInteractBeforeTalkParam: BeforeInteract_BeforeTalk
   beforeInteractAfterTalkParam: BeforeInteract_AfterTalk
   afterInteractBeforeTalkParam: AfterInteract_BeforeTalk
   afterInteractAfterTalkParam: AfterInteract_AfterTalk
   examinableDialogue:
     dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-    conversation: Locked Door
+    conversation: 
   keyEventEndExaminableType: 200000
   requiredItemDialogue:
     dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-    conversation: New Conversation 5
+    conversation: 
   requiredItemList: []
   isOnlyOnce_BeforeUse: 0
   achievedRequiredBeforeDialogue:
     dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-    conversation: Locked Door
+    conversation: 
   achievedRequiredAfterDialogue:
     dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-    conversation: New Conversation 5
+    conversation: 
   rewardDialogue:
     dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-    conversation: Locked Door
+    conversation: 
   rewardItemList: []
   endedDialogue:
     dialogueDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
-    conversation: New Conversation 5
+    conversation: 

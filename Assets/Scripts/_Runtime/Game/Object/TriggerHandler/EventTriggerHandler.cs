@@ -20,10 +20,8 @@ namespace Personal.InteractiveObject
 			// Set the state machine.
 			InitiatorStateMachine = other.GetComponentInParent<ActorStateMachine>();
 
-			await HandleInteraction();
-
-			interactableState = InteractableState.EndNonInteractable;
 			gameObject.SetActive(false);
+			await HandleInteraction();
 		}
 
 		protected virtual UniTask<bool> HandleTrigger() { return new UniTask<bool>(true); }

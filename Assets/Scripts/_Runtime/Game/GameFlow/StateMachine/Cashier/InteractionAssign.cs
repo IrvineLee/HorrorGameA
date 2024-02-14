@@ -7,6 +7,8 @@ namespace Personal.FSM
 	{
 		public List<StateBase> OrderedStateList { get; private set; } = new();
 
+		public bool IsComplete { get; private set; }
+
 		void Awake()
 		{
 			foreach (Transform child in transform)
@@ -14,5 +16,7 @@ namespace Personal.FSM
 				OrderedStateList.Add(child.GetComponent<StateBase>());
 			}
 		}
+
+		public void SetToComplete() { IsComplete = true; }
 	}
 }

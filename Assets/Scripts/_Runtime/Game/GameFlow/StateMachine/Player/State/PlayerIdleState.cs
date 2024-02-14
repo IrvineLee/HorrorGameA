@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+
+using Personal.Character.Player;
 using Personal.Manager;
 
 namespace Personal.FSM.Character
@@ -11,8 +13,11 @@ namespace Personal.FSM.Character
 			RunActorAnimation();
 
 			// Somewhere else will change the state of player.
-			PlayerStateMachine playerFSM = StageManager.Instance.PlayerController.FSM;
-			await UniTask.WaitUntil(() => !playerFSM.IsPlayerThisState(typeof(PlayerIdleState)), cancellationToken: this.GetCancellationTokenOnDestroy());
+			PlayerController playerController = StageManager.Instance.PlayerController;
+			playerController.PauseFSM(true);
+
+			await UniTask.WaitUntil(() => !playerController.FSM.IsPlayerThisState(typeof(PlayerIdleState)), cancellationToken: this.GetCancellationTokenOnDestroy());
+			playerController.PauseFSM(false);
 		}
 	}
 }

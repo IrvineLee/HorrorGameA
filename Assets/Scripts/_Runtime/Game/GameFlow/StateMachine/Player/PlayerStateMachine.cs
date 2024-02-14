@@ -76,7 +76,7 @@ namespace Personal.FSM.Character
 			SetLookAtInfo(null);
 		}
 
-		async UniTask SwitchToState(Type type)
+		protected override async UniTask SwitchToState(Type type)
 		{
 			StateDictionary.TryGetValue(type, out StateBase state);
 

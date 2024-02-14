@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Personal.Interface;
 using Helper;
 using Personal.InputProcessing;
 
 namespace Personal.Puzzle.EightSlide
 {
-	public class SwapNumbersPuzzle : TilePuzzleController, IPuzzle, IProcess
+	public class SwapNumbersPuzzle : TilePuzzleController, IPuzzle
 	{
 		Dictionary<Transform, Tile> tileDictionary = new();
 
@@ -148,11 +146,15 @@ namespace Personal.Puzzle.EightSlide
 		}
 
 		/// <summary>
-		/// Cancelled the pick.
+		/// Cancelled the puzzle/pick.
 		/// </summary>
 		void IPuzzle.CancelSelected()
 		{
-			if (activeSelection == null) return;
+			if (activeSelection == null)
+			{
+				puzzleState = PuzzleState.Failed;
+				return;
+			}
 
 			// Need to wait for the for the IProcess.IsExit to get called first.
 			CoroutineHelper.WaitEndOfFrame(() =>
@@ -171,46 +173,6 @@ namespace Personal.Puzzle.EightSlide
 			{
 				tile.Value.Reset();
 			}
-		}
-
-		/// <summary>
-		/// Handle whether the puzzle has started.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		void IProcess.Begin(bool isFlag)
-		{
-			enabled = isFlag;
-			EnableMovement(isFlag);
-
-			if (puzzleState == PuzzleState.Completed) return;
-			puzzleState = PuzzleState.None;
-		}
-
-		/// <summary>
-		/// Return if the puzzle has been completed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsCompleted()
-		{
-			return puzzleState == PuzzleState.Completed;
-		}
-
-		/// <summary>
-		/// Return when failed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsFailed()
-		{
-			return puzzleState == PuzzleState.Failed;
-		}
-
-		/// <summary>
-		/// Exiting puzzle.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsExit()
-		{
-			return activeSelection == null;
 		}
 	}
 }

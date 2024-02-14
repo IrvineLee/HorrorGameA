@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,10 +10,11 @@ using Personal.Save;
 using Personal.GameState;
 using Personal.InputProcessing;
 using Personal.KeyEvent;
+using Personal.Interface;
 
 namespace Personal.Puzzle
 {
-	public class PuzzleController : GameInitialize, IDataPersistence
+	public class PuzzleController : GameInitialize, IDataPersistence, IProcess
 	{
 		public enum PuzzleState
 		{
@@ -27,7 +27,6 @@ namespace Personal.Puzzle
 
 		[SerializeField] KeyEventType completeKeyEventType = KeyEventType.None;
 		[SerializeField] InteractableObject parentInteractableObject = null;
-		[SerializeField] List<InteractableObject> rewardInteractableObjectList = new();
 
 		public bool IsBusy { get => slideCR.IsDone; }
 
@@ -58,18 +57,6 @@ namespace Personal.Puzzle
 			puzzleState = PuzzleState.Completed;
 		}
 
-		/// <summary>
-		/// Enable/disable movement.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		protected void EnableMovement(bool isFlag)
-		{
-			HandlePhysicsRaycaster();
-
-			inputMovement.enabled = isFlag;
-			InputManager.Instance.EnableActionMap(isFlag ? ActionMapType.Puzzle : ActionMapType.Player);
-		}
-
 		void HandlePhysicsRaycaster()
 		{
 			if (InputManager.Instance.IsCurrentDeviceMouse)
@@ -84,6 +71,52 @@ namespace Personal.Puzzle
 		{
 			InputManager.OnDeviceIconChanged -= HandlePhysicsRaycaster;
 			physicsRaycaster.enabled = false;
+		}
+
+		protected virtual void OnBegin(bool isFlag) { EnableMovement(isFlag); }
+
+		/// <summary>
+		/// Enable/disable movement.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void EnableMovement(bool isFlag)
+		{
+			enabled = isFlag;
+			HandlePhysicsRaycaster();
+
+			inputMovement.enabled = isFlag;
+			InputManager.Instance.EnableActionMap(isFlag ? ActionMapType.Puzzle : ActionMapType.Player);
+		}
+
+		/// <summary>
+		/// Handle whether the puzzle has started.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		void IProcess.Begin(bool isFlag)
+		{
+			OnBegin(isFlag);
+			CursorManager.Instance.HandleMouse();
+
+			if (puzzleState == PuzzleState.Completed) return;
+			puzzleState = PuzzleState.None;
+		}
+
+		/// <summary>
+		/// Return if the puzzle has been completed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsCompleted()
+		{
+			return puzzleState == PuzzleState.Completed;
+		}
+
+		/// <summary>
+		/// Return when failed.
+		/// </summary>
+		/// <returns></returns>
+		bool IProcess.IsFailed()
+		{
+			return puzzleState == PuzzleState.Failed;
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)

@@ -31,6 +31,8 @@ namespace Personal.InteractiveObject
 
 			await SpawnItem();
 			StageManager.Instance.PlayerController.Inventory.UseActiveItem();
+
+			await base.HandleInteraction();
 		}
 
 		async UniTask SpawnItem()

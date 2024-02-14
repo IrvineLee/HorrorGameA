@@ -17,7 +17,7 @@ namespace Personal.InteractiveObject
 
 		protected override bool IsAbleToOpenDoor()
 		{
-			if (interactableState == InteractableState.EndNonInteractable) return true;
+			if ((int)interactableState >= 100) return true;
 
 			if (playerInventory.ActiveObject != null)
 			{

@@ -18,11 +18,12 @@ namespace Personal.FSM.Character
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
+
 			actorStateMachine = (ActorStateMachine)stateMachine;
 		}
 
 		/// <summary>
-		/// Called when the state is ended
+		/// Called when the state ended. The controller themselves should set their own state back.
 		/// </summary>
 		/// <returns></returns>
 		public override async UniTask OnExit()

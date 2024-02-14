@@ -54,9 +54,9 @@ namespace Personal.InteractiveObject
 			HandleExaminable();
 
 			// Set the persistant data.
-			if (interactableState == InteractableState.EndNonInteractable || interactableState == InteractableState.EndRemainInteractable)
+			if (interactableState == InteractableState.EndRemainInteractable || interactableState == InteractableState.EndDialogue)
 			{
-				SetIsInteractable(interactableState == InteractableState.EndRemainInteractable);
+				SetIsInteractable(true);
 			}
 		}
 
@@ -66,33 +66,36 @@ namespace Personal.InteractiveObject
 
 			if (!isInteractable) return;
 
-			Transform actor = initiatorStateMachine.transform;
-			if (interactableState == InteractableState.Examinable)
+			if (interactableState == InteractableState.EndDialogue && IsDefinitionHasFlag(InteractableCompleteType.EndDialogue))
 			{
-				await HandleInteractionDialogue(InteractableType.ExaminableBeforeKeyEvent, interactDefinition.ExaminableDialogue, actor);
-				doLast?.Invoke();
+				await HandleInteractionDialogue(InteractableType.EndDialogue, interactDefinition.EndedDialogue, doLast);
 				return;
 			}
 
-			if (interactableState == InteractableState.Requirement && !HasRequiredItems() && IsDefinitionHasFlag(InteractableType.Requirement))
-			{
-				await HandleInteractionDialogue(InteractableType.Requirement, interactDefinition.RequiredItemDialogue, actor);
-				doLast?.Invoke();
-				return;
-			}
-			else if (interactableState == InteractableState.EndRemainInteractable && IsDefinitionHasFlag(InteractableCompleteType.EndDialogue))
-			{
-				await HandleInteractionDialogue(InteractableType.EndDialogue, interactDefinition.EndedDialogue, actor);
-				doLast?.Invoke();
-				return;
-			}
+			if (await IsState(InteractableState.Examinable, InteractableType.ExaminableBeforeKeyEvent, doLast)) return;
+			else if (await IsState(InteractableState.Requirement, InteractableType.Requirement, doLast)) return;
 
-			await HandleAchieveRequirement_BeforeInteract(actor);
+			await HandleAchieveRequirement_BeforeInteract();
 			await HandleInteraction();
-			await HandleAchieveRequirement_AfterInteract(actor);
-			await HandleGetReward(actor);
+			await HandleAchieveRequirement_AfterInteract();
+			await HandleGetReward();
 
 			doLast?.Invoke();
+		}
+
+		async UniTask<bool> IsState(InteractableState state, InteractableType interactableType, Action doLast)
+		{
+			if (!interactDefinition) return false;
+
+			string dialogue = interactDefinition.ExaminableDialogue;
+			if (interactableType == InteractableType.Requirement) dialogue = interactDefinition.RequiredItemDialogue;
+
+			if (interactableState == state && IsDefinitionHasFlag(interactableType))
+			{
+				await HandleInteractionDialogue(interactableType, dialogue, doLast);
+				return true;
+			}
+			return false;
 		}
 
 		public void ShowOutline(bool isFlag)
@@ -100,13 +103,16 @@ namespace Personal.InteractiveObject
 			outlinableFadeInOut?.StartFade(isFlag);
 		}
 
-		protected virtual async UniTask HandleInteraction() { await UniTask.CompletedTask; }
+		protected virtual UniTask HandleInteraction()
+		{
+			if (IsCompleteInteraction()) interactableState = InteractableState.CompleteInteraction;
+			return UniTask.CompletedTask;
+		}
+
+		protected virtual bool IsCompleteInteraction() { return true; }
 
 		protected virtual bool HasRequiredItems()
 		{
-			// Return if it's not Requirement.
-			if (!IsDefinitionHasFlag(InteractableType.Requirement)) return true;
-
 			foreach (var itemData in interactDefinition.RequiredItemTypeList)
 			{
 				if (StageManager.Instance.PlayerController.Inventory.GetItemCount(itemData.ItemType) <= 0) return false;
@@ -115,13 +121,14 @@ namespace Personal.InteractiveObject
 			return true;
 		}
 
-		protected virtual async UniTask HandleGetReward(Transform actor)
+		protected virtual async UniTask HandleGetReward()
 		{
+			if (interactableState != InteractableState.CompleteInteraction) return;
 			if (interactableState == InteractableState.EndRemainInteractable) return;
 
 			if (IsDefinitionHasFlag(InteractableType.Reward))
 			{
-				await HandleInteractionDialogue(InteractableType.Reward, interactDefinition.RewardDialogue, actor);
+				await HandleInteractionDialogue(InteractableType.Reward, interactDefinition.RewardDialogue);
 			}
 
 			HandleEnd();
@@ -130,42 +137,58 @@ namespace Personal.InteractiveObject
 		/// <summary>
 		/// This checks whether the correct InteractionType is selected before playing the dialogue.
 		/// </summary>
-		protected async UniTask HandleInteractionDialogue(InteractableType interactableType, string dialogue, Transform actor)
+		protected async UniTask HandleInteractionDialogue(InteractableType interactableType, string dialogue, Action doLast = default)
 		{
 			if (!interactDefinition) return;
 			if (interactDefinition.InteractionType.HasFlag(interactableType) == false) return;
 			if (!dialogueSystemTrigger) { Debug.LogWarning(name + " has no Dialogue System Trigger"); return; }
 
 			dialogueSystemTrigger.conversation = dialogue;
-			dialogueSystemTrigger?.OnUse(actor);
+			dialogueSystemTrigger?.OnUse(InitiatorStateMachine.transform);
 
 			await StageManager.Instance.DialogueController.WaitDialogueEnd();
+			doLast?.Invoke();
 		}
 
-		protected async UniTask HandleAchieveRequirement_BeforeInteract(Transform actor)
+		async UniTask HandleAchieveRequirement_BeforeInteract()
 		{
 			if (!interactDefinition) return;
-			if (interactableState == InteractableState.EndRemainInteractable) return;
-			if (interactableState == InteractableState.Interactable_BeforeInteractFinished) return;
+			if (interactableState == InteractableState.Interactable_OnlyOnceFinished) return;
 
-			await HandleAnimator(InteractableAnimatorType.BeforeInteract_BeforeTalk);
-			await HandleInteractionDialogue(InteractableType.AchieveRequirement_BeforeInteract, interactDefinition.AchievedRequiredBeforeUseDialogue, actor);
-			await HandleAnimator(InteractableAnimatorType.BeforeInteract_AfterTalk);
-
-			if (interactDefinition.IsOnlyOnce_BeforeUse)
+			Action doLast = () =>
 			{
-				interactableState = InteractableState.Interactable_BeforeInteractFinished;
-			}
+				if (interactDefinition.IsOnlyOnce_BeforeUse) interactableState = InteractableState.Interactable_OnlyOnceFinished;
+			};
+
+			await HandleAnimationAndDialogue(
+				InteractableAnimatorType.BeforeInteract_BeforeTalk,
+				InteractableType.AchieveRequirement_BeforeInteract,
+				interactDefinition.AchievedRequiredBeforeUseDialogue,
+				InteractableAnimatorType.BeforeInteract_AfterTalk,
+				doLast);
 		}
 
-		protected async UniTask HandleAchieveRequirement_AfterInteract(Transform actor)
+		async UniTask HandleAchieveRequirement_AfterInteract()
 		{
 			if (!interactDefinition) return;
+
+			await HandleAnimationAndDialogue(
+				InteractableAnimatorType.AfterInteract_BeforeTalk,
+				InteractableType.AchieveRequirement_AfterInteract,
+				interactDefinition.AchievedRequiredAfterUseDialogue,
+				InteractableAnimatorType.AfterInteract_AfterTalk);
+		}
+
+		async UniTask HandleAnimationAndDialogue(InteractableAnimatorType startAnimatorType, InteractableType interactableType,
+			string dialogue, InteractableAnimatorType endAnimatorType, Action doLast = default)
+		{
 			if (interactableState == InteractableState.EndRemainInteractable) return;
 
-			await HandleAnimator(InteractableAnimatorType.AfterInteract_BeforeTalk);
-			await HandleInteractionDialogue(InteractableType.AchieveRequirement_AfterInteract, interactDefinition.AchievedRequiredAfterUseDialogue, actor);
-			await HandleAnimator(InteractableAnimatorType.AfterInteract_AfterTalk);
+			await HandleAnimator(startAnimatorType);
+			await HandleInteractionDialogue(interactableType, dialogue);
+			await HandleAnimator(endAnimatorType);
+
+			doLast?.Invoke();
 		}
 
 		protected void HandleEnd()
@@ -175,7 +198,11 @@ namespace Personal.InteractiveObject
 			{
 				StageManager.Instance.GetReward(interactDefinition.RewardItemList).Forget();
 
-				if (interactDefinition.InteractableCompleteType == InteractableCompleteType.RemainInteractable)
+				if (interactDefinition.InteractableCompleteType == InteractableCompleteType.EndDialogue)
+				{
+					interactableState = InteractableState.EndDialogue;
+				}
+				else if (interactDefinition.InteractableCompleteType == InteractableCompleteType.RemainInteractable)
 				{
 					interactableState = InteractableState.EndRemainInteractable;
 				}
@@ -183,7 +210,7 @@ namespace Personal.InteractiveObject
 				StageManager.Instance.RegisterKeyEvent(interactDefinition.CompleteKeyEventType);
 			}
 
-			SetIsInteractable(interactableState == InteractableState.EndRemainInteractable);
+			SetIsInteractable(interactableState == InteractableState.EndRemainInteractable || interactableState == InteractableState.EndDialogue);
 		}
 
 		void HandleExaminable()

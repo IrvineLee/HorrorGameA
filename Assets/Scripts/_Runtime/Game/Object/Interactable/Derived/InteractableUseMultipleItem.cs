@@ -48,10 +48,10 @@ namespace Personal.InteractiveObject
 			}
 		}
 
-		protected override UniTask HandleInteraction()
+		protected override async UniTask HandleInteraction()
 		{
 			var activeObject = playerInventory.ActiveObject;
-			if (activeObject == null) return UniTask.CompletedTask;
+			if (activeObject == null) return;
 
 			ItemType activeItemType = activeObject.ItemType;
 			foreach (var itemInfo in itemInfoList)
@@ -70,13 +70,11 @@ namespace Personal.InteractiveObject
 
 			foreach (var itemInfo in itemInfoList)
 			{
-				if (!itemInfo.IsCompleted) return UniTask.CompletedTask;
+				if (!itemInfo.IsCompleted) return;
 			}
 
-			interactableState = InteractableState.EndNonInteractable;
 			gameObject.SetActive(false);
-
-			return UniTask.CompletedTask;
+			await base.HandleInteraction();
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)

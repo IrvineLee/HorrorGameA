@@ -6,6 +6,5 @@ namespace Personal.Interface
 		void Begin(bool isFlag);
 		bool IsCompleted();
 		bool IsFailed();
-		bool IsExit() { return true; }
 	}
 }

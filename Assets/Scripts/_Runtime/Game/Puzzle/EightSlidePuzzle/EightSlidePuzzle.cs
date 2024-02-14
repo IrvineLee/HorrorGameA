@@ -1,17 +1,15 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
-using Personal.Interface;
 using Helper;
 using Personal.InputProcessing;
 
 namespace Personal.Puzzle.EightSlide
 {
-	public class EightSlidePuzzle : TilePuzzleController, IPuzzle, IProcess
+	public class EightSlidePuzzle : TilePuzzleController, IPuzzle
 	{
 		[SerializeField] SelectionTransformSet selectionTransformSet = null;
 		[SerializeField] float slideDuration = 0.5f;
@@ -109,6 +107,14 @@ namespace Personal.Puzzle.EightSlide
 		}
 
 		/// <summary>
+		/// Cancelled the puzzle.
+		/// </summary>
+		void IPuzzle.CancelSelected()
+		{
+			puzzleState = PuzzleState.Failed;
+		}
+
+		/// <summary>
 		/// Check puzzle answer.
 		/// </summary>
 		async void IPuzzle.CheckPuzzleAnswer()
@@ -164,36 +170,10 @@ namespace Personal.Puzzle.EightSlide
 			selectionTransformSet.Init();
 		}
 
-		/// <summary>
-		/// Handle whether the puzzle has started.
-		/// </summary>
-		/// <param name="isFlag"></param>
-		void IProcess.Begin(bool isFlag)
+		protected override void OnBegin(bool isFlag)
 		{
-			enabled = isFlag;
-			EnableMovement(isFlag);
+			base.OnBegin(isFlag);
 			selectionTransformSet.gameObject.SetActive(isFlag);
-
-			if (puzzleState == PuzzleState.Completed) return;
-			puzzleState = PuzzleState.None;
-		}
-
-		/// <summary>
-		/// Return if the puzzle has been completed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsCompleted()
-		{
-			return puzzleState == PuzzleState.Completed;
-		}
-
-		/// <summary>
-		/// Return when failed.
-		/// </summary>
-		/// <returns></returns>
-		bool IProcess.IsFailed()
-		{
-			return puzzleState == PuzzleState.Failed;
 		}
 
 		/// <summary>

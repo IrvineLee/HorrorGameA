@@ -31,6 +31,13 @@ namespace Personal.InteractiveObject
 
 			InputManager.Instance.SetToDefaultActionMap();
 			ifsmHandler?.OnExit();
+
+			await base.HandleInteraction();
+		}
+
+		protected override bool IsCompleteInteraction()
+		{
+			return interactionAssign.IsComplete;
 		}
 	}
 }

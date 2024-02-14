@@ -2,10 +2,11 @@
 using UnityEngine;
 
 using Personal.Interface;
+using Personal.FSM;
 
 namespace Personal.InteractiveObject
 {
-	public class InteractionEnd_IProcessReward : InteractionEnd
+	public class InteractionEnd_IProcessComplete : InteractionEnd
 	{
 		[SerializeField] Transform iProcessTrans = null;
 
@@ -16,6 +17,11 @@ namespace Personal.InteractiveObject
 			if (!iProcess.IsCompleted()) return false;
 
 			return true;
+		}
+
+		protected override void HandleInteractable()
+		{
+			GetComponentInParent<InteractionAssign>()?.SetToComplete();
 		}
 	}
 }

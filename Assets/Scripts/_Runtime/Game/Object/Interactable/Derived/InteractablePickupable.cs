@@ -35,7 +35,7 @@ namespace Personal.InteractiveObject
 			if (itemType == default) return;
 		}
 
-		protected override UniTask HandleInteraction()
+		protected override async UniTask HandleInteraction()
 		{
 			HandlePickupable();
 
@@ -45,7 +45,7 @@ namespace Personal.InteractiveObject
 				QuestManager.Instance.TryUpdateData(questTypeSet.QuestType).Forget();
 			}
 
-			return UniTask.CompletedTask;
+			await base.HandleInteraction();
 		}
 
 		/// <summary>

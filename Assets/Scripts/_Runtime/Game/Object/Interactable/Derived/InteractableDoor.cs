@@ -41,8 +41,6 @@ namespace Personal.InteractiveObject
 			}
 			if (!runCR.IsDone) return;
 
-			interactableState = InteractableState.EndRemainInteractable;
-
 			if (!isOpened)
 			{
 				// Open the door.
@@ -51,6 +49,7 @@ namespace Personal.InteractiveObject
 			}
 
 			MoveDoor();
+			await base.HandleInteraction();
 		}
 
 		protected virtual bool IsAbleToOpenDoor() { return true; }

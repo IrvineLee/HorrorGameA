@@ -24,6 +24,7 @@ namespace Personal.InteractiveObject
 		protected override async UniTask HandleInteraction()
 		{
 			await HandleDialogue();
+			await base.HandleInteraction();
 		}
 
 		/// <summary>
