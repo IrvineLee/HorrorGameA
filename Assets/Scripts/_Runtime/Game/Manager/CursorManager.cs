@@ -17,11 +17,19 @@ namespace Personal.Manager
 		[SerializeField] CursorDefinition cursorDefinition = null;
 		[SerializeField] Image centerCrosshairImage = null;
 
-		public bool IsCanChangeToMouse
+		bool IsCanChangeToMouse
 		{
-			get => GameSceneManager.Instance.IsScene(SceneName.Title) || dialogueSetup.IsWaitingResponse ||
-				  (!UIManager.IsWindowStackEmpty && UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) ||
-				  InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle;
+			get => InputManager.Instance.IsCurrentDeviceMouse &&
+				(GameSceneManager.Instance.IsScene(SceneName.Title) || dialogueSetup.IsWaitingResponse ||
+				(!UIManager.IsWindowStackEmpty && UIManager.Instance.ActiveInterfaceType != UIInterfaceType.Dialogue) ||
+				InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Puzzle);
+		}
+
+		bool IsFPSMode
+		{
+			get => GameSceneManager.Instance.IsMainScene() &&
+				InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Player &&
+				UIManager.Instance.ActiveInterfaceType == UIInterfaceType.None;
 		}
 
 		CursorDefinition.CrosshairType currentCrosshairType = CursorDefinition.CrosshairType.Nothing;
@@ -59,10 +67,10 @@ namespace Personal.Manager
 		{
 			Cursor.visible = false;
 
-			bool isMouse = InputManager.Instance.IsCurrentDeviceMouse;
-			bool isFPSMode = GameSceneManager.Instance.IsMainScene() && InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.UI;
+			bool isFPSMode = IsFPSMode;
+			bool isShowMouseCursor = IsCanChangeToMouse && !isFPSMode;
 
-			bool isShowMouseCursor = IsCanChangeToMouse && isMouse && !isFPSMode;
+			//Debug.Log("isFPSMode " + isFPSMode + " IsCanChangeToMouse " + IsCanChangeToMouse + " isShowMouseCursor " + isShowMouseCursor);
 
 			Cursor.lockState = CursorLockMode.Confined;
 			if (isFPSMode) Cursor.lockState = CursorLockMode.Locked;
@@ -110,6 +118,11 @@ namespace Personal.Manager
 			// You don't want to reset the mouse cursor when the user changed the icon only. This only happens in option.
 			if (InputManager.Instance.IsChangeIconOnly) return;
 
+			HandleMouse();
+		}
+
+		void OnApplicationFocus(bool hasFocus)
+		{
 			HandleMouse();
 		}
 

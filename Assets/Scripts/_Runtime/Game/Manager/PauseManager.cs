@@ -33,8 +33,6 @@ namespace Personal.Manager
 			IsPaused = isFlag;
 			Time.timeScale = isFlag ? 0 : 1;
 
-			StageManager.Instance.PlayerController.PauseFSM(isFlag);
-
 			// You don't wanna affect the cursor during dialogue/when not using mouse.
 			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Dialogue) return;
 			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Debug) return;
@@ -60,6 +58,7 @@ namespace Personal.Manager
 				var uiSelectable = currentGO.GetComponentInChildren<UISelectable>();
 				if (uiSelectable)
 				{
+					//Debug.Log("Inside " + uiSelectable.name + "   " + uiSelectable.transform.parent);
 					await UniTask.WaitUntil(() => uiSelectable.WindowSelectionUIAnimator.IsDone);
 				}
 

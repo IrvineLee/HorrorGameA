@@ -30,7 +30,7 @@ namespace Personal.InteractiveObject
 
 		async void OnEnable()
 		{
-			StageManager.Instance.PlayerController.PauseFSM(true);
+			StageManager.Instance.PlayerController.PauseControl(true);
 			InputManager.Instance.DisableAllActionMap();
 
 			CursorManager.Instance.SetCenterCrosshair(CursorDefinition.CrosshairType.Nothing);

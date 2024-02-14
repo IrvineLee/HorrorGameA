@@ -3,6 +3,7 @@
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
 using Personal.Manager;
+using Personal.Character.Player;
 
 namespace Personal.InteractiveObject
 {
@@ -10,6 +11,7 @@ namespace Personal.InteractiveObject
 	{
 		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
+		protected PlayerController playerController;
 
 		protected override void Initialize()
 		{
@@ -17,22 +19,21 @@ namespace Personal.InteractiveObject
 
 			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
 			interactionAssign = GetComponentInChildren<InteractionAssign>();
+			playerController = StageManager.Instance.PlayerController;
 		}
 
 		protected override async UniTask HandleInteraction()
 		{
-			// When events happened, hide the items.
-			StageManager.Instance.PlayerController.Inventory.FPS_HideItem();
-
-			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
-			ifsmHandler?.OnBegin(null);
+			// When events happened, hide the item and pause the FSM.
+			playerController.Inventory.FPS_HideItem();
+			playerController.PauseControl(true);
 
 			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
-
-			InputManager.Instance.SetToDefaultActionMap();
-			ifsmHandler?.OnExit();
-
 			await base.HandleInteraction();
+
+			// Reset to default.
+			InputManager.Instance.SetToDefaultActionMap();
+			playerController.PauseControl(false);
 		}
 
 		protected override bool IsCompleteInteraction()

@@ -20,8 +20,13 @@ namespace Personal.InteractiveObject
 			// Set the state machine.
 			InitiatorStateMachine = other.GetComponentInParent<ActorStateMachine>();
 
-			gameObject.SetActive(false);
+			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
+			ifsmHandler?.OnBegin(null);
+
 			await HandleInteraction();
+
+			ifsmHandler?.OnExit();
+			gameObject.SetActive(false);
 		}
 
 		protected virtual UniTask<bool> HandleTrigger() { return new UniTask<bool>(true); }

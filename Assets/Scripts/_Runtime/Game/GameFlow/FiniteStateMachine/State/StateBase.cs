@@ -27,12 +27,12 @@ namespace Personal.FSM
 		/// Called when the state begins
 		/// </summary>
 		/// <returns></returns>
-		public virtual async UniTask OnEnter()
+		public virtual UniTask OnEnter()
 		{
-			await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
-
 			isEntered = true;
 			OnEnterEvent?.Invoke();
+
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
@@ -56,12 +56,12 @@ namespace Personal.FSM
 		/// Called when the state is ended
 		/// </summary>
 		/// <returns></returns>
-		public virtual async UniTask OnExit()
+		public virtual UniTask OnExit()
 		{
-			await UniTask.WaitUntil(() => !stateMachine.IsPauseStateMachine);
-
 			OnExitEvent?.Invoke();
 			isEntered = false;
+
+			return UniTask.CompletedTask;
 		}
 
 		/// <summary>

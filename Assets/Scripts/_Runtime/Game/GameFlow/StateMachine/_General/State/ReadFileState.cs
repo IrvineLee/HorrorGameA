@@ -17,6 +17,8 @@ namespace Personal.FSM.Character
 			await base.OnEnter();
 
 			UIManager.Instance.ReadFileUI.Read(fileData);
+			CursorManager.Instance.HandleMouse();
+
 			await UniTask.WaitUntil(() => UIManager.Instance.ActiveInterfaceType != UIInterfaceType.ReadFile, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 	}

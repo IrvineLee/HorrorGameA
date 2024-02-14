@@ -50,9 +50,8 @@ namespace Personal.Character.Player
 			CoroutineHelper.WaitNextFrame(() => parentMoveFollowChild.enabled = true);
 		}
 
-		public void PauseFSM(bool isFlag)
+		public void PauseControl(bool isFlag)
 		{
-			FSM.PauseStateMachine(isFlag);
 			FPSController.enabled = !isFlag;
 		}
 
