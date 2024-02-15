@@ -21,18 +21,18 @@ namespace Personal.FSM
 		{
 			if (state != null && !state.IsWaitForOnExit)
 			{
-				await UniTask.WaitUntil(() => !IsPauseStateMachine);
+				await HandlePauseFSM();
 				state.OnExit().Forget();
 			}
 
-			await UniTask.WaitUntil(() => !IsPauseStateMachine);
+			await HandlePauseFSM();
 
 			state = stateBase;
 			await state.OnEnter();
 
 			if (state.IsWaitForOnExit)
 			{
-				await UniTask.WaitUntil(() => !IsPauseStateMachine);
+				await HandlePauseFSM();
 				await state.OnExit();
 			}
 		}
@@ -40,5 +40,10 @@ namespace Personal.FSM
 		public virtual Type GetStateType<T>(T type) where T : Enum { return null; }
 
 		protected virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
+
+		async UniTask HandlePauseFSM()
+		{
+			if (IsPauseStateMachine) await UniTask.WaitUntil(() => !IsPauseStateMachine);
+		}
 	}
 }

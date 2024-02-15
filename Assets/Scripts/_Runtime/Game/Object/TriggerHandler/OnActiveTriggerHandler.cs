@@ -14,8 +14,8 @@ namespace Personal.InteractiveObject
 		{
 			base.Initialize();
 
-			var stateMachine = StageManager.Instance.PlayerController.FSM;
-			HandleInteraction(stateMachine, stateMachine.IFSMHandler.OnExit).Forget();
+			//var stateMachine = StageManager.Instance.PlayerController.FSM;
+			//HandleInteraction(stateMachine, stateMachine.IFSMHandler.OnExit).Forget();
 		}
 	}
 }

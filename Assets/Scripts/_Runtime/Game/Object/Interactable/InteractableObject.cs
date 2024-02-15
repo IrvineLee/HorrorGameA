@@ -254,6 +254,7 @@ namespace Personal.InteractiveObject
 		{
 			if (!animator) return;
 			if (!animator.gameObject.activeInHierarchy) return;
+			if (!IsDefinitionHasFlag(interactableAnimatorType)) return;
 
 			int hashID = GetHashID(interactableAnimatorType);
 			if (hashID <= 0) return;

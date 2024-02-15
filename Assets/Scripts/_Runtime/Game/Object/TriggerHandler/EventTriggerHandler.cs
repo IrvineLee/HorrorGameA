@@ -24,9 +24,6 @@ namespace Personal.InteractiveObject
 			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 			ifsmHandler?.OnBegin(null);
 
-			var animatorController = InitiatorStateMachine.GetComponentInChildren<AnimatorController>();
-			animatorController?.ResetAnimationBlend(0.25f);
-
 			await HandleInteraction();
 
 			ifsmHandler?.OnExit();

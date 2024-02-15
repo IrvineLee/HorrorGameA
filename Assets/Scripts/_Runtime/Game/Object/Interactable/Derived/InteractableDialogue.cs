@@ -51,7 +51,6 @@ namespace Personal.InteractiveObject
 
 			// Switch back to default standard state.
 			headModelLookAt?.SetLookAtTarget(false);
-			ifsmHandler.OnExit();
 		}
 
 		void SetRotationToPOVControl()

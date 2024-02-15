@@ -53,6 +53,7 @@ namespace Personal.Character.Player
 		public void PauseControl(bool isFlag)
 		{
 			FPSController.enabled = !isFlag;
+			PlayerAnimatorController.ResetAnimationBlend(0.25f);
 		}
 
 		/// <summary>
@@ -86,7 +87,7 @@ namespace Personal.Character.Player
 			await UniTask.NextFrame();
 			await UniTask.WaitUntil(() => playerMoveToState.IsCompleted, cancellationToken: this.GetCancellationTokenOnDestroy());
 
-			fsm.IFSMHandler?.OnExit();
+			//fsm.IFSMHandler?.OnExit();
 			MoveStart(false);
 		}
 
@@ -101,10 +102,9 @@ namespace Personal.Character.Player
 			fsm.IFSMHandler?.OnBegin(typeof(PlayerLookAtState));
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await UniTask.WaitUntil(() => !((PlayerLookAtState)fsm.CurrentState).IsStateEnded, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			fsm.SetLookAtInfo(null);
-			fsm.IFSMHandler?.OnExit();
 		}
 
 		/// <summary>

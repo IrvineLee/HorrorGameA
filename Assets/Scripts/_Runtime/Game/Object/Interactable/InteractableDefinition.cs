@@ -176,6 +176,11 @@ namespace Personal.Definition
 			{
 				return interactableCompleteType.HasFlag(enumType);
 			}
+			else if (typeof(T) == typeof(InteractableAnimatorType))
+			{
+				return interactableAnimatorType.HasFlag(enumType);
+			}
+
 			return false;
 		}
 

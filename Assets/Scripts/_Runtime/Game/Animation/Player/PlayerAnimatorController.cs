@@ -65,6 +65,8 @@ namespace Personal.Character.Animation
 		/// </summary>
 		public override void ResetAnimationBlend(float duration = 0)
 		{
+			if (isReset) return;
+
 			isReset = true;
 			speedAnimationBlendCR?.StopCoroutine();
 			speedAnimationBlendCR = CoroutineHelper.LerpWithinSeconds(velocity, Vector3.zero, duration, (result) => velocity = result, () => isReset = false);

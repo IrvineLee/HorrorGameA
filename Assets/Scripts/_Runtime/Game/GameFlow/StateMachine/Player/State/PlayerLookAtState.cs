@@ -9,6 +9,8 @@ namespace Personal.FSM.Character
 {
 	public class PlayerLookAtState : PlayerBaseState
 	{
+		public bool IsStateEnded { get; private set; }
+
 		CinemachineVirtualCamera vCam;
 		PlayerController playerController;
 
@@ -19,7 +21,6 @@ namespace Personal.FSM.Character
 			await base.OnEnter();
 
 			playerController = StageManager.Instance.PlayerController;
-			playerController.FPSController.enabled = false;
 			playerController.PlayerAnimatorController.ResetAnimationBlend(0.25f);
 
 			if (playerFSM.LookAtInfo == null) return;
@@ -30,6 +31,13 @@ namespace Personal.FSM.Character
 			vCam.Priority = 20;
 			vCam.LookAt = lookAtInfo.LookAt;
 
+			IsStateEnded = true;
+
+			await UniTask.NextFrame();
+			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			IsStateEnded = false;
+
 			if (!lookAtInfo.IsPersist) return;
 			playerController.HandleVCamPersistantLook(vCam, lookAtInfo).Forget();
 		}
@@ -38,9 +46,6 @@ namespace Personal.FSM.Character
 		{
 			await base.OnExit();
 
-			playerController.FPSController.enabled = true;
-
-			vCam.transform.localRotation = Quaternion.identity;
 			vCam.LookAt = null;
 			vCam.Priority = 0;
 		}
