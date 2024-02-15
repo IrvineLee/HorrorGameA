@@ -28,6 +28,8 @@ namespace Personal.InteractiveObject
 			playerController.Inventory.FPS_HideItem();
 			playerController.PauseControl(true);
 
+			InputManager.Instance.DisableAllActionMap();
+
 			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
 			await base.HandleInteraction();
 

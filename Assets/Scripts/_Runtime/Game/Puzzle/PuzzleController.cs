@@ -85,7 +85,9 @@ namespace Personal.Puzzle
 			HandlePhysicsRaycaster();
 
 			inputMovement.enabled = isFlag;
-			InputManager.Instance.EnableActionMap(isFlag ? ActionMapType.Puzzle : ActionMapType.Player);
+
+			// Set to puzzle action map. If false, it resets back to default in InteractableEventBegin.
+			if (isFlag) InputManager.Instance.EnableActionMap(ActionMapType.Puzzle);
 		}
 
 		/// <summary>
