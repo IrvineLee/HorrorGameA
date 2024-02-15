@@ -16,6 +16,14 @@ PrefabInstance:
       propertyPath: m_Spacing
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 1667523928468301370, guid: 535b18d996d913c47848009779888afd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667523928468301370, guid: 535b18d996d913c47848009779888afd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1946709092376866600, guid: 535b18d996d913c47848009779888afd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -184,6 +192,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5930295826922077316, guid: 535b18d996d913c47848009779888afd, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 5930295826922077316, guid: 535b18d996d913c47848009779888afd, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 6423726446266097205, guid: 535b18d996d913c47848009779888afd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -312,6 +328,7 @@ MonoBehaviour:
   lerpDuration: 0.25
   selectionParentTrans: {fileID: 3047698208238307341}
   stringList: []
+  endButton: {fileID: 0}
 --- !u!114 &4964310168311107086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,3 +342,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInitialSelection: 0
+  windowSelectionUIAnimator: {fileID: 0}
+  activeSelectionUIAnimator: {fileID: 0}

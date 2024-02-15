@@ -63,7 +63,7 @@ namespace Personal.Manager
 		/// This changes the control from gamepad to mouse and vice-versa if gamepad/mouse is being used.
 		/// Might enable/disable mouse after it completes.
 		/// </summary>
-		public void HandleMouse()
+		public void HandleMouse(bool isSetToSelectedGO = true)
 		{
 			Cursor.visible = false;
 
@@ -75,7 +75,7 @@ namespace Personal.Manager
 			Cursor.lockState = CursorLockMode.Confined;
 			if (isFPSMode) Cursor.lockState = CursorLockMode.Locked;
 
-			if (isShowMouseCursor)
+			if (isShowMouseCursor && isSetToSelectedGO)
 			{
 				// Somehow when it's confined, you can't set the cursor position for the first time.
 				Cursor.lockState = CursorLockMode.None;

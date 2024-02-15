@@ -58,7 +58,6 @@ namespace Personal.Manager
 				var uiSelectable = currentGO.GetComponentInChildren<UISelectable>();
 				if (uiSelectable)
 				{
-					//Debug.Log("Inside " + uiSelectable.name + "   " + uiSelectable.transform.parent);
 					await UniTask.WaitUntil(() => uiSelectable.WindowSelectionUIAnimator.IsDone);
 				}
 

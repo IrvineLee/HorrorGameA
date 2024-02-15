@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
@@ -10,6 +11,8 @@ namespace Personal.Manager
 {
 	public class DebugManager : GameInitializeSingleton<DebugManager>
 	{
+		[SerializeField] Button openButton = null;
+		[SerializeField] Button closeButton = null;
 		[SerializeField] DebugHandlerUI debugHandlerUI = null;
 
 		protected override void Initialize()
@@ -20,10 +23,13 @@ namespace Personal.Manager
 			}
 
 			debugHandlerUI.InitialSetup();
+			closeButton.onClick.AddListener(() => CursorManager.Instance.HandleMouse(false));
 		}
 
 		void Update()
 		{
+			openButton.gameObject.SetActive(!UIManager.IsWindowStackEmpty);
+
 			if (Input.GetKeyDown(KeyCode.F9))
 			{
 				if (!GameSceneManager.Instance.IsMainScene()) return;
@@ -71,6 +77,11 @@ namespace Personal.Manager
 		public void DeleteSlotData()
 		{
 			SaveManager.Instance.DeleteSlotData();
+		}
+
+		void OnDestroy()
+		{
+			closeButton.onClick.RemoveAllListeners();
 		}
 	}
 }
