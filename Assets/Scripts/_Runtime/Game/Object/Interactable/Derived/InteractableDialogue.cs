@@ -18,7 +18,7 @@ namespace Personal.InteractiveObject
 		{
 			base.Initialize();
 
-			headModelLookAt = GetComponentInChildren<HeadModelLookAt>();
+			headModelLookAt = GetComponentInChildren<HeadModelLookAt>(true);
 		}
 
 		protected override async UniTask HandleInteraction()

@@ -28,11 +28,8 @@ namespace Personal.Character.NPC
 
 		void Update()
 		{
-			Vector3 direction = Vector3.Normalize(targetTrans.position - transform.position);
-			float dotProduct = Vector3.Dot(transform.forward, direction);
-
 			float lastFrameValue = Time.deltaTime * lookAtSpeed;
-			if (dotProduct > 0 && isLookAtTarget)
+			if (isLookAtTarget)
 			{
 				lookWeight += lastFrameValue;
 				if (lookWeight > maxLookAtWeight) lookWeight = maxLookAtWeight;
