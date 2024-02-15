@@ -43,6 +43,7 @@ namespace Personal.Character.Animation
 		void Update()
 		{
 			if (isReset) return;
+			if (!fpsController.enabled) return;
 
 			Vector2 inputDirection = fpsController.InputDirection;
 			if (inputDirection == Vector2.zero && velocity == Vector3.zero) return;
@@ -62,7 +63,7 @@ namespace Personal.Character.Animation
 		/// <summary>
 		/// Used to reset the animation blending values.
 		/// </summary>
-		public void ResetAnimationBlend(float duration = 0)
+		public override void ResetAnimationBlend(float duration = 0)
 		{
 			isReset = true;
 			speedAnimationBlendCR?.StopCoroutine();

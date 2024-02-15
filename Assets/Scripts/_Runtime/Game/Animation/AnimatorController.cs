@@ -47,5 +47,6 @@ namespace Personal.Character.Animation
 		}
 
 		public virtual void PlayAnimation(ActorAnimationType actorAnimationType) { }
+		public virtual void ResetAnimationBlend(float duration = 0) { }
 	}
 }

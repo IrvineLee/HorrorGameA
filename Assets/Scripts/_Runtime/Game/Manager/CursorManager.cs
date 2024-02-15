@@ -123,7 +123,7 @@ namespace Personal.Manager
 
 		void OnApplicationFocus(bool hasFocus)
 		{
-			HandleMouse();
+			if (!Application.isEditor) HandleMouse();
 		}
 
 		void OnApplicationQuit()
