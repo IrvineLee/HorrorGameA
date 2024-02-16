@@ -114,13 +114,14 @@ namespace Personal.Quest
 				await UpdateTask(taskInfo, cancellationToken);
 			}
 
+			if (IsTasksEnded()) HandleQuestEnd();
+
 			if (!QuestEntity.isHiddenQuest)
 			{
 				// Handle the UI.
 				UIManager.Instance.MainDisplayHandlerUI.UpdateQuest(this);
 			}
 
-			if (IsTasksEnded()) HandleQuestEnd();
 			return this;
 		}
 

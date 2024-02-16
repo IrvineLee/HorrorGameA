@@ -57,8 +57,9 @@ namespace Personal.Manager
 
 			// Update the quest.
 			QuestInfo questInfo = await GetQuestInfo(questType).UpdateQuest(this.GetCancellationTokenOnDestroy());
-			if (questInfo.IsQuestSuccess) GetReward(questInfo);
+			HandleQuestEnded(questInfo);
 
+			RefreshActiveAndEndedQuest(questType);
 			return true;
 		}
 
@@ -66,7 +67,7 @@ namespace Personal.Manager
 		/// End the quest and get reward. 
 		/// </summary>
 		/// <param name="questInfo"></param>
-		void GetReward(QuestInfo questInfo)
+		void HandleQuestEnded(QuestInfo questInfo)
 		{
 			if (!questInfo.IsQuestEnded) return;
 
