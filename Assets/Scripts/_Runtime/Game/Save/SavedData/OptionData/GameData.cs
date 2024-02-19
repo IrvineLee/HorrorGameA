@@ -15,6 +15,7 @@ namespace Personal.Setting.Game
 		[SerializeField] bool isInverLookHorizontal = false;
 		[SerializeField] bool isInvertLookVertical = false;
 		[SerializeField] bool isXInteractButton = true;                                // x/o for confirm button
+		[SerializeField] bool isStreamerMode = false;
 		[SerializeField] IconDisplayType iconDisplayType = IconDisplayType.Auto;
 		[SerializeField] FontSizeType fontSizeType = FontSizeType.Normal;
 		[SerializeField] SupportedLanguageType selectedLanguage = SupportedLanguageType.English;
@@ -24,6 +25,7 @@ namespace Personal.Setting.Game
 		public bool IsInvertLookHorizontal { get => isInverLookHorizontal; set => isInverLookHorizontal = value; }
 		public bool IsInvertLookVertical { get => isInvertLookVertical; set => isInvertLookVertical = value; }
 		public bool IsXInteractButton { get => isXInteractButton; set => isXInteractButton = value; }
+		public bool IsStreamerMode { get => isStreamerMode; set => isStreamerMode = value; }
 		public IconDisplayType IconDisplayType { get => iconDisplayType; set => iconDisplayType = value; }
 		public FontSizeType FontSizeType { get => fontSizeType; set => fontSizeType = value; }
 		public SupportedLanguageType SelectedLanguage { get => selectedLanguage; set => selectedLanguage = value; }

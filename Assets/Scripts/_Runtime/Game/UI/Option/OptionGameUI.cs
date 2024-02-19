@@ -27,6 +27,7 @@ namespace Personal.UI.Option
 		[SerializeField] UISelectionToggle isInvertLookHorizontal = null;
 		[SerializeField] UISelectionToggle isInvertLookVertical = null;
 		[SerializeField] UISelectionToggle isXInteractButton = null;
+		[SerializeField] UISelectionToggle isStreamerMode = null;
 		[SerializeField] UISelectionDropdown gamepadIconDropdown = null;
 		[SerializeField] UISelectionDropdown fontSizeDropdown = null;
 		[SerializeField] UISelectionDropdown languageDropdown = null;
@@ -84,6 +85,7 @@ namespace Personal.UI.Option
 			gameData.IsInvertLookHorizontal = isInvertLookHorizontal.IsOn;
 			gameData.IsInvertLookVertical = isInvertLookVertical.IsOn;
 			gameData.IsXInteractButton = isXInteractButton.IsOn;
+			gameData.IsStreamerMode = isStreamerMode.IsOn;
 			gameData.IconDisplayType = (IconDisplayType)gamepadIconDropdown.Value;
 			gameData.FontSizeType = (FontSizeType)fontSizeDropdown.Value;
 			gameData.SelectedLanguage = (SupportedLanguageType)languageDropdown.Value;
@@ -138,6 +140,7 @@ namespace Personal.UI.Option
 			isInvertLookVertical.SetCurrentIndex(gameData.IsInvertLookVertical ? 1 : 0);
 
 			isXInteractButton.SetCurrentIndex(gameData.IsXInteractButton ? 1 : 0);
+			isStreamerMode.SetCurrentIndex(gameData.IsStreamerMode ? 1 : 0);
 
 			gamepadIconDropdown.SetCurrentIndex((int)gameData.IconDisplayType);
 			fontSizeDropdown.SetCurrentIndex((int)gameData.FontSizeType);
@@ -167,6 +170,8 @@ namespace Personal.UI.Option
 			unityEventBoolList.Add(isInvertLookVertical.OnValueChanged);
 
 			unityEventBoolList.Add(isXInteractButton.OnValueChanged);
+			unityEventBoolList.Add(isStreamerMode.OnValueChanged);
+
 			unityEventIntList.Add(gamepadIconDropdown.OnValueChanged);
 			unityEventIntList.Add(fontSizeDropdown.OnValueChanged);
 			unityEventIntList.Add(languageDropdown.OnValueChanged);
@@ -224,12 +229,12 @@ namespace Personal.UI.Option
 
 		void OnApplicationQuit()
 		{
-			brightnessSlider.onValueChanged.RemoveAllListeners();
 			cameraSensitivitySlider.onValueChanged.RemoveAllListeners();
-			isInvertLookHorizontal.OnValueChanged.RemoveAllListeners();
-			isInvertLookVertical.OnValueChanged.RemoveAllListeners();
+			brightnessSlider.onValueChanged.RemoveAllListeners();
+			isXInteractButton.OnValueChanged.RemoveAllListeners();
 			gamepadIconDropdown.OnValueChanged.RemoveAllListeners();
 			fontSizeDropdown.OnValueChanged.RemoveAllListeners();
+			languageDropdown.OnValueChanged.RemoveAllListeners();
 		}
 	}
 }

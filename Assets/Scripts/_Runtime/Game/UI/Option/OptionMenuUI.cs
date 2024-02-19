@@ -26,6 +26,7 @@ namespace Personal.UI.Option
 
 		protected override void OnEnabled()
 		{
+			IsChangesMade = false;
 			((BasicControllerUI)ControlInputBase.ActiveControlInput)?.SetUIValues(uiSelectableList, autoScrollRect);
 		}
 
@@ -102,12 +103,6 @@ namespace Personal.UI.Option
 		{
 			ResetDataToUI();
 			ResetDataToTarget();
-		}
-
-		protected override void OnDisabled()
-		{
-			base.OnDisabled();
-			IsChangesMade = false;
 		}
 
 		void OnApplicationQuit()
