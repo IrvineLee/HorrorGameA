@@ -31,6 +31,7 @@ namespace Personal.InteractiveObject
 		protected OutlinableFadeInOut outlinableFadeInOut;
 
 		protected DialogueSystemTrigger dialogueSystemTrigger;
+		protected LookAtPlayer lookAtPlayer;
 
 		Animator animator;
 
@@ -45,9 +46,11 @@ namespace Personal.InteractiveObject
 		protected override void Initialize()
 		{
 			meshRenderer = GetComponentInChildren<MeshRenderer>(true);
-			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>();
+			dialogueSystemTrigger = GetComponentInChildren<DialogueSystemTrigger>(true);
 
 			if (colliderTrans) outlinableFadeInOut = colliderTrans.GetComponentInChildren<OutlinableFadeInOut>(true);
+			lookAtPlayer = GetComponentInChildren<LookAtPlayer>(true);
+
 			SetIsInteractable(isInteractable);
 
 			InitAnimator();
@@ -58,6 +61,15 @@ namespace Personal.InteractiveObject
 			{
 				SetIsInteractable(true);
 			}
+		}
+
+		/// <summary>
+		/// Display point of interest sprite.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		public void SetPointOfInterest(bool isFlag)
+		{
+			lookAtPlayer?.gameObject.SetActive(isFlag);
 		}
 
 		public async UniTask HandleInteraction(ActorStateMachine initiatorStateMachine, Action doLast = default)

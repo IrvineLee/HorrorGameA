@@ -12,6 +12,8 @@ namespace Personal.GameState
 	/// </summary>
 	public class GameInitialize : MonoBehaviour
 	{
+		protected bool isInitialized;           // This is normally used for OnTrigger/OnCollision events.
+
 		protected async UniTask Awake()
 		{
 			if (!Preload.IsLoaded)
@@ -33,6 +35,8 @@ namespace Personal.GameState
 
 			SceneManager.sceneLoaded += OnSceneLoaded;
 			HandleScene().Forget();
+
+			isInitialized = true;
 		}
 
 		void OnEnable()
