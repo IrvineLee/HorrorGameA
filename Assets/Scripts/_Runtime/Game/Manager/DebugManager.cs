@@ -50,7 +50,7 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.RightControl))
 			{
-				//AchievementManager.Instance.Unlock(Achievement.AchievementType.Clear_Game_Once);
+				AchievementManager.Instance.Unlock(Achievement.AchievementType.ClearGameOnce);
 			}
 			else if (Input.GetKeyDown(KeyCode.RightShift))
 			{

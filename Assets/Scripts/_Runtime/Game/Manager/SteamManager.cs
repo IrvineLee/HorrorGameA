@@ -10,6 +10,9 @@ namespace Personal.Manager
 {
 	public class SteamManager : MonoBehaviourSingleton<SteamManager>
 	{
+		public bool IsClientValid { get => SteamClient.IsValid; }
+		public string PlayerName { get => IsClientValid ? SteamClient.Name : ""; }
+
 		// STEAM : Replace this with the correct app id.
 		//uint appID = 252490;
 
@@ -27,6 +30,14 @@ namespace Personal.Manager
 			return base.Boot();
 		}
 
+		void Start()
+		{
+			AchievementManager.OnAchievementAddEvent += AddProgress;
+			AchievementManager.OnAchievementSetEvent += SetProgress;
+			AchievementManager.OnAchievementUnlockEvent += UnlockAchievement;
+			AchievementManager.OnResetEvent += ResetData;
+		}
+
 		void Update()
 		{
 			SteamClient.RunCallbacks();
@@ -34,6 +45,8 @@ namespace Personal.Manager
 
 		public async UniTask<Image?> GetAvatar()
 		{
+			if (!IsClientValid) return null;
+
 			try
 			{
 				// Get Avatar using await
@@ -47,9 +60,57 @@ namespace Personal.Manager
 			}
 		}
 
+		/// <summary>
+		/// Add to achievement value.
+		/// </summary>
+		/// <param name="achievementStr"></param>
+		/// <param name="value"></param>
+		void AddProgress(string achievementStr, int value = 1)
+		{
+			if (!IsClientValid) return;
+			SteamUserStats.AddStat(achievementStr, value);
+		}
+
+		/// <summary>
+		/// Set the achievement value.
+		/// </summary>
+		/// <param name="achievementStr"></param>
+		/// <param name="value"></param>
+		void SetProgress(string achievementStr, int value)
+		{
+			if (!IsClientValid) return;
+			SteamUserStats.SetStat(achievementStr, value);
+		}
+
+		/// <summary>
+		/// Unlock an achievement.
+		/// </summary>
+		/// <param name="achievementStr"></param>
+		void UnlockAchievement(string achievementStr)
+		{
+			if (!IsClientValid) return;
+
+			var achievement = new Steamworks.Data.Achievement(achievementStr);
+			achievement.Trigger();
+		}
+
+		void ResetData()
+		{
+			if (!IsClientValid) return;
+
+			SteamUserStats.ResetAll(true); // true = wipe achivements too
+			SteamUserStats.StoreStats();
+			SteamUserStats.RequestCurrentStats();
+		}
+
 		void OnDestroy()
 		{
 			SteamClient.Shutdown();
+
+			AchievementManager.OnAchievementAddEvent -= AddProgress;
+			AchievementManager.OnAchievementSetEvent -= SetProgress;
+			AchievementManager.OnAchievementUnlockEvent -= UnlockAchievement;
+			AchievementManager.OnResetEvent -= ResetData;
 		}
 	}
 }

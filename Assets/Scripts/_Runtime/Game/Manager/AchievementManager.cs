@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-using Steamworks;
+using Helper;
 using Personal.GameState;
 using Personal.Achievement;
 using Personal.Save;
@@ -15,8 +15,12 @@ namespace Personal.Manager
 	/// </summary>
 	public class AchievementManager : GameInitializeSingleton<AchievementManager>
 	{
-		SaveProfile saveProfile;
+		public static event Action<string, int> OnAchievementAddEvent;
+		public static event Action<string, int> OnAchievementSetEvent;
+		public static event Action<string> OnAchievementUnlockEvent;
+		public static event Action OnResetEvent;
 
+		SaveProfile saveProfile;
 		PlayerInventory playerInventory;
 
 		protected override void Initialize()
@@ -28,8 +32,39 @@ namespace Personal.Manager
 		{
 			UnsubscribeEvent();
 
-			playerInventory = StageManager.Instance.PlayerController.Inventory;
-			playerInventory.OnUseActiveItem += UseActiveItem;
+			// You will always want the GlossaryManager to subscribe and update first before this.
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				playerInventory = StageManager.Instance.PlayerController.Inventory;
+				playerInventory.OnUseActiveItem += UseActiveItem;
+			});
+		}
+
+		/// <summary>
+		/// Call this to unlock the achievement.
+		/// </summary>
+		/// <param name="achievementType"></param>
+		public void Unlock(AchievementType achievementType)
+		{
+			if (saveProfile.UnlockedAchievementList.Contains(achievementType)) return;
+
+			UnlockData(achievementType);
+		}
+
+		public void ResetAll()
+		{
+			ResetLocalData();
+			ResetSteamData();
+		}
+
+		/// <summary>
+		/// This will always use the FPS-view item, NOT the pickupable that you pick up in the scene.
+		/// </summary>
+		/// <param name="inventory"></param>
+		void UseActiveItem(Inventory inventory)
+		{
+			var achievementTypeSet = inventory.PickupableObjectFPS.GetComponentInChildren<AchievementTypeSet>();
+			if (achievementTypeSet) UpdateData(achievementTypeSet.AchievementType);
 		}
 
 		void UpdateData(AchievementType achievementType)
@@ -43,28 +78,16 @@ namespace Personal.Manager
 				return;
 			}
 
-			var targetKey = MasterDataManager.Instance.GetEnumType<Enum>(achievementInfo.targetKey);
-			int currentProgress = GlossaryManager.Instance.GetUsedType(targetKey);
+			var targetKeyType = MasterDataManager.Instance.GetEnumType<Enum>(achievementInfo.targetKey);
+			int currentProgress = GlossaryManager.Instance.GetUsedType(targetKeyType);
 
-			UpdateSteamData(achievementType, currentProgress);
+			SetSteamData(achievementType, currentProgress);
 
 			if (achievementInfo.targetKey < 0 || currentProgress >= achievementInfo.targetRequiredAmount)
 			{
 				UnlockData(achievementType);
 				return;
 			}
-		}
-
-		public void ResetAll()
-		{
-			ResetLocalData();
-			ResetSteamData();
-		}
-
-		void UseActiveItem(Inventory inventory)
-		{
-			var achievementTypeSet = inventory.PickupableObjectFPS.GetComponentInChildren<AchievementTypeSet>();
-			if (achievementTypeSet) UpdateData(achievementTypeSet.AchievementType);
 		}
 
 		void UnsubscribeEvent()
@@ -79,17 +102,27 @@ namespace Personal.Manager
 		}
 
 		/// -----------------------------------------------------------------------
-		/// ------------------------ UPDATE DATA ----------------------------------
+		/// ------------------------ STEAM DATA ----------------------------------
 		/// -----------------------------------------------------------------------
 
-		void AddSteamData(AchievementType achievementType, int addAmount)
+		void AddSteamData(AchievementType achievementType, int value = 1)
 		{
-			SteamUserStats.AddStat(achievementType.ToString(), addAmount);
+			OnAchievementAddEvent?.Invoke(achievementType.ToString(), value);
 		}
 
-		void UpdateSteamData(AchievementType achievementType, int progress)
+		void SetSteamData(AchievementType achievementType, int value)
 		{
-			SteamUserStats.SetStat(achievementType.ToString(), progress);
+			OnAchievementSetEvent?.Invoke(achievementType.ToString(), value);
+		}
+
+		void UnlockSteamData(AchievementType achievementType)
+		{
+			OnAchievementUnlockEvent?.Invoke(achievementType.ToString());
+		}
+
+		void ResetSteamData()
+		{
+			OnResetEvent?.Invoke();
 		}
 
 		/// -----------------------------------------------------------------------
@@ -106,19 +139,13 @@ namespace Personal.Manager
 			SaveManager.Instance.SaveProfileData();
 		}
 
-		void UnlockSteamData(AchievementType achievementType)
-		{
-			var achievement = new Steamworks.Data.Achievement(achievementType.ToString());
-			achievement.Trigger();
-		}
-
 		void HandleAllAchievement()
 		{
-			AchievementType allAchievement = AchievementType.All_Achievements;
+			AchievementType allAchievement = AchievementType.AllAchievements;
 			if (saveProfile.UnlockedAchievementList.Contains(allAchievement)) return;
 
-			// Minus 2 because it should not count the Test_Achievement and All_Achievement achievements.
-			if (saveProfile.UnlockedAchievementList.Count >= Enum.GetValues(typeof(AchievementType)).Length - 2)
+			// Minus 1 because it should not count the All_Achievement achievements.
+			if (saveProfile.UnlockedAchievementList.Count >= Enum.GetValues(typeof(AchievementType)).Length - 1)
 			{
 				saveProfile.AddToAchievement(allAchievement);
 				UnlockSteamData(allAchievement);
@@ -135,13 +162,6 @@ namespace Personal.Manager
 			saveProfile.ResetAchievement();
 
 			SaveManager.Instance.SaveProfileData();
-		}
-
-		void ResetSteamData()
-		{
-			SteamUserStats.ResetAll(true); // true = wipe achivements too
-			SteamUserStats.StoreStats();
-			SteamUserStats.RequestCurrentStats();
 		}
 	}
 }
