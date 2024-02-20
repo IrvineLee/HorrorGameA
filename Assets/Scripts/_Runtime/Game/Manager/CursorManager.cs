@@ -91,11 +91,14 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// Disable the mouse cursor. Sometime you might wanna disable the mouse earlier when a window starts closing.
+		/// Disable the mouse cursor. Sometime you might wanna disable the mouse earlier. Ex: When a window starts closing/Puzzle is over etc.
 		/// </summary>
 		public void HideMouseCursor()
 		{
+			Cursor.visible = false;
+
 			mouseCursorHandler.gameObject.SetActive(false);
+			SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 		}
 
 		/// <summary>

@@ -87,7 +87,15 @@ namespace Personal.Puzzle
 			inputMovement.enabled = isFlag;
 
 			// Set to puzzle action map. If false, it resets back to default in InteractableEventBegin.
-			if (isFlag) InputManager.Instance.EnableActionMap(ActionMapType.Puzzle);
+			if (isFlag)
+			{
+				InputManager.Instance.EnableActionMap(ActionMapType.Puzzle);
+				CursorManager.Instance.HandleMouse();
+
+				return;
+			}
+
+			CursorManager.Instance.HideMouseCursor();
 		}
 
 		/// <summary>
@@ -97,7 +105,6 @@ namespace Personal.Puzzle
 		void IProcess.Begin(bool isFlag)
 		{
 			OnBegin(isFlag);
-			CursorManager.Instance.HandleMouse();
 
 			if (puzzleState == PuzzleState.Completed) return;
 			puzzleState = PuzzleState.None;
