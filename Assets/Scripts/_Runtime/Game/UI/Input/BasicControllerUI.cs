@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using Helper;
 using Personal.UI;
+using Personal.Manager;
 
 namespace Personal.InputProcessing
 {
@@ -47,7 +49,7 @@ namespace Personal.InputProcessing
 			}
 		}
 
-		protected override void HandleMovement(Vector2 move)
+		protected override void HandleMovement(Vector2 move, Action endConfirmButtonAction = default)
 		{
 			if (uiSelectableList.Count <= 0) return;
 
@@ -62,8 +64,13 @@ namespace Personal.InputProcessing
 			if (move.x != 0)
 			{
 				UISelectionBase currentSelection = uiSelectableList[CurrentActiveIndex].UISelectionBase;
-				currentSelection?.NextSelection(move.x > 0);
+				currentSelection?.NextSelection(move.x > 0, endConfirmButtonAction);
 			}
+		}
+
+		protected override void HandleEndConfirmButton()
+		{
+			UIManager.Instance.CloseWindowStack();
 		}
 	}
 }

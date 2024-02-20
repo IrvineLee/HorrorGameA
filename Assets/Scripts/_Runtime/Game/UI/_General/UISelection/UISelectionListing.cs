@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,12 +83,19 @@ namespace Personal.UI
 		/// Button pressed left or right.
 		/// </summary>
 		/// <param name="isNext"></param>
-		public override void NextSelection(bool isNext)
+		/// <param name="endConfirmButtonAction">What will happen when you are at the end of selection and pressed the confirm button. Ex: Close the window</param>
+		public override void NextSelection(bool isNext, Action endConfirmButtonAction = default)
 		{
 			if (stringTMPList.Count <= 0) return;
 			if (!lerpCR.IsDone) return;
-			if ((isNext && currentActiveIndex >= activeTMPList.Count - 1) ||
-				(!isNext && currentActiveIndex == 0)) return;
+
+			bool isMaxSelection = isNext && currentActiveIndex >= activeTMPList.Count - 1;
+			if (isMaxSelection)
+			{
+				endConfirmButtonAction?.Invoke();
+				return;
+			}
+			if (!isNext && currentActiveIndex == 0) return;
 
 			// Scroll throught the list.
 			currentActiveIndex = isNext ? currentActiveIndex + 1 : currentActiveIndex - 1;

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ namespace Personal.UI
 			slider = GetComponentInChildren<Slider>();
 		}
 
-		public override void NextSelection(bool isNext)
+		public override void NextSelection(bool isNext, Action endConfirmButtonAction = default)
 		{
 			HandleMultiplier();
 			slider.value = isNext ? slider.value + addValue * multiplier : slider.value - addValue * multiplier;

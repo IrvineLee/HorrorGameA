@@ -556,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8776b35ab13bc1a45b1356f0be647200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isConfirmPressedMoveToNext: 1
 --- !u!224 &8892043397818539944 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8019381326106101978, guid: 7815cc48b89cd5a4e96d378bb025b73d, type: 3}
@@ -629,6 +630,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -425
       objectReference: {fileID: 0}
+    - target: {fileID: 4964310168311107086, guid: ec83add461dd5b44fafc2fe0f0cde87d, type: 3}
+      propertyPath: windowSelectionUIAnimator
+      value: 
+      objectReference: {fileID: -1795437725177491454}
     - target: {fileID: 6130780046421880824, guid: ec83add461dd5b44fafc2fe0f0cde87d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -733,6 +738,10 @@ PrefabInstance:
       propertyPath: endButton
       value: 
       objectReference: {fileID: 2763412346575530722}
+    - target: {fileID: 7470017314113147368, guid: ec83add461dd5b44fafc2fe0f0cde87d, type: 3}
+      propertyPath: lerpDuration
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 7899565411148209719, guid: ec83add461dd5b44fafc2fe0f0cde87d, type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
       value: 1

@@ -10,6 +10,9 @@ namespace Personal.InputProcessing
 {
 	public abstract class ControlInput : ControlInputBase
 	{
+		[Tooltip("Whether pressing the confirm button move it to the next selection.")]
+		[SerializeField] bool isConfirmPressedMoveToNext = false;
+
 		public static bool IsHold { get; private set; }
 
 		public int CurrentActiveIndex { get; protected set; }
@@ -17,6 +20,28 @@ namespace Personal.InputProcessing
 		CoroutineRun waitCR = new CoroutineRun();
 
 		void Update()
+		{
+			HandleConfirmPressed();
+			HandleMotionPressed();
+		}
+
+		/// <summary>
+		/// Update the current selection.
+		/// </summary>
+		/// <param name="go"></param>
+		public virtual void UpdateCurrentSelection(GameObject go) { }
+
+		protected virtual void HandleConfirmPressed()
+		{
+			if (!isConfirmPressedMoveToNext) return;
+
+			bool isConfirmbuttonPressed = InputManager.Instance.GetButtonPush(ButtonPush.Submit);
+			if (!isConfirmbuttonPressed) return;
+
+			HandleMovement(GetHorizontalVerticalMovement(Vector2.right), HandleEndConfirmButton);
+		}
+
+		protected virtual void HandleMotionPressed()
 		{
 			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
 
@@ -33,13 +58,8 @@ namespace Personal.InputProcessing
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
 		}
 
-		/// <summary>
-		/// Update the current selection.
-		/// </summary>
-		/// <param name="go"></param>
-		public virtual void UpdateCurrentSelection(GameObject go) { }
-
-		protected virtual void HandleMovement(Vector2 move) { }
+		protected virtual void HandleMovement(Vector2 move, Action endConfirmButtonAction = default) { }
+		protected virtual void HandleEndConfirmButton() { }
 
 		/// <summary>
 		/// Handle the analog input so it gives concrete value for a smoother experience. DPad has no problem.

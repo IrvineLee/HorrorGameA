@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Personal.Data;
-using Personal.Localization;
 using Personal.Manager;
 
 namespace Personal.UI

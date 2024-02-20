@@ -98,7 +98,7 @@ namespace Personal.Manager
 			Cursor.visible = false;
 
 			mouseCursorHandler.gameObject.SetActive(false);
-			SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
+			if (GameSceneManager.Instance.IsMainScene()) SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 		}
 
 		/// <summary>

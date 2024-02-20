@@ -14,7 +14,7 @@ namespace Personal.InputProcessing
 			itemInACircle3DUI = GetComponentInChildren<ItemInACircle3DUI>(true);
 		}
 
-		protected override void HandleMovement(Vector2 move)
+		protected override void HandleMovement(Vector2 move, Action endConfirmButtonAction = default)
 		{
 			itemInACircle3DUI.HandleInput(move.x < 0 || move.y < 0);
 		}

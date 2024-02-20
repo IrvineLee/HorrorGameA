@@ -82,7 +82,7 @@ namespace Personal.InputProcessing
 			}
 		}
 
-		protected override void HandleMovement(Vector2 move)
+		protected override void HandleMovement(Vector2 move, Action endConfirmButtonAction = default)
 		{
 			int nextIndex = -1;
 			float shortestSqrMagnitude = float.MaxValue;
