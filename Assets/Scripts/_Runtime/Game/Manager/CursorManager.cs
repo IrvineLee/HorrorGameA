@@ -77,10 +77,7 @@ namespace Personal.Manager
 
 			if (isShowMouseCursor && isSetToSelectedGO)
 			{
-				// Somehow when it's confined, you can't set the cursor position for the first time.
-				Cursor.lockState = CursorLockMode.None;
 				mouseCursorHandler.SetToCurrentSelectedGO();
-				Cursor.lockState = CursorLockMode.Confined;
 			}
 
 			CoroutineHelper.WaitNextFrame(() =>

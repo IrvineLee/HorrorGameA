@@ -3,8 +3,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-using Personal.GameState;
 using Helper;
+using Personal.GameState;
 
 namespace Personal.UI
 {
@@ -21,10 +21,14 @@ namespace Personal.UI
 		{
 			if (!EventSystem.current.currentSelectedGameObject) return;
 
-			Transform trans = EventSystem.current.currentSelectedGameObject.transform;
-			Mouse.current.WarpCursorPosition(trans.position);
+			// Wait for the LateUpdate to finish first.
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				Transform trans = EventSystem.current.currentSelectedGameObject.transform;
+				transform.position = trans.position;
 
-			CoroutineHelper.WaitEndOfFrame(() => transform.position = trans.position);
+				Mouse.current.WarpCursorPosition(trans.position);
+			}, isEndOfFrame: true);
 		}
 
 		public void SetImage(Sprite sprite)
