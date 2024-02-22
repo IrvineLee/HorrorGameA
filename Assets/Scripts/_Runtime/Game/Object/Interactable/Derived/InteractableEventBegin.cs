@@ -30,7 +30,7 @@ namespace Personal.InteractiveObject
 
 			InputManager.Instance.DisableAllActionMap();
 
-			await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
+			if (orderedStateMachine) await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
 			await base.HandleInteraction();
 
 			// Reset to default.
@@ -40,7 +40,7 @@ namespace Personal.InteractiveObject
 
 		protected override bool IsCompleteInteraction()
 		{
-			return interactionAssign.IsComplete;
+			return interactionAssign ? interactionAssign.IsComplete : true;
 		}
 	}
 }

@@ -6,17 +6,25 @@ using Personal.Setting.Audio;
 
 namespace Personal.InteractiveObject
 {
-	public class AudioTriggerHandler : EventTriggerHandler
+	public class AudioSFXTriggerHandler : EventTriggerHandler
 	{
 		[SerializeField] AudioSFXType audioSFXType = AudioSFXType.None;
+		[SerializeField] Transform audioAtTrans = null;
 
 		protected override UniTask<bool> HandleTrigger()
 		{
 			if (!IsInteractable) return new UniTask<bool>(false);
 
-			AudioManager.Instance.PlaySFX(audioSFXType);
-			colliderTrans.gameObject.SetActive(false);
+			if (audioAtTrans)
+			{
+				AudioManager.Instance.PlaySFXAt(audioSFXType, audioAtTrans.position);
+			}
+			else
+			{
+				AudioManager.Instance.PlaySFX(audioSFXType);
+			}
 
+			colliderTrans.gameObject.SetActive(false);
 			return new UniTask<bool>(true);
 		}
 	}

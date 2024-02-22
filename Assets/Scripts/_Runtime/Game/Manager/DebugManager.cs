@@ -54,7 +54,19 @@ namespace Personal.Manager
 			}
 			else if (Input.GetKeyDown(KeyCode.RightShift))
 			{
-				//AchievementManager.Instance.ResetAll();
+				AchievementManager.Instance.ResetAll();
+			}
+			else if (Input.GetKeyDown(KeyCode.T))
+			{
+				AudioManager.Instance.PlayBGM(Setting.Audio.AudioBGMType.BGM_Boss_01);
+			}
+			else if (Input.GetKeyDown(KeyCode.G))
+			{
+				AudioManager.Instance.StopBGM();
+			}
+			else if (Input.GetKeyDown(KeyCode.H))
+			{
+				AudioManager.Instance.PlayBGM(Setting.Audio.AudioBGMType.BGM_Boss_03);
 			}
 		}
 

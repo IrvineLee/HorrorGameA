@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Audio;
 
 using Helper;
@@ -24,30 +25,68 @@ namespace Personal.Manager
 		public AudioSource Bgm { get => bgm; }
 		public AudioSource Sfx { get => sfx; }
 
+		float mainBGMVolume = 0f;
+		float areaBGMVolume = 0f;
+
+		CoroutineRun bgmFadeCR = new();
+		CoroutineRun bgmAreaFadeCR = new();
+
 		void Start()
 		{
 			BGM_AudioDefinition.Initialize();
 			SFX_AudioDefinition.Initialize();
 		}
 
-		public void SetBGMVolume(float value01)
+		/// <summary>
+		/// Play a specific BGM.
+		/// </summary>
+		/// <param name="audioBGMType"></param>
+		/// <param name="duration"></param>
+		public void PlayBGM(AudioBGMType audioBGMType, float duration = 1.5f)
 		{
-			SetMixerVolume(bgmMixerGroup, "BGM", value01);
-		}
+			FadeInMainBGM(true, duration);
 
-		public void SetSFXVolume(float value01)
-		{
-			SetMixerVolume(sfxMixerGroup, "SFX", value01);
-		}
-
-		public void PlayBGM(AudioBGMType audioBGMType)
-		{
 			BGM_AudioDefinition.AudioDictionary.TryGetValue(audioBGMType, out AudioClip audioClip);
 			bgm.clip = audioClip;
 			bgm.loop = true;
 			bgm.Play();
 		}
 
+		/// <summary>
+		/// Play/Stop the area BGM. This will turn off/on the main BGM.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		/// <param name="audioSource"></param>
+		/// <param name="duration"></param>
+		public void PlayAreaBGM(bool isFlag, AudioSource audioSource, float duration = 1.5f)
+		{
+			//if (isFlag) audioSource.Play();
+
+			//FadeInMainBGM(!isFlag, duration);
+
+			//string param = "AreaBGM";
+
+			//float startVolume = isFlag ? 0 : mainBGMVolume;
+			//float endVolume = isFlag ? mainBGMVolume : 0;
+
+			//Action doLast = () => { if (!isFlag) audioSource.Stop(); };
+			//FadeInfo fadeInfo = new FadeInfo(startVolume, endVolume, duration, doLast);
+			//FadeBGM(bgmMixerGroup, param, ref bgmAreaFadeCR, fadeInfo);
+		}
+
+		/// <summary>
+		/// Stop the main BGM.
+		/// </summary>
+		/// <param name="duration"></param>
+		public void StopBGM(float duration = 1.5f)
+		{
+			FadeInMainBGM(false, duration);
+		}
+
+		/// <summary>
+		/// Play SFX.
+		/// </summary>
+		/// <param name="audioSFXType"></param>
 		public void PlaySFX(AudioSFXType audioSFXType)
 		{
 			SFX_AudioDefinition.AudioDictionary.TryGetValue(audioSFXType, out AudioClip audioClip);
@@ -67,6 +106,64 @@ namespace Personal.Manager
 		{
 			volume = volume == -1 ? sfx.volume : volume;
 			return SetupSFX(audioSFXType, position, volume, isLoop);
+		}
+
+		public void SetBGMVolume(float value01)
+		{
+			SetMixerVolume(bgmMixerGroup, "BGM", value01);
+		}
+
+		public void SetSFXVolume(float value01)
+		{
+			SetMixerVolume(sfxMixerGroup, "SFX", value01);
+		}
+
+		/// <summary>
+		/// Fade in/out the main BGM audio.
+		/// </summary>
+		/// <param name="isFlag"></param>
+		/// <param name="duration"></param>
+		void FadeInMainBGM(bool isFlag, float duration = 2f)
+		{
+			string param = "MainBGM";
+
+			float startVolume = mainBGMVolume;
+			float endVolume = isFlag ? 1 : 0;
+
+			Action doLast = () => { if (!isFlag) bgm.Stop(); };
+			FadeInfo fadeInfo = new FadeInfo(startVolume, endVolume, duration, doLast);
+			FadeBGM(bgmMixerGroup, param, ref bgmFadeCR, fadeInfo);
+
+			if (!bgm.isPlaying) bgm.Play();
+
+			Debug.Log("start " + startVolume + " end  " + endVolume);
+		}
+
+		void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Z))
+			{
+				bgm.Play();
+			}
+		}
+
+		/// <summary>
+		/// Fade in/out BGM.
+		/// </summary>
+		/// <param name="startValue"></param>
+		/// <param name="toValue"></param>
+		/// <param name="duration"></param>
+		/// <param name="doLast"></param>
+		void FadeBGM(AudioMixerGroup audioMixerGroup, string param, ref CoroutineRun cr, FadeInfo fadeInfo)
+		{
+			cr.StopCoroutine();
+
+			Action<float> callbackMethod = (result) =>
+			{
+				mainBGMVolume = result;
+				SetMixerVolume(audioMixerGroup, param, result);
+			};
+			cr = CoroutineHelper.LerpWithinSeconds(fadeInfo.StartValue, fadeInfo.EndValue, fadeInfo.Duration, callbackMethod, fadeInfo.DoLast);
 		}
 
 		/// <summary>
@@ -123,7 +220,7 @@ namespace Personal.Manager
 			});
 		}
 
-		void SetMixerVolume(AudioMixerGroup audioMixerGroup, string str, float value01)
+		void SetMixerVolume(AudioMixerGroup audioMixerGroup, string param, float value01)
 		{
 			if (value01 > 1) value01 = 1;
 
@@ -131,7 +228,7 @@ namespace Personal.Manager
 			float value = Mathf.Log10(value01) * 20;
 			if (value01 <= 0) value = -80;
 
-			audioMixerGroup.audioMixer.SetFloat(str, value);
+			audioMixerGroup.audioMixer.SetFloat(param, value);
 		}
 	}
 }

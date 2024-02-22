@@ -2,19 +2,28 @@
 
 using Cysharp.Threading.Tasks;
 using Personal.FSM;
-using Personal.Character.Animation;
 
 namespace Personal.InteractiveObject
 {
 	/// <summary>
-	/// All event trigger will end after triggering them.
+	/// Play an event after triggering.
 	/// </summary>
 	public class EventTriggerHandler : InteractableEventBegin
 	{
-		async void OnTriggerEnter(Collider other)
+		void OnTriggerEnter(Collider other)
 		{
 			if (!IsInteractable) return;
 
+			HandleTriggerEnter(other).Forget();
+		}
+
+		void OnTriggerExit(Collider other)
+		{
+			HandleTriggerExit(other).Forget();
+		}
+
+		protected virtual async UniTask HandleTriggerEnter(Collider other)
+		{
 			bool isPassed = await HandleTrigger();
 			if (!isPassed) return;
 
@@ -29,6 +38,8 @@ namespace Personal.InteractiveObject
 			ifsmHandler?.OnExit();
 			gameObject.SetActive(false);
 		}
+
+		protected virtual UniTask HandleTriggerExit(Collider other) { return UniTask.CompletedTask; }
 
 		protected virtual UniTask<bool> HandleTrigger() { return new UniTask<bool>(true); }
 	}
