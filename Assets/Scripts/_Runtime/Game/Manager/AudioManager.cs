@@ -6,11 +6,18 @@ using Helper;
 using Personal.Setting.Audio;
 using Personal.Definition;
 using Personal.GameState;
+using Personal.Constant;
 
 namespace Personal.Manager
 {
 	public class AudioManager : GameInitializeSingleton<AudioManager>
 	{
+		enum BGMType
+		{
+			MainBGM = 0,
+			AreaBGM,
+		}
+
 		[SerializeField] AudioSource bgm = null;
 		[SerializeField] AudioSource sfx = null;
 
@@ -25,11 +32,13 @@ namespace Personal.Manager
 		public AudioSource Bgm { get => bgm; }
 		public AudioSource Sfx { get => sfx; }
 
-		float mainBGMVolume = 0f;
-		float areaBGMVolume = 0f;
+		float mainBGMdB;
+		float areaBGMdB;
 
 		CoroutineRun bgmFadeCR = new();
 		CoroutineRun bgmAreaFadeCR = new();
+
+		bool isStoppingMainBGM;
 
 		void Start()
 		{
@@ -38,48 +47,56 @@ namespace Personal.Manager
 		}
 
 		/// <summary>
-		/// Play a specific BGM.
+		/// Play BGM on the main channel.
 		/// </summary>
 		/// <param name="audioBGMType"></param>
 		/// <param name="duration"></param>
-		public void PlayBGM(AudioBGMType audioBGMType, float duration = 1.5f)
+		public void PlayBGM(AudioBGMType audioBGMType, float duration = ConstantFixed.AUDIO_FADE_DURATION)
 		{
-			FadeInMainBGM(true, duration);
+			if (isStoppingMainBGM) isStoppingMainBGM = false;
 
 			BGM_AudioDefinition.AudioDictionary.TryGetValue(audioBGMType, out AudioClip audioClip);
+
+			FadeInMainBGM(true, duration);
+
+			// Return if it's the same BGM.
+			if (bgm.clip != null && bgm.clip.name.Equals(audioClip.name)) return;
+
 			bgm.clip = audioClip;
 			bgm.loop = true;
 			bgm.Play();
 		}
 
 		/// <summary>
-		/// Play/Stop the area BGM. This will turn off/on the main BGM.
+		/// Play/Stop the area BGM on their own channel. This will turn off/on the main BGM channel.
 		/// </summary>
 		/// <param name="isFlag"></param>
 		/// <param name="audioSource"></param>
 		/// <param name="duration"></param>
-		public void PlayAreaBGM(bool isFlag, AudioSource audioSource, float duration = 1.5f)
+		public void PlayAreaBGM(bool isFlag, AudioSource audioSource, float duration = ConstantFixed.AUDIO_FADE_DURATION)
 		{
-			//if (isFlag) audioSource.Play();
+			if (isFlag) audioSource.Play();
 
-			//FadeInMainBGM(!isFlag, duration);
+			FadeInMainBGM(!isFlag, duration);
 
-			//string param = "AreaBGM";
+			float startVolume = areaBGMdB;
+			float endVolume = isFlag ? 1 : 0;
 
-			//float startVolume = isFlag ? 0 : mainBGMVolume;
-			//float endVolume = isFlag ? mainBGMVolume : 0;
+			Action doLast = () => { if (!isFlag) audioSource.Stop(); };
+			FadeInfo fadeInfo = new FadeInfo(startVolume, endVolume, duration, doLast);
 
-			//Action doLast = () => { if (!isFlag) audioSource.Stop(); };
-			//FadeInfo fadeInfo = new FadeInfo(startVolume, endVolume, duration, doLast);
-			//FadeBGM(bgmMixerGroup, param, ref bgmAreaFadeCR, fadeInfo);
+			FadeBGM(ref bgmAreaFadeCR, bgmMixerGroup, BGMType.AreaBGM, fadeInfo);
 		}
 
 		/// <summary>
-		/// Stop the main BGM.
+		/// Stop the main BGM channel.
 		/// </summary>
 		/// <param name="duration"></param>
-		public void StopBGM(float duration = 1.5f)
+		public void StopBGM(float duration = ConstantFixed.AUDIO_FADE_DURATION)
 		{
+			if (isStoppingMainBGM) return;
+
+			isStoppingMainBGM = true;
 			FadeInMainBGM(false, duration);
 		}
 
@@ -123,28 +140,22 @@ namespace Personal.Manager
 		/// </summary>
 		/// <param name="isFlag"></param>
 		/// <param name="duration"></param>
-		void FadeInMainBGM(bool isFlag, float duration = 2f)
+		void FadeInMainBGM(bool isFlag, float duration)
 		{
-			string param = "MainBGM";
-
-			float startVolume = mainBGMVolume;
+			float startVolume = mainBGMdB;
 			float endVolume = isFlag ? 1 : 0;
 
-			Action doLast = () => { if (!isFlag) bgm.Stop(); };
+			Action doLast = () =>
+			{
+				isStoppingMainBGM = false;
+				if (isFlag) return;
+
+				bgm.Stop();
+			};
 			FadeInfo fadeInfo = new FadeInfo(startVolume, endVolume, duration, doLast);
-			FadeBGM(bgmMixerGroup, param, ref bgmFadeCR, fadeInfo);
+			FadeBGM(ref bgmFadeCR, bgmMixerGroup, BGMType.MainBGM, fadeInfo);
 
 			if (!bgm.isPlaying) bgm.Play();
-
-			Debug.Log("start " + startVolume + " end  " + endVolume);
-		}
-
-		void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.Z))
-			{
-				bgm.Play();
-			}
 		}
 
 		/// <summary>
@@ -154,16 +165,25 @@ namespace Personal.Manager
 		/// <param name="toValue"></param>
 		/// <param name="duration"></param>
 		/// <param name="doLast"></param>
-		void FadeBGM(AudioMixerGroup audioMixerGroup, string param, ref CoroutineRun cr, FadeInfo fadeInfo)
+		void FadeBGM(ref CoroutineRun cr, AudioMixerGroup audioMixerGroup, BGMType bgmType, FadeInfo fadeInfo)
 		{
 			cr.StopCoroutine();
 
 			Action<float> callbackMethod = (result) =>
 			{
-				mainBGMVolume = result;
-				SetMixerVolume(audioMixerGroup, param, result);
+				HandleDecibel(bgmType, result);
+				SetMixerVolume(audioMixerGroup, bgmType.ToString(), result);
 			};
 			cr = CoroutineHelper.LerpWithinSeconds(fadeInfo.StartValue, fadeInfo.EndValue, fadeInfo.Duration, callbackMethod, fadeInfo.DoLast);
+		}
+
+		void HandleDecibel(BGMType bgmType, float dB)
+		{
+			switch (bgmType)
+			{
+				case BGMType.MainBGM: mainBGMdB = dB; break;
+				case BGMType.AreaBGM: areaBGMdB = dB; break;
+			}
 		}
 
 		/// <summary>

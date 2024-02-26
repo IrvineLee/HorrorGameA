@@ -40,5 +40,8 @@ namespace Personal.Constant
 		// Achievement
 		public const int ACHIEVEMENT_START = 90000;
 		public const int ACHIEVEMENT_END = 99999;
+
+		// Audio
+		public const float AUDIO_FADE_DURATION = 2f;
 	}
 }
