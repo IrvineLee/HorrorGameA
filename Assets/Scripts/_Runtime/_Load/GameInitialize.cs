@@ -86,10 +86,9 @@ namespace Personal.GameState
 		protected virtual void OnMainScene() { }
 
 		/// <summary>
-		/// This will get called on the next frame of Initialize.
+		/// This will get called after OnMainScene.
 		/// </summary>
-		protected virtual async UniTask OnMainSceneAsync() { await UniTask.CompletedTask; }
-
+		protected virtual UniTask OnMainSceneNext() { return UniTask.CompletedTask; }
 
 		void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
@@ -98,7 +97,7 @@ namespace Personal.GameState
 
 		async UniTask HandleScene()
 		{
-			if (!GameSceneManager.Instance.IsMainScene())
+			if (!GameSceneManager.Instance.IsMainScene)
 			{
 				if (GameSceneManager.Instance.IsScene(SceneName.Title))
 					OnTitleScene();
@@ -110,7 +109,7 @@ namespace Personal.GameState
 			await UniTask.Yield(cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			OnMainScene();
-			OnMainSceneAsync().Forget();
+			OnMainSceneNext().Forget();
 		}
 
 		void OnDestroy()

@@ -40,12 +40,6 @@ namespace Personal.GameState
 		protected virtual void OnEarlyMainScene() { }
 
 		/// <summary>
-		/// This gets called when scene is in Main scene/scenes. 
-		/// </summary>
-		/// <returns></returns>
-		protected virtual async UniTask OnEarlyMainSceneAsync() { await UniTask.CompletedTask; }
-
-		/// <summary>
 		/// This will get called on the next frame of OnEarlyMainScene.
 		/// </summary>
 		protected virtual void OnMainScene() { }
@@ -57,7 +51,7 @@ namespace Personal.GameState
 
 		void HandleScene()
 		{
-			if (!GameSceneManager.Instance.IsMainScene())
+			if (!GameSceneManager.Instance.IsMainScene)
 			{
 				if (GameSceneManager.Instance.IsScene(SceneName.Title))
 					OnTitleScene();
@@ -71,7 +65,6 @@ namespace Personal.GameState
 		async UniTask HandleMainScene()
 		{
 			OnEarlyMainScene();
-			OnEarlyMainSceneAsync().Forget();
 
 			await UniTask.NextFrame();
 			OnMainScene();

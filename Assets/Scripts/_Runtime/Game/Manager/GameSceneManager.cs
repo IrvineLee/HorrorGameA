@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
-using Helper;
 using Personal.GameState;
 using Personal.Transition;
 
@@ -13,32 +11,11 @@ namespace Personal.Manager
 {
 	public class GameSceneManager : GameInitializeSingleton<GameSceneManager>
 	{
-		[SerializeField] string mainScenePath = "Assets/Resources/MainScenes";
 		public string CurrentSceneName { get => SceneManager.GetActiveScene().name; }
 
-		List<string> mainSceneList = new();
+		public bool IsMainScene { get; private set; }
 
-		public void Init()
-		{
-			DirectoryInfo dir = new DirectoryInfo(mainScenePath);
-			var fileArray = dir.GetFiles("*.unity");
-
-			foreach (var file in fileArray)
-			{
-				string sceneName = file.Name.SearchBehindRemoveFrontOrEnd('.', true);
-				mainSceneList.Add(sceneName);
-			}
-		}
-
-		public bool IsMainScene()
-		{
-			foreach (var scene in mainSceneList)
-			{
-				if (!string.Equals(scene, CurrentSceneName)) continue;
-				return true;
-			}
-			return false;
-		}
+		string loadingScene;
 
 		public bool IsScene(string sceneName)
 		{
@@ -54,7 +31,7 @@ namespace Personal.Manager
 		{
 			UIManager.Instance.ToolsUI.BlockInput(true);
 
-			Action action = () => DoAction(inBetweenAction, () => SceneManager.LoadScene(index), () => BundleNewSceneAction(newSceneAction));
+			Action action = () => DoAction(inBetweenAction, LoadScene(LoadSceneByIndex(index)), () => BundleNewSceneAction(newSceneAction)).Forget();
 			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action, isIgnoreTimescale);
 		}
 
@@ -66,7 +43,7 @@ namespace Personal.Manager
 		{
 			UIManager.Instance.ToolsUI.BlockInput(true);
 
-			Action action = () => DoAction(endTransitionAction, () => SceneManager.LoadScene(sceneName), () => BundleNewSceneAction(newSceneAction));
+			Action action = () => DoAction(endTransitionAction, LoadScene(LoadSceneByName(sceneName)), () => BundleNewSceneAction(newSceneAction)).Forget();
 			TransitionManager.Instance.Transition(transitionType, transitionPlayType, delay, action, isIgnoreTimescale);
 		}
 
@@ -77,7 +54,7 @@ namespace Personal.Manager
 
 			Func<UniTask<bool>> func = async () =>
 			{
-				await DoFunc(endTransitionFunc, () => SceneManager.LoadScene(index), () => BundleNewSceneAction(newSceneAction));
+				await DoFunc(endTransitionFunc, LoadScene(LoadSceneByIndex(index)), () => BundleNewSceneAction(newSceneAction));
 				return true;
 			};
 			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func, isIgnoreTimescale);
@@ -90,7 +67,7 @@ namespace Personal.Manager
 
 			Func<UniTask<bool>> func = async () =>
 			{
-				await DoFunc(endTransitionFunc, () => SceneManager.LoadScene(sceneName), () => BundleNewSceneAction(newSceneAction));
+				await DoFunc(endTransitionFunc, LoadScene(LoadSceneByName(sceneName)), () => BundleNewSceneAction(newSceneAction));
 				return true;
 			};
 			TransitionManager.Instance.TransitionFunc(transitionType, transitionPlayType, delay, func, isIgnoreTimescale);
@@ -106,19 +83,47 @@ namespace Personal.Manager
 			UIManager.Instance.ToolsUI.BlockInput(false);
 		}
 
-		void DoAction(Action endTransitionAction, Action loadSceneAction, Action newSceneAction)
+		async UniTask DoAction(Action endTransitionAction, UniTask loadScene, Action newSceneAction)
 		{
 			endTransitionAction?.Invoke();
-			CoroutineHelper.WaitEndOfFrame(() => loadSceneAction?.Invoke());
-			CoroutineHelper.WaitNextFrame(newSceneAction);
+
+			await UniTask.NextFrame();
+			await loadScene;
+
+			newSceneAction?.Invoke();
 		}
 
-		async UniTask DoFunc(Func<UniTask<bool>> endTransitionFunc, Action loadSceneAction, Action newSceneAction)
+		async UniTask DoFunc(Func<UniTask<bool>> endTransitionFunc, UniTask loadScene, Action newSceneAction)
 		{
 			await endTransitionFunc();
-			CoroutineHelper.WaitEndOfFrame(() => loadSceneAction?.Invoke());
-			CoroutineHelper.WaitNextFrame(newSceneAction);
+
+			await UniTask.NextFrame();
+			await loadScene;
+
+			newSceneAction?.Invoke();
+		}
+
+		async UniTask LoadScene(AsyncOperation loadSceneFunc)
+		{
+			AsyncOperation asyncLoad = loadSceneFunc;
+
+			Func<bool> func = () => asyncLoad.progress >= 0.9f;
+			await UniTask.WaitUntil(func);
+
+			IsMainScene = loadingScene.Contains("Main");
+			await UniTask.WaitUntil(() => asyncLoad.isDone);
+		}
+
+		AsyncOperation LoadSceneByName(string name)
+		{
+			loadingScene = name;
+			return SceneManager.LoadSceneAsync(name);
+		}
+
+		AsyncOperation LoadSceneByIndex(int index)
+		{
+			loadingScene = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(index));
+			return SceneManager.LoadSceneAsync(index);
 		}
 	}
 }
-

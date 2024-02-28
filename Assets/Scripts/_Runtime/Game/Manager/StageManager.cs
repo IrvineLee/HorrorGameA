@@ -48,10 +48,11 @@ namespace Personal.Manager
 			DialogueController = DialogueManager.Instance.GetComponentInChildren<DialogueController>();
 		}
 
-		protected override async UniTask OnEarlyMainSceneAsync()
+		protected override async void OnMainScene()
 		{
-			// If there is a main scene handler, let that script handle it.
-			var mainSceneHandler = FindObjectOfType<MainSceneHandler>();
+			keyEventData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.KeyEventData;
+
+			var mainSceneHandler = FindObjectOfType<MainSceneHandlerBase>();
 			if (mainSceneHandler) return;
 
 			// Deactivate the black screen.
@@ -61,11 +62,6 @@ namespace Personal.Manager
 			InputManager.Instance.DisableAllActionMap();
 			await UniTask.WaitUntil(() => !IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
 			InputManager.Instance.EnableActionMap(ActionMapType.Player);
-		}
-
-		protected override void OnMainScene()
-		{
-			keyEventData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.KeyEventData;
 		}
 
 		public void SetMainCameraTransform(Transform target)

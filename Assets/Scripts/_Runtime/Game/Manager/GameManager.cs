@@ -47,8 +47,6 @@ namespace Personal.Manager
 			MasterDataManager.CreateInstance();
 			if (MasterDataManager.Instance == null) return false;
 
-			GameSceneManager.Instance.Init();
-
 			return true;
 		}
 

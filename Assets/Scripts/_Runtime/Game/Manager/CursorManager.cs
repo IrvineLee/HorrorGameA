@@ -27,7 +27,7 @@ namespace Personal.Manager
 
 		bool IsFPSMode
 		{
-			get => GameSceneManager.Instance.IsMainScene() &&
+			get => GameSceneManager.Instance.IsMainScene &&
 				InputManager.Instance.CurrentActionMapType == InputProcessing.ActionMapType.Player &&
 				UIManager.Instance.ActiveInterfaceType == UIInterfaceType.None;
 		}
@@ -95,7 +95,7 @@ namespace Personal.Manager
 			Cursor.visible = false;
 
 			mouseCursorHandler.gameObject.SetActive(false);
-			if (GameSceneManager.Instance.IsMainScene()) SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
+			if (GameSceneManager.Instance.IsMainScene) SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 		}
 
 		/// <summary>

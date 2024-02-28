@@ -32,12 +32,12 @@ namespace Personal.Manager
 
 			if (Input.GetKeyDown(KeyCode.F9))
 			{
-				if (!GameSceneManager.Instance.IsMainScene()) return;
+				if (!GameSceneManager.Instance.IsMainScene) return;
 				SaveManager.Instance.SaveSlotData();
 			}
 			else if (Input.GetKeyDown(KeyCode.F12))
 			{
-				if (!GameSceneManager.Instance.IsMainScene()) return;
+				if (!GameSceneManager.Instance.IsMainScene) return;
 				SaveManager.Instance.LoadSlotData();
 			}
 			else if (Input.GetKeyDown(KeyCode.LeftControl))

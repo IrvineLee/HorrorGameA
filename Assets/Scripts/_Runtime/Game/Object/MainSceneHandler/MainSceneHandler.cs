@@ -5,13 +5,12 @@ using Helper;
 using Personal.FSM;
 using Personal.FSM.Character;
 using Personal.Manager;
-using Personal.GameState;
 using Personal.Transition;
 using Personal.CanvasUI;
 
 namespace Personal.InteractiveObject
 {
-	public class MainSceneHandler : GameInitialize
+	public class MainSceneHandler : MainSceneHandlerBase
 	{
 		[Tooltip("The state machine when the screen is all black.")]
 		[SerializeField] OrderedStateMachine blackScreenStateMachine = null;
@@ -24,7 +23,7 @@ namespace Personal.InteractiveObject
 
 		PlayerStateMachine playerFSM;
 
-		protected override async UniTask OnMainSceneAsync()
+		protected override async UniTask HandleStartScene()
 		{
 			// You probably need this if you start the game directly in main scene.
 			UIManager.Instance.ToolsUI.BlackScreen(true);

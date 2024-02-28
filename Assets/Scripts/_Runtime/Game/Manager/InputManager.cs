@@ -180,7 +180,7 @@ namespace Personal.Manager
 		public void SetToDefaultActionMap()
 		{
 			ActionMapType defaultActionMap = ActionMapType.UI;
-			if (GameSceneManager.Instance.IsMainScene())
+			if (GameSceneManager.Instance.IsMainScene)
 			{
 				defaultActionMap = ActionMapType.Player;
 			}
