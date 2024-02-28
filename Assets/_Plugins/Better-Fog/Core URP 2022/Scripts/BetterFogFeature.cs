@@ -29,11 +29,10 @@ namespace INab.BetterFog.URP
 		public override void Create()
 		{
 			// Create materials
-			DepthBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/DepthBlit"));
-			FogBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FogBlit"));
-			FinalBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FinalBlit"));
-			SSMS = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/INabStudio/SSMS_URP"));
-
+			if (!DepthBlit) DepthBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/DepthBlit"));
+			if (!FogBlit) FogBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FogBlit"));
+			if (!FinalBlit) FinalBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FinalBlit"));
+			if (!SSMS) SSMS = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/INabStudio/SSMS_URP"));
 
 			betterFogPass = new BetterFogPass(settings, DepthBlit, FogBlit, FinalBlit, SSMS);
 
@@ -94,6 +93,17 @@ namespace INab.BetterFog.URP
 
 			public void Dispose()
 			{
+				for (int i = 0; i < kMaxIterations; i++)
+				{
+					_blurBuffer1[i].Release();
+					_blurBuffer2[i].Release();
+				}
+
+				CoreUtils.Destroy(m_FogBlit);
+				CoreUtils.Destroy(m_DepthBlit);
+				CoreUtils.Destroy(m_FinalBlit);
+				CoreUtils.Destroy(m_SSMS);
+
 				m_CustomDepthRT.Release();
 				m_FogFactorRT.Release();
 				m_FogOffsetRT.Release();
@@ -421,6 +431,8 @@ namespace INab.BetterFog.URP
 
 			public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 			{
+				if (!m_FogBlit) return;
+
 				if (!renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isDefaultViewport)
 					return;
 
