@@ -19,14 +19,16 @@ namespace Personal.Character.Player
 		[SerializeField] FPSController fpsController = null;
 		[SerializeField] PlayerInventory inventory = null;
 		[SerializeField] PlayerAnimatorController playerAnimatorController = null;
-		[SerializeField] PlayerScanAOE playerScanAOE = null;
 		[SerializeField] ParentMoveFollowChild parentMoveFollowChild = null;
 
 		public PlayerStateMachine FSM { get => fsm; }
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
 		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
+
 		public InputMovement_FPSController InputMovement_FPSController { get; private set; }
+		public PlayerScanAOE PlayerScanAOE { get; private set; }
+		public PlayerAnimationAudio PlayerAnimationAudio { get; private set; }
 		public Animator Animator { get; private set; }
 
 		CharacterController characterController;
@@ -37,6 +39,8 @@ namespace Personal.Character.Player
 			StageManager.Instance.RegisterPlayer(this);
 
 			InputMovement_FPSController = GetComponentInChildren<InputMovement_FPSController>();
+			PlayerScanAOE = GetComponentInChildren<PlayerScanAOE>();
+			PlayerAnimationAudio = GetComponentInChildren<PlayerAnimationAudio>();
 			Animator = GetComponentInChildren<Animator>();
 			characterController = GetComponentInChildren<CharacterController>();
 
@@ -55,7 +59,7 @@ namespace Personal.Character.Player
 		{
 			FPSController.enabled = !isFlag;
 			PlayerAnimatorController.ResetAnimationBlend(0.25f);
-			playerScanAOE.EnableScan(!isFlag);
+			PlayerScanAOE.EnableScan(!isFlag);
 		}
 
 		/// <summary>

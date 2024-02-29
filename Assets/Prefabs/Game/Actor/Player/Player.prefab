@@ -390,7 +390,7 @@ Transform:
   - {fileID: 2034075566}
   - {fileID: 8451440103518528750}
   m_Father: {fileID: 1402863442298916790}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 359.3181, z: 0}
 --- !u!114 &8860664939194593209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,7 +408,6 @@ MonoBehaviour:
   fpsController: {fileID: 2211541382202689283}
   inventory: {fileID: 5525385563522203180}
   playerAnimatorController: {fileID: 3835332982649805689}
-  playerScanAOE: {fileID: 4102699885910744478}
   parentMoveFollowChild: {fileID: 503646429948911988}
 --- !u!114 &6955060313060297944
 MonoBehaviour:
@@ -1561,6 +1560,14 @@ PrefabInstance:
       propertyPath: footstepWeight
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 6373177944031260197, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+      propertyPath: footstepDefinition
+      value: 
+      objectReference: {fileID: 11400000, guid: eeaaacfc9ab989b489f5cc8f00ca077f, type: 2}
+    - target: {fileID: 6373177944031260197, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+      propertyPath: animationAudioDefinition
+      value: 
+      objectReference: {fileID: 11400000, guid: eeaaacfc9ab989b489f5cc8f00ca077f, type: 2}
     - target: {fileID: 6373177944031260197, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
       propertyPath: footstepSFXTypes.Array.data[0]
       value: 2100

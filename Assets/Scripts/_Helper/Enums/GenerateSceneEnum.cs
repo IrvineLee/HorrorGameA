@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 namespace Helper
 {
@@ -16,8 +16,12 @@ namespace Helper
 			string enumName = "SceneType";
 			string filePathAndName = "Assets/Scripts/GenerateCode/" + enumName + ".cs"; //The folder Scripts/Enums/ is expected to exist
 
-			string scenePath = "Scenes";
-			List<string> sceneNameList = Resources.LoadAll(scenePath).Select((scene) => scene.name).ToList();
+			int sceneCount = SceneManager.sceneCountInBuildSettings;
+			List<string> sceneNameList = new();
+			for (int i = 0; i < sceneCount; i++)
+			{
+				sceneNameList.Add(Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)));
+			}
 
 			using (StreamWriter streamWriter = new StreamWriter(filePathAndName))
 			{
