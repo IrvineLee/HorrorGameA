@@ -13,6 +13,9 @@ namespace Personal.InputProcessing
 		[Tooltip("Whether pressing the confirm button move it to the next selection.")]
 		[SerializeField] bool isConfirmPressedMoveToNext = false;
 
+		[Tooltip("Whether pressing the cancel button move it to the previous selection.")]
+		[SerializeField] bool isCancelPressedMoveToPrevious = false;
+
 		public static bool IsHold { get; private set; }
 
 		public int CurrentActiveIndex { get; protected set; }
@@ -22,6 +25,7 @@ namespace Personal.InputProcessing
 		void Update()
 		{
 			HandleConfirmPressed();
+			HandleCancelPressed();
 			HandleMotionPressed();
 		}
 
@@ -31,17 +35,29 @@ namespace Personal.InputProcessing
 		/// <param name="go"></param>
 		public virtual void UpdateCurrentSelection(GameObject go) { }
 
-		protected virtual void HandleConfirmPressed()
+		protected virtual void HandleMovement(Vector2 move, Action endConfirmButtonAction = default) { }
+		protected virtual void HandleEndConfirmButton() { }
+
+		protected void HandleConfirmPressed()
 		{
 			if (!isConfirmPressedMoveToNext) return;
+			if (!InputManager.Instance.GetButtonPush(ButtonPush.Submit)) return;
 
-			bool isConfirmbuttonPressed = InputManager.Instance.GetButtonPush(ButtonPush.Submit);
-			if (!isConfirmbuttonPressed) return;
-
-			HandleMovement(GetHorizontalVerticalMovement(Vector2.right), HandleEndConfirmButton);
+			HandleMovement(GetHorizontalVerticalMovement(GetSubmitPressedMoveDirection()), HandleEndConfirmButton);
 		}
 
-		protected virtual void HandleMotionPressed()
+		protected void HandleCancelPressed()
+		{
+			if (!isCancelPressedMoveToPrevious) return;
+			if (!InputManager.Instance.GetButtonPush(ButtonPush.Cancel)) return;
+
+			HandleMovement(GetHorizontalVerticalMovement(GetCancelPressedMoveDirection()));
+		}
+
+		/// <summary>
+		/// Handle the D-pad and analog movement.
+		/// </summary>
+		protected void HandleMotionPressed()
 		{
 			Vector3 move = InputManager.Instance.GetMotion(MotionType.Move);
 
@@ -58,11 +74,9 @@ namespace Personal.InputProcessing
 			waitCR = CoroutineHelper.WaitFor(ConstantFixed.UI_SELECTION_DELAY, isRealSeconds: true);
 		}
 
-		protected virtual void HandleMovement(Vector2 move, Action endConfirmButtonAction = default) { }
-		protected virtual void HandleEndConfirmButton() { }
-
 		/// <summary>
-		/// Handle the analog input so it gives concrete value for a smoother experience. DPad has no problem.
+		/// Handle the analog input so it gives concrete value for a smoother experience. D-pad has no problem.
+		/// For movement in menu ui selection.
 		/// </summary>
 		/// <param name="move"></param>
 		/// <returns></returns>
@@ -80,6 +94,9 @@ namespace Personal.InputProcessing
 			}
 			return move;
 		}
+
+		protected virtual Vector2 GetSubmitPressedMoveDirection() { return Vector2.right; }
+		protected virtual Vector2 GetCancelPressedMoveDirection() { return Vector2.left; }
 
 		protected override void OnDisabled()
 		{

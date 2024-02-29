@@ -18,6 +18,7 @@ namespace Personal.InputProcessing
 			inputReaderDefinition.OnBottomTabSwitchEvent += BottomTabSwitch;
 
 			inputReaderDefinition.OnInteractEvent += InteractInput;
+			inputReaderDefinition.OnCancelEvent += CancelInput;
 			inputReaderDefinition.OnCancelEvent += CloseMenu;
 
 			inputReaderDefinition.OnMenuUIDefaultPressedEvent += DefaultOptionMenu;
@@ -76,6 +77,8 @@ namespace Personal.InputProcessing
 		protected override void CloseMenu()
 		{
 			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.Pause) return;
+			if (UIManager.Instance.ActiveInterfaceType == UIInterfaceType.ReadFile) return;
+
 			base.CloseMenu();
 		}
 
