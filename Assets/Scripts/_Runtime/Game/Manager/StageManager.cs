@@ -101,8 +101,6 @@ namespace Personal.Manager
 			if (KeyEventCompletedList.Contains(keyEventType)) return;
 
 			KeyEventCompletedList.Add(keyEventType);
-			keyEventData.KeyEventList.Add(keyEventType);
-
 			OnKeyEventCompleted?.Invoke(keyEventType);
 		}
 
