@@ -19,6 +19,7 @@ namespace Personal.Character.Player
 		[SerializeField] FPSController fpsController = null;
 		[SerializeField] PlayerInventory inventory = null;
 		[SerializeField] PlayerAnimatorController playerAnimatorController = null;
+		[SerializeField] PlayerScanAOE playerScanAOE = null;
 		[SerializeField] ParentMoveFollowChild parentMoveFollowChild = null;
 
 		public PlayerStateMachine FSM { get => fsm; }
@@ -54,6 +55,7 @@ namespace Personal.Character.Player
 		{
 			FPSController.enabled = !isFlag;
 			PlayerAnimatorController.ResetAnimationBlend(0.25f);
+			playerScanAOE.EnableScan(!isFlag);
 		}
 
 		/// <summary>

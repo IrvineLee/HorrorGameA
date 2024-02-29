@@ -8,6 +8,13 @@ namespace Personal.Character.Player
 {
 	public class PlayerScanAOE : GameInitialize
 	{
+		Collider col;
+
+		protected override void Initialize()
+		{
+			col = GetComponentInChildren<Collider>(true);
+		}
+
 		async UniTaskVoid OnTriggerEnter(Collider other)
 		{
 			if (!isInitialized) await UniTask.WaitUntil(() => isInitialized);
@@ -25,6 +32,11 @@ namespace Personal.Character.Player
 		{
 			var interactableObject = other.gameObject.GetComponentInParent<InteractableObject>(true);
 			interactableObject?.SetPointOfInterest(false);
+		}
+
+		public void EnableScan(bool isFlag)
+		{
+			col.enabled = isFlag;
 		}
 	}
 }
