@@ -9,17 +9,17 @@ namespace Personal.Setting.Audio
 	{
 		[SerializeField] AreaFootstepSFXType areaFootstepSFXType = AreaFootstepSFXType.None;
 
-		AnimatorAudio animatorAudio;
+		HumanAnimationAudio humanAnimatorAudio;
 
 		void OnTriggerEnter(Collider other)
 		{
-			animatorAudio = other.GetComponentInChildren<AnimatorAudio>();
-			animatorAudio?.SetAreaFootstep(areaFootstepSFXType);
+			humanAnimatorAudio = other.GetComponentInChildren<HumanAnimationAudio>();
+			humanAnimatorAudio?.SetAreaFootstep(areaFootstepSFXType);
 		}
 
 		void OnTriggerExit(Collider other)
 		{
-			animatorAudio?.SetAreaFootstep(AreaFootstepSFXType.None);
+			humanAnimatorAudio?.SetAreaFootstep(AreaFootstepSFXType.None);
 		}
 	}
 }

@@ -1,17 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 using Helper;
 using Personal.Manager;
 using Personal.Character.Player;
-using Personal.Definition;
-using Personal.Setting.Audio;
 
 namespace Personal.Character.Animation
 {
-	public class PlayerAnimationAudio : AnimatorAudio
+	public class PlayerAnimationAudio : HumanAnimationAudio
 	{
-		[SerializeField] AnimationAudioDefinition animationAudioDefinition = null;
 		[SerializeField] float footstepWeight = 0.02f;
 
 		FPSController fpsController;
@@ -55,32 +51,6 @@ namespace Personal.Character.Animation
 			var SFXType = GetSFXType(landList);
 
 			AudioManager.Instance.PlaySFXAt(SFXType, transform.TransformPoint(fpsController.Controller.center));
-		}
-
-		List<AudioSFXType> GetFootstepSFXList(AreaFootstepSFXType areaFootstepSFXType)
-		{
-			switch (areaFootstepSFXType)
-			{
-				case AreaFootstepSFXType.Grass: if (animationAudioDefinition.GrassFootstepList.Count == 0) break; return animationAudioDefinition.GrassFootstepList;
-			}
-
-			return animationAudioDefinition.GenericFootstepList;
-		}
-
-		List<AudioSFXType> GetLandSFXList(AreaFootstepSFXType areaFootstepSFXType)
-		{
-			switch (areaFootstepSFXType)
-			{
-				case AreaFootstepSFXType.Grass: if (animationAudioDefinition.GrassLandList.Count == 0) break; return animationAudioDefinition.GrassLandList;
-			}
-
-			return animationAudioDefinition.GenericLandList;
-		}
-
-		AudioSFXType GetSFXType(List<AudioSFXType> audioList)
-		{
-			var index = Random.Range(0, audioList.Count);
-			return audioList[index];
 		}
 	}
 }
