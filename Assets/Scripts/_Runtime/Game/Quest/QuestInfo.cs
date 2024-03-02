@@ -157,6 +157,9 @@ namespace Personal.Quest
 				taskInfo.SetProgress(-1);
 			}
 			taskInfo.CloseTask();
+
+			// TODO: Complete show UI.
+			Debug.Log("Update quest " + taskInfo.RequiredAmount + "   " + selectedResponse);
 		}
 
 		void HandleActionTypeAcquire(TaskInfo taskInfo)

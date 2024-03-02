@@ -55,7 +55,7 @@ namespace Personal.InputProcessing
 		}
 
 		/// <summary>
-		/// Handle the D-pad and analog movement.
+		/// Handle the D-pad and left analog movement.
 		/// </summary>
 		protected void HandleMotionPressed()
 		{

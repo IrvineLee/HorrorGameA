@@ -3,78 +3,71 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 using Helper;
 using Personal.InputProcessing;
 using Personal.UI;
+using Personal.GameState;
 
 namespace Personal.Dialogue
 {
-	public class DialogueResponseListHandler : MonoBehaviour
+	public class DialogueResponseListHandler : GameInitialize
 	{
-		class ButtonUnityAction
-		{
-			[SerializeField] Button button = null;
-			[SerializeField] UnityAction unityAction = null;
+		public int SelectedResponse { get; private set; } = 0;
 
-			public Button Button { get => button; }
-			public UnityAction UnityAction { get => unityAction; }
-
-			public ButtonUnityAction(Button button, UnityAction unityAction)
-			{
-				this.button = button;
-				this.unityAction = unityAction;
-			}
-		}
-
-		public int SelectedResponse { get => selectedButton; set => selectedButton = value; }
-
-		List<ButtonUnityAction> buttonActionList = new();
-		int selectedButton = -1;
+		List<DialogueResponseInfo> dialogueResponseInfoList = new();
 
 		Transform contentRectTransform;
 		AutoScrollRect autoScrollRect;
 
-		void Awake()
+		int currentTotalResponse;       // This will continue to add up until ResetSelectionResponse() is called.
+
+		protected override void Initialize()
 		{
-			contentRectTransform = GetComponentInChildren<ScrollRect>().content;
+			contentRectTransform = GetComponentInChildren<ScrollRect>(true).content;
 			autoScrollRect = GetComponentInChildren<AutoScrollRect>(true);
+
+			DialogueSetup.OnConversationEndEvent += ResetSelectedResponse;
 		}
 
 		void OnEnable()
 		{
 			// You have to wait for the dialogue response to get populated.
-			CoroutineHelper.WaitNextFrame(Cache);
+			CoroutineHelper.WaitNextFrame(InitButtons);
 		}
 
-		void Cache()
+		void InitButtons()
 		{
 			if (contentRectTransform.childCount <= 0) return;
 
 			ResetButtons();
+			dialogueResponseInfoList = contentRectTransform.GetComponentsInChildren<DialogueResponseInfo>().ToList();
 
-			var buttonList = contentRectTransform.GetComponentsInChildren<Button>(true).ToList();
-			for (int i = 0; i < buttonList.Count; i++)
+			// Setup the new buttons to display to user.
+			for (int i = dialogueResponseInfoList.Count - 1; i >= 0; i--)
 			{
-				Button button = buttonList[i];
-				int index = i;
-
-				if (i == 0) EventSystem.current.SetSelectedGameObject(button.gameObject);
-
-				UnityAction unityAction = () => selectedButton = index;
-				buttonActionList.Add(new ButtonUnityAction(button, unityAction));
-
-				button.onClick.AddListener(unityAction);
-
-				// The reason why you can't set the button to be enabled in prefab is because
-				// the PixelCrusher? Dialogue weirdly sets the first to be selected on the first spawn.
-				// Changing the color back to default in inspector does not change the selected color(eventhough it's changed in inspector)
-				button.enabled = true;
+				SetupButton(dialogueResponseInfoList[i], i, dialogueResponseInfoList.Count);
 			}
 
+			// Update the ui values for gamepad scroll and display.
 			var uiSelectableList = contentRectTransform.GetComponentsInChildren<UISelectable>().ToList();
 			((BasicControllerUI)ControlInputBase.ActiveControlInput).SetUIValues(uiSelectableList, autoScrollRect);
+		}
+
+		void SetupButton(DialogueResponseInfo dialogueResponseInfo, int index, int count)
+		{
+			UnityAction unityAction = () =>
+			{
+				SelectedResponse += index;
+
+				// Wait for the quest check dialogue response before updating the selection index.
+				CoroutineHelper.WaitNextFrame(() =>
+				{
+					currentTotalResponse += count;
+					SelectedResponse = currentTotalResponse;
+				}, isEndOfFrame: true); ;
+			};
+			dialogueResponseInfo.SetupButton(unityAction);
 		}
 
 		/// <summary>
@@ -82,13 +75,28 @@ namespace Personal.Dialogue
 		/// </summary>
 		void ResetButtons()
 		{
-			foreach (var buttonAction in buttonActionList)
+			foreach (var responseInfo in dialogueResponseInfoList)
 			{
-				buttonAction.Button.onClick.RemoveListener(buttonAction.UnityAction);
+				responseInfo.ResetButton();
 			}
+		}
 
-			buttonActionList.Clear();
-			selectedButton = -1;
+		/// <summary>
+		/// Reset the selection index after dialogue is finished.
+		/// </summary>
+		void ResetSelectedResponse()
+		{
+			// Wait for the quest check dialogue response before updating the selection index.
+			CoroutineHelper.WaitNextFrame(() =>
+			{
+				SelectedResponse = 0;
+				currentTotalResponse = 0;
+			}, isEndOfFrame: true);
+		}
+
+		void OnDestroy()
+		{
+			DialogueSetup.OnConversationEndEvent -= ResetSelectedResponse;
 		}
 	}
 }

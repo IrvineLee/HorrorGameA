@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,6 @@ using Helper;
 using Personal.Manager;
 using Personal.GameState;
 using Personal.InputProcessing;
-using Personal.Definition;
 using UIButtonKeyTrigger = PixelCrushers.UIButtonKeyTrigger;
 
 namespace Personal.Dialogue
@@ -17,29 +17,31 @@ namespace Personal.Dialogue
 		[SerializeField] string interactStr = "Interact";
 		[SerializeField] string cancelStr = "Cancel";
 
-		public DialogueResponseListHandler DialogueResponseListHandler { get => dialogueResponseListHandler; }
+		public DialogueResponseListHandler DialogueResponseListHandler { get; private set; }
 		public bool IsWaitingResponse { get; private set; }
 
 		public DisplaySettings.SubtitleSettings SubtitleSetting { get; private set; }
 		public Button ContinueButton { get; private set; }
 
-		StandardUIMenuPanel standardUIMenuPanel;
+		public StandardUIMenuPanel StandardUIMenuPanel { get; private set; }
+
+		public static event Action OnConversationEndEvent;
+
 		StandardUISubtitlePanel[] subtitlePanelArray;
 		UIButtonKeyTrigger uiButtonKeyTrigger;
 
-		DialogueResponseListHandler dialogueResponseListHandler = null;
 		ActionMapType previousActionMap;
 
 		protected override void EarlyInitialize()
 		{
-			dialogueResponseListHandler = GetComponentInChildren<DialogueResponseListHandler>(true);
+			DialogueResponseListHandler = GetComponentInChildren<DialogueResponseListHandler>(true);
 			uiButtonKeyTrigger = GetComponentInChildren<UIButtonKeyTrigger>(true);
 
 			var dialogueSystemController = GetComponentInChildren<DialogueSystemController>(true);
 			GameObject dialogueUI = dialogueSystemController.displaySettings.dialogueUI;
 
 			StandardDialogueUI standardDialogueUI = dialogueUI.GetComponentInChildren<StandardDialogueUI>(true);
-			standardUIMenuPanel = standardDialogueUI.conversationUIElements.defaultMenuPanel;
+			StandardUIMenuPanel = standardDialogueUI.conversationUIElements.defaultMenuPanel;
 
 			InitMainPanel(standardDialogueUI);
 			InitializeResponseWindow();
@@ -77,6 +79,7 @@ namespace Personal.Dialogue
 			IsWaitingResponse = false;
 
 			InputDeviceManager.instance.alwaysAutoFocus = false;
+			OnConversationEndEvent?.Invoke();
 		}
 
 		/// <summary>
@@ -118,7 +121,7 @@ namespace Personal.Dialogue
 		void InitializeResponseWindow()
 		{
 			// For the response window.
-			standardUIMenuPanel.onOpen.AddListener(() =>
+			StandardUIMenuPanel.onOpen.AddListener(() =>
 			{
 				IsWaitingResponse = true;
 
@@ -129,7 +132,7 @@ namespace Personal.Dialogue
 				}, false, true);
 			});
 
-			standardUIMenuPanel.onClose.AddListener(() =>
+			StandardUIMenuPanel.onClose.AddListener(() =>
 			{
 				IsWaitingResponse = false;
 				CursorManager.Instance.HandleMouse();
@@ -152,8 +155,8 @@ namespace Personal.Dialogue
 
 		void OnApplicationQuit()
 		{
-			standardUIMenuPanel?.onOpen.RemoveAllListeners();
-			standardUIMenuPanel?.onClose.RemoveAllListeners();
+			StandardUIMenuPanel?.onOpen.RemoveAllListeners();
+			StandardUIMenuPanel?.onClose.RemoveAllListeners();
 
 			InputDeviceManager.UnregisterInputAction("Interact");
 		}
