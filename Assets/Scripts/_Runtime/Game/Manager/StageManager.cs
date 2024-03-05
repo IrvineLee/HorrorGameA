@@ -48,20 +48,10 @@ namespace Personal.Manager
 			DialogueController = DialogueManager.Instance.GetComponentInChildren<DialogueController>();
 		}
 
-		protected override async void OnMainScene()
+		protected override void OnMainScene()
 		{
 			keyEventData = GameStateBehaviour.Instance.SaveObject.PlayerSavedData.KeyEventData;
-
-			var mainSceneHandler = FindObjectOfType<MainSceneHandlerBase>();
-			if (mainSceneHandler) return;
-
-			// Deactivate the black screen.
-			UIManager.Instance.ToolsUI.BlackScreen(false);
-
-			// Make the player not able to do anything.
-			InputManager.Instance.DisableAllActionMap();
-			await UniTask.WaitUntil(() => !IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
-			InputManager.Instance.EnableActionMap(ActionMapType.Player);
+			HandleMainScene().Forget();
 		}
 
 		public void SetMainCameraTransform(Transform target)
@@ -136,6 +126,20 @@ namespace Personal.Manager
 			CoroutineHelper.WaitEndOfFrame(CameraHandler.ResetPosAndRot);
 
 			PlayerController.Inventory.ResetInventory();
+		}
+
+		async UniTask HandleMainScene()
+		{
+			var mainSceneHandler = FindObjectOfType<MainSceneHandlerBase>();
+			if (mainSceneHandler) return;
+
+			// Deactivate the black screen.
+			UIManager.Instance.ToolsUI.BlackScreen(false);
+
+			// Make the player not able to do anything.
+			InputManager.Instance.DisableAllActionMap();
+			await UniTask.WaitUntil(() => !IsBusy, cancellationToken: this.GetCancellationTokenOnDestroy());
+			InputManager.Instance.EnableActionMap(ActionMapType.Player);
 		}
 	}
 }

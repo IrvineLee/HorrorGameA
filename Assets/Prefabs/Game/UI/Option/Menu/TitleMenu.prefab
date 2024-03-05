@@ -820,6 +820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isConfirmPressedMoveToNext: 0
+  isCancelPressedMoveToPrevious: 0
 --- !u!1 &8559975766928035571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,10 +1084,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonContinue
       objectReference: {fileID: 0}
-    - target: {fileID: 8965875786295450938, guid: 75001e9893175b941b641a6afb750a45, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1185,17 +1182,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2050050677490534845, guid: 36684f13e723e0e41902690e70c698e8, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -18
-      objectReference: {fileID: 0}
     - target: {fileID: 2552607418773674865, guid: 36684f13e723e0e41902690e70c698e8, type: 3}
       propertyPath: m_Name
       value: ButtonStartGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 8965875786295450938, guid: 36684f13e723e0e41902690e70c698e8, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1338,20 +1327,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 5971492533386867240}
     m_Modifications:
     - target: {fileID: 603802055641785091, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 603802055641785091, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
       objectReference: {fileID: 2043401703753291508}
     - target: {fileID: 6296239739679761736, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
       propertyPath: m_Name
       value: ButtonQuitGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 7529786003345127300, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -18
       objectReference: {fileID: 0}
     - target: {fileID: 9069269059292905300, guid: 10f1c998249bb824598c5b3a4c5d7280, type: 3}
       propertyPath: m_Pivot.x
@@ -1596,10 +1577,6 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3356139371241065405, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3356139371241065405, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
@@ -1670,14 +1647,6 @@ PrefabInstance:
     - target: {fileID: 3356139371241065405, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265136071425573741, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -18
-      objectReference: {fileID: 0}
-    - target: {fileID: 6570400099404552170, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6570400099404552170, guid: 094e4aa7e50749046b0046ca801eedcc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2102,10 +2071,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonOption
       objectReference: {fileID: 0}
-    - target: {fileID: 3448023275308406701, guid: 420ac0b6d7c6bab43a9582cafbfbbff6, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -18
-      objectReference: {fileID: 0}
     - target: {fileID: 4213819728781205373, guid: 420ac0b6d7c6bab43a9582cafbfbbff6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2185,10 +2150,6 @@ PrefabInstance:
     - target: {fileID: 4213819728781205373, guid: 420ac0b6d7c6bab43a9582cafbfbbff6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748801332487947050, guid: 420ac0b6d7c6bab43a9582cafbfbbff6, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
