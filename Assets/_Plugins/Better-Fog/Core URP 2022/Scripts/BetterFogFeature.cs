@@ -4,6 +4,8 @@ using UnityEngine.Rendering.Universal;
 using System;
 using System.Collections.Generic;
 using INab.BetterFog.Core;
+using UnityEngine.Rendering.HighDefinition;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace INab.BetterFog.URP
 {
@@ -29,10 +31,11 @@ namespace INab.BetterFog.URP
 		public override void Create()
 		{
 			// Create materials
-			if (!DepthBlit) DepthBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/DepthBlit"));
-			if (!FogBlit) FogBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FogBlit"));
-			if (!FinalBlit) FinalBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FinalBlit"));
-			if (!SSMS) SSMS = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/INabStudio/SSMS_URP"));
+			DepthBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/DepthBlit"));
+			FogBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FogBlit"));
+			FinalBlit = CoreUtils.CreateEngineMaterial(Shader.Find("Shader Graphs/FinalBlit"));
+			SSMS = CoreUtils.CreateEngineMaterial(Shader.Find("Hidden/INabStudio/SSMS_URP"));
+
 
 			betterFogPass = new BetterFogPass(settings, DepthBlit, FogBlit, FinalBlit, SSMS);
 
@@ -41,7 +44,7 @@ namespace INab.BetterFog.URP
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
 		{
 			if (renderingData.cameraData.cameraType != CameraType.Game && renderingData.cameraData.cameraType != CameraType.SceneView && renderingData.cameraData.cameraType != CameraType.VR) return;
-
+			
 			//if (betterFogVolume)
 			{
 				renderer.EnqueuePass(betterFogPass);
@@ -57,12 +60,12 @@ namespace INab.BetterFog.URP
 
 		protected override void Dispose(bool disposing)
 		{
-			CoreUtils.Destroy(DepthBlit);
+			betterFogPass?.Dispose();
+
+            CoreUtils.Destroy(DepthBlit);
 			CoreUtils.Destroy(FogBlit);
 			CoreUtils.Destroy(FinalBlit);
 			CoreUtils.Destroy(SSMS);
-
-			betterFogPass.Dispose();
 		}
 
 		public class BetterFogPass : ScriptableRenderPass
@@ -90,25 +93,6 @@ namespace INab.BetterFog.URP
 
 			private List<CustomRenderer> m_DepthRenderers = new List<CustomRenderer>();
 			private List<CustomRenderer> m_FogOffsetRenderers = new List<CustomRenderer>();
-
-			public void Dispose()
-			{
-				for (int i = 0; i < kMaxIterations; i++)
-				{
-					_blurBuffer1[i].Release();
-					_blurBuffer2[i].Release();
-				}
-
-				CoreUtils.Destroy(m_FogBlit);
-				CoreUtils.Destroy(m_DepthBlit);
-				CoreUtils.Destroy(m_FinalBlit);
-				CoreUtils.Destroy(m_SSMS);
-
-				m_CustomDepthRT.Release();
-				m_FogFactorRT.Release();
-				m_FogOffsetRT.Release();
-				m_TemporaryRT.Release();
-			}
 
 			public BetterFogPass(BetterFogSettings settings, Material depthBlit, Material fogBlit, Material finalBlit, Material SSMS)
 			{
@@ -144,10 +128,10 @@ namespace INab.BetterFog.URP
 
 				textureDescriptor.depthBufferBits = 0; // 32 bits breaks everytinhg
 				textureDescriptor.colorFormat = RenderTextureFormat.RHalf;
-				RenderingUtils.ReAllocateIfNeeded(ref m_FogFactorRT, textureDescriptor, FilterMode.Point, name: "_FogFactor_RT");
+				RenderingUtils.ReAllocateIfNeeded(ref m_FogFactorRT, textureDescriptor, FilterMode.Point,name: "_FogFactor_RT");
 
 				if (m_CurrentSettings._UseCustomDepthTexture)
-				{
+                {
 					//textureDescriptor.depthBufferBits = 32;
 					textureDescriptor.colorFormat = RenderTextureFormat.RFloat;
 					RenderingUtils.ReAllocateIfNeeded(ref m_CustomDepthRT, textureDescriptor, FilterMode.Point, name: "_CustomDepth");
@@ -167,7 +151,7 @@ namespace INab.BetterFog.URP
 			}
 
 			private void FogBlitProperties()
-			{
+            {
 				if (m_BetterFogVolume._UseDistanceFog.value)
 				{
 					m_FogBlit.EnableKeyword("_USEDISTANCEFOG_ON");
@@ -289,7 +273,7 @@ namespace INab.BetterFog.URP
 			}
 
 			private void FinalBlitProperties()
-			{
+            {
 				if (m_BetterFogVolume._UseSunLight.value)
 				{
 					m_FinalBlit.EnableKeyword("_USESUNLIGHT_ON");
@@ -330,7 +314,7 @@ namespace INab.BetterFog.URP
 				m_FinalBlit.SetFloat("_EnergyLoss", m_BetterFogVolume._EnergyLoss.value);
 			}
 
-			private int SSMSProperties(float tw, float th)
+			private int SSMSProperties(float tw,float th)
 			{
 				// determine the iteration count
 				var logh = Mathf.Log(th, 2) + m_BetterFogVolume._Radius.value - 8;
@@ -352,7 +336,7 @@ namespace INab.BetterFog.URP
 				m_SSMS.SetFloat("_Intensity", m_BetterFogVolume._Intensity.value);
 
 				var fadeRampTexture = m_BetterFogVolume._FadeRamp.value;
-				if (fadeRampTexture != null) m_SSMS.SetTexture("_FadeTex", fadeRampTexture);
+				if(fadeRampTexture != null) m_SSMS.SetTexture("_FadeTex", fadeRampTexture);
 				m_SSMS.SetFloat("_BlurWeight", m_BetterFogVolume._BlurWeight.value);
 				m_SSMS.SetFloat("_Radius", m_BetterFogVolume._Radius.value);
 
@@ -361,7 +345,7 @@ namespace INab.BetterFog.URP
 					m_SSMS.EnableKeyword("ANTI_FLICKER_ON");
 				}
 				else
-				{
+                {
 					m_SSMS.DisableKeyword("ANTI_FLICKER_ON");
 				}
 
@@ -389,8 +373,8 @@ namespace INab.BetterFog.URP
 
 					if (renderer == false || material == false) continue;
 
-					if (!customRenderer.alwaysRender)
-					{
+					if(!customRenderer.alwaysRender)
+                    {
 						if (renderer.enabled == false || renderer.gameObject.activeInHierarchy == false) continue;
 					}
 
@@ -431,8 +415,6 @@ namespace INab.BetterFog.URP
 
 			public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 			{
-				if (!m_FogBlit) return;
-
 				if (!renderingData.cameraData.isSceneViewCamera && !renderingData.cameraData.isDefaultViewport)
 					return;
 
@@ -449,7 +431,7 @@ namespace INab.BetterFog.URP
 
 
 				if (renderingData.cameraData.cameraType == CameraType.Game)
-				{
+                {
 					var sceneCamera = FindObjectOfType<Camera>();
 					var set = sceneCamera.GetComponent<BetterFogRenderers>();
 
@@ -493,7 +475,7 @@ namespace INab.BetterFog.URP
 					cmd.SetGlobalTexture("_FogOffset", m_FogOffsetRT);
 				}
 				else
-				{
+                {
 					m_FogBlit.SetInt("_UseFogOffset", 0);
 				}
 
@@ -534,13 +516,13 @@ namespace INab.BetterFog.URP
 					tw /= 2;
 					th /= 2;
 
-					var iterations = SSMSProperties(tw, th);
+					var iterations = SSMSProperties(tw,th);
 
 					var rtFormat = RenderTextureFormat.ARGBHalf;
 					var rtFilterMode = FilterMode.Bilinear;
 
 					// prefilter pass
-					RenderTextureDescriptor prefilteredDesc = new RenderTextureDescriptor(cameraDesc.width, cameraDesc.height, rtFormat, 0, 0);
+					RenderTextureDescriptor prefilteredDesc = new RenderTextureDescriptor(cameraDesc.width, cameraDesc.height,rtFormat,0,0);
 					RenderingUtils.ReAllocateIfNeeded(ref prefilteredRT, prefilteredDesc, rtFilterMode);
 
 					var pass = 0;
@@ -561,11 +543,11 @@ namespace INab.BetterFog.URP
 						tw = Mathf.Max(tw / 2, 1);
 						th = Mathf.Max(th / 2, 1);
 
-						pass = (level == 0) ? 1 : 2;
+						pass = (level == 0) ?  1 : 2;
 						cmd.SetGlobalTexture("_MainTex", last);
 						//Blit(cmd, last, _blurBuffer1[level], m_SSMS, pass);
 						Blitter.BlitCameraTexture(cmd, last, _blurBuffer1[level], m_SSMS, pass);
-
+						
 						last = _blurBuffer1[level];
 					}
 
@@ -620,6 +602,21 @@ namespace INab.BetterFog.URP
 				cmd.ReleaseTemporaryRT(Shader.PropertyToID(m_TemporaryRT.name));
 			}
 
-		}
+            public void Dispose()
+            {
+                m_FogFactorRT?.Release();
+                m_CustomDepthRT?.Release();
+                m_FogOffsetRT?.Release();
+                m_TemporaryRT?.Release();
+
+                for (var i = 0; i < kMaxIterations; i++)
+                {
+                    _blurBuffer1[i]?.Release();
+                    _blurBuffer2[i]?.Release();
+
+                }
+            }
+
+        }
 	}
 }
