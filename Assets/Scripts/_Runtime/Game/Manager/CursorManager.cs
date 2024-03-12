@@ -66,13 +66,13 @@ namespace Personal.Manager
 		public void HandleMouse(bool isSetToSelectedGO = true)
 		{
 			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Confined;
 
 			bool isFPSMode = IsFPSMode;
 			bool isShowMouseCursor = IsCanChangeToMouse && !isFPSMode;
 
 			//Debug.Log("isFPSMode " + isFPSMode + " IsCanChangeToMouse " + IsCanChangeToMouse + " isShowMouseCursor " + isShowMouseCursor);
 
-			Cursor.lockState = CursorLockMode.Confined;
 			if (isFPSMode) Cursor.lockState = CursorLockMode.Locked;
 
 			if (isShowMouseCursor && isSetToSelectedGO)

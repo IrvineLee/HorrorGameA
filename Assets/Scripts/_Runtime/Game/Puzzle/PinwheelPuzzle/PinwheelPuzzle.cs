@@ -330,8 +330,8 @@ namespace Personal.Puzzle.Pinwheel
 			// Instantiate pinwheel.
 			Transform instance = Instantiate(isCenterPinwheel ? centerPinwheelPrefab : pinwheelPrefab, outerPinwheelTrans);
 			instance.name = name;
-			instance.position = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle) + 1f, outerPinwheelTrans.position.z);
-			instance.rotation = Quaternion.Euler(new Vector3(0, 90, 90));
+			instance.localPosition = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), outerPinwheelTrans.position.z);
+			instance.localRotation = Quaternion.Euler(new Vector3(0, 90, 90));
 
 			// Set instantiated transform.
 			pinwheel.SetPinwheel(this, instance, isCenterPinwheel);
@@ -354,9 +354,9 @@ namespace Personal.Puzzle.Pinwheel
 				Transform instance = pinwheel.PinwheelTrans;
 
 				// Instantiate the colors.
-				var colorInstance = Instantiate(rotateOffsetPrefab, instance.position, rotateOffsetPrefab.rotation);
+				var colorInstance = Instantiate(rotateOffsetPrefab, instance.position, rotateOffsetPrefab.rotation, instance);
 				colorInstance.name += "_" + basicColor.ToString();
-				colorInstance.SetParent(instance);
+				//colorInstance.SetParent(instance);
 
 				colorInstance.localPosition = colorInstance.localPosition.With(y: -1.01f);
 				colorInstance.GetComponentInChildren<SpriteRenderer>().color = basicColor.GetColor();

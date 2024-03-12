@@ -14,6 +14,9 @@ namespace Personal.FSM.Character
 		{
 			await base.OnEnter();
 
+			animator.gameObject.SetActive(true);
+			animator.enabled = true;
+
 			animator.Play(animationName);
 			await animator.WaitTillCurrentAnimationOver();
 		}
