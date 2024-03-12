@@ -92,10 +92,12 @@ namespace Personal.Manager
 		/// </summary>
 		public void HideMouseCursor()
 		{
+			if (!GameSceneManager.Instance.IsMainScene) return;
+
 			Cursor.visible = false;
 
 			mouseCursorHandler.gameObject.SetActive(false);
-			if (GameSceneManager.Instance.IsMainScene) SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
+			SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 		}
 
 		/// <summary>
@@ -123,7 +125,7 @@ namespace Personal.Manager
 
 		void OnApplicationFocus(bool hasFocus)
 		{
-			if (!Application.isEditor) HandleMouse();
+			HandleMouse(false);
 		}
 
 		void OnApplicationQuit()
