@@ -18,13 +18,13 @@ namespace Personal.Character.Player
 		[SerializeField] PlayerStateMachine fsm = null;
 		[SerializeField] FPSController fpsController = null;
 		[SerializeField] PlayerInventory inventory = null;
-		[SerializeField] PlayerAnimatorController playerAnimatorController = null;
+		[SerializeField] PlayerModel modelController = null;
 		[SerializeField] ParentMoveFollowChild parentMoveFollowChild = null;
 
 		public PlayerStateMachine FSM { get => fsm; }
 		public FPSController FPSController { get => fpsController; }
 		public PlayerInventory Inventory { get => inventory; }
-		public PlayerAnimatorController PlayerAnimatorController { get => playerAnimatorController; }
+		public PlayerModel ModelController { get => modelController; }
 
 		public InputMovement_FPSController InputMovement_FPSController { get; private set; }
 		public PlayerScanAOE PlayerScanAOE { get; private set; }
@@ -58,7 +58,7 @@ namespace Personal.Character.Player
 		public void PauseControl(bool isFlag)
 		{
 			FPSController.enabled = !isFlag;
-			PlayerAnimatorController.ResetAnimationBlend(0.25f);
+			modelController.AnimatorController.ResetAnimationBlend(0.25f);
 			PlayerScanAOE.EnableScan(!isFlag);
 		}
 

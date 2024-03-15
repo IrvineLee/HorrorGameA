@@ -42,7 +42,7 @@ namespace Personal.FSM.Character
 
 		protected override void OnRendererDissolveBegin()
 		{
-			StageManager.Instance.PlayerController.PlayerAnimatorController.ResetAnimationBlend(0.25f);
+			StageManager.Instance.PlayerController.ModelController.AnimatorController.ResetAnimationBlend(0.25f);
 		}
 
 		async UniTask Init()

@@ -23,7 +23,7 @@ namespace Personal.FSM.Character
 			IsStateEnded = false;
 
 			playerController = StageManager.Instance.PlayerController;
-			playerController.PlayerAnimatorController.ResetAnimationBlend(0.25f);
+			playerController.ModelController.AnimatorController.ResetAnimationBlend(0.25f);
 
 			if (playerFSM.LookAtInfo == null) return;
 
