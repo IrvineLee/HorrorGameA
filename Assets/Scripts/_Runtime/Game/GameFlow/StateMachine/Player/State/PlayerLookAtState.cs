@@ -20,6 +20,7 @@ namespace Personal.FSM.Character
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
+			IsStateEnded = false;
 
 			playerController = StageManager.Instance.PlayerController;
 			playerController.PlayerAnimatorController.ResetAnimationBlend(0.25f);
@@ -53,8 +54,6 @@ namespace Personal.FSM.Character
 
 			vCam.LookAt = null;
 			vCam.Priority = 0;
-
-			playerFSM.SetLookAtInfo(null);
 		}
 	}
 }

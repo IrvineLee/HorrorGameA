@@ -30,6 +30,8 @@ namespace Personal.FSM
 			{
 				await SetState(state);
 			}
+
+			await PlayEndState();
 		}
 	}
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 803188941}
   - component: {fileID: 803188942}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerStandardState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2034075566}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: StateParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7989792812182407746}
   - component: {fileID: 6397418242080527663}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerCashierState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 6215096288141178020}
   - component: {fileID: 1199050054160908308}
   - component: {fileID: 4003744227766947755}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -521,7 +521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7847391501612981625}
   - component: {fileID: 5485649448313790175}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerPOVControlState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3032468237786636189}
   - component: {fileID: 2596584953106554008}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerCameraRoot
   m_TagString: CinemachineTarget
   m_Icon: {fileID: 0}
@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 9092603408704477616}
   - component: {fileID: 2896217300846404206}
   - component: {fileID: 8575816456213933791}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerPOVControlCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6105606506752875922}
   - component: {fileID: 9182522803148554890}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerLookAtCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 1985431814819998661}
   - component: {fileID: 3759464667621554869}
   - component: {fileID: 3247150818467750099}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 145523229741966047}
   - component: {fileID: 8234786436945952415}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerMoveToState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,7 +904,7 @@ GameObject:
   - component: {fileID: 4806714603266077124}
   - component: {fileID: 6353420070138396348}
   - component: {fileID: 3473781878174763173}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -999,7 +999,7 @@ GameObject:
   - component: {fileID: 1839789836024180968}
   - component: {fileID: 4135583702881434351}
   - component: {fileID: 3822677261445089742}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,7 +1127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6137887200965556400}
   - component: {fileID: 6137887200965556401}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerFollowCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1199,7 +1199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2091665355828849014}
   - component: {fileID: 7630654084273585613}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerLookAtCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1271,7 +1271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1598224162420122507}
   - component: {fileID: 177367770425892330}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerIdleState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1427,7 +1427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8297635095902787290}
   - component: {fileID: 1963815093075126664}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerLookAtState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1607,6 +1607,10 @@ PrefabInstance:
     - target: {fileID: 6373177944031260197, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
       propertyPath: footstepSFXTypes.Array.data[9]
       value: 2109
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956780087388607295, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8956780087399678471, guid: a0830475088a8a9498b087f095a81ef0, type: 3}
       propertyPath: m_LocalPosition.y

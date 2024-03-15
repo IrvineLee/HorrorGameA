@@ -109,6 +109,8 @@ namespace Personal.Character.Player
 
 			await UniTask.NextFrame();
 			await UniTask.WaitUntil(() => ((PlayerLookAtState)fsm.CurrentState).IsStateEnded, cancellationToken: this.GetCancellationTokenOnDestroy());
+
+			fsm.SetLookAtInfo(null);
 		}
 
 		/// <summary>
@@ -125,6 +127,8 @@ namespace Personal.Character.Player
 			if (!lookAtInfo.IsInstant)
 			{
 				rotateBodyCR?.StopCoroutine();
+
+				await UniTask.NextFrame();
 
 				RotateByAnimation(lookAtInfo.LookAt.position);
 				await UniTask.WaitUntil(() => rotateBodyCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());

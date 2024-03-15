@@ -35,17 +35,17 @@ namespace Personal.InteractiveObject
 			dialogueSystemTrigger.OnUse(transform);
 
 			// Enable LookAt state
-			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
-			ifsmHandler.OnBegin(typeof(PlayerLookAtState));
+			var fsm = StageManager.Instance.PlayerController.FSM;
+			fsm.IFSMHandler.OnBegin(typeof(PlayerLookAtState));
 
 			headModelLookAt?.SetLookAtTarget(true);
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await UniTask.WaitUntil(() => ((PlayerLookAtState)fsm.CurrentState).IsStateEnded, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			// Enable POV control state.
 			SetRotationToPOVControl();
-			ifsmHandler.OnBegin(typeof(PlayerPOVControlState));
+			fsm.IFSMHandler.OnBegin(typeof(PlayerPOVControlState));
 
 			await StageManager.Instance.DialogueController.WaitDialogueEnd();
 

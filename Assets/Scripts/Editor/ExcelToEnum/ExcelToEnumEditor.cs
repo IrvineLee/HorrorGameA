@@ -18,7 +18,7 @@ namespace Personal.CustomEdit
 		Window = 0,
 		BGM,
 		SFX,
-		Item,                         // Later(string naming with prefab addressable)
+		Item,
 		Quest,
 		Achievement,
 		ReadFile,

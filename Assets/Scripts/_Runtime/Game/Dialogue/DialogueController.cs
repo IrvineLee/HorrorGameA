@@ -1,10 +1,10 @@
 using UnityEngine;
 
 using PixelCrushers.DialogueSystem;
+using Cysharp.Threading.Tasks;
 using Personal.GameState;
 using Personal.UI.Option;
 using Personal.Localization;
-using Cysharp.Threading.Tasks;
 
 namespace Personal.Dialogue
 {

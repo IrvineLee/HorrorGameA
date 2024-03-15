@@ -53,6 +53,12 @@ namespace Personal.FSM
 		protected virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }
 
 		/// <summary>
+		/// Makes sure that the final state of OnExit still gets called even when IsWaitForOnExit is not set.
+		/// </summary>
+		/// <returns></returns>
+		protected async UniTask PlayEndState() { await state.OnExit(); }
+
+		/// <summary>
 		/// Handle previous state. 
 		/// </summary>
 		/// <returns></returns>
