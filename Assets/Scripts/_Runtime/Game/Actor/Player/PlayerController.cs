@@ -32,7 +32,7 @@ namespace Personal.Character.Player
 		public Animator Animator { get; private set; }
 
 		CharacterController characterController;
-		CoroutineRun lookAtCR = new();
+		CoroutineRun rotateBodyCR = new();
 
 		protected override void EarlyInitialize()
 		{
@@ -108,9 +108,7 @@ namespace Personal.Character.Player
 			fsm.IFSMHandler?.OnBegin(typeof(PlayerLookAtState));
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !((PlayerLookAtState)fsm.CurrentState).IsStateEnded, cancellationToken: this.GetCancellationTokenOnDestroy());
-
-			fsm.SetLookAtInfo(null);
+			await UniTask.WaitUntil(() => ((PlayerLookAtState)fsm.CurrentState).IsStateEnded, cancellationToken: this.GetCancellationTokenOnDestroy());
 		}
 
 		/// <summary>
@@ -126,13 +124,10 @@ namespace Personal.Character.Player
 
 			if (!lookAtInfo.IsInstant)
 			{
-				lookAtCR?.StopCoroutine();
-
-				// Make sure the vCam is out of it's parent.
-				await UniTask.NextFrame();
+				rotateBodyCR?.StopCoroutine();
 
 				RotateByAnimation(lookAtInfo.LookAt.position);
-				await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending && lookAtCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());
+				await UniTask.WaitUntil(() => rotateBodyCR.IsDone, cancellationToken: this.GetCancellationTokenOnDestroy());
 			}
 
 			// Rotate the player's transform to look at target, on the horizontal axis.
@@ -154,7 +149,7 @@ namespace Personal.Character.Player
 			direction.y = 0;
 
 			var endRotation = Quaternion.LookRotation(direction);
-			lookAtCR = CoroutineHelper.QuaternionLerpWithinSeconds(transform, transform.rotation, endRotation, duration, space: Space.World);
+			rotateBodyCR = CoroutineHelper.QuaternionLerpWithinSeconds(transform, transform.rotation, endRotation, duration, space: Space.World);
 		}
 
 		void IDataPersistence.SaveData(SaveObject data)

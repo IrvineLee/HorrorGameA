@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 using Cysharp.Threading.Tasks;
@@ -31,15 +32,19 @@ namespace Personal.FSM.Character
 			vCam.Priority = 20;
 			vCam.LookAt = lookAtInfo.LookAt;
 
-			IsStateEnded = true;
-
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending, cancellationToken: this.GetCancellationTokenOnDestroy());
 
-			IsStateEnded = false;
+			List<UniTask> uniTaskList = new();
+			if (lookAtInfo.IsPersist)
+			{
+				var bodyRotateTask = playerController.HandleVCamPersistantLook(vCam, lookAtInfo);
+				uniTaskList.Add(bodyRotateTask);
+			}
 
-			if (!lookAtInfo.IsPersist) return;
-			playerController.HandleVCamPersistantLook(vCam, lookAtInfo).Forget();
+			uniTaskList.Add(UniTask.WaitUntil(() => !StageManager.Instance.CameraHandler.CinemachineBrain.IsBlending));
+
+			await UniTask.WhenAll(uniTaskList);
+			IsStateEnded = true;
 		}
 
 		public override async UniTask OnExit()
@@ -48,6 +53,8 @@ namespace Personal.FSM.Character
 
 			vCam.LookAt = null;
 			vCam.Priority = 0;
+
+			playerFSM.SetLookAtInfo(null);
 		}
 	}
 }

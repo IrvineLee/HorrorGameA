@@ -26,6 +26,8 @@ namespace Personal.FSM.Character
 			// You don't want the player to pause the game when it's fading.
 			defaultActionMapType = InputManager.Instance.CurrentActionMapType;
 			InputManager.Instance.DisableAllActionMap();
+
+			await UniTask.WaitUntil(() => !TransitionManager.Instance.IsTransitioning, cancellationToken: gameObject.GetCancellationTokenOnDestroy());
 		}
 
 		public override async UniTask OnExit()

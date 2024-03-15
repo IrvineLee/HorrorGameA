@@ -27,5 +27,12 @@ namespace Personal.FSM.Character
 
 			await playerController.LookAt(lookAtInfo);
 		}
+
+		public override async UniTask OnExit()
+		{
+			await base.OnExit();
+
+			playerController.FSM.IFSMHandler.OnBegin(typeof(PlayerIdleState));
+		}
 	}
 }

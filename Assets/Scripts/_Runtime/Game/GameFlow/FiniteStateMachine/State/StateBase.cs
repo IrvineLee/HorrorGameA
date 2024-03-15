@@ -16,7 +16,6 @@ namespace Personal.FSM
 		public event Action OnExitEvent;
 
 		protected StateMachineBase stateMachine;
-		protected bool isEntered;
 
 		void Awake()
 		{
@@ -29,25 +28,13 @@ namespace Personal.FSM
 		/// <returns></returns>
 		public virtual UniTask OnEnter()
 		{
-			isEntered = true;
 			OnEnterEvent?.Invoke();
 
 			return UniTask.CompletedTask;
 		}
 
 		/// <summary>
-		/// Called from the state machine.
-		/// </summary>
-		/// <returns></returns>
-		public void OnUpdateRun()
-		{
-			if (!isEntered) return;
-
-			OnUpdate();
-		}
-
-		/// <summary>
-		/// Called to request updating
+		/// Called when the state updates
 		/// </summary>
 		/// <returns></returns>
 		public virtual void OnUpdate() { }
@@ -59,7 +46,6 @@ namespace Personal.FSM
 		public virtual UniTask OnExit()
 		{
 			OnExitEvent?.Invoke();
-			isEntered = false;
 
 			return UniTask.CompletedTask;
 		}

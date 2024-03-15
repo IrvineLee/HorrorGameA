@@ -39,14 +39,6 @@ namespace Personal.FSM
 			materialList = renderer?.materials.ToList();
 		}
 
-		void Update()
-		{
-			if (state == null) return;
-			if (IsPauseStateMachine) return;
-
-			state.OnUpdateRun();
-		}
-
 		/// <summary>
 		/// This begins the interactionAssign.
 		/// </summary>
