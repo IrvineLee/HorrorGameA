@@ -82,7 +82,7 @@ namespace Personal.Manager
 
 			CoroutineHelper.WaitNextFrame(() =>
 			{
-				mouseCursorHandler.gameObject.SetActive(isShowMouseCursor);
+				mouseCursorHandler.EnableCursor(isShowMouseCursor);
 				SetCenterCrosshair(isFPSMode ? CursorDefinition.CrosshairType.FPS : CursorDefinition.CrosshairType.Nothing);
 			}, isEndOfFrame: true);
 		}
@@ -96,7 +96,7 @@ namespace Personal.Manager
 
 			Cursor.visible = false;
 
-			mouseCursorHandler.gameObject.SetActive(false);
+			mouseCursorHandler.EnableCursor(false);
 			SetCenterCrosshair(CursorDefinition.CrosshairType.FPS);
 		}
 

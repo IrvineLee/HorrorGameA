@@ -8,6 +8,7 @@ using Helper;
 using Personal.InputProcessing;
 using Personal.UI;
 using Personal.GameState;
+using Personal.Manager;
 
 namespace Personal.Dialogue
 {
@@ -59,13 +60,16 @@ namespace Personal.Dialogue
 			UnityAction unityAction = () =>
 			{
 				SelectedResponse += index;
+				UpdateSelectionIndex(currentTotalResponse += count);
 
-				// Wait for the quest check dialogue response before updating the selection index.
-				CoroutineHelper.WaitNextFrame(() =>
+				foreach (var responseInfo in dialogueResponseInfoList)
 				{
-					currentTotalResponse += count;
-					SelectedResponse = currentTotalResponse;
-				}, isEndOfFrame: true); ;
+					if (responseInfo == dialogueResponseInfo) continue;
+
+					responseInfo.Button.interactable = false;
+				}
+
+				CursorManager.Instance.HideMouseCursor();
 			};
 			dialogueResponseInfo.SetupButton(unityAction);
 		}
@@ -86,11 +90,16 @@ namespace Personal.Dialogue
 		/// </summary>
 		void ResetSelectedResponse()
 		{
+			UpdateSelectionIndex(0);
+		}
+
+		void UpdateSelectionIndex(int value)
+		{
 			// Wait for the quest check dialogue response before updating the selection index.
 			CoroutineHelper.WaitNextFrame(() =>
 			{
-				SelectedResponse = 0;
-				currentTotalResponse = 0;
+				currentTotalResponse = value;
+				SelectedResponse = value;
 			}, isEndOfFrame: true);
 		}
 
