@@ -10,7 +10,7 @@ namespace Personal.FSM.Character
 {
 	public class PlayerMoveToState : ActorMoveState
 	{
-		public bool IsCompleted { get; private set; }
+		Transform lookAtTarget;
 
 		public override async UniTask OnEnter()
 		{
@@ -21,33 +21,23 @@ namespace Personal.FSM.Character
 			CoroutineHelper.LerpWithinSeconds(targetPitch, 0, 1f, callbackMethod, () => playerController.FPSController.UpdateTargetPitch(0));
 
 			await base.OnEnter();
-			IsCompleted = true;
-		}
-
-		public override async UniTask OnExit()
-		{
-			await base.OnExit();
-
-			IsCompleted = false;
 		}
 
 		public void SetTarget(PlayerMoveToInfo playerMoveToInfo)
 		{
 			moveToTarget = playerMoveToInfo.MoveToTarget;
-			turnTowardsTarget = playerMoveToInfo.TurnTowardsTarget;
+			lookAtTarget = playerMoveToInfo.LookAtTarget;
 			updateTurnTowardsSpeed = playerMoveToInfo.UpdateTurnTowardsSpeed;
 		}
-
-		Transform turnTowardsTarget;
 
 		protected override Transform GetTarget()
 		{
 			return moveToTarget;
 		}
 
-		protected override Transform GetTurnTowardsTarget()
+		protected override Transform GetLookAtTarget()
 		{
-			return turnTowardsTarget;
+			return lookAtTarget;
 		}
 	}
 }

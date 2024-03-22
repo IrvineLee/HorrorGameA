@@ -6,10 +6,8 @@ using Personal.Character.Player;
 
 namespace Personal.FSM.Character
 {
-	public class SetPlayerLookAtState : StateBase
+	public class SetPlayerLookAtState : StateWithID
 	{
-		[SerializeField] Transform lookAtTarget = null;
-
 		[Tooltip("Does the player remain looking at target after state end?")]
 		[SerializeField] bool isPersist = false;
 
@@ -23,7 +21,7 @@ namespace Personal.FSM.Character
 			await base.OnEnter();
 
 			playerController = StageManager.Instance.PlayerController;
-			var lookAtInfo = new LookAtInfo(lookAtTarget, isPersist, isInstant);
+			var lookAtInfo = new LookAtInfo(lookAtTargetTrans, isPersist, isInstant);
 
 			await playerController.LookAt(lookAtInfo);
 		}

@@ -22,7 +22,7 @@ namespace Personal.FSM.Character
 		[Tooltip("Upon reaching the target, body turn towards target duration")]
 		[SerializeField] protected float endTurnTowardsDuration = 0.5f;
 
-		public bool IsReached { get; private set; } = true;
+		public bool IsReached { get; private set; }
 
 		protected NavMeshAgent navMeshAgent;
 		protected Transform moveToTarget;
@@ -63,12 +63,12 @@ namespace Personal.FSM.Character
 
 		protected virtual Transform GetTarget() { return null; }
 
-		protected virtual Transform GetTurnTowardsTarget() { return null; }
+		protected virtual Transform GetLookAtTarget() { return null; }
 
 		void Initialize()
 		{
 			moveToTarget = GetTarget();
-			turnToTarget = GetTurnTowardsTarget();
+			turnToTarget = GetLookAtTarget();
 
 			isNavMeshEnabled = navMeshAgent.enabled;
 			navMeshAgent.enabled = true;

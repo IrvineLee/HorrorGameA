@@ -26,7 +26,7 @@ namespace Personal.FSM.Character
 			}
 		}
 
-		protected override Transform GetTurnTowardsTarget()
+		protected override Transform GetLookAtTarget()
 		{
 			return StageManager.Instance.PlayerController.FSM.transform;
 		}

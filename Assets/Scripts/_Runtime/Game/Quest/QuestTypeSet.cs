@@ -18,7 +18,7 @@ namespace Personal.Quest
 		protected override void Initialize()
 		{
 			stateBase = GetComponentInChildren<StateBase>();
-			stateBase.OnEnterEvent += TryUpdateData;
+			if (stateBase) stateBase.OnEnterEvent += TryUpdateData;
 		}
 
 		public void TryUpdateData()

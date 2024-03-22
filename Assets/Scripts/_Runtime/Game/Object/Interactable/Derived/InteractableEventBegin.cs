@@ -9,7 +9,6 @@ namespace Personal.InteractiveObject
 {
 	public class InteractableEventBegin : InteractableObject
 	{
-		protected OrderedStateMachine orderedStateMachine;
 		protected InteractionAssign interactionAssign;
 		protected PlayerController playerController;
 
@@ -17,7 +16,6 @@ namespace Personal.InteractiveObject
 		{
 			base.Initialize();
 
-			orderedStateMachine = GetComponentInChildren<OrderedStateMachine>();
 			interactionAssign = GetComponentInChildren<InteractionAssign>();
 			playerController = StageManager.Instance.PlayerController;
 		}
@@ -30,7 +28,7 @@ namespace Personal.InteractiveObject
 
 			InputManager.Instance.DisableAllActionMap();
 
-			if (orderedStateMachine) await orderedStateMachine.Begin(interactionAssign, InitiatorStateMachine);
+			await interactionAssign.BeginFSM(InitiatorStateMachine);
 			await base.HandleInteraction();
 
 			// Reset to default.

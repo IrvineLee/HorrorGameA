@@ -6,10 +6,8 @@ using Personal.Character.Player;
 
 namespace Personal.FSM.Character
 {
-	public class SetPlayerMoveState : StateBase
+	public class SetPlayerMoveState : StateWithID
 	{
-		[SerializeField] Transform moveToTarget = null;
-		[SerializeField] Transform turnTowardsTarget = null;
 		[SerializeField] float turnTowardsSpeed = 1f;
 
 		PlayerController playerController;
@@ -22,7 +20,7 @@ namespace Personal.FSM.Character
 			playerController = StageManager.Instance.PlayerController;
 			previousState = playerController.FSM.CurrentState;
 
-			PlayerMoveToInfo playerMoveToInfo = new PlayerMoveToInfo(moveToTarget, turnTowardsTarget, turnTowardsSpeed);
+			PlayerMoveToInfo playerMoveToInfo = new PlayerMoveToInfo(moveToTargetTrans, lookAtTargetTrans, turnTowardsSpeed);
 			await playerController.MoveTo(playerMoveToInfo);
 		}
 

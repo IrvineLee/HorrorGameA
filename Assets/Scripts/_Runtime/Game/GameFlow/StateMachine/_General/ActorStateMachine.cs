@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-using Cysharp.Threading.Tasks;
 using Helper;
 using Personal.Character;
 using Personal.Character.NPC;
@@ -38,13 +37,6 @@ namespace Personal.FSM
 			Renderer renderer = GetComponentInChildren<Renderer>();
 			materialList = renderer?.materials.ToList();
 		}
-
-		/// <summary>
-		/// This begins the interactionAssign.
-		/// </summary>
-		/// <param name="interactionAssign">Most initiator is itself, but in certain cases, it might be the player/other NPCs.</param>
-		/// <returns></returns>
-		public virtual UniTask Begin(InteractionAssign interactionAssign, StateMachineBase initiatorFSM = null) { return UniTask.CompletedTask; }
 
 		public void SetLookAtInfo(LookAtInfo lookAtInfo) { LookAtInfo = lookAtInfo; }
 

@@ -48,6 +48,13 @@ namespace Personal.FSM
 			state.OnUpdate();
 		}
 
+		/// <summary>
+		/// This begins the interactionAssign.
+		/// </summary>
+		/// <param name="interactionAssign">Most initiator is itself, but in certain cases, it might be the player/other NPCs.</param>
+		/// <returns></returns>
+		public virtual UniTask Begin(InteractionAssign interactionAssign, StateMachineBase initiatorFSM = null) { return UniTask.CompletedTask; }
+
 		public virtual Type GetStateType<T>(T type) where T : Enum { return null; }
 
 		protected virtual UniTask SwitchToState(Type type) { return UniTask.CompletedTask; }

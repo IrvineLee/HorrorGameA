@@ -91,7 +91,7 @@ namespace Personal.Character.Player
 			fsm.IFSMHandler?.OnBegin(typeof(PlayerMoveToState));
 
 			await UniTask.NextFrame();
-			await UniTask.WaitUntil(() => playerMoveToState.IsCompleted, cancellationToken: this.GetCancellationTokenOnDestroy());
+			await UniTask.WaitUntil(() => playerMoveToState.IsReached, cancellationToken: this.GetCancellationTokenOnDestroy());
 
 			//fsm.IFSMHandler?.OnExit();
 			MoveStart(false);

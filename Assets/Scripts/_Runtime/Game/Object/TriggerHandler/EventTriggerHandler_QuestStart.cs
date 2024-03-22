@@ -14,7 +14,7 @@ namespace Personal.InteractiveObject
 		/// <returns></returns>
 		protected override async UniTask<bool> HandleTrigger()
 		{
-			var questSet = GetComponentInChildren<QuestTypeSet>();
+			var questSet = interactionAssign.SpawnedFSM.GetComponentInChildren<QuestTypeSet>();
 			if (!questSet) return false;
 
 			QuestType questType = questSet.QuestType;

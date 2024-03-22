@@ -14,6 +14,7 @@ namespace Personal.InteractiveObject
 		{
 			if (!IsInteractable) return;
 
+			interactionAssign.SpawnInteraction();
 			HandleTriggerEnter(other).Forget();
 		}
 
@@ -33,7 +34,7 @@ namespace Personal.InteractiveObject
 			var ifsmHandler = InitiatorStateMachine.GetComponentInChildren<IFSMHandler>();
 			ifsmHandler?.OnBegin(null);
 
-			await HandleInteraction();
+			await base.HandleInteraction();
 
 			ifsmHandler?.OnExit();
 			gameObject.SetActive(false);
