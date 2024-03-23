@@ -14,7 +14,7 @@ namespace Personal.InteractiveObject
 		{
 			if (!IsInteractable) return;
 
-			interactionAssign.SpawnInteraction();
+			interactionAssign?.SpawnInteraction();
 			HandleTriggerEnter(other).Forget();
 		}
 

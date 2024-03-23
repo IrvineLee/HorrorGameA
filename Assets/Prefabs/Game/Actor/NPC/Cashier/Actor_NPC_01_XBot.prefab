@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 421768941547504016}
-  - component: {fileID: -2070927451091980117}
-  - component: {fileID: -1952921318963031389}
+  - component: {fileID: 788780770789152418}
   - component: {fileID: 7415343085410279965}
+  - component: {fileID: -1952921318963031389}
   m_Layer: 0
   m_Name: Actor_NPC_01_XBot
   m_TagString: Untagged
@@ -33,9 +33,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 421768943009836711}
+  - {fileID: 9111308612693356}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2070927451091980117
+--- !u!114 &788780770789152418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,6 +48,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5706f3fe950c0fa419bb7fc45e9f3007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7415343085410279965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421768941547504015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75e55685fcbffd40bc5851a1734881a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 1029873872926487917}
 --- !u!114 &-1952921318963031389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,19 +78,6 @@ MonoBehaviour:
   isFollowPosition: 1
   isFollowRotation: 1
   positionOffset: {x: 0, y: 0, z: 0}
---- !u!114 &7415343085410279965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421768941547504015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e75e55685fcbffd40bc5851a1734881a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  head: {fileID: 1029873872926487917}
 --- !u!1 &421768943009836710
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +208,52 @@ MonoBehaviour:
   useBarkTitlePicker: 1
   useQuestNamePicker: 1
   selectedDatabase: {fileID: 11400000, guid: dce8cec364855cf47b30345ab0f0b26d, type: 2}
+--- !u!1 &3916608548159848587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9111308612693356}
+  - component: {fileID: 799921579903798474}
+  m_Layer: 0
+  m_Name: InteractionAssign
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9111308612693356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916608548159848587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 421768941547504016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &799921579903798474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916608548159848587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca55148f7c2c3b54f955e85fec9be610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionPrefab: {fileID: 0}
+  isEndDestroyInteraction: 1
 --- !u!1001 &4319267957875654545
 PrefabInstance:
   m_ObjectHideFlags: 0

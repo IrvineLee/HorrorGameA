@@ -12,6 +12,10 @@ namespace Personal.FSM
 	{
 		[ShowInInspector]
 		public StateBase CurrentState { get => state; }
+
+		/// <summary>
+		/// Most initiator is itself, but in certain cases, it might be the player/other NPCs.
+		/// </summary>
 		public StateMachineBase InitiatorStateMachine { get; protected set; }
 		public bool IsPauseStateMachine { get => PauseManager.Instance.IsPaused; }
 

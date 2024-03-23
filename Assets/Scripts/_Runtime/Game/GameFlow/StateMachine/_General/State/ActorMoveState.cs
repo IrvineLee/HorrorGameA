@@ -22,7 +22,7 @@ namespace Personal.FSM.Character
 		[Tooltip("Upon reaching the target, body turn towards target duration")]
 		[SerializeField] protected float endTurnTowardsDuration = 0.5f;
 
-		public bool IsReached { get; private set; }
+		public bool IsReached { get; private set; } = true;
 
 		protected NavMeshAgent navMeshAgent;
 		protected Transform moveToTarget;
@@ -81,8 +81,7 @@ namespace Personal.FSM.Character
 		void TurnTowardsTargetByUpdate()
 		{
 			Transform actorController = actorStateMachine.ActorController.transform;
-
-			if (navMeshAgent.remainingDistance > distanceBetweenActor)
+			if (turnToTarget && navMeshAgent.remainingDistance > distanceBetweenActor)
 			{
 				endQuaternion = GetEndRotation(actorController);
 
@@ -98,6 +97,12 @@ namespace Personal.FSM.Character
 
 		void HandleEndTurn(Transform actor)
 		{
+			if (!turnToTarget)
+			{
+				IsReached = true;
+				return;
+			}
+
 			if (timer == 0)
 			{
 				if (distanceBetweenActor == 0) actor.position = moveToTarget.position;

@@ -28,7 +28,7 @@ namespace Personal.InteractiveObject
 
 			InputManager.Instance.DisableAllActionMap();
 
-			await interactionAssign.BeginFSM(InitiatorStateMachine);
+			if (interactionAssign) await interactionAssign.BeginFSM(InitiatorStateMachine);
 			await base.HandleInteraction();
 
 			// Reset to default.
@@ -38,7 +38,7 @@ namespace Personal.InteractiveObject
 
 		protected override bool IsCompleteInteraction()
 		{
-			return interactionAssign ? interactionAssign.IsComplete : true;
+			return interactionAssign ? interactionAssign.IsProcessComplete : true;
 		}
 	}
 }

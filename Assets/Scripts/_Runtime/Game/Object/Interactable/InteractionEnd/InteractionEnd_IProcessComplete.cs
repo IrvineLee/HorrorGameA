@@ -21,7 +21,7 @@ namespace Personal.InteractiveObject
 
 		protected override void HandleInteractable()
 		{
-			GetComponentInParent<InteractionAssign>()?.SetToComplete();
+			GetComponentInParent<InteractionAssign>()?.SetProcessComplete();
 		}
 	}
 }

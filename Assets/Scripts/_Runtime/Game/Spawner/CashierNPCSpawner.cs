@@ -47,17 +47,21 @@ namespace Personal.Spawner
 			sb.Replace("**", interactionStr);
 
 			// Spawn the actor.
-			GameObject instance = PoolManager.Instance.GetSpawnedObject(entity.characterPath);
-			if (!instance) instance = await Spawn(entity.characterPath, targetInfo.SpawnTarget.position);
+			GameObject npcInstance = PoolManager.Instance.GetSpawnedObject(entity.characterPath);
+			if (!npcInstance) npcInstance = await Spawn(entity.characterPath, targetInfo.SpawnTarget.position);
 
 			// Set the interaction.
-			var instanceFSM = instance.GetComponentInChildren<NPCStateMachine>();
+			var npcFSM = npcInstance.GetComponentInChildren<NPCStateMachine>();
+			var interactionAssign = npcInstance.GetComponentInChildren<InteractionAssign>();
 
-			var prefabIA = cashierInteractionDefinition.GetInteraction(sb.ToString());
-			var interactionAssign = Instantiate(prefabIA, instanceFSM.transform);
+			var interactionPrefab = cashierInteractionDefinition.GetInteraction(sb.ToString());
+			interactionAssign.SetInteractionPrefab(interactionPrefab);
+			interactionAssign.SpawnInteraction(npcFSM);
 
-			instanceFSM.SetTargetInfo(targetInfo);
-			instanceFSM.Begin(interactionAssign, instanceFSM).Forget();
+			npcFSM.SetTargetInfo(targetInfo);
+			interactionAssign.BeginFSM(npcFSM).Forget();
+
+			Debug.Break();
 		}
 	}
 }

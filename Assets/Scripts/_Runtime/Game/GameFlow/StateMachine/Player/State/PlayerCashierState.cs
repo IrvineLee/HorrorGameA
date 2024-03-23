@@ -4,7 +4,7 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class PlayerCashierState : PlayerBaseState
+	public class PlayerCashierState : PlayerStandardState
 	{
 		protected override void HandleOnInteractable(RaycastHit hit)
 		{

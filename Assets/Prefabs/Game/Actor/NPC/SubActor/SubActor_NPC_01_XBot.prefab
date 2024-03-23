@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4707297386520015838}
-  - component: {fileID: 8158691794394784460}
+  - component: {fileID: 3393621454123411984}
   - component: {fileID: 2052082697914109088}
   - component: {fileID: 2691142368888359761}
   m_Layer: 9
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 4169039455963129776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8158691794394784460
+--- !u!114 &3393621454123411984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4010318760355280236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc764dd9e8927ed4db966c625404e2c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 5706f3fe950c0fa419bb7fc45e9f3007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2052082697914109088
@@ -72,15 +72,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7e0bd26a2a6a64ab5ba0387d91e800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guid: 50b224c0-abe3-4b09-a995-c228471f8ce0
   colliderTrans: {fileID: 4169039455963129776}
   interactCrosshairType: 1
   isInteractable: 1
-  interactionType: 0
-  requiredItemTypeDialogue: {fileID: 0}
-  requiredItemTypeList: 
-  rewardDialogue: {fileID: 0}
-  afterRewardDialogue: {fileID: 0}
-  rewardInteractableObjectList: []
+  interactDefinition: {fileID: 11400000, guid: e9662fdf8321e2e4783afb6494a4feba, type: 2}
 --- !u!1 &7727933221542845666
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +182,7 @@ MonoBehaviour:
   allowBarksDuringConversations: 0
   skipBarkIfNoValidEntries: 0
   cacheBarkLines: 0
-  conversation: Day01_Area_01_XBot_01
+  conversation: Long dialogue
   conversationConversant: {fileID: 4707297386520015838}
   conversationActor: {fileID: 0}
   startConversationEntryID: -1

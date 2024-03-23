@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Personal.FSM;
-
 namespace Personal.Definition
 {
 	[CreateAssetMenu(fileName = "CashierInteraction", menuName = "ScriptableObjects/State/CashierInteraction", order = 0)]
@@ -13,19 +11,19 @@ namespace Personal.Definition
 	{
 		[SerializeField] string interactionResourcePath = "";
 
-		Dictionary<string, InteractionAssign> interactionDictionary = new Dictionary<string, InteractionAssign>();
+		Dictionary<string, Transform> interactionPrefabDictionary = new Dictionary<string, Transform>();
 
 		/// <summary>
 		/// Initialize data into dictionary.
 		/// </summary>
 		public void Initalize()
 		{
-			List<InteractionAssign> interactionList = Resources.LoadAll(interactionResourcePath, typeof(InteractionAssign)).Cast<InteractionAssign>().ToList();
+			var interactionPrefabList = Resources.LoadAll(interactionResourcePath, typeof(Transform)).Cast<Transform>().ToList();
 
-			interactionDictionary.Clear();
-			foreach (var interaction in interactionList)
+			interactionPrefabDictionary.Clear();
+			foreach (var interaction in interactionPrefabList)
 			{
-				interactionDictionary.Add(interaction.name, interaction);
+				interactionPrefabDictionary.Add(interaction.name, interaction);
 			}
 		}
 
@@ -34,9 +32,9 @@ namespace Personal.Definition
 		/// </summary>
 		/// <param name="interactionStr"></param>
 		/// <returns></returns>
-		public InteractionAssign GetInteraction(string interactionStr)
+		public Transform GetInteraction(string interactionStr)
 		{
-			return interactionDictionary.GetValueOrDefault(interactionStr);
+			return interactionPrefabDictionary.GetValueOrDefault(interactionStr);
 		}
 	}
 }

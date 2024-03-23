@@ -28,7 +28,7 @@ namespace Personal.FSM.Character
 
 		protected override Transform GetLookAtTarget()
 		{
-			return StageManager.Instance.PlayerController.FSM.transform;
+			return targetType != TargetInfo.TargetType.Leave ? StageManager.Instance.PlayerController.FSM.transform : null;
 		}
 	}
 }

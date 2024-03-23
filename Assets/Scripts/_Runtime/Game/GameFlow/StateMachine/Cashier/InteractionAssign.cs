@@ -8,43 +8,74 @@ namespace Personal.FSM
 {
 	public class InteractionAssign : MonoBehaviour
 	{
-		[SerializeField] StateMachineBase interactionPrefab = null;
+		[SerializeField] Transform interactionPrefab = null;
+		[SerializeField] bool isEndDestroyInteraction = true;
 
-		public bool IsComplete { get; private set; }
+		// Whether the process is completed. Typically for puzzles etc..
+		public bool IsProcessComplete { get; private set; }
 
 		public List<StateBase> OrderedStateList { get; private set; } = new();
-		public StateMachineBase SpawnedFSM { get; private set; } = null;
+		public StateMachineBase FSM { get => fsm; }
+
+		Transform spawnedPrefab;
+		StateMachineBase fsm;
 
 		Dictionary<int, InteractionAssignID> interactionAssignDictionary = new();
 
-		void Start()
+		void Awake()
 		{
 			// Try to get the already existed stateMachine in scene.
-			SpawnedFSM = GetComponentInChildren<StateMachineBase>();
-			if (SpawnedFSM) Initialize();
+			fsm = GetComponentInChildren<StateMachineBase>();
+			if (fsm)
+			{
+				spawnedPrefab = fsm.transform;
+				Initialize();
+			}
 		}
 
-		public StateMachineBase SpawnInteraction()
+		/// <summary>
+		/// Put in the stateMachine when you're not using the prefab's stateMachine.
+		/// </summary>
+		/// <param name="stateMachine"></param>
+		public void SpawnInteraction(StateMachineBase stateMachine = null)
 		{
-			if (SpawnedFSM) return null;
+			if (fsm) return;
 
-			SpawnedFSM = Instantiate(interactionPrefab, transform);
+			spawnedPrefab = Instantiate(interactionPrefab, transform);
+			fsm = spawnedPrefab.GetComponentInChildren<StateMachineBase>();
+
+			if (stateMachine) fsm = stateMachine;
 			Initialize();
 
-			return SpawnedFSM;
+			return;
+		}
+
+		public void DestroyInteraction()
+		{
+			if (!isEndDestroyInteraction) return;
+			Destroy(fsm.gameObject);
 		}
 
 		public async UniTask BeginFSM(StateMachineBase initiatorStateMachine)
 		{
-			await SpawnedFSM.Begin(this, initiatorStateMachine);
+			await fsm.Begin(this, initiatorStateMachine);
 		}
 
-		public void SetToComplete() { IsComplete = true; }
+		/// <summary>
+		/// Typicaly used when actor is spawned without any interactionPrefab set.
+		/// </summary>
+		/// <param name="interactionPrefab"></param>
+		public void SetInteractionPrefab(Transform interactionPrefab) { this.interactionPrefab = interactionPrefab; }
+
+		/// <summary>
+		/// Set the process complete. Typically for puzzles etc.. 
+		/// </summary>
+		public void SetProcessComplete() { IsProcessComplete = true; }
 
 		void Initialize()
 		{
 			// Get the states.
-			foreach (Transform child in SpawnedFSM.transform)
+			foreach (Transform child in spawnedPrefab)
 			{
 				OrderedStateList.Add(child.GetComponent<StateBase>());
 			}

@@ -22,6 +22,7 @@ namespace Personal.FSM
 			orderedStateList = interactionAssign.OrderedStateList;
 
 			await PlayOrderedState();
+			interactionAssign.DestroyInteraction();
 		}
 
 		protected async UniTask PlayOrderedState()
