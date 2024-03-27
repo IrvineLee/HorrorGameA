@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 using Cysharp.Threading.Tasks;
 using Personal.GameState;
-using Personal.InteractiveObject;
 using Personal.UI.Debugging;
 using Personal.UI;
 
@@ -17,7 +16,7 @@ namespace Personal.Manager
 
 		protected override void Initialize()
 		{
-			if (!Debug.isDebugBuild)
+			if (!Debug.IsDebugBuild)
 			{
 				gameObject.SetActive(false);
 			}
@@ -44,10 +43,6 @@ namespace Personal.Manager
 			{
 				StageManager.Instance.CashierNPCSpawner.SpawnCashierActor().Forget();
 			}
-			else if (Input.GetKeyDown(KeyCode.LeftAlt))
-			{
-				//FindObjectOfType<PhoneHandler>()?.Ring();
-			}
 			else if (Input.GetKeyDown(KeyCode.RightControl))
 			{
 				AchievementManager.Instance.Unlock(Achievement.AchievementType.ClearGameOnce);
@@ -56,17 +51,17 @@ namespace Personal.Manager
 			{
 				AchievementManager.Instance.ResetAll();
 			}
-			else if (Input.GetKeyDown(KeyCode.T))
+			else if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
-				AudioManager.Instance.PlayBGM(Setting.Audio.AudioBGMType.BGM_Boss_01);
+				Time.timeScale = 1;
 			}
-			else if (Input.GetKeyDown(KeyCode.G))
+			else if (Input.GetKeyDown(KeyCode.Alpha2))
 			{
-				AudioManager.Instance.StopBGM();
+				Time.timeScale = 2;
 			}
-			else if (Input.GetKeyDown(KeyCode.H))
+			else if (Input.GetKeyDown(KeyCode.Alpha3))
 			{
-				AudioManager.Instance.PlayBGM(Setting.Audio.AudioBGMType.BGM_Boss_03);
+				Time.timeScale = 3;
 			}
 		}
 
@@ -97,4 +92,3 @@ namespace Personal.Manager
 		}
 	}
 }
-
