@@ -14,7 +14,7 @@ namespace Personal.InteractiveObject
 	public class InteractablePickupable : InteractableObject, IDataPersistence
 	{
 		[Header("Item Setting")]
-		[SerializeField] ItemType itemType = ItemType._10000_Item_1;
+		[SerializeField] ItemType itemType = ItemType._None;
 
 		[SerializeField] Transform fpsPrefab = null;
 		[SerializeField] SelfRotate uiPrefab = null;

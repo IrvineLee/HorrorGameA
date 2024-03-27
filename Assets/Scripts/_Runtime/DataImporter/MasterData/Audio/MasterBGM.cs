@@ -1,11 +1,13 @@
+using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+using Personal.Setting.Audio;
 using Personal.Constant;
 using Personal.Data;
 using Personal.Definition;
-using UnityEngine;
-
-using UnityEditor;
-using Personal.Setting.Audio;
 
 [ExcelAsset(AssetPath = "Data/MasterData/Data")]
 public class MasterBGM : MasterGeneric<BGMEntity, int>

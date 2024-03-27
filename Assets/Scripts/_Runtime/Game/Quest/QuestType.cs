@@ -3,7 +3,8 @@ namespace Personal.Quest
 {
 	public enum QuestType
 	{
-		_20000_Main001_CallFather = 20000,
+		_None = 20000,
+		_20001_Main001_CallFather = 20001,
 
 		_25000_Sub001_CallCoin = 25000,
 	}

@@ -8,7 +8,7 @@ namespace Personal.InteractiveObject
 {
 	public class InteractableDoorLock : InteractableDoor, IDataPersistence
 	{
-		[SerializeField] ItemType keyItemType = ItemType._10000_Item_1;
+		[SerializeField] ItemType keyItemType = ItemType._None;
 
 		protected override void Initialize()
 		{

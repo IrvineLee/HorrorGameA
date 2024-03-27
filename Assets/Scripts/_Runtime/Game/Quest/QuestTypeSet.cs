@@ -9,7 +9,7 @@ namespace Personal.Quest
 {
 	public class QuestTypeSet : GameInitialize
 	{
-		[SerializeField] protected QuestType questType = QuestType._20000_Main001_CallFather;
+		[SerializeField] protected QuestType questType = QuestType._None;
 
 		public QuestType QuestType { get => questType; }
 

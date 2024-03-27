@@ -3,8 +3,9 @@ namespace Personal.Achievement
 {
 	public enum AchievementType
 	{
-		GoodEnding = 90000,
-		BadEnding = 90001,
+		None = 90000,
+		GoodEnding = 90001,
+		BadEnding = 90002,
 
 		Lockmaster = 91000,
 

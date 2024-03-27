@@ -4,10 +4,11 @@ namespace Personal.Item
 {
 	public enum ItemType
 	{
+		_None = 10000,
 		[StringValue(AssetAddress.CubeBlue_Pickupable)]
-		_10000_Item_1 = 10000,
+		_10001_Item_1 = 10001,
 		[StringValue(AssetAddress.CubeRed_Pickupable)]
-		_10001_Item_2 = 10001,
+		_10002_Item_2 = 10002,
 
 		[StringValue(AssetAddress.PuzzleBlock_A_Pickupable)]
 		_10100_PuzzleBlock_A = 10100,
