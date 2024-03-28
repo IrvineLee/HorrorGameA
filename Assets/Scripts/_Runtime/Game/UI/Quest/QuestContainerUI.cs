@@ -27,22 +27,29 @@ namespace Personal.UI.Quest
 		PaddingAnimation paddingAnimation;
 		List<TextMeshProUGUI> descriptionTMPList = new();
 
+		QuestInfo questInfo;
 		QuestEntity questEntity;
 
 		protected override void Initialize()
 		{
+			CacheAnimator();
 			OptionGameUI.OnLanguageChangedEvent += OnLanguageChanged;
 		}
 
 		public void ShowQuest(QuestInfo questInfo)
 		{
-			Cache();
 			if (string.IsNullOrEmpty(questTitleTMP.text)) animator.SetBool(animFade, true);
 
+			this.questInfo = questInfo;
 			IsMainQuest = questInfo.QuestEntity.isMainQuest;
 
 			questEntity = MasterDataManager.Instance.Quest.Get(questInfo.QuestEntity.id);
 			DisplayQuestAndDescription();
+		}
+
+		public void UpdateTasks()
+		{
+			UpdateTaskProgress();
 		}
 
 		public async UniTask FadeAwayResetText()
@@ -64,7 +71,7 @@ namespace Personal.UI.Quest
 			}
 		}
 
-		void Cache()
+		void CacheAnimator()
 		{
 			if (animator) return;
 
@@ -80,13 +87,21 @@ namespace Personal.UI.Quest
 			if (questEntity == null) return;
 
 			var questName = MasterLocalization.Get(MasterLocalization.TableNameType.QuestName, questEntity.id);
-			var descriptionList = MasterLocalization.GetList(MasterLocalization.TableNameType.QuestDescriptionText, questEntity.id);
-
 			questTitleTMP.text = questName;
+
+			UpdateTaskProgress();
+		}
+
+		void UpdateTaskProgress()
+		{
+			var descriptionList = MasterLocalization.GetList(MasterLocalization.TableNameType.QuestDescriptionText, questEntity.id);
 
 			for (int i = 0; i < descriptionTMPList.Count; i++)
 			{
-				descriptionTMPList[i].text = descriptionList[i];
+				var taskInfo = questInfo.TaskInfoList[i];
+				string value = taskInfo.GetProgressOverRequiredAmount();
+
+				descriptionTMPList[i].text = descriptionList[i] + value;
 			}
 		}
 

@@ -30,7 +30,7 @@ namespace Personal.Manager
 			UnsubscribeEvent();
 
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
-			playerInventory.OnUseActiveItem += UseActiveItem;
+			playerInventory.OnUseActiveItemEvent += UseActiveItem;
 		}
 
 		public SpawnablePoolBase GetPool(PoolType poolType)
@@ -74,16 +74,16 @@ namespace Personal.Manager
 			}
 		}
 
-		void UseActiveItem(Inventory inventory)
+		void UseActiveItem(PlayerInventory.Item item)
 		{
-			ReturnSpawnedObject(inventory.PickupableObjectFPS.gameObject);
-			ReturnSpawnedObject(inventory.PickupableObjectRotateUI.gameObject);
+			ReturnSpawnedObject(item.PickupableObjectFPS.gameObject);
+			ReturnSpawnedObject(item.PickupableObjectRotateUI.gameObject);
 		}
 
 		void UnsubscribeEvent()
 		{
 			if (!playerInventory) return;
-			playerInventory.OnUseActiveItem -= UseActiveItem;
+			playerInventory.OnUseActiveItemEvent -= UseActiveItem;
 		}
 
 		void OnDestroy()

@@ -19,7 +19,11 @@ namespace Personal.UI.Quest
 			if (!questContainerDictionary.TryGetValue(id, out QuestContainerUI questContainerUI))
 			{
 				questContainerUI = PoolManager.Instance.GetSpawnedObject(questContainerPrefab.name)?.GetComponentInChildren<QuestContainerUI>();
-				if (!questContainerUI) questContainerUI = Instantiate(questContainerPrefab, transform);
+				if (!questContainerUI)
+				{
+					questContainerUI = Instantiate(questContainerPrefab, transform);
+					await UniTask.NextFrame();
+				}
 
 				questContainerDictionary.Add(id, questContainerUI);
 			}
@@ -36,6 +40,12 @@ namespace Personal.UI.Quest
 
 			questContainerUI.ShowQuest(questInfo);
 			ArrangeQuest();
+		}
+
+		public void UpdateQuestTasks(int questID)
+		{
+			if (!questContainerDictionary.TryGetValue(questID, out QuestContainerUI questContainerUI)) return;
+			questContainerUI.UpdateTasks();
 		}
 
 		void ArrangeQuest()

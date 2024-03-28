@@ -14,6 +14,11 @@ namespace Personal.UI
 		{
 			questHandler.UpdateQuest(questInfo).Forget();
 		}
+
+		public void UpdateQuestTasks(int questID)
+		{
+			questHandler.UpdateQuestTasks(questID);
+		}
 	}
 }
 

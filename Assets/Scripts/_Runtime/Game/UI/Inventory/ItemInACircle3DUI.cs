@@ -89,9 +89,9 @@ namespace Personal.UI
 		/// </summary>
 		protected void ResetAllInventoryRotations()
 		{
-			foreach (Inventory inventory in playerInventory.InventoryList)
+			foreach (PlayerInventory.Item item in playerInventory.InventoryList)
 			{
-				inventory.ResetPickupableObjectUI();
+				item.ResetPickupableObjectUI();
 			}
 		}
 

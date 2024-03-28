@@ -62,6 +62,7 @@ namespace Personal.Data
 		[ContextMenu("Refresh Enum")]
 		void UpdateEnum()
 		{
+			AssetDatabase.Refresh();
 			ConvertToEnum();
 		}
 

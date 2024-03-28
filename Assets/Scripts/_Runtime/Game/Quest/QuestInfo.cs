@@ -8,6 +8,7 @@ using PixelCrushers.DialogueSystem;
 using Cysharp.Threading.Tasks;
 using Personal.Item;
 using Personal.Manager;
+using Personal.Character.Player;
 
 namespace Personal.Quest
 {
@@ -48,8 +49,15 @@ namespace Personal.Quest
 			/// </summary>
 			public bool IsEnded { get; private set; }
 
-			public TaskInfo(string description, ActionType actionType, int objectiveKey, int requiredAmount)
+			int questID;
+
+			PlayerInventory playerInventory;
+			ItemType itemType;
+
+			public TaskInfo(int questID, string description, ActionType actionType, int objectiveKey, int requiredAmount)
 			{
+				this.questID = questID;
+
 				this.description = description;
 				this.actionType = actionType;
 				this.objectiveKey = objectiveKey;
@@ -60,6 +68,16 @@ namespace Personal.Quest
 					IsSuccess = true;
 					CloseTask();
 				}
+
+				if (!(IsCountable() && MasterDataManager.Instance.GetEnumType<Enum>(objectiveKey).GetType() == typeof(ItemType))) return;
+
+				itemType = (ItemType)objectiveKey;
+
+				if (actionType == ActionType.Acquire)
+				{
+					playerInventory = StageManager.Instance.PlayerController.Inventory;
+					playerInventory.OnPickupItemEvent += AddToProgress;
+				}
 			}
 
 			public void SetProgress(int value)
@@ -69,15 +87,36 @@ namespace Personal.Quest
 				progress = value;
 
 				if (progress < 0 ||
-					((actionType == ActionType.Acquire || actionType == ActionType.Use ||
-					actionType == ActionType.Kill) && progress >= requiredAmount))
+					(IsCountable() && progress >= requiredAmount))
 				{
 					IsSuccess = true;
 					CloseTask();
 				}
 			}
 
-			public void CloseTask() { IsEnded = true; }
+			public void CloseTask()
+			{
+				IsEnded = true;
+			}
+
+			public string GetProgressOverRequiredAmount()
+			{
+				if (!IsCountable()) return "";
+				return " " + progress.ToString() + " / " + requiredAmount.ToString();
+			}
+
+			bool IsCountable()
+			{
+				return (actionType == ActionType.Kill || actionType == ActionType.Acquire || actionType == ActionType.Use);
+			}
+
+			void AddToProgress(PlayerInventory.Item item)
+			{
+				if (itemType != item.ItemType) return;
+				progress = playerInventory.GetItemCount(itemType);
+
+				UIManager.Instance.MainDisplayHandlerUI.UpdateQuestTasks(questID);
+			}
 		}
 
 		[SerializeField] QuestState questState = QuestState.Active;
@@ -93,9 +132,9 @@ namespace Personal.Quest
 		{
 			QuestEntity = questEntity;
 
-			TaskInfo taskInfo01 = new TaskInfo(QuestEntity.taskDescription01, QuestEntity.taskActionType01, QuestEntity.taskObjectiveKey01, QuestEntity.taskRequiredAmount01);
-			TaskInfo taskInfo02 = new TaskInfo(QuestEntity.taskDescription02, QuestEntity.taskActionType02, QuestEntity.taskObjectiveKey02, QuestEntity.taskRequiredAmount02);
-			TaskInfo taskInfo03 = new TaskInfo(QuestEntity.taskDescription03, QuestEntity.taskActionType03, QuestEntity.taskObjectiveKey03, QuestEntity.taskRequiredAmount03);
+			TaskInfo taskInfo01 = new TaskInfo(questEntity.id, QuestEntity.taskDescription01, QuestEntity.taskActionType01, QuestEntity.taskObjectiveKey01, QuestEntity.taskRequiredAmount01);
+			TaskInfo taskInfo02 = new TaskInfo(questEntity.id, QuestEntity.taskDescription02, QuestEntity.taskActionType02, QuestEntity.taskObjectiveKey02, QuestEntity.taskRequiredAmount02);
+			TaskInfo taskInfo03 = new TaskInfo(questEntity.id, QuestEntity.taskDescription03, QuestEntity.taskActionType03, QuestEntity.taskObjectiveKey03, QuestEntity.taskRequiredAmount03);
 
 			taskInfoList.Add(taskInfo01);
 			taskInfoList.Add(taskInfo02);
@@ -132,7 +171,6 @@ namespace Personal.Quest
 			switch (taskInfo.ActionType)
 			{
 				case ActionType.DialogueResponse: await HandleActionTypeDialogueResponse(taskInfo, cancellationToken); break;
-				case ActionType.Acquire: HandleActionTypeAcquire(taskInfo); break;
 				case ActionType.Use: HandleActionTypeUse(taskInfo); break;
 			}
 		}
@@ -162,18 +200,12 @@ namespace Personal.Quest
 			Debug.Log("Update quest " + taskInfo.RequiredAmount + "   " + selectedResponse);
 		}
 
-		void HandleActionTypeAcquire(TaskInfo taskInfo)
-		{
-			var playerInventory = StageManager.Instance.PlayerController.Inventory;
-			int count = playerInventory.GetItemCount((ItemType)taskInfo.ObjectiveKey);
-
-			taskInfo.SetProgress(count);
-		}
-
 		void HandleActionTypeUse(TaskInfo taskInfo)
 		{
 			Enum enumType = MasterDataManager.Instance.GetEnumType<Enum>(taskInfo.ObjectiveKey);
 			if (enumType.GetType() == typeof(ItemType)) taskInfo.SetProgress(GlossaryManager.Instance.GetUsedType(enumType));
+
+			// TODO: Complete show UI.
 		}
 
 		/// <summary>

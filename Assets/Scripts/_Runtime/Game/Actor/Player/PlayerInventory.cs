@@ -16,7 +16,7 @@ namespace Personal.Character.Player
 	public class PlayerInventory : GameInitialize
 	{
 		[Serializable]
-		public class Inventory
+		public class Item
 		{
 			[SerializeField] Transform pickupableObjectFPS = null;
 			[SerializeField] SelfRotate pickupableObjectRotateUI = null;
@@ -27,7 +27,7 @@ namespace Personal.Character.Player
 
 			Quaternion defaultRotationUI;
 
-			public Inventory(ItemType itemType, Transform pickupableObjectFPS, SelfRotate pickupableObjectRotateUI)
+			public Item(ItemType itemType, Transform pickupableObjectFPS, SelfRotate pickupableObjectRotateUI)
 			{
 				ItemType = itemType;
 				this.pickupableObjectFPS = pickupableObjectFPS;
@@ -47,18 +47,19 @@ namespace Personal.Character.Player
 
 		[SerializeField]
 		[ReadOnly]
-		Inventory activeObject = null;
+		Item activeObject = null;
 
 		[SerializeField]
 		[ReadOnly]
-		List<Inventory> inventoryList = new();
+		List<Item> inventoryList = new();
 
-		public Inventory ActiveObject { get => activeObject; }
-		public List<Inventory> InventoryList { get => inventoryList; }
+		public Item ActiveObject { get => activeObject; }
+		public List<Item> InventoryList { get => inventoryList; }
 
 		public int CurrentActiveIndex { get; private set; } = -1;
 
-		public event Action<Inventory> OnUseActiveItem;
+		public event Action<Item> OnPickupItemEvent;
+		public event Action<Item> OnUseActiveItemEvent;
 
 		Vector3 initialPosition = new Vector3(0, -0.25f, 0);
 
@@ -78,7 +79,7 @@ namespace Personal.Character.Player
 		/// </summary>
 		public void UseActiveItem()
 		{
-			OnUseActiveItem?.Invoke(activeObject);
+			OnUseActiveItemEvent?.Invoke(activeObject);
 			inventoryData.ItemList.Remove(activeObject.ItemType);
 
 			// Remove the item from the inventory and the ui view.
@@ -116,6 +117,7 @@ namespace Personal.Character.Player
 			FPS_ShowItem(true);
 
 			UIManager.Instance.InventoryUI.Init(activeObject.PickupableObjectRotateUI);
+			OnPickupItemEvent?.Invoke(activeObject);
 		}
 
 		/// <summary>
@@ -241,7 +243,7 @@ namespace Personal.Character.Player
 		/// </summary>
 		/// <param name="interactablePickupable"></param>
 		/// <returns></returns>
-		Inventory AddItemToInventory(InteractablePickupable interactablePickupable)
+		Item AddItemToInventory(InteractablePickupable interactablePickupable)
 		{
 			// Try to get from pool.
 			GameObject fpsPrefab = PoolManager.Instance.GetSpawnedObject(interactablePickupable.FPSPrefab.name);
@@ -255,7 +257,7 @@ namespace Personal.Character.Player
 			pickupableFPS.name = interactablePickupable.FPSPrefab.name;
 			instanceUI.name = interactablePickupable.UIPrefab.name;
 
-			Inventory inventory = new Inventory(interactablePickupable.ItemType, pickupableFPS, instanceUI);
+			Item inventory = new Item(interactablePickupable.ItemType, pickupableFPS, instanceUI);
 			inventoryList.Add(inventory);
 
 			return inventory;

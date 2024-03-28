@@ -26,7 +26,7 @@ namespace Personal.Manager
 			UnsubscribeEvent();
 
 			playerInventory = StageManager.Instance.PlayerController.Inventory;
-			playerInventory.OnUseActiveItem += UseActiveItem;
+			playerInventory.OnUseActiveItemEvent += UseActiveItem;
 		}
 
 		/// <summary>
@@ -57,15 +57,15 @@ namespace Personal.Manager
 			return 0;
 		}
 
-		void UseActiveItem(Inventory inventory)
+		void UseActiveItem(PlayerInventory.Item item)
 		{
-			AddUsedType(inventory.ItemType);
+			AddUsedType(item.ItemType);
 		}
 
 		void UnsubscribeEvent()
 		{
 			if (!playerInventory) return;
-			playerInventory.OnUseActiveItem -= UseActiveItem;
+			playerInventory.OnUseActiveItemEvent -= UseActiveItem;
 		}
 
 		void OnDestroy()

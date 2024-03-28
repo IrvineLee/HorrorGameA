@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &849316041558978893
+--- !u!1 &8141131126099760284
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1117434162555864858}
-  - component: {fileID: 2651790203481118480}
+  - component: {fileID: 7818061560528930338}
+  - component: {fileID: 4526558929857151247}
   m_Layer: 9
-  m_Name: 11000_EventTrigger_CompleteKeyEvent
+  m_Name: 25,000_EventTrigger_QuestStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1117434162555864858
+--- !u!4 &7818061560528930338
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849316041558978893}
+  m_GameObject: {fileID: 8141131126099760284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4469485694364716834}
+  - {fileID: 9037818582226492165}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2651790203481118480
+--- !u!114 &4526558929857151247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849316041558978893}
+  m_GameObject: {fileID: 8141131126099760284}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc764dd9e8927ed4db966c625404e2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &7963267794313465500
+--- !u!1001 &3308228506874845883
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1117434162555864858}
+    m_TransformParent: {fileID: 7818061560528930338}
     m_Modifications:
     - target: {fileID: 5802316722351391166, guid: 1664514cc1610de44aac3928c69a515a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -103,28 +103,28 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6033587422068336198, guid: 1664514cc1610de44aac3928c69a515a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6522667248312959341}
+      addedObject: {fileID: 692204518628705260}
   m_SourcePrefab: {fileID: 100100000, guid: 1664514cc1610de44aac3928c69a515a, type: 3}
---- !u!1 &4411467240880810202 stripped
+--- !u!4 &9037818582226492165 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5802316722351391166, guid: 1664514cc1610de44aac3928c69a515a, type: 3}
+  m_PrefabInstance: {fileID: 3308228506874845883}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9102526395757460733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6033587422068336198, guid: 1664514cc1610de44aac3928c69a515a, type: 3}
-  m_PrefabInstance: {fileID: 7963267794313465500}
+  m_PrefabInstance: {fileID: 3308228506874845883}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6522667248312959341
+--- !u!114 &692204518628705260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4411467240880810202}
+  m_GameObject: {fileID: 9102526395757460733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a437a39f1296e2b44b400681bf887246, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f4ceb6702221534d813f8beeac63e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyEventType: 200001
---- !u!4 &4469485694364716834 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5802316722351391166, guid: 1664514cc1610de44aac3928c69a515a, type: 3}
-  m_PrefabInstance: {fileID: 7963267794313465500}
-  m_PrefabAsset: {fileID: 0}
+  questType: 25000

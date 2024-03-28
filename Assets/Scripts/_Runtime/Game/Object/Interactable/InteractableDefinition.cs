@@ -51,27 +51,27 @@ namespace Personal.Definition
 		[SerializeField] InteractableAnimatorType interactableAnimatorType;
 
 		[ShowIf(BEFORE_INTERACT_BEFORE_TALK_STRING)]
-		[Tooltip("Before interaction, before dialogue, play parameter in animator. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
-		[SerializeField] string beforeInteractBeforeTalkParam = "BeforeInteract_BeforeTalk";
+		[Tooltip("BEFORE interaction, BEFORE dialogue, play parameter in animator. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
+		[ReadOnly] [SerializeField] string beforeInteractBeforeTalkParam = "BeforeInteract_BeforeTalk";
 
 		[ShowIf(BEFORE_INTERACT_AFTER_TALK_STRING)]
-		[Tooltip("Before interaction, after dialogue, play parameter in animator. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
-		[SerializeField] string beforeInteractAfterTalkParam = "BeforeInteract_AfterTalk";
+		[Tooltip("BEFORE interaction, AFTER dialogue, play parameter in animator. Typically used for starting the device etc. Ex: A keycard insert into the slot.")]
+		[ReadOnly] [SerializeField] string beforeInteractAfterTalkParam = "BeforeInteract_AfterTalk";
 
 		[ShowIf(After_INTERACT_BEFORE_TALK_STRING)]
-		[Tooltip("After interaction, before dialogue, play parameter in animator. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
-		[SerializeField] string afterInteractBeforeTalkParam = "AfterInteract_BeforeTalk";
+		[Tooltip("AFTER interaction, BEFORE dialogue, play parameter in animator. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
+		[ReadOnly] [SerializeField] string afterInteractBeforeTalkParam = "AfterInteract_BeforeTalk";
 
 		[ShowIf(After_INTERACT_AFTER_TALK_STRING)]
-		[Tooltip("After interaction, after dialogue, play parameter in animator. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
-		[SerializeField] string afterInteractAfterTalkParam = "AfterInteract_AfterTalk";
+		[Tooltip("AFTER interaction, AFTER dialogue, play parameter in animator. Typically used for end animation. Ex: Lighting up the bulb after completing it.")]
+		[ReadOnly] [SerializeField] string afterInteractAfterTalkParam = "AfterInteract_AfterTalk";
 
 		#endregion
 
 		#region Examinable
 
 		[ShowIf(EXAMINABLE_BEFORE_KEY_EVENT_STRING)]
-		[Header("Examinable")]
+		[Header("1_Examinable (Before Key Event)")]
 		[Tooltip("The dialogue when the key event has not started and make this object truly interactable.")]
 		[SerializeField] InteractDialogue examinableDialogue = null;
 
@@ -84,7 +84,7 @@ namespace Personal.Definition
 		#region Required Item
 
 		[ShowIf(REQUIRED_STRING)]
-		[Header("Requirement")]
+		[Header("2_Requirement (Need all items at the same time)")]
 		[Tooltip("The dialogue when the player does not have the required items to enable interaction.")]
 		[SerializeField] InteractDialogue requiredItemDialogue = null;
 
@@ -98,7 +98,7 @@ namespace Personal.Definition
 		#region Achieved Required Before Interact
 
 		[ShowIf(ACHIEVED_REQUIRED_BEFORE_USE_STRING)]
-		[Header("Achieved requirement, before interact")]
+		[Header("3_Achieved requirement, before interact")]
 		[Tooltip("Does it happen only once?")]
 		[SerializeField] bool isOnlyOnce_BeforeUse = false;
 
@@ -111,7 +111,7 @@ namespace Personal.Definition
 		#region Achieved Required After Interact
 
 		[ShowIf(ACHIEVED_REQUIRED_AFTER_USE_STRING)]
-		[Header("Achieved requirement, after interact")]
+		[Header("4_Achieved requirement, after interact")]
 		[Tooltip("The dialogue when you have the required item and after using them.")]
 		[SerializeField] InteractDialogue achievedRequiredAfterDialogue = null;
 
@@ -120,7 +120,7 @@ namespace Personal.Definition
 		#region Reward
 
 		[ShowIf(REWARD_STRING)]
-		[Header("Reward")]
+		[Header("5_Reward")]
 		[Tooltip("The interaction dialogue when you get the reward.")]
 		[SerializeField] InteractDialogue rewardDialogue = null;
 
@@ -133,7 +133,7 @@ namespace Personal.Definition
 		#region End
 
 		[ShowIf(END_STRING)]
-		[Header("End Remain Interactable")]
+		[Header("6_End Remain Interactable")]
 		[Tooltip("The next interaction dialogue after getting the reward.")]
 		[SerializeField] InteractDialogue endedDialogue = null;
 

@@ -5,7 +5,7 @@ using TMPro;
 using Personal.Localization;
 using Personal.Item;
 using Personal.Manager;
-using static Personal.Character.Player.PlayerInventory;
+using Personal.Character.Player;
 
 namespace Personal.UI
 {
@@ -49,7 +49,7 @@ namespace Personal.UI
 				return;
 			}
 
-			Inventory currentInventory = playerInventory.InventoryList[playerInventory.CurrentActiveIndex];
+			PlayerInventory.Item currentInventory = playerInventory.InventoryList[playerInventory.CurrentActiveIndex];
 			SetInfoToText(currentInventory.ItemType);
 		}
 

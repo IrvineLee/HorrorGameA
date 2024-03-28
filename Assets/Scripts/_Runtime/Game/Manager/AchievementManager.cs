@@ -36,7 +36,7 @@ namespace Personal.Manager
 			CoroutineHelper.WaitNextFrame(() =>
 			{
 				playerInventory = StageManager.Instance.PlayerController.Inventory;
-				playerInventory.OnUseActiveItem += UseActiveItem;
+				playerInventory.OnUseActiveItemEvent += UseActiveItem;
 			});
 		}
 
@@ -60,10 +60,10 @@ namespace Personal.Manager
 		/// <summary>
 		/// This will always use the FPS-view item, NOT the pickupable that you pick up in the scene.
 		/// </summary>
-		/// <param name="inventory"></param>
-		void UseActiveItem(Inventory inventory)
+		/// <param name="item"></param>
+		void UseActiveItem(PlayerInventory.Item item)
 		{
-			var achievementTypeSet = inventory.PickupableObjectFPS.GetComponentInChildren<AchievementTypeSet>();
+			var achievementTypeSet = item.PickupableObjectFPS.GetComponentInChildren<AchievementTypeSet>();
 			if (achievementTypeSet) UpdateData(achievementTypeSet.AchievementType);
 		}
 
@@ -93,7 +93,7 @@ namespace Personal.Manager
 		void UnsubscribeEvent()
 		{
 			if (!playerInventory) return;
-			playerInventory.OnUseActiveItem -= UseActiveItem;
+			playerInventory.OnUseActiveItemEvent -= UseActiveItem;
 		}
 
 		void OnDestroy()

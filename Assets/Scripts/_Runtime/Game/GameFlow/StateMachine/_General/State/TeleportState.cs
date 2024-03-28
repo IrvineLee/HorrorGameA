@@ -6,22 +6,16 @@ using Personal.Manager;
 
 namespace Personal.FSM.Character
 {
-	public class TeleportState : StateBase
+	public class TeleportState : StateWithID
 	{
-		[Tooltip("Move to target.")]
-		[SerializeField] Transform toTarget = null;
-
-		[Tooltip("Look at target.")]
-		[SerializeField] Transform lookAtTarget = null;
-
 		public override async UniTask OnEnter()
 		{
 			await base.OnEnter();
 
 			Transform playerTrans = StageManager.Instance.PlayerController.transform;
-			playerTrans.position = toTarget.position;
+			playerTrans.position = moveToTargetTrans.position;
 
-			playerTrans.LookAt(lookAtTarget);
+			playerTrans.LookAt(lookAtTargetTrans);
 
 			// The reason you do this is because the player transform only rotates on the y-axis.
 			// The other axis is controlled by the child (Done by First Person Controller in-store)
